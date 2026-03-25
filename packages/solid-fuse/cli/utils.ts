@@ -210,25 +210,6 @@ export function pmExec(pm: PackageManager): { cmd: string; args: string[] } {
   }
 }
 
-/** Returns the command and verb for installing packages. */
-export function pmInstall(pm: PackageManager): { cmd: string; args: string[] } {
-  switch (pm) {
-    case "bun": return { cmd: "bun", args: ["add"] };
-    case "npm": return { cmd: "npm", args: ["install"] };
-    case "yarn": return { cmd: "yarn", args: ["add"] };
-    case "pnpm": return { cmd: "pnpm", args: ["add"] };
-  }
-}
-
-/** Returns the command and verb for removing packages. */
-export function pmRemove(pm: PackageManager): { cmd: string; args: string[] } {
-  switch (pm) {
-    case "bun": return { cmd: "bun", args: ["remove"] };
-    case "npm": return { cmd: "npm", args: ["uninstall"] };
-    case "yarn": return { cmd: "yarn", args: ["remove"] };
-    case "pnpm": return { cmd: "pnpm", args: ["remove"] };
-  }
-}
 
 // ---------------------------------------------------------------------------
 // Pubspec dependency removal
