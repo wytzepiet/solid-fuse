@@ -1,0 +1,25 @@
+name: polyfill_tests
+description: Integration tests for fuse polyfills against WPT test data.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0-273.0.dev
+
+dependencies:
+  flutter:
+    sdk: flutter
+  solid_fuse:
+    path: ../../packages/solid-fuse/dart
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/

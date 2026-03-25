@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Lock files
+bun.lock
+pubspec.lock
+
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+*.class
+
+# Generated
+.metadata
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# OS
+.DS_Store
+*.swp
+
+# Misc
+*.log
+*.pyc
