@@ -13,7 +13,7 @@ import 'engine.dart';
 /// them in QuickJS with module support. Listens for HMR updates via Vite's
 /// WebSocket to auto-reload on file changes.
 class DevServerConnection extends FuseConnection {
-  DevServerConnection({required this.host, this.port = 5173, this.builtin, this.additional});
+  DevServerConnection({required this.host, this.port = 24680, this.builtin, this.additional});
 
   final String host;
   final int port;

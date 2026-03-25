@@ -1,6 +1,8 @@
 #!/usr/bin/env bun
 import { defineCommand, runMain } from "citty";
 import { linkCommand } from "./link";
+import { devCommand } from "./dev";
+import { buildCommand } from "./build";
 
 const main = defineCommand({
   meta: {
@@ -10,6 +12,8 @@ const main = defineCommand({
   },
   subCommands: {
     link: linkCommand,
+    dev: devCommand,
+    build: buildCommand,
   },
 });
 

@@ -18,6 +18,10 @@ typedef FuseWidgetBuilder = Widget Function({
 /// Pass via: --dart-define=FUSE_HOST=192.168.x.x
 const _devHost = String.fromEnvironment('FUSE_HOST', defaultValue: 'localhost');
 
+/// Port for the Vite dev server.
+/// Pass via: --dart-define=FUSE_PORT=24680
+const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
+
 /// The Fuse runtime: manages the JS connection, widget registry, and tree rendering.
 class FuseRuntime {
   FuseRuntime._() {
@@ -78,7 +82,7 @@ class FuseRuntime {
 
     if (kDebugMode) {
       try {
-        final dev = DevServerConnection(host: _devHost);
+        final dev = DevServerConnection(host: _devHost, port: _devPort);
         await dev.connect();
         _connection = dev;
         _registerChannels();
@@ -266,16 +270,9 @@ class FuseView extends StatelessWidget {
     final root = runtime.registry.get(0);
     return FuseRuntimeScope(
       runtime: runtime,
-      child: SafeArea(
-        child: ListenableBuilder(
-          listenable: root,
-          builder: (context, _) {
-            if (root.children.isEmpty) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return runtime.buildWidgetForNode(root);
-          },
-        ),
+      child: ListenableBuilder(
+        listenable: root,
+        builder: (context, _) => runtime.buildWidgetForNode(root),
       ),
     );
   }

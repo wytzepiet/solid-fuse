@@ -1,5 +1,4 @@
 import 'fuse_package.dart';
-import 'runtime.dart';
 import 'widgets/gesture_detector.dart';
 import 'widgets/navigator.dart';
 import 'widgets/scroll_view.dart';
@@ -13,12 +12,15 @@ import 'widgets/view.dart';
 /// This is the core package — it should always be registered first.
 class SolidFuse extends FusePackage {
   @override
-  void register(FuseRuntime runtime) {
+  void register(runtime) {
     runtime.register('view', FuseViewWidget.new);
     runtime.register('text', FuseText.new);
     runtime.register('gestureDetector', FuseGestureDetector.new);
-    runtime.register('navigator', FuseNavigatorWidget.new,
-        updateOnNodeChange: false);
+    runtime.register(
+      'navigator',
+      FuseNavigatorWidget.new,
+      updateOnNodeChange: false,
+    );
     runtime.register('scrollView', FuseScrollView.new);
     runtime.register('stack', FuseStack.new);
 

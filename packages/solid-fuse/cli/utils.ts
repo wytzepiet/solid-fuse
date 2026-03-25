@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync } from "fs";
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
 
 /**
@@ -120,10 +120,145 @@ export function readPubspecName(pubspecPath: string): string | null {
   return match ? match[1].trim() : null;
 }
 
+
+/**
+ * Check that a Dart package name appears under `dependencies:` in a pubspec.yaml.
+ */
+export function pubspecHasDependency(
+  pubspecPath: string,
+  dartName: string
+): boolean {
+  const content = readFileSync(pubspecPath, "utf-8");
+  // Extract the dependencies: section (up to the next top-level key or EOF)
+  const section = content.match(/^dependencies:\s*\n([\s\S]*?)(?=^\S)/m);
+  if (!section) return false;
+  return new RegExp(`^\\s+${dartName}:`, "m").test(section[1]);
+}
+
+/**
+ * Add `dartName: any` under the `dependencies:` section of a pubspec.yaml.
+ */
+export function pubspecAddDependency(
+  pubspecPath: string,
+  dartName: string
+): void {
+  const content = readFileSync(pubspecPath, "utf-8");
+  const entry = `  ${dartName}: any # fuse-managed`;
+
+  const match = content.match(/^dependencies:\s*$/m);
+  if (match) {
+    const eol = content.indexOf("\n", match.index!);
+    const updated = content.slice(0, eol + 1) + entry + "\n" + content.slice(eol + 1);
+    writeFileSync(pubspecPath, updated);
+  } else {
+    writeFileSync(pubspecPath, content.trimEnd() + "\n\ndependencies:\n" + entry + "\n");
+  }
+}
+
 function readdirSafe(dir: string): string[] {
   try {
     return readdirSync(dir);
   } catch {
     return [];
   }
+}
+
+// ---------------------------------------------------------------------------
+// LAN IP detection
+// ---------------------------------------------------------------------------
+
+/**
+ * Auto-detect the LAN IP address for device connectivity.
+ * Tries macOS `ipconfig getifaddr` on common interfaces, falls back to "localhost".
+ */
+export function detectLanIp(): string {
+  const { execSync } = require("child_process") as typeof import("child_process");
+  for (const iface of ["en0", "en1"]) {
+    try {
+      const ip = execSync(`ipconfig getifaddr ${iface}`, { encoding: "utf-8" }).trim();
+      if (ip) return ip;
+    } catch {
+      // interface not available
+    }
+  }
+  return "localhost";
+}
+
+// ---------------------------------------------------------------------------
+// Package manager detection
+// ---------------------------------------------------------------------------
+
+export type PackageManager = "bun" | "yarn" | "pnpm" | "npm";
+
+/**
+ * Detect which package manager the project uses based on lock files.
+ */
+export function detectPackageManager(projectRoot: string): PackageManager {
+  if (existsSync(join(projectRoot, "bun.lock")) || existsSync(join(projectRoot, "bun.lockb"))) return "bun";
+  if (existsSync(join(projectRoot, "yarn.lock"))) return "yarn";
+  if (existsSync(join(projectRoot, "pnpm-lock.yaml"))) return "pnpm";
+  return "npm";
+}
+
+/** Returns the command and prefix args for running a local binary (e.g. vite) via the package manager. */
+export function pmExec(pm: PackageManager): { cmd: string; args: string[] } {
+  switch (pm) {
+    case "bun": return { cmd: "bunx", args: [] };
+    case "npm": return { cmd: "npx", args: [] };
+    case "yarn": return { cmd: "yarn", args: [] };
+    case "pnpm": return { cmd: "pnpm", args: ["exec"] };
+  }
+}
+
+/** Returns the command and verb for installing packages. */
+export function pmInstall(pm: PackageManager): { cmd: string; args: string[] } {
+  switch (pm) {
+    case "bun": return { cmd: "bun", args: ["add"] };
+    case "npm": return { cmd: "npm", args: ["install"] };
+    case "yarn": return { cmd: "yarn", args: ["add"] };
+    case "pnpm": return { cmd: "pnpm", args: ["add"] };
+  }
+}
+
+/** Returns the command and verb for removing packages. */
+export function pmRemove(pm: PackageManager): { cmd: string; args: string[] } {
+  switch (pm) {
+    case "bun": return { cmd: "bun", args: ["remove"] };
+    case "npm": return { cmd: "npm", args: ["uninstall"] };
+    case "yarn": return { cmd: "yarn", args: ["remove"] };
+    case "pnpm": return { cmd: "pnpm", args: ["remove"] };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Pubspec dependency removal
+// ---------------------------------------------------------------------------
+
+/**
+ * Remove a `# fuse-managed` dependency from a pubspec.yaml.
+ */
+export function pubspecRemoveDependency(
+  pubspecPath: string,
+  dartName: string
+): void {
+  const content = readFileSync(pubspecPath, "utf-8");
+  const pattern = new RegExp(`^\\s+${dartName}:.*#\\s*fuse-managed\\s*$\\n?`, "m");
+  const updated = content.replace(pattern, "");
+  if (updated !== content) {
+    writeFileSync(pubspecPath, updated);
+  }
+}
+
+/**
+ * Get all `# fuse-managed` dependency names from a pubspec.yaml.
+ */
+export function pubspecGetManagedDependencies(pubspecPath: string): string[] {
+  const content = readFileSync(pubspecPath, "utf-8");
+  const results: string[] = [];
+  const pattern = /^\s+(\S+):.*#\s*fuse-managed\s*$/gm;
+  let match;
+  while ((match = pattern.exec(content)) !== null) {
+    results.push(match[1]);
+  }
+  return results;
 }
