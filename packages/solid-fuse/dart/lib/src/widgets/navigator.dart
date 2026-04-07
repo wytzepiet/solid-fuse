@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../fuse_widget.dart';
+import '../node.dart';
 import '../node_widget.dart';
 import '../runtime.dart';
 
-class FuseNavigatorWidget extends StatefulFuseWidget {
-  const FuseNavigatorWidget({super.key, required super.node});
+class FuseNavigatorWidget extends StatefulWidget {
+  const FuseNavigatorWidget(this.node);
+
+  final FuseNode node;
 
   @override
   State<FuseNavigatorWidget> createState() => _FuseNavigatorWidgetState();
@@ -32,10 +34,7 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
         key: _navigatorKey,
         observers: [_observer],
         onGenerateRoute: (_) => MaterialPageRoute(
-          builder: (_) => FuseNodeWidget(
-            key: ValueKey(firstChild.id),
-            node: firstChild,
-          ),
+          builder: (_) => FuseNodeWidget(node: firstChild),
         ),
       );
     }
@@ -46,7 +45,7 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       final lastChild = widget.node.children.last;
       _navigatorKey.currentState?.push(MaterialPageRoute(
         builder: (_) =>
-            FuseNodeWidget(key: ValueKey(lastChild.id), node: lastChild),
+            FuseNodeWidget(node: lastChild),
       ));
     } else if (op == 'pop') {
       _jsInitiatedPop = true;
@@ -57,7 +56,7 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       final lastChild = widget.node.children.last;
       _navigatorKey.currentState?.push(MaterialPageRoute(
         builder: (_) =>
-            FuseNodeWidget(key: ValueKey(lastChild.id), node: lastChild),
+            FuseNodeWidget(node: lastChild),
       ));
     }
   }

@@ -75,8 +75,56 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// are inserted or removed.
   List<Widget> get childWidgets {
     return _cachedChildWidgets ??= children
-        .map((c) => FuseNodeWidget(key: ValueKey(c.id), node: c))
+        .map((c) => FuseNodeWidget(node: c))
         .toList();
+  }
+
+  /// Lays out children according to the `flex` prop group.
+  /// Returns the single child directly when no layout props are needed.
+  Widget buildChildren() {
+    final flex = map('flex');
+
+    final direction = flex?.string('direction');
+    final isHorizontal = direction == 'horizontal';
+    final gap = flex?.double('gap') ?? 0;
+    final align = flex?.string('align');
+    final justify = flex?.string('justify');
+
+    final crossAxis = switch (align) {
+      'center' => CrossAxisAlignment.center,
+      'end' => CrossAxisAlignment.end,
+      'stretch' => CrossAxisAlignment.stretch,
+      _ => CrossAxisAlignment.start,
+    };
+
+    final mainAxis = switch (justify) {
+      'center' => MainAxisAlignment.center,
+      'end' => MainAxisAlignment.end,
+      'spaceBetween' => MainAxisAlignment.spaceBetween,
+      'spaceAround' => MainAxisAlignment.spaceAround,
+      'spaceEvenly' => MainAxisAlignment.spaceEvenly,
+      _ => MainAxisAlignment.start,
+    };
+
+    final mainAxisSize = (justify != null && justify != 'start')
+        ? MainAxisSize.max
+        : MainAxisSize.min;
+
+    final c = childWidgets;
+    if (c.length == 1 &&
+        gap == 0 &&
+        mainAxis == MainAxisAlignment.start &&
+        crossAxis == CrossAxisAlignment.start) {
+      return c.first;
+    }
+    return Flex(
+      direction: isHorizontal ? Axis.horizontal : Axis.vertical,
+      mainAxisSize: mainAxisSize,
+      mainAxisAlignment: mainAxis,
+      crossAxisAlignment: crossAxis,
+      spacing: gap,
+      children: c,
+    );
   }
 
   /// Returns a callback that calls the named JS function, or null if not registered.

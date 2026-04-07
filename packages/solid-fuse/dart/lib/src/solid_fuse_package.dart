@@ -1,5 +1,6 @@
 import 'widgets/gesture_detector.dart';
 import 'widgets/navigator.dart';
+import 'widgets/positioned.dart';
 import 'widgets/scroll_view.dart';
 import 'widgets/stack.dart';
 import 'widgets/text.dart';
@@ -21,4 +22,5 @@ void register(FuseRuntime runtime) {
   );
   runtime.register('scrollView', FuseScrollView.new);
   runtime.register('stack', FuseStack.new);
+  runtime.register('positioned', FusePositioned.new);
 }

@@ -10,10 +10,7 @@ import 'node.dart';
 /// Signature for a Fuse widget builder.
 /// Matches the constructor signature of Fuse widget classes,
 /// so you can register with `register('type', MyWidget.new)`.
-typedef FuseWidgetBuilder = Widget Function({
-  Key? key,
-  required FuseNode node,
-});
+typedef FuseWidgetBuilder = Widget Function(FuseNode node);
 
 /// Host for the WebSocket dev server.
 /// Pass via: --dart-define=FUSE_HOST=192.168.x.x
@@ -212,7 +209,7 @@ class FuseRuntime {
       return Text('[unknown: ${node.type}]');
     }
 
-    return builder(node: node);
+    return builder(node);
   }
 
   Widget devError(FuseNode node, String message) {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../fuse_widget.dart';
+import '../node.dart';
+import '../utils.dart';
 
-class FuseViewWidget extends FuseWidget {
-  const FuseViewWidget({super.key, required super.node});
+class FuseViewWidget extends StatelessWidget {
+  const FuseViewWidget(this.node);
+
+  final FuseNode node;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,7 @@ class FuseViewWidget extends FuseWidget {
 
     // ── Layer 1: Flex or single child ──────────────────────────────────────
 
-    Widget result = buildChildren();
+    Widget result = node.buildChildren();
 
     // ── Layer 2: Padding ─────────────────────────────────────────────────────
 

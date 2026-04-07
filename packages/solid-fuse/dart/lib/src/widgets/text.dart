@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../fuse_widget.dart';
 import '../node.dart';
 import '../utils.dart';
 
-class FuseText extends FuseWidget {
-  const FuseText({super.key, required super.node});
+class FuseText extends StatelessWidget {
+  const FuseText(this.node);
+
+  final FuseNode node;
 
   @override
   Widget build(BuildContext context) {

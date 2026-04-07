@@ -133,11 +133,6 @@ declare namespace JSX {
       opacity?: number;
       visible?: boolean;
       ignorePointer?: boolean;
-      // Positioning (inside stack)
-      top?: number;
-      left?: number;
-      right?: number;
-      bottom?: number;
     };
     text: {
       children?: any;
@@ -184,6 +179,16 @@ declare namespace JSX {
       alignment?: AlignmentString;
       fit?: "loose" | "expand";
       clipBehavior?: "none" | "hardEdge" | "antiAlias";
+    };
+    positioned: {
+      children?: any;
+      top?: number;
+      left?: number;
+      right?: number;
+      bottom?: number;
+      width?: number;
+      height?: number;
+      flex?: FlexInput;
     };
   }
 }

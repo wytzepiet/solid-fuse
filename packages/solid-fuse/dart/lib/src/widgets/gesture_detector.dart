@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../fuse_widget.dart';
+import '../node.dart';
 
-class FuseGestureDetector extends FuseWidget {
-  const FuseGestureDetector({super.key, required super.node});
+class FuseGestureDetector extends StatelessWidget {
+  const FuseGestureDetector(this.node);
+
+  final FuseNode node;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class FuseGestureDetector extends FuseWidget {
       onTap: node.function('onTap'),
       onDoubleTap: node.function('onDoubleTap'),
       onLongPress: node.function('onLongPress'),
-      child: buildChildren(),
+      child: node.buildChildren(),
     );
   }
 }

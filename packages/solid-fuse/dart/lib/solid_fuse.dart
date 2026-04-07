@@ -3,7 +3,6 @@ export 'src/connection.dart';
 export 'src/dev_connection.dart';
 export 'src/engine.dart';
 export 'src/fuse_package.dart';
-export 'src/fuse_widget.dart';
 export 'src/node.dart';
 export 'src/node_widget.dart';
 export 'src/quickjs_connection.dart';
