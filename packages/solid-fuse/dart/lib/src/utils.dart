@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'node.dart';
+
 // ─── Named colors ────────────────────────────────────────────────────────────
 
 const _namedColors = <String, Color>{
@@ -49,19 +51,19 @@ Color? parseColor(dynamic value) {
   }
 
   if (value is Map) {
-    final map = Map<String, dynamic>.from(value);
-    if (map.containsKey('r')) {
-      final r = (map['r'] as num).toInt().clamp(0, 255);
-      final g = (map['g'] as num).toInt().clamp(0, 255);
-      final b = (map['b'] as num).toInt().clamp(0, 255);
-      final a = ((map['a'] as num?)?.toDouble() ?? 1.0).clamp(0.0, 1.0);
+    final m = FuseMap(Map<String, dynamic>.from(value));
+    if (m['r'] != null) {
+      final r = (m.int('r') ?? 0).clamp(0, 255);
+      final g = (m.int('g') ?? 0).clamp(0, 255);
+      final b = (m.int('b') ?? 0).clamp(0, 255);
+      final a = (m.double('a') ?? 1.0).clamp(0.0, 1.0);
       return Color.fromRGBO(r, g, b, a);
     }
-    if (map.containsKey('h')) {
-      final h = (map['h'] as num).toDouble() % 360;
-      final s = ((map['s'] as num).toDouble() / 100).clamp(0.0, 1.0);
-      final l = ((map['l'] as num).toDouble() / 100).clamp(0.0, 1.0);
-      final a = ((map['a'] as num?)?.toDouble() ?? 1.0).clamp(0.0, 1.0);
+    if (m['h'] != null) {
+      final h = (m.double('h') ?? 0) % 360;
+      final s = ((m.double('s') ?? 0) / 100).clamp(0.0, 1.0);
+      final l = ((m.double('l') ?? 0) / 100).clamp(0.0, 1.0);
+      final a = (m.double('a') ?? 1.0).clamp(0.0, 1.0);
       return HSLColor.fromAHSL(a, h, s, l).toColor();
     }
   }
@@ -81,15 +83,15 @@ EdgeInsets? parseEdgeInsets(dynamic value) {
   if (value is num) return EdgeInsets.all(value.toDouble());
 
   if (value is Map) {
-    final map = Map<String, dynamic>.from(value);
-    final all = (map['all'] as num?)?.toDouble() ?? 0;
-    final h = (map['horizontal'] as num?)?.toDouble();
-    final v = (map['vertical'] as num?)?.toDouble();
+    final m = FuseMap(Map<String, dynamic>.from(value));
+    final all = m.double('all') ?? 0;
+    final h = m.double('horizontal');
+    final v = m.double('vertical');
 
-    final top = (map['top'] as num?)?.toDouble() ?? v ?? all;
-    final bottom = (map['bottom'] as num?)?.toDouble() ?? v ?? all;
-    final left = (map['left'] as num?)?.toDouble() ?? h ?? all;
-    final right = (map['right'] as num?)?.toDouble() ?? h ?? all;
+    final top = m.double('top') ?? v ?? all;
+    final bottom = m.double('bottom') ?? v ?? all;
+    final left = m.double('left') ?? h ?? all;
+    final right = m.double('right') ?? h ?? all;
 
     return EdgeInsets.only(top: top, bottom: bottom, left: left, right: right);
   }
@@ -109,14 +111,14 @@ BorderRadius? parseBorderRadius(dynamic value) {
   if (value is num) return BorderRadius.circular(value.toDouble());
 
   if (value is Map) {
-    final map = Map<String, dynamic>.from(value);
-    final all = (map['all'] as num?)?.toDouble() ?? 0;
+    final m = FuseMap(Map<String, dynamic>.from(value));
+    final all = m.double('all') ?? 0;
 
     return BorderRadius.only(
-      topLeft: Radius.circular((map['topLeft'] as num?)?.toDouble() ?? all),
-      topRight: Radius.circular((map['topRight'] as num?)?.toDouble() ?? all),
-      bottomLeft: Radius.circular((map['bottomLeft'] as num?)?.toDouble() ?? all),
-      bottomRight: Radius.circular((map['bottomRight'] as num?)?.toDouble() ?? all),
+      topLeft: Radius.circular(m.double('topLeft') ?? all),
+      topRight: Radius.circular(m.double('topRight') ?? all),
+      bottomLeft: Radius.circular(m.double('bottomLeft') ?? all),
+      bottomRight: Radius.circular(m.double('bottomRight') ?? all),
     );
   }
 
@@ -127,10 +129,10 @@ BorderRadius? parseBorderRadius(dynamic value) {
 
 BorderSide _parseBorderSide(dynamic value) {
   if (value is Map) {
-    final map = Map<String, dynamic>.from(value);
+    final m = FuseMap(Map<String, dynamic>.from(value));
     return BorderSide(
-      width: (map['width'] as num?)?.toDouble() ?? 1,
-      color: parseColor(map['color']) ?? const Color(0xFF000000),
+      width: m.double('width') ?? 1,
+      color: parseColor(m['color']) ?? const Color(0xFF000000),
     );
   }
   return BorderSide.none;
@@ -160,9 +162,10 @@ Border? parseBorder(dynamic value) {
   }
 
   // Uniform border: { width?, color? }
+  final m = FuseMap(map);
   return Border.all(
-    width: (map['width'] as num?)?.toDouble() ?? 1,
-    color: parseColor(map['color']) ?? const Color(0xFF000000),
+    width: m.double('width') ?? 1,
+    color: parseColor(m['color']) ?? const Color(0xFF000000),
   );
 }
 
@@ -184,14 +187,14 @@ List<BoxShadow>? parseBoxShadows(dynamic value) {
 }
 
 BoxShadow _parseOneBoxShadow(dynamic value) {
-  final map = Map<String, dynamic>.from(value as Map);
+  final m = FuseMap(Map<String, dynamic>.from(value as Map));
   return BoxShadow(
-    color: parseColor(map['color']) ?? const Color(0x40000000),
-    blurRadius: (map['blurRadius'] as num?)?.toDouble() ?? 0,
-    spreadRadius: (map['spreadRadius'] as num?)?.toDouble() ?? 0,
+    color: parseColor(m['color']) ?? const Color(0x40000000),
+    blurRadius: m.double('blurRadius') ?? 0,
+    spreadRadius: m.double('spreadRadius') ?? 0,
     offset: Offset(
-      (map['offsetX'] as num?)?.toDouble() ?? 0,
-      (map['offsetY'] as num?)?.toDouble() ?? 0,
+      m.double('offsetX') ?? 0,
+      m.double('offsetY') ?? 0,
     ),
   );
 }
@@ -203,29 +206,29 @@ BoxShadow _parseOneBoxShadow(dynamic value) {
 Gradient? parseGradient(dynamic value) {
   if (value == null || value is! Map) return null;
 
-  final map = Map<String, dynamic>.from(value);
-  final type = map['type'] as String? ?? 'linear';
-  final colors = (map['colors'] as List?)
+  final m = FuseMap(Map<String, dynamic>.from(value));
+  final type = m.string('type') ?? 'linear';
+  final colors = (m['colors'] as List?)
       ?.map((c) => parseColor(c) ?? Colors.transparent)
       .toList();
   if (colors == null || colors.isEmpty) return null;
 
-  final stops = (map['stops'] as List?)?.map((s) => (s as num).toDouble()).toList();
+  final stops = (m['stops'] as List?)?.map((s) => (s as num).toDouble()).toList();
 
   if (type == 'radial') {
     return RadialGradient(
       colors: colors,
       stops: stops,
-      center: _parseAlignment(map['center'] as String?) ?? Alignment.center,
-      radius: (map['radius'] as num?)?.toDouble() ?? 0.5,
+      center: _parseAlignment(m.string('center')) ?? Alignment.center,
+      radius: m.double('radius') ?? 0.5,
     );
   }
 
   return LinearGradient(
     colors: colors,
     stops: stops,
-    begin: _parseAlignment(map['begin'] as String?) ?? Alignment.topCenter,
-    end: _parseAlignment(map['end'] as String?) ?? Alignment.bottomCenter,
+    begin: _parseAlignment(m.string('begin')) ?? Alignment.topCenter,
+    end: _parseAlignment(m.string('end')) ?? Alignment.bottomCenter,
   );
 }
 
@@ -235,13 +238,13 @@ Gradient? parseGradient(dynamic value) {
 DecorationImage? parseDecorationImage(dynamic value) {
   if (value == null || value is! Map) return null;
 
-  final map = Map<String, dynamic>.from(value);
-  final url = map['url'] as String?;
+  final m = FuseMap(Map<String, dynamic>.from(value));
+  final url = m.string('url');
   if (url == null) return null;
 
   return DecorationImage(
     image: NetworkImage(url),
-    fit: _parseBoxFit(map['fit'] as String?),
+    fit: _parseBoxFit(m.string('fit')),
   );
 }
 

@@ -18,8 +18,8 @@ class FuseMap {
 
   // ── Primitives ────────────────────────────────────────────────────────────
 
-  core.double? double(String key) => (_data[key] as num?)?.toDouble();
-  core.int? int(String key) => (_data[key] as num?)?.toInt();
+  core.double? double(String key) => _data[key] is num ? (_data[key] as num).toDouble() : null;
+  core.int? int(String key) => _data[key] is num ? (_data[key] as num).toInt() : null;
   core.bool bool(String key, [core.bool defaultValue = false]) =>
       _data[key] as core.bool? ?? defaultValue;
   String? string(String key) => _data[key] as String?;
