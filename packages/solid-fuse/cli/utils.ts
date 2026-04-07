@@ -1,30 +1,37 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
-import { loadFuseConfig } from "./config";
+import { loadFuseConfig, CONFIG_FILES } from "./config";
+import type { FuseConfig } from "../src/config";
 
 /**
- * Walk up from `cwd` looking for a directory that contains both
- * `pubspec.yaml` and `package.json`.
+ * Walk up from `cwd` looking for a directory that contains
+ * `package.json` and a `fuse.config.{ts,mjs,js}`.
  */
 export function findProjectRoot(from: string = process.cwd()): string {
   let dir = resolve(from);
-  const root = dirname(dir) === dir ? dir : "/";
 
   while (true) {
     if (
-      existsSync(join(dir, "pubspec.yaml")) &&
-      existsSync(join(dir, "package.json"))
+      existsSync(join(dir, "package.json")) &&
+      CONFIG_FILES.some((f) => existsSync(join(dir, f)))
     ) {
       return dir;
     }
     const parent = dirname(dir);
     if (parent === dir) {
       throw new Error(
-        "Could not find project root (directory with both pubspec.yaml and package.json)"
+        "Could not find project root (directory with both package.json and fuse.config.ts)"
       );
     }
     dir = parent;
   }
+}
+
+/**
+ * Resolve the Dart/Flutter project root from the project root and fuse config.
+ */
+export function getDartRoot(projectRoot: string, fuseConfig: FuseConfig | null): string {
+  return join(projectRoot, fuseConfig?.dart ?? "dart");
 }
 
 export interface FusePackageInfo {

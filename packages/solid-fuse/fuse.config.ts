@@ -1,4 +1,3 @@
 import { defineConfig } from "./src/config";
 
-export default defineConfig({
-});
+export default defineConfig({});

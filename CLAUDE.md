@@ -78,7 +78,7 @@ export default defineConfig({
 ### Config options
 
 - `register` (string) — name of the Dart registration function, defaults to `"register"`
-- `dart` (string) — path to Dart package directory, defaults to `"dart"` (for library packages)
+- `dart` (string) — path to the Dart/Flutter project directory, defaults to `"dart"`
 - `solid` (object) — `vite-plugin-solid` options; Fuse sets `generate: "universal"` and `moduleName: "solid-fuse"` as defaults
 - `vite` (object) — Vite config overrides, merged with Fuse defaults (es2020 target, IIFE build to `assets/js`, no minify)
 

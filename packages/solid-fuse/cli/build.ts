@@ -1,7 +1,7 @@
 import { spawnSync } from "child_process";
 import { build as viteBuild } from "vite";
 import { defineCommand } from "citty";
-import { findProjectRoot } from "./utils";
+import { findProjectRoot, getDartRoot } from "./utils";
 import { loadFuseConfig, buildViteConfig } from "./config";
 import { runLink } from "./link";
 
@@ -18,6 +18,7 @@ export const buildCommand = defineCommand({
 
     // Step 2: Load fuse config and build Vite config
     const fuseConfig = await loadFuseConfig(projectRoot);
+    const dartRoot = getDartRoot(projectRoot, fuseConfig);
     const viteConfig = buildViteConfig(projectRoot, fuseConfig);
 
     // Step 3: Vite build
@@ -29,7 +30,7 @@ export const buildCommand = defineCommand({
 
     console.log("\nBuilding Flutter app...");
     const flutter = spawnSync("flutter", ["build", ...flutterArgs], {
-      cwd: projectRoot,
+      cwd: dartRoot,
       stdio: "inherit",
     });
     if (flutter.status !== 0) {

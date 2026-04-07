@@ -1,7 +1,7 @@
 import { spawn, spawnSync } from "child_process";
 import { createServer, build as viteBuild, mergeConfig } from "vite";
 import { defineCommand } from "citty";
-import { findProjectRoot, detectLanIp } from "./utils";
+import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
 import { loadFuseConfig, buildViteConfig } from "./config";
 import { runLink } from "./link";
 
@@ -20,6 +20,7 @@ export const devCommand = defineCommand({
 
     // Step 2: Load fuse config
     const fuseConfig = await loadFuseConfig(projectRoot);
+    const dartRoot = getDartRoot(projectRoot, fuseConfig);
     const viteConfig = buildViteConfig(projectRoot, fuseConfig);
 
     // Step 3: Everything in rawArgs is a flutter passthrough arg (citty strips the subcommand)
@@ -33,7 +34,7 @@ export const devCommand = defineCommand({
       await viteBuild(viteConfig);
 
       const flutter = spawn("flutter", ["run", ...flutterArgs], {
-        cwd: projectRoot,
+        cwd: dartRoot,
         stdio: "inherit",
       });
       flutter.on("close", (code) => process.exit(code ?? 0));
@@ -71,12 +72,14 @@ export const devCommand = defineCommand({
     ];
     console.log(`Running: flutter ${allFlutterArgs.join(" ")}`);
 
-    const flutter = spawnSync("flutter", allFlutterArgs, {
-      cwd: projectRoot,
+    const flutter = spawn("flutter", allFlutterArgs, {
+      cwd: dartRoot,
       stdio: "inherit",
     });
 
-    cleanup();
-    process.exit(flutter.status ?? 0);
+    flutter.on("close", (code) => {
+      cleanup();
+      process.exit(code ?? 0);
+    });
   },
 });

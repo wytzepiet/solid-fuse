@@ -5,7 +5,7 @@ import solidPlugin from "vite-plugin-solid";
 import { defu } from "defu";
 import type { FuseConfig } from "../src/config";
 
-const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
+export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
 /**
  * Load a fuse.config.{ts,mjs,js} from the given directory.
@@ -28,6 +28,8 @@ export async function loadFuseConfig(
  * Build a Vite InlineConfig from a FuseConfig, merging Fuse defaults with user overrides.
  */
 export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | null): InlineConfig {
+  const dartRoot = join(projectRoot, fuseConfig?.dart ?? "dart");
+
   const solidOptions = defu(fuseConfig?.solid ?? {}, {
     solid: {
       generate: "universal" as const,
@@ -36,6 +38,7 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
   });
 
   const fuseDefaults: InlineConfig = {
+    configFile: false,
     root: projectRoot,
     plugins: [solidPlugin(solidOptions)],
     resolve: {
@@ -51,7 +54,7 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
         name: "Fuse",
         fileName: () => "bundle.js",
       },
-      outDir: resolve(projectRoot, "assets/js"),
+      outDir: resolve(dartRoot, "assets/js"),
     },
   };
 
