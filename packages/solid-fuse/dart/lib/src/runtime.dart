@@ -49,7 +49,11 @@ class FuseRuntime {
 
   /// Register a widget type. Set [updateOnNodeChange] to false for widgets that
   /// manage their own state and should not rebuild when the node notifies listeners.
-  void register(String type, FuseWidgetBuilder builder, {bool updateOnNodeChange = true}) {
+  void register(
+    String type,
+    FuseWidgetBuilder builder, {
+    bool updateOnNodeChange = true,
+  }) {
     _registry[type] = builder;
     if (!updateOnNodeChange) _noUpdateTypes.add(type);
   }
@@ -91,7 +95,9 @@ class FuseRuntime {
         debugPrint('[Fuse] Connected to dev server at $_devHost');
         return;
       } catch (e) {
-        debugPrint('[Fuse] Dev server not available ($e), falling back to QuickJS bundle');
+        debugPrint(
+          '[Fuse] Dev server not available ($e), falling back to QuickJS bundle',
+        );
       }
     }
 
@@ -113,10 +119,7 @@ class FuseRuntime {
       }
     });
     channels.on('_nav', (data) {
-      handleNavCommand(
-        data['navigatorId'] as int,
-        data['op'] as String,
-      );
+      handleNavCommand(data['navigatorId'] as int, data['op'] as String);
     });
   }
 
@@ -137,7 +140,9 @@ class FuseRuntime {
     final dirty = <FuseNode>{};
 
     for (final op in ops) {
-      final map = op is Map<String, dynamic> ? op : Map<String, dynamic>.from(op as Map);
+      final map = op is Map<String, dynamic>
+          ? op
+          : Map<String, dynamic>.from(op as Map);
       switch (map['op']) {
         case 'create':
           registry.create(
@@ -186,15 +191,7 @@ class FuseRuntime {
 
   /// Build a Flutter widget for a single FuseNode.
   Widget buildWidgetForNode(FuseNode node) {
-    if (node.type == 'root') {
-      final childWidgets = node.childWidgets;
-      if (childWidgets.isEmpty) return const SizedBox.shrink();
-      if (childWidgets.length == 1) return childWidgets.first;
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: childWidgets,
-      );
-    }
+    if (node.type == 'root') return node.buildChildren();
 
     if (node.type == '__text__') {
       return Text(node.props['text']?.toString() ?? '');
@@ -203,8 +200,11 @@ class FuseRuntime {
     final builder = _registry[node.type];
     if (builder == null) {
       if (kDebugMode) {
-        return devError(node, 'No builder registered.\n'
-            'Call register(\'${node.type}\', ...) before using it.');
+        return devError(
+          node,
+          'No builder registered.\n'
+          'Call register(\'${node.type}\', ...) before using it.',
+        );
       }
       return Text('[unknown: ${node.type}]');
     }
@@ -218,8 +218,9 @@ class FuseRuntime {
         : '<${node.type}> #${node.id}';
     debugPrint('[Fuse] $label: $message');
     final propsStr = node.props.toString();
-    final truncated =
-        propsStr.length > 300 ? '${propsStr.substring(0, 300)}…' : propsStr;
+    final truncated = propsStr.length > 300
+        ? '${propsStr.substring(0, 300)}…'
+        : propsStr;
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red, width: 3),
@@ -251,7 +252,8 @@ class FuseRuntimeScope extends InheritedWidget {
   final FuseRuntime runtime;
 
   static FuseRuntime of(BuildContext context) {
-    final scope = context.dependOnInheritedWidgetOfExactType<FuseRuntimeScope>();
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<FuseRuntimeScope>();
     assert(scope != null, 'No FuseRuntimeScope found in widget tree');
     return scope!.runtime;
   }

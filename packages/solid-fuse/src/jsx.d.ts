@@ -87,6 +87,7 @@ type FlexInput = {
   gap?: number;
   align?: "start" | "center" | "end" | "stretch";
   justify?: "start" | "center" | "end" | "spaceBetween" | "spaceAround" | "spaceEvenly";
+  expand?: boolean;
 };
 
 declare namespace JSX {

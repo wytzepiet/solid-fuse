@@ -20,8 +20,9 @@ class FuseScrollView extends StatelessWidget {
     };
 
     return SingleChildScrollView(
-      scrollDirection:
-          scrollDirection == 'horizontal' ? Axis.horizontal : Axis.vertical,
+      scrollDirection: scrollDirection == 'horizontal'
+          ? Axis.horizontal
+          : Axis.vertical,
       physics: scrollPhysics,
       reverse: reverse,
       padding: node.edgeInsets('padding'),

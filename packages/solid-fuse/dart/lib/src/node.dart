@@ -24,14 +24,17 @@ class FuseMap {
 
   // ── Primitives ────────────────────────────────────────────────────────────
 
-  core.double? double(String key) => _data[key] is num ? (_data[key] as num).toDouble() : null;
-  core.int? int(String key) => _data[key] is num ? (_data[key] as num).toInt() : null;
+  core.double? double(String key) =>
+      _data[key] is num ? (_data[key] as num).toDouble() : null;
+  core.int? int(String key) =>
+      _data[key] is num ? (_data[key] as num).toInt() : null;
   core.bool bool(String key, [core.bool defaultValue = false]) =>
       _data[key] as core.bool? ?? defaultValue;
   String? string(String key) => _data[key] as String?;
   List<T>? list<T>(String key) => (_data[key] as List?)?.cast<T>();
-  FuseMap? map(String key) =>
-      _data[key] is Map ? FuseMap(Map<String, dynamic>.from(_data[key] as Map)) : null;
+  FuseMap? map(String key) => _data[key] is Map
+      ? FuseMap(Map<String, dynamic>.from(_data[key] as Map))
+      : null;
 
   // ── Complex types ─────────────────────────────────────────────────────────
 
@@ -41,7 +44,8 @@ class FuseMap {
   Border? border(String key) => parseBorder(_data[key]);
   List<BoxShadow>? boxShadows(String key) => parseBoxShadows(_data[key]);
   Gradient? gradient(String key) => parseGradient(_data[key]);
-  DecorationImage? decorationImage(String key) => parseDecorationImage(_data[key]);
+  DecorationImage? decorationImage(String key) =>
+      parseDecorationImage(_data[key]);
   Alignment? alignment(String key) => parseAlignment(_data[key] as String?);
   BlendMode? blendMode(String key) => parseBlendMode(_data[key] as String?);
   Clip clipBehavior(String key) => parseClip(_data[key] as String?);
@@ -53,15 +57,16 @@ class FuseNode extends FuseMap with ChangeNotifier {
     required this.type,
     required this.callFunction,
     Map<String, dynamic>? props,
-  })  : component = props?.remove('_component') as String?,
-        super(props ?? {});
+  }) : component = props?.remove('_component') as String?,
+       super(props ?? {});
 
   final core.int id;
   final String type;
   final String? component;
 
   /// Callback to call a JS function via the bridge.
-  final void Function(core.int nodeId, String name, [dynamic value]) callFunction;
+  final void Function(core.int nodeId, String name, [dynamic value])
+  callFunction;
 
   /// The raw props map.
   Map<String, dynamic> get props => _data;
@@ -71,16 +76,12 @@ class FuseNode extends FuseMap with ChangeNotifier {
 
   List<Widget>? _cachedChildWidgets;
 
-  /// Cached widget list for this node's children. Rebuilt lazily when children
-  /// are inserted or removed.
-  List<Widget> get childWidgets {
+  List<Widget> get _childWidgets {
     return _cachedChildWidgets ??= children
         .map((c) => FuseNodeWidget(node: c))
         .toList();
   }
 
-  /// Lays out children according to the `flex` prop group.
-  /// Returns the single child directly when no layout props are needed.
   Widget buildChildren() {
     final flex = map('flex');
 
@@ -106,13 +107,14 @@ class FuseNode extends FuseMap with ChangeNotifier {
       _ => MainAxisAlignment.start,
     };
 
-    final mainAxisSize = (justify != null && justify != 'start')
+    final expand = flex?.bool('expand');
+    final mainAxisSize = (expand ?? (justify != null && justify != 'start'))
         ? MainAxisSize.max
         : MainAxisSize.min;
 
-    final c = childWidgets;
+    final c = _childWidgets;
     if (c.length == 1 &&
-        gap == 0 &&
+        mainAxisSize == MainAxisSize.min &&
         mainAxis == MainAxisAlignment.start &&
         crossAxis == CrossAxisAlignment.start) {
       return c.first;
@@ -160,12 +162,18 @@ class FuseNodeRegistry {
   FuseNodeRegistry({required this.callFunction});
 
   /// Callback to call a JS function via the bridge.
-  final void Function(core.int nodeId, String name, [dynamic value]) callFunction;
+  final void Function(core.int nodeId, String name, [dynamic value])
+  callFunction;
 
   final _nodes = <int, FuseNode>{};
 
   FuseNode create(int id, String type, Map<String, dynamic> props) {
-    final node = FuseNode(id: id, type: type, props: props, callFunction: callFunction);
+    final node = FuseNode(
+      id: id,
+      type: type,
+      props: props,
+      callFunction: callFunction,
+    );
     _nodes[id] = node;
     return node;
   }

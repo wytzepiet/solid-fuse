@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../node.dart';
-import '../utils.dart';
 
 class FuseViewWidget extends StatelessWidget {
   const FuseViewWidget(this.node);
@@ -78,7 +77,8 @@ class FuseViewWidget extends StatelessWidget {
 
     // ── Layer 4: Decoration ──────────────────────────────────────────────────
 
-    final hasDecoration = color != null ||
+    final hasDecoration =
+        color != null ||
         borderRadius != null ||
         border != null ||
         boxShadow != null ||
@@ -111,8 +111,11 @@ class FuseViewWidget extends StatelessWidget {
 
     // ── Layer 6: SizedBox / ConstrainedBox ───────────────────────────────────
 
-    final hasConstraints = minWidth != null || maxWidth != null ||
-        minHeight != null || maxHeight != null;
+    final hasConstraints =
+        minWidth != null ||
+        maxWidth != null ||
+        minHeight != null ||
+        maxHeight != null;
 
     if (width != null || height != null) {
       result = SizedBox(width: width, height: height, child: result);
