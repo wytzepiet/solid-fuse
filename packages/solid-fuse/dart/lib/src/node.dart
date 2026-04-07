@@ -11,6 +11,12 @@ import 'utils.dart';
 class FuseMap {
   const FuseMap(this._data);
 
+  static FuseMap? from(dynamic value) {
+    if (value is FuseMap) return value;
+    if (value is Map) return FuseMap(Map<String, dynamic>.from(value));
+    return null;
+  }
+
   final Map<String, dynamic> _data;
 
   /// Raw access to the underlying map.

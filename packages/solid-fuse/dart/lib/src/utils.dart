@@ -51,7 +51,7 @@ Color? parseColor(dynamic value) {
   }
 
   if (value is Map) {
-    final m = FuseMap(Map<String, dynamic>.from(value));
+    final m = FuseMap.from(value)!;
     if (m['r'] != null) {
       final r = (m.int('r') ?? 0).clamp(0, 255);
       final g = (m.int('g') ?? 0).clamp(0, 255);
@@ -83,7 +83,7 @@ EdgeInsets? parseEdgeInsets(dynamic value) {
   if (value is num) return EdgeInsets.all(value.toDouble());
 
   if (value is Map) {
-    final m = FuseMap(Map<String, dynamic>.from(value));
+    final m = FuseMap.from(value)!;
     final all = m.double('all') ?? 0;
     final h = m.double('horizontal');
     final v = m.double('vertical');
@@ -111,7 +111,7 @@ BorderRadius? parseBorderRadius(dynamic value) {
   if (value is num) return BorderRadius.circular(value.toDouble());
 
   if (value is Map) {
-    final m = FuseMap(Map<String, dynamic>.from(value));
+    final m = FuseMap.from(value)!;
     final all = m.double('all') ?? 0;
 
     return BorderRadius.only(
@@ -129,7 +129,7 @@ BorderRadius? parseBorderRadius(dynamic value) {
 
 BorderSide _parseBorderSide(dynamic value) {
   if (value is Map) {
-    final m = FuseMap(Map<String, dynamic>.from(value));
+    final m = FuseMap.from(value)!;
     return BorderSide(
       width: m.double('width') ?? 1,
       color: parseColor(m['color']) ?? const Color(0xFF000000),
@@ -162,7 +162,7 @@ Border? parseBorder(dynamic value) {
   }
 
   // Uniform border: { width?, color? }
-  final m = FuseMap(map);
+  final m = FuseMap.from(map)!;
   return Border.all(
     width: m.double('width') ?? 1,
     color: parseColor(m['color']) ?? const Color(0xFF000000),
@@ -206,7 +206,7 @@ BoxShadow _parseOneBoxShadow(dynamic value) {
 Gradient? parseGradient(dynamic value) {
   if (value == null || value is! Map) return null;
 
-  final m = FuseMap(Map<String, dynamic>.from(value));
+  final m = FuseMap.from(value)!;
   final type = m.string('type') ?? 'linear';
   final colors = (m['colors'] as List?)
       ?.map((c) => parseColor(c) ?? Colors.transparent)
@@ -238,7 +238,7 @@ Gradient? parseGradient(dynamic value) {
 DecorationImage? parseDecorationImage(dynamic value) {
   if (value == null || value is! Map) return null;
 
-  final m = FuseMap(Map<String, dynamic>.from(value));
+  final m = FuseMap.from(value)!;
   final url = m.string('url');
   if (url == null) return null;
 
