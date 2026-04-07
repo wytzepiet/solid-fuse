@@ -64,14 +64,19 @@ export function Navigator(props: { defaultPage: PageFactory }) {
   return (
     <NavigatorContext value={api}>
       {(() => {
-        insert(
-          el,
-          () => <For each={stack()}>{(entry) => entry().factory()}</For>,
-        );
+        insert(el, () => (
+          <For each={stack()} keyed={(entry) => entry.id}>
+            {(entry) => <Route>{entry().factory()}</Route>}
+          </For>
+        ));
         return el as any;
       })()}
     </NavigatorContext>
   );
+}
+
+function Route(props: { children: any }) {
+  return props.children;
 }
 
 export function useNavigator(): NavigatorAPI {

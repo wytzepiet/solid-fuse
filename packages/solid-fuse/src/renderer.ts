@@ -25,10 +25,10 @@ function makeNode(type: string): FuseNode {
 
 const handlers = new Map<string, Function>();
 
-// Register the event channel — Dart sends events here via channels.send('_event', ...)
-on("_event", (data: { nodeId: number; event: string }) => {
-  const handler = handlers.get(`${data.nodeId}:${data.event}`);
-  handler?.();
+// Register the function call channel — Dart calls JS functions via channels.send('_functionCall', ...)
+on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
+  const handler = handlers.get(`${data.nodeId}:${data.name}`);
+  handler?.(data.value);
 });
 
 // --- Ops journal ---

@@ -45,7 +45,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
   FuseNode({
     required this.id,
     required this.type,
-    required this.onEvent,
+    required this.callFunction,
     Map<String, dynamic>? props,
   })  : component = props?.remove('_component') as String?,
         super(props ?? {});
@@ -54,8 +54,8 @@ class FuseNode extends FuseMap with ChangeNotifier {
   final String type;
   final String? component;
 
-  /// Callback to dispatch events to the JS side.
-  final void Function(core.int nodeId, String event) onEvent;
+  /// Callback to call a JS function via the bridge.
+  final void Function(core.int nodeId, String name, [dynamic value]) callFunction;
 
   /// The raw props map.
   Map<String, dynamic> get props => _data;
@@ -73,10 +73,10 @@ class FuseNode extends FuseMap with ChangeNotifier {
         .toList();
   }
 
-  /// Returns an event handler callback if the JS side registered one, else null.
-  void Function()? handler(String event) {
-    if (props[event] != true) return null;
-    return () => onEvent(id, event);
+  /// Returns a callback that calls the named JS function, or null if not registered.
+  void Function([dynamic value])? function(String name) {
+    if (props[name] != true) return null;
+    return ([value]) => callFunction(id, name, value);
   }
 
   void setPropSilent(String name, dynamic value) {
@@ -103,15 +103,15 @@ class FuseNode extends FuseMap with ChangeNotifier {
 }
 
 class FuseNodeRegistry {
-  FuseNodeRegistry({required this.onEvent});
+  FuseNodeRegistry({required this.callFunction});
 
-  /// Callback to dispatch events from nodes to the JS side.
-  final void Function(core.int nodeId, String event) onEvent;
+  /// Callback to call a JS function via the bridge.
+  final void Function(core.int nodeId, String name, [dynamic value]) callFunction;
 
   final _nodes = <int, FuseNode>{};
 
   FuseNode create(int id, String type, Map<String, dynamic> props) {
-    final node = FuseNode(id: id, type: type, props: props, onEvent: onEvent);
+    final node = FuseNode(id: id, type: type, props: props, callFunction: callFunction);
     _nodes[id] = node;
     return node;
   }

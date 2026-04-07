@@ -8,9 +8,9 @@ class FuseGestureDetector extends FuseWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: node.handler('onTap'),
-      onDoubleTap: node.handler('onDoubleTap'),
-      onLongPress: node.handler('onLongPress'),
+      onTap: node.function('onTap'),
+      onDoubleTap: node.function('onDoubleTap'),
+      onLongPress: node.function('onLongPress'),
       child: buildChildren(),
     );
   }

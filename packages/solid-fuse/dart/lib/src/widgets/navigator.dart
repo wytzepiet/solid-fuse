@@ -68,7 +68,7 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       return;
     }
     // System-initiated pop (back button / swipe) — notify JS to sync stack
-    widget.node.handler('onPopPage')?.call();
+    widget.node.function('onPopPage')?.call();
   }
 
   @override

@@ -44,6 +44,7 @@ Future<EngineResult> createEngine({
   await engine.init(
     bridge: (jsValue) async {
       final data = jsValue.value;
+      debugPrint('[Fuse] bridge_call: ${(data is Map) ? data['channel'] : data}');
       if (data is Map) {
         final channel = data['channel'] as String?;
         if (channel != null) {
@@ -78,10 +79,10 @@ Future<EngineResult> createEngine({
   await engine.eval(
     source: JsCode.code(
       'globalThis.console = {'
-      ' log: (...a) => fjs.bridge_call({ channel: "_log", message: a.join(", ") }),'
-      ' warn: (...a) => fjs.bridge_call({ channel: "_log", message: "[WARN] " + a.join(", ") }),'
-      ' error: (...a) => fjs.bridge_call({ channel: "_log", message: "[ERROR] " + a.join(", ") }),'
-      ' info: (...a) => fjs.bridge_call({ channel: "_log", message: a.join(", ") })'
+      ' log: (...a) => fjs.bridge_call({ channel: "_log", message: a.join(" ") }),'
+      ' warn: (...a) => fjs.bridge_call({ channel: "_log", message: "[WARN] " + a.join(" ") }),'
+      ' error: (...a) => fjs.bridge_call({ channel: "_log", message: "[ERROR] " + a.join(" ") }),'
+      ' info: (...a) => fjs.bridge_call({ channel: "_log", message: a.join(" ") })'
       ' };',
     ),
   );
