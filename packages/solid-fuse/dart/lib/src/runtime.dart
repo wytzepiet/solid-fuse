@@ -1,3 +1,4 @@
+import 'package:fjs/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,9 @@ const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
 /// The Fuse runtime: manages the JS connection, widget registry, and tree rendering.
 class FuseRuntime {
   FuseRuntime._() {
-    registry = FuseNodeRegistry(onEvent: handleEvent);
+    registry = FuseNodeRegistry(callFunction: callFunction);
+    // Pre-create root node so it exists before JS sends ops.
+    registry.create(0, 'root', {'_id': 0});
   }
 
   FuseConnection? _connection;
@@ -41,6 +44,7 @@ class FuseRuntime {
   /// Register packages before calling this method so that widgets are
   /// available when the JS tree starts rendering.
   static Future<FuseRuntime> create() async {
+    await LibFjs.init();
     final runtime = FuseRuntime._();
     await runtime._init();
     return runtime;
@@ -122,11 +126,12 @@ class FuseRuntime {
   /// No-op: connections are reused across hot restarts, never disposed.
   void dispose() {}
 
-  /// Dispatch an event to the JS side via channels.
-  void handleEvent(int nodeId, String event) {
-    _connection?.channels?.send('_event', {
+  /// Call a JS function via the bridge.
+  void callFunction(int nodeId, String name, [dynamic value]) {
+    _connection?.channels?.send('_functionCall', {
       'nodeId': nodeId,
-      'event': event,
+      'name': name,
+      if (value != null) 'value': value,
     });
   }
 

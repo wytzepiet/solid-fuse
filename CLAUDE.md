@@ -33,38 +33,56 @@ packages/solid-fuse/
 
 ### Dart runtime (`dart/`)
 - `FuseRuntime` / `FuseView` — widget tree materialisation and event dispatch
-- `FusePackage` — abstract base class for registering widgets; `SolidFuse` is the built-in implementation
+- `registerSolidFuse` — built-in registration function for core widgets
 - `DevServerConnection` — connects to Vite dev server, pre-fetches ES modules, evaluates in QuickJS, supports HMR
 - `QuickJsConnection` — production mode, loads pre-built bundle from assets (with bytecode caching)
 - `FuseWsManager` — bridges JS WebSocket calls to Dart `web_socket_channel`
 - Widget builders for `view`, `text`, `gestureDetector`, `navigator`, `scrollView`, `stack`
 
 ### CLI (`cli/`)
-- `fuse link` — scans `node_modules` for packages with a `"fuse"` field, generates `pubspec_overrides.yaml` and `lib/_generated/fuse_packages.dart`
+- `fuse link` — scans `node_modules` for packages with a `fuse.config.ts`, generates `pubspec_overrides.yaml` and `lib/_generated/fuse_packages.dart`
+- `fuse dev` / `fuse build` — loads `fuse.config.ts`, sets up Vite with Solid/Fuse defaults via JS API, runs Flutter
 - Built with Bun + Citty
 
 ## Key patterns
 
 - **No `runtime.idle()`** after evaluating user code. Long-lived JS Promises (e.g. WebSocket connections) would deadlock since they depend on Dart bridge events. Use `drainImmediateJobs` (loops `executePendingJob`) instead.
-- Consumer apps configure `vite-plugin-solid` with `moduleName: "solid-fuse"` so the JSX compiler imports renderer primitives from this package.
+- `fuse dev`/`fuse build` auto-configure `vite-plugin-solid` with `generate: "universal"` and `moduleName: "solid-fuse"` — consumer apps don't need a separate `vite.config.ts`.
 - The `solid-fuse` dist is an ESM bundle with `solid-js` and `@solidjs/universal` externalised — Vite resolves them to its pre-bundled deps at serve time.
 
-## FusePackage convention
+## Fuse config
 
-Packages (including solid-fuse itself) declare a `"fuse"` field in `package.json`:
+Packages and apps use a `fuse.config.ts` file with `defineConfig`:
 
-```json
-{
-  "fuse": {
-    "register": "SolidFuse"
-  }
-}
+```ts
+// Library package (e.g. solid-fuse itself)
+import { defineConfig } from "solid-fuse/config";
+
+export default defineConfig({
+  register: "SolidFuse",
+});
 ```
 
-- `register` (required) — class name extending `FusePackage`
-- `dart` (optional) — path to Dart package directory, defaults to `"dart"`
+```ts
+// Consumer app — override Solid/Vite options if needed
+import { defineConfig } from "solid-fuse/config";
 
-The `fuse link` CLI reads this field, generates Dart glue code that imports each package and calls `register(runtime)`.
+export default defineConfig({
+  solid: { dev: false },
+  vite: {
+    resolve: { alias: { "~": "./src" } },
+  },
+});
+```
+
+### Config options
+
+- `register` (string) — name of the Dart registration function, defaults to `"register"`
+- `dart` (string) — path to Dart package directory, defaults to `"dart"` (for library packages)
+- `solid` (object) — `vite-plugin-solid` options; Fuse sets `generate: "universal"` and `moduleName: "solid-fuse"` as defaults
+- `vite` (object) — Vite config overrides, merged with Fuse defaults (es2020 target, IIFE build to `assets/js`, no minify)
+
+The `fuse link` CLI scans `node_modules` for packages with a `fuse.config.ts` and generates Dart glue code that imports each package and calls `register(runtime)`. `fuse dev`/`fuse build` load the app's config and set up Vite automatically.
 
 ## FuseRuntime API
 
@@ -143,14 +161,11 @@ For stateful widgets (text input, scroll controller, etc.), use `StatefulWidget`
 
 For library widgets, add the file in `packages/solid-fuse/dart/lib/src/widgets/` and register in `SolidFuse.register()`.
 
-For third-party Fuse packages, create a class extending `FusePackage`:
+For third-party Fuse packages, export a `register` function:
 
 ```dart
-class FuseAuth extends FusePackage {
-  @override
-  void register(FuseRuntime runtime) {
-    runtime.register('authButton', FuseAuthButton.new);
-  }
+void register(FuseRuntime runtime) {
+  runtime.register('authButton', FuseAuthButton.new);
 }
 ```
 

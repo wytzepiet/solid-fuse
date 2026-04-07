@@ -19,9 +19,12 @@ export default defineConfig({
   build: {
     target: "es2020",
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: {
+        index: resolve(__dirname, "src/index.ts"),
+        config: resolve(__dirname, "src/config.ts"),
+      },
       formats: ["es"],
-      fileName: () => "index.js",
+      fileName: (_format, entryName) => `${entryName}.js`,
     },
     outDir: "dist",
     emptyOutDir: true,

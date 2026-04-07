@@ -9,6 +9,10 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./config": {
+      "import": "./dist/config.js",
+      "types": "./dist/config.d.ts"
     }
   },
   "sideEffects": true,
@@ -18,20 +22,21 @@
   "files": [
     "dist",
     "dart",
-    "cli"
+    "cli",
+    "fuse.config.ts"
   ],
-  "fuse": {
-    "register": "SolidFuse"
-  },
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts"
   },
   "peerDependencies": {
     "@solidjs/universal": "^2.0.0-beta.4",
-    "solid-js": "^2.0.0-beta.4"
+    "solid-js": "^2.0.0-beta.4",
+    "vite": "^8.0.0",
+    "vite-plugin-solid": "^3.0.0-next.0"
   },
   "dependencies": {
-    "citty": "^0.1.6"
+    "citty": "^0.1.6",
+    "defu": "^6.1.6"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

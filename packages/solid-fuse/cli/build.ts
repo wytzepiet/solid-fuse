@@ -1,6 +1,8 @@
 import { spawnSync } from "child_process";
+import { build as viteBuild } from "vite";
 import { defineCommand } from "citty";
-import { findProjectRoot, detectPackageManager, pmExec } from "./utils";
+import { findProjectRoot } from "./utils";
+import { loadFuseConfig, buildViteConfig } from "./config";
 import { runLink } from "./link";
 
 export const buildCommand = defineCommand({
@@ -14,20 +16,15 @@ export const buildCommand = defineCommand({
     // Step 1: fuse link
     await runLink(projectRoot, { pubGet: false });
 
-    // Step 2: Vite build
-    const pm = detectPackageManager(projectRoot);
-    const exec = pmExec(pm);
-    console.log("\nBuilding JS bundle...");
-    const vite = spawnSync(exec.cmd, [...exec.args, "vite", "build"], {
-      cwd: projectRoot,
-      stdio: "inherit",
-    });
-    if (vite.status !== 0) {
-      console.error("Vite build failed");
-      process.exit(vite.status ?? 1);
-    }
+    // Step 2: Load fuse config and build Vite config
+    const fuseConfig = await loadFuseConfig(projectRoot);
+    const viteConfig = buildViteConfig(projectRoot, fuseConfig);
 
-    // Step 3: Flutter build — everything in rawArgs passes through (citty strips the subcommand)
+    // Step 3: Vite build
+    console.log("\nBuilding JS bundle...");
+    await viteBuild(viteConfig);
+
+    // Step 4: Flutter build — everything in rawArgs passes through (citty strips the subcommand)
     const flutterArgs = rawArgs;
 
     console.log("\nBuilding Flutter app...");

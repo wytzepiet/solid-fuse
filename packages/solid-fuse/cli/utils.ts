@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
+import { loadFuseConfig } from "./config";
 
 /**
  * Walk up from `cwd` looking for a directory that contains both
@@ -40,22 +41,22 @@ export interface FusePackageInfo {
 }
 
 /**
- * Scan node_modules for packages with a `"fuse"` field in package.json.
+ * Scan node_modules for packages with a `fuse.config.{ts,mjs,js}` file.
  */
-export function scanFusePackages(projectRoot: string): FusePackageInfo[] {
+export async function scanFusePackages(projectRoot: string): Promise<FusePackageInfo[]> {
   const nodeModules = join(projectRoot, "node_modules");
   if (!existsSync(nodeModules)) return [];
 
   const packages: FusePackageInfo[] = [];
 
   // Scan top-level packages
-  scanDir(nodeModules, packages);
+  await scanDir(nodeModules, packages);
 
   // Scan scoped packages (@org/*)
   const entries = readdirSafe(nodeModules);
   for (const entry of entries) {
     if (entry.startsWith("@")) {
-      scanDir(join(nodeModules, entry), packages);
+      await scanDir(join(nodeModules, entry), packages);
     }
   }
 
@@ -69,23 +70,24 @@ export function scanFusePackages(projectRoot: string): FusePackageInfo[] {
   return packages;
 }
 
-function scanDir(dir: string, results: FusePackageInfo[]) {
+async function scanDir(dir: string, results: FusePackageInfo[]) {
   const entries = readdirSafe(dir);
   for (const entry of entries) {
     if (entry.startsWith(".")) continue;
-    const pkgJsonPath = join(dir, entry, "package.json");
+    const pkgDir = join(dir, entry);
+    const pkgJsonPath = join(pkgDir, "package.json");
     if (!existsSync(pkgJsonPath)) continue;
 
     try {
-      const pkgJson = JSON.parse(readFileSync(pkgJsonPath, "utf-8"));
-      const fuse = pkgJson.fuse;
-      if (!fuse || !fuse.register) continue;
+      const config = await loadFuseConfig(pkgDir);
+      if (!config) continue;
 
-      const dartPath = fuse.dart ?? "dart";
-      const pubspecPath = join(dir, entry, dartPath, "pubspec.yaml");
+      const pkgJson = JSON.parse(readFileSync(pkgJsonPath, "utf-8"));
+      const dartPath = config.dart ?? "dart";
+      const pubspecPath = join(pkgDir, dartPath, "pubspec.yaml");
       if (!existsSync(pubspecPath)) {
         console.warn(
-          `[fuse] ${pkgJson.name}: fuse.register set but no pubspec.yaml at ${dartPath}/`
+          `[fuse] ${pkgJson.name}: fuse.config register set but no pubspec.yaml at ${dartPath}/`
         );
         continue;
       }
@@ -101,9 +103,9 @@ function scanDir(dir: string, results: FusePackageInfo[]) {
       results.push({
         npmName: pkgJson.name,
         dartName,
-        path: join(dir, entry),
+        path: pkgDir,
         dartPath,
-        registerClass: fuse.register,
+        registerClass: config.register ?? "register",
       });
     } catch {
       // skip malformed packages
