@@ -26,8 +26,7 @@
     "fuse.config.ts"
   ],
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts",
-    "dev": "vite build --watch"
+    "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts"
   },
   "peerDependencies": {
     "@solidjs/universal": "^2.0.0-beta.4",
