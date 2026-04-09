@@ -44,7 +44,6 @@ Future<EngineResult> createEngine({
   await engine.init(
     bridge: (jsValue) async {
       final data = jsValue.value;
-      debugPrint('[Fuse] bridge_call: ${(data is Map) ? data['channel'] : data}');
       if (data is Map) {
         final channel = data['channel'] as String?;
         if (channel != null) {
