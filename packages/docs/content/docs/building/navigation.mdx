@@ -1,0 +1,138 @@
+---
+title: Navigation
+description: Navigate between pages with push, pop, and replace
+---
+
+Fuse provides a `<Navigator>` component that manages a page stack, backed by Flutter's Navigator 2.0.
+
+## Basic setup
+
+```tsx
+import { Navigator } from "solid-fuse";
+
+function App() {
+  return <Navigator defaultPage={() => <HomePage />} />;
+}
+```
+
+## useNavigator
+
+Any component inside a `<Navigator>` can access the navigation API:
+
+```tsx
+import { useNavigator } from "solid-fuse";
+
+function HomePage() {
+  const nav = useNavigator();
+
+  return (
+    <materialPage layout={{ gap: 16 }} padding={24}>
+      <text fontSize={24}>Home</text>
+      <gestureDetector onTap={() => nav.push(() => <DetailPage />)}>
+        <view padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
+          <text color="white">Go to detail</text>
+        </view>
+      </gestureDetector>
+    </materialPage>
+  );
+}
+```
+
+### API
+
+| Method | Description |
+|---|---|
+| `nav.push(factory)` | Push a new page onto the stack. `factory` is `() => JSX.Element`. |
+| `nav.pop()` | Remove the top page. No-op if only one page remains. |
+| `nav.replace(factory)` | Replace the current top page. |
+| `nav.stackSize()` | Reactive getter for the current stack depth. |
+
+## Pages own their transitions
+
+In Fuse, pages define both their **content** and their **transition**. `<materialPage>` wraps your content and tells the navigator to use a Material-style page transition (slide from right on iOS, fade on Android).
+
+```tsx
+function DetailPage() {
+  const nav = useNavigator();
+
+  return (
+    <materialPage layout={{ direction: "vertical", gap: 16 }}>
+      <text fontSize={24}>Detail</text>
+      <text>This page slides in with a Material transition.</text>
+      <gestureDetector onTap={() => nav.pop()}>
+        <text color="blue">Go back</text>
+      </gestureDetector>
+    </materialPage>
+  );
+}
+```
+
+Note that `<materialPage>` supports `layout` directly — no wrapper `<view>` needed for layout.
+
+### materialPage props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `layout` | `LayoutInput` | — | Layout children |
+| `fullscreenDialog` | `boolean` | `false` | Slides up instead of sideways, shows close button |
+| `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
+
+## Back gestures
+
+iOS swipe-back and Android back button are handled automatically. The navigator calls `pop()` when the system back gesture fires — you don't need to wire this up.
+
+## Full example
+
+A two-page app with a list and detail view:
+
+```tsx
+import { createSignal, For } from "solid-js";
+import { Navigator, useNavigator } from "solid-fuse";
+
+const items = ["Apples", "Bananas", "Cherries"];
+
+function App() {
+  return <Navigator defaultPage={() => <ListPage />} />;
+}
+
+function ListPage() {
+  const nav = useNavigator();
+
+  return (
+    <materialPage layout={{ gap: 4 }}>
+      <text fontSize={24} fontWeight="bold" padding={{ bottom: 8 }}>
+        Fruits
+      </text>
+      <For each={items}>
+        {(item) => (
+          <gestureDetector onTap={() => nav.push(() => <DetailPage name={item} />)}>
+            <view
+              padding={16}
+              decoration={{ border: { bottom: { width: 1, color: "#E0E0E0" } } }}
+            >
+              <text fontSize={16}>{item}</text>
+            </view>
+          </gestureDetector>
+        )}
+      </For>
+    </materialPage>
+  );
+}
+
+function DetailPage(props: { name: string }) {
+  const nav = useNavigator();
+
+  return (
+    <materialPage layout={{ align: "center", justify: "center", expand: true }}>
+      <text fontSize={32}>{props.name}</text>
+      <gestureDetector onTap={() => nav.pop()}>
+        <text color="blue" fontSize={16}>Back to list</text>
+      </gestureDetector>
+    </materialPage>
+  );
+}
+```
+
+## Custom page types
+
+You can create custom page types with different transitions. See [Creating Pages](/docs/extending/creating-pages) for how to build your own `<cupertinoPage>`, `<fadePage>`, or any other transition.

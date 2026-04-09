@@ -2,7 +2,7 @@ export 'src/channels.dart';
 export 'src/connection.dart';
 export 'src/dev_connection.dart';
 export 'src/engine.dart';
-export 'src/fuse_handle.dart';
+export 'src/fuse_controller.dart';
 export 'src/fuse_page.dart';
 export 'src/fuse_package.dart';
 export 'src/node.dart';

@@ -11,7 +11,7 @@ class FuseScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollDirection = node.string('scrollDirection');
-    final flexDirection = node.map('flex')?.string('direction');
+    final flexDirection = node.map('layout')?.string('direction');
     final physics = node.string('physics');
     final reverse = node.bool('reverse') ?? false;
     final primary = node.props['primary'] as bool?;
@@ -64,7 +64,7 @@ class FuseScrollView extends StatelessWidget {
       dragStartBehavior: dragStart,
       hitTestBehavior: hitTest,
       restorationId: restorationId,
-      child: node.buildChildren(),
+      child: node.buildLayout(),
     );
   }
 }

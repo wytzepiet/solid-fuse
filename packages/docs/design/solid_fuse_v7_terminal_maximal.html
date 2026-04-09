@@ -1,0 +1,327 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #08080a;
+  --card: #0d0d0f;
+  --card2: #111114;
+  --border: rgba(255,255,255,0.05);
+  --border-h: rgba(255,255,255,0.10);
+  --text: #e8e6e0;
+  --text-m: #76746e;
+  --text-d: #3a3936;
+  --accent: #42ddcb;
+  --accent-dim: rgba(66,221,203,0.07);
+  --accent-mid: rgba(66,221,203,0.15);
+  --warm: #d4935a;
+  --warm-dim: rgba(212,147,90,0.07);
+  --violet: #a78bfa;
+  --violet-dim: rgba(167,139,250,0.07);
+  --blue: #64a0ff;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Plus Jakarta Sans', sans-serif;
+  --radius: 16px;
+  --gap: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.page { background: var(--bg); font-family: var(--sans); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+/* NAV */
+.nav { display: flex; align-items: center; padding: 16px 24px; gap: 32px; border-bottom: 1px solid var(--border); }
+.nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; font-family: var(--mono); white-space: nowrap; }
+.logo-mark { width: 26px; height: 26px; border-radius: 6px; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-links { display: flex; gap: 24px; font-size: 13px; font-family: var(--mono); color: var(--text-d); }
+.nav-links span { cursor: pointer; } .nav-links span:hover { color: var(--text-m); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.search-box { display: flex; align-items: center; gap: 8px; padding: 7px 12px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; font-family: var(--mono); color: var(--text-d); min-width: 200px; cursor: pointer; }
+.search-box:hover { border-color: var(--border-h); }
+.search-box kbd { margin-left: auto; font-size: 10px; padding: 2px 5px; background: rgba(255,255,255,0.03); border-radius: 4px; border: 1px solid var(--border); }
+.icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-d); }
+
+/* HERO */
+.hero { margin: var(--gap); background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); position: relative; overflow: hidden; }
+.hero-grid { position: absolute; inset: 0; pointer-events: none; }
+.hero-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 65% 30%, rgba(66,221,203,0.06) 0%, transparent 60%); pointer-events: none; }
+.hero-sphere { position: absolute; top: -30px; right: -50px; width: 480px; height: 480px; pointer-events: none; opacity: 0.75; }
+
+.hero-body { position: relative; z-index: 2; padding: 56px 48px 0; }
+
+/* NUMBERED SIDE NAV — Sanity style */
+.hero-nums { position: absolute; top: 56px; right: 48px; z-index: 3; display: flex; flex-direction: column; gap: 6px; font-family: var(--mono); font-size: 11px; }
+.hero-nums .hn { display: flex; align-items: center; gap: 8px; color: var(--text-d); }
+.hero-nums .hn.active { color: var(--accent); }
+.hero-nums .hn .num { width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; border: 1px solid var(--border); }
+.hero-nums .hn.active .num { border-color: var(--accent); background: var(--accent-dim); }
+
+.hero-tag { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 28px; letter-spacing: 0.02em; }
+.hero-body h1 { font-size: 62px; font-weight: 800; line-height: 1.0; letter-spacing: -0.045em; margin-bottom: 28px; max-width: 580px; }
+.hero-body h1 .hl { color: var(--accent); }
+.hero-sub { font-size: 16px; line-height: 1.65; color: var(--text-m); font-weight: 300; max-width: 420px; margin-bottom: 36px; }
+.hero-actions { display: flex; gap: 10px; margin-bottom: 56px; }
+.btn-a { padding: 11px 26px; background: var(--accent); color: #081a18; font-size: 13px; font-weight: 600; border-radius: 10px; border: none; cursor: pointer; font-family: var(--mono); letter-spacing: 0.01em; }
+.btn-g { padding: 11px 26px; background: transparent; color: var(--text-m); font-size: 13px; font-weight: 400; border-radius: 10px; border: 1px solid var(--border-h); cursor: pointer; font-family: var(--mono); }
+
+/* CODE PANELS */
+.hero-panels { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); padding: 0 var(--gap); }
+.panel { background: #0a0a0c; border: 1px solid var(--border-h); border-radius: 12px 12px 0 0; border-bottom: none; overflow: hidden; }
+.ph { padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 11px; }
+.ph .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; }
+.ph .badge.f { background: var(--accent-dim); color: var(--accent); }
+.ph .badge.d { background: rgba(100,160,255,0.07); color: var(--blue); }
+.ph .fname { color: var(--text-d); }
+.ph .lc { margin-left: auto; color: var(--text-d); }
+.pc { padding: 16px 18px; font-family: var(--mono); font-size: 11.5px; line-height: 1.7; color: var(--text-m); overflow-x: auto; }
+.kw{color:#c9a0dc}.fn{color:#7ec699}.str{color:var(--warm)}.comp{color:#6fb8e0}.prop{color:#d4a0d4}.num{color:var(--warm)}
+
+/* SECTION — monospace numbered */
+.sec { margin: 56px var(--gap) 0; padding: 0 16px; display: flex; align-items: flex-start; gap: 16px; }
+.sec-num { font-family: var(--mono); font-size: 11px; color: var(--text-d); padding-top: 2px; min-width: 28px; border-right: 1px solid var(--border); padding-right: 12px; }
+.sec-num span { color: var(--accent); }
+.sec-body { flex: 1; }
+.sec-body .ov { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.sec-body h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+.sec-body .st { font-size: 15px; color: var(--text-m); font-weight: 300; max-width: 520px; line-height: 1.6; }
+
+/* FEATURE GRID */
+.row-3 { margin: 20px var(--gap) 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--gap); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; position: relative; }
+.card-num { position: absolute; top: 16px; right: 16px; font-family: var(--mono); font-size: 10px; color: var(--text-d); }
+.fi { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.fi.a{background:var(--accent-dim);color:var(--accent)}.fi.b{background:var(--warm-dim);color:var(--warm)}.fi.c{background:var(--violet-dim);color:var(--violet)}
+.card h3 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+.card .fp { font-size: 12.5px; line-height: 1.55; color: var(--text-m); font-weight: 300; }
+
+/* ARCH */
+.arch-card { margin: 20px var(--gap) 0; padding: 32px 24px; position: relative; overflow: hidden; }
+.arch-grid-bg { position: absolute; inset: 0; pointer-events: none; }
+.arch-flow { position: relative; z-index: 1; display: flex; align-items: stretch; justify-content: center; gap: 2px; }
+.anode { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.abox { padding: 14px 8px; border-radius: 10px; font-weight: 600; font-size: 12px; font-family: var(--mono); text-align: center; width: 100%; white-space: nowrap; }
+.abox.js{background:rgba(212,147,90,0.06);color:var(--warm);border:1px solid rgba(212,147,90,0.1)}
+.abox.br{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(66,221,203,0.1)}
+.abox.dt{background:rgba(100,160,255,0.05);color:var(--blue);border:1px solid rgba(100,160,255,0.1)}
+.abox.nt{background:rgba(126,198,153,0.05);color:#7ec699;border:1px solid rgba(126,198,153,0.1)}
+.albl { font-size: 10px; color: var(--text-d); font-family: var(--mono); text-align: center; }
+.aarr { display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--text-d); padding: 0 4px; padding-top: 0; align-self: flex-start; margin-top: 16px; }
+
+/* AUDIENCES */
+.row-2 { margin: 20px var(--gap) 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.aud { padding: 28px 24px; position: relative; overflow: hidden; }
+.aud .tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-bottom: 16px; font-family: var(--mono); letter-spacing: 0.06em; }
+.aud.js .tag{background:var(--warm-dim);color:var(--warm)}.aud.fl .tag{background:rgba(100,160,255,0.07);color:var(--blue)}
+.aud h3 { font-size: 18px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.02em; }
+.aud .pts { font-size: 13px; line-height: 1.85; color: var(--text-m); font-weight: 300; }
+.aud .pts span { display: flex; align-items: baseline; gap: 10px; }
+.aud .pts span::before { content: '//'; font-family: var(--mono); font-size: 10px; color: var(--text-d); flex-shrink: 0; }
+
+/* COMPARE */
+.ctbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ctbl th{padding:14px 18px;text-align:left;font-weight:500;font-size:10px;color:var(--text-d);border-bottom:1px solid var(--border);font-family:var(--mono);letter-spacing:0.06em;text-transform:uppercase}
+.ctbl th:first-child{padding-left:24px}
+.ctbl th.hlc{color:var(--accent);background:var(--accent-dim)}
+.ctbl td{padding:12px 18px;border-bottom:1px solid var(--border);color:var(--text-m);font-weight:300;font-family:var(--mono);font-size:12px}
+.ctbl td:first-child{padding-left:24px;color:var(--text);font-weight:500}
+.ctbl td.hlc{background:rgba(66,221,203,0.02);color:var(--text)}
+.ctbl tr:last-child td{border-bottom:none}
+.chk{color:#7ec699}.crs{color:#4a3e3e}.mut{color:var(--text-d)}
+
+/* CTA */
+.cta-card { margin: 56px var(--gap) 0; padding: 56px 48px; text-align: center; position: relative; overflow: hidden; }
+.cta-card h2 { font-size: 40px; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 12px; }
+.cta-card p { font-size: 15px; color: var(--text-m); font-weight: 300; margin-bottom: 28px; }
+.cta-cmd { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; background: #0a0a0c; border: 1px solid var(--border-h); border-radius: 10px; font-family: var(--mono); font-size: 14px; color: var(--text); margin-bottom: 20px; }
+.cta-cmd .dlr{color:var(--text-d);user-select:none}
+.cta-btns{display:flex;gap:10px;justify-content:center}
+
+.footer { margin-top: 56px; padding: 20px 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-d); font-family: var(--mono); }
+.footer-links{display:flex;gap:20px}.footer-links span{cursor:pointer}.footer-links span:hover{color:var(--text-m)}
+</style>
+
+<div class="page">
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="logo-mark"><svg width="18" height="18" viewBox="0 0 512 512" fill="none" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><g transform="matrix(1.625064,-0,-0,1.74791,-219.191526,-285.107611)"><path d="M349.885,261.354L284.815,405.08C323.786,319 371.177,319 430,319C371.177,319 328.929,319 349.885,261.354Z" style="fill:#081a18;stroke:#081a18;stroke-width:24px;"/></g><g transform="matrix(-1.625064,-0,0,-1.74791,731.191526,830.52729)"><path d="M349.885,261.354L270.714,435.643C323.699,319 371.177,319 430,319C371.177,319 328.929,319 349.885,261.354Z" style="fill:#081a18;stroke:#081a18;stroke-width:24px;"/></g></svg></div>
+    solid-fuse
+  </div>
+  <div class="nav-links"><span>docs</span><span>guides</span><span>api</span><span>extensions</span></div>
+  <div class="nav-right">
+    <div class="search-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>search...<kbd>⌘K</kbd></div>
+    <div class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <canvas class="hero-grid" id="herogrid"></canvas>
+  <svg class="hero-sphere" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="hg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#42ddcb" stop-opacity="0.6"/><stop offset="35%" stop-color="#34b0a2" stop-opacity="0.4"/><stop offset="65%" stop-color="#1a6e63" stop-opacity="0.2"/><stop offset="100%" stop-color="#08080a" stop-opacity="0"/></radialGradient><clipPath id="sc"><circle cx="240" cy="240" r="210"/></clipPath></defs>
+    <g clip-path="url(#sc)"><circle cx="240" cy="240" r="210" fill="url(#hg)" opacity="0.08"/><g id="dots"></g></g>
+  </svg>
+
+  <div class="hero-nums">
+    <div class="hn active"><span class="num">01</span>OVERVIEW</div>
+    <div class="hn"><span class="num">02</span>ARCHITECTURE</div>
+    <div class="hn"><span class="num">03</span>FOR WHO</div>
+    <div class="hn"><span class="num">04</span>COMPARISON</div>
+    <div class="hn"><span class="num">05</span>GET STARTED</div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-tag">// write typescript, render native</div>
+    <h1>Solid's reactivity.<br>Flutter's <span class="hl">engine.</span></h1>
+    <p class="hero-sub">Build native mobile apps with SolidJS signals and Flutter's rendering pipeline. No webview. No compromise.</p>
+    <div class="hero-actions">
+      <button class="btn-a">npx create-solid-fuse</button>
+      <button class="btn-g">view source</button>
+    </div>
+  </div>
+
+  <div class="hero-panels">
+    <div class="panel">
+      <div class="ph"><span class="badge f">FUSE</span><span class="fname">Counter.tsx</span><span class="lc">15 ln</span></div>
+      <div class="pc">
+<span class="kw">import</span> { <span class="fn">createSignal</span> } <span class="kw">from</span> <span class="str">"solid-js"</span>;<br>
+<span class="kw">import</span> { <span class="comp">Column</span>, <span class="comp">Text</span>, <span class="comp">Button</span> } <span class="kw">from</span> <span class="str">"solid-fuse"</span>;<br>
+<br>
+<span class="kw">export default function</span> <span class="fn">Counter</span>() {<br>
+&nbsp;&nbsp;<span class="kw">const</span> [count, setCount] = <span class="fn">createSignal</span>(<span class="num">0</span>);<br>
+<br>
+&nbsp;&nbsp;<span class="kw">return</span> (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">Column</span> <span class="prop">mainAxisAlignment</span>=<span class="str">"center"</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">Text</span> <span class="prop">style</span>=<span class="str">"headlineMedium"</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tapped {<span class="fn">count</span>()} times<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">Text</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">Button</span> <span class="prop">onPressed</span>={() =&gt; <span class="fn">setCount</span>(c =&gt; c + <span class="num">1</span>)}&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Increment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">Button</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">Column</span>&gt;<br>
+&nbsp;&nbsp;);<br>
+}
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><span class="badge d">DART</span><span class="fname">counter.dart</span><span class="lc">38 ln</span></div>
+      <div class="pc">
+<span class="kw">import</span> <span class="str">'package:flutter/material.dart'</span>;<br>
+<br>
+<span class="kw">class</span> <span class="comp">Counter</span> <span class="kw">extends</span> <span class="comp">StatefulWidget</span> {<br>
+&nbsp;&nbsp;<span class="kw">const</span> <span class="comp">Counter</span>({<span class="kw">super</span>.key});<br>
+&nbsp;&nbsp;<span class="kw">@override</span><br>
+&nbsp;&nbsp;<span class="comp">State</span>&lt;<span class="comp">Counter</span>&gt; <span class="fn">createState</span>() =&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comp">_CounterState</span>();<br>
+}<br>
+<br>
+<span class="kw">class</span> <span class="comp">_CounterState</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">extends</span> <span class="comp">State</span>&lt;<span class="comp">Counter</span>&gt; {<br>
+&nbsp;&nbsp;<span class="kw">int</span> _count = <span class="num">0</span>;<br>
+<br>
+&nbsp;&nbsp;<span class="kw">@override</span><br>
+&nbsp;&nbsp;<span class="comp">Widget</span> <span class="fn">build</span>(<span class="comp">BuildContext</span> ctx) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="comp">Column</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mainAxisAlignment:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comp">MainAxisAlignment</span>.center,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;children: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comp">Text</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Tapped $_count times'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style: <span class="comp">Theme</span>.of(ctx)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.textTheme.headlineMedium,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comp">ElevatedButton</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onPressed: () {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setState</span>(() =&gt; _count++);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;child: <span class="kw">const</span> <span class="comp">Text</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">'Increment'</span>),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+&nbsp;&nbsp;}<br>
+}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="sec"><div class="sec-num"><span>01</span></div><div class="sec-body"><div class="ov">features</div><h2>Why Solid Fuse</h2></div></div>
+<section class="row-3">
+  <div class="card"><div class="card-num">01</div><div class="fi a"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M3 9L9 3L15 9L9 15Z" stroke="currentColor" stroke-width="1.4"/><circle cx="9" cy="9" r="2" fill="currentColor" opacity="0.4"/></svg></div><h3>Fine-grained reactivity</h3><p class="fp">Signals propagate directly to widgets. No VDOM, no diffing, no reconciler.</p></div>
+  <div class="card"><div class="card-num">02</div><div class="fi b"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="3" y="3" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M7 7h4v4H7z" fill="currentColor" opacity="0.4"/></svg></div><h3>Native rendering</h3><p class="fp">Flutter's Skia engine. 60fps, pixel-perfect on iOS and Android.</p></div>
+  <div class="card"><div class="card-num">03</div><div class="fi c"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M5 13L13 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="5" cy="5" r="2" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="13" r="2" stroke="currentColor" stroke-width="1.4"/></svg></div><h3>One ecosystem</h3><p class="fp">npm packages with auto Dart codegen. One package manager, both worlds.</p></div>
+</section>
+
+<!-- ARCH -->
+<div class="sec"><div class="sec-num"><span>02</span></div><div class="sec-body"><div class="ov">architecture</div><h2>From signal to pixel</h2><p class="st">TypeScript runs in QuickJS, embedded via Rust FFI. Signals flow directly to native widgets.</p></div></div>
+<div class="card arch-card" style="margin:20px 10px 0;padding:32px 20px;position:relative;overflow:hidden;">
+  <canvas class="arch-grid-bg" id="archgrid"></canvas>
+  <div class="arch-flow">
+    <div class="anode"><div class="abox js">SolidJS</div><div class="albl">your code</div></div>
+    <div class="aarr">-&gt;</div>
+    <div class="anode"><div class="abox br">QuickJS</div><div class="albl">runtime</div></div>
+    <div class="aarr">-&gt;</div>
+    <div class="anode"><div class="abox br">Rust FFI</div><div class="albl">bridge</div></div>
+    <div class="aarr">-&gt;</div>
+    <div class="anode"><div class="abox dt">Flutter</div><div class="albl">widgets</div></div>
+    <div class="aarr">-&gt;</div>
+    <div class="anode"><div class="abox nt">Skia</div><div class="albl">pixels</div></div>
+  </div>
+</div>
+
+<!-- AUDIENCES -->
+<div class="sec"><div class="sec-num"><span>03</span></div><div class="sec-body"><div class="ov">for who</div><h2>Two worlds, one framework</h2></div></div>
+<section class="row-2">
+  <div class="card aud js"><div class="tag">TYPESCRIPT</div><h3>Your stack, on mobile.</h3><div class="pts"><span>TSX components with SolidJS signals</span><span>tRPC, Zod, and npm packages</span><span>Hot reload in milliseconds</span><span>No Dart required</span><span>OTA updates without App Store</span></div></div>
+  <div class="card aud fl"><div class="tag">FLUTTER</div><h3>A better authoring layer.</h3><div class="pts"><span>Same rendering engine underneath</span><span>Register widgets in 3 lines of Dart</span><span>Drop into native code anytime</span><span>Existing knowledge transfers</span><span>Publish extensions to npm</span></div></div>
+</section>
+
+<!-- COMPARE -->
+<div class="sec"><div class="sec-num"><span>04</span></div><div class="sec-body"><div class="ov">comparison</div><h2>How it stacks up</h2></div></div>
+<div class="card" style="margin:20px 10px 0;padding:0;overflow:hidden;">
+  <table class="ctbl"><thead><tr><th></th><th class="hlc">solid-fuse</th><th>react native</th><th>flutter</th><th>nativescript</th></tr></thead>
+  <tbody>
+    <tr><td>language</td><td class="hlc">TypeScript</td><td>JS / TS</td><td>Dart</td><td>JS / TS</td></tr>
+    <tr><td>rendering</td><td class="hlc">Flutter (Skia)</td><td>native views</td><td>Flutter (Skia)</td><td>native views</td></tr>
+    <tr><td>reactivity</td><td class="hlc">signals</td><td>VDOM diff</td><td>setState</td><td>VDOM diff</td></tr>
+    <tr><td>ota updates</td><td class="hlc"><span class="chk">&#10003;</span> built-in</td><td><span class="chk">&#10003;</span> codepush</td><td><span class="mut">--</span> shorebird</td><td><span class="crs">&#10005;</span></td></tr>
+    <tr><td>npm</td><td class="hlc"><span class="chk">&#10003;</span> native</td><td><span class="chk">&#10003;</span> native</td><td><span class="crs">&#10005;</span></td><td><span class="chk">&#10003;</span> native</td></tr>
+    <tr><td>pixel-perfect</td><td class="hlc"><span class="chk">&#10003;</span></td><td><span class="crs">&#10005;</span></td><td><span class="chk">&#10003;</span></td><td><span class="crs">&#10005;</span></td></tr>
+  </tbody></table>
+</div>
+
+<!-- CTA -->
+<div class="card cta-card" style="margin:40px 10px 0;padding:48px 40px;text-align:center;position:relative;overflow:hidden;">
+  <canvas id="ctagrid" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.12;"></canvas>
+  <div style="position:relative;z-index:1;">
+    <h2>Start building.</h2>
+    <p style="font-size:15px;color:var(--text-m);font-weight:300;margin-bottom:24px;">Zero to running app in under a minute.</p>
+    <div class="cta-cmd"><span class="dlr">$</span>npx create-solid-fuse my-app</div>
+    <div class="cta-btns"><button class="btn-a">read the docs</button><button class="btn-g">join discord</button></div>
+  </div>
+</div>
+
+<footer class="footer"><span>solid-fuse // early preview // built in rotterdam</span><div class="footer-links"><span>docs</span><span>github</span><span>discord</span><span>twitter</span></div></footer>
+
+</div>
+
+<script>
+(function(){
+  var svg=document.getElementById('dots'),cx=240,cy=240,r=210,s='';
+  for(var row=0;row<52;row++){for(var col=0;col<52;col++){
+    var x=cx-r+(col/51)*r*2,y=cy-r+(row/51)*r*2;
+    var dx=x-cx,dy=y-cy,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist>r)continue;
+    var norm=dist/r,size=Math.max(0.4,(1-norm)*3.2);
+    var opacity=Math.max(0.04,(1-norm*norm)*0.7);
+    opacity*=Math.sin(norm*9+Math.atan2(dy,dx)*2.5)*0.3+0.7;
+    if(opacity<0.03)continue;
+    s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+size.toFixed(2)+'" fill="url(#hg)" opacity="'+opacity.toFixed(2)+'"/>';
+  }}
+  svg.innerHTML=s;
+})();
+function dg(id,c,g){var e=document.getElementById(id);if(!e)return;var d=window.devicePixelRatio||1,w=e.offsetWidth,h=e.offsetHeight;e.width=w*d;e.height=h*d;var x=e.getContext('2d');x.scale(d,d);g=g||14;for(var y=g;y<h;y+=g)for(var i=g;i<w;i+=g){x.fillStyle=c;x.beginPath();x.arc(i,y,0.7,0,Math.PI*2);x.fill();}}
+dg('herogrid','rgba(66,221,203,0.18)',14);
+dg('archgrid','rgba(66,221,203,0.3)',12);
+dg('ctagrid','rgba(66,221,203,0.35)',12);
+</script>

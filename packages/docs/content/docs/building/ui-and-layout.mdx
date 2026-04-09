@@ -1,0 +1,287 @@
+---
+title: UI & Layout
+description: Build interfaces with views, text, and layout
+---
+
+## View
+
+`<view>` is the workhorse layout container. It maps to a composition of Flutter widgets — Container, Padding, SizedBox, Opacity, Transform, and more — depending on which props you set.
+
+```tsx
+<view
+  padding={16}
+  decoration={{ color: "white", borderRadius: 12, shadow: [{ blurRadius: 8, color: "#0002" }] }}
+>
+  <text fontSize={18}>Card content</text>
+</view>
+```
+
+### View props
+
+| Prop | Type | Description |
+|---|---|---|
+| `layout` | `LayoutInput` | Layout children (see [Layout](#layout) below) |
+| `padding` | `EdgeInsetsInput` | Inner spacing |
+| `margin` | `EdgeInsetsInput` | Outer spacing |
+| `width` / `height` | `number` | Fixed dimensions |
+| `minWidth` / `maxWidth` | `number` | Size constraints |
+| `minHeight` / `maxHeight` | `number` | Size constraints |
+| `aspectRatio` | `number` | Width-to-height ratio |
+| `alignment` | `AlignmentString` | Align child within view |
+| `decoration` | `DecorationInput` | Background, borders, shadows, gradients |
+| `foregroundDecoration` | `DecorationInput` | Decoration painted on top |
+| `opacity` | `number` | 0–1 transparency |
+| `transform` | `TransformInput` | Rotate, scale, translate |
+| `clipBehavior` | `string` | Clip behavior (`"hardEdge"`, `"antiAlias"`, `"none"`) |
+| `grow` | `number` | Flex grow factor (when inside a flex parent) |
+| `fit` | `string` | `"tight"` or `"loose"` (with grow) |
+| `visible` | `boolean` | Show/hide without removing from tree |
+| `ignorePointer` | `boolean` | Disable hit testing |
+
+## Text
+
+`<text>` renders Flutter `Text` widgets.
+
+```tsx
+<text fontSize={24} fontWeight="bold" color="blue">
+  Hello world
+</text>
+```
+
+### Text props
+
+| Prop | Type | Description |
+|---|---|---|
+| `fontSize` | `number` | Font size in logical pixels |
+| `fontWeight` | `FontWeight` | `100`–`900` or `"thin"`, `"light"`, `"regular"`, `"medium"`, `"semiBold"`, `"bold"`, `"extraBold"`, `"black"` |
+| `fontFamily` | `string` | Font family name |
+| `fontStyle` | `string` | `"normal"` or `"italic"` |
+| `color` | `ColorInput` | Text color |
+| `lineHeight` | `number` | Line height multiplier |
+| `letterSpacing` | `number` | Space between characters |
+| `textAlign` | `string` | `"left"`, `"right"`, `"center"`, `"justify"`, `"start"`, `"end"` |
+| `maxLines` | `number` | Maximum number of lines |
+| `overflow` | `string` | `"clip"`, `"fade"`, `"ellipsis"`, `"visible"` |
+| `textDecoration` | `string` | `"underline"`, `"overline"`, `"lineThrough"`, `"none"` |
+| `backgroundColor` | `ColorInput` | Highlight behind text |
+| `shadows` | `ShadowInput[]` | Text shadows |
+
+## Stack and Positioned
+
+`<stack>` layers children on top of each other. `<positioned>` places children at specific coordinates within the stack.
+
+```tsx
+<stack alignment="center">
+  <view width={200} height={200} decoration={{ color: "blue" }} />
+  <positioned top={10} right={10}>
+    <text color="white">Badge</text>
+  </positioned>
+</stack>
+```
+
+| Stack prop | Type | Description |
+|---|---|---|
+| `alignment` | `AlignmentString` | Default alignment for children |
+| `fit` | `string` | `"loose"`, `"expand"`, `"passthrough"` |
+| `clipBehavior` | `string` | Clip overflowing children |
+
+| Positioned prop | Type | Description |
+|---|---|---|
+| `top` / `left` / `right` / `bottom` | `number` | Offset from stack edges |
+| `width` / `height` | `number` | Fixed dimensions |
+
+## ScrollView
+
+`<scrollView>` creates a scrollable container.
+
+```tsx
+<scrollView padding={16} physics="bouncing">
+  <view layout={{ gap: 8 }}>
+    <For each={items()}>{(item) => <text>{item}</text>}</For>
+  </view>
+</scrollView>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `scrollDirection` | `string` | `"vertical"` (default) or `"horizontal"` |
+| `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
+| `reverse` | `boolean` | Reverse scroll direction |
+| `padding` | `EdgeInsetsInput` | Inner padding |
+| `controller` | `ScrollController` | Programmatic scroll control (see [Controllers](/docs/building/controllers)) |
+| `clipBehavior` | `string` | Clip behavior |
+| `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
+
+## Layout
+
+Every element that accepts children supports `layout` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `<row>` and `<column>` components, Fuse uses `layout` as a universal layout config.
+
+```tsx
+{/* Horizontal row with spacing */}
+<view layout={{ direction: "horizontal", gap: 12 }}>
+  <text>Left</text>
+  <text>Right</text>
+</view>
+
+{/* Centered content filling available space */}
+<view layout={{ align: "center", justify: "center", expand: true }}>
+  <text>Centered</text>
+</view>
+
+{/* Space between items */}
+<view layout={{ justify: "spaceBetween" }}>
+  <text>Start</text>
+  <text>End</text>
+</view>
+```
+
+### LayoutInput
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `direction` | `string` | `"vertical"` | `"horizontal"` or `"vertical"` |
+| `gap` | `number` | `0` | Spacing between children (pixels) |
+| `align` | `string` | `"start"` | Cross-axis: `"start"`, `"center"`, `"end"`, `"stretch"` |
+| `justify` | `string` | `"start"` | Main-axis: `"start"`, `"center"`, `"end"`, `"spaceBetween"`, `"spaceAround"`, `"spaceEvenly"` |
+| `expand` | `boolean` | `false` | Fill available space on main axis |
+
+### Grow
+
+Use `grow` on children to distribute extra space, similar to CSS `flex-grow`:
+
+```tsx
+<view layout={{ direction: "horizontal", expand: true }}>
+  <view grow={1} decoration={{ color: "red" }}>
+    <text>Takes remaining space</text>
+  </view>
+  <view width={100} decoration={{ color: "blue" }}>
+    <text>Fixed 100px</text>
+  </view>
+</view>
+```
+
+## GestureDetector
+
+`<gestureDetector>` wraps content and handles touch, mouse, and trackpad events. It maps to Flutter's `GestureDetector`.
+
+```tsx
+<gestureDetector onTap={() => setCount((c) => c + 1)}>
+  <view padding={16} decoration={{ color: "blue", borderRadius: 8 }}>
+    <text color="white">Tap me</text>
+  </view>
+</gestureDetector>
+```
+
+All standard Flutter gesture callbacks are available: `onTap`, `onTapDown`, `onTapUp`, `onDoubleTap`, `onLongPress`, `onVerticalDragUpdate`, `onHorizontalDragUpdate`, `onPanUpdate`, `onScaleUpdate`, and their variants. TypeScript autocomplete will show the full list.
+
+### Event data
+
+Events include both global and local positions:
+
+```tsx
+<gestureDetector
+  onTapDown={(e) => console.log(e.localX, e.localY)}
+  onPanUpdate={(e) => {
+    // e.dx, e.dy — delta since last update
+    setX((x) => x + e.dx);
+    setY((y) => y + e.dy);
+  }}
+  onPanEnd={(e) => {
+    // e.vx, e.vy — velocity in pixels per second
+    console.log("flung at", e.vx, e.vy);
+  }}
+>
+  {/* ... */}
+</gestureDetector>
+```
+
+| Field | Present on | Description |
+|---|---|---|
+| `x`, `y` | All position events | Global position |
+| `localX`, `localY` | All position events | Position relative to the widget |
+| `dx`, `dy` | Drag/pan/scale update | Delta since last update |
+| `vx`, `vy` | End events | Velocity (pixels/sec) |
+| `scale`, `rotation` | Scale update | Pinch scale factor and rotation (radians) |
+| `kind` | Start/down events | `"touch"`, `"mouse"`, `"stylus"`, `"trackpad"` |
+
+### Hit test behavior
+
+The `behavior` prop controls how the detector responds to touches:
+
+| Value | Description |
+|---|---|
+| `"deferToChild"` | Default. Only the child's area is tappable. |
+| `"opaque"` | Entire bounds tappable, blocks gestures behind. |
+| `"translucent"` | Entire bounds tappable, gestures pass through. |
+
+`<gestureDetector>` also supports `layout` for arranging children, so you can use it as a tappable container directly.
+
+## Input types
+
+These types are used across multiple elements for colors, spacing, borders, and more.
+
+### ColorInput
+
+Colors can be specified as named strings, hex codes, or RGB/HSL objects:
+
+```tsx
+// Named
+<text color="red" />
+<text color="transparent" />
+
+// Hex (3, 6, or 8 character)
+<view decoration={{ color: "#F00" }} />
+<view decoration={{ color: "#FF0000" }} />
+<view decoration={{ color: "#80FF0000" }} />  {/* with alpha */}
+
+// RGB object (r/g/b: 0-255, a: 0-1)
+<view decoration={{ color: { r: 255, g: 0, b: 0 } }} />
+<view decoration={{ color: { r: 255, g: 0, b: 0, a: 0.5 } }} />
+
+// HSL object (h: 0-360, s/l: 0-100, a: 0-1)
+<view decoration={{ color: { h: 0, s: 100, l: 50 } }} />
+```
+
+### EdgeInsetsInput
+
+Padding and margin accept a number (all sides) or an object:
+
+```tsx
+<view padding={16} />                                    {/* all sides */}
+<view padding={{ horizontal: 16, vertical: 8 }} />       {/* symmetric */}
+<view padding={{ top: 10, left: 20, bottom: 10 }} />     {/* individual */}
+```
+
+### BorderRadiusInput
+
+```tsx
+<view decoration={{ borderRadius: 12 }} />                          {/* all corners */}
+<view decoration={{ borderRadius: { topLeft: 12, topRight: 12 } }} /> {/* individual */}
+```
+
+### DecorationInput
+
+Combines background, borders, shadows, gradients, and images:
+
+```tsx
+<view decoration={{
+  color: "white",
+  borderRadius: 12,
+  border: { width: 1, color: "#E0E0E0" },
+  shadow: [{ blurRadius: 8, spreadRadius: 1, color: "#0001", offsetY: 2 }],
+  gradient: {
+    type: "linear",
+    colors: ["blue", "purple"],
+    begin: "topLeft",
+    end: "bottomRight",
+  },
+}} />
+```
+
+### TransformInput
+
+```tsx
+<view transform={{ rotate: 0.1 }} />           {/* radians */}
+<view transform={{ scale: 1.5 }} />
+<view transform={{ translateX: 10, translateY: -5 }} />
+```

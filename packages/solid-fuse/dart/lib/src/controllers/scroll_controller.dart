@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../fuse_handle.dart';
+import '../fuse_controller.dart';
 import '../node.dart';
 
-class ScrollControllerHandle extends FuseHandle<ScrollController> {
-  ScrollControllerHandle(super.node);
+class FuseScrollController extends FuseController<ScrollController> {
+  FuseScrollController(super.node);
 
   @override
   ScrollController create() {

@@ -1,4 +1,4 @@
-import { createHandle } from "./handle";
+import { createController } from "./controller";
 
 export type ScrollController = {
   _ref: number;
@@ -11,7 +11,7 @@ export type ScrollController = {
 export function createScrollController(
   opts: { initialScrollOffset?: number } = {},
 ): ScrollController {
-  const { _ref, call, state } = createHandle("scrollController", opts);
+  const { _ref, call, state } = createController("scrollController", opts);
   return {
     _ref,
     scrollTo: (offset: number) => call("scrollTo", offset),

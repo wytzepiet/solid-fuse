@@ -1,0 +1,207 @@
+---
+title: Creating Widgets
+description: Add your own Flutter widgets to Fuse
+---
+
+Every Fuse widget has two parts: a **JS type declaration** (what props it accepts) and a **Dart widget builder** (how it renders). This page walks through creating a custom widget from scratch.
+
+## The two-file pattern
+
+Let's build a `<badge>` widget that renders a Flutter `Chip`.
+
+### Step 1: Declare the JSX element
+
+For app-level widgets, add a `.d.ts` file in your project:
+
+```ts title="src/badge.d.ts"
+import type { ColorInput, LayoutInput } from "solid-fuse";
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      badge: {
+        label: string;
+        color?: ColorInput;
+        children?: any;
+        layout?: LayoutInput;
+      };
+    }
+  }
+}
+```
+
+For library packages, add the element to your package's `jsx.d.ts` instead.
+
+### Step 2: Write the Dart widget
+
+```dart title="dart/lib/src/widgets/badge.dart"
+import 'package:flutter/material.dart';
+import 'package:solid_fuse/solid_fuse.dart';
+
+class FuseBadge extends StatelessWidget {
+  const FuseBadge({super.key, required this.node});
+
+  final FuseNode node;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = node.string('label') ?? '';
+    final color = node.color('color') ?? Colors.blue;
+
+    return Chip(
+      label: Text(label),
+      backgroundColor: color,
+      side: BorderSide.none,
+    );
+  }
+}
+```
+
+### Step 3: Register
+
+```dart
+runtime.registerWidget('badge', FuseBadge.new);
+```
+
+Now you can use it in JSX:
+
+```tsx
+<badge label="New" color="green" />
+```
+
+## FuseNode prop accessors
+
+`FuseNode` extends `FuseMap`, which provides typed accessors for reading props. All return nullable — if the prop wasn't set in JSX, you get `null`.
+
+| Accessor | Returns | What it parses |
+|---|---|---|
+| `string(key)` | `String?` | String values |
+| `double(key)` | `double?` | Numbers |
+| `int(key)` | `int?` | Integers |
+| `bool(key)` | `bool?` | Booleans |
+| `map(key)` | `FuseMap?` | Nested objects (also has typed accessors) |
+| `list<T>(key)` | `List<T>?` | Arrays |
+| `color(key)` | `Color?` | Hex strings, named colors, RGB/HSL objects |
+| `edgeInsets(key)` | `EdgeInsets?` | Number or `{top, left, ...}` object |
+| `borderRadius(key)` | `BorderRadius?` | Number or `{topLeft, ...}` object |
+| `boxDecoration(key)` | `BoxDecoration?` | Full decoration with color, borders, shadows, gradient |
+| `alignment(key)` | `Alignment?` | Position names (`"center"`, `"topLeft"`, etc.) |
+| `clipBehavior(key)` | `Clip` | `"hardEdge"`, `"antiAlias"`, `"none"` (defaults to `Clip.none`) |
+
+Nested objects return `FuseMap`, which has the same accessors — so you can do `node.map('config')?.string('mode')`.
+
+## The layout + buildLayout() mechanic
+
+> If you add `layout?: LayoutInput` to your JSX type and use `node.buildLayout()` in your Dart widget, **layout just works**. Users of your widget can pass `layout={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
+
+This is how every built-in element handles children. Here's a widget that supports it:
+
+```ts title="JSX type"
+myCard: {
+  children?: any;
+  layout?: LayoutInput;  // ← add this
+};
+```
+
+```dart title="Dart widget"
+class FuseMyCard extends StatelessWidget {
+  const FuseMyCard({super.key, required this.node});
+  final FuseNode node;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: node.buildLayout(),  // ← reads layout prop automatically
+      ),
+    );
+  }
+}
+```
+
+Now users can do:
+
+```tsx
+<myCard layout={{ gap: 8 }}>
+  <text>Title</text>
+  <text>Subtitle</text>
+</myCard>
+```
+
+### How buildLayout() works
+
+- Reads the `layout` prop from the node
+- If there's a `layout` config: wraps children in a Flutter `Flex` widget (Row/Column) with the specified gap, alignment, and justification
+- If there's only one child and no layout config: returns the child directly (no wrapper)
+- This single-child optimization avoids unnecessary layout nodes
+
+### childWidgets vs buildLayout()
+
+- **`node.buildLayout()`** — reads the `layout` prop and applies layout. Use this for anything that should support user-configured layout. This is the recommended default.
+- **`node.childWidgets`** — raw list of child widgets, no layout applied. Use this when you're passing children to a Flutter widget that manages its own layout (like `Navigator` or `Stack`).
+
+## Event callbacks
+
+To support event callbacks from Dart to JS, use `node.function()`:
+
+```dart
+// Returns a callback if the prop was set in JSX, null if not
+final onTap = node.function('onTap');
+
+// Safe to use directly — null means "no handler"
+GestureDetector(
+  onTap: onTap,
+  child: node.buildLayout(),
+)
+```
+
+Under the hood: when you write `onTap={() => doSomething()}` in JSX, the actual function is stored in a JS-side handler map. The Dart prop is just `true` — a marker that a handler exists. When Dart calls the callback, it sends a message back to JS via the bridge, which looks up and executes the real function.
+
+To send data back with the callback:
+
+```dart
+node.function('onChange')?.call(newValue);
+```
+
+## StatefulWidget
+
+Use `StatefulWidget` when your widget needs persistent Dart-side state (animations, text editing, controllers). Flutter preserves `State` across rebuilds because each `FuseNodeWidget` uses `ValueKey(node.id)` — so your state survives prop changes and tree updates.
+
+```dart
+class FuseTextInput extends StatefulWidget {
+  const FuseTextInput({super.key, required this.node});
+  final FuseNode node;
+
+  @override
+  State<FuseTextInput> createState() => _FuseTextInputState();
+}
+
+class _FuseTextInputState extends State<FuseTextInput> {
+  late final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      onChanged: (value) => widget.node.function('onChange')?.call(value),
+    );
+  }
+}
+```
+
+## Where should your widget live?
+
+| Location | When to use | How to register |
+|---|---|---|
+| **In your app** | Domain-specific, uses app-level deps | `runtime.registerWidget(...)` after packages |
+| **In a Fuse package** | Reusable across apps, has its own deps | Via `register()` function + `fuse link` |
+| **In solid-fuse** | Core Flutter primitives any app needs | PR to the framework |
+
+For creating a reusable package, see [Packaging](/docs/extending/packaging).

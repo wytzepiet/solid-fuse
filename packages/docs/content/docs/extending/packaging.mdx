@@ -1,0 +1,123 @@
+---
+title: Packaging & Configuration
+description: Publish Fuse packages and configure your project
+---
+
+## fuse.config.ts
+
+Every Fuse project — whether it's a reusable package or a consumer app — uses a `fuse.config.ts` file.
+
+### Library package config
+
+```ts title="fuse.config.ts"
+import { defineConfig } from "solid-fuse/config";
+
+export default defineConfig({
+  register: "MyPackage",   // Name of the Dart registration function
+});
+```
+
+The `register` field tells `fuse link` the name of the Dart function to call. In this case, the Dart side must export:
+
+```dart title="dart/lib/src/my_package.dart"
+import 'package:solid_fuse/solid_fuse.dart';
+
+void register(FuseRuntime runtime) {
+  runtime.registerWidget('myWidget', MyWidget.new);
+  runtime.registerController('myController', MyController.new);
+  runtime.registerPage('myPage', MyPageType.new);
+}
+```
+
+### App config
+
+Consumer apps can override Vite and Solid plugin settings:
+
+```ts title="fuse.config.ts"
+import { defineConfig } from "solid-fuse/config";
+
+export default defineConfig({
+  vite: {
+    resolve: {
+      alias: { "~": "./src" },
+    },
+  },
+});
+```
+
+Fuse auto-configures the Solid plugin with `generate: "universal"` and `moduleName: "solid-fuse"`, and sets up Vite with an es2020 target and IIFE build output. You only override what you need.
+
+### Config options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `register` | `string` | `"register"` | Name of the Dart registration function |
+| `dart` | `string` | `"dart"` | Path to the Dart/Flutter package directory |
+| `solid` | `object` | `{}` | `vite-plugin-solid` option overrides |
+| `vite` | `object` | `{}` | Vite config overrides |
+
+## How fuse link works
+
+`fuse link` is the glue between npm packages and Dart. Run it from your app directory after installing Fuse packages:
+
+```bash
+fuse link
+```
+
+It does two things:
+
+### 1. Generates pubspec_overrides.yaml
+
+Adds Dart path dependencies for each Fuse package found in `node_modules`:
+
+```yaml title="dart/pubspec_overrides.yaml"
+dependency_overrides:
+  my_fuse_package:
+    path: ../../node_modules/my-fuse-package/dart
+```
+
+### 2. Generates fuse_packages.dart
+
+Creates a Dart file that imports and calls each package's `register` function:
+
+```dart title="dart/lib/_generated/fuse_packages.dart"
+import 'package:solid_fuse/solid_fuse.dart';
+import 'package:my_fuse_package/my_fuse_package.dart';
+
+void registerFusePackages(FuseRuntime runtime) {
+  SolidFuse.register(runtime);        // core package
+  MyPackage.register(runtime);        // your package
+}
+```
+
+The consumer app just calls `registerFusePackages(runtime)` in `main.dart` and everything is wired up.
+
+## Package structure
+
+A typical Fuse package looks like:
+
+```
+my-fuse-package/
+  src/                    # JS source — JSX types, hooks, exports
+    index.ts
+    my-widget.d.ts
+  dart/                   # Dart package
+    lib/
+      src/
+        widgets/          # Widget implementations
+        controllers/       # Controller implementations
+        my_package.dart   # register() function
+      my_fuse_package.dart  # barrel export
+    pubspec.yaml
+  dist/                   # Built JS output
+  fuse.config.ts          # Package config
+  package.json
+```
+
+## CLI commands
+
+| Command | Description |
+|---|---|
+| `fuse dev` | Start Vite dev server + Flutter app with HMR |
+| `fuse build` | Production build (Vite IIFE bundle + Flutter release) |
+| `fuse link` | Scan packages, generate Dart glue code |

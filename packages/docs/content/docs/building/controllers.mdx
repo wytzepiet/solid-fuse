@@ -1,0 +1,66 @@
+---
+title: Controllers
+description: Programmatic control with scroll controllers
+---
+
+Some Flutter patterns are imperative — you can't express "scroll to offset 500" or "focus this input" as a prop. Controllers bridge this gap.
+
+## ScrollController
+
+The built-in `createScrollController` lets you control scroll position and read it reactively:
+
+```tsx
+import { createScrollController } from "solid-fuse";
+
+function ScrollableList() {
+  const ctrl = createScrollController();
+
+  return (
+    <view layout={{ expand: true }}>
+      <view layout={{ direction: "horizontal", gap: 8 }} padding={8}>
+        <gestureDetector onTap={() => ctrl.animateTo(0, { duration: 300 })}>
+          <view padding={8} decoration={{ color: "blue", borderRadius: 4 }}>
+            <text color="white">Top</text>
+          </view>
+        </gestureDetector>
+        <text>Offset: {Math.round(ctrl.scrollOffset())}</text>
+      </view>
+
+      <scrollView controller={ctrl} layout={{ expand: true }}>
+        <view layout={{ gap: 4 }} padding={16}>
+          <For each={Array.from({ length: 100 }, (_, i) => i)}>
+            {(i) => <text>Item {i}</text>}
+          </For>
+        </view>
+      </scrollView>
+    </view>
+  );
+}
+```
+
+### API
+
+| Method | Description |
+|---|---|
+| `ctrl.scrollTo(offset)` | Jump to position immediately |
+| `ctrl.animateTo(offset, { duration? })` | Smooth scroll to position (duration in ms, default 300) |
+| `ctrl.jumpTo(offset)` | Jump to position (alias for `scrollTo`) |
+| `ctrl.scrollOffset()` | Reactive signal — current scroll position, updates as user scrolls |
+
+### Initial offset
+
+```tsx
+const ctrl = createScrollController({ initialScrollOffset: 200 });
+```
+
+## How controllers work
+
+Under the hood, `createScrollController` uses the controller system:
+
+1. It calls `createController("scrollController", opts)` which creates a native Dart `ScrollController`.
+2. When you pass `controller={ctrl}` to `<scrollView>`, Fuse automatically resolves the reference — the Dart widget receives the real `ScrollController` object.
+3. `scrollOffset()` is a reactive signal. It's **lazy** — no bridge traffic occurs until you actually read it in a reactive context (like a JSX expression or an effect). The Dart side pushes offset updates only when the signal has been subscribed to.
+
+## Building your own
+
+You can create controllers for any native Dart object — animation controllers, focus nodes, text editing controllers, etc. See [Creating Controllers](/docs/extending/creating-controllers) for how to build your own.

@@ -1,0 +1,85 @@
+---
+title: Communicating with Dart
+description: Send messages between JS and Dart with channels
+---
+
+Channels are a simple messaging system for communication outside the widget tree. Use them for analytics, auth, native API calls, background tasks — anything that doesn't map to a widget or controller.
+
+## Sending messages to Dart
+
+```tsx
+import { send } from "solid-fuse";
+
+send("analytics", { event: "page_view", page: "home" });
+```
+
+On the Dart side, register a handler:
+
+```dart
+runtime.channels.on('analytics', (data) {
+  Analytics.track(data['event'], data['page']);
+});
+```
+
+## Receiving messages from Dart
+
+```tsx
+import { on } from "solid-fuse";
+
+on("auth:token", (data) => {
+  setToken(data.token);
+});
+```
+
+The Dart side sends:
+
+```dart
+await runtime.channels.send('auth:token', {'token': jwt});
+```
+
+## Complete example: auth flow
+
+```tsx title="JS side"
+import { createSignal } from "solid-js";
+import { send, on } from "solid-fuse";
+
+const [token, setToken] = createSignal<string | null>(null);
+const [error, setError] = createSignal<string | null>(null);
+
+// Listen for auth responses
+on("auth:success", (data) => setToken(data.token));
+on("auth:error", (data) => setError(data.message));
+
+function login(email: string, password: string) {
+  send("auth:login", { email, password });
+}
+```
+
+```dart title="Dart side"
+runtime.channels.on('auth:login', (data) async {
+  try {
+    final token = await AuthService.login(
+      data['email'] as String,
+      data['password'] as String,
+    );
+    runtime.channels.send('auth:success', {'token': token});
+  } catch (e) {
+    runtime.channels.send('auth:error', {'message': e.toString()});
+  }
+});
+```
+
+## Channels vs controllers
+
+| | Channels | Controllers |
+|---|---|---|
+| **Pattern** | Fire-and-forget messages | Persistent object with state |
+| **Lifecycle** | Global, no cleanup needed | Tied to component lifecycle |
+| **State** | No built-in reactivity | Reactive signals (e.g. `scrollOffset()`) |
+| **Use for** | Events, one-off requests | Ongoing imperative control |
+
+Use channels when you need to send a message. Use controllers when you need a persistent native object you can call methods on and read state from.
+
+## Reserved channels
+
+Channel names starting with `_` are reserved for Fuse internals (`_ops`, `_functionCall`, `_ws`). Use your own names for app channels.

@@ -1,0 +1,78 @@
+---
+title: Architecture
+description: How JSX becomes Flutter widgets
+---
+
+This page explains how Fuse works under the hood. It's useful context but not required reading — you can start building without it.
+
+## The pipeline
+
+```
+SolidJS JSX → custom renderer → ops journal → bridge_call → Dart → Flutter widgets
+```
+
+1. **SolidJS JSX** — Your components use intrinsic elements like `<view>` and `<text>`. The Solid compiler transforms JSX into renderer calls.
+
+2. **Custom renderer** — Fuse uses `@solidjs/universal` to create a virtual tree of nodes instead of DOM elements. Each node has an ID, type, props, and children.
+
+3. **Ops journal** — Every mutation (create a node, set a prop, insert a child) is recorded as an operation. Operations are batched — all reactive updates within a single flush produce one ops list.
+
+4. **`bridge_call`** — The batched ops list is sent to Dart in a single FFI call via QuickJS's bridge mechanism.
+
+5. **Dart runtime** — `FuseRuntime` applies the ops: creates nodes, sets props, inserts children, and marks dirty nodes. Each node is a `ChangeNotifier` — Flutter's `ListenableBuilder` picks up changes and rebuilds only the affected widgets.
+
+## Operations
+
+The ops journal supports these operation types:
+
+| Op | What it does |
+|---|---|
+| `create` | Instantiate a new node with a type and initial props |
+| `setText` | Update text content |
+| `setProp` | Set or update a property on a node |
+| `insert` | Add a child node at a specific index |
+| `remove` | Remove a child node |
+| `call` | Invoke a method on a controller (imperative) |
+| `dispose` | Clean up a node and its resources |
+
+Ops are batched and flushed together. This means setting 10 props on a widget produces one bridge call, not ten.
+
+## Events flow back
+
+Events are the reverse path — from Flutter to JS:
+
+```
+Flutter gesture → callFunction(nodeId, name, value) → JS handler → signal update → new ops → flush
+```
+
+When you write `onTap={() => setCount(c => c + 1)}`, Fuse stores the function in a JS-side handler map. The Dart widget sees the prop as `true` (a marker that a handler exists). When the Flutter `GestureDetector` fires, it calls back into JS with the node ID and event name. JS looks up the handler, calls it, the signal updates, Solid re-runs effects, new ops are produced, and they flush back to Dart.
+
+The loop is automatic — you just write reactive code.
+
+## Dev vs production
+
+**Development mode** — `fuse dev` starts a Vite dev server. The Dart runtime connects via WebSocket, pre-fetches ES modules, and evaluates them in QuickJS. Hot module replacement (HMR) works: edit a component, save, and it updates on-device without restarting Flutter.
+
+**Production mode** — `fuse build` produces a single IIFE bundle. The Dart runtime loads it from Flutter assets and evaluates it directly in QuickJS, with optional bytecode caching for faster startup.
+
+## Three registration types
+
+Fuse has three ways to register Dart-side implementations:
+
+| Method | Purpose | Creates |
+|---|---|---|
+| `registerWidget(name, builder)` | Visual elements | `StatelessWidget` / `StatefulWidget` with `FuseNode` |
+| `registerController(name, factory)` | Imperative controllers | `FuseController<T>` wrapping native Dart objects |
+| `registerPage(name, factory)` | Navigator page types | `FusePage` producing Flutter `Page` objects |
+
+Widgets map to JSX elements (`<view>`, `<text>`). Controllers create persistent native objects you can call methods on from JS (like `ScrollController`). Pages define content and transitions for navigation.
+
+All three are registered the same way — in a package's `register` function or directly on the runtime:
+
+```dart
+void register(FuseRuntime runtime) {
+  runtime.registerWidget('view', FuseViewWidget.new);
+  runtime.registerController('scrollController', FuseScrollController.new);
+  runtime.registerPage('materialPage', FuseMaterialPage.new);
+}
+```

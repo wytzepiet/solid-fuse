@@ -1,4 +1,4 @@
-import 'handles/scroll_controller_handle.dart';
+import 'controllers/scroll_controller.dart';
 import 'routes/material_page.dart';
 import 'widgets/gesture_detector.dart';
 import 'widgets/navigator.dart';
@@ -22,8 +22,8 @@ void register(FuseRuntime runtime) {
   runtime.registerWidget('stack', FuseStack.new);
   runtime.registerWidget('positioned', FusePositioned.new);
 
-  // Handles
-  runtime.registerHandle('scrollController', ScrollControllerHandle.new);
+  // Controllers
+  runtime.registerController('scrollController', FuseScrollController.new);
 
   // Pages
   runtime.registerPage('materialPage', FuseMaterialPage.new);

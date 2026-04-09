@@ -83,11 +83,11 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// The native Dart object exposed via `_ref` resolution (e.g. ScrollController).
   Object? nativeObject;
 
-  /// The FuseHandle instance for this node, if it's a handle type.
-  /// Stored as Object to avoid circular import with fuse_handle.dart.
-  Object? handle;
+  /// The FuseController instance for this node, if it's a controller type.
+  /// Stored as Object to avoid circular import with fuse_controller.dart.
+  Object? controller;
 
-  /// Custom dispose callback, set by the runtime for handle cleanup.
+  /// Custom dispose callback, set by the runtime for controller cleanup.
   void Function()? onDispose;
 
   final List<FuseNode> children = [];
@@ -101,14 +101,14 @@ class FuseNode extends FuseMap with ChangeNotifier {
         .toList();
   }
 
-  Widget buildChildren() {
-    final flex = map('flex');
+  Widget buildLayout() {
+    final layout = map('layout');
 
-    final direction = flex?.string('direction');
+    final direction = layout?.string('direction');
     final isHorizontal = direction == 'horizontal';
-    final gap = flex?.double('gap') ?? 0;
-    final align = flex?.string('align');
-    final justify = flex?.string('justify');
+    final gap = layout?.double('gap') ?? 0;
+    final align = layout?.string('align');
+    final justify = layout?.string('justify');
 
     final crossAxis = switch (align) {
       'center' => CrossAxisAlignment.center,
@@ -126,7 +126,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
       _ => MainAxisAlignment.start,
     };
 
-    final expand = flex?.bool('expand');
+    final expand = layout?.bool('expand');
     final mainAxisSize = (expand ?? (justify != null && justify != 'start'))
         ? MainAxisSize.max
         : MainAxisSize.min;

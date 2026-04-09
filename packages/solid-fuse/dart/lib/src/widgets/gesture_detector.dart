@@ -233,7 +233,7 @@ class FuseGestureDetector extends StatelessWidget {
       trackpadScrollCausesScale: node.bool('trackpadScrollCausesScale') ?? false,
       trackpadScrollToScaleFactor: node.offset('trackpadScrollToScaleFactor') ?? kDefaultTrackpadScrollToScaleFactor,
       supportedDevices: _parseSupportedDevices(),
-      child: node.buildChildren(),
+      child: node.buildLayout(),
     );
   }
 }

@@ -1,0 +1,211 @@
+---
+title: Creating Controllers
+description: Build imperative Dart objects accessible from JS
+---
+
+Controllers create persistent native Dart objects (controllers, managers, connections) that JS can call methods on and receive state updates from. Use them when you need imperative control that doesn't fit into the declarative widget model.
+
+## When to create a controller
+
+- You need a Dart object that persists across renders (ScrollController, FocusNode, AnimationController)
+- JS needs to call methods on it (`scrollTo`, `requestFocus`, `forward`)
+- Dart needs to push state back to JS reactively (`scrollOffset`, `hasFocus`, `animationValue`)
+
+## JS side: createController
+
+`createController(type, props)` creates a controller and returns three tools:
+
+```tsx
+import { createController } from "solid-fuse";
+
+export function createFocusNode() {
+  const { _ref, call, state } = createController("focusNode", {});
+
+  return {
+    _ref,                                    // pass to widgets via props
+    focus: () => call("focus"),              // imperative commands
+    unfocus: () => call("unfocus"),
+    hasFocus: state("hasFocus", false),      // reactive signal
+  };
+}
+```
+
+### _ref
+
+An opaque numeric ID. Include it in the returned object so consumers can pass it to widgets that need the native object:
+
+```tsx
+const focus = createFocusNode();
+<textInput focusNode={focus} />   // Dart resolves _ref to the native FocusNode
+```
+
+### call(method, value?)
+
+Sends an imperative command to the Dart controller. The Dart `call()` method receives the method name and optional value:
+
+```tsx
+call("animateTo", { offset: 500, duration: 300 });
+```
+
+### state(name, initialValue)
+
+Returns a Solid signal getter that Dart can push updates to. **Lazy** — no bridge traffic until the signal is actually read in a reactive context:
+
+```tsx
+const hasFocus = state("hasFocus", false);
+
+// In JSX — subscribes, now Dart will push updates
+<text>{hasFocus() ? "Focused" : "Blurred"}</text>
+
+// In an effect — also subscribes
+createEffect(() => {
+  if (hasFocus()) console.log("Input focused");
+});
+```
+
+The first time the signal is read, it registers a setter on the Dart side. Subsequent reads just return the current value.
+
+## Dart side: FuseController\<T\>
+
+Implement `FuseController<T>` where `T` is the native Dart type:
+
+```dart title="dart/lib/src/controllers/focus_node.dart"
+import 'package:flutter/widgets.dart';
+import 'package:solid_fuse/solid_fuse.dart';
+
+class FuseFocusNode extends FuseController<FocusNode> {
+  FuseFocusNode(super.node);
+
+  @override
+  FocusNode create() {
+    final focusNode = FocusNode();
+    focusNode.addListener(() {
+      setState('hasFocus', focusNode.hasFocus);
+    });
+    return focusNode;
+  }
+
+  @override
+  void call(FocusNode object, String method, dynamic value) {
+    switch (method) {
+      case 'focus':
+        object.requestFocus();
+      case 'unfocus':
+        object.unfocus();
+    }
+  }
+
+  @override
+  void dispose(FocusNode object) => object.dispose();
+}
+```
+
+### create()
+
+Returns the native Dart object. This is what gets stored on the node and exposed via `_ref` resolution. Attach listeners here to push state updates to JS via `setState()`.
+
+Props passed to `createController()` are available on `node` (e.g., `node.double('initialScrollOffset')`). Props are immutable after creation — all post-creation interaction goes through `call()`.
+
+### call(object, method, value)
+
+Handles imperative commands from JS. The `object` parameter is the native Dart object returned by `create()`.
+
+### setState(name, value)
+
+Pushes a state update to the JS signal created by `controller.state()`. The signal updates reactively — any JSX expression or effect reading it will re-run.
+
+### dispose(object)
+
+Called when the JS node is cleaned up. Dispose native resources here.
+
+## How \_ref resolution works
+
+When JS sets a widget prop to an object containing `_ref` (like `<scrollView controller={ctrl}>`), the Dart runtime automatically resolves it:
+
+1. Looks up the node by the `_ref` ID
+2. If the node has a `nativeObject` (created by the controller's `create()`), the prop value becomes that native object
+3. So `controller={ctrl}` in JSX becomes a real `ScrollController` in Dart — no manual plumbing
+
+This is why you can pass a controller to any widget prop and it "just works."
+
+## Cleanup
+
+Controllers created inside a Solid reactive context (inside a component or `createRoot`) automatically dispose when the owner is cleaned up:
+
+```tsx
+function MyComponent() {
+  const ctrl = createScrollController(); // auto-disposes when component unmounts
+  return <scrollView controller={ctrl} />;
+}
+```
+
+<Callout type="warn">
+Controllers created **outside** a reactive context (module-level, manual scripts) won't auto-dispose. You'll need to handle cleanup manually if the controller manages resources.
+</Callout>
+
+## Registration
+
+```dart
+runtime.registerController('focusNode', FuseFocusNode.new);
+```
+
+The lifecycle: on `create` op, the runtime instantiates the controller, calls `create()`, stores the native object on the node. On `call` op, delegates to `controller.call()`. On `dispose` op, calls `controller.dispose()`.
+
+## ScrollController: the complete example
+
+The built-in `ScrollController` is a good reference for the full pattern:
+
+```tsx title="JS — scroll-controller.ts"
+import { createController } from "./controller";
+
+export function createScrollController(
+  opts: { initialScrollOffset?: number } = {},
+) {
+  const { _ref, call, state } = createController("scrollController", opts);
+  return {
+    _ref,
+    scrollTo: (offset: number) => call("scrollTo", offset),
+    animateTo: (offset: number, opts?: { duration?: number }) =>
+      call("animateTo", { offset, ...opts }),
+    jumpTo: (offset: number) => call("jumpTo", offset),
+    scrollOffset: state<number>("scrollOffset", 0),
+  };
+}
+```
+
+```dart title="Dart — scroll_controller.dart"
+class FuseScrollController extends FuseController<ScrollController> {
+  FuseScrollController(super.node);
+
+  @override
+  ScrollController create() {
+    final controller = ScrollController(
+      initialScrollOffset: node.double('initialScrollOffset') ?? 0,
+    );
+    controller.addListener(() {
+      setState('scrollOffset', controller.offset);
+    });
+    return controller;
+  }
+
+  @override
+  void call(ScrollController object, String method, dynamic value) {
+    switch (method) {
+      case 'scrollTo':
+        object.jumpTo((value as num).toDouble());
+      case 'animateTo':
+        final map = FuseMap.from(value)!;
+        object.animateTo(
+          map.double('offset') ?? 0,
+          duration: Duration(milliseconds: map.int('duration') ?? 300),
+          curve: Curves.easeInOut,
+        );
+      case 'jumpTo':
+        object.jumpTo((value as num).toDouble());
+    }
+  }
+
+  @override
+  void dispose(ScrollController object) => object.dispose();
+}
+```

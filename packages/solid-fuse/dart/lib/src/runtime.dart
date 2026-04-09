@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'connection.dart';
 import 'dev_connection.dart';
-import 'fuse_handle.dart';
+import 'fuse_controller.dart';
 import 'fuse_page.dart';
 import 'quickjs_connection.dart';
 import 'node.dart';
@@ -33,7 +33,7 @@ class FuseRuntime {
   FuseConnection? _connection;
 
   final Map<String, FuseWidgetBuilder> _registry = {};
-  final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
+  final Map<String, FuseController Function(FuseNode node)> _controllerFactories = {};
   final Map<String, FusePage Function(FuseNode node)> _pageFactories = {};
   late final FuseNodeRegistry registry;
 
@@ -54,9 +54,9 @@ class FuseRuntime {
     _registry[type] = builder;
   }
 
-  /// Register a handle type (non-widget node, e.g. controllers).
-  void registerHandle(String type, FuseHandle Function(FuseNode node) factory) {
-    _handleFactories[type] = factory;
+  /// Register a controller type (non-widget node, e.g. scroll controllers).
+  void registerController(String type, FuseController Function(FuseNode node) factory) {
+    _controllerFactories[type] = factory;
   }
 
   /// Register a page type for use as navigator children.
@@ -142,13 +142,13 @@ class FuseRuntime {
             type,
             Map<String, dynamic>.from(map['props'] as Map),
           );
-          final handleFactory = _handleFactories[type];
-          if (handleFactory != null) {
-            final handle = handleFactory(node);
-            final obj = handle.create();
+          final controllerFactory = _controllerFactories[type];
+          if (controllerFactory != null) {
+            final controller = controllerFactory(node);
+            final obj = controller.create();
             node.nativeObject = obj;
-            node.handle = handle;
-            node.onDispose = () => handle.dispose(obj);
+            node.controller = controller;
+            node.onDispose = () => controller.dispose(obj);
           }
         case 'setText':
           final node = registry.get(map['id'] as int);
@@ -158,7 +158,7 @@ class FuseRuntime {
         case 'setProp':
           final node = registry.get(map['id'] as int);
           var value = map['value'];
-          // Resolve handle references
+          // Resolve controller references
           if (value is Map && value.containsKey('_ref')) {
             final refNode = registry.get(value['_ref'] as int);
             value = refNode.nativeObject ?? refNode;
@@ -178,9 +178,9 @@ class FuseRuntime {
           _removeSubtree(child, dirty);
         case 'call':
           final node = registry.get(map['id'] as int);
-          final handle = node.handle as FuseHandle?;
-          if (handle != null && node.nativeObject != null) {
-            handle.call(node.nativeObject as dynamic, map['method'] as String, map['value']);
+          final controller = node.controller as FuseController?;
+          if (controller != null && node.nativeObject != null) {
+            controller.call(node.nativeObject as dynamic, map['method'] as String, map['value']);
           }
         case 'dispose':
           registry.remove(map['id'] as int);
@@ -205,7 +205,7 @@ class FuseRuntime {
 
   /// Build a Flutter widget for a single FuseNode.
   Widget buildWidgetForNode(FuseNode node) {
-    if (node.type == 'root') return node.buildChildren();
+    if (node.type == 'root') return node.buildLayout();
 
     if (node.type == '__text__') {
       return Text(node.props['text']?.toString() ?? '');

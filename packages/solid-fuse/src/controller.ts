@@ -1,7 +1,7 @@
 import { makeNode, setProp as rawSetProp, scheduleFlush, ops } from "./renderer";
 import { onCleanup, getOwner, createSignal } from "solid-js";
 
-export function createHandle(type: string, props: Record<string, any> = {}) {
+export function createController(type: string, props: Record<string, any> = {}) {
   const node = makeNode(type);
   Object.assign(node.props, props);
   ops.push({ op: "create", id: node.props._id, type, props: { _id: node.props._id, ...props } });

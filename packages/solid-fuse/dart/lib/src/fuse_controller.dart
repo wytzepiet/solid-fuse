@@ -1,7 +1,7 @@
 import 'node.dart';
 
-abstract class FuseHandle<T> {
-  FuseHandle(this.node);
+abstract class FuseController<T> {
+  FuseController(this.node);
 
   final FuseNode node;
 

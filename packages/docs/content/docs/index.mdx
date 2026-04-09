@@ -1,0 +1,67 @@
+---
+title: What is Fuse?
+description: SolidJS 2.0 inside Flutter, rendering native widgets
+---
+
+Fuse lets you write your UI in [SolidJS](https://www.solidjs.com/) and render native Flutter widgets. It's not a webview — your JSX compiles to real Flutter layout, gestures, and navigation via an embedded JavaScript engine ([QuickJS](https://bellard.org/quickjs/)).
+
+Signals update widget props. Flutter rebuilds. Events flow back as function calls. The reactive loop is seamless.
+
+## Quick taste
+
+A counter app — the JS component and the Dart entry point that boots it:
+
+```tsx title="App.tsx"
+import { createSignal } from "solid-js";
+
+export default function App() {
+  const [count, setCount] = createSignal(0);
+
+  return (
+    <view
+      layout={{ align: "center", justify: "center", expand: true }}
+      padding={24}
+    >
+      <text fontSize={48} fontWeight="bold">
+        {count()}
+      </text>
+      <gestureDetector onTap={() => setCount((c) => c + 1)}>
+        <view
+          padding={{ horizontal: 24, vertical: 12 }}
+          decoration={{ color: "blue", borderRadius: 8 }}
+        >
+          <text color="white" fontSize={16}>
+            Tap me
+          </text>
+        </view>
+      </gestureDetector>
+    </view>
+  );
+}
+```
+
+```dart title="dart/lib/main.dart"
+import 'package:flutter/material.dart';
+import 'package:solid_fuse/solid_fuse.dart';
+import '_generated/fuse_packages.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final runtime = await FuseRuntime.create();
+  registerFusePackages(runtime);
+
+  runApp(MaterialApp(home: FuseView(runtime: runtime)));
+}
+```
+
+That's the entire app. `fuse dev` starts both Vite and Flutter — hot module replacement included.
+
+## What's next
+
+<Cards>
+  <Card title="Getting Started" href="/docs/getting-started" description="Set up your first Fuse project" />
+  <Card title="UI & Layout" href="/docs/building/ui-and-layout" description="Build interfaces with views, text, and layout" />
+  <Card title="Creating Widgets" href="/docs/extending/creating-widgets" description="Add your own Flutter widgets to Fuse" />
+  <Card title="Architecture" href="/docs/architecture" description="How the pipeline works under the hood" />
+</Cards>
