@@ -17,7 +17,6 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   final _observer = _FuseNavObserver();
   bool _jsInitiatedPop = false;
-  Widget? _cachedNavigator;
   FuseRuntime? _runtime;
 
   @override
@@ -27,17 +26,6 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
     _runtime = FuseRuntimeScope.of(context);
     _runtime!.registerNavCallback(widget.node.id, _handleNavCommand);
     _observer.onDidPop = _onRoutePop;
-
-    final firstChild = widget.node.children.firstOrNull;
-    if (firstChild != null) {
-      _cachedNavigator = Navigator(
-        key: _navigatorKey,
-        observers: [_observer],
-        onGenerateRoute: (_) => MaterialPageRoute(
-          builder: (_) => FuseNodeWidget(node: firstChild),
-        ),
-      );
-    }
   }
 
   void _handleNavCommand(String op) {
@@ -66,13 +54,20 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       _jsInitiatedPop = false;
       return;
     }
-    // System-initiated pop (back button / swipe) — notify JS to sync stack
     widget.node.function('onPopPage')?.call();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _cachedNavigator ?? const SizedBox.shrink();
+    final firstChild = widget.node.children.firstOrNull;
+    if (firstChild == null) return const SizedBox.shrink();
+    return Navigator(
+      key: _navigatorKey,
+      observers: [_observer],
+      onGenerateRoute: (_) => MaterialPageRoute(
+        builder: (_) => FuseNodeWidget(node: firstChild),
+      ),
+    );
   }
 
   @override

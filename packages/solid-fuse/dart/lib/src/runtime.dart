@@ -33,7 +33,6 @@ class FuseRuntime {
 
   final Map<String, FuseWidgetBuilder> _registry = {};
   final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
-  final Set<String> _noUpdateTypes = {};
   late final FuseNodeRegistry registry;
   final Map<int, void Function(String op)> _navCallbacks = {};
 
@@ -49,24 +48,15 @@ class FuseRuntime {
     return runtime;
   }
 
-  /// Register a widget type. Set [updateOnNodeChange] to false for widgets that
-  /// manage their own state and should not rebuild when the node notifies listeners.
-  void registerWidget(
-    String type,
-    FuseWidgetBuilder builder, {
-    bool updateOnNodeChange = true,
-  }) {
+  /// Register a widget type.
+  void registerWidget(String type, FuseWidgetBuilder builder) {
     _registry[type] = builder;
-    if (!updateOnNodeChange) _noUpdateTypes.add(type);
   }
 
   /// Register a handle type (non-widget node, e.g. controllers).
   void registerHandle(String type, FuseHandle Function(FuseNode node) factory) {
     _handleFactories[type] = factory;
   }
-
-  /// Whether a node type should rebuild when its node changes.
-  bool updatesOnNodeChange(String type) => !_noUpdateTypes.contains(type);
 
   /// Register a nav callback so bridge 'nav' messages reach the widget.
   void registerNavCallback(int nodeId, void Function(String op) callback) {

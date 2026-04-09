@@ -16,11 +16,7 @@ void register(FuseRuntime runtime) {
   runtime.registerWidget('view', FuseViewWidget.new);
   runtime.registerWidget('text', FuseText.new);
   runtime.registerWidget('gestureDetector', FuseGestureDetector.new);
-  runtime.registerWidget(
-    'navigator',
-    FuseNavigatorWidget.new,
-    updateOnNodeChange: false,
-  );
+  runtime.registerWidget('navigator', FuseNavigatorWidget.new);
   runtime.registerWidget('scrollView', FuseScrollView.new);
   runtime.registerWidget('stack', FuseStack.new);
   runtime.registerWidget('positioned', FusePositioned.new);

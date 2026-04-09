@@ -16,9 +16,6 @@ class FuseNodeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final runtime = FuseRuntimeScope.of(context);
-    if (!runtime.updatesOnNodeChange(node.type)) {
-      return runtime.buildWidgetForNode(node);
-    }
     return ListenableBuilder(
       listenable: node,
       builder: (context, _) => runtime.buildWidgetForNode(node),
