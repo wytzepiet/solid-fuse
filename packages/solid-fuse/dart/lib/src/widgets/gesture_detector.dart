@@ -228,9 +228,9 @@ class FuseGestureDetector extends StatelessWidget {
       onScaleEnd: _scaleEnd('onScaleEnd'),
       // Config
       behavior: _parseBehavior(),
-      excludeFromSemantics: node.bool('excludeFromSemantics'),
+      excludeFromSemantics: node.bool('excludeFromSemantics') ?? false,
       dragStartBehavior: _parseDragStartBehavior(),
-      trackpadScrollCausesScale: node.bool('trackpadScrollCausesScale'),
+      trackpadScrollCausesScale: node.bool('trackpadScrollCausesScale') ?? false,
       trackpadScrollToScaleFactor: node.offset('trackpadScrollToScaleFactor') ?? kDefaultTrackpadScrollToScaleFactor,
       supportedDevices: _parseSupportedDevices(),
       child: node.buildChildren(),

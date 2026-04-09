@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'connection.dart';
 import 'dev_connection.dart';
 import 'fuse_handle.dart';
+import 'fuse_page.dart';
 import 'quickjs_connection.dart';
 import 'node.dart';
 
@@ -33,8 +34,8 @@ class FuseRuntime {
 
   final Map<String, FuseWidgetBuilder> _registry = {};
   final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
+  final Map<String, FusePage Function(FuseNode node)> _pageFactories = {};
   late final FuseNodeRegistry registry;
-  final Map<int, void Function(String op)> _navCallbacks = {};
 
   /// Creates and initializes a FuseRuntime. Connects to the dev server
   /// (debug mode) or loads the QuickJS bundle (release mode).
@@ -58,19 +59,14 @@ class FuseRuntime {
     _handleFactories[type] = factory;
   }
 
-  /// Register a nav callback so bridge 'nav' messages reach the widget.
-  void registerNavCallback(int nodeId, void Function(String op) callback) {
-    _navCallbacks[nodeId] = callback;
+  /// Register a page type for use as navigator children.
+  void registerPage(String type, FusePage Function(FuseNode node) factory) {
+    _pageFactories[type] = factory;
   }
 
-  /// Unregister a nav callback.
-  void unregisterNavCallback(int nodeId) {
-    _navCallbacks.remove(nodeId);
-  }
-
-  /// Dispatch a navigation command to the registered navigator widget.
-  void handleNavCommand(int navigatorId, String op) {
-    _navCallbacks[navigatorId]?.call(op);
+  /// Build a [Page] for a node, or null if it's not a registered page.
+  Page? buildPageForNode(FuseNode node) {
+    return _pageFactories[node.type]?.call(node).build();
   }
 
   /// Initialize the runtime. In debug mode, tries dev server first (pre-fetches
@@ -105,18 +101,16 @@ class FuseRuntime {
     await qjs.start();
   }
 
-  /// Register runtime-level channel handlers (ops, nav).
+  /// Register runtime-level channel handlers.
   void _registerChannels() {
     final channels = _connection!.channels!;
     channels.on('_ops', (data) {
       try {
-        applyOps(data['ops'] as List<dynamic>);
-      } catch (e) {
-        debugPrint('[Fuse] ops error: $e');
+        final opsList = data['ops'] as List<dynamic>;
+        applyOps(opsList);
+      } catch (e, st) {
+        debugPrint('[Fuse] ops error: $e\n$st');
       }
-    });
-    channels.on('_nav', (data) {
-      handleNavCommand(data['navigatorId'] as int, data['op'] as String);
     });
   }
 

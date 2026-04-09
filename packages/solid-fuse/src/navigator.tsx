@@ -1,7 +1,5 @@
 import { createContext, useContext, createSignal, For } from "solid-js";
 import { flushOps } from "~/renderer";
-import { send } from "~/channels";
-import type { FuseNode } from "~/renderer";
 
 type PageFactory = () => any;
 
@@ -16,19 +14,16 @@ const NavigatorContext = createContext<NavigatorAPI>();
 
 export function Navigator(props: { defaultPage: PageFactory }) {
   const [stack, setStack] = createSignal<PageFactory[]>([props.defaultPage]);
-  let el!: FuseNode;
 
   const api: NavigatorAPI = {
     push(factory) {
       setStack((prev) => [...prev, factory]);
       flushOps();
-      send("_nav", { op: "push", navigatorId: el.props._id });
     },
     pop() {
       if (stack().length <= 1) return;
       setStack((prev) => prev.slice(0, -1));
       flushOps();
-      send("_nav", { op: "pop", navigatorId: el.props._id });
     },
     replace(factory) {
       setStack((prev) => {
@@ -36,7 +31,6 @@ export function Navigator(props: { defaultPage: PageFactory }) {
         return [...next, factory];
       });
       flushOps();
-      send("_nav", { op: "replace", navigatorId: el.props._id });
     },
     stackSize: () => stack().length,
   };
@@ -44,14 +38,11 @@ export function Navigator(props: { defaultPage: PageFactory }) {
   return (
     <NavigatorContext value={api}>
       <navigator
-        ref={el}
         onPopPage={() => {
           setStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
         }}
       >
-        <For each={stack()}>
-          {(factory) => factory()()}
-        </For>
+        <For each={stack()}>{(factory) => factory()()}</For>
       </navigator>
     </NavigatorContext>
   );

@@ -43,8 +43,8 @@ class FuseViewWidget extends StatelessWidget {
 
     // Visibility & interaction
     final opacity = node.double('opacity');
-    final visible = node.bool('visible', true);
-    final ignorePointer = node.bool('ignorePointer');
+    final visible = node.bool('visible') ?? true;
+    final ignorePointer = node.bool('ignorePointer') ?? false;
 
     // ── Layer 1: Flex or single child ──────────────────────────────────────
 

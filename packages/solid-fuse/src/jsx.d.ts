@@ -3,6 +3,7 @@ import type {
   TextProps,
   GestureDetectorProps,
   NavigatorProps,
+  MaterialPageProps,
   ScrollViewProps,
   StackProps,
   PositionedProps,
@@ -22,6 +23,7 @@ declare global {
       text: TextProps;
       gestureDetector: GestureDetectorProps;
       navigator: NavigatorProps;
+      materialPage: MaterialPageProps;
       scrollView: ScrollViewProps;
       stack: StackProps;
       positioned: PositionedProps;

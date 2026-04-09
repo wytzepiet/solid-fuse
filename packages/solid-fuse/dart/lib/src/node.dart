@@ -28,8 +28,7 @@ class FuseMap {
       _data[key] is num ? (_data[key] as num).toDouble() : null;
   core.int? int(String key) =>
       _data[key] is num ? (_data[key] as num).toInt() : null;
-  core.bool bool(String key, [core.bool defaultValue = false]) =>
-      _data[key] as core.bool? ?? defaultValue;
+  core.bool? bool(String key) => _data[key] as core.bool?;
   String? string(String key) => _data[key] as String?;
   List<T>? list<T>(String key) => (_data[key] as List?)?.cast<T>();
   FuseMap? map(String key) => _data[key] is Map

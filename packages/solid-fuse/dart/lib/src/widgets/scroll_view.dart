@@ -13,7 +13,7 @@ class FuseScrollView extends StatelessWidget {
     final scrollDirection = node.string('scrollDirection');
     final flexDirection = node.map('flex')?.string('direction');
     final physics = node.string('physics');
-    final reverse = node.bool('reverse');
+    final reverse = node.bool('reverse') ?? false;
     final primary = node.props['primary'] as bool?;
     final restorationId = node.string('restorationId');
 

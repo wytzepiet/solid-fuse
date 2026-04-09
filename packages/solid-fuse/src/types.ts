@@ -337,6 +337,12 @@ export interface ScrollViewProps extends BaseProps {
   controller?: import("./scroll-controller").ScrollController;
 }
 
+export interface MaterialPageProps extends BaseProps {
+  fullscreenDialog?: boolean;
+  maintainState?: boolean;
+  flex?: FlexInput;
+}
+
 export interface StackProps extends BaseProps {
   alignment?: AlignmentString;
   textDirection?: "ltr" | "rtl";
