@@ -29,18 +29,16 @@
     "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts"
   },
   "peerDependencies": {
-    "solid-js": "^2.0.0-beta.4"
+    "solid-js": "^2.0.0-beta.5"
   },
   "dependencies": {
-    "@solidjs/universal": "^2.0.0-beta.4",
+    "@solidjs/universal": "^2.0.0-beta.5",
     "citty": "^0.1.6",
     "defu": "^6.1.6",
     "vite": "^8.0.0",
-    "vite-plugin-solid": "^3.0.0-next.0"
+    "vite-plugin-solid": "^3.0.0-next.4"
   },
   "devDependencies": {
-    "typescript": "^5.9.3",
-    "vite": "^8.0.1",
-    "vite-plugin-solid": "^3.0.0-next.4"
+    "typescript": "^5.9.3"
   }
 }
