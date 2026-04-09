@@ -81,8 +81,12 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// The raw props map.
   Map<String, dynamic> get props => _data;
 
-  /// The native Dart object for non-widget nodes (handles).
+  /// The native Dart object exposed via `_ref` resolution (e.g. ScrollController).
   Object? nativeObject;
+
+  /// The FuseHandle instance for this node, if it's a handle type.
+  /// Stored as Object to avoid circular import with fuse_handle.dart.
+  Object? handle;
 
   /// Custom dispose callback, set by the runtime for handle cleanup.
   void Function()? onDispose;

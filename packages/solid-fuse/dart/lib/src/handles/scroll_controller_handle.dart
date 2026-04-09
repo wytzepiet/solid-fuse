@@ -16,6 +16,9 @@ class ScrollControllerHandle extends FuseHandle {
   final ScrollController controller;
 
   @override
+  Object get nativeObject => controller;
+
+  @override
   void call(String method, dynamic value) {
     switch (method) {
       case 'scrollTo':

@@ -161,7 +161,8 @@ class FuseRuntime {
           final handleFactory = _handleFactories[type];
           if (handleFactory != null) {
             final handle = handleFactory(node);
-            node.nativeObject = handle;
+            node.nativeObject = handle.nativeObject;
+            node.handle = handle;
             node.onDispose = () => handle.dispose();
           }
         case 'setText':
@@ -192,10 +193,7 @@ class FuseRuntime {
           _removeSubtree(child, dirty);
         case 'call':
           final node = registry.get(map['id'] as int);
-          final handle = node.nativeObject;
-          if (handle is FuseHandle) {
-            handle.call(map['method'] as String, map['value']);
-          }
+          (node.handle as FuseHandle?)?.call(map['method'] as String, map['value']);
         case 'dispose':
           registry.remove(map['id'] as int);
       }
