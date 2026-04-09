@@ -21,9 +21,14 @@ export function createHandle(type: string, props: Record<string, any> = {}) {
     },
     state: <T>(name: string, initialValue: T): (() => T) => {
       const [get, set] = createSignal<any>(initialValue);
-      // Function props go through rawSetProp for handler registration
-      rawSetProp(node, `_state:${name}`, set);
-      return get as () => T;
+      let registered = false;
+      return (() => {
+        if (!registered) {
+          registered = true;
+          rawSetProp(node, `_state:${name}`, set);
+        }
+        return get();
+      }) as () => T;
     },
   };
 }
