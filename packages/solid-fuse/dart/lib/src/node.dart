@@ -46,6 +46,15 @@ class FuseMap {
   Gradient? gradient(String key) => parseGradient(_data[key]);
   DecorationImage? decorationImage(String key) =>
       parseDecorationImage(_data[key]);
+  Offset? offset(String key) {
+    final v = _data[key];
+    if (v is Map) {
+      final m = FuseMap(Map<String, dynamic>.from(v));
+      return Offset(m.double('x') ?? 0, m.double('y') ?? 0);
+    }
+    return null;
+  }
+
   Alignment? alignment(String key) => parseAlignment(_data[key] as String?);
   BlendMode? blendMode(String key) => parseBlendMode(_data[key] as String?);
   Clip clipBehavior(String key) => parseClip(_data[key] as String?);
@@ -76,7 +85,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
 
   List<Widget>? _cachedChildWidgets;
 
-  List<Widget> get _childWidgets {
+  List<Widget> get childWidgets {
     return _cachedChildWidgets ??= children
         .map((c) => FuseNodeWidget(node: c))
         .toList();
@@ -112,7 +121,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
         ? MainAxisSize.max
         : MainAxisSize.min;
 
-    final c = _childWidgets;
+    final c = childWidgets;
     if (c.length == 1 &&
         mainAxisSize == MainAxisSize.min &&
         mainAxis == MainAxisAlignment.start &&
