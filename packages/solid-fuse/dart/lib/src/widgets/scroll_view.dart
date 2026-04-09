@@ -10,6 +10,7 @@ class FuseScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollDirection = node.string('scrollDirection');
+    final flexDirection = node.map('flex')?.string('direction');
     final physics = node.string('physics');
     final reverse = node.bool('reverse');
 
@@ -19,10 +20,12 @@ class FuseScrollView extends StatelessWidget {
       _ => null,
     };
 
+    final axis = (scrollDirection ?? flexDirection) == 'horizontal'
+        ? Axis.horizontal
+        : Axis.vertical;
+
     return SingleChildScrollView(
-      scrollDirection: scrollDirection == 'horizontal'
-          ? Axis.horizontal
-          : Axis.vertical,
+      scrollDirection: axis,
       physics: scrollPhysics,
       reverse: reverse,
       padding: node.edgeInsets('padding'),
