@@ -92,8 +92,12 @@ export type FlexInput = {
 
 // ─── Widget prop types ───────────────────────────────────────────────────────
 
-export interface ViewProps {
+export interface BaseProps {
   children?: any;
+  ref?: import("./renderer").FuseNode | ((el: import("./renderer").FuseNode) => void);
+}
+
+export interface ViewProps extends BaseProps {
   flex?: FlexInput;
   padding?: EdgeInsetsInput;
   margin?: EdgeInsetsInput;
@@ -121,8 +125,7 @@ export interface ViewProps {
   ignorePointer?: boolean;
 }
 
-export interface TextProps {
-  children?: any;
+export interface TextProps extends BaseProps {
   fontSize?: number;
   fontWeight?: FontWeight;
   fontFamily?: string;
@@ -233,8 +236,7 @@ export type PointerDevice = "touch" | "mouse" | "stylus" | "trackpad";
 
 // ─── GestureDetector ─────────────────────────────────────────────────────────
 
-export interface GestureDetectorProps {
-  children?: any;
+export interface GestureDetectorProps extends BaseProps {
   flex?: FlexInput;
   // Tap
   onTapDown?: (details: TapDownDetails) => void;
@@ -309,13 +311,11 @@ export interface GestureDetectorProps {
   supportedDevices?: PointerDevice[];
 }
 
-export interface NavigatorProps {
-  children?: any;
+export interface NavigatorProps extends BaseProps {
   onPopPage?: () => void;
 }
 
-export interface ScrollViewProps {
-  children?: any;
+export interface ScrollViewProps extends BaseProps {
   scrollDirection?: "vertical" | "horizontal";
   flex?: FlexInput;
   padding?: EdgeInsetsInput;
@@ -323,15 +323,13 @@ export interface ScrollViewProps {
   reverse?: boolean;
 }
 
-export interface StackProps {
-  children?: any;
+export interface StackProps extends BaseProps {
   alignment?: AlignmentString;
   fit?: "loose" | "expand" | "passthrough";
   clipBehavior?: "none" | "hardEdge" | "antiAlias";
 }
 
-export interface PositionedProps {
-  children?: any;
+export interface PositionedProps extends BaseProps {
   top?: number;
   left?: number;
   right?: number;

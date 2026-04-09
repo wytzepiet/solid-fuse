@@ -79,6 +79,7 @@ const {
   spread,
   setProp,
   mergeProps,
+  ...rest
 } = createRenderer<FuseNode>({
   createElement(tag: string) {
     const node = makeNode(tag);
@@ -195,6 +196,7 @@ export function render(code: () => any) {
 }
 
 const insertNode = innerInsertNode;
+const ref: (fn: () => any, element: FuseNode) => void = (rest as any).ref;
 
 export {
   effect,
@@ -208,6 +210,7 @@ export {
   setProp,
   mergeProps,
   flushOps,
+  ref,
 };
 
 // Re-export Solid control flow and flush

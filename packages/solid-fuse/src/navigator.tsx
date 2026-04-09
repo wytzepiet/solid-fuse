@@ -1,14 +1,9 @@
 import { createContext, useContext, createSignal, For } from "solid-js";
-import { createElement, insert, setProp, flushOps } from "~/renderer";
+import { flushOps } from "~/renderer";
 import { send } from "~/channels";
 import type { FuseNode } from "~/renderer";
 
 type PageFactory = () => any;
-
-interface StackEntry {
-  id: number;
-  factory: PageFactory;
-}
 
 export interface NavigatorAPI {
   push: (page: PageFactory) => void;
@@ -19,64 +14,47 @@ export interface NavigatorAPI {
 
 const NavigatorContext = createContext<NavigatorAPI>();
 
-let entryId = 0;
-
 export function Navigator(props: { defaultPage: PageFactory }) {
-  const [stack, setStack] = createSignal<StackEntry[]>([
-    { id: entryId++, factory: props.defaultPage },
-  ]);
-
-  // Create the <navigator> intrinsic manually to capture its node ID
-  const el: FuseNode = createElement("navigator");
-  const navigatorId = el.props._id;
+  const [stack, setStack] = createSignal<PageFactory[]>([props.defaultPage]);
+  let el!: FuseNode;
 
   const api: NavigatorAPI = {
     push(factory) {
-      setStack((prev) => [...prev, { id: entryId++, factory }]);
+      setStack((prev) => [...prev, factory]);
       flushOps();
-      send("_nav", { op: "push", navigatorId });
+      send("_nav", { op: "push", navigatorId: el.props._id });
     },
     pop() {
       if (stack().length <= 1) return;
       setStack((prev) => prev.slice(0, -1));
       flushOps();
-      send("_nav", { op: "pop", navigatorId });
+      send("_nav", { op: "pop", navigatorId: el.props._id });
     },
     replace(factory) {
       setStack((prev) => {
         const next = prev.length > 1 ? prev.slice(0, -1) : [];
-        return [...next, { id: entryId++, factory }];
+        return [...next, factory];
       });
       flushOps();
-      send("_nav", { op: "replace", navigatorId });
+      send("_nav", { op: "replace", navigatorId: el.props._id });
     },
     stackSize: () => stack().length,
   };
 
-  // System back button handler — Dart calls this, we only update the signal
-  setProp(el, "onPopPage", () => {
-    setStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
-  });
-
-  // Render pages inside the provider so useNavigator() has context access.
-  // The IIFE runs lazily inside the provider's children getter, after the
-  // context is established.
   return (
     <NavigatorContext value={api}>
-      {(() => {
-        insert(el, () => (
-          <For each={stack()} keyed={(entry) => entry.id}>
-            {(entry) => <Route>{entry().factory()}</Route>}
-          </For>
-        ));
-        return el as any;
-      })()}
+      <navigator
+        ref={el}
+        onPopPage={() => {
+          setStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
+        }}
+      >
+        <For each={stack()}>
+          {(factory) => factory()()}
+        </For>
+      </navigator>
     </NavigatorContext>
   );
-}
-
-function Route(props: { children: any }) {
-  return props.children;
 }
 
 export function useNavigator(): NavigatorAPI {
