@@ -18,8 +18,15 @@ class FuseStack extends StatelessWidget {
     };
     final clipBehavior = node.clipBehavior('clipBehavior');
 
+    final textDirection = switch (node.string('textDirection')) {
+      'ltr' => TextDirection.ltr,
+      'rtl' => TextDirection.rtl,
+      _ => null,
+    };
+
     return Stack(
       alignment: alignment,
+      textDirection: textDirection,
       fit: fit,
       clipBehavior: clipBehavior,
       children: node.childWidgets,

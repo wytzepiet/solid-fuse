@@ -1,3 +1,4 @@
+import 'handles/scroll_controller_handle.dart';
 import 'widgets/gesture_detector.dart';
 import 'widgets/navigator.dart';
 import 'widgets/positioned.dart';
@@ -12,15 +13,18 @@ import 'runtime.dart';
 ///
 /// This is the core package — it should always be registered first.
 void register(FuseRuntime runtime) {
-  runtime.register('view', FuseViewWidget.new);
-  runtime.register('text', FuseText.new);
-  runtime.register('gestureDetector', FuseGestureDetector.new);
-  runtime.register(
+  runtime.registerWidget('view', FuseViewWidget.new);
+  runtime.registerWidget('text', FuseText.new);
+  runtime.registerWidget('gestureDetector', FuseGestureDetector.new);
+  runtime.registerWidget(
     'navigator',
     FuseNavigatorWidget.new,
     updateOnNodeChange: false,
   );
-  runtime.register('scrollView', FuseScrollView.new);
-  runtime.register('stack', FuseStack.new);
-  runtime.register('positioned', FusePositioned.new);
+  runtime.registerWidget('scrollView', FuseScrollView.new);
+  runtime.registerWidget('stack', FuseStack.new);
+  runtime.registerWidget('positioned', FusePositioned.new);
+
+  // Handles
+  runtime.registerHandle('scrollController', ScrollControllerHandle.new);
 }

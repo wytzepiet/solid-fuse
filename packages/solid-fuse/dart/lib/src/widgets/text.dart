@@ -30,11 +30,13 @@ class FuseText extends StatelessWidget {
     final backgroundColor = node.color('backgroundColor');
     final shadows = _parseShadows(node.props['shadows']);
     final locale = _parseLocale(node.string('locale'));
+    final textDirection = _parseTextDirection(node.string('textDirection'));
 
     final textContent = _extractText(node);
     return Text(
       textContent,
       textAlign: textAlign,
+      textDirection: textDirection,
       maxLines: maxLines,
       overflow: overflow,
       softWrap: softWrap,
@@ -138,6 +140,14 @@ TextDecoration? _parseTextDecoration(String? value) {
     'underline' => TextDecoration.underline,
     'overline' => TextDecoration.overline,
     'lineThrough' => TextDecoration.lineThrough,
+    _ => null,
+  };
+}
+
+TextDirection? _parseTextDirection(String? value) {
+  return switch (value) {
+    'ltr' => TextDirection.ltr,
+    'rtl' => TextDirection.rtl,
     _ => null,
   };
 }

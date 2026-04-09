@@ -38,7 +38,9 @@ type Op =
   | { op: "setText"; id: number; text: string }
   | { op: "setProp"; id: number; name: string; value: any }
   | { op: "insert"; parentId: number; childId: number; index: number }
-  | { op: "remove"; parentId: number; childId: number };
+  | { op: "remove"; parentId: number; childId: number }
+  | { op: "call"; id: number; method: string; value?: any }
+  | { op: "dispose"; id: number };
 
 const ops: Op[] = [];
 
@@ -116,6 +118,9 @@ const {
       handlers.set(`${node.props._id}:${name}`, value);
       node.props[name] = true;
       ops.push({ op: "setProp", id: node.props._id, name, value: true });
+    } else if (value != null && typeof value === "object" && value._ref !== undefined) {
+      node.props[name] = value;
+      ops.push({ op: "setProp", id: node.props._id, name, value: { _ref: value._ref } });
     } else {
       node.props[name] = value;
       ops.push({ op: "setProp", id: node.props._id, name, value });
@@ -211,6 +216,9 @@ export {
   mergeProps,
   flushOps,
   ref,
+  ops,
+  scheduleFlush,
+  makeNode,
 };
 
 // Re-export Solid control flow and flush

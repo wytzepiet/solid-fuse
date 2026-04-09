@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'connection.dart';
 import 'dev_connection.dart';
+import 'fuse_handle.dart';
 import 'quickjs_connection.dart';
 import 'node.dart';
 
@@ -31,6 +32,7 @@ class FuseRuntime {
   FuseConnection? _connection;
 
   final Map<String, FuseWidgetBuilder> _registry = {};
+  final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
   final Set<String> _noUpdateTypes = {};
   late final FuseNodeRegistry registry;
   final Map<int, void Function(String op)> _navCallbacks = {};
@@ -49,13 +51,18 @@ class FuseRuntime {
 
   /// Register a widget type. Set [updateOnNodeChange] to false for widgets that
   /// manage their own state and should not rebuild when the node notifies listeners.
-  void register(
+  void registerWidget(
     String type,
     FuseWidgetBuilder builder, {
     bool updateOnNodeChange = true,
   }) {
     _registry[type] = builder;
     if (!updateOnNodeChange) _noUpdateTypes.add(type);
+  }
+
+  /// Register a handle type (non-widget node, e.g. controllers).
+  void registerHandle(String type, FuseHandle Function(FuseNode node) factory) {
+    _handleFactories[type] = factory;
   }
 
   /// Whether a node type should rebuild when its node changes.
@@ -131,7 +138,7 @@ class FuseRuntime {
     _connection?.channels?.send('_functionCall', {
       'nodeId': nodeId,
       'name': name,
-      if (value != null) 'value': value,
+      'value': ?value,
     });
   }
 
@@ -145,11 +152,18 @@ class FuseRuntime {
           : Map<String, dynamic>.from(op as Map);
       switch (map['op']) {
         case 'create':
-          registry.create(
+          final type = map['type'] as String;
+          final node = registry.create(
             map['id'] as int,
-            map['type'] as String,
+            type,
             Map<String, dynamic>.from(map['props'] as Map),
           );
+          final handleFactory = _handleFactories[type];
+          if (handleFactory != null) {
+            final handle = handleFactory(node);
+            node.nativeObject = handle;
+            node.onDispose = () => handle.dispose();
+          }
         case 'setText':
           final node = registry.get(map['id'] as int);
           node.setPropSilent('text', map['text']);
@@ -157,7 +171,13 @@ class FuseRuntime {
           if (node.parent != null) dirty.add(node.parent!);
         case 'setProp':
           final node = registry.get(map['id'] as int);
-          node.setPropSilent(map['name'] as String, map['value']);
+          var value = map['value'];
+          // Resolve handle references
+          if (value is Map && value.containsKey('_ref')) {
+            final refNode = registry.get(value['_ref'] as int);
+            value = refNode.nativeObject ?? refNode;
+          }
+          node.setPropSilent(map['name'] as String, value);
           dirty.add(node);
         case 'insert':
           final parent = registry.get(map['parentId'] as int);
@@ -170,6 +190,14 @@ class FuseRuntime {
           parent.removeChildSilent(child);
           dirty.add(parent);
           _removeSubtree(child, dirty);
+        case 'call':
+          final node = registry.get(map['id'] as int);
+          final handle = node.nativeObject;
+          if (handle is FuseHandle) {
+            handle.call(map['method'] as String, map['value']);
+          }
+        case 'dispose':
+          registry.remove(map['id'] as int);
       }
     }
 

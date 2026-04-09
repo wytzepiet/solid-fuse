@@ -75,6 +75,17 @@ export type ImageInput = {
   fit?: "contain" | "cover" | "fill" | "fitWidth" | "fitHeight" | "none";
 };
 
+export type DecorationInput = {
+  color?: ColorInput;
+  borderRadius?: BorderRadiusInput;
+  border?: BorderInput;
+  shadow?: ShadowInput | ShadowInput[];
+  gradient?: GradientInput;
+  image?: ImageInput;
+  shape?: "rectangle" | "circle";
+  blendMode?: string;
+};
+
 export type TransformInput = {
   rotate?: number;
   scale?: number;
@@ -108,14 +119,9 @@ export interface ViewProps extends BaseProps {
   minHeight?: number;
   maxHeight?: number;
   aspectRatio?: number;
-  color?: ColorInput;
-  borderRadius?: BorderRadiusInput;
-  border?: BorderInput;
-  shadow?: ShadowInput | ShadowInput[];
-  gradient?: GradientInput;
-  image?: ImageInput;
-  shape?: "rectangle" | "circle";
-  blendMode?: string;
+  alignment?: AlignmentString;
+  decoration?: DecorationInput;
+  foregroundDecoration?: DecorationInput;
   grow?: number;
   fit?: "tight" | "loose";
   transform?: TransformInput;
@@ -137,6 +143,7 @@ export interface TextProps extends BaseProps {
   textAlign?: "left" | "right" | "center" | "justify" | "start" | "end";
   maxLines?: number;
   overflow?: "clip" | "fade" | "ellipsis" | "visible";
+  textDirection?: "ltr" | "rtl";
   softWrap?: boolean;
   textDecoration?: "none" | "underline" | "overline" | "lineThrough";
   textDecorationColor?: ColorInput;
@@ -319,12 +326,20 @@ export interface ScrollViewProps extends BaseProps {
   scrollDirection?: "vertical" | "horizontal";
   flex?: FlexInput;
   padding?: EdgeInsetsInput;
-  physics?: "bouncing" | "clamping";
+  physics?: "bouncing" | "clamping" | "always" | "never" | "page";
   reverse?: boolean;
+  primary?: boolean;
+  clipBehavior?: "none" | "hardEdge" | "antiAlias";
+  keyboardDismissBehavior?: "manual" | "onDrag";
+  dragStartBehavior?: "start" | "down";
+  hitTestBehavior?: "deferToChild" | "opaque" | "translucent";
+  restorationId?: string;
+  controller?: import("./scroll-controller").ScrollController;
 }
 
 export interface StackProps extends BaseProps {
   alignment?: AlignmentString;
+  textDirection?: "ltr" | "rtl";
   fit?: "loose" | "expand" | "passthrough";
   clipBehavior?: "none" | "hardEdge" | "antiAlias";
 }

@@ -24,16 +24,12 @@ class FuseViewWidget extends StatelessWidget {
     final maxHeight = node.double('maxHeight');
     final aspectRatio = node.double('aspectRatio');
 
+    // Alignment
+    final alignment = node.alignment('alignment');
+
     // Decoration
-    final color = node.color('color');
-    final borderRadius = node.borderRadius('borderRadius');
-    final border = node.border('border');
-    final boxShadow = node.boxShadows('shadow');
-    final gradient = node.gradient('gradient');
-    final decorationImage = node.decorationImage('image');
-    final shapeStr = node.string('shape');
-    final shape = shapeStr == 'circle' ? BoxShape.circle : BoxShape.rectangle;
-    final blendMode = node.blendMode('blendMode');
+    final decoration = node.boxDecoration('decoration');
+    final foregroundDecoration = node.boxDecoration('foregroundDecoration');
 
     // Flex child
     final grow = node.int('grow');
@@ -60,13 +56,20 @@ class FuseViewWidget extends StatelessWidget {
       result = Padding(padding: padding, child: result);
     }
 
-    // ── Layer 3: Clip ────────────────────────────────────────────────────────
+    // ── Layer 3: Alignment ──────────────────────────────────────────────────
+
+    if (alignment != null) {
+      result = Align(alignment: alignment, child: result);
+    }
+
+    // ── Layer 4: Clip ────────────────────────────────────────────────────────
 
     if (clipBehavior != null && clipBehavior != 'none') {
       final clip = node.clipBehavior('clipBehavior');
+      final borderRadius = decoration?.borderRadius;
       if (borderRadius != null) {
         result = ClipRRect(
-          borderRadius: borderRadius,
+          borderRadius: borderRadius as BorderRadius,
           clipBehavior: clip,
           child: result,
         );
@@ -77,28 +80,14 @@ class FuseViewWidget extends StatelessWidget {
 
     // ── Layer 4: Decoration ──────────────────────────────────────────────────
 
-    final hasDecoration =
-        color != null ||
-        borderRadius != null ||
-        border != null ||
-        boxShadow != null ||
-        gradient != null ||
-        decorationImage != null ||
-        shapeStr != null ||
-        blendMode != null;
+    if (decoration != null) {
+      result = DecoratedBox(decoration: decoration, child: result);
+    }
 
-    if (hasDecoration) {
+    if (foregroundDecoration != null) {
       result = DecoratedBox(
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: shape == BoxShape.circle ? null : borderRadius,
-          border: border,
-          boxShadow: boxShadow,
-          gradient: gradient,
-          image: decorationImage,
-          shape: shape,
-          backgroundBlendMode: blendMode,
-        ),
+        position: DecorationPosition.foreground,
+        decoration: foregroundDecoration,
         child: result,
       );
     }

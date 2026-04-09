@@ -46,6 +46,7 @@ class FuseMap {
   Gradient? gradient(String key) => parseGradient(_data[key]);
   DecorationImage? decorationImage(String key) =>
       parseDecorationImage(_data[key]);
+  BoxDecoration? boxDecoration(String key) => parseBoxDecoration(_data[key]);
   Offset? offset(String key) {
     final v = _data[key];
     if (v is Map) {
@@ -79,6 +80,12 @@ class FuseNode extends FuseMap with ChangeNotifier {
 
   /// The raw props map.
   Map<String, dynamic> get props => _data;
+
+  /// The native Dart object for non-widget nodes (handles).
+  Object? nativeObject;
+
+  /// Custom dispose callback, set by the runtime for handle cleanup.
+  void Function()? onDispose;
 
   final List<FuseNode> children = [];
   FuseNode? parent;
@@ -164,6 +171,12 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// Called after a batch of silent mutations is complete.
   void markDirty() {
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    onDispose?.call();
+    super.dispose();
   }
 }
 

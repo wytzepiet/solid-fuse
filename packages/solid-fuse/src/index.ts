@@ -21,6 +21,9 @@ export {
 } from "./renderer";
 export type { FuseNode } from "./renderer";
 export { Navigator, useNavigator } from "./navigator";
+export { createHandle } from "./handle";
+export { createScrollController } from "./scroll-controller";
+export type { ScrollController } from "./scroll-controller";
 export { on, send } from "./channels";
 export { defineConfig } from "./config";
 export type { FuseConfig } from "./config";

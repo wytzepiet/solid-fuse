@@ -248,6 +248,43 @@ DecorationImage? parseDecorationImage(dynamic value) {
   );
 }
 
+// ─── parseBoxDecoration ─────────────────────────────────────────────────────
+
+/// Accepts a map with color, borderRadius, border, shadow, gradient, image,
+/// shape, blendMode — matching Flutter's BoxDecoration.
+BoxDecoration? parseBoxDecoration(dynamic value) {
+  if (value == null || value is! Map) return null;
+
+  final m = FuseMap.from(value)!;
+  final shapeStr = m.string('shape');
+  final shape = shapeStr == 'circle' ? BoxShape.circle : BoxShape.rectangle;
+
+  final color = parseColor(m['color']);
+  final borderRadius = parseBorderRadius(m['borderRadius']);
+  final border = parseBorder(m['border']);
+  final boxShadow = parseBoxShadows(m['shadow']);
+  final gradient = parseGradient(m['gradient']);
+  final image = parseDecorationImage(m['image']);
+  final blendMode = parseBlendMode(m.string('blendMode'));
+
+  if (color == null && borderRadius == null && border == null &&
+      boxShadow == null && gradient == null && image == null &&
+      shapeStr == null && blendMode == null) {
+    return null;
+  }
+
+  return BoxDecoration(
+    color: color,
+    borderRadius: shape == BoxShape.circle ? null : borderRadius,
+    border: border,
+    boxShadow: boxShadow,
+    gradient: gradient,
+    image: image,
+    shape: shape,
+    backgroundBlendMode: blendMode,
+  );
+}
+
 // ─── parseAlignment ──────────────────────────────────────────────────────────
 
 Alignment? parseAlignment(String? value) => _parseAlignment(value);
