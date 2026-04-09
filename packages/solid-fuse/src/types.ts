@@ -145,74 +145,74 @@ export interface TextProps {
 
 // ─── Gesture detail types ────────────────────────────────────────────────────
 
-export interface TapDownInfo {
+export interface TapDownDetails {
   x: number; y: number;
   localX: number; localY: number;
   kind?: "touch" | "mouse" | "stylus" | "trackpad";
 }
 
-export interface TapUpInfo {
+export interface TapUpDetails {
   x: number; y: number;
   localX: number; localY: number;
   kind: "touch" | "mouse" | "stylus" | "trackpad";
 }
 
-export interface LongPressDownInfo {
+export interface LongPressDownDetails {
   x: number; y: number;
   localX: number; localY: number;
   kind?: "touch" | "mouse" | "stylus" | "trackpad";
 }
 
-export interface LongPressStartInfo {
+export interface LongPressStartDetails {
   x: number; y: number;
   localX: number; localY: number;
 }
 
-export interface LongPressMoveUpdateInfo {
+export interface LongPressMoveUpdateDetails {
   x: number; y: number;
   localX: number; localY: number;
   offsetX: number; offsetY: number;
 }
 
-export interface LongPressEndInfo {
+export interface LongPressEndDetails {
   x: number; y: number;
   localX: number; localY: number;
   vx: number; vy: number;
 }
 
-export interface DragDownInfo {
+export interface DragDownDetails {
   x: number; y: number;
   localX: number; localY: number;
 }
 
-export interface DragStartInfo {
+export interface DragStartDetails {
   x: number; y: number;
   localX: number; localY: number;
   kind?: "touch" | "mouse" | "stylus" | "trackpad";
 }
 
-export interface DragUpdateInfo {
+export interface DragUpdateDetails {
   x: number; y: number;
   localX: number; localY: number;
   dx: number; dy: number;
   primaryDelta?: number;
 }
 
-export interface DragEndInfo {
+export interface DragEndDetails {
   x: number; y: number;
   localX: number; localY: number;
   vx: number; vy: number;
   primaryVelocity?: number;
 }
 
-export interface ScaleStartInfo {
+export interface ScaleStartDetails {
   x: number; y: number;
   localX: number; localY: number;
   pointerCount: number;
   kind?: "touch" | "mouse" | "stylus" | "trackpad";
 }
 
-export interface ScaleUpdateInfo {
+export interface ScaleUpdateDetails {
   x: number; y: number;
   localX: number; localY: number;
   scale: number;
@@ -223,7 +223,7 @@ export interface ScaleUpdateInfo {
   dx: number; dy: number;
 }
 
-export interface ScaleEndInfo {
+export interface ScaleEndDetails {
   vx: number; vy: number;
   scaleVelocity: number;
   pointerCount: number;
@@ -237,69 +237,69 @@ export interface GestureDetectorProps {
   children?: any;
   flex?: FlexInput;
   // Tap
-  onTapDown?: (info: TapDownInfo) => void;
-  onTapUp?: (info: TapUpInfo) => void;
+  onTapDown?: (details: TapDownDetails) => void;
+  onTapUp?: (details: TapUpDetails) => void;
   onTap?: () => void;
   onTapCancel?: () => void;
   // Secondary tap (right-click)
   onSecondaryTap?: () => void;
-  onSecondaryTapDown?: (info: TapDownInfo) => void;
-  onSecondaryTapUp?: (info: TapUpInfo) => void;
+  onSecondaryTapDown?: (details: TapDownDetails) => void;
+  onSecondaryTapUp?: (details: TapUpDetails) => void;
   onSecondaryTapCancel?: () => void;
   // Tertiary tap (middle-click)
-  onTertiaryTapDown?: (info: TapDownInfo) => void;
-  onTertiaryTapUp?: (info: TapUpInfo) => void;
+  onTertiaryTapDown?: (details: TapDownDetails) => void;
+  onTertiaryTapUp?: (details: TapUpDetails) => void;
   onTertiaryTapCancel?: () => void;
   // Double tap
-  onDoubleTapDown?: (info: TapDownInfo) => void;
+  onDoubleTapDown?: (details: TapDownDetails) => void;
   onDoubleTap?: () => void;
   onDoubleTapCancel?: () => void;
   // Long press
-  onLongPressDown?: (info: LongPressDownInfo) => void;
+  onLongPressDown?: (details: LongPressDownDetails) => void;
   onLongPressCancel?: () => void;
   onLongPress?: () => void;
-  onLongPressStart?: (info: LongPressStartInfo) => void;
-  onLongPressMoveUpdate?: (info: LongPressMoveUpdateInfo) => void;
+  onLongPressStart?: (details: LongPressStartDetails) => void;
+  onLongPressMoveUpdate?: (details: LongPressMoveUpdateDetails) => void;
   onLongPressUp?: () => void;
-  onLongPressEnd?: (info: LongPressEndInfo) => void;
+  onLongPressEnd?: (details: LongPressEndDetails) => void;
   // Secondary long press
-  onSecondaryLongPressDown?: (info: LongPressDownInfo) => void;
+  onSecondaryLongPressDown?: (details: LongPressDownDetails) => void;
   onSecondaryLongPressCancel?: () => void;
   onSecondaryLongPress?: () => void;
-  onSecondaryLongPressStart?: (info: LongPressStartInfo) => void;
-  onSecondaryLongPressMoveUpdate?: (info: LongPressMoveUpdateInfo) => void;
+  onSecondaryLongPressStart?: (details: LongPressStartDetails) => void;
+  onSecondaryLongPressMoveUpdate?: (details: LongPressMoveUpdateDetails) => void;
   onSecondaryLongPressUp?: () => void;
-  onSecondaryLongPressEnd?: (info: LongPressEndInfo) => void;
+  onSecondaryLongPressEnd?: (details: LongPressEndDetails) => void;
   // Tertiary long press
-  onTertiaryLongPressDown?: (info: LongPressDownInfo) => void;
+  onTertiaryLongPressDown?: (details: LongPressDownDetails) => void;
   onTertiaryLongPressCancel?: () => void;
   onTertiaryLongPress?: () => void;
-  onTertiaryLongPressStart?: (info: LongPressStartInfo) => void;
-  onTertiaryLongPressMoveUpdate?: (info: LongPressMoveUpdateInfo) => void;
+  onTertiaryLongPressStart?: (details: LongPressStartDetails) => void;
+  onTertiaryLongPressMoveUpdate?: (details: LongPressMoveUpdateDetails) => void;
   onTertiaryLongPressUp?: () => void;
-  onTertiaryLongPressEnd?: (info: LongPressEndInfo) => void;
+  onTertiaryLongPressEnd?: (details: LongPressEndDetails) => void;
   // Vertical drag
-  onVerticalDragDown?: (info: DragDownInfo) => void;
-  onVerticalDragStart?: (info: DragStartInfo) => void;
-  onVerticalDragUpdate?: (info: DragUpdateInfo) => void;
-  onVerticalDragEnd?: (info: DragEndInfo) => void;
+  onVerticalDragDown?: (details: DragDownDetails) => void;
+  onVerticalDragStart?: (details: DragStartDetails) => void;
+  onVerticalDragUpdate?: (details: DragUpdateDetails) => void;
+  onVerticalDragEnd?: (details: DragEndDetails) => void;
   onVerticalDragCancel?: () => void;
   // Horizontal drag
-  onHorizontalDragDown?: (info: DragDownInfo) => void;
-  onHorizontalDragStart?: (info: DragStartInfo) => void;
-  onHorizontalDragUpdate?: (info: DragUpdateInfo) => void;
-  onHorizontalDragEnd?: (info: DragEndInfo) => void;
+  onHorizontalDragDown?: (details: DragDownDetails) => void;
+  onHorizontalDragStart?: (details: DragStartDetails) => void;
+  onHorizontalDragUpdate?: (details: DragUpdateDetails) => void;
+  onHorizontalDragEnd?: (details: DragEndDetails) => void;
   onHorizontalDragCancel?: () => void;
   // Pan (free drag)
-  onPanDown?: (info: DragDownInfo) => void;
-  onPanStart?: (info: DragStartInfo) => void;
-  onPanUpdate?: (info: DragUpdateInfo) => void;
-  onPanEnd?: (info: DragEndInfo) => void;
+  onPanDown?: (details: DragDownDetails) => void;
+  onPanStart?: (details: DragStartDetails) => void;
+  onPanUpdate?: (details: DragUpdateDetails) => void;
+  onPanEnd?: (details: DragEndDetails) => void;
   onPanCancel?: () => void;
   // Scale (pinch/zoom)
-  onScaleStart?: (info: ScaleStartInfo) => void;
-  onScaleUpdate?: (info: ScaleUpdateInfo) => void;
-  onScaleEnd?: (info: ScaleEndInfo) => void;
+  onScaleStart?: (details: ScaleStartDetails) => void;
+  onScaleUpdate?: (details: ScaleUpdateDetails) => void;
+  onScaleEnd?: (details: ScaleEndDetails) => void;
   // Config
   behavior?: "deferToChild" | "opaque" | "translucent";
   excludeFromSemantics?: boolean;
