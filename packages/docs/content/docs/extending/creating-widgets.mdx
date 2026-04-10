@@ -39,7 +39,7 @@ import 'package:flutter/material.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
 class FuseBadge extends StatelessWidget {
-  const FuseBadge({super.key, required this.node});
+  const FuseBadge(this.node);
 
   final FuseNode node;
 
@@ -105,7 +105,7 @@ myCard: {
 
 ```dart title="Dart widget"
 class FuseMyCard extends StatelessWidget {
-  const FuseMyCard({super.key, required this.node});
+  const FuseMyCard(this.node);
   final FuseNode node;
 
   @override
@@ -170,7 +170,7 @@ Use `StatefulWidget` when your widget needs persistent Dart-side state (animatio
 
 ```dart
 class FuseTextInput extends StatefulWidget {
-  const FuseTextInput({super.key, required this.node});
+  const FuseTextInput(this.node);
   final FuseNode node;
 
   @override

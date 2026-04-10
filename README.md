@@ -108,7 +108,7 @@ createEffect(() => console.log(scroll.scrollOffset()));
 // Imperative control
 scroll.animateTo(500, { duration: 300 });
 
-return <scrollView controller={scroll._ref}>...</scrollView>;
+return <scrollView controller={scroll}>...</scrollView>;
 ```
 
 ### Channels
@@ -153,7 +153,7 @@ declare global {
 **2. Write the Dart widget:**
 ```dart
 class FuseBadge extends StatelessWidget {
-  const FuseBadge({super.key, required this.node});
+  const FuseBadge(this.node);
   final FuseNode node;
 
   @override
