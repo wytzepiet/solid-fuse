@@ -9,6 +9,8 @@ SolidJS JSX  →  QuickJS  →  Rust FFI  →  Flutter  →  Impeller
 
 No webview, no bridge serialization. Signals propagate directly to native Flutter widgets. Events flow back as function calls. One reactive loop, two ecosystems.
 
+**[Read the docs](https://solidfuse.dev/docs)** | **[Getting started](https://solidfuse.dev/docs/getting-started)**
+
 ## Quick start
 
 ```bash
