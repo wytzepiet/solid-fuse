@@ -20,7 +20,7 @@ abstract class FusePage {
   /// without rebuilding the page transition.
   Widget get child => ListenableBuilder(
     listenable: node,
-    builder: (_, _) => node.buildLayout(),
+    builder: (_, _) => node.flexChildren,
   );
 
   /// Build the Flutter Page for the Navigator.
@@ -28,7 +28,7 @@ abstract class FusePage {
 }
 ```
 
-The `child` getter is reactive — it wraps `node.buildLayout()` in a `ListenableBuilder`, so page content updates when signals change without re-triggering the page transition animation.
+The `child` getter is reactive — it wraps `node.flexChildren` in a `ListenableBuilder`, so page content updates when signals change without re-triggering the page transition animation.
 
 ## Example: CupertinoPage
 
@@ -57,7 +57,7 @@ runtime.registerPage('cupertinoPage', FuseCupertinoPage.new);
 Declare the JSX type:
 
 ```ts title="src/cupertino-page.d.ts"
-import type { LayoutInput } from "solid-fuse";
+import type { FlexInput } from "solid-fuse";
 
 declare global {
   namespace JSX {
@@ -65,7 +65,7 @@ declare global {
       cupertinoPage: {
         title?: string;
         children?: any;
-        layout?: LayoutInput;
+        flex?: FlexInput;
       };
     }
   }
@@ -77,7 +77,7 @@ Use it:
 ```tsx
 function SettingsPage() {
   return (
-    <cupertinoPage title="Settings" layout={{ gap: 16 }}>
+    <cupertinoPage title="Settings" flex={{ gap: 16 }}>
       <text>Settings content</text>
     </cupertinoPage>
   );
@@ -134,7 +134,7 @@ If a navigator encounters a child element without a registered page factory, it 
 ```tsx
 // This works even without a page wrapper
 nav.push(() => (
-  <view layout={{ align: "center", justify: "center", expand: true }}>
+  <view flex={{ align: "center", justify: "center", expand: true }}>
     <text>Plain view as a page</text>
   </view>
 ));
@@ -145,4 +145,4 @@ nav.push(() => (
 - Pages are created on-demand for each navigator child, not cached
 - The `child` getter is reactive — content updates don't re-trigger transitions
 - Always use `ValueKey(node.id)` as the page key for identity stability
-- Pages support `layout` via `buildLayout()` — layout props work on page elements just like any other
+- Pages support `flex` via `flexChildren` — layout props work on page elements just like any other

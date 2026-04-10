@@ -14,7 +14,7 @@ Let's build a `<badge>` widget that renders a Flutter `Chip`.
 For app-level widgets, add a `.d.ts` file in your project:
 
 ```ts title="src/badge.d.ts"
-import type { ColorInput, LayoutInput } from "solid-fuse";
+import type { ColorInput, FlexInput } from "solid-fuse";
 
 declare global {
   namespace JSX {
@@ -23,7 +23,7 @@ declare global {
         label: string;
         color?: ColorInput;
         children?: any;
-        layout?: LayoutInput;
+        flex?: FlexInput;
       };
     }
   }
@@ -90,16 +90,16 @@ Now you can use it in JSX:
 
 Nested objects return `FuseMap`, which has the same accessors — so you can do `node.map('config')?.string('mode')`.
 
-## The layout + buildLayout() mechanic
+## The flex + flexChildren mechanic
 
-> If you add `layout?: LayoutInput` to your JSX type and use `node.buildLayout()` in your Dart widget, **layout just works**. Users of your widget can pass `layout={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
+> If you add `flex?: FlexInput` to your JSX type and use `node.flexChildren` in your Dart widget, **layout just works**. Users of your widget can pass `flex={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
 
 This is how every built-in element handles children. Here's a widget that supports it:
 
 ```ts title="JSX type"
 myCard: {
   children?: any;
-  layout?: LayoutInput;  // ← add this
+  flex?: FlexInput;  // ← add this
 };
 ```
 
@@ -113,7 +113,7 @@ class FuseMyCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: node.buildLayout(),  // ← reads layout prop automatically
+        child: node.flexChildren,  // ← reads flex prop automatically
       ),
     );
   }
@@ -123,22 +123,22 @@ class FuseMyCard extends StatelessWidget {
 Now users can do:
 
 ```tsx
-<myCard layout={{ gap: 8 }}>
+<myCard flex={{ gap: 8 }}>
   <text>Title</text>
   <text>Subtitle</text>
 </myCard>
 ```
 
-### How buildLayout() works
+### How flexChildren works
 
-- Reads the `layout` prop from the node
-- If there's a `layout` config: wraps children in a Flutter `Flex` widget (Row/Column) with the specified gap, alignment, and justification
-- If there's only one child and no layout config: returns the child directly (no wrapper)
+- Reads the `flex` prop from the node
+- If there's a `flex` config: wraps children in a Flutter `Flex` widget (Row/Column) with the specified gap, alignment, and justification
+- If there's only one child and no flex config: returns the child directly (no wrapper)
 - This single-child optimization avoids unnecessary layout nodes
 
-### childWidgets vs buildLayout()
+### childWidgets vs flexChildren
 
-- **`node.buildLayout()`** — reads the `layout` prop and applies layout. Use this for anything that should support user-configured layout. This is the recommended default.
+- **`node.flexChildren`** — reads the `flex` prop and applies layout. Use this for anything that should support user-configured layout. This is the recommended default.
 - **`node.childWidgets`** — raw list of child widgets, no layout applied. Use this when you're passing children to a Flutter widget that manages its own layout (like `Navigator` or `Stack`).
 
 ## Event callbacks
@@ -152,7 +152,7 @@ final onTap = node.function('onTap');
 // Safe to use directly — null means "no handler"
 GestureDetector(
   onTap: onTap,
-  child: node.buildLayout(),
+  child: node.flexChildren,
 )
 ```
 

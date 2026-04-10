@@ -16,8 +16,8 @@ function ScrollableList() {
   const ctrl = createScrollController();
 
   return (
-    <view layout={{ expand: true }}>
-      <view layout={{ direction: "horizontal", gap: 8 }} padding={8}>
+    <view flex={{ expand: true }}>
+      <view flex={{ direction: "horizontal", gap: 8 }} padding={8}>
         <gestureDetector onTap={() => ctrl.animateTo(0, { duration: 300 })}>
           <view padding={8} decoration={{ color: "blue", borderRadius: 4 }}>
             <text color="white">Top</text>
@@ -26,8 +26,8 @@ function ScrollableList() {
         <text>Offset: {Math.round(ctrl.scrollOffset())}</text>
       </view>
 
-      <scrollView controller={ctrl} layout={{ expand: true }}>
-        <view layout={{ gap: 4 }} padding={16}>
+      <scrollView controller={ctrl} flex={{ expand: true }}>
+        <view flex={{ gap: 4 }} padding={16}>
           <For each={Array.from({ length: 100 }, (_, i) => i)}>
             {(i) => <text>Item {i}</text>}
           </For>

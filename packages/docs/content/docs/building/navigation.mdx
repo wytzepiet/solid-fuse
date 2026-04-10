@@ -26,7 +26,7 @@ function HomePage() {
   const nav = useNavigator();
 
   return (
-    <materialPage layout={{ gap: 16 }} padding={24}>
+    <materialPage flex={{ gap: 16 }} padding={24}>
       <text fontSize={24}>Home</text>
       <gestureDetector onTap={() => nav.push(() => <DetailPage />)}>
         <view padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
@@ -56,7 +56,7 @@ function DetailPage() {
   const nav = useNavigator();
 
   return (
-    <materialPage layout={{ direction: "vertical", gap: 16 }}>
+    <materialPage flex={{ direction: "vertical", gap: 16 }}>
       <text fontSize={24}>Detail</text>
       <text>This page slides in with a Material transition.</text>
       <gestureDetector onTap={() => nav.pop()}>
@@ -67,13 +67,13 @@ function DetailPage() {
 }
 ```
 
-Note that `<materialPage>` supports `layout` directly — no wrapper `<view>` needed for layout.
+Note that `<materialPage>` supports `flex` directly — no wrapper `<view>` needed for layout.
 
 ### materialPage props
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `layout` | `LayoutInput` | — | Layout children |
+| `flex` | `FlexInput` | — | Layout children |
 | `fullscreenDialog` | `boolean` | `false` | Slides up instead of sideways, shows close button |
 | `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
 
@@ -99,7 +99,7 @@ function ListPage() {
   const nav = useNavigator();
 
   return (
-    <materialPage layout={{ gap: 4 }}>
+    <materialPage flex={{ gap: 4 }}>
       <text fontSize={24} fontWeight="bold" padding={{ bottom: 8 }}>
         Fruits
       </text>
@@ -123,7 +123,7 @@ function DetailPage(props: { name: string }) {
   const nav = useNavigator();
 
   return (
-    <materialPage layout={{ align: "center", justify: "center", expand: true }}>
+    <materialPage flex={{ align: "center", justify: "center", expand: true }}>
       <text fontSize={32}>{props.name}</text>
       <gestureDetector onTap={() => nav.pop()}>
         <text color="blue" fontSize={16}>Back to list</text>

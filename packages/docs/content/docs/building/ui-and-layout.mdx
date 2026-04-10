@@ -1,6 +1,6 @@
 ---
 title: UI & Layout
-description: Build interfaces with views, text, and layout
+description: Build interfaces with views, text, and flex
 ---
 
 ## View
@@ -20,7 +20,7 @@ description: Build interfaces with views, text, and layout
 
 | Prop | Type | Description |
 |---|---|---|
-| `layout` | `LayoutInput` | Layout children (see [Layout](#layout) below) |
+| `flex` | `FlexInput` | Layout children (see [Flex](#flex) below) |
 | `padding` | `EdgeInsetsInput` | Inner spacing |
 | `margin` | `EdgeInsetsInput` | Outer spacing |
 | `width` / `height` | `number` | Fixed dimensions |
@@ -96,7 +96,7 @@ description: Build interfaces with views, text, and layout
 
 ```tsx
 <scrollView padding={16} physics="bouncing">
-  <view layout={{ gap: 8 }}>
+  <view flex={{ gap: 8 }}>
     <For each={items()}>{(item) => <text>{item}</text>}</For>
   </view>
 </scrollView>
@@ -112,30 +112,30 @@ description: Build interfaces with views, text, and layout
 | `clipBehavior` | `string` | Clip behavior |
 | `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
 
-## Layout
+## Flex
 
-Every element that accepts children supports `layout` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `<row>` and `<column>` components, Fuse uses `layout` as a universal layout config.
+Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `<row>` and `<column>` components, Fuse uses `flex` as a universal layout config.
 
 ```tsx
 {/* Horizontal row with spacing */}
-<view layout={{ direction: "horizontal", gap: 12 }}>
+<view flex={{ direction: "horizontal", gap: 12 }}>
   <text>Left</text>
   <text>Right</text>
 </view>
 
 {/* Centered content filling available space */}
-<view layout={{ align: "center", justify: "center", expand: true }}>
+<view flex={{ align: "center", justify: "center", expand: true }}>
   <text>Centered</text>
 </view>
 
 {/* Space between items */}
-<view layout={{ justify: "spaceBetween" }}>
+<view flex={{ justify: "spaceBetween" }}>
   <text>Start</text>
   <text>End</text>
 </view>
 ```
 
-### LayoutInput
+### FlexInput
 
 | Property | Type | Default | Description |
 |---|---|---|---|
@@ -150,7 +150,7 @@ Every element that accepts children supports `layout` — this is intentional. J
 Use `grow` on children to distribute extra space, similar to CSS `flex-grow`:
 
 ```tsx
-<view layout={{ direction: "horizontal", expand: true }}>
+<view flex={{ direction: "horizontal", expand: true }}>
   <view grow={1} decoration={{ color: "red" }}>
     <text>Takes remaining space</text>
   </view>
@@ -214,7 +214,7 @@ The `behavior` prop controls how the detector responds to touches:
 | `"opaque"` | Entire bounds tappable, blocks gestures behind. |
 | `"translucent"` | Entire bounds tappable, gestures pass through. |
 
-`<gestureDetector>` also supports `layout` for arranging children, so you can use it as a tappable container directly.
+`<gestureDetector>` also supports `flex` for layout, so you can use it as a tappable container directly.
 
 ## Input types
 

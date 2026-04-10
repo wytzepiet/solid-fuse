@@ -57,7 +57,7 @@ runtime.registerWidget('videoPlayer', VideoPlayer.new);
 ```tsx title="src/App.tsx"
 export default function App() {
   return (
-    <view padding={24} layout={{ gap: 12 }}>
+    <view padding={24} flex={{ gap: 12 }}>
       <text fontSize={24} fontWeight="bold">Hello Fuse</text>
       <text color="grey">SolidJS inside Flutter</text>
     </view>
@@ -87,7 +87,7 @@ function TodoList() {
   const [showDone, setShowDone] = createSignal(false);
 
   return (
-    <view layout={{ gap: 8 }} padding={16}>
+    <view flex={{ gap: 8 }} padding={16}>
       <For each={todos()}>
         {(todo) => <text fontSize={16}>{todo}</text>}
       </For>
@@ -101,6 +101,6 @@ function TodoList() {
 
 ## Next steps
 
-- [UI & Layout](/docs/building/ui-and-layout) — build interfaces with views, text, gestures, and layout
+- [UI & Layout](/docs/building/ui-and-layout) — build interfaces with views, text, gestures, and flex
 - [Creating Widgets](/docs/extending/creating-widgets) — add your own Flutter widgets
 - [Configuration](/docs/extending/packaging) — customize `fuse.config.ts`
