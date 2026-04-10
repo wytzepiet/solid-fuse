@@ -1,8 +1,7 @@
-import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
-import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
+import { createHighlighter } from 'shiki';
 import type { ThemeRegistrationRaw } from 'shiki';
 
-const fuseTheme: ThemeRegistrationRaw = {
+export const fuseTheme: ThemeRegistrationRaw = {
   name: 'fuse',
   type: 'dark',
   colors: {
@@ -15,11 +14,7 @@ const fuseTheme: ThemeRegistrationRaw = {
       settings: { foreground: '#c9a0dc' },
     },
     {
-      scope: [
-        'entity.name.function',
-        'support.function',
-        'meta.function-call',
-      ],
+      scope: ['entity.name.function', 'support.function', 'meta.function-call'],
       settings: { foreground: '#6fb8e0' },
     },
     {
@@ -27,12 +22,7 @@ const fuseTheme: ThemeRegistrationRaw = {
       settings: { foreground: '#d4935a' },
     },
     {
-      scope: [
-        'entity.name.tag',
-        'support.class',
-        'entity.name.type',
-        'entity.name.class',
-      ],
+      scope: ['entity.name.tag', 'support.class', 'entity.name.type', 'entity.name.class'],
       settings: { foreground: '#7ec699' },
     },
     {
@@ -79,31 +69,23 @@ const fuseTheme: ThemeRegistrationRaw = {
     },
     {
       scope: ['entity.other.inherited-class'],
-      settings: { foreground: '#6fb8e0' },
+      settings: { foreground: '#7ec699' },
     },
   ],
 };
 
-export const docs = defineDocs({
-  dir: 'content/docs',
-  docs: {
-    schema: pageSchema,
-    postprocess: {
-      includeProcessedMarkdown: true,
-    },
-  },
-  meta: {
-    schema: metaSchema,
-  },
-});
+let highlighterPromise: ReturnType<typeof createHighlighter> | null = null;
 
-export default defineConfig({
-  mdxOptions: {
-    rehypeCodeOptions: {
-      themes: {
-        light: fuseTheme,
-        dark: fuseTheme,
-      },
-    },
-  },
-});
+export async function highlight(code: string, lang: string) {
+  if (!highlighterPromise) {
+    highlighterPromise = createHighlighter({
+      langs: ['tsx', 'dart', 'typescript', 'bash'],
+      themes: [fuseTheme],
+    });
+  }
+  const highlighter = await highlighterPromise;
+  return highlighter.codeToHtml(code.trim(), {
+    lang,
+    theme: 'fuse',
+  });
+}
