@@ -376,13 +376,11 @@ export default async function HomePage() {
                       const [type, label] = cell;
                       const icon = type === 'check'
                         ? <span className="text-[#7ec699]">&#10003;</span>
-                        : type === 'cross'
-                          ? <span className="text-[#4a3e3e]">&#10005;</span>
-                          : <span className="text-[#3a3936]">{label}</span>;
+                        : <span className="text-[#4a3e3e]">&#10005;</span>;
                       content = (
                         <span>
                           {icon}
-                          {label && type !== 'muted' && <span className="ml-1.5">{label}</span>}
+                          {label && <span className="ml-1.5">{label}</span>}
                         </span>
                       );
                     }
