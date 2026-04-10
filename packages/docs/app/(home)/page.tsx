@@ -27,7 +27,7 @@ function CodePanel({
       >
         <span
           className="rounded px-2 py-0.5 text-[10px] font-semibold tracking-wider"
-          style={{ background: badgeColor, color: badge === 'FUSE' ? 'var(--fuse-accent)' : 'var(--fuse-blue)' }}
+          style={{ background: badgeColor, color: badge === 'TYPESCRIPT' ? 'var(--fuse-warm)' : 'var(--fuse-blue)' }}
         >
           {badge}
         </span>
@@ -121,8 +121,8 @@ export default async function HomePage() {
 
         <div className="relative z-10 grid grid-cols-1 gap-2.5 px-2.5 md:grid-cols-2">
           <CodePanel
-            badge="FUSE"
-            badgeColor="var(--fuse-accent-dim)"
+            badge="TYPESCRIPT"
+            badgeColor="var(--fuse-warm-dim)"
             filename="App.tsx"
             lines={fuseCode.split('\n').length}
             html={fuseHtml}
@@ -225,7 +225,7 @@ export default async function HomePage() {
           <div className="flex items-stretch justify-center gap-1">
             {[
               { label: 'SolidJS', sub: 'your code', style: 'js' as const },
-              { label: 'QuickJS', sub: 'runtime', style: 'bridge' as const },
+              { label: 'QuickJS', sub: 'runtime', style: 'purple' as const },
               { label: 'Rust FFI', sub: 'bridge', style: 'bridge' as const },
               { label: 'Flutter', sub: 'widgets', style: 'dart' as const },
               { label: 'Impeller', sub: 'pixels', style: 'native' as const },
@@ -238,11 +238,13 @@ export default async function HomePage() {
                       ...mono,
                       ...(node.style === 'js'
                         ? { background: 'rgba(100,160,255,0.05)', color: 'var(--fuse-blue)', borderColor: 'rgba(100,160,255,0.1)' }
-                        : node.style === 'bridge'
-                          ? { background: 'var(--fuse-accent-dim)', color: 'var(--fuse-accent)', borderColor: 'rgba(212,147,89,0.1)' }
-                          : node.style === 'dart'
-                            ? { background: 'rgba(100,160,255,0.05)', color: 'var(--fuse-blue)', borderColor: 'rgba(100,160,255,0.1)' }
-                            : { background: 'rgba(126,198,153,0.05)', color: '#7ec699', borderColor: 'rgba(126,198,153,0.1)' }),
+                        : node.style === 'purple'
+                          ? { background: 'var(--fuse-violet-dim)', color: 'var(--fuse-violet)', borderColor: 'rgba(168,130,220,0.1)' }
+                          : node.style === 'bridge'
+                            ? { background: 'var(--fuse-accent-dim)', color: 'var(--fuse-accent)', borderColor: 'rgba(212,147,89,0.1)' }
+                            : node.style === 'dart'
+                              ? { background: 'rgba(100,160,255,0.05)', color: 'var(--fuse-blue)', borderColor: 'rgba(100,160,255,0.1)' }
+                              : { background: 'rgba(126,198,153,0.05)', color: '#7ec699', borderColor: 'rgba(126,198,153,0.1)' }),
                     }}
                   >
                     {node.label}
@@ -301,7 +303,7 @@ export default async function HomePage() {
               className="mb-6 inline-block rounded px-2.5 py-0.5 text-[10px] font-semibold tracking-wider"
               style={{ ...mono, background: 'var(--fuse-blue-dim)', color: 'var(--fuse-blue)' }}
             >
-              FLUTTER
+              DART
             </span>
             <h3 className="mb-6 text-[28px] font-medium tracking-tight md:text-[36px]">
               A better authoring layer.
@@ -354,11 +356,11 @@ export default async function HomePage() {
             <tbody className="font-light text-[#76746e]">
               {([
                 ['language', 'TypeScript', 'JS / TS', 'Dart', 'JS / TS'],
-                ['rendering', 'Flutter (Impeller)', 'native views', 'Flutter (Impeller)', 'webview'],
+                ['rendering', 'Impeller (GPU)', 'native views', 'Impeller (GPU)', 'webview'],
                 ['reactivity', 'signals', 'VDOM diff', 'setState', 'VDOM diff'],
-                ['ota updates', ['check', 'built-in'], ['check', 'codepush'], ['muted', '--'], ['check', 'native']],
-                ['npm', ['check', 'native'], ['check', 'native'], ['cross', ''], ['check', 'native']],
+                ['npm ecosystem', ['check', ''], ['check', ''], ['cross', ''], ['check', '']],
                 ['pixel-perfect', ['check', ''], ['cross', ''], ['check', ''], ['cross', '']],
+                ['ota updates', ['check', 'built-in'], ['check', 'codepush'], ['cross', ''], ['check', 'native']],
               ] as const).map((row, ri, arr) => (
                 <tr key={ri}>
                   {row.map((cell, ci) => {
