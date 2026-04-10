@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="cutout">
+      <rect width="512" height="512" fill="white"/>
+      <g transform="matrix(1.625064,0,0,1.74791,-219.191526,-285.107611)">
+        <path
+          d="M349.885,261.354L284.815,405.08C323.786,319 371.177,319 430,319C371.177,319 328.929,319 349.885,261.354Z"
+          fill="black" stroke="black" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+        />
+      </g>
+      <g transform="matrix(-1.625064,0,0,-1.74791,731.191526,830.52729)">
+        <path
+          d="M349.885,261.354L270.714,435.643C323.699,319 371.177,319 430,319C371.177,319 328.929,319 349.885,261.354Z"
+          fill="black" stroke="black" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+        />
+      </g>
+    </mask>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="#D49359" mask="url(#cutout)"/>
+</svg>
