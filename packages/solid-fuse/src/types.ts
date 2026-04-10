@@ -93,7 +93,7 @@ export type TransformInput = {
   translateY?: number;
 };
 
-export type LayoutInput = {
+export type FlexInput = {
   direction?: "horizontal" | "vertical";
   gap?: number;
   align?: "start" | "center" | "end" | "stretch";
@@ -109,7 +109,7 @@ export interface BaseProps {
 }
 
 export interface ViewProps extends BaseProps {
-  layout?: LayoutInput;
+  flex?: FlexInput;
   padding?: EdgeInsetsInput;
   margin?: EdgeInsetsInput;
   width?: number;
@@ -244,7 +244,7 @@ export type PointerDevice = "touch" | "mouse" | "stylus" | "trackpad";
 // ─── GestureDetector ─────────────────────────────────────────────────────────
 
 export interface GestureDetectorProps extends BaseProps {
-  layout?: LayoutInput;
+  flex?: FlexInput;
   // Tap
   onTapDown?: (details: TapDownDetails) => void;
   onTapUp?: (details: TapUpDetails) => void;
@@ -324,7 +324,7 @@ export interface NavigatorProps extends BaseProps {
 
 export interface ScrollViewProps extends BaseProps {
   scrollDirection?: "vertical" | "horizontal";
-  layout?: LayoutInput;
+  flex?: FlexInput;
   padding?: EdgeInsetsInput;
   physics?: "bouncing" | "clamping" | "always" | "never" | "page";
   reverse?: boolean;
@@ -340,7 +340,7 @@ export interface ScrollViewProps extends BaseProps {
 export interface MaterialPageProps extends BaseProps {
   fullscreenDialog?: boolean;
   maintainState?: boolean;
-  layout?: LayoutInput;
+  flex?: FlexInput;
 }
 
 export interface StackProps extends BaseProps {
@@ -357,5 +357,5 @@ export interface PositionedProps extends BaseProps {
   bottom?: number;
   width?: number;
   height?: number;
-  layout?: LayoutInput;
+  flex?: FlexInput;
 }

@@ -10,7 +10,7 @@ abstract class FusePage {
   /// The page's content widget, reactive to node changes.
   Widget get child => ListenableBuilder(
         listenable: node,
-        builder: (_, _) => node.buildLayout(),
+        builder: (_, _) => node.flexChildren,
       );
 
   /// Build the [Page] for the navigator.

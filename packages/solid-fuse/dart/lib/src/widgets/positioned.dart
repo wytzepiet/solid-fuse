@@ -16,7 +16,7 @@ class FusePositioned extends StatelessWidget {
       bottom: node.double('bottom'),
       width: node.double('width'),
       height: node.double('height'),
-      child: node.buildLayout(),
+      child: node.flexChildren,
     );
   }
 }

@@ -46,9 +46,9 @@ class FuseViewWidget extends StatelessWidget {
     final visible = node.bool('visible') ?? true;
     final ignorePointer = node.bool('ignorePointer') ?? false;
 
-    // ── Layer 1: Layout or single child ─────────────────────────────────────
+    // ── Layer 1: Flex or single child ──────────────────────────────────────
 
-    Widget result = node.buildLayout();
+    Widget result = node.flexChildren;
 
     // ── Layer 2: Padding ─────────────────────────────────────────────────────
 

@@ -101,14 +101,14 @@ class FuseNode extends FuseMap with ChangeNotifier {
         .toList();
   }
 
-  Widget buildLayout() {
-    final layout = map('layout');
+  Widget get flexChildren {
+    final flex = map('flex');
 
-    final direction = layout?.string('direction');
+    final direction = flex?.string('direction');
     final isHorizontal = direction == 'horizontal';
-    final gap = layout?.double('gap') ?? 0;
-    final align = layout?.string('align');
-    final justify = layout?.string('justify');
+    final gap = flex?.double('gap') ?? 0;
+    final align = flex?.string('align');
+    final justify = flex?.string('justify');
 
     final crossAxis = switch (align) {
       'center' => CrossAxisAlignment.center,
@@ -126,7 +126,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
       _ => MainAxisAlignment.start,
     };
 
-    final expand = layout?.bool('expand');
+    final expand = flex?.bool('expand');
     final mainAxisSize = (expand ?? (justify != null && justify != 'start'))
         ? MainAxisSize.max
         : MainAxisSize.min;

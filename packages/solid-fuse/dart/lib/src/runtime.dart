@@ -205,7 +205,7 @@ class FuseRuntime {
 
   /// Build a Flutter widget for a single FuseNode.
   Widget buildWidgetForNode(FuseNode node) {
-    if (node.type == 'root') return node.buildLayout();
+    if (node.type == 'root') return node.flexChildren;
 
     if (node.type == '__text__') {
       return Text(node.props['text']?.toString() ?? '');
