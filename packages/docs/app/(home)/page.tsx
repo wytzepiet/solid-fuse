@@ -241,7 +241,7 @@ export default async function HomePage() {
                         : node.style === 'bridge'
                           ? { background: 'var(--fuse-accent-dim)', color: 'var(--fuse-accent)', borderColor: 'rgba(212,147,89,0.1)' }
                           : node.style === 'dart'
-                            ? { background: 'rgba(212,147,89,0.05)', color: 'var(--fuse-blue)', borderColor: 'rgba(212,147,89,0.1)' }
+                            ? { background: 'rgba(100,160,255,0.05)', color: 'var(--fuse-blue)', borderColor: 'rgba(100,160,255,0.1)' }
                             : { background: 'rgba(126,198,153,0.05)', color: '#7ec699', borderColor: 'rgba(126,198,153,0.1)' }),
                     }}
                   >
