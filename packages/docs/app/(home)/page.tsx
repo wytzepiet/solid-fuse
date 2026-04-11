@@ -173,8 +173,8 @@ export default async function HomePage() {
             },
             {
               num: '02',
-              title: 'Native rendering',
-              description: "Flutter's Impeller engine. 120fps, pixel-perfect on iOS and Android.",
+              title: 'Native performance',
+              description: "Flutter's Impeller engine for rendering. Rust-powered runtime for JS. Even fetch and crypto run at native speed.",
               color: '#7ec699',
               bg: 'rgba(126, 198, 153, 0.07)',
             },

@@ -3,76 +3,64 @@ title: Architecture
 description: How JSX becomes Flutter widgets
 ---
 
-This page explains how Fuse works under the hood. It's useful context but not required reading — you can start building without it.
+Fuse connects SolidJS and Flutter through a surprisingly small set of ideas. Each layer does one thing well, and they compose naturally. This page walks through how it all fits together.
 
-## The pipeline
+## Two threads, one reactive loop
 
-```
-SolidJS JSX → custom renderer → ops journal → bridge_call → Dart → Flutter widgets
-```
+SolidJS runs inside [FJS](https://github.com/fluttercandies/fjs) — a QuickJS-based JavaScript runtime built in Rust. FJS runs on its own isolate thread, off Flutter's main thread, so the JS engine and Flutter's frame pipeline never compete for the same core.
 
-1. **SolidJS JSX** — Your components use intrinsic elements like `<view>` and `<text>`. The Solid compiler transforms JSX into renderer calls.
+Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten.
 
-2. **Custom renderer** — Fuse uses `@solidjs/universal` to create a virtual tree of nodes instead of DOM elements. Each node has an ID, type, props, and children.
+The batch crosses to Dart through FJS's Rust bridge as a single FFI call. `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
 
-3. **Ops journal** — Every mutation (create a node, set a prop, insert a child) is recorded as an operation. Operations are batched — all reactive updates within a single flush produce one ops list.
-
-4. **`bridge_call`** — The batched ops list is sent to Dart in a single FFI call via QuickJS's bridge mechanism.
-
-5. **Dart runtime** — `FuseRuntime` applies the ops: creates nodes, sets props, inserts children, and marks dirty nodes. Each node is a `ChangeNotifier` — Flutter's `ListenableBuilder` picks up changes and rebuilds only the affected widgets.
-
-## Operations
-
-The ops journal supports these operation types:
-
-| Op | What it does |
-|---|---|
-| `create` | Instantiate a new node with a type and initial props |
-| `setText` | Update text content |
-| `setProp` | Set or update a property on a node |
-| `insert` | Add a child node at a specific index |
-| `remove` | Remove a child node |
-| `call` | Invoke a method on a controller (imperative) |
-| `dispose` | Clean up a node and its resources |
-
-Ops are batched and flushed together. This means setting 10 props on a widget produces one bridge call, not ten.
-
-## Events flow back
-
-Events are the reverse path — from Flutter to JS:
+Events flow back the same way. A `GestureDetector` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
 
 ```
-Flutter gesture → callFunction(nodeId, name, value) → JS handler → signal update → new ops → flush
+signal update → ops journal → bridge_call → Dart applies ops → Flutter rebuilds
+                                                                       ↓
+signal update ← JS handler  ← bridge_call ← Flutter gesture ← user taps
 ```
 
-When you write `onTap={() => setCount(c => c + 1)}`, Fuse stores the function in a JS-side handler map. The Dart widget sees the prop as `true` (a marker that a handler exists). When the Flutter `GestureDetector` fires, it calls back into JS with the node ID and event name. JS looks up the handler, calls it, the signal updates, Solid re-runs effects, new ops are produced, and they flush back to Dart.
+## The runtime
 
-The loop is automatic — you just write reactive code.
+Most hybrid frameworks run JS in a stripped-down environment where IO operations bounce back to the host. FJS implements standard APIs — `fetch`, `crypto`, `setTimeout`, `Buffer`, URL parsing, streams, compression — in Rust. So things like network requests and cryptography run at native speed, not through JS polyfills. SolidJS gets a real environment with the APIs it expects.
 
-## Dev vs production
+Fuse adds a WebSocket polyfill on the Dart side (via `web_socket_channel`) to fill that gap.
 
-**Development mode** — `fuse dev` starts a Vite dev server. The Dart runtime connects via WebSocket, pre-fetches ES modules, and evaluates them in QuickJS. Hot module replacement (HMR) works: edit a component, save, and it updates on-device without restarting Flutter.
+For production, bundles can be pre-compiled to QuickJS bytecode — no parse step at launch, just load and run.
 
-**Production mode** — `fuse build` produces a single IIFE bundle. The Dart runtime loads it from Flutter assets and evaluates it directly in QuickJS, with optional bytecode caching for faster startup.
+## The bridge
 
-## Three registration types
+Only things that need Flutter cross the bridge: rendering ops, gesture events, platform APIs. Reactive state, data fetching, timers, module imports — all of that stays inside the Rust/QuickJS layer on its own thread.
 
-Fuse has three ways to register Dart-side implementations:
+There's no JSON serialization. FJS passes structured values directly between Dart and JS through Rust. On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
+
+## Extending
+
+Extending Fuse only requires Dart — no Rust, no C. Write a Dart class, add a JSX type declaration, register it. Any Flutter developer already knows enough.
+
+Three registration types:
 
 | Method | Purpose | Creates |
 |---|---|---|
-| `registerWidget(name, builder)` | Visual elements | `StatelessWidget` / `StatefulWidget` with `FuseNode` |
-| `registerController(name, factory)` | Imperative controllers | `FuseController<T>` wrapping native Dart objects |
-| `registerPage(name, factory)` | Navigator page types | `FusePage` producing Flutter `Page` objects |
+| `registerWidget(name, builder)` | Visual elements | `StatelessWidget` / `StatefulWidget` |
+| `registerController(name, factory)` | Imperative control | `FuseController<T>` wrapping native objects |
+| `registerPage(name, factory)` | Navigator pages | `FusePage` producing Flutter `Page` objects |
 
-Widgets map to JSX elements (`<view>`, `<text>`). Controllers create persistent native objects you can call methods on from JS (like `ScrollController`). Pages define content and transitions for navigation.
+## Packages
 
-All three are registered the same way — in a package's `register` function or directly on the runtime:
+Fuse packages live on npm. Each package can include both JS and Dart code. The CLI (`fuse link`) scans `node_modules` for Fuse packages, reads their Dart source, and generates the glue code to wire them into your Flutter project.
 
-```dart
-void register(FuseRuntime runtime) {
-  runtime.registerWidget('view', FuseViewWidget.new);
-  runtime.registerController('scrollController', FuseScrollController.new);
-  runtime.registerPage('materialPage', FuseMaterialPage.new);
-}
+```bash
+bun add some-fuse-package
+fuse link
+# Dart dependencies resolved, register function generated
 ```
+
+One package manager for both sides.
+
+## Dev vs production
+
+**Development** — `fuse dev` starts Vite and Flutter together. Dart connects to the Vite dev server via WebSocket, pre-fetches ES modules, and evaluates them in FJS. HMR works — edit, save, see it on device.
+
+**Production** — `fuse build` produces a single IIFE bundle with optional bytecode compilation. The Dart layer is a stable native SDK that rarely changes. The JS bundle is where product code lives and can ship continuously — including over-the-air without app store review.
