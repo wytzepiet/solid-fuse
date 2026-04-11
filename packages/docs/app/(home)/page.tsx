@@ -74,12 +74,37 @@ void main() async {
   ));
 }`;
 
+const reactivityCode = `const [count, setCount] = createSignal(0);
+
+// signal changes → one widget rebuilds
+<text fontSize={48}>{count()}</text>
+<gestureDetector onTap={() => setCount(c => c + 1)} />`;
+
+const extendCode = `// JSX type
+badge: { label: string; color?: ColorInput };
+
+// Dart widget
+class FuseBadge extends StatelessWidget {
+  const FuseBadge(this.node);
+  final FuseNode node;
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(label: Text(node.string('label') ?? ''));
+  }
+}
+
+// Register
+runtime.registerWidget('badge', FuseBadge.new);`;
+
 /* ── Page ─────────────────────────────────────────────────────────── */
 
 export default async function HomePage() {
-  const [fuseHtml, dartHtml] = await Promise.all([
+  const [fuseHtml, dartHtml, reactivityHtml, extendHtml] = await Promise.all([
     highlight(fuseCode, 'tsx'),
     highlight(dartCode, 'dart'),
+    highlight(reactivityCode, 'tsx'),
+    highlight(extendCode, 'dart'),
   ]);
 
   return (
@@ -162,47 +187,74 @@ export default async function HomePage() {
             The best parts of two ecosystems, connected at the rendering layer.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/5 md:grid-cols-3">
-          {[
-            {
-              num: '01',
-              title: 'Fine-grained reactivity',
-              description: 'Signals propagate directly to widgets. No VDOM, no diffing, no reconciler.',
-              color: 'var(--fuse-accent)',
-              bg: 'var(--fuse-accent-dim)',
-            },
-            {
-              num: '02',
-              title: 'Native performance',
-              description: "Flutter's Impeller engine for rendering. Rust-powered runtime for JS. Even fetch and crypto run at native speed.",
-              color: '#7ec699',
-              bg: 'rgba(126, 198, 153, 0.07)',
-            },
-            {
-              num: '03',
-              title: 'One ecosystem',
-              description: 'npm packages with auto Dart codegen. One package manager, both worlds.',
-              color: 'var(--fuse-violet)',
-              bg: 'var(--fuse-violet-dim)',
-            },
-          ].map((feature) => (
-            <div key={feature.num} className="relative bg-[#0d0d0f] p-10">
-              <span
-                className="absolute right-6 top-6 text-[10px] text-[#3a3936]"
-                style={mono}
-              >
-                {feature.num}
-              </span>
-              <div
-                className="mb-6 h-1 w-8 rounded-full"
-                style={{ background: feature.color }}
-              />
-              <h3 className="mb-3 text-xl font-semibold tracking-tight">{feature.title}</h3>
-              <p className="text-sm font-light leading-relaxed text-[#76746e]">
-                {feature.description}
+        <div className="grid grid-cols-1 gap-2.5 md:grid-cols-6">
+          {/* ── Hero card: Reactivity ── */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d0f] md:col-span-4">
+            <div className="p-10 pb-0">
+              <h3 className="mb-3 text-xl font-semibold tracking-tight">Fine-grained reactivity</h3>
+              <p className="max-w-[400px] text-sm font-light leading-relaxed text-[#76746e]">
+                Signals propagate directly to widget props. No VDOM, no diffing. A signal changes, one widget rebuilds.
               </p>
             </div>
-          ))}
+            <div
+              className="mt-8 ml-10 overflow-hidden rounded-tl-lg border-l border-t border-white/5 bg-[#08080a] text-[11px] leading-[1.7] [&_pre]:!bg-transparent [&_pre]:px-4 [&_pre]:py-4 [&_code]:!text-[11px]"
+              dangerouslySetInnerHTML={{ __html: reactivityHtml }}
+            />
+          </div>
+
+          {/* ── Side card: Native performance ── */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d0f] p-10 md:col-span-2">
+            <h3 className="mb-3 text-xl font-semibold tracking-tight">Native performance</h3>
+            <p className="mb-8 text-sm font-light leading-relaxed text-[#76746e]">
+              Impeller GPU rendering. Rust-powered JS runtime. Even fetch and crypto run at native speed.
+            </p>
+            <div className="flex flex-wrap gap-1.5" style={mono}>
+              {['Impeller', 'Rust FFI', 'fetch', 'crypto', 'timers', 'streams', 'zlib', 'fs', 'bytecode'].map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-md border border-[#7ec699]/10 bg-[#7ec699]/5 px-2.5 py-1 text-[10px] text-[#7ec699]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Easy to extend ── */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d0f] md:col-span-3">
+            <div className="p-10 pb-0">
+              <h3 className="mb-3 text-xl font-semibold tracking-tight">Easy to extend</h3>
+              <p className="text-sm font-light leading-relaxed text-[#76746e]">
+                Write a Dart class, add a JSX type, register it. Any Flutter widget becomes a JSX element.
+              </p>
+            </div>
+            <div
+              className="mt-8 ml-10 overflow-hidden rounded-tl-lg border-l border-t border-white/5 bg-[#08080a] text-[11px] leading-[1.7] [&_pre]:!bg-transparent [&_pre]:px-4 [&_pre]:py-4 [&_code]:!text-[11px]"
+              dangerouslySetInnerHTML={{ __html: extendHtml }}
+            />
+          </div>
+
+          {/* ── Hot reload ── */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0d0d0f] p-10 md:col-span-3">
+            <h3 className="mb-3 text-xl font-semibold tracking-tight">Hot reload</h3>
+            <p className="mb-8 text-sm font-light leading-relaxed text-[#76746e]">
+              Vite HMR on a real device. Edit, save, see it update — without restarting Flutter.
+            </p>
+            <div className="overflow-hidden rounded-lg border border-white/5 bg-[#08080a]" style={mono}>
+              <div className="flex items-center gap-2 border-b border-white/5 px-4 py-2.5 text-[10px] text-[#3a3936]">
+                <span className="h-2 w-2 rounded-full bg-[#7ec699]" />
+                terminal
+              </div>
+              <div className="px-4 py-3 text-[11px] leading-[1.8] text-[#76746e]">
+                <div><span className="text-[#3a3936]">$</span> <span className="text-[#e8e6e0]">bun dev</span></div>
+                <div className="text-[#3a3936]">┌ vite dev server running</div>
+                <div className="text-[#3a3936]">├ flutter: launching...</div>
+                <div className="text-[#7ec699]">✓ connected</div>
+                <div className="mt-2 text-[#3a3936]">hmr update <span className="text-[var(--fuse-accent)]">App.tsx</span> <span className="text-[#7ec699]">12ms</span></div>
+                <div className="text-[#3a3936]">hmr update <span className="text-[var(--fuse-accent)]">Header.tsx</span> <span className="text-[#7ec699]">8ms</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -267,29 +319,31 @@ export default async function HomePage() {
       {/* ── Two audiences ─────────────────────────────────────── */}
       <section className="px-8 py-28 md:px-14">
         <div className="mb-3" style={mono}>
-          <span className="text-[11px] uppercase tracking-[0.1em] text-[var(--fuse-accent)]">03 &mdash; for who</span>
+          <span className="text-[11px] uppercase tracking-[0.1em] text-[var(--fuse-accent)]">03 &mdash; two ecosystems</span>
         </div>
-        <h2 className="mb-16 text-[40px] font-medium leading-tight tracking-tight md:text-[56px]">
-          Two worlds, one framework
-        </h2>
+        <div className="mb-16 grid grid-cols-1 gap-x-20 md:grid-cols-2">
+          <h2 className="text-[40px] font-medium leading-tight tracking-tight md:text-[56px]">
+            The best of both worlds
+          </h2>
+          <p className="mt-4 max-w-[480px] self-end text-lg font-light leading-relaxed text-white/40 md:mt-0">
+            TypeScript for your app logic. Flutter for rendering. You don&apos;t compromise on either.
+          </p>
+        </div>
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
           <div className="rounded-2xl border border-white/5 bg-[#0d0d0f] p-10 md:p-14">
             <span
               className="mb-6 inline-block rounded px-2.5 py-0.5 text-[10px] font-semibold tracking-wider"
               style={{ ...mono, background: 'var(--fuse-warm-dim)', color: 'var(--fuse-warm)' }}
             >
-              TYPESCRIPT
+              WHAT TYPESCRIPT GIVES YOU
             </span>
-            <h3 className="mb-6 text-[28px] font-medium tracking-tight md:text-[36px]">
-              Your stack, on mobile.
-            </h3>
             <div className="space-y-2 text-[15px] font-light leading-relaxed text-[#76746e]">
               {[
-                'TSX components with SolidJS signals',
-                'npm packages and existing tooling',
-                'Hot reload in milliseconds',
-                'No Dart knowledge required',
-                'OTA updates without App Store',
+                'SolidJS signals for state and UI',
+                'Your existing npm packages',
+                'Vite HMR on a real device',
+                'Ship updates without the App Store',
+                'No Dart required to build features',
               ].map((text) => (
                 <div key={text} className="flex items-baseline gap-3">
                   <span className="shrink-0 text-[10px] text-[#3a3936]" style={mono}>//</span>
@@ -303,18 +357,15 @@ export default async function HomePage() {
               className="mb-6 inline-block rounded px-2.5 py-0.5 text-[10px] font-semibold tracking-wider"
               style={{ ...mono, background: 'var(--fuse-blue-dim)', color: 'var(--fuse-blue)' }}
             >
-              DART
+              WHAT FLUTTER GIVES YOU
             </span>
-            <h3 className="mb-6 text-[28px] font-medium tracking-tight md:text-[36px]">
-              A better authoring layer.
-            </h3>
             <div className="space-y-2 text-[15px] font-light leading-relaxed text-[#76746e]">
               {[
-                'Same rendering engine underneath',
-                'Register widgets in 3 lines of Dart',
-                'Drop into native code anytime',
-                'Existing knowledge transfers',
-                'Publish extensions to npm',
+                'Impeller GPU rendering on every platform',
+                'Pixel-perfect UI without platform quirks',
+                'Add a widget in one Dart class',
+                'Full access to any pub.dev package',
+                'Share extensions on npm',
               ].map((text) => (
                 <div key={text} className="flex items-baseline gap-3">
                   <span className="shrink-0 text-[10px] text-[#3a3936]" style={mono}>//</span>
