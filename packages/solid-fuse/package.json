@@ -22,23 +22,23 @@
   "files": [
     "dist",
     "dart",
-    "cli",
-    "fuse.config.ts"
+    "cli"
   ],
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts"
   },
   "peerDependencies": {
-    "solid-js": "^2.0.0-beta.5"
+    "solid-js": "2.0.0-beta.7"
   },
   "dependencies": {
-    "@solidjs/universal": "^2.0.0-beta.5",
+    "@solidjs/universal": "2.0.0-beta.7",
     "citty": "^0.1.6",
     "defu": "^6.1.6",
     "vite": "^8.0.0",
     "vite-plugin-solid": "^3.0.0-next.4"
   },
   "devDependencies": {
+    "solid-js": "2.0.0-beta.7",
     "typescript": "^5.9.3"
   }
 }

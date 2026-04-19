@@ -9,7 +9,6 @@ export 'src/node.dart';
 export 'src/node_widget.dart';
 export 'src/quickjs_connection.dart';
 export 'src/runtime.dart';
-export 'src/solid_fuse_package.dart';
 export 'src/ws_manager.dart';
 export 'src/widgets/view.dart';
 export 'src/widgets/text.dart';
