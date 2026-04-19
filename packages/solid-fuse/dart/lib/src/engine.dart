@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fjs/fjs.dart';
 import 'package:flutter/foundation.dart';
 // ignore: implementation_imports, depend_on_referenced_packages
@@ -49,7 +51,20 @@ Future<EngineResult> createEngine({
         if (channel != null) {
           final payload = Map<String, dynamic>.from(data);
           payload.remove('channel');
-          channels.dispatch(channel, payload);
+          try {
+            final result = await channels.dispatch(channel, payload);
+            // Drain after return: once Rust resolves the Promise from our
+            // JsResult, QuickJS has a pending await-resumption microtask
+            // that nothing else pumps. Direct await would deadlock (we'd
+            // block on our own return value).
+            scheduleMicrotask(() => drainImmediateJobs(runtime));
+            return JsResult.ok(
+              result == null ? JsValue.none() : JsValue.from(result),
+            );
+          } catch (e, st) {
+            scheduleMicrotask(() => drainImmediateJobs(runtime));
+            return JsResult.err(JsError.runtime('$e\n$st'));
+          }
         }
       }
       return const JsResult.ok(JsValue.none());
@@ -93,7 +108,7 @@ Future<EngineResult> createEngine({
   await engine.declareNewModule(
     module: JsModule.code(
       module: '__fuse_dispatch',
-      code: 'export function dispatch(ch, data) { globalThis.__dispatch(ch, data); }',
+      code: 'export function dispatch(ch, data) { return globalThis.__dispatch(ch, data); }',
     ),
   );
 

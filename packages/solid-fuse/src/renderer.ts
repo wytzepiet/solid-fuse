@@ -1,6 +1,6 @@
 import { createRenderer } from "@solidjs/universal";
 import { flush } from "solid-js";
-import { send, on, onAfterDispatch } from "~/channels";
+import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
 
 export interface FuseNode {
   type: string;
@@ -39,7 +39,6 @@ type Op =
   | { op: "setProp"; id: number; name: string; value: any }
   | { op: "insert"; parentId: number; childId: number; index: number }
   | { op: "remove"; parentId: number; childId: number }
-  | { op: "call"; id: number; method: string; value?: any }
   | { op: "dispose"; id: number };
 
 const ops: Op[] = [];
@@ -66,6 +65,10 @@ function scheduleFlush() {
 
 // Wire up __dispatch auto-flush: after every Dart→JS message, flush Solid effects + ops.
 onAfterDispatch(flushOps);
+
+// Let channels.call() drain pending ops before firing the RPC, so the
+// ref→controller-method pattern works without users thinking about ordering.
+_setFlushOps(flushOps);
 
 // --- Renderer ---
 

@@ -24,7 +24,7 @@ export { Navigator, useNavigator } from "./navigator";
 export { createController } from "./controller";
 export { createScrollController } from "./scroll-controller";
 export type { ScrollController } from "./scroll-controller";
-export { on, send } from "./channels";
+export { on, send, channels } from "./channels";
 export { defineConfig } from "./config";
 export type { FuseConfig } from "./config";
 export type * from "./types";
