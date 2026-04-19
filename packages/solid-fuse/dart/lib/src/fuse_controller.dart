@@ -9,8 +9,9 @@ abstract class FuseController<T> {
   /// This is what gets stored on the node and exposed via `_ref` resolution.
   T create();
 
-  /// Handle an imperative method call from JS.
-  void call(T object, String method, dynamic value) {}
+  /// Handle an imperative method call from JS. Return value flows back to
+  /// the JS `controller.call(...)` promise.
+  Future<dynamic> call(T object, String method, dynamic value) async => null;
 
   /// Dispose the native object.
   void dispose(T object) {}

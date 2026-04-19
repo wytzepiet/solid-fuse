@@ -18,7 +18,11 @@ class FuseScrollController extends FuseController<ScrollController> {
   }
 
   @override
-  void call(ScrollController object, String method, dynamic value) {
+  Future<dynamic> call(
+    ScrollController object,
+    String method,
+    dynamic value,
+  ) async {
     switch (method) {
       case 'scrollTo':
         object.jumpTo((value as num).toDouble());

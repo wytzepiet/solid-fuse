@@ -1,4 +1,5 @@
 import { makeNode, setProp as rawSetProp, scheduleFlush, ops } from "./renderer";
+import { channels } from "./channels";
 import { onCleanup, getOwner, createSignal } from "solid-js";
 
 export function createController(type: string, props: Record<string, any> = {}) {
@@ -15,10 +16,8 @@ export function createController(type: string, props: Record<string, any> = {}) 
 
   return {
     _ref: node.props._id,
-    call: (method: string, value?: any) => {
-      ops.push({ op: "call", id: node.props._id, method, value });
-      scheduleFlush();
-    },
+    call: (method: string, value?: any, options?: { timeout?: number }): Promise<any> =>
+      channels.call("_controllerCall", { ref: node.props._id, method, value }, options),
     state: <T>(name: string, initialValue: T): (() => T) => {
       const [get, set] = createSignal<any>(initialValue);
       let registered = false;
