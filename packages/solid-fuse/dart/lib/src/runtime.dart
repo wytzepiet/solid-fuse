@@ -3,11 +3,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'connection.dart';
+import 'controllers/scroll_controller.dart';
 import 'dev_connection.dart';
 import 'fuse_controller.dart';
 import 'fuse_page.dart';
-import 'quickjs_connection.dart';
 import 'node.dart';
+import 'quickjs_connection.dart';
+import 'routes/material_page.dart';
+import 'widgets/gesture_detector.dart';
+import 'widgets/navigator.dart';
+import 'widgets/positioned.dart';
+import 'widgets/scroll_view.dart';
+import 'widgets/stack.dart';
+import 'widgets/text.dart';
+import 'widgets/view.dart';
 
 /// Signature for a Fuse widget builder.
 /// Matches the constructor signature of Fuse widget classes,
@@ -28,6 +37,21 @@ class FuseRuntime {
     registry = FuseNodeRegistry(callFunction: callFunction);
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
+    _registerCore();
+  }
+
+  /// Register Fuse's built-in widgets, controllers, and pages.
+  /// Runs on construction so callers never need to register them manually.
+  void _registerCore() {
+    registerWidget('view', FuseViewWidget.new);
+    registerWidget('text', FuseText.new);
+    registerWidget('gestureDetector', FuseGestureDetector.new);
+    registerWidget('navigator', FuseNavigatorWidget.new);
+    registerWidget('scrollView', FuseScrollView.new);
+    registerWidget('stack', FuseStack.new);
+    registerWidget('positioned', FusePositioned.new);
+    registerController('scrollController', FuseScrollController.new);
+    registerPage('materialPage', FuseMaterialPage.new);
   }
 
   FuseConnection? _connection;
@@ -37,16 +61,15 @@ class FuseRuntime {
   final Map<String, FusePage Function(FuseNode node)> _pageFactories = {};
   late final FuseNodeRegistry registry;
 
-  /// Creates and initializes a FuseRuntime. Connects to the dev server
-  /// (debug mode) or loads the QuickJS bundle (release mode).
+  /// Construct a runtime. Does FFI init only — does NOT start the JS engine.
   ///
-  /// Register packages before calling this method so that widgets are
-  /// available when the JS tree starts rendering.
+  /// Call [registerWidget] / [registerController] / [registerPage] and any
+  /// workspace-package `register()` functions BEFORE calling [start]. Once
+  /// the JS bundle starts evaluating, it will push create ops that require
+  /// those factories to already be in place.
   static Future<FuseRuntime> create() async {
     await LibFjs.init();
-    final runtime = FuseRuntime._();
-    await runtime._init();
-    return runtime;
+    return FuseRuntime._();
   }
 
   /// Register a widget type.
@@ -69,13 +92,18 @@ class FuseRuntime {
     return _pageFactories[node.type]?.call(node).build();
   }
 
-  /// Initialize the runtime. In debug mode, tries dev server first (pre-fetches
-  /// modules from Vite), then falls back to QuickJS bundle. In release mode,
-  /// uses QuickJS bundle directly.
-  Future<void> _init() async {
-    if (_connection != null && _connection!.isConnected) {
-      await _connection!.restart();
-      return;
+  /// Start the JS engine. In debug mode, connects to the Vite dev server
+  /// (pre-fetches modules from Vite) and falls back to the QuickJS bundle
+  /// if unavailable. In release mode, loads the QuickJS bundle directly.
+  ///
+  /// All widget/controller/page factories must be registered before this is
+  /// called — once the JS bundle starts evaluating, it will push create ops
+  /// that require those factories to already be in place.
+  ///
+  /// Throws if called twice on the same instance.
+  Future<void> start() async {
+    if (_connection != null) {
+      throw StateError('FuseRuntime.start() already called');
     }
 
     if (kDebugMode) {
@@ -111,6 +139,22 @@ class FuseRuntime {
       } catch (e, st) {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
+    });
+    channels.on('_controllerCall', (data) async {
+      final ref = data['ref'] as int;
+      final method = data['method'] as String;
+      final value = data['value'];
+      final node = registry.tryGet(ref);
+      if (node == null) throw StateError('No node for controller ref $ref');
+      final controller = node.controller as FuseController?;
+      if (controller == null || node.nativeObject == null) {
+        throw StateError('No controller for node $ref');
+      }
+      return await controller.call(
+        node.nativeObject as dynamic,
+        method,
+        value,
+      );
     });
   }
 
@@ -176,12 +220,6 @@ class FuseRuntime {
           parent.removeChildSilent(child);
           dirty.add(parent);
           _removeSubtree(child, dirty);
-        case 'call':
-          final node = registry.get(map['id'] as int);
-          final controller = node.controller as FuseController?;
-          if (controller != null && node.nativeObject != null) {
-            controller.call(node.nativeObject as dynamic, map['method'] as String, map['value']);
-          }
         case 'dispose':
           registry.remove(map['id'] as int);
       }

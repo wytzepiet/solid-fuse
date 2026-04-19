@@ -62,6 +62,7 @@ void main() async {
 
   final runtime = await FuseRuntime.create();
   registerFusePackages(runtime);
+  await runtime.start();
 
   runApp(MaterialApp(
     home: FuseView(runtime: runtime),

@@ -2,6 +2,8 @@
 
 Fuse is a framework that runs [SolidJS 2.0](https://www.solidjs.com/) inside Flutter via an embedded JavaScript engine (QuickJS through [`fjs`](https://pub.dev/packages/fjs)), rendering native Flutter widgets from a reactive SolidJS component tree.
 
+Solid 2.0 docs: https://github.com/solidjs/solid/tree/next/documentation/solid-2.0
+
 ## How it works
 
 ```
@@ -96,12 +98,14 @@ void main() async {
 
   final runtime = await FuseRuntime.create();
   registerFusePackages(runtime);
+  await runtime.start();
 
   runApp(MaterialApp(home: SafeArea(child: FuseView(runtime: runtime))));
 }
 ```
 
-- `FuseRuntime.create()` — spins up the JS engine, connects to dev server or loads bundle
+- `FuseRuntime.create()` — constructs the runtime (FFI init only); does NOT start the JS engine
+- `runtime.start()` — starts the JS engine, connects to dev server or loads bundle. Register all widgets/controllers/pages before calling this
 - `FuseView(runtime: runtime)` — renders the JS tree, wraps children in `FuseRuntimeScope`
 - `FuseRuntimeScope.of(context)` — widgets access the runtime from the widget tree
 
@@ -175,6 +179,7 @@ For app-level widgets, register directly on the runtime after packages:
 final runtime = await FuseRuntime.create();
 registerFusePackages(runtime);
 runtime.register('videoPlayer', VideoPlayer.new);
+await runtime.start();
 ```
 
 ### Where should a widget live?
