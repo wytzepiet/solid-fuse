@@ -13,5 +13,7 @@ export 'src/solid_fuse_package.dart';
 export 'src/ws_manager.dart';
 export 'src/widgets/view.dart';
 export 'src/widgets/text.dart';
+export 'src/widgets/text_field.dart';
+export 'src/widgets/icon.dart';
 export 'src/widgets/gesture_detector.dart';
 export 'src/routes/material_page.dart';

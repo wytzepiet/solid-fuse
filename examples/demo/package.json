@@ -1,0 +1,18 @@
+{
+  "name": "@solid-fuse/demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "fuse dev",
+    "build": "fuse build",
+    "link": "fuse link"
+  },
+  "dependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "2.0.0-beta.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

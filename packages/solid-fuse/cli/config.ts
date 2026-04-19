@@ -41,8 +41,12 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
     configFile: false,
     root: projectRoot,
     plugins: [solidPlugin(solidOptions)],
-    resolve: {
-      preserveSymlinks: true,
+    optimizeDeps: {
+      // Pre-bundle at server startup so hashes are stable before the device
+      // connects. Without this, Vite discovers these deps from the first
+      // request and re-optimizes mid-fetch, invalidating in-flight URLs.
+      entries: ["src/index.tsx"],
+      include: ["solid-fuse", "solid-js"],
     },
     build: {
       target: "es2020",

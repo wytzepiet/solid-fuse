@@ -22,6 +22,8 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, "src/index.ts"),
         config: resolve(__dirname, "src/config.ts"),
+        "icons/material": resolve(__dirname, "src/icons/material.ts"),
+        "icons/cupertino": resolve(__dirname, "src/icons/cupertino.ts"),
       },
       formats: ["es"],
       fileName: (_format, entryName) => `${entryName}.js`,

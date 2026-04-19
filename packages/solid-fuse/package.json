@@ -13,6 +13,14 @@
     "./config": {
       "import": "./dist/config.js",
       "types": "./dist/config.d.ts"
+    },
+    "./icons/material": {
+      "import": "./dist/icons/material.js",
+      "types": "./dist/icons/material.d.ts"
+    },
+    "./icons/cupertino": {
+      "import": "./dist/icons/cupertino.js",
+      "types": "./dist/icons/cupertino.d.ts"
     }
   },
   "sideEffects": true,
@@ -36,7 +44,7 @@
     "citty": "^0.1.6",
     "defu": "^6.1.6",
     "vite": "^8.0.0",
-    "vite-plugin-solid": "^3.0.0-next.4"
+    "vite-plugin-solid": "^3.0.0-next.5"
   },
   "devDependencies": {
     "solid-js": "2.0.0-beta.7",

@@ -58,6 +58,7 @@ class FuseMap {
   Alignment? alignment(String key) => parseAlignment(_data[key] as String?);
   BlendMode? blendMode(String key) => parseBlendMode(_data[key] as String?);
   Clip clipBehavior(String key) => parseClip(_data[key] as String?);
+  FontWeight? fontWeight(String key) => parseFontWeight(_data[key]);
 }
 
 class FuseNode extends FuseMap with ChangeNotifier {
@@ -152,6 +153,13 @@ class FuseNode extends FuseMap with ChangeNotifier {
   void Function([dynamic value])? function(String name) {
     if (props[name] != true) return null;
     return ([value]) => callFunction(id, name, value);
+  }
+
+  /// Returns a Widget for a prop whose value is a FuseNode (orphan JSX node),
+  /// or null if the prop isn't set / isn't a FuseNode.
+  Widget? widget(String name) {
+    final v = props[name];
+    return v is FuseNode ? FuseNodeWidget(node: v) : null;
   }
 
   void setPropSilent(String name, dynamic value) {

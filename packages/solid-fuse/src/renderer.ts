@@ -9,6 +9,20 @@ export interface FuseNode {
   _parent: FuseNode | undefined;
 }
 
+function isFuseNode(value: any): value is FuseNode {
+  return (
+    value != null &&
+    typeof value === "object" &&
+    typeof value.type === "string" &&
+    typeof value.props?._id === "number" &&
+    Array.isArray(value.children)
+  );
+}
+
+function isRef(value: any): value is { _ref: number } {
+  return value != null && typeof value === "object" && typeof value._ref === "number";
+}
+
 let nextId = 0;
 let _currentComponent: string | undefined;
 
@@ -121,7 +135,15 @@ const {
       handlers.set(`${node.props._id}:${name}`, value);
       node.props[name] = true;
       ops.push({ op: "setProp", id: node.props._id, name, value: true });
-    } else if (value != null && typeof value === "object" && value._ref !== undefined) {
+    } else if (isFuseNode(value)) {
+      node.props[name] = value;
+      ops.push({
+        op: "setProp",
+        id: node.props._id,
+        name,
+        value: { _node: value.props._id },
+      });
+    } else if (isRef(value)) {
       node.props[name] = value;
       ops.push({ op: "setProp", id: node.props._id, name, value: { _ref: value._ref } });
     } else {

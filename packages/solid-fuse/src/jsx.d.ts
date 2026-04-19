@@ -1,12 +1,14 @@
 import type {
   ViewProps,
   TextProps,
+  IconProps,
   GestureDetectorProps,
   NavigatorProps,
   MaterialPageProps,
   ScrollViewProps,
   StackProps,
   PositionedProps,
+  TextFieldProps,
 } from "./types";
 
 declare global {
@@ -21,12 +23,14 @@ declare global {
     interface IntrinsicElements {
       view: ViewProps;
       text: TextProps;
+      icon: IconProps;
       gestureDetector: GestureDetectorProps;
       navigator: NavigatorProps;
       materialPage: MaterialPageProps;
       scrollView: ScrollViewProps;
       stack: StackProps;
       positioned: PositionedProps;
+      textField: TextFieldProps;
     }
   }
 }

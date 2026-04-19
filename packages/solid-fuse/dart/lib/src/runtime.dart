@@ -177,13 +177,20 @@ class FuseRuntime {
           if (node.parent != null) dirty.add(node.parent!);
         case 'setProp':
           final node = registry.get(map['id'] as int);
+          final name = map['name'] as String;
           var value = map['value'];
-          // Resolve controller references
           if (value is Map && value.containsKey('_ref')) {
             final refNode = registry.get(value['_ref'] as int);
             value = refNode.nativeObject ?? refNode;
+          } else if (value is Map && value.containsKey('_node')) {
+            final orphan = registry.get(value['_node'] as int);
+            final prev = node.props[name];
+            if (prev is FuseNode && prev.id != orphan.id) {
+              _removeSubtree(prev, dirty);
+            }
+            value = orphan;
           }
-          node.setPropSilent(map['name'] as String, value);
+          node.setPropSilent(name, value);
           dirty.add(node);
         case 'insert':
           final parent = registry.get(map['parentId'] as int);
@@ -212,6 +219,9 @@ class FuseRuntime {
   void _removeSubtree(FuseNode node, Set<FuseNode> dirty) {
     for (final child in node.children) {
       _removeSubtree(child, dirty);
+    }
+    for (final v in node.props.values) {
+      if (v is FuseNode) _removeSubtree(v, dirty);
     }
     dirty.remove(node);
     registry.remove(node.id);

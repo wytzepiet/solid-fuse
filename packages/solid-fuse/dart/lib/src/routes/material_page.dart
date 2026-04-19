@@ -10,6 +10,6 @@ class FuseMaterialPage extends FusePage {
         key: ValueKey(node.id),
         fullscreenDialog: node.bool('fullscreenDialog') ?? false,
         maintainState: node.bool('maintainState') ?? true,
-        child: child,
+        child: Material(child: child),
       );
 }

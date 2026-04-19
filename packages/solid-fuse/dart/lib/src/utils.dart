@@ -352,3 +352,37 @@ Clip parseClip(String? value) {
     _ => Clip.none,
   };
 }
+
+// ─── parseFontWeight ─────────────────────────────────────────────────────────
+
+FontWeight? parseFontWeight(Object? value) {
+  if (value is num) {
+    return switch (value.toInt()) {
+      100 => FontWeight.w100,
+      200 => FontWeight.w200,
+      300 => FontWeight.w300,
+      400 => FontWeight.w400,
+      500 => FontWeight.w500,
+      600 => FontWeight.w600,
+      700 => FontWeight.w700,
+      800 => FontWeight.w800,
+      900 => FontWeight.w900,
+      _ => null,
+    };
+  }
+  if (value is String) {
+    return switch (value) {
+      'thin' => FontWeight.w100,
+      'extraLight' => FontWeight.w200,
+      'light' => FontWeight.w300,
+      'regular' => FontWeight.w400,
+      'medium' => FontWeight.w500,
+      'semiBold' => FontWeight.w600,
+      'bold' => FontWeight.w700,
+      'extraBold' => FontWeight.w800,
+      'black' => FontWeight.w900,
+      _ => null,
+    };
+  }
+  return null;
+}

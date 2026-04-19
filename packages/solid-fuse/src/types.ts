@@ -131,6 +131,31 @@ export interface ViewProps extends BaseProps {
   ignorePointer?: boolean;
 }
 
+export interface IconData {
+  codePoint: number;
+  fontFamily?: string;
+  fontPackage?: string;
+  matchTextDirection?: boolean;
+  fontFamilyFallback?: string[];
+}
+
+export interface IconProps extends BaseProps {
+  data: IconData;
+  color?: ColorInput;
+  size?: number;
+  semanticLabel?: string;
+  // Variable-font axes (Material Symbols, etc.)
+  fill?: number;
+  weight?: number;
+  grade?: number;
+  opticalSize?: number;
+  // Non-variable font weight (distinct from `weight` above)
+  fontWeight?: FontWeight;
+  applyTextScaling?: boolean;
+  shadows?: ShadowInput | ShadowInput[];
+  blendMode?: string;
+}
+
 export interface TextProps extends BaseProps {
   fontSize?: number;
   fontWeight?: FontWeight;
@@ -358,4 +383,98 @@ export interface PositionedProps extends BaseProps {
   width?: number;
   height?: number;
   flex?: FlexInput;
+}
+
+// ─── TextField ───────────────────────────────────────────────────────────────
+
+export type KeyboardType =
+  | "text" | "number" | "email" | "phone" | "url" | "multiline";
+
+export type TextInputAction =
+  | "done" | "next" | "send" | "search" | "go" | "newline";
+
+export type TextFieldBorderStyle = "none" | "underline" | "outline";
+
+export type TextCapitalization =
+  | "none" | "words" | "sentences" | "characters";
+
+export interface TextFieldDecoration {
+  border?: TextFieldBorderStyle;
+  filled?: boolean;
+  fillColor?: ColorInput;
+  contentPadding?: EdgeInsetsInput;
+  prefixText?: string;
+  suffixText?: string;
+  hintStyle?: {
+    fontSize?: number;
+    color?: ColorInput;
+    fontWeight?: FontWeight;
+    fontFamily?: string;
+  };
+}
+
+export interface TextFieldProps extends BaseProps {
+  value?: string;
+  focusNode?: import("./focus-node").FocusNode;
+
+  // Text behavior
+  placeholder?: string;
+  hintText?: string;
+  obscureText?: boolean;
+  obscuringCharacter?: string;
+  readOnly?: boolean;
+  autofocus?: boolean;
+  enabled?: boolean;
+  autocorrect?: boolean;
+  enableSuggestions?: boolean;
+  spellCheck?: boolean;
+  textCapitalization?: TextCapitalization;
+
+  // Input configuration
+  keyboardType?: KeyboardType;
+  textInputAction?: TextInputAction;
+  maxLines?: number;
+  minLines?: number;
+  maxLength?: number;
+  expands?: boolean;
+
+  // Filtering (compiled into FilteringTextInputFormatter on the Dart side)
+  allowPattern?: string;
+  denyPattern?: string;
+
+  // Text style
+  fontSize?: number;
+  fontWeight?: FontWeight;
+  fontFamily?: string;
+  fontStyle?: "normal" | "italic";
+  color?: ColorInput;
+  letterSpacing?: number;
+  height?: number;
+  textDecoration?: "none" | "underline" | "overline" | "lineThrough";
+  textDecorationColor?: ColorInput;
+  textDecorationStyle?: "solid" | "double" | "dotted" | "dashed" | "wavy";
+  textAlign?: "left" | "right" | "center" | "justify" | "start" | "end";
+
+  // Cursor
+  showCursor?: boolean;
+  cursorColor?: ColorInput;
+  cursorWidth?: number;
+  cursorHeight?: number;
+  cursorRadius?: number;
+
+  // Layout
+  flex?: FlexInput;
+  scrollPadding?: EdgeInsetsInput;
+  decoration?: TextFieldDecoration;
+
+  // Slots (inline JSX widgets)
+  prefixIcon?: JSX.Element;
+  suffixIcon?: JSX.Element;
+
+  // Events
+  onChanged?: (text: string) => void;
+  onSubmitted?: (text: string) => void;
+  onEditingComplete?: () => void;
+  onTap?: () => void;
+  onTapOutside?: () => void;
 }
