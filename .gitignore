@@ -15,6 +15,7 @@ pubspec.lock
 .pub-cache/
 .pub/
 build/
+!packages/**/cli/build/
 *.class
 
 # Generated

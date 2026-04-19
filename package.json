@@ -1,0 +1,5 @@
+{
+  "name": "solid-fuse-monorepo",
+  "private": true,
+  "workspaces": ["packages/*"]
+}

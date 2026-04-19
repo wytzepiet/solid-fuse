@@ -2,6 +2,8 @@ import type { UserConfig } from "vite";
 import type { Options as SolidOptions } from "vite-plugin-solid";
 
 export interface FuseConfig {
+  /** Mark this package as a Fuse library. Enables `fuse build` library mode. */
+  library?: boolean;
   /** Name of the Dart registration function. Defaults to "register". */
   register?: string;
   /** Path to Dart package directory, defaults to "dart" (for libraries) */
