@@ -22,7 +22,8 @@
   "files": [
     "dist",
     "dart",
-    "cli"
+    "cli",
+    "fuse.config.ts"
   ],
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts"

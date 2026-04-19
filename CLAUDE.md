@@ -204,3 +204,13 @@ flutter analyze
 cd packages/solid-fuse
 bun cli/index.ts link    # run from a consumer app directory
 ```
+
+### Pushing changes to consumers
+
+solid-fuse is consumed via `yalc` in external apps (e.g. `pole-goals/app_2`). After changing the JS or Dart side, push to all linked consumers:
+
+```bash
+cd packages/solid-fuse
+bun run build         # rebuild dist/ first if JS changed
+yalc publish --push   # pushes to every consumer that ran `yalc add solid-fuse`
+```

@@ -3,20 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'connection.dart';
-import 'controllers/scroll_controller.dart';
 import 'dev_connection.dart';
 import 'fuse_controller.dart';
 import 'fuse_page.dart';
 import 'node.dart';
 import 'quickjs_connection.dart';
-import 'routes/material_page.dart';
-import 'widgets/gesture_detector.dart';
-import 'widgets/navigator.dart';
-import 'widgets/positioned.dart';
-import 'widgets/scroll_view.dart';
-import 'widgets/stack.dart';
-import 'widgets/text.dart';
-import 'widgets/view.dart';
 
 /// Signature for a Fuse widget builder.
 /// Matches the constructor signature of Fuse widget classes,
@@ -37,21 +28,6 @@ class FuseRuntime {
     registry = FuseNodeRegistry(callFunction: callFunction);
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
-    _registerCore();
-  }
-
-  /// Register Fuse's built-in widgets, controllers, and pages.
-  /// Runs on construction so callers never need to register them manually.
-  void _registerCore() {
-    registerWidget('view', FuseViewWidget.new);
-    registerWidget('text', FuseText.new);
-    registerWidget('gestureDetector', FuseGestureDetector.new);
-    registerWidget('navigator', FuseNavigatorWidget.new);
-    registerWidget('scrollView', FuseScrollView.new);
-    registerWidget('stack', FuseStack.new);
-    registerWidget('positioned', FusePositioned.new);
-    registerController('scrollController', FuseScrollController.new);
-    registerPage('materialPage', FuseMaterialPage.new);
   }
 
   FuseConnection? _connection;
