@@ -84,7 +84,7 @@ function emitModule(
     `// Source: ${sourceNote}`,
     "// Do not edit by hand — re-run the script to regenerate.",
     "",
-    'import type { IconData } from "../types";',
+    'import type { IconData } from "../widgets/icon";',
     "",
   ].join("\n");
 

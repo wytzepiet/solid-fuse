@@ -2,7 +2,7 @@
 // Source: packages/flutter/lib/src/cupertino/icons.dart
 // Do not edit by hand — re-run the script to regenerate.
 
-import type { IconData } from "../types";
+import type { IconData } from "../widgets/icon";
 
 const makeWithPkg = (codePoint: number, matchTextDirection = false): IconData => ({
   codePoint,

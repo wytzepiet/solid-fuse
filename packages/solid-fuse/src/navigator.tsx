@@ -1,7 +1,12 @@
 import { createContext, useContext, createSignal, For } from "solid-js";
 import { flushOps } from "~/renderer";
+import type { BaseProps } from "./types";
 
 type PageFactory = () => any;
+
+export interface NavigatorProps extends BaseProps {
+  onPopPage?: () => void;
+}
 
 export interface NavigatorAPI {
   push: (page: PageFactory) => void;

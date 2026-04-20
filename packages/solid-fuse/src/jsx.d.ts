@@ -1,36 +1,15 @@
-import type {
-  ViewProps,
-  TextProps,
-  IconProps,
-  GestureDetectorProps,
-  NavigatorProps,
-  MaterialPageProps,
-  ScrollViewProps,
-  StackProps,
-  PositionedProps,
-  TextFieldProps,
-} from "./types";
-
 declare global {
   namespace JSX {
-    // Must be `any` so that our FuseNode elements are assignable to
-    // third-party Solid components' props (typed as solid-js's JSX.Element,
-    // which includes DOM Node). The renderer handles real types at runtime.
+    // Intrinsic elements are a private wire format between wrappers and the
+    // runtime — typed props live on the wrapper components themselves.
     type Element = any;
     interface ElementChildrenAttribute {
       children: {};
     }
     interface IntrinsicElements {
-      view: ViewProps;
-      text: TextProps;
-      icon: IconProps;
-      gestureDetector: GestureDetectorProps;
-      navigator: NavigatorProps;
-      materialPage: MaterialPageProps;
-      scrollView: ScrollViewProps;
-      stack: StackProps;
-      positioned: PositionedProps;
-      textField: TextFieldProps;
+      [name: string]: any;
     }
   }
 }
+
+export {};
