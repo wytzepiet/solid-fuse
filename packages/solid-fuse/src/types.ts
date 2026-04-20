@@ -398,6 +398,8 @@ export type TextFieldBorderStyle = "none" | "underline" | "outline";
 export type TextCapitalization =
   | "none" | "words" | "sentences" | "characters";
 
+export type FloatingLabelBehavior = "auto" | "always" | "never";
+
 export interface TextFieldDecoration {
   border?: TextFieldBorderStyle;
   filled?: boolean;
@@ -405,6 +407,12 @@ export interface TextFieldDecoration {
   contentPadding?: EdgeInsetsInput;
   prefixText?: string;
   suffixText?: string;
+  labelText?: string;
+  helperText?: string;
+  errorText?: string;
+  floatingLabelBehavior?: FloatingLabelBehavior;
+  isDense?: boolean;
+  isCollapsed?: boolean;
   hintStyle?: {
     fontSize?: number;
     color?: ColorInput;
@@ -428,7 +436,12 @@ export interface TextFieldProps extends BaseProps {
   autocorrect?: boolean;
   enableSuggestions?: boolean;
   spellCheck?: boolean;
+  smartDashesType?: "disabled" | "enabled";
+  smartQuotesType?: "disabled" | "enabled";
+  enableIMEPersonalizedLearning?: boolean;
   textCapitalization?: TextCapitalization;
+  autofillHints?: string[];
+  keyboardAppearance?: "light" | "dark";
 
   // Input configuration
   keyboardType?: KeyboardType;

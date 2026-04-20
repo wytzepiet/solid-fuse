@@ -65,7 +65,13 @@ class _FuseTextFieldState extends State<FuseTextField> {
       spellCheckConfiguration: (node.bool('spellCheck') ?? false)
           ? SpellCheckConfiguration(spellCheckService: DefaultSpellCheckService())
           : null,
+      smartDashesType: _smartDashes(node.string('smartDashesType')),
+      smartQuotesType: _smartQuotes(node.string('smartQuotesType')),
+      enableIMEPersonalizedLearning:
+          node.bool('enableIMEPersonalizedLearning') ?? true,
       textCapitalization: _textCapitalization(node.string('textCapitalization')),
+      autofillHints: node.list<String>('autofillHints'),
+      keyboardAppearance: _brightness(node.string('keyboardAppearance')),
       keyboardType: _keyboardType(node.string('keyboardType')),
       textInputAction: _textInputAction(node.string('textInputAction')),
       maxLines: node.int('maxLines') ?? 1,
@@ -145,6 +151,12 @@ InputDecoration _buildDecoration(FuseNode node) {
             fontWeight: hintStyle.fontWeight('fontWeight'),
             fontFamily: hintStyle.string('fontFamily'),
           ),
+    labelText: dec?.string('labelText'),
+    helperText: dec?.string('helperText'),
+    errorText: dec?.string('errorText'),
+    floatingLabelBehavior: _floatingLabelBehavior(dec?.string('floatingLabelBehavior')),
+    isDense: dec?.bool('isDense'),
+    isCollapsed: dec?.bool('isCollapsed') ?? false,
     border: border,
     enabledBorder: border,
     focusedBorder: border,
@@ -233,3 +245,36 @@ TextDecorationStyle? _textDecorationStyle(String? value) {
 
 Radius? _cursorRadius(double? value) =>
     value == null ? null : Radius.circular(value);
+
+SmartDashesType? _smartDashes(String? value) {
+  return switch (value) {
+    'disabled' => SmartDashesType.disabled,
+    'enabled' => SmartDashesType.enabled,
+    _ => null,
+  };
+}
+
+SmartQuotesType? _smartQuotes(String? value) {
+  return switch (value) {
+    'disabled' => SmartQuotesType.disabled,
+    'enabled' => SmartQuotesType.enabled,
+    _ => null,
+  };
+}
+
+Brightness? _brightness(String? value) {
+  return switch (value) {
+    'light' => Brightness.light,
+    'dark' => Brightness.dark,
+    _ => null,
+  };
+}
+
+FloatingLabelBehavior? _floatingLabelBehavior(String? value) {
+  return switch (value) {
+    'auto' => FloatingLabelBehavior.auto,
+    'always' => FloatingLabelBehavior.always,
+    'never' => FloatingLabelBehavior.never,
+    _ => null,
+  };
+}
