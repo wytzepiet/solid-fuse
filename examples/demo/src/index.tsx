@@ -1,6 +1,6 @@
-import { render, Navigator } from "solid-fuse";
+import { Navigator, render } from "solid-fuse";
 import { HomeScreen } from "./screens/home";
 
-const App = () => <Navigator defaultPage={() => <HomeScreen />} />;
+const App = () => <Navigator initialPage={() => <HomeScreen />} />;
 
 render(App);

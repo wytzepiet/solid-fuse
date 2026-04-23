@@ -1,27 +1,25 @@
 import { createSignal } from "solid-js";
 import {
   Icon,
-  MaterialPage,
   ScrollView,
   Text,
   TextField,
   View,
   createFocusNode,
-  useNavigator,
+  useNavigation,
 } from "solid-fuse";
 import { search, lock } from "solid-fuse/icons/material";
 import { Button, Row } from "../ui";
 
 export function TextFieldScreen() {
-  const nav = useNavigator();
+  const nav = useNavigation();
 
   const [name, setName] = createSignal("");
   const [digits, setDigits] = createSignal("");
   const focus = createFocusNode();
 
   return (
-    <MaterialPage>
-      <ScrollView flex={{ direction: "vertical", gap: 16 }}>
+    <ScrollView flex={{ direction: "vertical", gap: 16 }}>
         <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
           <Text fontSize={24} fontWeight="bold">
             textField
@@ -108,7 +106,6 @@ export function TextFieldScreen() {
         <View padding={16}>
           <Button onTap={() => nav.pop()}>Back</Button>
         </View>
-      </ScrollView>
-    </MaterialPage>
+    </ScrollView>
   );
 }

@@ -1,23 +1,21 @@
 import { createSignal } from "solid-js";
 import {
   Icon,
-  MaterialPage,
   ScrollView,
   Text,
   View,
-  useNavigator,
+  useNavigation,
 } from "solid-fuse";
 import * as md from "solid-fuse/icons/material";
 import { Button, Row } from "../ui";
 
 export function IconScreen() {
-  const nav = useNavigator();
+  const nav = useNavigation();
   const [size, setSize] = createSignal(32);
   const [color, setColor] = createSignal("#111827");
 
   return (
-    <MaterialPage>
-      <ScrollView flex={{ direction: "vertical", gap: 16 }}>
+    <ScrollView flex={{ direction: "vertical", gap: 16 }}>
         <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
           <Text fontSize={24} fontWeight="bold">
             icon
@@ -82,7 +80,6 @@ export function IconScreen() {
         <View padding={16}>
           <Button onTap={() => nav.pop()}>Back</Button>
         </View>
-      </ScrollView>
-    </MaterialPage>
+    </ScrollView>
   );
 }
