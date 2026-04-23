@@ -15,33 +15,26 @@ typedef EngineResult = ({
   FuseChannels channels,
 });
 
-/// Creates a new fjs runtime with the Arc ref count bumped to prevent
-/// QuickJS SIGABRT on hot restart. One runtime per connection lifetime.
-Future<JsAsyncRuntime> createRuntime({
-  JsBuiltinOptions? builtin,
-  List<JsModule>? additional,
-}) async {
-  final runtime = await JsAsyncRuntime.withOptions(
-    builtin: builtin ?? JsBuiltinOptions.all(),
-    additional: additional,
-  );
-  _preventNativeDrop(runtime);
-  return runtime;
-}
-
-/// Creates a new context + engine on an existing runtime, with the
-/// channel system, console shim, and WebSocket manager wired up.
+/// Creates a new engine with the channel system, console shim, and WebSocket
+/// manager wired up.
 ///
 /// Registers engine-level channels (`log`, `ws`). The caller is responsible
 /// for registering app-level channels (`ops`, `nav`) before evaluating user JS.
 Future<EngineResult> createEngine({
-  required JsAsyncRuntime runtime,
+  JsBuiltinOptions? builtins,
+  List<JsModule>? modules,
 }) async {
   // Late-init: the bridge closure captures channels, we register handlers after.
   late final FuseChannels channels;
 
-  final context = await JsAsyncContext.from(runtime: runtime);
-  final engine = JsEngine(context: context);
+  final engine = await JsEngine.create(
+    builtins: builtins ?? JsBuiltinOptions.all(),
+    modules: modules,
+  );
+  // Bump the Arc ref count so native Drop never runs on Dart GC — QuickJS
+  // still asserts in JS_FreeRuntime when gc_obj_list is non-empty.
+  // See https://github.com/fluttercandies/fjs/issues/8
+  _preventNativeDrop(engine);
 
   await engine.init(
     bridge: (jsValue) async {
@@ -57,12 +50,12 @@ Future<EngineResult> createEngine({
             // JsResult, QuickJS has a pending await-resumption microtask
             // that nothing else pumps. Direct await would deadlock (we'd
             // block on our own return value).
-            scheduleMicrotask(() => drainImmediateJobs(runtime));
+            scheduleMicrotask(() => drainImmediateJobs(engine));
             return JsResult.ok(
               result == null ? JsValue.none() : JsValue.from(result),
             );
           } catch (e, st) {
-            scheduleMicrotask(() => drainImmediateJobs(runtime));
+            scheduleMicrotask(() => drainImmediateJobs(engine));
             return JsResult.err(JsError.runtime('$e\n$st'));
           }
         }
@@ -71,7 +64,7 @@ Future<EngineResult> createEngine({
     },
   );
 
-  channels = FuseChannels(engine: engine, runtime: runtime);
+  channels = FuseChannels(engine: engine);
 
   final wsManager = FuseWsManager(channels: channels);
 
@@ -116,10 +109,8 @@ Future<EngineResult> createEngine({
 }
 
 /// Creates a minimal engine for testing.
-Future<JsEngine> createTestEngine({required JsAsyncRuntime runtime}) async {
-  final (:engine, :wsManager, :channels) = await createEngine(
-    runtime: runtime,
-  );
+Future<JsEngine> createTestEngine() async {
+  final (:engine, :wsManager, :channels) = await createEngine();
   return engine;
 }
 
@@ -140,14 +131,14 @@ final retiredEngines = <Object>[];
 /// Uses `idle()` which waits until the runtime is fully quiescent.
 /// WARNING: This will deadlock if long-lived Promises are pending (e.g.
 /// WebSocket connections). Use [drainImmediateJobs] after entry evaluation.
-Future<void> drainJobs(JsAsyncRuntime runtime) async {
-  await runtime.idle();
+Future<void> drainJobs(JsEngine engine) async {
+  await engine.idle();
 }
 
 /// Drains only the immediately-pending jobs (microtasks, resolved Promises)
 /// without waiting for long-lived async operations like WebSocket connections.
-Future<void> drainImmediateJobs(JsAsyncRuntime runtime) async {
+Future<void> drainImmediateJobs(JsEngine engine) async {
   // executePendingJob returns true if a job was executed.
   // Run in a tight loop until no more immediate jobs are pending.
-  while (await runtime.executePendingJob()) {}
+  while (await engine.executePendingJob()) {}
 }

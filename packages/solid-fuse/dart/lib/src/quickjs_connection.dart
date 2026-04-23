@@ -10,12 +10,11 @@ import 'engine.dart';
 /// Runs JS in-process via QuickJS (production mode).
 /// Loads the pre-built bundle from assets.
 class QuickJsConnection extends FuseConnection {
-  QuickJsConnection({this.builtin, this.additional});
+  QuickJsConnection({this.builtins, this.modules});
 
-  final JsBuiltinOptions? builtin;
-  final List<JsModule>? additional;
+  final JsBuiltinOptions? builtins;
+  final List<JsModule>? modules;
   JsEngine? _engine;
-  JsAsyncRuntime? _runtime;
   JsScriptBytecode? _bytecode;
   FuseChannels? _channels;
 
@@ -27,10 +26,9 @@ class QuickJsConnection extends FuseConnection {
 
   @override
   Future<void> connect() async {
-    final runtime = await createRuntime(builtin: builtin, additional: additional);
-    _runtime = runtime;
     final (:engine, :wsManager, :channels) = await createEngine(
-      runtime: runtime,
+      builtins: builtins,
+      modules: modules,
     );
     _engine = engine;
     _channels = channels;
@@ -55,7 +53,7 @@ class QuickJsConnection extends FuseConnection {
       }
       // Drain only immediate jobs — drainJobs (idle) would deadlock on
       // long-lived Promises (e.g. WebSocket connections).
-      await drainImmediateJobs(_runtime!);
+      await drainImmediateJobs(_engine!);
     } catch (e, st) {
       debugPrint('QuickJsConnection error: $e\n$st');
     }
@@ -63,7 +61,7 @@ class QuickJsConnection extends FuseConnection {
 
   @override
   Future<void> restart() async {
-    if (_engine == null || _runtime == null) return;
+    if (_engine == null) return;
     try {
       if (_bytecode != null) {
         await _engine!.evaluateScriptBytecode(script: _bytecode!);
@@ -71,7 +69,7 @@ class QuickJsConnection extends FuseConnection {
         final bundleSource = await rootBundle.loadString('assets/js/bundle.js');
         await _engine!.eval(source: JsCode.code(bundleSource));
       }
-      await drainImmediateJobs(_runtime!);
+      await drainImmediateJobs(_engine!);
     } catch (e) {
       debugPrint('[Fuse] restart error: $e');
     }

@@ -13,15 +13,14 @@ import 'engine.dart';
 /// them in QuickJS with module support. Listens for HMR updates via Vite's
 /// WebSocket to auto-reload on file changes.
 class DevServerConnection extends FuseConnection {
-  DevServerConnection({required this.host, this.port = 24680, this.builtin, this.additional});
+  DevServerConnection({required this.host, this.port = 24680, this.builtins, this.modules});
 
   final String host;
   final int port;
-  final JsBuiltinOptions? builtin;
-  final List<JsModule>? additional;
+  final JsBuiltinOptions? builtins;
+  final List<JsModule>? modules;
 
   JsEngine? _engine;
-  JsAsyncRuntime? _runtime;
   FuseChannels? _channels;
   final _modules = <String, String>{};
   WebSocketChannel? _hmrChannel;
@@ -40,8 +39,6 @@ class DevServerConnection extends FuseConnection {
 
   @override
   Future<void> connect() async {
-    _runtime = await createRuntime(builtin: builtin, additional: additional);
-
     const entryPath = '/src/index.tsx';
     await _prefetchModule(entryPath);
     debugPrint('[Fuse] Pre-fetched ${_modules.length} modules');
@@ -62,13 +59,15 @@ class DevServerConnection extends FuseConnection {
   }
 
   Future<void> _createEngine() async {
-    // Park old engine — new context+engine will be created on the same runtime.
+    // Park old engine rather than closing it — close() doesn't stop the native
+    // Drop from asserting on GC (fjs issue #8 still open in 2.2.0).
     final oldEngine = _engine;
     _engine = null;
     if (oldEngine != null) retiredEngines.add(oldEngine);
 
     final (:engine, :wsManager, :channels) = await createEngine(
-      runtime: _runtime!,
+      builtins: builtins,
+      modules: modules,
     );
     _engine = engine;
     _channels = channels;
@@ -114,7 +113,7 @@ class DevServerConnection extends FuseConnection {
     // because long-lived Promises (e.g. WebSocket connections from Convex)
     // would deadlock: they wait for Dart bridge events that can't fire while
     // idle() blocks the Dart event loop.
-    await drainImmediateJobs(_runtime!);
+    await drainImmediateJobs(_engine!);
   }
 
   // ---------------------------------------------------------------------------
@@ -264,9 +263,9 @@ class DevServerConnection extends FuseConnection {
   }
 
   Future<void> _hmrUpdate(List<dynamic> updates) async {
-    if (_engine == null || _runtime == null) return;
+    if (_engine == null) return;
 
-    final usage = await _runtime!.memoryUsage();
+    final usage = await _engine!.memoryUsage();
     if (usage.totalMemory > _hmrMemoryLimit) {
       debugPrint(
         '[Fuse] Memory ${usage.totalMemory ~/ 1024}KB — full reload to reclaim',
@@ -290,7 +289,7 @@ class DevServerConnection extends FuseConnection {
             '  hot._disposeCbs = []; } }',
           ),
         );
-        await drainImmediateJobs(_runtime!);
+        await drainImmediateJobs(_engine!);
 
         final url = '$_baseUrl$path?t=$ts';
         final response = await http.get(Uri.parse(url));
@@ -317,7 +316,7 @@ class DevServerConnection extends FuseConnection {
         await _engine!.evaluateModule(
           module: JsModule.code(module: hmrModuleName, code: source),
         );
-        await drainImmediateJobs(_runtime!);
+        await drainImmediateJobs(_engine!);
 
         await _engine!.eval(
           source: JsCode.code(
@@ -325,12 +324,12 @@ class DevServerConnection extends FuseConnection {
             '  if (hot && hot._acceptCb) hot._acceptCb({}); }',
           ),
         );
-        await drainImmediateJobs(_runtime!);
+        await drainImmediateJobs(_engine!);
 
         // Flush via channels — __dispatch auto-flushes solidFlush + flush
         await _channels!.send('_flush', {});
 
-        await _runtime!.runGc();
+        await _engine!.runGc();
       }
     } catch (e, st) {
       debugPrint('[Fuse] HMR update failed: $e\n$st');

@@ -12,10 +12,9 @@ import 'engine.dart';
 /// via [on]. FJS handles return values on both sides concurrently, so [call]
 /// just awaits the FFI return.
 class FuseChannels {
-  FuseChannels({required this.engine, required this.runtime});
+  FuseChannels({required this.engine});
 
   final JsEngine engine;
-  final JsAsyncRuntime runtime;
   final Map<String, FutureOr<dynamic> Function(Map<String, dynamic>)>
       _handlers = {};
 
@@ -46,7 +45,7 @@ class FuseChannels {
         method: 'dispatch',
         params: [JsValue.string(channel), JsValue.from(data)],
       );
-      await drainImmediateJobs(runtime);
+      await drainImmediateJobs(engine);
     } catch (e) {
       debugPrint('[Fuse] channels.send($channel) error: $e');
     }
@@ -67,7 +66,7 @@ class FuseChannels {
           params: [JsValue.string(channel), JsValue.from(data)],
         )
         .then((JsValue result) async {
-          await drainImmediateJobs(runtime);
+          await drainImmediateJobs(engine);
           return result.value;
         });
     if (timeout == null) return future;
