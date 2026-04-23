@@ -1,31 +1,26 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
-class FuseSecureStorage extends FuseController<FlutterSecureStorage> {
+class FuseSecureStorage extends FuseHandle<FlutterSecureStorage> {
   FuseSecureStorage(super.node);
 
   @override
-  FlutterSecureStorage create() {
-    return FlutterSecureStorage(
-      iOptions: IOSOptions(
-        accessibility: _parseAccessibility(node.string('iosAccessibility')) ??
-            KeychainAccessibility.unlocked,
-        groupId: node.string('groupId'),
-      ),
-      aOptions: AndroidOptions(
-        encryptedSharedPreferences:
-            node.bool('androidEncryptedSharedPreferences') ?? true,
-        resetOnError: node.bool('androidResetOnError') ?? false,
-      ),
-    );
-  }
+  late final FlutterSecureStorage object = FlutterSecureStorage(
+    iOptions: IOSOptions(
+      accessibility:
+          _parseAccessibility(node.string('iosAccessibility')) ??
+          KeychainAccessibility.unlocked,
+      groupId: node.string('groupId'),
+    ),
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences:
+          node.bool('androidEncryptedSharedPreferences') ?? true,
+      resetOnError: node.bool('androidResetOnError') ?? false,
+    ),
+  );
 
   @override
-  Future<dynamic> call(
-    FlutterSecureStorage object,
-    String method,
-    dynamic value,
-  ) async {
+  Future<dynamic> call(String method, dynamic value) async {
     final data = FuseMap.from(value);
     switch (method) {
       case 'read':

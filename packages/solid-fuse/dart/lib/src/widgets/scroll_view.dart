@@ -50,7 +50,7 @@ class FuseScrollView extends StatelessWidget {
       _ => HitTestBehavior.opaque,
     };
 
-    final controller = node.props['controller'] as ScrollController?;
+    final controller = node.handle<ScrollController>('controller');
 
     return SingleChildScrollView(
       controller: controller,

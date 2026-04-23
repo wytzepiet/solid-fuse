@@ -1,6 +1,6 @@
 import 'package:solid_fuse/solid_fuse.dart';
-import 'controller.dart';
+import 'handle.dart';
 
 void register(FuseRuntime runtime) {
-  runtime.registerController('secureStorage', FuseSecureStorage.new);
+  runtime.registerHandle('secureStorage', FuseSecureStorage.new);
 }

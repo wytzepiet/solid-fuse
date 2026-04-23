@@ -2,36 +2,34 @@ import { createRenderer } from "@solidjs/universal";
 import { flush } from "solid-js";
 import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
 
-export interface FuseNode {
-  type: string;
+export interface FuseNode<K extends string = string> {
+  id: number;
+  type: K;
   props: Record<string, any>;
   children: FuseNode[];
-  _parent: FuseNode | undefined;
+  parent: FuseNode | undefined;
 }
 
-function isFuseNode(value: any): value is FuseNode {
+export function isFuseNode(value: any): value is FuseNode {
   return (
     value != null &&
     typeof value === "object" &&
+    typeof value.id === "number" &&
     typeof value.type === "string" &&
-    typeof value.props?._id === "number" &&
     Array.isArray(value.children)
   );
-}
-
-function isRef(value: any): value is { _ref: number } {
-  return value != null && typeof value === "object" && typeof value._ref === "number";
 }
 
 let nextId = 0;
 let _currentComponent: string | undefined;
 
-function makeNode(type: string): FuseNode {
+function makeNode<K extends string>(type: K): FuseNode<K> {
   return {
+    id: nextId++,
     type,
-    props: { _id: nextId++ },
+    props: {},
     children: [],
-    _parent: undefined,
+    parent: undefined,
   };
 }
 
@@ -81,7 +79,7 @@ function scheduleFlush() {
 onAfterDispatch(flushOps);
 
 // Let channels.call() drain pending ops before firing the RPC, so the
-// ref→controller-method pattern works without users thinking about ordering.
+// ref→handle-method pattern works without users thinking about ordering.
 _setFlushOps(flushOps);
 
 // --- Renderer ---
@@ -102,9 +100,9 @@ const {
 } = createRenderer<FuseNode>({
   createElement(tag: string) {
     const node = makeNode(tag);
-    const createProps: Record<string, any> = { _id: node.props._id };
+    const createProps: Record<string, any> = {};
     if (flutterMode !== 'release' && _currentComponent) createProps._component = _currentComponent;
-    ops.push({ op: "create", id: node.props._id, type: tag, props: createProps });
+    ops.push({ op: "create", id: node.id, type: tag, props: createProps });
     return node;
   },
 
@@ -113,16 +111,16 @@ const {
     node.props.text = value;
     ops.push({
       op: "create",
-      id: node.props._id,
+      id: node.id,
       type: "__text__",
-      props: { _id: node.props._id, text: value },
+      props: { text: value },
     });
     return node;
   },
 
   replaceText(node: FuseNode, value: string) {
     node.props.text = value;
-    ops.push({ op: "setText", id: node.props._id, text: value });
+    ops.push({ op: "setText", id: node.id, text: value });
     scheduleFlush();
   },
 
@@ -132,28 +130,29 @@ const {
 
   setProperty(node: FuseNode, name: string, value: any) {
     if (typeof value === "function") {
-      handlers.set(`${node.props._id}:${name}`, value);
+      handlers.set(`${node.id}:${name}`, value);
       node.props[name] = true;
-      ops.push({ op: "setProp", id: node.props._id, name, value: true });
-    } else if (isFuseNode(value)) {
-      node.props[name] = value;
-      ops.push({
-        op: "setProp",
-        id: node.props._id,
-        name,
-        value: { _node: value.props._id },
-      });
-    } else if (isRef(value)) {
-      node.props[name] = value;
-      ops.push({ op: "setProp", id: node.props._id, name, value: { _ref: value._ref } });
-    } else {
-      node.props[name] = value;
-      ops.push({ op: "setProp", id: node.props._id, name, value });
+      ops.push({ op: "setProp", id: node.id, name, value: true });
+      return;
     }
+    const ref = isFuseNode(value)
+      ? value
+      : isFuseNode(value?.node)
+        ? value.node
+        : null;
+    if (ref) {
+      // Orphan JSX node (passed itself) or a handle (carries `.node`).
+      // Same wire shape either way.
+      node.props[name] = value;
+      ops.push({ op: "setProp", id: node.id, name, value: { _node: ref.id } });
+      return;
+    }
+    node.props[name] = value;
+    ops.push({ op: "setProp", id: node.id, name, value });
   },
 
   insertNode(parent: FuseNode, node: FuseNode, anchor?: FuseNode) {
-    node._parent = parent;
+    node.parent = parent;
     let index: number;
     if (anchor) {
       const idx = parent.children.indexOf(anchor);
@@ -168,20 +167,20 @@ const {
       parent.children.push(node);
       index = parent.children.length - 1;
     }
-    ops.push({ op: "insert", parentId: parent.props._id, childId: node.props._id, index });
+    ops.push({ op: "insert", parentId: parent.id, childId: node.id, index });
     scheduleFlush();
   },
 
   removeNode(parent: FuseNode, node: FuseNode) {
     const idx = parent.children.indexOf(node);
     if (idx >= 0) parent.children.splice(idx, 1);
-    node._parent = undefined;
-    ops.push({ op: "remove", parentId: parent.props._id, childId: node.props._id });
+    node.parent = undefined;
+    ops.push({ op: "remove", parentId: parent.id, childId: node.id });
     scheduleFlush();
   },
 
   getParentNode(node: FuseNode) {
-    return node._parent;
+    return node.parent;
   },
 
   getFirstChild(node: FuseNode) {
@@ -189,7 +188,7 @@ const {
   },
 
   getNextSibling(node: FuseNode) {
-    const parent = node._parent;
+    const parent = node.parent;
     if (!parent) return undefined;
     const idx = parent.children.indexOf(node);
     return parent.children[idx + 1];
@@ -218,7 +217,7 @@ export function render(code: () => any) {
   return () => {
     if (typeof dispose === "function") dispose();
     for (const child of root.children) {
-      ops.push({ op: "remove", parentId: root.props._id, childId: child.props._id });
+      ops.push({ op: "remove", parentId: root.id, childId: child.id });
     }
     root.children = [];
     handlers.clear();

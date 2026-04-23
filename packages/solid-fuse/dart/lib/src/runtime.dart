@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'connection.dart';
 import 'dev_connection.dart';
-import 'fuse_controller.dart';
-import 'fuse_page.dart';
+import 'fuse_handle.dart';
 import 'node.dart';
 import 'quickjs_connection.dart';
 
@@ -22,7 +21,8 @@ const _devHost = String.fromEnvironment('FUSE_HOST', defaultValue: 'localhost');
 /// Pass via: --dart-define=FUSE_PORT=24680
 const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
 
-/// The Fuse runtime: manages the JS connection, widget registry, and tree rendering.
+/// The Fuse runtime: manages the JS connection, widget/handle registries,
+/// and tree rendering.
 class FuseRuntime {
   FuseRuntime._() {
     registry = FuseNodeRegistry(callFunction: callFunction);
@@ -32,49 +32,40 @@ class FuseRuntime {
 
   FuseConnection? _connection;
 
-  final Map<String, FuseWidgetBuilder> _registry = {};
-  final Map<String, FuseController Function(FuseNode node)> _controllerFactories = {};
-  final Map<String, FusePage Function(FuseNode node)> _pageFactories = {};
+  final Map<String, FuseWidgetBuilder> _widgetBuilders = {};
+  final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
   late final FuseNodeRegistry registry;
 
   /// Construct a runtime. Does FFI init only — does NOT start the JS engine.
   ///
-  /// Call [registerWidget] / [registerController] / [registerPage] and any
-  /// workspace-package `register()` functions BEFORE calling [start]. Once
-  /// the JS bundle starts evaluating, it will push create ops that require
-  /// those factories to already be in place.
+  /// Call [registerWidget] / [registerHandle] and any workspace-package
+  /// `register()` functions BEFORE calling [start]. Once the JS bundle
+  /// starts evaluating, it will push create ops that require those factories
+  /// to already be in place.
   static Future<FuseRuntime> create() async {
     await LibFjs.init();
     return FuseRuntime._();
   }
 
-  /// Register a widget type.
+  /// Register a widget type — maps a node type to a Flutter Widget builder.
   void registerWidget(String type, FuseWidgetBuilder builder) {
-    _registry[type] = builder;
+    _widgetBuilders[type] = builder;
   }
 
-  /// Register a controller type (non-widget node, e.g. scroll controllers).
-  void registerController(String type, FuseController Function(FuseNode node) factory) {
-    _controllerFactories[type] = factory;
-  }
-
-  /// Register a page type for use as navigator children.
-  void registerPage(String type, FusePage Function(FuseNode node) factory) {
-    _pageFactories[type] = factory;
-  }
-
-  /// Build a [Page] for a node, or null if it's not a registered page.
-  Page? buildPageForNode(FuseNode node) {
-    return _pageFactories[node.type]?.call(node).build();
+  /// Register a handle type — maps a node type to a [FuseHandle] factory.
+  /// Used for non-widget nodes: focus nodes, scroll controllers, pages,
+  /// navigator, any persistent Dart object that backs a JS-side handle.
+  void registerHandle(String type, FuseHandle Function(FuseNode node) factory) {
+    _handleFactories[type] = factory;
   }
 
   /// Start the JS engine. In debug mode, connects to the Vite dev server
   /// (pre-fetches modules from Vite) and falls back to the QuickJS bundle
   /// if unavailable. In release mode, loads the QuickJS bundle directly.
   ///
-  /// All widget/controller/page factories must be registered before this is
-  /// called — once the JS bundle starts evaluating, it will push create ops
-  /// that require those factories to already be in place.
+  /// All widget/handle factories must be registered before this is called —
+  /// once the JS bundle starts evaluating, it will push create ops that
+  /// require those factories to already be in place.
   ///
   /// Throws if called twice on the same instance.
   Future<void> start() async {
@@ -116,21 +107,20 @@ class FuseRuntime {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
     });
-    channels.on('_controllerCall', (data) async {
-      final ref = data['ref'] as int;
+    channels.on('_handleCall', (data) async {
+      final id = data['node'] as int;
       final method = data['method'] as String;
       final value = data['value'];
-      final node = registry.tryGet(ref);
-      if (node == null) throw StateError('No node for controller ref $ref');
-      final controller = node.controller as FuseController?;
-      if (controller == null || node.nativeObject == null) {
-        throw StateError('No controller for node $ref');
+      final node = registry.tryGet(id);
+      if (node == null) throw const HandleDisposedError();
+      final handle = node.ownHandle;
+      if (handle == null) {
+        throw StateError(
+          'Node <${node.type}> #$id has no handle — '
+          'did you forget to call runtime.registerHandle(\'${node.type}\', ...)?',
+        );
       }
-      return await controller.call(
-        node.nativeObject as dynamic,
-        method,
-        value,
-      );
+      return await handle.call(method, value);
     });
   }
 
@@ -162,13 +152,9 @@ class FuseRuntime {
             type,
             Map<String, dynamic>.from(map['props'] as Map),
           );
-          final controllerFactory = _controllerFactories[type];
-          if (controllerFactory != null) {
-            final controller = controllerFactory(node);
-            final obj = controller.create();
-            node.nativeObject = obj;
-            node.controller = controller;
-            node.onDispose = () => controller.dispose(obj);
+          final factory = _handleFactories[type];
+          if (factory != null) {
+            node.ownHandle = factory(node);
           }
         case 'setText':
           final node = registry.get(map['id'] as int);
@@ -179,16 +165,13 @@ class FuseRuntime {
           final node = registry.get(map['id'] as int);
           final name = map['name'] as String;
           var value = map['value'];
-          if (value is Map && value.containsKey('_ref')) {
-            final refNode = registry.get(value['_ref'] as int);
-            value = refNode.nativeObject ?? refNode;
-          } else if (value is Map && value.containsKey('_node')) {
-            final orphan = registry.get(value['_node'] as int);
+          if (value is Map && value.containsKey('_node')) {
+            final target = registry.get(value['_node'] as int);
             final prev = node.props[name];
-            if (prev is FuseNode && prev.id != orphan.id) {
+            if (prev is FuseNode && prev.id != target.id) {
               _removeSubtree(prev, dirty);
             }
-            value = orphan;
+            value = target;
           }
           node.setPropSilent(name, value);
           dirty.add(node);
@@ -204,7 +187,8 @@ class FuseRuntime {
           dirty.add(parent);
           _removeSubtree(child, dirty);
         case 'dispose':
-          registry.remove(map['id'] as int);
+          final node = registry.tryGet(map['id'] as int);
+          if (node != null) _removeSubtree(node, dirty);
       }
     }
 
@@ -235,7 +219,7 @@ class FuseRuntime {
       return Text(node.props['text']?.toString() ?? '');
     }
 
-    final builder = _registry[node.type];
+    final builder = _widgetBuilders[node.type];
     if (builder == null) {
       if (kDebugMode) {
         return devError(

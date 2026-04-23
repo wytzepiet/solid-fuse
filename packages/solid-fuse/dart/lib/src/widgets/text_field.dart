@@ -47,7 +47,7 @@ class _FuseTextFieldState extends State<FuseTextField> {
   Widget build(BuildContext context) {
     final node = widget.node;
 
-    final focusNode = node.props['focusNode'] as FocusNode?;
+    final focusNode = node.handle<FocusNode>('focusNode');
     final formatters = _buildFormatters(node);
     final decoration = _buildDecoration(node);
     final onTapOutside = node.function('onTapOutside');

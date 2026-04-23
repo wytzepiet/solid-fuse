@@ -20,12 +20,20 @@ export {
   Match,
 } from "./renderer";
 export type { FuseNode } from "./renderer";
-export { Navigator, useNavigator, type NavigatorProps } from "./navigator";
+export {
+  createNavigationController,
+  Navigator,
+  useNavigation,
+  type NavigationController,
+  type PageConfig,
+  type PageEntry,
+} from "./navigator";
+export { materialPage, type MaterialPageProps } from "./pages/material";
+export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";
 export { Text, type TextProps } from "./widgets/text";
 export { Icon, type IconProps, type IconData } from "./widgets/icon";
 export { GestureDetector, type GestureDetectorProps } from "./widgets/gesture-detector";
-export { MaterialPage, type MaterialPageProps } from "./widgets/material-page";
 export { ScrollView, type ScrollViewProps } from "./widgets/scroll-view";
 export { Stack, type StackProps } from "./widgets/stack";
 export { Positioned, type PositionedProps } from "./widgets/positioned";
@@ -39,7 +47,8 @@ export {
   type TextCapitalization,
   type FloatingLabelBehavior,
 } from "./widgets/text-field";
-export { createController } from "./controller";
+export { createHandle } from "./handle";
+export type { Handle, HandleRuntime } from "./handle";
 export { createScrollController } from "./scroll-controller";
 export type { ScrollController } from "./scroll-controller";
 export { createFocusNode } from "./focus-node";

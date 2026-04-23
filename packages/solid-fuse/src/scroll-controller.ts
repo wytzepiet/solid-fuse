@@ -1,23 +1,28 @@
-import { createController } from "./controller";
+import { createSignal } from "solid-js";
+import { createHandle, type Handle } from "./handle";
 
-export type ScrollController = {
-  _ref: number;
-  scrollTo: (offset: number) => void;
+export type ScrollController = Handle<"scrollController"> & {
+  scrollOffset: () => number;
   animateTo: (offset: number, opts?: { duration?: number }) => void;
   jumpTo: (offset: number) => void;
-  scrollOffset: () => number;
+  dispose: () => void;
 };
 
 export function createScrollController(
   opts: { initialScrollOffset?: number } = {},
 ): ScrollController {
-  const { _ref, call, state } = createController("scrollController", opts);
+  const [scrollOffset, setScrollOffset] = createSignal(
+    opts.initialScrollOffset ?? 0,
+  );
+  const { node, call, dispose } = createHandle("scrollController", {
+    ...opts,
+    setScrollOffset,
+  });
   return {
-    _ref,
-    scrollTo: (offset: number) => call("scrollTo", offset),
-    animateTo: (offset: number, opts?: { duration?: number }) =>
-      call("animateTo", { offset, ...opts }),
-    jumpTo: (offset: number) => call("jumpTo", offset),
-    scrollOffset: state<number>("scrollOffset", 0),
+    node,
+    scrollOffset,
+    animateTo: (offset, o) => call("animateTo", { offset, ...o }),
+    jumpTo: (offset) => call("jumpTo", offset),
+    dispose,
   };
 }

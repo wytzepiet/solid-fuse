@@ -1,2 +1,2 @@
-export 'src/controller.dart';
+export 'src/handle.dart';
 export 'src/register.dart';

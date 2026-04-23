@@ -1,6 +1,6 @@
-import 'controllers/focus_node.dart';
-import 'controllers/scroll_controller.dart';
-import 'routes/material_page.dart';
+import 'handles/focus_node.dart';
+import 'handles/material_page.dart';
+import 'handles/scroll_controller.dart';
 import 'runtime.dart';
 import 'widgets/gesture_detector.dart';
 import 'widgets/icon.dart';
@@ -12,7 +12,7 @@ import 'widgets/text.dart';
 import 'widgets/text_field.dart';
 import 'widgets/view.dart';
 
-/// Registers all built-in Fuse widgets, controllers, and pages.
+/// Registers all built-in Fuse widgets and handles.
 ///
 /// solid-fuse is the core package — `fuse link` sorts it first so its
 /// registrations land before any third-party package's.
@@ -26,7 +26,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('stack', FuseStack.new);
   runtime.registerWidget('positioned', FusePositioned.new);
   runtime.registerWidget('textField', FuseTextField.new);
-  runtime.registerController('scrollController', FuseScrollController.new);
-  runtime.registerController('focusNode', FuseFocusNode.new);
-  runtime.registerPage('materialPage', FuseMaterialPage.new);
+  runtime.registerHandle('scrollController', FuseScrollController.new);
+  runtime.registerHandle('focusNode', FuseFocusNode.new);
+  runtime.registerHandle('materialPage', FuseMaterialPage.new);
 }

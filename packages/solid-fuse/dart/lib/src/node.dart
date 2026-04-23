@@ -1,8 +1,10 @@
 import 'dart:core' as core;
 import 'dart:core';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'fuse_handle.dart';
 import 'node_widget.dart';
 import 'utils.dart';
 
@@ -66,6 +68,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
     required this.id,
     required this.type,
     required this.callFunction,
+    required this.registry,
     Map<String, dynamic>? props,
   }) : component = props?.remove('_component') as String?,
        super(props ?? {});
@@ -78,18 +81,16 @@ class FuseNode extends FuseMap with ChangeNotifier {
   final void Function(core.int nodeId, String name, [dynamic value])
   callFunction;
 
+  /// Back-reference to the registry, so handles can resolve cross-node
+  /// references by id (used by RPC payloads like `{ pageRef: 42 }`).
+  final FuseNodeRegistry registry;
+
   /// The raw props map.
   Map<String, dynamic> get props => _data;
 
-  /// The native Dart object exposed via `_ref` resolution (e.g. ScrollController).
-  Object? nativeObject;
-
-  /// The FuseController instance for this node, if it's a controller type.
-  /// Stored as Object to avoid circular import with fuse_controller.dart.
-  Object? controller;
-
-  /// Custom dispose callback, set by the runtime for controller cleanup.
-  void Function()? onDispose;
+  /// The handle attached to this node, if the node's type registered one.
+  /// Set once by the runtime during the `create` op; disposed on node removal.
+  FuseHandle? ownHandle;
 
   final List<FuseNode> children = [];
   FuseNode? parent;
@@ -162,6 +163,43 @@ class FuseNode extends FuseMap with ChangeNotifier {
     return v is FuseNode ? FuseNodeWidget(node: v) : null;
   }
 
+  /// Resolves a handle's wrapped object.
+  ///
+  /// With no [key], returns this node's own handle's object (if it has a
+  /// handle wrapping type [T]).
+  ///
+  /// With a [key], treats the prop at [key] as a FuseNode value and returns
+  /// the referenced node's handle's object.
+  ///
+  /// Returns null if the target node has no handle, or if the handle's
+  /// wrapped type doesn't match [T].
+  T? handle<T>([String? key]) {
+    if (key == null) {
+      final h = ownHandle;
+      if (h is! FuseHandle<T>) return null;
+      return h.object;
+    }
+    final v = props[key];
+    if (v is! FuseNode) {
+      if (kDebugMode && v != null) {
+        debugPrint(
+          '[Fuse] node.handle<$T>("$key"): prop is ${v.runtimeType}, not a FuseNode',
+        );
+      }
+      return null;
+    }
+    final h = v.ownHandle;
+    if (h is! FuseHandle<T>) {
+      if (kDebugMode) {
+        debugPrint(
+          '[Fuse] node.handle<$T>("$key"): target <${v.type}> handle is ${h?.runtimeType}, expected FuseHandle<$T>',
+        );
+      }
+      return null;
+    }
+    return h.object;
+  }
+
   void setPropSilent(String name, dynamic value) {
     props[name] = value;
   }
@@ -186,7 +224,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
 
   @override
   void dispose() {
-    onDispose?.call();
+    ownHandle?.dispose();
     super.dispose();
   }
 }
@@ -206,6 +244,7 @@ class FuseNodeRegistry {
       type: type,
       props: props,
       callFunction: callFunction,
+      registry: this,
     );
     _nodes[id] = node;
     return node;

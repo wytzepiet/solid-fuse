@@ -1,60 +1,55 @@
-import { createContext, useContext, createSignal, For } from "solid-js";
-import { flushOps } from "~/renderer";
-import type { BaseProps } from "./types";
+import { For, untrack, type JSX } from "solid-js";
+import { Dynamic } from "./dynamic";
+import {
+  NavigationContext,
+  createNavigationController,
+  type NavigationController,
+} from "./navigation-controller";
+import type { PageConfig } from "./navigation-controller";
 
-type PageFactory = () => any;
+export {
+  createNavigationController,
+  useNavigation,
+  type NavigationController,
+  type PageConfig,
+  type PageEntry,
+} from "./navigation-controller";
 
-export interface NavigatorProps extends BaseProps {
-  onPopPage?: () => void;
-}
-
-export interface NavigatorAPI {
-  push: (page: PageFactory) => void;
-  pop: () => void;
-  replace: (page: PageFactory) => void;
-  stackSize: () => number;
-}
-
-const NavigatorContext = createContext<NavigatorAPI>();
-
-export function Navigator(props: { defaultPage: PageFactory }) {
-  const [stack, setStack] = createSignal<PageFactory[]>([props.defaultPage]);
-
-  const api: NavigatorAPI = {
-    push(factory) {
-      setStack((prev) => [...prev, factory]);
-      flushOps();
-    },
-    pop() {
-      if (stack().length <= 1) return;
-      setStack((prev) => prev.slice(0, -1));
-      flushOps();
-    },
-    replace(factory) {
-      setStack((prev) => {
-        const next = prev.length > 1 ? prev.slice(0, -1) : [];
-        return [...next, factory];
-      });
-      flushOps();
-    },
-    stackSize: () => stack().length,
-  };
+/**
+ * Mounts a Flutter Navigator and drives its pages list from a
+ * `NavigationController`. Either accepts a pre-built `controller` (useful
+ * for sub-navigators whose state is owned outside the wrapper — e.g. a
+ * tab that resets to home from a parent), or builds its own from
+ * `initialPage`.
+ *
+ * The `controller` prop is read once at mount; reactive swaps are ignored.
+ */
+export function Navigator(props: {
+  controller?: NavigationController;
+  initialPage?: (() => JSX.Element) | PageConfig;
+}): JSX.Element {
+  const nav = untrack(
+    () =>
+      props.controller ??
+      createNavigationController({ initialPage: props.initialPage }),
+  );
 
   return (
-    <NavigatorContext value={api}>
+    <NavigationContext value={nav}>
       <navigator
-        onPopPage={() => {
-          setStack((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
-        }}
+        onDidRemovePage={(e: { id: number }) => nav.onDidRemovePage(e.id)}
       >
-        <For each={stack()}>{(factory) => factory()()}</For>
+        <For each={nav.pages()}>
+          {(entry) => {
+            const e = entry();
+            return (
+              <Dynamic component={e.cfg.type} _pageId={e.id} {...e.cfg.props}>
+                {e.cfg.child()}
+              </Dynamic>
+            );
+          }}
+        </For>
       </navigator>
-    </NavigatorContext>
+    </NavigationContext>
   );
-}
-
-export function useNavigator(): NavigatorAPI {
-  const ctx = useContext(NavigatorContext);
-  if (!ctx) throw new Error("useNavigator must be used within a <Navigator>");
-  return ctx;
 }

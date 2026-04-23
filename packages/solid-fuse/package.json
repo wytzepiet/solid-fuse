@@ -34,7 +34,8 @@
     "fuse.config.ts"
   ],
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts"
+    "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts",
+    "test": "bun test"
   },
   "peerDependencies": {
     "solid-js": "2.0.0-beta.7"
@@ -47,6 +48,7 @@
     "vite-plugin-solid": "^3.0.0-next.5"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.12",
     "solid-js": "2.0.0-beta.7",
     "typescript": "^5.9.3"
   }
