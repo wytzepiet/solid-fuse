@@ -2,35 +2,16 @@ import { createRenderer } from "@solidjs/universal";
 import { flush } from "solid-js";
 import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
 
-export interface FuseNode<K extends string = string> {
-  id: number;
-  type: K;
-  props: Record<string, any>;
-  children: FuseNode[];
-  parent: FuseNode | undefined;
-}
-
-export function isFuseNode(value: any): value is FuseNode {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    typeof value.id === "number" &&
-    typeof value.type === "string" &&
-    Array.isArray(value.children)
-  );
-}
-
 let nextId = 0;
 let _currentComponent: string | undefined;
 
-function makeNode<K extends string>(type: K): FuseNode<K> {
-  return {
-    id: nextId++,
-    type,
-    props: {},
-    children: [],
-    parent: undefined,
-  };
+export class FuseNode<K extends string = string> {
+  id = nextId++;
+  props: Record<string, any> = {};
+  children: FuseNode[] = [];
+  parent: FuseNode | undefined = undefined;
+
+  constructor(public type: K) {}
 }
 
 // --- Event handler registry ---
@@ -57,7 +38,7 @@ const ops: Op[] = [];
 
 // --- Auto-flush machinery ---
 
-const root: FuseNode = makeNode("root");
+const root: FuseNode = new FuseNode("root");
 let flushScheduled = false;
 let rendering = false;
 
@@ -99,7 +80,7 @@ const {
   ...rest
 } = createRenderer<FuseNode>({
   createElement(tag: string) {
-    const node = makeNode(tag);
+    const node = new FuseNode(tag);
     const createProps: Record<string, any> = {};
     if (flutterMode !== 'release' && _currentComponent) createProps._component = _currentComponent;
     ops.push({ op: "create", id: node.id, type: tag, props: createProps });
@@ -107,7 +88,7 @@ const {
   },
 
   createTextNode(value: string) {
-    const node = makeNode("__text__");
+    const node = new FuseNode("__text__");
     node.props.text = value;
     ops.push({
       op: "create",
@@ -135,9 +116,9 @@ const {
       ops.push({ op: "setProp", id: node.id, name, value: true });
       return;
     }
-    const ref = isFuseNode(value)
+    const ref = value instanceof FuseNode
       ? value
-      : isFuseNode(value?.node)
+      : value?.node instanceof FuseNode
         ? value.node
         : null;
     if (ref) {
@@ -242,7 +223,6 @@ export {
   ref,
   ops,
   scheduleFlush,
-  makeNode,
 };
 
 // Re-export Solid control flow and flush

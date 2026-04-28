@@ -19,7 +19,7 @@ export {
   Switch,
   Match,
 } from "./renderer";
-export type { FuseNode } from "./renderer";
+export { FuseNode } from "./renderer";
 export {
   createNavigationController,
   Navigator,

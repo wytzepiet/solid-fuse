@@ -1,9 +1,7 @@
 import { getOwner, onCleanup } from "solid-js";
 import { channels } from "./channels";
 import {
-  type FuseNode,
-  isFuseNode,
-  makeNode,
+  FuseNode,
   ops,
   scheduleFlush,
   setProp as rawSetProp,
@@ -52,7 +50,7 @@ export function createHandle<K extends string>(
   type: K,
   props: Record<string, any> = {},
 ): HandleRuntime<K> {
-  const node = makeNode(type);
+  const node = new FuseNode(type);
 
   // Split props: plain values land inline in the create op so the handle
   // factory sees them immediately (needed for things like `initialScrollOffset`
@@ -64,8 +62,8 @@ export function createHandle<K extends string>(
   for (const [k, v] of Object.entries(props)) {
     if (
       typeof v === "function" ||
-      isFuseNode(v) ||
-      isFuseNode(v?.node)
+      v instanceof FuseNode ||
+      v?.node instanceof FuseNode
     ) {
       deferred.push([k, v]);
     } else {
