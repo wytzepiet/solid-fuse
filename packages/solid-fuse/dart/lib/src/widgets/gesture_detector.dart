@@ -19,34 +19,34 @@ class FuseGestureDetector extends StatelessWidget {
 
   // Tap down/up: { x, y, localX, localY, kind? }
   GestureTapDownCallback? _tapDown(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition), 'kind': d.kind?.name});
   }
 
   GestureTapUpCallback? _tapUp(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition), 'kind': d.kind.name});
   }
 
   // Long press down: { x, y, localX, localY, kind? }
   GestureLongPressDownCallback? _longPressDown(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition), 'kind': d.kind?.name});
   }
 
   // Long press start: { x, y, localX, localY }
   GestureLongPressStartCallback? _longPressStart(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition)});
   }
 
   // Long press move update: { x, y, localX, localY, offsetX, offsetY }
   GestureLongPressMoveUpdateCallback? _longPressMoveUpdate(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({
       ..._pos(d.globalPosition), ..._local(d.localPosition),
@@ -56,28 +56,28 @@ class FuseGestureDetector extends StatelessWidget {
 
   // Long press end: { x, y, localX, localY, vx, vy }
   GestureLongPressEndCallback? _longPressEnd(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition), ..._vel(d.velocity)});
   }
 
   // Drag down: { x, y, localX, localY }
   GestureDragDownCallback? _dragDown(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition)});
   }
 
   // Drag start: { x, y, localX, localY, kind? }
   GestureDragStartCallback? _dragStart(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._pos(d.globalPosition), ..._local(d.localPosition), 'kind': d.kind?.name});
   }
 
   // Drag update: { x, y, localX, localY, dx, dy, primaryDelta? }
   GestureDragUpdateCallback? _dragUpdate(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({
       ..._pos(d.globalPosition), ..._local(d.localPosition),
@@ -88,7 +88,7 @@ class FuseGestureDetector extends StatelessWidget {
 
   // Drag end: { x, y, localX, localY, vx, vy, primaryVelocity? }
   GestureDragEndCallback? _dragEnd(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({
       ..._pos(d.globalPosition), ..._local(d.localPosition),
@@ -99,7 +99,7 @@ class FuseGestureDetector extends StatelessWidget {
 
   // Scale start: { x, y, localX, localY, pointerCount, kind? }
   GestureScaleStartCallback? _scaleStart(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({
       ..._pos(d.focalPoint), ..._local(d.localFocalPoint),
@@ -109,7 +109,7 @@ class FuseGestureDetector extends StatelessWidget {
 
   // Scale update: { x, y, localX, localY, scale, horizontalScale, verticalScale, rotation, pointerCount, dx, dy }
   GestureScaleUpdateCallback? _scaleUpdate(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({
       ..._pos(d.focalPoint), ..._local(d.localFocalPoint),
@@ -122,7 +122,7 @@ class FuseGestureDetector extends StatelessWidget {
 
   // Scale end: { vx, vy, scaleVelocity, pointerCount }
   GestureScaleEndCallback? _scaleEnd(String name) {
-    final fn = node.function(name);
+    final fn = node.callback(name);
     if (fn == null) return null;
     return (d) => fn({..._vel(d.velocity), 'scaleVelocity': d.scaleVelocity, 'pointerCount': d.pointerCount});
   }
@@ -165,63 +165,63 @@ class FuseGestureDetector extends StatelessWidget {
       // Tap
       onTapDown: _tapDown('onTapDown'),
       onTapUp: _tapUp('onTapUp'),
-      onTap: node.function('onTap'),
-      onTapCancel: node.function('onTapCancel'),
+      onTap: node.callback('onTap'),
+      onTapCancel: node.callback('onTapCancel'),
       // Secondary tap (right-click)
-      onSecondaryTap: node.function('onSecondaryTap'),
+      onSecondaryTap: node.callback('onSecondaryTap'),
       onSecondaryTapDown: _tapDown('onSecondaryTapDown'),
       onSecondaryTapUp: _tapUp('onSecondaryTapUp'),
-      onSecondaryTapCancel: node.function('onSecondaryTapCancel'),
+      onSecondaryTapCancel: node.callback('onSecondaryTapCancel'),
       // Tertiary tap (middle-click)
       onTertiaryTapDown: _tapDown('onTertiaryTapDown'),
       onTertiaryTapUp: _tapUp('onTertiaryTapUp'),
-      onTertiaryTapCancel: node.function('onTertiaryTapCancel'),
+      onTertiaryTapCancel: node.callback('onTertiaryTapCancel'),
       // Double tap
       onDoubleTapDown: _tapDown('onDoubleTapDown'),
-      onDoubleTap: node.function('onDoubleTap'),
-      onDoubleTapCancel: node.function('onDoubleTapCancel'),
+      onDoubleTap: node.callback('onDoubleTap'),
+      onDoubleTapCancel: node.callback('onDoubleTapCancel'),
       // Long press
       onLongPressDown: _longPressDown('onLongPressDown'),
-      onLongPressCancel: node.function('onLongPressCancel'),
-      onLongPress: node.function('onLongPress'),
+      onLongPressCancel: node.callback('onLongPressCancel'),
+      onLongPress: node.callback('onLongPress'),
       onLongPressStart: _longPressStart('onLongPressStart'),
       onLongPressMoveUpdate: _longPressMoveUpdate('onLongPressMoveUpdate'),
-      onLongPressUp: node.function('onLongPressUp'),
+      onLongPressUp: node.callback('onLongPressUp'),
       onLongPressEnd: _longPressEnd('onLongPressEnd'),
       // Secondary long press
       onSecondaryLongPressDown: _longPressDown('onSecondaryLongPressDown'),
-      onSecondaryLongPressCancel: node.function('onSecondaryLongPressCancel'),
-      onSecondaryLongPress: node.function('onSecondaryLongPress'),
+      onSecondaryLongPressCancel: node.callback('onSecondaryLongPressCancel'),
+      onSecondaryLongPress: node.callback('onSecondaryLongPress'),
       onSecondaryLongPressStart: _longPressStart('onSecondaryLongPressStart'),
       onSecondaryLongPressMoveUpdate: _longPressMoveUpdate('onSecondaryLongPressMoveUpdate'),
-      onSecondaryLongPressUp: node.function('onSecondaryLongPressUp'),
+      onSecondaryLongPressUp: node.callback('onSecondaryLongPressUp'),
       onSecondaryLongPressEnd: _longPressEnd('onSecondaryLongPressEnd'),
       // Tertiary long press
       onTertiaryLongPressDown: _longPressDown('onTertiaryLongPressDown'),
-      onTertiaryLongPressCancel: node.function('onTertiaryLongPressCancel'),
-      onTertiaryLongPress: node.function('onTertiaryLongPress'),
+      onTertiaryLongPressCancel: node.callback('onTertiaryLongPressCancel'),
+      onTertiaryLongPress: node.callback('onTertiaryLongPress'),
       onTertiaryLongPressStart: _longPressStart('onTertiaryLongPressStart'),
       onTertiaryLongPressMoveUpdate: _longPressMoveUpdate('onTertiaryLongPressMoveUpdate'),
-      onTertiaryLongPressUp: node.function('onTertiaryLongPressUp'),
+      onTertiaryLongPressUp: node.callback('onTertiaryLongPressUp'),
       onTertiaryLongPressEnd: _longPressEnd('onTertiaryLongPressEnd'),
       // Vertical drag
       onVerticalDragDown: _dragDown('onVerticalDragDown'),
       onVerticalDragStart: _dragStart('onVerticalDragStart'),
       onVerticalDragUpdate: _dragUpdate('onVerticalDragUpdate'),
       onVerticalDragEnd: _dragEnd('onVerticalDragEnd'),
-      onVerticalDragCancel: node.function('onVerticalDragCancel'),
+      onVerticalDragCancel: node.callback('onVerticalDragCancel'),
       // Horizontal drag
       onHorizontalDragDown: _dragDown('onHorizontalDragDown'),
       onHorizontalDragStart: _dragStart('onHorizontalDragStart'),
       onHorizontalDragUpdate: _dragUpdate('onHorizontalDragUpdate'),
       onHorizontalDragEnd: _dragEnd('onHorizontalDragEnd'),
-      onHorizontalDragCancel: node.function('onHorizontalDragCancel'),
+      onHorizontalDragCancel: node.callback('onHorizontalDragCancel'),
       // Pan
       onPanDown: _dragDown('onPanDown'),
       onPanStart: _dragStart('onPanStart'),
       onPanUpdate: _dragUpdate('onPanUpdate'),
       onPanEnd: _dragEnd('onPanEnd'),
-      onPanCancel: node.function('onPanCancel'),
+      onPanCancel: node.callback('onPanCancel'),
       // Scale
       onScaleStart: _scaleStart('onScaleStart'),
       onScaleUpdate: _scaleUpdate('onScaleUpdate'),

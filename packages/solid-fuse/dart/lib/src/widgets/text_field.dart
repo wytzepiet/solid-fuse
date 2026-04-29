@@ -50,7 +50,7 @@ class _FuseTextFieldState extends State<FuseTextField> {
     final focusNode = node.handle<FocusNode>('focusNode');
     final formatters = _buildFormatters(node);
     final decoration = _buildDecoration(node);
-    final onTapOutside = node.function('onTapOutside');
+    final onTapOutside = node.callback('onTapOutside');
 
     return TextField(
       controller: _controller,
@@ -88,10 +88,10 @@ class _FuseTextFieldState extends State<FuseTextField> {
       scrollPadding: node.edgeInsets('scrollPadding') ?? const EdgeInsets.all(20),
       inputFormatters: formatters,
       decoration: decoration,
-      onChanged: node.function('onChanged'),
-      onSubmitted: node.function('onSubmitted'),
-      onEditingComplete: node.function('onEditingComplete'),
-      onTap: node.function('onTap'),
+      onChanged: node.callback('onChanged'),
+      onSubmitted: node.callback('onSubmitted'),
+      onEditingComplete: node.callback('onEditingComplete'),
+      onTap: node.callback('onTap'),
       onTapOutside: onTapOutside == null ? null : (_) => onTapOutside(),
     );
   }

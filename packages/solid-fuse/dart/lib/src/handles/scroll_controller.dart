@@ -10,7 +10,7 @@ class FuseScrollController extends FuseHandle<ScrollController> {
       ),
       super(node) {
     object.addListener(
-      () => node.function('setScrollOffset')?.call(object.offset),
+      () => node.callback('setScrollOffset')?.call(object.offset),
     );
   }
 

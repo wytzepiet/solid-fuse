@@ -5,7 +5,7 @@ import '../fuse_handle.dart';
 class FuseFocusNode extends FuseHandle<FocusNode> {
   FuseFocusNode(super.node) : object = FocusNode() {
     object.addListener(
-      () => node.function('setHasFocus')?.call(object.hasFocus),
+      () => node.callback('setHasFocus')?.call(object.hasFocus),
     );
   }
 

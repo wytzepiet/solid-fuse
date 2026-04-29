@@ -143,11 +143,11 @@ Now users can do:
 
 ## Event callbacks
 
-To support event callbacks from Dart to JS, use `node.function()`:
+To support event callbacks from Dart to JS, use `node.callback()`:
 
 ```dart
 // Returns a callback if the prop was set in JSX, null if not
-final onTap = node.function('onTap');
+final onTap = node.callback('onTap');
 
 // Safe to use directly — null means "no handler"
 GestureDetector(
@@ -161,7 +161,7 @@ Under the hood: when you write `onTap={() => doSomething()}` in JSX, the actual 
 To send data back with the callback:
 
 ```dart
-node.function('onChange')?.call(newValue);
+node.callback('onChange')?.call(newValue);
 ```
 
 ## StatefulWidget
@@ -190,7 +190,7 @@ class _FuseTextInputState extends State<FuseTextInput> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
-      onChanged: (value) => widget.node.function('onChange')?.call(value),
+      onChanged: (value) => widget.node.callback('onChange')?.call(value),
     );
   }
 }

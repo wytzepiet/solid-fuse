@@ -36,7 +36,7 @@ class FuseNavigatorWidget extends StatelessWidget {
       pages: pages,
       onDidRemovePage: (page) {
         final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
-        node.function('onDidRemovePage')?.call({'id': id});
+        node.callback('onDidRemovePage')?.call({'id': id});
       },
     );
   }

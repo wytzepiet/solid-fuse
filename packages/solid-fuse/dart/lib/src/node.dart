@@ -151,7 +151,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
   }
 
   /// Returns a callback that calls the named JS function, or null if not registered.
-  void Function([dynamic value])? function(String name) {
+  void Function([dynamic value])? callback(String name) {
     if (props[name] != true) return null;
     return ([value]) => callFunction(id, name, value);
   }
