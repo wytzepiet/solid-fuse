@@ -37,3 +37,6 @@ build/
 # Misc
 *.log
 *.pyc
+
+# Claude Code
+.claude/
