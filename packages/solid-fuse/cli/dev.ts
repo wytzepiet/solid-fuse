@@ -51,14 +51,14 @@ export const devCommand = defineCommand({
     });
 
     async function startVite(): Promise<ViteDevServer> {
-      console.log("Starting Vite dev server...");
       const server = await createServer(serverConfig);
       await server.listen();
-      server.printUrls();
       return server;
     }
 
+    console.log("Starting Vite dev server...");
     let viteServer = await startVite();
+    console.log("Vite started.");
 
     // Step 6: Start flutter run with piped stdin so we can intercept R (hot restart)
     let cleaning = false;
@@ -102,11 +102,13 @@ export const devCommand = defineCommand({
         }
 
         if (char === "R") {
+          console.log("\nRestarting Vite dev server...");
           if (viteServer.httpServer instanceof http.Server) {
             viteServer.httpServer.closeAllConnections();
           }
           await viteServer.close();
           viteServer = await startVite();
+          console.log("Vite restarted.");
         }
 
         flutter.stdin!.write(`${char}\n`);
