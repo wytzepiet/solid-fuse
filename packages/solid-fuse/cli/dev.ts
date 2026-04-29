@@ -1,5 +1,6 @@
 import { spawn, spawnSync } from "child_process";
-import { createServer, build as viteBuild, mergeConfig } from "vite";
+import http from "http";
+import { createServer, build as viteBuild, mergeConfig, type ViteDevServer } from "vite";
 import { defineCommand } from "citty";
 import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
 import { loadFuseConfig, buildViteConfig } from "./config";
@@ -44,22 +45,28 @@ export const devCommand = defineCommand({
     // Step 5: Start Vite dev server
     const host = detectLanIp();
     console.log(`\nUsing host: ${host}, port: ${DEV_PORT}`);
-    console.log("Starting Vite dev server...");
 
-    const server = await createServer(
-      mergeConfig(viteConfig, {
-        server: { host: true, port: DEV_PORT },
-      })
-    );
-    await server.listen();
-    server.printUrls();
+    const serverConfig = mergeConfig(viteConfig, {
+      server: { host: true, port: DEV_PORT },
+    });
 
-    // Step 6: Start flutter run
+    async function startVite(): Promise<ViteDevServer> {
+      console.log("Starting Vite dev server...");
+      const server = await createServer(serverConfig);
+      await server.listen();
+      server.printUrls();
+      return server;
+    }
+
+    let viteServer = await startVite();
+
+    // Step 6: Start flutter run with piped stdin so we can intercept R (hot restart)
     let cleaning = false;
     const cleanup = () => {
       if (cleaning) return;
       cleaning = true;
-      server.close();
+      viteServer.close();
+      if (process.stdin.isTTY) process.stdin.setRawMode(false);
     };
     process.on("SIGINT", cleanup);
     process.on("SIGTERM", cleanup);
@@ -74,12 +81,36 @@ export const devCommand = defineCommand({
 
     const flutter = spawn("flutter", allFlutterArgs, {
       cwd: dartRoot,
-      stdio: "inherit",
+      stdio: ["pipe", "inherit", "inherit"],
     });
 
     flutter.on("close", (code) => {
       cleanup();
       process.exit(code ?? 0);
     });
+
+    if (process.stdin.isTTY) {
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.on("data", async (key: Buffer) => {
+        const char = key.toString();
+
+        if (char === "\x03") {
+          // Ctrl+C
+          flutter.stdin!.write("q\n");
+          return;
+        }
+
+        if (char === "R") {
+          if (viteServer.httpServer instanceof http.Server) {
+            viteServer.httpServer.closeAllConnections();
+          }
+          await viteServer.close();
+          viteServer = await startVite();
+        }
+
+        flutter.stdin!.write(`${char}\n`);
+      });
+    }
   },
 });
