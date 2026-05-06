@@ -23,7 +23,7 @@ export type PageConfig<P = any> = {
 /** An entry in the pages signal — config plus identity + pending resolver. */
 export type PageEntry = {
   id: number;
-  cfg: PageConfig;
+  config: PageConfig;
   resolve: (value: any) => void;
 };
 
@@ -40,11 +40,11 @@ export type NavigationController = {
    * disposal — Flutter's `onDidRemovePage` doesn't carry a result value,
    * so only explicit `pop(result)` calls thread one through.
    */
-  push: <T = unknown>(cfg: PageConfig) => Promise<T | null>;
+  push: <T = unknown>(cfg: PageConfig | (() => JSX.Element)) => Promise<T | null>;
   /** Pop the top page with an optional result. No-op on single-entry stack. */
   pop: (result?: unknown) => void;
   pushReplacement: <T = unknown>(
-    cfg: PageConfig,
+    cfg: PageConfig | (() => JSX.Element),
     result?: unknown,
   ) => Promise<T | null>;
   /**
@@ -102,15 +102,16 @@ export function createNavigationController(
   // here — Solid 2.0 forbids signal writes during render, and this factory
   // typically runs inside the <Navigator> wrapper's body.
   const initial: PageEntry[] = initialPage
-    ? [{ id: nextId++, cfg: initialPage, resolve: () => {} }]
+    ? [{ id: nextId++, config: initialPage, resolve: () => {} }]
     : [];
   const [pages, setPages] = createSignal<PageEntry[]>(initial);
 
-  function pushEntry<T>(cfg: PageConfig): Promise<T | null> {
+  function pushEntry<T>(cfg: PageConfig | (() => JSX.Element)): Promise<T | null> {
+    const config = typeof cfg === "function" ? materialPage({ child: cfg }) : cfg;
     return new Promise<T | null>((resolve) => {
       const entry: PageEntry = {
         id: nextId++,
-        cfg,
+        config,
         resolve: resolve as (value: any) => void,
       };
       setPages((prev) => [...prev, entry]);
@@ -141,7 +142,7 @@ export function createNavigationController(
   const nav: NavigationController = {
     pages,
     stackDepth: () => pages().length,
-    push: <T,>(cfg: PageConfig) => pushEntry<T>(cfg),
+    push: <T,>(cfg: PageConfig | (() => JSX.Element)) => pushEntry<T>(cfg),
     pop: (result) => {
       const current = pages();
       if (current.length <= 1) {
@@ -150,7 +151,7 @@ export function createNavigationController(
       }
       removeEntry(current[current.length - 1]!.id, result);
     },
-    pushReplacement: <T,>(cfg: PageConfig, result?: unknown) => {
+    pushReplacement: <T,>(cfg: PageConfig | (() => JSX.Element), result?: unknown) => {
       const current = pages();
       if (current.length > 0) {
         removeEntry(current[current.length - 1]!.id, result);
@@ -161,7 +162,7 @@ export function createNavigationController(
       const current = pages();
       if (name) {
         const idx = current.findLastIndex(
-          (e) => (e.cfg.props as { name?: string }).name === name,
+          (e) => (e.config.props as { name?: string }).name === name,
         );
         if (idx < 0) {
           console.warn(

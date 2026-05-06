@@ -1,4 +1,4 @@
-import { materialPage, Text, View, useNavigation } from "solid-fuse";
+import { Text, View, useNavigation } from "solid-fuse";
 import { MenuItem } from "../ui";
 import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
@@ -20,23 +20,19 @@ export function HomeScreen() {
       </View>
       <MenuItem
         label="counter"
-        onTap={() => nav.push(materialPage({ child: () => <CounterScreen /> }))}
+        onTap={() => nav.push(() => <CounterScreen />)}
       />
       <MenuItem
         label="textField"
-        onTap={() =>
-          nav.push(materialPage({ child: () => <TextFieldScreen /> }))
-        }
+        onTap={() => nav.push(() => <TextFieldScreen />)}
       />
       <MenuItem
         label="icon"
-        onTap={() => nav.push(materialPage({ child: () => <IconScreen /> }))}
+        onTap={() => nav.push(() => <IconScreen />)}
       />
       <MenuItem
         label="scrollController"
-        onTap={() =>
-          nav.push(materialPage({ child: () => <ScrollScreen /> }))
-        }
+        onTap={() => nav.push(() => <ScrollScreen />)}
       />
     </View>
   );

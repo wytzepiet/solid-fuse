@@ -43,8 +43,8 @@ export function Navigator(props: {
           {(entry) => {
             const e = entry();
             return (
-              <Dynamic component={e.cfg.type} _pageId={e.id} {...e.cfg.props}>
-                {e.cfg.child()}
+              <Dynamic component={e.config.type} _pageId={e.id} {...e.config.props}>
+                {e.config.child()}
               </Dynamic>
             );
           }}
