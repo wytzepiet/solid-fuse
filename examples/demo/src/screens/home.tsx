@@ -1,5 +1,6 @@
 import { materialPage, Text, View, useNavigation } from "solid-fuse";
 import { MenuItem } from "../ui";
+import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
 import { IconScreen } from "./icon";
 import { ScrollScreen } from "./scroll";
@@ -17,6 +18,10 @@ export function HomeScreen() {
           Playground for widget primitives
         </Text>
       </View>
+      <MenuItem
+        label="counter"
+        onTap={() => nav.push(materialPage({ child: () => <CounterScreen /> }))}
+      />
       <MenuItem
         label="textField"
         onTap={() =>
