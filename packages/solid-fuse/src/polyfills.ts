@@ -1,12 +1,5 @@
 // Polyfills for APIs not provided by fjs's JsBuiltinOptions.all().
-// Currently: structuredClone, queueMicrotask, URL (relative form), WebSocket.
-
-// @solidjs/signals calls queueMicrotask(flush) in schedule() — polyfill if
-// the QuickJS build doesn't provide it.
-if (typeof globalThis.queueMicrotask === "undefined") {
-  (globalThis as any).queueMicrotask = (fn: () => void) =>
-    Promise.resolve().then(fn);
-}
+// Currently: structuredClone, URL (relative form), WebSocket.
 
 import { send, on } from "~/channels";
 
