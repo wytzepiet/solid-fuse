@@ -1,4 +1,4 @@
-import { createMemo, omit, untrack, type JSX, type ValidComponent } from "solid-js";
+import { createMemo, omit, untrack, type ValidComponent } from "solid-js";
 import { createElement, spread } from "./renderer";
 
 export function createDynamic<T extends object>(

@@ -1,4 +1,4 @@
-import { For, untrack, type JSX } from "solid-js";
+import { For, untrack } from "solid-js";
 import { Dynamic } from "./dynamic";
 import {
   NavigationContext,

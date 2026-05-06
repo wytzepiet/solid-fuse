@@ -20,8 +20,8 @@ const handlers = new Map<string, Function>();
 
 // Register the function call channel — Dart calls JS functions via channels.send('_functionCall', ...)
 on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
-  const handler = handlers.get(`${data.nodeId}:${data.name}`);
-  handler?.(data.value);
+  const key = `${data.nodeId}:${data.name}`;
+  handlers.get(key)?.(data.value);
 });
 
 // --- Ops journal ---
@@ -43,7 +43,7 @@ let flushScheduled = false;
 let rendering = false;
 
 function flushOps() {
-  flush(); // Process pending Solid effects first
+  flush();
   flushScheduled = false;
   if (ops.length === 0) return;
   send("_ops", { ops: ops.slice() });

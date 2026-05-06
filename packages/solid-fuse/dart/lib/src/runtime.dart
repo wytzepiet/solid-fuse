@@ -101,8 +101,7 @@ class FuseRuntime {
     final channels = _connection!.channels!;
     channels.on('_ops', (data) {
       try {
-        final opsList = data['ops'] as List<dynamic>;
-        applyOps(opsList);
+        applyOps(data['ops'] as List<dynamic>);
       } catch (e, st) {
         debugPrint('[Fuse] ops error: $e\n$st');
       }

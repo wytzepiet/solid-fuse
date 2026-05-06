@@ -7,15 +7,24 @@ import type {
 } from "../types";
 
 export type KeyboardType =
-  | "text" | "number" | "email" | "phone" | "url" | "multiline";
+  | "text"
+  | "number"
+  | "email"
+  | "phone"
+  | "url"
+  | "multiline";
 
 export type TextInputAction =
-  | "done" | "next" | "send" | "search" | "go" | "newline";
+  | "done"
+  | "next"
+  | "send"
+  | "search"
+  | "go"
+  | "newline";
 
 export type TextFieldBorderStyle = "none" | "underline" | "outline";
 
-export type TextCapitalization =
-  | "none" | "words" | "sentences" | "characters";
+export type TextCapitalization = "none" | "words" | "sentences" | "characters";
 
 export type FloatingLabelBehavior = "auto" | "always" | "never";
 

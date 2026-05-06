@@ -1,4 +1,3 @@
-import type { JSX } from "solid-js";
 import type { PageConfig } from "../navigator";
 
 export type MaterialPageProps = {

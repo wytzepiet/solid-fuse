@@ -5,7 +5,6 @@ import {
   onCleanup,
   untrack,
   useContext,
-  type JSX,
 } from "solid-js";
 import { materialPage } from "./pages/material";
 
