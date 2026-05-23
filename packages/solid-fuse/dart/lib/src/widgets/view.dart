@@ -78,7 +78,7 @@ class FuseViewWidget extends StatelessWidget {
       }
     }
 
-    // ── Layer 4: Decoration ──────────────────────────────────────────────────
+    // ── Layer 5: Decoration ──────────────────────────────────────────────────
 
     if (decoration != null) {
       result = DecoratedBox(decoration: decoration, child: result);
@@ -92,13 +92,13 @@ class FuseViewWidget extends StatelessWidget {
       );
     }
 
-    // ── Layer 5: AspectRatio ─────────────────────────────────────────────────
+    // ── Layer 6: AspectRatio ─────────────────────────────────────────────────
 
     if (aspectRatio != null) {
       result = AspectRatio(aspectRatio: aspectRatio, child: result);
     }
 
-    // ── Layer 6: SizedBox / ConstrainedBox ───────────────────────────────────
+    // ── Layer 7: SizedBox / ConstrainedBox ───────────────────────────────────
 
     final hasConstraints =
         minWidth != null ||
@@ -122,13 +122,13 @@ class FuseViewWidget extends StatelessWidget {
       );
     }
 
-    // ── Layer 7: Opacity ─────────────────────────────────────────────────────
+    // ── Layer 8: Opacity ─────────────────────────────────────────────────────
 
     if (opacity != null) {
       result = Opacity(opacity: opacity.clamp(0.0, 1.0), child: result);
     }
 
-    // ── Layer 8: Transform ───────────────────────────────────────────────────
+    // ── Layer 9: Transform ───────────────────────────────────────────────────
 
     if (transform != null) {
       final rotate = transform.double('rotate');
@@ -150,25 +150,25 @@ class FuseViewWidget extends StatelessWidget {
       }
     }
 
-    // ── Layer 9: Margin ──────────────────────────────────────────────────────
+    // ── Layer 10: Margin ─────────────────────────────────────────────────────
 
     if (margin != null) {
       result = Padding(padding: margin, child: result);
     }
 
-    // ── Layer 10: IgnorePointer ──────────────────────────────────────────────
+    // ── Layer 11: IgnorePointer ──────────────────────────────────────────────
 
     if (ignorePointer) {
       result = IgnorePointer(child: result);
     }
 
-    // ── Layer 11: Visibility ─────────────────────────────────────────────────
+    // ── Layer 12: Visibility ─────────────────────────────────────────────────
 
     if (!visible) {
       result = Visibility(visible: false, child: result);
     }
 
-    // ── Layer 12: Flexible (outermost) ───────────────────────────────────────
+    // ── Layer 13: Flexible (outermost) ───────────────────────────────────────
 
     if (grow != null && grow > 0) {
       final flexFit = fit == 'tight' ? FlexFit.tight : FlexFit.loose;
