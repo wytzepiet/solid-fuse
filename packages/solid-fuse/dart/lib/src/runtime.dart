@@ -74,26 +74,57 @@ class FuseRuntime {
     }
 
     if (kDebugMode) {
+      final dev = DevServerConnection(host: _devHost, port: _devPort);
       try {
-        final dev = DevServerConnection(host: _devHost, port: _devPort);
         await dev.connect();
-        _connection = dev;
-        _registerChannels();
+      } catch (e) {
+        debugPrint(
+          '[Fuse] Dev server unreachable at $_devHost:$_devPort — falling back to QuickJS bundle',
+        );
+        await _startQuickJs();
+        return;
+      }
+
+      _connection = dev;
+      _registerChannels();
+      try {
         await dev.start();
         debugPrint('[Fuse] Connected to dev server at $_devHost');
         return;
       } catch (e) {
-        debugPrint(
-          '[Fuse] Dev server not available ($e), falling back to QuickJS bundle',
-        );
+        // The dev server was reachable but evaluating the JS modules threw.
+        // Don't fall back — the QuickJS bundle is built from the same source
+        // and would fail the same way (or worse: succeed against stale code,
+        // hiding the real error). Print a clean JS-only trace and rethrow.
+        debugPrint('[Fuse] JS error during dev startup:\n${_formatJsError(e)}');
+        rethrow;
       }
     }
 
+    await _startQuickJs();
+  }
+
+  Future<void> _startQuickJs() async {
     final qjs = QuickJsConnection();
     await qjs.connect();
     _connection = qjs;
     _registerChannels();
     await qjs.start();
+  }
+
+  /// Strip the FFI wrapping (`AnyhowException(Runtime error: …)`) and the
+  /// Rust backtrace from a JS-runtime error so what's left is the JS message
+  /// plus the JS stack — the part actually useful for fixing your code.
+  String _formatJsError(Object e) {
+    var msg = e.toString();
+    msg = msg.replaceFirst(
+      RegExp(r'^AnyhowException\(Runtime error:\s*'),
+      '',
+    );
+    final rustIdx = msg.indexOf('Stack backtrace:');
+    if (rustIdx >= 0) msg = msg.substring(0, rustIdx).trimRight();
+    if (msg.endsWith(')')) msg = msg.substring(0, msg.length - 1).trimRight();
+    return msg;
   }
 
   /// Register runtime-level channel handlers.

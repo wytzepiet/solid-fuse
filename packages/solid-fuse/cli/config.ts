@@ -52,6 +52,7 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
       target: "es2020",
       minify: false,
       emptyOutDir: false,
+      sourcemap: true,
       lib: {
         entry: resolve(projectRoot, "src/index.tsx"),
         formats: ["iife"],
