@@ -3,108 +3,96 @@ title: Creating Pages
 description: Custom navigation transitions and page types
 ---
 
-Pages define both the **content** and the **transition** for navigation. When you push a page, the page itself decides how it animates in and out. This page covers creating custom page types beyond the built-in `<materialPage>`.
+Pages define both the **content** and the **transition** for navigation. When you push a page, the page type itself decides how it animates in and out. This page covers creating custom page types beyond the built-in `materialPage`.
 
 ## How pages work
 
-A page in Fuse is a JSX element that produces a Flutter `Page` object. The built-in `<materialPage>` creates a `MaterialPage` — but you can create your own for Cupertino transitions, custom animations, or any other page behavior.
+A page in Fuse is a configuration object — `{ type, child, props }` — not a JSX element. Consumers build one with a factory like `materialPage({...})` and pass it to `nav.push(...)`. The `<Navigator>` component renders each entry by handing the configuration to a registered Dart **page handle**.
 
-## FusePage base class
+Page handles are just `FuseHandle<Page>` — same machinery as scroll controllers and focus nodes — but they extend `FusePageHandle`, which adds a stable key and a reactive content widget for Flutter's Navigator 2.0.
 
-```dart
-abstract class FusePage {
-  FusePage(this.node);
-  final FuseNode node;
+## JS side: a factory function
 
-  /// Reactive child content — rebuilds when signals change
-  /// without rebuilding the page transition.
-  Widget get child => ListenableBuilder(
-    listenable: node,
-    builder: (_, _) => node.flexChildren,
-  );
+```ts title="src/pages/cupertino.ts"
+import type { PageConfig } from "solid-fuse";
 
-  /// Build the Flutter Page for the Navigator.
-  Page build();
+export type CupertinoPageProps = {
+  child: () => JSX.Element;
+  name?: string;
+  title?: string;
+  maintainState?: boolean;
+};
+
+export function cupertinoPage({
+  child,
+  ...props
+}: CupertinoPageProps): PageConfig<Omit<CupertinoPageProps, "child">> {
+  return { type: "cupertinoPage", child, props };
 }
 ```
 
-The `child` getter is reactive — it wraps `node.flexChildren` in a `ListenableBuilder`, so page content updates when signals change without re-triggering the page transition animation.
+The factory returns a `PageConfig` that the Navigator forwards to your Dart handle:
 
-## Example: CupertinoPage
+- `type` — the registration key (matches `runtime.registerHandle('cupertinoPage', ...)`)
+- `child` — a thunk so the page contents aren't built until the page is mounted
+- `props` — anything else lands on the node and is readable in Dart via `node.string(...)` etc.
 
-```dart title="dart/lib/src/routes/cupertino_page.dart"
+Consumers use it like any other page:
+
+```tsx
+nav.push(cupertinoPage({ title: "Settings", child: () => <SettingsPage /> }));
+```
+
+## Dart side: FusePageHandle
+
+`FusePageHandle` extends `FuseHandle<Page>` and gives you two helpers:
+
+- `pageKey` — a `LocalKey` derived from the `_pageId` prop the Navigator assigns to each entry. Use it as `key:` on your `Page` subclass so Navigator 2.0 can diff the stack correctly.
+- `pageContent` — a reactive widget rendering the node's JSX children with `flexChildren` layout. Wrap it in your page type's scaffolding (Cupertino, Material, custom).
+
+```dart title="dart/lib/src/handles/cupertino_page.dart"
 import 'package:flutter/cupertino.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
-class FuseCupertinoPage extends FusePage {
+class FuseCupertinoPage extends FusePageHandle {
   FuseCupertinoPage(super.node);
 
   @override
-  Page build() => CupertinoPage(
-    key: ValueKey(node.id),
+  late final Page<dynamic> object = CupertinoPage<dynamic>(
+    key: pageKey,
+    name: node.string('name'),
     title: node.string('title'),
-    child: child,
+    maintainState: node.bool('maintainState') ?? true,
+    child: pageContent,
   );
 }
 ```
 
-Register it:
+Register it like any other handle:
 
 ```dart
-runtime.registerPage('cupertinoPage', FuseCupertinoPage.new);
+runtime.registerHandle('cupertinoPage', FuseCupertinoPage.new);
 ```
 
-Declare the JSX type:
+## Example: custom fade transition
 
-```ts title="src/cupertino-page.d.ts"
-import type { FlexInput } from "solid-fuse";
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      cupertinoPage: {
-        title?: string;
-        children?: any;
-        flex?: FlexInput;
-      };
-    }
-  }
-}
-```
-
-Use it:
-
-```tsx
-function SettingsPage() {
-  return (
-    <cupertinoPage title="Settings" flex={{ gap: 16 }}>
-      <text>Settings content</text>
-    </cupertinoPage>
-  );
-}
-```
-
-## Example: Custom fade transition
-
-```dart title="dart/lib/src/routes/fade_page.dart"
+```dart title="dart/lib/src/handles/fade_page.dart"
 import 'package:flutter/material.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
-class FuseFadePage extends FusePage {
+class FuseFadePage extends FusePageHandle {
   FuseFadePage(super.node);
 
   @override
-  Page build() => _FadePageRoute(
-    key: ValueKey(node.id),
-    duration: Duration(
-      milliseconds: node.int('duration') ?? 300,
-    ),
-    child: child,
+  late final Page<dynamic> object = _FadePage(
+    key: pageKey,
+    duration: Duration(milliseconds: node.int('duration') ?? 300),
+    child: pageContent,
   );
 }
 
-class _FadePageRoute extends Page {
-  const _FadePageRoute({
+class _FadePage extends Page<dynamic> {
+  const _FadePage({
     super.key,
     required this.duration,
     required this.child,
@@ -114,12 +102,12 @@ class _FadePageRoute extends Page {
   final Widget child;
 
   @override
-  Route createRoute(BuildContext context) {
+  Route<dynamic> createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
       transitionDuration: duration,
-      pageBuilder: (_, __, ___) => child,
-      transitionsBuilder: (_, animation, __, child) {
+      pageBuilder: (_, _, _) => child,
+      transitionsBuilder: (_, animation, _, child) {
         return FadeTransition(opacity: animation, child: child);
       },
     );
@@ -127,22 +115,23 @@ class _FadePageRoute extends Page {
 }
 ```
 
+The matching JS factory:
+
+```ts
+export function fadePage(opts: { child: () => JSX.Element; duration?: number }) {
+  const { child, ...props } = opts;
+  return { type: "fadePage", child, props };
+}
+```
+
 ## Fallback behavior
 
-If a navigator encounters a child element without a registered page factory, it wraps it in a plain `MaterialPage` automatically. So you can push non-page elements and they still work — they just get the default Material transition.
-
-```tsx
-// This works even without a page wrapper
-nav.push(() => (
-  <view flex={{ align: "center", justify: "center", expand: true }}>
-    <text>Plain view as a page</text>
-  </view>
-));
-```
+If the Navigator encounters a page config whose `type` isn't registered, it falls back to wrapping the child in a plain `MaterialPage`. That means `nav.push(() => <X />)` works even before you've defined any custom page types — the thunk is sugar for `materialPage({ child })`, and any unrecognized type still renders something visible.
 
 ## Key points
 
-- Pages are created on-demand for each navigator child, not cached
-- The `child` getter is reactive — content updates don't re-trigger transitions
-- Always use `ValueKey(node.id)` as the page key for identity stability
-- Pages support `flex` via `flexChildren` — layout props work on page elements just like any other
+- Pages are factory functions producing `PageConfig` objects, not JSX elements
+- Page handles extend `FusePageHandle` so they pick up `pageKey` and `pageContent`
+- Always use `pageKey` (not a manual `ValueKey`) so Navigator 2.0's page diff stays stable
+- `pageContent` is reactive — content updates don't re-trigger transitions
+- Register via `runtime.registerHandle(name, FuseYourPage.new)` like any other handle

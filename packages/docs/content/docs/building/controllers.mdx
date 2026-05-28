@@ -1,39 +1,46 @@
 ---
 title: Controllers
-description: Programmatic control with scroll controllers
+description: Programmatic control with scroll controllers and focus nodes
 ---
 
-Some Flutter patterns are imperative — you can't express "scroll to offset 500" or "focus this input" as a prop. Controllers bridge this gap.
+Some Flutter patterns are imperative — you can't express "scroll to offset 500" or "focus this input" as a prop. Controllers (and the closely related focus nodes) bridge this gap. They're built on top of Fuse's [handle](/docs/extending/creating-controllers) system: a persistent Dart object backing a JS-side reference.
 
 ## ScrollController
 
-The built-in `createScrollController` lets you control scroll position and read it reactively:
+`createScrollController` gives you a `ScrollController` you can pass to a `ScrollView` and drive imperatively. It also exposes the scroll offset as a reactive signal.
 
 ```tsx
-import { createScrollController } from "solid-fuse";
+import { For } from "solid-js";
+import {
+  GestureDetector,
+  ScrollView,
+  Text,
+  View,
+  createScrollController,
+} from "solid-fuse";
 
 function ScrollableList() {
-  const ctrl = createScrollController();
+  const scroll = createScrollController();
 
   return (
-    <view flex={{ expand: true }}>
-      <view flex={{ direction: "horizontal", gap: 8 }} padding={8}>
-        <gestureDetector onTap={() => ctrl.animateTo(0, { duration: 300 })}>
-          <view padding={8} decoration={{ color: "blue", borderRadius: 4 }}>
-            <text color="white">Top</text>
-          </view>
-        </gestureDetector>
-        <text>Offset: {Math.round(ctrl.scrollOffset())}</text>
-      </view>
+    <View flex={{ expand: true }}>
+      <View flex={{ direction: "horizontal", gap: 8 }} padding={8}>
+        <GestureDetector onTap={() => scroll.animateTo(0, { duration: 300 })}>
+          <View padding={8} decoration={{ color: "blue", borderRadius: 4 }}>
+            <Text color="white">Top</Text>
+          </View>
+        </GestureDetector>
+        <Text>Offset: {Math.round(scroll.scrollOffset())}</Text>
+      </View>
 
-      <scrollView controller={ctrl} flex={{ expand: true }}>
-        <view flex={{ gap: 4 }} padding={16}>
+      <ScrollView controller={scroll} flex={{ expand: true }}>
+        <View flex={{ gap: 4 }} padding={16}>
           <For each={Array.from({ length: 100 }, (_, i) => i)}>
-            {(i) => <text>Item {i}</text>}
+            {(i) => <Text>Item {i}</Text>}
           </For>
-        </view>
-      </scrollView>
-    </view>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 ```
@@ -42,25 +49,62 @@ function ScrollableList() {
 
 | Method | Description |
 |---|---|
-| `ctrl.scrollTo(offset)` | Jump to position immediately |
-| `ctrl.animateTo(offset, { duration? })` | Smooth scroll to position (duration in ms, default 300) |
-| `ctrl.jumpTo(offset)` | Jump to position (alias for `scrollTo`) |
-| `ctrl.scrollOffset()` | Reactive signal — current scroll position, updates as user scrolls |
+| `scroll.jumpTo(offset)` | Jump to position immediately |
+| `scroll.animateTo(offset, { duration? })` | Smooth scroll to position (duration in ms, default 300) |
+| `scroll.scrollOffset()` | Reactive signal — current scroll position, updates as the user scrolls |
+| `scroll.dispose()` | Dispose the underlying Dart object. Automatic if created inside a reactive owner. |
 
 ### Initial offset
 
 ```tsx
-const ctrl = createScrollController({ initialScrollOffset: 200 });
+const scroll = createScrollController({ initialScrollOffset: 200 });
 ```
 
-## How controllers work
+## FocusNode
 
-Under the hood, `createScrollController` uses the controller system:
+`createFocusNode` gives you a Flutter `FocusNode` you can pass to a `TextField` and drive imperatively. It exposes `hasFocus` as a reactive signal.
 
-1. It calls `createController("scrollController", opts)` which creates a native Dart `ScrollController`.
-2. When you pass `controller={ctrl}` to `<scrollView>`, Fuse automatically resolves the reference — the Dart widget receives the real `ScrollController` object.
-3. `scrollOffset()` is a reactive signal. It's **lazy** — no bridge traffic occurs until you actually read it in a reactive context (like a JSX expression or an effect). The Dart side pushes offset updates only when the signal has been subscribed to.
+```tsx
+import { TextField, Text, View, createFocusNode } from "solid-fuse";
+
+function FocusDemo() {
+  const focus = createFocusNode();
+
+  return (
+    <View flex={{ gap: 6 }}>
+      <TextField focusNode={focus} placeholder="Type here" />
+      <Text>hasFocus = {focus.hasFocus() ? "true" : "false"}</Text>
+      <GestureDetector onTap={() => focus.focus()}>
+        <Text color="blue">Focus the field</Text>
+      </GestureDetector>
+      <GestureDetector onTap={() => focus.unfocus()}>
+        <Text color="blue">Unfocus</Text>
+      </GestureDetector>
+    </View>
+  );
+}
+```
+
+### API
+
+| Method | Description |
+|---|---|
+| `focus.focus()` | Request focus |
+| `focus.unfocus()` | Drop focus |
+| `focus.hasFocus()` | Reactive signal — true while the field is focused |
+| `focus.dispose()` | Dispose. Automatic if created inside a reactive owner. |
+
+## How controllers and focus nodes work
+
+Both are thin wrappers around the same [handle system](/docs/extending/creating-controllers):
+
+1. `createHandle("scrollController", { initialScrollOffset, setScrollOffset })` creates a JS-side `{ node, call, dispose }` triple. The Dart side instantiates a `FuseScrollController` handle wrapping a real Flutter `ScrollController`.
+2. When you pass `controller={scroll}` to `<ScrollView>`, the renderer serializes the reference as `_node: <id>`. The Dart `ScrollView` widget reads it as a `FuseNode` reference, looks up the handle, and uses its wrapped `ScrollController`.
+3. State updates from Dart (the user scrolls) call the `setScrollOffset` callback you passed in, which updates a Solid signal.
+4. Imperative calls (`scroll.animateTo(...)`) go over a `_handleCall` channel that targets the node by id.
+
+The signal updates are not lazy — every Dart-side change calls into JS. Use `Math.round` or wrap reads in your own `createMemo` if you want to throttle re-renders.
 
 ## Building your own
 
-You can create controllers for any native Dart object — animation controllers, focus nodes, text editing controllers, etc. See [Creating Controllers](/docs/extending/creating-controllers) for how to build your own.
+You can create handles for any persistent native Dart object — animation controllers, page route observers, native plugin instances. See [Creating Controllers](/docs/extending/creating-controllers) for the full pattern.

@@ -3,7 +3,7 @@ title: What is Fuse?
 description: SolidJS 2.0 inside Flutter, rendering native widgets
 ---
 
-Fuse lets you write your UI in [SolidJS](https://www.solidjs.com/) and render native [Flutter](https://flutter.dev/) widgets. It's not a webview — your JSX compiles to real Flutter layout, gestures, and navigation via [FJS](https://github.com/niclas3640/fjs), a high-performance JavaScript runtime built with Rust and powered by QuickJS.
+Fuse lets you write your UI in [SolidJS](https://www.solidjs.com/) and render native [Flutter](https://flutter.dev/) widgets. It's not a webview — your JSX compiles to real Flutter layout, gestures, and navigation via [FJS](https://github.com/fluttercandies/fjs), a high-performance JavaScript runtime built with Rust and powered by QuickJS.
 
 Signals update widget props. Flutter rebuilds. Events flow back as function calls. The reactive loop is seamless.
 
@@ -13,29 +13,30 @@ A counter app — the JS component and the Dart entry point that boots it:
 
 ```tsx title="App.tsx"
 import { createSignal } from "solid-js";
+import { GestureDetector, Text, View } from "solid-fuse";
 
 export default function App() {
   const [count, setCount] = createSignal(0);
 
   return (
-    <view
+    <View
       flex={{ align: "center", justify: "center", expand: true }}
       padding={24}
     >
-      <text fontSize={48} fontWeight="bold">
+      <Text fontSize={48} fontWeight="bold">
         {count()}
-      </text>
-      <gestureDetector onTap={() => setCount((c) => c + 1)}>
-        <view
+      </Text>
+      <GestureDetector onTap={() => setCount((c) => c + 1)}>
+        <View
           padding={{ horizontal: 24, vertical: 12 }}
           decoration={{ color: "blue", borderRadius: 8 }}
         >
-          <text color="white" fontSize={16}>
+          <Text color="white" fontSize={16}>
             Tap me
-          </text>
-        </view>
-      </gestureDetector>
-    </view>
+          </Text>
+        </View>
+      </GestureDetector>
+    </View>
   );
 }
 ```

@@ -3,34 +3,32 @@ title: Creating Widgets
 description: Add your own Flutter widgets to Fuse
 ---
 
-Every Fuse widget has two parts: a **JS type declaration** (what props it accepts) and a **Dart widget builder** (how it renders). This page walks through creating a custom widget from scratch.
+Every Fuse widget has two parts: a **JS wrapper component** (what consumers import and write in JSX) and a **Dart widget builder** (how it renders). This page walks through creating a custom widget from scratch.
 
 ## The two-file pattern
 
-Let's build a `<badge>` widget that renders a Flutter `Chip`.
+Let's build a `Badge` widget that renders a Flutter `Chip`.
 
-### Step 1: Declare the JSX element
+### Step 1: Write the JS wrapper
 
-For app-level widgets, add a `.d.ts` file in your project:
-
-```ts title="src/badge.d.ts"
+```tsx title="src/badge.tsx"
 import type { ColorInput, FlexInput } from "solid-fuse";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      badge: {
-        label: string;
-        color?: ColorInput;
-        children?: any;
-        flex?: FlexInput;
-      };
-    }
-  }
+export interface BadgeProps {
+  label: string;
+  color?: ColorInput;
+  children?: any;
+  flex?: FlexInput;
+}
+
+export function Badge(props: BadgeProps) {
+  return <badge {...props} />;
 }
 ```
 
-For library packages, add the element to your package's `jsx.d.ts` instead.
+The lowercase `<badge>` is the wire format — the Solid universal renderer creates a node with `type: "badge"` that Dart will look up. Consumers never see it; they import `Badge` and write `<Badge label="New" />`.
+
+> You don't need to declare `<badge>` in a `.d.ts` file — `solid-fuse` defines the JSX namespace as an open `[name: string]: any` catch-all so any lowercase tag works.
 
 ### Step 2: Write the Dart widget
 
@@ -63,11 +61,23 @@ class FuseBadge extends StatelessWidget {
 runtime.registerWidget('badge', FuseBadge.new);
 ```
 
-Now you can use it in JSX:
+Now consumers can use it:
 
 ```tsx
-<badge label="New" color="green" />
+import { Badge } from "./badge";
+
+<Badge label="New" color="green" />
 ```
+
+## Why wrappers?
+
+Wrapper components are the seam between user code and the renderer. Once you own that seam you can:
+
+- Provide typed props so consumers get autocomplete and type errors
+- Add default props, theme injection, dev-mode warnings, or perf marks later — in one place, without renaming every callsite
+- Tree-shake unused widgets out of production bundles
+
+Adding JS behavior to a widget no longer means switching from `<widget>` to `<MyWidget>` — the wrapper is already there.
 
 ## FuseNode prop accessors
 
@@ -92,15 +102,21 @@ Nested objects return `FuseMap`, which has the same accessors — so you can do 
 
 ## The flex + flexChildren mechanic
 
-> If you add `flex?: FlexInput` to your JSX type and use `node.flexChildren` in your Dart widget, **layout just works**. Users of your widget can pass `flex={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
+> If you add `flex?: FlexInput` to your wrapper props and use `node.flexChildren` in your Dart widget, **layout just works**. Users of your widget can pass `flex={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
 
-This is how every built-in element handles children. Here's a widget that supports it:
+This is how every built-in element handles children. Here's a wrapper that supports it:
 
-```ts title="JSX type"
-myCard: {
+```tsx title="JS wrapper"
+import type { FlexInput } from "solid-fuse";
+
+export interface MyCardProps {
   children?: any;
-  flex?: FlexInput;  // ← add this
-};
+  flex?: FlexInput;
+}
+
+export function MyCard(props: MyCardProps) {
+  return <myCard {...props} />;
+}
 ```
 
 ```dart title="Dart widget"
@@ -120,13 +136,13 @@ class FuseMyCard extends StatelessWidget {
 }
 ```
 
-Now users can do:
+Now consumers can do:
 
 ```tsx
-<myCard flex={{ gap: 8 }}>
-  <text>Title</text>
-  <text>Subtitle</text>
-</myCard>
+<MyCard flex={{ gap: 8 }}>
+  <Text>Title</Text>
+  <Text>Subtitle</Text>
+</MyCard>
 ```
 
 ### How flexChildren works

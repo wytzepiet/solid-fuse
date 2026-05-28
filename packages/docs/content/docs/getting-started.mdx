@@ -58,17 +58,19 @@ await runtime.start();
 ## JS entry point
 
 ```tsx title="src/App.tsx"
+import { Text, View } from "solid-fuse";
+
 export default function App() {
   return (
-    <view padding={24} flex={{ gap: 12 }}>
-      <text fontSize={24} fontWeight="bold">Hello Fuse</text>
-      <text color="grey">SolidJS inside Flutter</text>
-    </view>
+    <View padding={24} flex={{ gap: 12 }}>
+      <Text fontSize={24} fontWeight="bold">Hello Fuse</Text>
+      <Text color="grey">SolidJS inside Flutter</Text>
+    </View>
   );
 }
 ```
 
-JSX elements like `<view>` and `<text>` map directly to registered Flutter widgets. The Solid compiler is pre-configured — you don't need a `vite.config.ts`.
+Wrapper components like `View` and `Text` are imported from `solid-fuse` and map directly to registered Flutter widgets. The Solid compiler is pre-configured — you don't need a `vite.config.ts`.
 
 ## Running the app
 
@@ -84,20 +86,21 @@ Fuse uses standard SolidJS reactivity. Signals, effects, memos, `Show`, `For`, `
 
 ```tsx
 import { createSignal, Show, For } from "solid-js";
+import { Text, View } from "solid-fuse";
 
 function TodoList() {
   const [todos, setTodos] = createSignal(["Learn Fuse", "Build app"]);
   const [showDone, setShowDone] = createSignal(false);
 
   return (
-    <view flex={{ gap: 8 }} padding={16}>
+    <View flex={{ gap: 8 }} padding={16}>
       <For each={todos()}>
-        {(todo) => <text fontSize={16}>{todo}</text>}
+        {(todo) => <Text fontSize={16}>{todo}</Text>}
       </For>
       <Show when={showDone()}>
-        <text color="green">All done!</text>
+        <Text color="green">All done!</Text>
       </Show>
-    </view>
+    </View>
   );
 }
 ```

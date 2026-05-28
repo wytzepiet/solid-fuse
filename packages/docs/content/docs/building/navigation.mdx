@@ -3,7 +3,7 @@ title: Navigation
 description: Navigate between pages with push, pop, and replace
 ---
 
-Fuse provides a `<Navigator>` component that manages a page stack, backed by Flutter's Navigator 2.0.
+Fuse provides a `Navigator` component that manages a page stack, backed by Flutter's Navigator 2.0.
 
 ## Basic setup
 
@@ -11,29 +11,31 @@ Fuse provides a `<Navigator>` component that manages a page stack, backed by Flu
 import { Navigator } from "solid-fuse";
 
 function App() {
-  return <Navigator defaultPage={() => <HomePage />} />;
+  return <Navigator initialPage={() => <HomePage />} />;
 }
 ```
 
-## useNavigator
+`initialPage` accepts either a JSX thunk (sugar for a default Material page) or a `PageConfig` built with `materialPage({...})` when you want to customize the transition or page options.
 
-Any component inside a `<Navigator>` can access the navigation API:
+## useNavigation
+
+Any component inside a `Navigator` can access the navigation API:
 
 ```tsx
-import { useNavigator } from "solid-fuse";
+import { GestureDetector, Text, View, useNavigation } from "solid-fuse";
 
 function HomePage() {
-  const nav = useNavigator();
+  const nav = useNavigation();
 
   return (
-    <materialPage flex={{ gap: 16 }} padding={24}>
-      <text fontSize={24}>Home</text>
-      <gestureDetector onTap={() => nav.push(() => <DetailPage />)}>
-        <view padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
-          <text color="white">Go to detail</text>
-        </view>
-      </gestureDetector>
-    </materialPage>
+    <View flex={{ gap: 16 }} padding={24}>
+      <Text fontSize={24}>Home</Text>
+      <GestureDetector onTap={() => nav.push(() => <DetailPage />)}>
+        <View padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
+          <Text color="white">Go to detail</Text>
+        </View>
+      </GestureDetector>
+    </View>
   );
 }
 ```
@@ -42,44 +44,55 @@ function HomePage() {
 
 | Method | Description |
 |---|---|
-| `nav.push(factory)` | Push a new page onto the stack. `factory` is `() => JSX.Element`. |
-| `nav.pop()` | Remove the top page. No-op if only one page remains. |
-| `nav.replace(factory)` | Replace the current top page. |
-| `nav.stackSize()` | Reactive getter for the current stack depth. |
+| `nav.push(page)` | Push a page. `page` is a JSX thunk or a `PageConfig`. Returns a promise that resolves with the value passed to `pop(result)`, or `null` if the page is removed any other way (back gesture, `replaceAll`, disposal). |
+| `nav.pop(result?)` | Pop the top page. Optional `result` resolves the pending push promise. No-op on a single-entry stack. |
+| `nav.pushReplacement(page, result?)` | Replace the top page. Pending promise of the replaced page resolves with `result`. |
+| `nav.popUntil(name?)` | Pop until the named route is on top, or to the root if no name given. No-op (with warning) if the name isn't on the stack. |
+| `nav.replaceAll(configs)` | Replace the entire stack with new pages. Returns a promise per new page. |
+| `nav.stackDepth()` | Reactive getter for the current stack depth. |
+| `nav.pages()` | Reactive getter for the page entry list. |
 
-## Pages own their transitions
+## Pages are configs, not JSX
 
-In Fuse, pages define both their **content** and their **transition**. `<materialPage>` wraps your content and tells the navigator to use a Material-style page transition (slide from right on iOS, fade on Android).
+A page in Fuse is a configuration object — `{ type, child, props }` — not a JSX element you render directly. The built-in `materialPage({...})` factory returns one of these configs for a Material-style transition.
 
 ```tsx
-function DetailPage() {
-  const nav = useNavigator();
+import { Text, View, materialPage, useNavigation } from "solid-fuse";
+
+function HomePage() {
+  const nav = useNavigation();
+
+  const openSettings = () =>
+    nav.push(
+      materialPage({
+        name: "settings",
+        fullscreenDialog: true,
+        child: () => <SettingsPage />,
+      }),
+    );
 
   return (
-    <materialPage flex={{ direction: "vertical", gap: 16 }}>
-      <text fontSize={24}>Detail</text>
-      <text>This page slides in with a Material transition.</text>
-      <gestureDetector onTap={() => nav.pop()}>
-        <text color="blue">Go back</text>
-      </gestureDetector>
-    </materialPage>
+    <View padding={24}>
+      <Text>...</Text>
+    </View>
   );
 }
 ```
 
-Note that `<materialPage>` supports `flex` directly — no wrapper `<view>` needed for layout.
+When you pass a plain thunk to `nav.push(() => <X />)`, it's sugar for `materialPage({ child: () => <X /> })`.
 
 ### materialPage props
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `flex` | `FlexInput` | — | Layout children |
+| `child` | `() => JSX.Element` | required | Page contents (thunk so it isn't built until the page is mounted) |
+| `name` | `string` | — | Route name. Used by `popUntil(name)` |
 | `fullscreenDialog` | `boolean` | `false` | Slides up instead of sideways, shows close button |
 | `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
 
 ## Back gestures
 
-iOS swipe-back and Android back button are handled automatically. The navigator calls `pop()` when the system back gesture fires — you don't need to wire this up.
+iOS swipe-back and Android back button are handled automatically. The Navigator's `onDidRemovePage` callback fires when the system removes a page (back gesture, declarative mid-stack removal) and resolves the corresponding push promise with `null`. You don't need to wire this up.
 
 ## Full example
 
@@ -87,52 +100,82 @@ A two-page app with a list and detail view:
 
 ```tsx
 import { createSignal, For } from "solid-js";
-import { Navigator, useNavigator } from "solid-fuse";
+import {
+  GestureDetector,
+  Navigator,
+  Text,
+  View,
+  useNavigation,
+} from "solid-fuse";
 
 const items = ["Apples", "Bananas", "Cherries"];
 
 function App() {
-  return <Navigator defaultPage={() => <ListPage />} />;
+  return <Navigator initialPage={() => <ListPage />} />;
 }
 
 function ListPage() {
-  const nav = useNavigator();
+  const nav = useNavigation();
 
   return (
-    <materialPage flex={{ gap: 4 }}>
-      <text fontSize={24} fontWeight="bold" padding={{ bottom: 8 }}>
+    <View flex={{ gap: 4 }}>
+      <Text fontSize={24} fontWeight="bold" padding={{ bottom: 8 }}>
         Fruits
-      </text>
+      </Text>
       <For each={items}>
         {(item) => (
-          <gestureDetector onTap={() => nav.push(() => <DetailPage name={item} />)}>
-            <view
+          <GestureDetector onTap={() => nav.push(() => <DetailPage name={item} />)}>
+            <View
               padding={16}
               decoration={{ border: { bottom: { width: 1, color: "#E0E0E0" } } }}
             >
-              <text fontSize={16}>{item}</text>
-            </view>
-          </gestureDetector>
+              <Text fontSize={16}>{item}</Text>
+            </View>
+          </GestureDetector>
         )}
       </For>
-    </materialPage>
+    </View>
   );
 }
 
 function DetailPage(props: { name: string }) {
-  const nav = useNavigator();
+  const nav = useNavigation();
 
   return (
-    <materialPage flex={{ align: "center", justify: "center", expand: true }}>
-      <text fontSize={32}>{props.name}</text>
-      <gestureDetector onTap={() => nav.pop()}>
-        <text color="blue" fontSize={16}>Back to list</text>
-      </gestureDetector>
-    </materialPage>
+    <View flex={{ align: "center", justify: "center", expand: true }}>
+      <Text fontSize={32}>{props.name}</Text>
+      <GestureDetector onTap={() => nav.pop()}>
+        <Text color="blue" fontSize={16}>Back to list</Text>
+      </GestureDetector>
+    </View>
+  );
+}
+```
+
+## Returning a value from a page
+
+`nav.push` returns a promise that resolves to whatever `pop(result)` is called with — or `null` if the page is removed any other way:
+
+```tsx
+const selected = await nav.push<string>(() => <PickerPage />);
+if (selected !== null) {
+  // user picked something
+}
+```
+
+Inside the picker:
+
+```tsx
+function PickerPage() {
+  const nav = useNavigation();
+  return (
+    <GestureDetector onTap={() => nav.pop("apple")}>
+      <Text>Pick apple</Text>
+    </GestureDetector>
   );
 }
 ```
 
 ## Custom page types
 
-You can create custom page types with different transitions. See [Creating Pages](/docs/extending/creating-pages) for how to build your own `<cupertinoPage>`, `<fadePage>`, or any other transition.
+You can build custom page types with different transitions. See [Creating Pages](/docs/extending/creating-pages) for how to build your own Material, Cupertino, or fade-transition factories.

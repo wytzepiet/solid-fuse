@@ -3,17 +3,21 @@ title: UI & Layout
 description: Build interfaces with views, text, and flex
 ---
 
+Every built-in widget ships as an uppercase wrapper component imported from `solid-fuse`. They take typed props and render to native Flutter widgets.
+
 ## View
 
-`<view>` is the workhorse layout container. It maps to a composition of Flutter widgets — Container, Padding, SizedBox, Opacity, Transform, and more — depending on which props you set.
+`View` is the workhorse layout container. It maps to a composition of Flutter widgets — Container, Padding, SizedBox, Opacity, Transform, and more — depending on which props you set.
 
 ```tsx
-<view
+import { Text, View } from "solid-fuse";
+
+<View
   padding={16}
   decoration={{ color: "white", borderRadius: 12, shadow: [{ blurRadius: 8, color: "#0002" }] }}
 >
-  <text fontSize={18}>Card content</text>
-</view>
+  <Text fontSize={18}>Card content</Text>
+</View>
 ```
 
 ### View props
@@ -40,12 +44,14 @@ description: Build interfaces with views, text, and flex
 
 ## Text
 
-`<text>` renders Flutter `Text` widgets.
+`Text` renders Flutter `Text` widgets.
 
 ```tsx
-<text fontSize={24} fontWeight="bold" color="blue">
+import { Text } from "solid-fuse";
+
+<Text fontSize={24} fontWeight="bold" color="blue">
   Hello world
-</text>
+</Text>
 ```
 
 ### Text props
@@ -68,15 +74,17 @@ description: Build interfaces with views, text, and flex
 
 ## Stack and Positioned
 
-`<stack>` layers children on top of each other. `<positioned>` places children at specific coordinates within the stack.
+`Stack` layers children on top of each other. `Positioned` places children at specific coordinates within the stack.
 
 ```tsx
-<stack alignment="center">
-  <view width={200} height={200} decoration={{ color: "blue" }} />
-  <positioned top={10} right={10}>
-    <text color="white">Badge</text>
-  </positioned>
-</stack>
+import { Positioned, Stack, Text, View } from "solid-fuse";
+
+<Stack alignment="center">
+  <View width={200} height={200} decoration={{ color: "blue" }} />
+  <Positioned top={10} right={10}>
+    <Text color="white">Badge</Text>
+  </Positioned>
+</Stack>
 ```
 
 | Stack prop | Type | Description |
@@ -92,14 +100,16 @@ description: Build interfaces with views, text, and flex
 
 ## ScrollView
 
-`<scrollView>` creates a scrollable container.
+`ScrollView` creates a scrollable container.
 
 ```tsx
-<scrollView padding={16} physics="bouncing">
-  <view flex={{ gap: 8 }}>
-    <For each={items()}>{(item) => <text>{item}</text>}</For>
-  </view>
-</scrollView>
+import { ScrollView, Text, View } from "solid-fuse";
+
+<ScrollView padding={16} physics="bouncing">
+  <View flex={{ gap: 8 }}>
+    <For each={items()}>{(item) => <Text>{item}</Text>}</For>
+  </View>
+</ScrollView>
 ```
 
 | Prop | Type | Description |
@@ -114,25 +124,25 @@ description: Build interfaces with views, text, and flex
 
 ## Flex
 
-Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `<row>` and `<column>` components, Fuse uses `flex` as a universal layout config.
+Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `Row` and `Column` components, Fuse uses `flex` as a universal layout config.
 
 ```tsx
 {/* Horizontal row with spacing */}
-<view flex={{ direction: "horizontal", gap: 12 }}>
-  <text>Left</text>
-  <text>Right</text>
-</view>
+<View flex={{ direction: "horizontal", gap: 12 }}>
+  <Text>Left</Text>
+  <Text>Right</Text>
+</View>
 
 {/* Centered content filling available space */}
-<view flex={{ align: "center", justify: "center", expand: true }}>
-  <text>Centered</text>
-</view>
+<View flex={{ align: "center", justify: "center", expand: true }}>
+  <Text>Centered</Text>
+</View>
 
 {/* Space between items */}
-<view flex={{ justify: "spaceBetween" }}>
-  <text>Start</text>
-  <text>End</text>
-</view>
+<View flex={{ justify: "spaceBetween" }}>
+  <Text>Start</Text>
+  <Text>End</Text>
+</View>
 ```
 
 ### FlexInput
@@ -150,26 +160,28 @@ Every element that accepts children supports `flex` — this is intentional. JSX
 Use `grow` on children to distribute extra space, similar to CSS `flex-grow`:
 
 ```tsx
-<view flex={{ direction: "horizontal", expand: true }}>
-  <view grow={1} decoration={{ color: "red" }}>
-    <text>Takes remaining space</text>
-  </view>
-  <view width={100} decoration={{ color: "blue" }}>
-    <text>Fixed 100px</text>
-  </view>
-</view>
+<View flex={{ direction: "horizontal", expand: true }}>
+  <View grow={1} decoration={{ color: "red" }}>
+    <Text>Takes remaining space</Text>
+  </View>
+  <View width={100} decoration={{ color: "blue" }}>
+    <Text>Fixed 100px</Text>
+  </View>
+</View>
 ```
 
 ## GestureDetector
 
-`<gestureDetector>` wraps content and handles touch, mouse, and trackpad events. It maps to Flutter's `GestureDetector`.
+`GestureDetector` wraps content and handles touch, mouse, and trackpad events. It maps to Flutter's `GestureDetector`.
 
 ```tsx
-<gestureDetector onTap={() => setCount((c) => c + 1)}>
-  <view padding={16} decoration={{ color: "blue", borderRadius: 8 }}>
-    <text color="white">Tap me</text>
-  </view>
-</gestureDetector>
+import { GestureDetector, Text, View } from "solid-fuse";
+
+<GestureDetector onTap={() => setCount((c) => c + 1)}>
+  <View padding={16} decoration={{ color: "blue", borderRadius: 8 }}>
+    <Text color="white">Tap me</Text>
+  </View>
+</GestureDetector>
 ```
 
 All standard Flutter gesture callbacks are available: `onTap`, `onTapDown`, `onTapUp`, `onDoubleTap`, `onLongPress`, `onVerticalDragUpdate`, `onHorizontalDragUpdate`, `onPanUpdate`, `onScaleUpdate`, and their variants. TypeScript autocomplete will show the full list.
@@ -179,7 +191,7 @@ All standard Flutter gesture callbacks are available: `onTap`, `onTapDown`, `onT
 Events include both global and local positions:
 
 ```tsx
-<gestureDetector
+<GestureDetector
   onTapDown={(e) => console.log(e.localX, e.localY)}
   onPanUpdate={(e) => {
     // e.dx, e.dy — delta since last update
@@ -192,7 +204,7 @@ Events include both global and local positions:
   }}
 >
   {/* ... */}
-</gestureDetector>
+</GestureDetector>
 ```
 
 | Field | Present on | Description |
@@ -214,7 +226,7 @@ The `behavior` prop controls how the detector responds to touches:
 | `"opaque"` | Entire bounds tappable, blocks gestures behind. |
 | `"translucent"` | Entire bounds tappable, gestures pass through. |
 
-`<gestureDetector>` also supports `flex` for layout, so you can use it as a tappable container directly.
+`GestureDetector` also supports `flex` for layout, so you can use it as a tappable container directly.
 
 ## Input types
 
@@ -226,20 +238,20 @@ Colors can be specified as named strings, hex codes, or RGB/HSL objects:
 
 ```tsx
 // Named
-<text color="red" />
-<text color="transparent" />
+<Text color="red" />
+<Text color="transparent" />
 
 // Hex (3, 6, or 8 character)
-<view decoration={{ color: "#F00" }} />
-<view decoration={{ color: "#FF0000" }} />
-<view decoration={{ color: "#80FF0000" }} />  {/* with alpha */}
+<View decoration={{ color: "#F00" }} />
+<View decoration={{ color: "#FF0000" }} />
+<View decoration={{ color: "#80FF0000" }} />  {/* with alpha */}
 
 // RGB object (r/g/b: 0-255, a: 0-1)
-<view decoration={{ color: { r: 255, g: 0, b: 0 } }} />
-<view decoration={{ color: { r: 255, g: 0, b: 0, a: 0.5 } }} />
+<View decoration={{ color: { r: 255, g: 0, b: 0 } }} />
+<View decoration={{ color: { r: 255, g: 0, b: 0, a: 0.5 } }} />
 
 // HSL object (h: 0-360, s/l: 0-100, a: 0-1)
-<view decoration={{ color: { h: 0, s: 100, l: 50 } }} />
+<View decoration={{ color: { h: 0, s: 100, l: 50 } }} />
 ```
 
 ### EdgeInsetsInput
@@ -247,16 +259,16 @@ Colors can be specified as named strings, hex codes, or RGB/HSL objects:
 Padding and margin accept a number (all sides) or an object:
 
 ```tsx
-<view padding={16} />                                    {/* all sides */}
-<view padding={{ horizontal: 16, vertical: 8 }} />       {/* symmetric */}
-<view padding={{ top: 10, left: 20, bottom: 10 }} />     {/* individual */}
+<View padding={16} />                                    {/* all sides */}
+<View padding={{ horizontal: 16, vertical: 8 }} />       {/* symmetric */}
+<View padding={{ top: 10, left: 20, bottom: 10 }} />     {/* individual */}
 ```
 
 ### BorderRadiusInput
 
 ```tsx
-<view decoration={{ borderRadius: 12 }} />                          {/* all corners */}
-<view decoration={{ borderRadius: { topLeft: 12, topRight: 12 } }} /> {/* individual */}
+<View decoration={{ borderRadius: 12 }} />                          {/* all corners */}
+<View decoration={{ borderRadius: { topLeft: 12, topRight: 12 } }} /> {/* individual */}
 ```
 
 ### DecorationInput
@@ -264,7 +276,7 @@ Padding and margin accept a number (all sides) or an object:
 Combines background, borders, shadows, gradients, and images:
 
 ```tsx
-<view decoration={{
+<View decoration={{
   color: "white",
   borderRadius: 12,
   border: { width: 1, color: "#E0E0E0" },
@@ -281,7 +293,7 @@ Combines background, borders, shadows, gradients, and images:
 ### TransformInput
 
 ```tsx
-<view transform={{ rotate: 0.1 }} />           {/* radians */}
-<view transform={{ scale: 1.5 }} />
-<view transform={{ translateX: 10, translateY: -5 }} />
+<View transform={{ rotate: 0.1 }} />           {/* radians */}
+<View transform={{ scale: 1.5 }} />
+<View transform={{ translateX: 10, translateY: -5 }} />
 ```

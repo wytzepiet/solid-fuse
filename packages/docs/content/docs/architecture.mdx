@@ -39,13 +39,12 @@ There's no JSON serialization. FJS passes structured values directly between Dar
 
 Extending Fuse only requires Dart — no Rust, no C. Write a Dart class, add a JSX type declaration, register it. Any Flutter developer already knows enough.
 
-Three registration types:
+Two registration types:
 
 | Method | Purpose | Creates |
 |---|---|---|
 | `registerWidget(name, builder)` | Visual elements | `StatelessWidget` / `StatefulWidget` |
-| `registerController(name, factory)` | Imperative control | `FuseController<T>` wrapping native objects |
-| `registerPage(name, factory)` | Navigator pages | `FusePage` producing Flutter `Page` objects |
+| `registerHandle(name, factory)` | Imperative control and navigator pages | `FuseHandle<T>` wrapping a persistent native object (controllers, focus nodes, Flutter `Page` objects via `FusePageHandle`) |
 
 ## Packages
 
