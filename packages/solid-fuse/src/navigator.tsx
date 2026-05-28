@@ -39,14 +39,14 @@ export function Navigator(props: {
       <navigator
         onDidRemovePage={(e: { id: number }) => nav.onDidRemovePage(e.id)}
       >
-        <For each={nav.pages()}>
+        <For each={nav.pages()} keyed={(e) => e.id}>
           {(entry) => (
             <Dynamic
-              component={entry.config.type}
-              _pageId={entry.id}
-              {...entry.config.props}
+              component={entry().config.type}
+              _pageId={entry().id}
+              {...entry().config.props}
             >
-              {entry.config.child()}
+              {entry().config.child()}
             </Dynamic>
           )}
         </For>
