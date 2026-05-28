@@ -4,6 +4,7 @@ import { mergeConfig, type InlineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import { defu } from "defu";
 import type { FuseConfig } from "../src/config";
+import { fuseDevErrorPlugin } from "./dev-error-plugin";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -40,7 +41,7 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
   const fuseDefaults: InlineConfig = {
     configFile: false,
     root: projectRoot,
-    plugins: [solidPlugin(solidOptions)],
+    plugins: [solidPlugin(solidOptions), fuseDevErrorPlugin()],
     optimizeDeps: {
       // Pre-bundle at server startup so hashes are stable before the device
       // connects. Without this, Vite discovers these deps from the first

@@ -74,6 +74,14 @@ class DevServerConnection extends FuseConnection {
   }
 
   Future<void> _evalEntry(String entryPath) async {
+    // Tell JS where to POST dev errors so the Vite plugin can symbolicate
+    // and print them in the `fuse dev` terminal.
+    await _engine!.eval(
+      source: JsCode.code(
+        'globalThis.__fuseDevServer = ${jsonEncode(_baseUrl)};\n',
+      ),
+    );
+
     // Inject HMR hot context shim before loading modules
     await _engine!.eval(
       source: JsCode.code(

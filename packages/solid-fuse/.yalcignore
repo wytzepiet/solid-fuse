@@ -1,0 +1,11 @@
+dart/build
+dart/.dart_tool
+dart/.flutter-plugins
+dart/.flutter-plugins-dependencies
+dart/.idea
+dart/ios
+dart/android
+dart/macos
+dart/web
+dart/windows
+dart/linux

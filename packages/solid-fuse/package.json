@@ -43,6 +43,7 @@
     "solid-js": "2.0.0-beta.14"
   },
   "dependencies": {
+    "@jridgewell/trace-mapping": "^0.3.31",
     "@solidjs/universal": "2.0.0-beta.14",
     "citty": "^0.1.6",
     "defu": "^6.1.6",

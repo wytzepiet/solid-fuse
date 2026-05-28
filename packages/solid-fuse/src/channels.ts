@@ -10,6 +10,8 @@
 // calls don't serialize behind each other), so call() just awaits the FFI
 // return — no correlation IDs needed.
 
+import { reportDevError } from "./dev-error";
+
 type Handler = (data: any) => any | Promise<any>;
 
 const _handlers = new Map<string, Handler>();
@@ -89,7 +91,9 @@ export function _setFlushOps(fn: () => void) {
     return result;
   } catch (err) {
     _afterDispatch?.();
-    throw err;
+    // Report and swallow — Dart sees a successful dispatch, app stays
+    // alive, the error shows up in the dev terminal via the Vite plugin.
+    reportDevError(err);
   }
 };
 

@@ -1,6 +1,7 @@
 import { createRenderer } from "@solidjs/universal";
 import { flush } from "solid-js";
 import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
+import { reportDevError } from "./dev-error";
 
 let nextId = 0;
 let _currentComponent: string | undefined;
@@ -192,7 +193,16 @@ function createComponent(Comp: any, props: any) {
 
 export function render(code: () => any) {
   rendering = true;
-  const dispose = innerRender(code, root);
+  let dispose: any;
+  try {
+    dispose = innerRender(code, root);
+  } catch (err) {
+    // Report and swallow — don't crash the engine. HMR can recover once
+    // the offending code is fixed. Matches Vite's browser-side behaviour.
+    rendering = false;
+    reportDevError(err);
+    return () => {};
+  }
   rendering = false;
   flushOps();
   return () => {
