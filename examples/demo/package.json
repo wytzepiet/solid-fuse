@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "solid-fuse": "workspace:*",
-    "solid-js": "2.0.0-beta.7"
+    "solid-js": "2.0.0-beta.14"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
