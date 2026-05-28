@@ -31,14 +31,22 @@ export function fuseDevErrorPlugin(): Plugin {
         const chunks: Buffer[] = [];
         for await (const chunk of req) chunks.push(chunk as Buffer);
         try {
-          const { message, stack } = JSON.parse(Buffer.concat(chunks).toString());
-          const symbolicated = await symbolicate(
-            typeof stack === "string" ? stack : "",
+          const { message, stack, causeStack } = JSON.parse(
+            Buffer.concat(chunks).toString(),
+          );
+          // Prefer the original throw's stack when present — for Solid 2.0's
+          // StatusError wrapping, that's the only one pointing at user code.
+          const primary = await symbolicate(
+            typeof causeStack === "string" && causeStack
+              ? causeStack
+              : typeof stack === "string"
+                ? stack
+                : "",
             server,
             cache,
           );
           process.stderr.write(
-            `\n\x1b[31m[Fuse JS error]\x1b[0m ${message}\n${symbolicated}\n\n`,
+            `\n\x1b[31m[Fuse JS error]\x1b[0m ${message}\n${primary}\n\n`,
           );
         } catch (e) {
           process.stderr.write(`[Fuse dev-error-plugin] ${e}\n`);

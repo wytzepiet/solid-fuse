@@ -98,13 +98,18 @@ export function createNavigationController(
       : ip;
   });
 
-  // Seed the signal with the initial page (if any). We can't call `setPages`
-  // here — Solid 2.0 forbids signal writes during render, and this factory
-  // typically runs inside the <Navigator> wrapper's body.
+  // `ownedWrite: true` because setPages is also called from the onCleanup
+  // below. Solid 2.0's reactive setup cascades disposal through
+  // auto-disposed memos during initial render — even on a clean mount our
+  // cleanup runs while a parent owner is still in scope, which the default
+  // "no signal writes in owned scope" check flags. Every write in this
+  // module (push, pop, popUntil, replaceAll, the cleanup) is intentional.
   const initial: PageEntry[] = initialPage
     ? [{ id: nextId++, config: initialPage, resolve: () => {} }]
     : [];
-  const [pages, setPages] = createSignal<PageEntry[]>(initial);
+  const [pages, setPages] = createSignal<PageEntry[]>(initial, {
+    ownedWrite: true,
+  });
 
   function pushEntry<T>(cfg: PageConfig | (() => JSX.Element)): Promise<T | null> {
     const config = typeof cfg === "function" ? materialPage({ child: cfg }) : cfg;
