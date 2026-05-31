@@ -1,8 +1,6 @@
 import {
   createContext,
   createSignal,
-  getOwner,
-  onCleanup,
   untrack,
   useContext,
 } from "solid-js";
@@ -137,12 +135,13 @@ export function createNavigationController(
     removed?.resolve(result);
   }
 
-  if (getOwner()) {
-    onCleanup(() => {
-      for (const e of pages()) e.resolve(null);
-      setPages([]);
-    });
-  }
+  // No onCleanup tied to the current owner. Solid 2.0's reactive setup
+  // cascades disposal through intermediate auto-disposed memos during the
+  // initial render, which would fire our cleanup mid-mount, wipe the page
+  // stack, and silently resolve pending push promises to null. The
+  // runtime is short-lived (HMR restart / app close), so leaks aren't a
+  // concern; if a future caller needs deterministic cleanup they can
+  // expose dispose() explicitly.
 
   const nav: NavigationController = {
     pages,
