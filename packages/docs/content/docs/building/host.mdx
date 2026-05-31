@@ -1,0 +1,66 @@
+---
+title: Host facts
+description: Ambient app facts — brightness, platform, and build mode
+---
+
+`host` is a small, read-only namespace describing the device and build your app is
+running on: the system's light/dark setting, the platform, and the build mode.
+
+```tsx
+import { host } from "solid-fuse";
+
+host.brightness(); // "light" | "dark"   — reactive
+host.platform;     // "ios" | "android" | "macos" | "windows" | "linux" | "fuchsia" | "web"
+host.mode;         // "debug" | "profile" | "release"
+```
+
+## Members
+
+| Member | Type | Reactive? | Description |
+|---|---|---|---|
+| `brightness()` | `() => "light" \| "dark"` | ✅ | System light/dark setting. |
+| `platform` | `Platform` | — | Target platform, fixed for the session. |
+| `mode` | `"debug" \| "profile" \| "release"` | — | Build mode, fixed for the session. |
+
+`brightness` is an accessor because it can change while the app runs; `platform`
+and `mode` are fixed for the session, so they're plain values. The namespace is
+typed as `Host`.
+
+## Brightness
+
+`host.brightness()` follows the OS light/dark setting and updates when the user
+changes it. A theme is just a function of it:
+
+```tsx
+import { host, Text, View } from "solid-fuse";
+
+const light = { bg: "#ffffff", fg: "#000000" };
+const dark = { bg: "#000000", fg: "#ffffff" };
+
+const theme = () => (host.brightness() === "dark" ? dark : light);
+
+function Screen() {
+  return (
+    <View decoration={{ color: theme().bg }} width={Infinity} height={Infinity}>
+      <Text color={theme().fg}>Follows the system theme</Text>
+    </View>
+  );
+}
+```
+
+## Platform & mode
+
+```tsx
+import { host } from "solid-fuse";
+
+// Platform-specific affordances
+const dismissLabel = host.platform === "ios" ? "Done" : "Close";
+
+// Dev-only behaviour
+if (host.mode !== "release") {
+  console.log("debug build — verbose logging on");
+}
+```
+
+> `host` only exists inside a running Fuse app — the engine seeds it before any JS
+> runs. Importing it elsewhere throws rather than returning a wrong default.

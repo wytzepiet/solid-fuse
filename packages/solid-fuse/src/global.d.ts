@@ -1,5 +1,3 @@
-declare const flutterMode: 'development' | 'profile' | 'release';
-
 declare function sendMessage(channel: string, message: string): void;
 
 declare namespace fjs {

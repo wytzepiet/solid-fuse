@@ -4,8 +4,8 @@
 // The app keeps running — HMR can fix and recover without a restart,
 // matching Vite's browser behaviour.
 //
-// In prod (flutterMode === "release") we fall back to console.error and the
-// app continues.
+// With no dev server reachable (release/profile builds) we fall back to
+// console.error and the app continues.
 
 /**
  * Fire-and-forget: POST the error to the Vite dev plugin. Dart sets
@@ -14,10 +14,6 @@
  * reporting path itself.
  */
 export function reportDevError(err: unknown): void {
-  if (flutterMode === "release") {
-    console.error(err);
-    return;
-  }
   const base = (globalThis as any).__fuseDevServer as string | undefined;
   if (!base) {
     console.error(err);

@@ -21,6 +21,25 @@ class FuseNodeWidget extends StatelessWidget {
       builder: (context, _) => runtime.buildWidgetForNode(node),
     );
   }
+
+  // Surface the solid-fuse identity to the Flutter widget inspector. Without
+  // this every node reads as "FuseNodeWidget"; instead the tree shows e.g.
+  // `view «PhonePage»` and the property panel lists the JSX type, originating
+  // component, and node id. `component` is only populated in dev builds.
+  @override
+  String toStringShort() => node.component != null
+      ? '${node.type} «${node.component}»'
+      : node.type;
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('fuseType', node.type, quoted: false));
+    if (node.component != null) {
+      properties.add(StringProperty('component', node.component, quoted: false));
+    }
+    properties.add(IntProperty('nodeId', node.id));
+  }
 }
 
 class _FuseErrorElement extends StatelessElement {

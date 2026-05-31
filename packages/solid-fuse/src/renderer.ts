@@ -2,6 +2,7 @@ import { createRenderer } from "@solidjs/universal";
 import { flush } from "solid-js";
 import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
 import { reportDevError } from "./dev-error";
+import { host } from "./host";
 
 let nextId = 0;
 let _currentComponent: string | undefined;
@@ -83,7 +84,7 @@ const {
   createElement(tag: string) {
     const node = new FuseNode(tag);
     const createProps: Record<string, any> = {};
-    if (flutterMode !== 'release' && _currentComponent) createProps._component = _currentComponent;
+    if (host.mode !== 'release' && _currentComponent) createProps._component = _currentComponent;
     ops.push({ op: "create", id: node.id, type: tag, props: createProps });
     return node;
   },
@@ -115,22 +116,24 @@ const {
       handlers.set(`${node.id}:${name}`, value);
       node.props[name] = true;
       ops.push({ op: "setProp", id: node.id, name, value: true });
-      return;
-    }
-    const ref = value instanceof FuseNode
-      ? value
-      : value?.node instanceof FuseNode
-        ? value.node
-        : null;
-    if (ref) {
-      // Orphan JSX node (passed itself) or a handle (carries `.node`).
-      // Same wire shape either way.
+    } else {
+      const ref = value instanceof FuseNode
+        ? value
+        : value?.node instanceof FuseNode
+          ? value.node
+          : null;
       node.props[name] = value;
-      ops.push({ op: "setProp", id: node.id, name, value: { _node: ref.id } });
-      return;
+      // ref: orphan JSX node (passed itself) or a handle (carries `.node`) —
+      // same wire shape either way.
+      ops.push(ref
+        ? { op: "setProp", id: node.id, name, value: { _node: ref.id } }
+        : { op: "setProp", id: node.id, name, value });
     }
-    node.props[name] = value;
-    ops.push({ op: "setProp", id: node.id, name, value });
+    // Like insertNode/removeNode/replaceText: schedule a flush so the op is
+    // sent. Without this, a prop-only reactive update that runs after a
+    // dispatch's flush (e.g. an async `.then(setState)`) buffers an op that
+    // nothing sends until the next event.
+    scheduleFlush();
   },
 
   insertNode(parent: FuseNode, node: FuseNode, anchor?: FuseNode) {
@@ -178,7 +181,7 @@ const {
 });
 
 function createComponent(Comp: any, props: any) {
-  if (flutterMode === 'release') return innerCreateComponent(Comp, props);
+  if (host.mode === 'release') return innerCreateComponent(Comp, props);
   const prev = _currentComponent;
   const name = (Comp.name || "").replace(/^\[.*?\]/, "");
   _currentComponent = name || undefined;
@@ -236,4 +239,4 @@ export {
 };
 
 // Re-export Solid control flow and flush
-export { flush, For, Show, Switch, Match } from "solid-js";
+export { flush, For, Show, Switch, Match, Errored, Loading } from "solid-js";
