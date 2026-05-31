@@ -1,11 +1,9 @@
 ---
-title: Creating Controllers
+title: Creating Handles
 description: Build imperative Dart objects accessible from JS
 ---
 
-Controllers are persistent native Dart objects (controllers, managers, connections) that JS can call methods on and receive state updates from. Use them when you need imperative control that doesn't fit the declarative widget model.
-
-Fuse calls these **handles** under the hood — anything backed by a long-lived Dart object behind a JS-side reference. Built-ins like `createScrollController` and `createFocusNode` are thin wrappers around the same primitives.
+A **handle** is a persistent native Dart object (controllers, managers, connections) that JS can call methods on and receive state updates from. Use one when you need imperative control that doesn't fit the declarative widget model — anything backed by a long-lived Dart object behind a JS-side reference. The built-ins `createScrollController` and `createFocusNode` are thin wrappers around the same primitives.
 
 ## When to create a handle
 

@@ -3,7 +3,7 @@ title: Communicating with Dart
 description: Send messages between JS and Dart with channels
 ---
 
-Channels are a simple messaging system for communication outside the widget tree. Use them for analytics, auth, native API calls, background tasks — anything that doesn't map to a widget or controller.
+Channels are a simple messaging system for communication outside the widget tree. Use them for analytics, auth, native API calls, background tasks — anything that doesn't map to a widget or handle.
 
 Three methods, symmetric on both sides:
 
@@ -121,16 +121,16 @@ runtime.channels.on('auth:login', (data) async {
 });
 ```
 
-## Channels vs controllers
+## Channels vs handles
 
-| | Channels | Controllers |
+| | Channels | Handles |
 |---|---|---|
 | **Pattern** | Request/response or fire-and-forget messages | Persistent object with state |
 | **Lifecycle** | Global, no cleanup needed | Tied to component lifecycle |
 | **State** | No built-in reactivity | Reactive signals (e.g. `scrollOffset()`) |
 | **Use for** | Events, one-off requests | Ongoing imperative control |
 
-Use channels when you need to send a message or make a request. Use controllers when you need a persistent native object you can call methods on and read state from.
+Use channels when you need to send a message or make a request. Use handles when you need a persistent native object you can call methods on and read state from.
 
 ## Reserved channels
 

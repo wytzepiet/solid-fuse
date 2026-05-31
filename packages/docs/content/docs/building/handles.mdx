@@ -1,9 +1,9 @@
 ---
-title: Controllers
-description: Programmatic control with scroll controllers and focus nodes
+title: Handles
+description: Imperative control via handles — scroll controllers and focus nodes
 ---
 
-Some Flutter patterns are imperative — you can't express "scroll to offset 500" or "focus this input" as a prop. Controllers (and the closely related focus nodes) bridge this gap. They're built on top of Fuse's [handle](/docs/extending/creating-controllers) system: a persistent Dart object backing a JS-side reference.
+Some Flutter patterns are imperative — you can't express "scroll to offset 500" or "focus this input" as a prop. A **handle** bridges this gap: a persistent Dart object backing a JS-side reference that you can call methods on and read reactive state from. Two come built in — the scroll controller and the focus node.
 
 ## ScrollController
 
@@ -94,9 +94,9 @@ function FocusDemo() {
 | `focus.hasFocus()` | Reactive signal — true while the field is focused |
 | `focus.dispose()` | Dispose. Automatic if created inside a reactive owner. |
 
-## How controllers and focus nodes work
+## How they work
 
-Both are thin wrappers around the same [handle system](/docs/extending/creating-controllers):
+Both are thin wrappers around the same [handle system](/docs/extending/creating-handles):
 
 1. `createHandle("scrollController", { initialScrollOffset, setScrollOffset })` creates a JS-side `{ node, call, dispose }` triple. The Dart side instantiates a `FuseScrollController` handle wrapping a real Flutter `ScrollController`.
 2. When you pass `controller={scroll}` to `<ScrollView>`, the renderer serializes the reference as `_node: <id>`. The Dart `ScrollView` widget reads it as a `FuseNode` reference, looks up the handle, and uses its wrapped `ScrollController`.
@@ -107,4 +107,4 @@ The signal updates are not lazy — every Dart-side change calls into JS. Use `M
 
 ## Building your own
 
-You can create handles for any persistent native Dart object — animation controllers, page route observers, native plugin instances. See [Creating Controllers](/docs/extending/creating-controllers) for the full pattern.
+You can create handles for any persistent native Dart object — animation controllers, page route observers, native plugin instances. See [Creating handles](/docs/extending/creating-handles) for the full pattern.
