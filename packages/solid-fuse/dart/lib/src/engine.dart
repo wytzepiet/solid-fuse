@@ -156,7 +156,18 @@ Future<void> drainJobs(JsEngine engine) async {
 Future<void> drainImmediateJobs(JsEngine engine) async {
   // executePendingJob returns true if a job was executed.
   // Run in a tight loop until no more immediate jobs are pending.
-  while (await engine.executePendingJob()) {}
+  //
+  // A JS async job can throw — e.g. an unhandled promise rejection, which Rust
+  // surfaces as the (opaque) "Async job raised an exception". One bad job must
+  // not crash the host: catch it, log it, and end this drain pass. The throwing
+  // job has already been consumed; remaining jobs are picked up by the
+  // background driver (engine.startDrive) or the next drain.
+  try {
+    while (await engine.executePendingJob()) {}
+  } catch (e) {
+    debugPrint('[Fuse JS] async job threw during drain (likely an unhandled '
+        'promise rejection): $e');
+  }
 }
 
 // --- `host` namespace: ambient platform/brightness facts ---
