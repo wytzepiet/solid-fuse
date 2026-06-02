@@ -51,9 +51,6 @@ class QuickJsConnection extends FuseConnection {
       } else {
         await _engine!.eval(source: JsCode.code(bundleSource));
       }
-      // Drain only immediate jobs — drainJobs (idle) would deadlock on
-      // long-lived Promises (e.g. WebSocket connections).
-      await drainImmediateJobs(_engine!);
     } catch (e, st) {
       debugPrint('QuickJsConnection error: $e\n$st');
     }
@@ -69,7 +66,6 @@ class QuickJsConnection extends FuseConnection {
         final bundleSource = await rootBundle.loadString('assets/js/bundle.js');
         await _engine!.eval(source: JsCode.code(bundleSource));
       }
-      await drainImmediateJobs(_engine!);
     } catch (e) {
       debugPrint('[Fuse] restart error: $e');
     }

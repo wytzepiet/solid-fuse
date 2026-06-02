@@ -1,8 +1,11 @@
-// Verifies channels.send/call/on round-trip semantics in both directions:
-// successful returns, sync and async error propagation, and nested-object
-// shapes through FJS's JsValue.from serialization.
+// Channels round-trip: send/call/on in both directions — successful returns,
+// sync + async error propagation, nested-object serialization, timeouts.
+//
+// No manual pump: createEngine() starts fjs's background driver, which resolves
+// the async work on its own. A green run here also confirms the driver pumps
+// channels with no manual help (this test used to need a 10ms executePendingJob
+// timer + a drainImmediateJobs after every eval — both gone).
 
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:fjs/fjs.dart';
@@ -15,21 +18,18 @@ import 'package:solid_fuse/src/engine.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  late JsAsyncRuntime runtime;
   late JsEngine engine;
   late FuseChannels channels;
-  Timer? pumpTimer;
 
   setUpAll(() async {
     await LibFjs.init();
-    runtime = await createRuntime();
-    final r = await createEngine(runtime: runtime);
+    final r = await createEngine();
     engine = r.engine;
     channels = r.channels;
 
     // Install a JS-side dispatcher so Dart→JS channels.call has somewhere
     // to land. Production code installs this when solid-fuse's bundle
-    // evaluates; the raw test engine doesn't load the bundle.
+    // evaluates; this raw test engine doesn't load the bundle.
     await engine.eval(source: JsCode.code('''
       globalThis.__testHandlers = new Map();
       globalThis.__dispatch = async (ch, data) => {
@@ -37,17 +37,6 @@ void main() {
         return h ? await h(data) : undefined;
       };
     '''));
-    await drainImmediateJobs(runtime);
-
-    // External job pump — required so rquickjs's microtask queue keeps
-    // advancing while Dart-side Futures (channels.call) are pending.
-    pumpTimer = Timer.periodic(const Duration(milliseconds: 10), (_) {
-      runtime.executePendingJob().catchError((_) => false);
-    });
-  });
-
-  tearDownAll(() async {
-    pumpTimer?.cancel();
   });
 
   testWidgets('JS→Dart success: handler return value flows back',
@@ -65,7 +54,6 @@ void main() {
       (tester) async {
     await engine.eval(source: JsCode.code(
         '__testHandlers.set("square", (data) => ({ squared: data.n * data.n }));'));
-    await drainImmediateJobs(runtime);
 
     final r = await channels.call('square', {'n': 7});
     expect(r, equals({'squared': 49}));
@@ -113,7 +101,6 @@ void main() {
         throw new Error("kaboom-from-js");
       });
     '''));
-    await drainImmediateJobs(runtime);
 
     try {
       await channels.call('jsThrows', {});
@@ -131,7 +118,6 @@ void main() {
         throw new Error("kaboom-async-js");
       });
     '''));
-    await drainImmediateJobs(runtime);
 
     try {
       await channels.call('jsThrowsAsync', {});
@@ -186,7 +172,6 @@ void main() {
         return "too-late";
       });
     '''));
-    await drainImmediateJobs(runtime);
 
     try {
       await channels.call('jsSlow', {}, timeout: const Duration(milliseconds: 100));
@@ -206,7 +191,6 @@ void main() {
         return "made-it";
       });
     '''));
-    await drainImmediateJobs(runtime);
 
     final r = await channels.call('jsSlowish', {}, timeout: null);
     expect(r, equals('made-it'));
@@ -221,7 +205,6 @@ void main() {
         nullable: null,
       }));
     '''));
-    await drainImmediateJobs(runtime);
 
     final r = await channels.call('makeDeep', {});
     expect(r, {

@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:fjs/fjs.dart';
 import 'package:flutter/foundation.dart';
 
-import 'engine.dart';
-
 /// Channels: routed messaging over FJS's raw bridge.
 ///
 /// FJS provides one unrouted pipe in each direction. We add a channel string
@@ -45,7 +43,6 @@ class FuseChannels {
         method: 'dispatch',
         params: [JsValue.string(channel), JsValue.from(data)],
       );
-      await drainImmediateJobs(engine);
     } catch (e) {
       debugPrint('[Fuse] channels.send($channel) error: $e');
     }
@@ -65,10 +62,7 @@ class FuseChannels {
           method: 'dispatch',
           params: [JsValue.string(channel), JsValue.from(data)],
         )
-        .then((JsValue result) async {
-          await drainImmediateJobs(engine);
-          return result.value;
-        });
+        .then((JsValue result) => result.value);
     if (timeout == null) return future;
     return future.timeout(
       timeout,

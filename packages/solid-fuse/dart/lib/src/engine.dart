@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:fjs/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-// ignore: implementation_imports, depend_on_referenced_packages
-import 'package:flutter_rust_bridge/src/misc/rust_opaque.dart';
 
 import 'channels.dart';
 import 'ws_manager.dart';
@@ -32,10 +30,6 @@ Future<EngineResult> createEngine({
     builtins: builtins ?? JsBuiltinOptions.all(),
     modules: modules,
   );
-  // Bump the Arc ref count so native Drop never runs on Dart GC — QuickJS
-  // still asserts in JS_FreeRuntime when gc_obj_list is non-empty.
-  // See https://github.com/fluttercandies/fjs/issues/8
-  _preventNativeDrop(engine);
 
   await engine.init(
     bridge: (jsValue) async {
@@ -47,16 +41,15 @@ Future<EngineResult> createEngine({
           payload.remove('channel');
           try {
             final result = await channels.dispatch(channel, payload);
-            // Drain after return: once Rust resolves the Promise from our
-            // JsResult, QuickJS has a pending await-resumption microtask
-            // that nothing else pumps. Direct await would deadlock (we'd
-            // block on our own return value).
-            scheduleMicrotask(() => drainImmediateJobs(engine));
+            // No manual drain: once Rust resolves the Promise from our JsResult,
+            // the background driver (engine.startDrive) wakes and pumps the
+            // await-resumption microtask. fjs 2.2.0+ re-arms the driver after
+            // every call, so it stays awake for this; the manual drain we used to
+            // run here is what evicted the driver's waker and broke detached async.
             return JsResult.ok(
               result == null ? JsValue.none() : JsValue.from(result),
             );
           } catch (e, st) {
-            scheduleMicrotask(() => drainImmediateJobs(engine));
             return JsResult.err(JsError.runtime('$e\n$st'));
           }
         }
@@ -111,11 +104,12 @@ Future<EngineResult> createEngine({
     ),
   );
 
-  // Start fjs's event-driven background driver so async work that completes
-  // without a bridge event (fetch, setTimeout, …) resolves promptly. This is
-  // the native primitive that replaces the old blind-poll job pump: it parks
-  // when idle and only wakes when a background future becomes runnable, while
-  // yielding cooperatively so bridge calls still interleave.
+  // Start fjs's background driver, which pumps async work that completes without
+  // a bridge event (fetch, setTimeout, …) so it resolves promptly. (In fjs 2.2.0+
+  // this is a short fixed-interval poll on the QoS-raised JS threads — an
+  // event-driven driver is unreliable here: the rquickjs scheduler's single-slot
+  // waker gets clobbered by every eval/executePendingJob, and iOS throttles
+  // idle-thread timer wakeups.)
   await engine.startDrive();
 
   return (engine: engine, wsManager: wsManager, channels: channels);
@@ -127,47 +121,14 @@ Future<JsEngine> createTestEngine() async {
   return engine;
 }
 
-/// Increment the Arc reference count so that when Dart GC finalizes the
-/// object, the native Drop doesn't run (prevents QuickJS SIGABRT).
-void _preventNativeDrop(Object obj) {
-  if (obj is RustOpaque) {
-    // ignore: invalid_use_of_internal_member
-    obj.frbInternalCstEncode(move: false);
-  }
-}
-
-/// Keeps references to abandoned engines so they aren't GC'd.
-/// Only accumulates during HMR reloads in dev mode.
-final retiredEngines = <Object>[];
-
-/// Drains the QuickJS job queue so that pending Promises resolve.
-/// Uses `idle()`, which only returns once the runtime is fully quiescent —
-/// i.e. no queued jobs AND no spawned futures remain. A live app is never
-/// quiescent (the WebSocket stays open, timers stay scheduled), so this never
-/// returns there. Use [drainImmediateJobs] for synchronous draining and
-/// `engine.startDrive()` for the event-driven background driver; reserve
-/// `idle()` for teardown or tests.
-Future<void> drainJobs(JsEngine engine) async {
-  await engine.idle();
-}
-
-/// Drains only the immediately-pending jobs (microtasks, resolved Promises)
-/// without waiting for long-lived async operations like WebSocket connections.
-Future<void> drainImmediateJobs(JsEngine engine) async {
-  // executePendingJob returns true if a job was executed.
-  // Run in a tight loop until no more immediate jobs are pending.
-  //
-  // A JS async job can throw — e.g. an unhandled promise rejection, which Rust
-  // surfaces as the (opaque) "Async job raised an exception". One bad job must
-  // not crash the host: catch it, log it, and end this drain pass. The throwing
-  // job has already been consumed; remaining jobs are picked up by the
-  // background driver (engine.startDrive) or the next drain.
-  try {
-    while (await engine.executePendingJob()) {}
-  } catch (e) {
-    debugPrint('[Fuse JS] async job threw during drain (likely an unhandled '
-        'promise rejection): $e');
-  }
+/// Retires an engine on HMR/hot-restart: stop its driver, close its sockets,
+/// free the runtime. Closing is safe now that fjs fixed the drop-without-close
+/// crash (#8) — we used to keep dead engines alive forever, leaking a QuickJS
+/// runtime per reload.
+Future<void> retireEngine(JsEngine engine, FuseWsManager wsManager) async {
+  await engine.stopDrive();
+  wsManager.dispose();
+  await engine.close();
 }
 
 // --- `host` namespace: ambient platform/brightness facts ---

@@ -26,7 +26,7 @@ examples/
 
 ## Internal patterns (not in user docs)
 
-- **No `runtime.idle()`** after evaluating user code. Long-lived JS Promises (e.g. WebSocket connections) depend on Dart bridge events and would deadlock. Use `drainImmediateJobs` (loops `executePendingJob`) instead.
+- **Don't manually drain jobs or call `runtime.idle()` after running user code.** The background driver (`engine.startDrive()`) pumps async event-driven, and fjs re-arms it after every `with_js`. Manual draining (the old `drainImmediateJobs` loop) evicts the driver's single-slot scheduler waker, stalling detached `fetch`/timers until an unrelated event; `idle()` deadlocks on long-lived Promises (the WebSocket).
 - The `solid-fuse` dist is an ESM bundle with `solid-js` and `@solidjs/universal` externalised — Vite in consumer apps resolves them to its pre-bundled deps at serve time.
 - `fuse dev` / `fuse build` auto-configure `vite-plugin-solid` with `generate: "universal"` and `moduleName: "solid-fuse"` — consumer apps don't need their own `vite.config.ts`.
 

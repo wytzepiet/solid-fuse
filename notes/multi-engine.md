@@ -3,12 +3,11 @@
 **Status:** intended capability, NOT yet verified. Treat as a design target, not a
 description of working behaviour.
 
-solid-fuse's API is engine-instance-based (`createEngine` returns an instance;
-`retiredEngines` holds several), but multi-engine has **never been tested** and
-some Dart-side services assume a singleton (see "Known incoherence"). Rule we're
-holding ourselves to: **either it's tested or it's not supported.** This note
-captures *why* we want to keep it, so the work to make it real is justified and
-scoped.
+solid-fuse's API is engine-instance-based (`createEngine` returns an instance),
+but multi-engine has **never been tested** and one Dart-side service still
+assumes a singleton (see "Known incoherence"). Rule we're holding ourselves to:
+**either it's tested or it's not supported.** This note captures *why* we want to
+keep it, so the work to make it real is justified and scoped.
 
 ## Why keep it (use cases)
 
@@ -43,32 +42,27 @@ needs no changes to support N engines.
 
 ## Known incoherence (the hard half — Dart side)
 
-Dart-side services are **module-level singletons** that assume one engine:
+Mostly resolved now. The job pump is no longer a Dart module-level poller — each
+engine drives itself via fjs's background driver (`engine.startDrive()` /
+`stopDrive()`), so N engines pump independently. And `retireEngine` does a real
+teardown (stop driver, dispose WebSockets, `close()` the runtime), so HMR no
+longer leaks — the old `retiredEngines` keep-alive list is gone, and fjs fixed the
+drop-without-close SIGABRT (#8) that forced it.
 
-- `_fuseBrightnessObserver` — single global, retargets to latest engine.
-- the job pump (the `executePendingJob` poller; see `engine.dart`) — same: a
-  single global timer that drives one engine. With multiple live engines it would
-  only drive the last one. This is also why HMR currently leaks
-  (`retiredEngines` keeps old engines alive but a single global service can't
-  serve all of them).
-- `retiredEngines` exists *because* there's no real per-engine `dispose()` — HMR
-  creates new engines without tearing down old ones (GC/SIGABRT workaround).
+One module-level singleton remains:
 
-**Resolution direction:** make lifecycle services **engine-owned**, not module
-statics — the pump and brightness observer become fields created in
-`createEngine` and torn down in a real `dispose()`. Then:
-- multi-engine works (each engine drives/observes itself);
-- HMR stops leaking (retire → `dispose()`), likely letting `retiredEngines` go;
-- single-engine apps are unaffected (they just have one).
+- `_fuseBrightnessObserver` — single global, retargets to the latest engine. With
+  multiple live engines, only the last one gets OS light/dark updates.
 
-This is the same refactor whether we keep multi-engine or not — engine-owned
-lifecycle + real dispose is correct either way. Keeping multi-engine just means
-we *also* verify N>1.
+**Resolution direction:** make this last service **engine-owned** too — create the
+brightness observer in `createEngine` and tear it down in `retireEngine`, the way
+the driver and WebSockets already are. Then each engine observes itself and
+multi-engine is coherent. Single-engine apps are unaffected (they just have one).
 
 ## To actually claim support (definition of done)
 
-1. Engine-owned lifecycle services (pump, brightness observer) + real
-   `dispose()`; drop/justify `retiredEngines`.
+1. Make the brightness observer engine-owned (the driver, WebSockets, and runtime
+   teardown already are — see `retireEngine`).
 2. A test app in `examples/` running **two engines** with **different JS
    bundles** in one Flutter app, both interactive, proving isolation:
    - independent rendering/state (no cross-talk via globals);
@@ -81,8 +75,8 @@ we *also* verify N>1.
 
 ## Until then
 
-Pole Goals runs a single engine. The immediate job-pump fix (see `engine.dart`
-"A" implementation + the fjs `drive()` issue) is written as a module-level
-singleton matching today's pattern — consistent with current code, to avoid
-half-migrating architecture mid-bugfix. The engine-owned-lifecycle refactor
-above is the deliberate follow-up that makes multi-engine real.
+Pole Goals runs a single engine. The async-driver fix is now fjs-side and
+per-engine (`engine.startDrive()`/`stopDrive()`; see the fjs `drive()` re-arm),
+and `retireEngine` tears engines down for real. The one piece left for true
+multi-engine is the engine-owned brightness observer above, plus actually
+verifying N>1.

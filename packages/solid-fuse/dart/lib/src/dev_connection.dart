@@ -8,6 +8,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'channels.dart';
 import 'connection.dart';
 import 'engine.dart';
+import 'ws_manager.dart';
 
 /// Connects to a Vite dev server, pre-fetches all ES modules, and evaluates
 /// them in QuickJS with module support. Listens for HMR updates via Vite's
@@ -22,6 +23,7 @@ class DevServerConnection extends FuseConnection {
 
   JsEngine? _engine;
   FuseChannels? _channels;
+  FuseWsManager? _wsManager;
   final _modules = <String, String>{};
   WebSocketChannel? _hmrChannel;
 
@@ -59,11 +61,14 @@ class DevServerConnection extends FuseConnection {
   }
 
   Future<void> _createEngine() async {
-    // Park old engine rather than closing it — close() doesn't stop the native
-    // Drop from asserting on GC (fjs issue #8 still open in 2.2.0).
+    // Retire the old engine before swapping in the new one: stop its driver,
+    // close its sockets, free its runtime (safe since fjs fixed #8).
     final oldEngine = _engine;
+    final oldWsManager = _wsManager;
     _engine = null;
-    if (oldEngine != null) retiredEngines.add(oldEngine);
+    if (oldEngine != null && oldWsManager != null) {
+      await retireEngine(oldEngine, oldWsManager);
+    }
 
     final (:engine, :wsManager, :channels) = await createEngine(
       builtins: builtins,
@@ -71,6 +76,7 @@ class DevServerConnection extends FuseConnection {
     );
     _engine = engine;
     _channels = channels;
+    _wsManager = wsManager;
   }
 
   Future<void> _evalEntry(String entryPath) async {
@@ -116,12 +122,6 @@ class DevServerConnection extends FuseConnection {
     await _engine!.evaluateModule(
       module: JsModule.code(module: entryPath, code: _modules[entryPath]!),
     );
-
-    // Drain only immediate jobs — do NOT use drainJobs (runtime.idle) here
-    // because long-lived Promises (e.g. WebSocket connections from Convex)
-    // would deadlock: they wait for Dart bridge events that can't fire while
-    // idle() blocks the Dart event loop.
-    await drainImmediateJobs(_engine!);
   }
 
   // ---------------------------------------------------------------------------
@@ -297,8 +297,6 @@ class DevServerConnection extends FuseConnection {
             '  hot._disposeCbs = []; } }',
           ),
         );
-        await drainImmediateJobs(_engine!);
-
         final url = '$_baseUrl$path?t=$ts';
         final response = await http.get(Uri.parse(url));
         if (response.statusCode != 200) {
@@ -324,16 +322,12 @@ class DevServerConnection extends FuseConnection {
         await _engine!.evaluateModule(
           module: JsModule.code(module: hmrModuleName, code: source),
         );
-        await drainImmediateJobs(_engine!);
-
         await _engine!.eval(
           source: JsCode.code(
             '{ const hot = globalThis.__fuseHot["$path"];\n'
             '  if (hot && hot._acceptCb) hot._acceptCb({}); }',
           ),
         );
-        await drainImmediateJobs(_engine!);
-
         // Flush via channels — __dispatch auto-flushes solidFlush + flush
         await _channels!.send('_flush', {});
 
