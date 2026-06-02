@@ -31,7 +31,8 @@ void main() {
 
     // Stop driver, dispose sockets, close() the runtime. Pre-#8-fix this
     // aborted in JS_FreeRuntime; it must return cleanly now.
-    await retireEngine(first.engine, first.wsManager);
+    await retireEngine(
+        first.engine, first.wsManager, first.brightnessObserver);
 
     // A fresh engine after retiring still works — the runtime freed cleanly.
     final second = await createEngine();
@@ -41,6 +42,7 @@ void main() {
     );
     expect(r2.value, equals('ok'));
 
-    await retireEngine(second.engine, second.wsManager);
+    await retireEngine(
+        second.engine, second.wsManager, second.brightnessObserver);
   });
 }

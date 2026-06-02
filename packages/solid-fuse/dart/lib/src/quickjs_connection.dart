@@ -26,7 +26,8 @@ class QuickJsConnection extends FuseConnection {
 
   @override
   Future<void> connect() async {
-    final (:engine, :wsManager, :channels) = await createEngine(
+    final (:engine, :wsManager, :channels, :brightnessObserver) =
+        await createEngine(
       builtins: builtins,
       modules: modules,
     );

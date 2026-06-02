@@ -12,6 +12,7 @@ typedef EngineResult = ({
   JsEngine engine,
   FuseWsManager wsManager,
   FuseChannels channels,
+  WidgetsBindingObserver brightnessObserver,
 });
 
 /// Creates a new engine with the channel system, console shim, and WebSocket
@@ -86,7 +87,9 @@ Future<EngineResult> createEngine({
   );
 
   // Forward OS light/dark changes to JS so host.brightness() stays reactive.
-  _installFuseBrightnessObserver(channels);
+  // One observer per engine; retireEngine removes it from the binding.
+  final brightnessObserver = _FuseBrightnessObserver(channels);
+  WidgetsBinding.instance.addObserver(brightnessObserver);
 
   // NB: the `console` shim lives in the JS package (src/polyfills.ts), not here —
   // it's a standard-global polyfill with no Dart dependency, alongside
@@ -112,21 +115,32 @@ Future<EngineResult> createEngine({
   // idle-thread timer wakeups.)
   await engine.startDrive();
 
-  return (engine: engine, wsManager: wsManager, channels: channels);
+  return (
+    engine: engine,
+    wsManager: wsManager,
+    channels: channels,
+    brightnessObserver: brightnessObserver,
+  );
 }
 
 /// Creates a minimal engine for testing.
 Future<JsEngine> createTestEngine() async {
-  final (:engine, :wsManager, :channels) = await createEngine();
+  final (:engine, :wsManager, :channels, :brightnessObserver) =
+      await createEngine();
   return engine;
 }
 
-/// Retires an engine on HMR/hot-restart: stop its driver, close its sockets,
-/// free the runtime. Closing is safe now that fjs fixed the drop-without-close
-/// crash (#8) — we used to keep dead engines alive forever, leaking a QuickJS
-/// runtime per reload.
-Future<void> retireEngine(JsEngine engine, FuseWsManager wsManager) async {
+/// Retires an engine on HMR/hot-restart: stop its driver, remove its brightness
+/// observer, close its sockets, free the runtime. Closing is safe now that fjs
+/// fixed the drop-without-close crash (#8) — we used to keep dead engines alive
+/// forever, leaking a QuickJS runtime per reload.
+Future<void> retireEngine(
+  JsEngine engine,
+  FuseWsManager wsManager,
+  WidgetsBindingObserver brightnessObserver,
+) async {
   await engine.stopDrive();
+  WidgetsBinding.instance.removeObserver(brightnessObserver);
   wsManager.dispose();
   await engine.close();
 }
@@ -153,26 +167,16 @@ String _fuseBrightnessName() =>
         ? 'dark'
         : 'light';
 
-/// Forwards OS light/dark changes to JS. Its sender is refreshed on each
-/// [createEngine] so it always targets the live channels (the engine may be
-/// recreated on HMR reconnect), while the observer is added to the binding once.
+/// Forwards OS light/dark changes to its engine's channels so host.brightness()
+/// stays reactive. One per engine; createEngine adds it, retireEngine removes it.
 class _FuseBrightnessObserver with WidgetsBindingObserver {
-  void Function(String value)? send;
+  _FuseBrightnessObserver(this._channels);
+
+  final FuseChannels _channels;
 
   @override
-  void didChangePlatformBrightness() => send?.call(_fuseBrightnessName());
-}
-
-final _fuseBrightnessObserver = _FuseBrightnessObserver();
-bool _fuseBrightnessObserverInstalled = false;
-
-void _installFuseBrightnessObserver(FuseChannels channels) {
-  _fuseBrightnessObserver.send = (value) =>
-      channels.send('_brightness', <String, dynamic>{'value': value});
-  if (!_fuseBrightnessObserverInstalled) {
-    WidgetsBinding.instance.addObserver(_fuseBrightnessObserver);
-    _fuseBrightnessObserverInstalled = true;
-  }
+  void didChangePlatformBrightness() => _channels
+      .send('_brightness', <String, dynamic>{'value': _fuseBrightnessName()});
 }
 
 // --- Job pump ---

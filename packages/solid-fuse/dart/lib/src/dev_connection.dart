@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fjs/fjs.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -24,6 +24,7 @@ class DevServerConnection extends FuseConnection {
   JsEngine? _engine;
   FuseChannels? _channels;
   FuseWsManager? _wsManager;
+  WidgetsBindingObserver? _brightnessObserver;
   final _modules = <String, String>{};
   WebSocketChannel? _hmrChannel;
 
@@ -65,18 +66,23 @@ class DevServerConnection extends FuseConnection {
     // close its sockets, free its runtime (safe since fjs fixed #8).
     final oldEngine = _engine;
     final oldWsManager = _wsManager;
+    final oldBrightnessObserver = _brightnessObserver;
     _engine = null;
-    if (oldEngine != null && oldWsManager != null) {
-      await retireEngine(oldEngine, oldWsManager);
+    if (oldEngine != null &&
+        oldWsManager != null &&
+        oldBrightnessObserver != null) {
+      await retireEngine(oldEngine, oldWsManager, oldBrightnessObserver);
     }
 
-    final (:engine, :wsManager, :channels) = await createEngine(
+    final (:engine, :wsManager, :channels, :brightnessObserver) =
+        await createEngine(
       builtins: builtins,
       modules: modules,
     );
     _engine = engine;
     _channels = channels;
     _wsManager = wsManager;
+    _brightnessObserver = brightnessObserver;
   }
 
   Future<void> _evalEntry(String entryPath) async {

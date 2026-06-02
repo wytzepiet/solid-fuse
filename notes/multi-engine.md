@@ -4,10 +4,11 @@
 description of working behaviour.
 
 solid-fuse's API is engine-instance-based (`createEngine` returns an instance),
-but multi-engine has **never been tested** and one Dart-side service still
-assumes a singleton (see "Known incoherence"). Rule we're holding ourselves to:
-**either it's tested or it's not supported.** This note captures *why* we want to
-keep it, so the work to make it real is justified and scoped.
+but multi-engine has **never been tested** with N>1 engines actually running side
+by side. The Dart side is now fully engine-owned (see "Dart side"). Rule we're
+holding ourselves to: **either it's tested or it's not supported.** This note
+captures *why* we want to keep it, so the work to make it real is justified and
+scoped.
 
 ## Why keep it (use cases)
 
@@ -40,29 +41,28 @@ per-context. So `__dispatch`, the renderer's `ops`/`root`/`handlers`, and the
 `console`/`WebSocket`/`URL` polyfills are automatically per-engine. The renderer
 needs no changes to support N engines.
 
-## Known incoherence (the hard half — Dart side)
+## Dart side (resolved — all engine-owned)
 
-Mostly resolved now. The job pump is no longer a Dart module-level poller — each
-engine drives itself via fjs's background driver (`engine.startDrive()` /
-`stopDrive()`), so N engines pump independently. And `retireEngine` does a real
-teardown (stop driver, dispose WebSockets, `close()` the runtime), so HMR no
-longer leaks — the old `retiredEngines` keep-alive list is gone, and fjs fixed the
-drop-without-close SIGABRT (#8) that forced it.
+The Dart side no longer has any module-level singletons. Each engine owns its
+whole lifecycle:
 
-One module-level singleton remains:
-
-- `_fuseBrightnessObserver` — single global, retargets to the latest engine. With
-  multiple live engines, only the last one gets OS light/dark updates.
-
-**Resolution direction:** make this last service **engine-owned** too — create the
-brightness observer in `createEngine` and tear it down in `retireEngine`, the way
-the driver and WebSockets already are. Then each engine observes itself and
-multi-engine is coherent. Single-engine apps are unaffected (they just have one).
+- **Job pump** — each engine drives itself via fjs's background driver
+  (`engine.startDrive()` / `stopDrive()`), so N engines pump independently.
+- **Teardown** — `retireEngine` does a real teardown (stop driver, remove
+  brightness observer, dispose WebSockets, `close()` the runtime), so HMR no
+  longer leaks — the old `retiredEngines` keep-alive list is gone, and fjs fixed
+  the drop-without-close SIGABRT (#8) that forced it.
+- **Brightness observer** — one `_FuseBrightnessObserver` per engine, added to the
+  binding in `createEngine` and removed in `retireEngine`. It forwards OS
+  light/dark changes to its own engine's channels, so every live engine gets the
+  update (the old global retargeted to only the newest engine). Single-engine apps
+  are unaffected — they just have one.
 
 ## To actually claim support (definition of done)
 
-1. Make the brightness observer engine-owned (the driver, WebSockets, and runtime
-   teardown already are — see `retireEngine`).
+1. ~~Make the brightness observer engine-owned~~ — done; the driver, WebSockets,
+   brightness observer, and runtime teardown are all engine-owned (see
+   `createEngine` / `retireEngine`).
 2. A test app in `examples/` running **two engines** with **different JS
    bundles** in one Flutter app, both interactive, proving isolation:
    - independent rendering/state (no cross-talk via globals);
@@ -77,6 +77,5 @@ multi-engine is coherent. Single-engine apps are unaffected (they just have one)
 
 Pole Goals runs a single engine. The async-driver fix is now fjs-side and
 per-engine (`engine.startDrive()`/`stopDrive()`; see the fjs `drive()` re-arm),
-and `retireEngine` tears engines down for real. The one piece left for true
-multi-engine is the engine-owned brightness observer above, plus actually
-verifying N>1.
+and `retireEngine` tears engines down for real. All Dart lifecycle is now
+engine-owned; the one piece left for true multi-engine is actually verifying N>1.
