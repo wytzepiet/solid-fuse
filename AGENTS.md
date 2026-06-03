@@ -2,6 +2,8 @@
 
 This is the **solid-fuse framework repo**, not a consumer app. solid-fuse runs SolidJS 2.0 inside Flutter via QuickJS (`fjs`), rendering native Flutter widgets from a reactive component tree.
 
+> **fjs is vendored in-tree**, not a package dependency: `packages/solid-fuse/dart/lib/src/fjs` is a git-subtree mirror of `wytzepiet/fjs`, and `solid_fuse` is itself the FFI plugin that builds it. Don't add a `fjs` dependency or call `LibFjs.init()` directly (use `initFjs()`). Sync with `make sync-fjs`. See `notes/vendoring-fjs.md`.
+
 ## Before changing anything
 
 User-facing behaviour (APIs, JSX elements, config, runtime lifecycle, widgets, controllers, channels, navigation) is documented in `packages/docs/content/docs/`. **Read the relevant topic there before changing it** — that's the source of truth for how the framework is supposed to work.

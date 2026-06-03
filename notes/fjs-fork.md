@@ -32,30 +32,15 @@ First landed change: `feat/job-pump-drive` → `JsEngine.startDrive()/stopDrive(
 an event-driven background driver replacing the old 33ms `_FuseJobPump` poll
 ([fluttercandies/fjs#12](https://github.com/fluttercandies/fjs/pull/12)).
 
-## How solid-fuse depends on it
+## How solid-fuse consumes it
 
-`packages/solid-fuse/dart/pubspec.yaml` uses a **git dependency** on the
-`solid-fuse` branch:
-
-```yaml
-dependencies:
-  fjs:
-    git:
-      url: https://github.com/wytzepiet/fjs.git
-      ref: solid-fuse
-```
-
-- To pick up a new push on the branch: `flutter pub upgrade fjs` (git deps pin
-  to a commit in `pubspec.lock`).
-- **Rapid local Rust iteration** (edit `~/github/fjs` without push/pull): add an
-  override to the **consuming app's** pubspec (overrides only apply at the root
-  package, so solid-fuse's own override wouldn't reach the app):
-  ```yaml
-  dependency_overrides:
-    fjs:
-      path: /path/to/local/fjs
-  ```
-  Remember it builds whatever branch is checked out in that working tree.
+**solid-fuse no longer depends on fjs as a package — it vendors the
+`solid-fuse` branch in-tree via git subtree** at
+`packages/solid-fuse/dart/lib/src/fjs`, and is itself the FFI plugin that builds
+it. See [`vendoring-fjs.md`](./vendoring-fjs.md) for the layout, the loader, and
+the `make sync-fjs` / `make push-fjs` flow. The branch model above is unchanged —
+it's still where you make and upstream changes; vendoring just changes how
+solid-fuse *picks them up* (a subtree pull, not `pub upgrade`).
 
 Native (Rust) changes need a **full app restart** (not hot reload), and the
 first build after a change recompiles the crate (see below).
