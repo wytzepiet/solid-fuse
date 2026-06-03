@@ -3,9 +3,7 @@ dart/.dart_tool
 dart/.flutter-plugins
 dart/.flutter-plugins-dependencies
 dart/.idea
-dart/ios
-dart/android
-dart/macos
 dart/web
-dart/windows
-dart/linux
+# NOTE: dart/{ios,macos,android,linux,windows} are NOT ignored — solid_fuse is
+# now an FFI plugin and those folders carry the cargokit build glue. Excluding
+# them ships a plugin with no podspec/gradle/cmake (no native build).
