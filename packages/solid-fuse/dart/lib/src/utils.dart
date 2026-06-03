@@ -26,7 +26,8 @@ const _namedColors = <String, Color>{
 // ─── parseColor ──────────────────────────────────────────────────────────────
 
 /// Accepts:
-///  - String hex: "#RGB", "#RRGGBB", "#AARRGGBB"
+///  - String hex (CSS semantics — alpha LAST): "#RGB", "#RGBA", "#RRGGBB",
+///    "#RRGGBBAA". Note this is the web standard, not Dart's `0xAARRGGBB`.
 ///  - String named: "red", "blue", etc.
 ///  - Map RGB: { r, g, b, a? }
 ///  - Map HSL: { h, s, l, a? }
@@ -36,14 +37,20 @@ Color? parseColor(dynamic value) {
   if (value is String) {
     if (value.startsWith('#')) {
       final hex = value.substring(1);
+      // Flutter's Color int is 0xAARRGGBB, so we move the CSS alpha to the front.
       switch (hex.length) {
-        case 3: // #RGB → #RRGGBB
+        case 3: // #RGB
           final r = hex[0], g = hex[1], b = hex[2];
           return Color(int.parse('FF$r$r$g$g$b$b', radix: 16));
+        case 4: // #RGBA (CSS — alpha last)
+          final r = hex[0], g = hex[1], b = hex[2], a = hex[3];
+          return Color(int.parse('$a$a$r$r$g$g$b$b', radix: 16));
         case 6: // #RRGGBB
           return Color(int.parse('FF$hex', radix: 16));
-        case 8: // #AARRGGBB
-          return Color(int.parse(hex, radix: 16));
+        case 8: // #RRGGBBAA (CSS — alpha last)
+          final rgb = hex.substring(0, 6);
+          final a = hex.substring(6, 8);
+          return Color(int.parse('$a$rgb', radix: 16));
       }
       return null;
     }

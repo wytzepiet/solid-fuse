@@ -241,10 +241,10 @@ Colors can be specified as named strings, hex codes, or RGB/HSL objects:
 <Text color="red" />
 <Text color="transparent" />
 
-// Hex (3, 6, or 8 character)
+// Hex (3, 4, 6, or 8 character) — CSS semantics, alpha LAST (#RGBA / #RRGGBBAA)
 <View decoration={{ color: "#F00" }} />
 <View decoration={{ color: "#FF0000" }} />
-<View decoration={{ color: "#80FF0000" }} />  {/* with alpha */}
+<View decoration={{ color: "#FF000080" }} />  {/* red at 50% alpha */}
 
 // RGB object (r/g/b: 0-255, a: 0-1)
 <View decoration={{ color: { r: 255, g: 0, b: 0 } }} />
