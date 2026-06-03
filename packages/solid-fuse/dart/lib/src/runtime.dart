@@ -25,7 +25,10 @@ const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
 /// and tree rendering.
 class FuseRuntime {
   FuseRuntime._() {
-    registry = FuseNodeRegistry(callFunction: callFunction);
+    registry = FuseNodeRegistry(
+      callFunction: callFunction,
+      callFunctionAsync: callFunctionAsync,
+    );
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
   }
@@ -112,6 +115,23 @@ class FuseRuntime {
     await qjs.start();
   }
 
+  /// Test-only seam: adopt an already-connected [FuseConnection] and register
+  /// the runtime's channels (`_ops`, `_handleCall`) and function-call senders
+  /// against it, WITHOUT evaluating any JS entry point.
+  ///
+  /// Lets an integration test drive the real renderer protocol: bring up an
+  /// engine + channels, hand them to the runtime here, then eval a test JS
+  /// bundle so its `_ops` flow through [applyOps] and `_functionCallAsync`
+  /// round-trips work. Production code uses [start] instead.
+  @visibleForTesting
+  void connectForTesting(FuseConnection connection) {
+    if (_connection != null) {
+      throw StateError('FuseRuntime already connected');
+    }
+    _connection = connection;
+    _registerChannels();
+  }
+
   /// Strip the FFI wrapping (`AnyhowException(Runtime error: …)`) and the
   /// Rust backtrace from a JS-runtime error so what's left is the JS message
   /// plus the JS stack — the part actually useful for fixing your code.
@@ -166,6 +186,20 @@ class FuseRuntime {
     });
   }
 
+  /// Call a JS function via the bridge and await its return value.
+  /// The JS handler's result (a Promise resolves through the channel) becomes
+  /// the resolved value of this Future. Used for awaitable callbacks like
+  /// pull-to-refresh.
+  Future<dynamic> callFunctionAsync(int nodeId, String name, [dynamic value]) {
+    final channels = _connection?.channels;
+    if (channels == null) return Future<dynamic>.value();
+    return channels.call('_functionCallAsync', {
+      'nodeId': nodeId,
+      'name': name,
+      'value': value,
+    });
+  }
+
   /// Apply a batch of ops from the JS side.
   void applyOps(List<dynamic> ops) {
     final dirty = <FuseNode>{};
@@ -195,7 +229,16 @@ class FuseRuntime {
           final node = registry.get(map['id'] as int);
           final name = map['name'] as String;
           var value = map['value'];
-          if (value is Map && value.containsKey('_node')) {
+          if (value is List) {
+            // Array-of-nodes prop (e.g. `actions`): resolve each `{_node: id}`
+            // element to its FuseNode; other elements pass through unchanged.
+            value = value.map((e) {
+              if (e is Map && e.containsKey('_node')) {
+                return registry.get(e['_node'] as int);
+              }
+              return e;
+            }).toList();
+          } else if (value is Map && value.containsKey('_node')) {
             final target = registry.get(value['_node'] as int);
             final prev = node.props[name];
             if (prev is FuseNode && prev.id != target.id) {

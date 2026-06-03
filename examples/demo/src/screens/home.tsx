@@ -4,6 +4,7 @@ import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
 import { IconScreen } from "./icon";
 import { ScrollScreen } from "./scroll";
+import { SliverScreen } from "./sliver";
 
 export function HomeScreen() {
   const nav = useNavigation();
@@ -33,6 +34,10 @@ export function HomeScreen() {
       <MenuItem
         label="scrollController"
         onTap={() => nav.push(() => <ScrollScreen />)}
+      />
+      <MenuItem
+        label="slivers"
+        onTap={() => nav.push(() => <SliverScreen />)}
       />
     </View>
   );

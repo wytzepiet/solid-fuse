@@ -26,6 +26,14 @@ on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
   handlers.get(key)?.(data.value);
 });
 
+// Awaitable variant — Dart calls JS functions via channels.call('_functionCallAsync', ...)
+// and awaits the result. Returning the handler's value (a Promise is fine) lets
+// the value flow back to the Dart caller via __dispatch. Separate from the
+// fire-and-forget _functionCall above, which stays the 60fps hot path.
+on("_functionCallAsync", (data: { nodeId: number; name: string; value?: any }) => {
+  return handlers.get(`${data.nodeId}:${data.name}`)?.(data.value);
+});
+
 // --- Ops journal ---
 
 type Op =
@@ -116,6 +124,21 @@ const {
       handlers.set(`${node.id}:${name}`, value);
       node.props[name] = true;
       ops.push({ op: "setProp", id: node.id, name, value: true });
+    } else if (Array.isArray(value)) {
+      // Array-of-nodes prop (e.g. `actions`, multi-widget slots): store the
+      // raw array, but on the wire map each FuseNode element (passed itself,
+      // or a handle carrying `.node`) to { _node: id } — same shape as the
+      // single-node ref below. Non-node elements pass through untouched.
+      node.props[name] = value;
+      const wire = value.map((el) => {
+        const ref = el instanceof FuseNode
+          ? el
+          : el?.node instanceof FuseNode
+            ? el.node
+            : null;
+        return ref ? { _node: ref.id } : el;
+      });
+      ops.push({ op: "setProp", id: node.id, name, value: wire });
     } else {
       const ref = value instanceof FuseNode
         ? value

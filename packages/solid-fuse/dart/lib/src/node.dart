@@ -61,6 +61,7 @@ class FuseMap {
   BlendMode? blendMode(String key) => parseBlendMode(_data[key] as String?);
   Clip clipBehavior(String key) => parseClip(_data[key] as String?);
   FontWeight? fontWeight(String key) => parseFontWeight(_data[key]);
+  Curve curve(String key) => parseCurve(_data[key] as String?);
 }
 
 class FuseNode extends FuseMap with ChangeNotifier {
@@ -68,6 +69,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
     required this.id,
     required this.type,
     required this.callFunction,
+    required this.callFunctionAsync,
     required this.registry,
     Map<String, dynamic>? props,
   }) : component = props?.remove('_component') as String?,
@@ -80,6 +82,10 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// Callback to call a JS function via the bridge.
   final void Function(core.int nodeId, String name, [dynamic value])
   callFunction;
+
+  /// Callback to call a JS function via the bridge and await its result.
+  final Future<dynamic> Function(core.int nodeId, String name, [dynamic value])
+  callFunctionAsync;
 
   /// Back-reference to the registry, so handles can resolve cross-node
   /// references by id (used by RPC payloads like `{ pageRef: 42 }`).
@@ -156,11 +162,28 @@ class FuseNode extends FuseMap with ChangeNotifier {
     return ([value]) => callFunction(id, name, value);
   }
 
+  /// Returns an awaitable callback that calls the named JS function and resolves
+  /// with its return value, or null if the prop isn't a registered callback.
+  /// Used for callbacks whose JS handler returns a Promise (e.g. pull-to-refresh).
+  Future<dynamic> Function([dynamic value])? asyncCallback(String name) {
+    if (props[name] != true) return null;
+    return ([value]) => callFunctionAsync(id, name, value);
+  }
+
   /// Returns a Widget for a prop whose value is a FuseNode (orphan JSX node),
   /// or null if the prop isn't set / isn't a FuseNode.
   Widget? widget(String name) {
     final v = props[name];
     return v is FuseNode ? FuseNodeWidget(node: v) : null;
+  }
+
+  /// Returns the FuseNode elements of a List prop mapped to widgets, or null if
+  /// the prop isn't a List. Non-node elements are skipped. Used for array-of-node
+  /// props like `actions` / multi-widget slots.
+  List<Widget>? widgetList(String name) {
+    final v = props[name];
+    if (v is! List) return null;
+    return v.whereType<FuseNode>().map((n) => FuseNodeWidget(node: n)).toList();
   }
 
   /// Resolves a handle's wrapped object.
@@ -230,11 +253,18 @@ class FuseNode extends FuseMap with ChangeNotifier {
 }
 
 class FuseNodeRegistry {
-  FuseNodeRegistry({required this.callFunction});
+  FuseNodeRegistry({
+    required this.callFunction,
+    required this.callFunctionAsync,
+  });
 
   /// Callback to call a JS function via the bridge.
   final void Function(core.int nodeId, String name, [dynamic value])
   callFunction;
+
+  /// Callback to call a JS function via the bridge and await its result.
+  final Future<dynamic> Function(core.int nodeId, String name, [dynamic value])
+  callFunctionAsync;
 
   final _nodes = <int, FuseNode>{};
 
@@ -244,6 +274,7 @@ class FuseNodeRegistry {
       type: type,
       props: props,
       callFunction: callFunction,
+      callFunctionAsync: callFunctionAsync,
       registry: this,
     );
     _nodes[id] = node;

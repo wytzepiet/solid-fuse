@@ -360,6 +360,28 @@ Clip parseClip(String? value) {
   };
 }
 
+// ─── parseCurve ──────────────────────────────────────────────────────────────
+
+Curve parseCurve(String? v) {
+  return switch (v) {
+    'linear' => Curves.linear,
+    'ease' => Curves.ease,
+    'easeIn' => Curves.easeIn,
+    'easeOut' => Curves.easeOut,
+    'easeInOut' => Curves.easeInOut,
+    'easeInOutCubic' => Curves.easeInOutCubic,
+    'fastOutSlowIn' => Curves.fastOutSlowIn,
+    'decelerate' => Curves.decelerate,
+    'bounceIn' => Curves.bounceIn,
+    'bounceOut' => Curves.bounceOut,
+    'bounceInOut' => Curves.bounceInOut,
+    'elasticIn' => Curves.elasticIn,
+    'elasticOut' => Curves.elasticOut,
+    'elasticInOut' => Curves.elasticInOut,
+    _ => Curves.linear,
+  };
+}
+
 // ─── parseFontWeight ─────────────────────────────────────────────────────────
 
 FontWeight? parseFontWeight(Object? value) {
