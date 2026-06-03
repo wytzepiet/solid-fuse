@@ -1,0 +1,107 @@
+---
+title: Icons
+description: Render Material and Cupertino icons with the Icon widget
+---
+
+`Icon` renders a single glyph from an icon font. It maps to Flutter's `Icon` widget and takes an [`IconData`](#icondata) object describing which glyph to draw.
+
+```tsx
+import { Icon } from "solid-fuse";
+import { search } from "solid-fuse/icons/material";
+
+<Icon data={search} size={24} color="#111827" />
+```
+
+## Icon sets
+
+Fuse ships the full Flutter icon catalogues as tree-shakeable `IconData` exports. They're generated directly from the Flutter SDK, so the names match Flutter's — `Icons.accountBalance` becomes `accountBalance`.
+
+```tsx
+// Material icons (MaterialIcons font)
+import { home, settings, favorite } from "solid-fuse/icons/material";
+
+// Cupertino icons (CupertinoIcons font, cupertino_icons package)
+import { add, alarm, airplane } from "solid-fuse/icons/cupertino";
+```
+
+Each export is an `IconData` value. Import only the icons you use — the modules are marked `/*#__PURE__*/`, so unused icons are dropped by the bundler rather than shipped in your app.
+
+<Callout type="info">
+  The two sets are separate subpath imports (`solid-fuse/icons/material` and
+  `solid-fuse/icons/cupertino`), not named exports of `solid-fuse`. This keeps
+  the ~10,000 icon definitions off the main entry point's dependency graph.
+</Callout>
+
+## Reactive props
+
+Every prop is reactive — drive `size`, `color`, or any axis from a signal and the icon updates in place.
+
+```tsx
+import { createSignal } from "solid-js";
+import { Icon } from "solid-fuse";
+import { favorite } from "solid-fuse/icons/material";
+
+const [size, setSize] = createSignal(32);
+const [liked, setLiked] = createSignal(false);
+
+<Icon data={favorite} size={size()} color={liked() ? "#EF4444" : "#9CA3AF"} />
+```
+
+## Icon props
+
+| Prop | Type | Description |
+|---|---|---|
+| `data` | `IconData` | The glyph to render (required) |
+| `size` | `number` | Width and height in logical pixels |
+| `color` | `ColorInput` | Icon color (see [ColorInput](/docs/building/ui-and-layout#colorinput)) |
+| `semanticLabel` | `string` | Accessibility label |
+| `fill` | `number` | Variable-font fill axis, `0`–`1` |
+| `weight` | `number` | Variable-font weight axis |
+| `grade` | `number` | Variable-font grade axis |
+| `opticalSize` | `number` | Variable-font optical-size axis |
+| `fontWeight` | `FontWeight` | Non-variable font weight |
+| `applyTextScaling` | `boolean` | Scale with the platform text-size setting |
+| `shadows` | `ShadowInput \| ShadowInput[]` | Shadows cast behind the glyph |
+| `blendMode` | `string` | Blend mode for compositing |
+
+The `fill`, `weight`, `grade`, and `opticalSize` axes apply to variable icon fonts such as [Material Symbols](https://fonts.google.com/icons). They're ignored by the static `MaterialIcons` and `CupertinoIcons` fonts that ship with Flutter.
+
+## IconData
+
+If you bundle a custom icon font, you can construct `IconData` by hand instead of importing from a set:
+
+```tsx
+import type { IconData } from "solid-fuse";
+
+const myGlyph: IconData = {
+  codePoint: 0xe800,
+  fontFamily: "MyIconFont",
+  fontPackage: "my_package", // optional — for icons shipped in a Flutter package
+};
+
+<Icon data={myGlyph} size={24} />
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `codePoint` | `number` | Code point of the glyph in the font |
+| `fontFamily` | `string` | Font family that contains the glyph |
+| `fontPackage` | `string` | Flutter package the font ships in, if any |
+| `matchTextDirection` | `boolean` | Mirror the glyph in RTL layouts |
+| `fontFamilyFallback` | `string[]` | Fallback families |
+
+Custom fonts must be declared in the host app's `pubspec.yaml` like any other Flutter asset font — Fuse only references them by family name.
+
+## Icons in other widgets
+
+Widgets that accept icon slots — such as `TextField`'s `prefixIcon` and `suffixIcon` — take a rendered `Icon` element, not raw `IconData`:
+
+```tsx
+import { Icon, TextField } from "solid-fuse";
+import { search } from "solid-fuse/icons/material";
+
+<TextField
+  placeholder="Search"
+  prefixIcon={<Icon data={search} size={20} color="#6B7280" />}
+/>
+```
