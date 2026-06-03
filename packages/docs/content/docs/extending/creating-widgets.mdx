@@ -5,6 +5,8 @@ description: Add your own Flutter widgets to Fuse
 
 Every Fuse widget has two parts: a **JS wrapper component** (what consumers import and write in JSX) and a **Dart widget builder** (how it renders). This page walks through creating a custom widget from scratch.
 
+> Before building from scratch, check [pub.dev](https://pub.dev) — the Dart side is just Flutter, so an existing package (charts, maps, video, pickers) can be wrapped instead of reinvented. The mechanics are identical to this page; see [Using pub.dev packages](/docs/extending/using-packages).
+
 ## The two-file pattern
 
 Let's build a `Badge` widget that renders a Flutter `Chip`.
@@ -220,4 +222,4 @@ class _FuseTextInputState extends State<FuseTextInput> {
 | **In a Fuse package** | Reusable across apps, has its own deps | Via `register()` function + `fuse link` |
 | **In solid-fuse** | Core Flutter primitives any app needs | PR to the framework |
 
-For creating a reusable package, see [Packaging](/docs/extending/packaging).
+To wrap an existing Flutter package instead of building from scratch, see [Using pub.dev packages](/docs/extending/using-packages). For creating a reusable package, see [Packaging](/docs/extending/packaging).

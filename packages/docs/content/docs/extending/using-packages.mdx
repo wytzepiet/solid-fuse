@@ -1,0 +1,111 @@
+---
+title: Using pub.dev packages
+description: Wrap any Flutter package from pub.dev and use it from JSX
+---
+
+The Dart side of a Fuse widget is **just Flutter**. That means the entire [pub.dev](https://pub.dev) ecosystem is available to you — charts, maps, video players, PDF viewers, native pickers. You don't reimplement them in JS. You `flutter pub add` the package, wrap its widget in a few lines of Dart, and call it from JSX.
+
+> If a Flutter package exists for what you need, you can use it. Wiring it up to JS is the same two-file pattern as any other widget — the only extra step is adding the dependency.
+
+## Example: charts with fl_chart
+
+[`fl_chart`](https://pub.dev/packages/fl_chart) is a popular charting library. Nobody wants to rebuild charting from scratch — so let's wrap it.
+
+### Step 1: Add the dependency
+
+Add it to your Dart package, not the JS side. From your app's `dart/` directory (or your Fuse package's `dart/` directory):
+
+```bash
+cd dart
+flutter pub add fl_chart
+```
+
+This adds `fl_chart` to `pubspec.yaml` like any normal Flutter project.
+
+### Step 2: Write the Dart widget
+
+Import the package and read your props off the `FuseNode`:
+
+```dart title="dart/lib/src/widgets/line_chart.dart"
+import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:solid_fuse/solid_fuse.dart';
+
+class FuseLineChart extends StatelessWidget {
+  const FuseLineChart(this.node);
+
+  final FuseNode node;
+
+  @override
+  Widget build(BuildContext context) {
+    // JSX passes `data={[1, 4, 2, 8, 5]}` → a list of numbers
+    final data = node.list<num>('data') ?? const [];
+
+    final spots = [
+      for (var i = 0; i < data.length; i++)
+        FlSpot(i.toDouble(), data[i].toDouble()),
+    ];
+
+    return LineChart(
+      LineChartData(
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            color: node.color('color') ?? Colors.blue,
+            barWidth: node.double('strokeWidth') ?? 2,
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+There's nothing Fuse-specific about `LineChart` here — that's the `fl_chart` API exactly as its own docs describe it. The only Fuse part is reading props from `node`.
+
+### Step 3: Register it
+
+```dart
+runtime.registerWidget('lineChart', FuseLineChart.new);
+```
+
+### Step 4: Write the JS wrapper
+
+```tsx title="src/line-chart.tsx"
+import type { ColorInput } from "solid-fuse";
+
+export interface LineChartProps {
+  data: number[];
+  color?: ColorInput;
+  strokeWidth?: number;
+}
+
+export function LineChart(props: LineChartProps) {
+  return <lineChart {...props} />;
+}
+```
+
+### Use it
+
+```tsx
+import { LineChart } from "./line-chart";
+
+<LineChart data={[1, 4, 2, 8, 5]} color="green" strokeWidth={3} />
+```
+
+A reactive `fl_chart` chart, driven by a Solid signal, in about 30 lines of glue.
+
+## This is the whole pattern
+
+Anything on pub.dev follows the same shape:
+
+1. `flutter pub add <package>` in your `dart/` directory
+2. Build a small `StatelessWidget`/`StatefulWidget` that reads props from `FuseNode` and renders the package's widget
+3. `registerWidget(...)`
+4. A typed JS wrapper
+
+For packages that expose an imperative controller (video players, map controllers, scroll controllers), wrap the controller as a **handle** instead — see [Creating Handles](/docs/extending/creating-handles). For the prop accessors available on `FuseNode` (`node.list`, `node.color`, `node.double`, callbacks, `flexChildren`), see [Creating Widgets](/docs/extending/creating-widgets).
+
+## Shipping it as a reusable package
+
+If the wrapper is generally useful, publish it as a Fuse package so other apps get both the JS and Dart sides with one `bun add`. The package's `dart/pubspec.yaml` declares its own pub.dev dependencies, and `fuse link` resolves them into the consumer app automatically. See [Packaging](/docs/extending/packaging).
