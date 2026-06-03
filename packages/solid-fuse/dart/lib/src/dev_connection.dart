@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/web_socket_channel.dart';

@@ -1,4 +1,4 @@
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

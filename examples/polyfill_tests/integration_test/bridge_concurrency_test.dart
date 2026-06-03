@@ -3,7 +3,7 @@
 
 import 'dart:async';
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -12,7 +12,7 @@ void main() {
 
   testWidgets('engine.call concurrency: short doesn\'t wait for long',
       (tester) async {
-    await LibFjs.init();
+    await initFjs();
     final runtime = await JsAsyncRuntime.withOptions(
       builtin: JsBuiltinOptions.all(),
     );

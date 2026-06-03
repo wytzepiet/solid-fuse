@@ -5,7 +5,7 @@
 // test also spins up a fresh engine after retiring, proving the runtime freed
 // cleanly and a new one runs (no stranded state, no leak of the old runtime).
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -15,7 +15,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
-    await LibFjs.init();
+    await initFjs();
   });
 
   testWidgets('retireEngine closes the runtime; a fresh engine still runs',

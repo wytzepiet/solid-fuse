@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 
 /// Channels: routed messaging over FJS's raw bridge.

@@ -8,7 +8,7 @@
 
 import 'dart:convert';
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -22,7 +22,7 @@ void main() {
   late FuseChannels channels;
 
   setUpAll(() async {
-    await LibFjs.init();
+    await initFjs();
     final r = await createEngine();
     engine = r.engine;
     channels = r.channels;

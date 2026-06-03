@@ -9,17 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # Soft fork of fluttercandies/fjs. The `solid-fuse` branch tracks upstream
-  # plus our additive patches (e.g. JsEngine.startDrive / stopDrive — the
-  # event-driven background driver). To pick up a new push on the branch run
-  # `flutter pub upgrade fjs`. For rapid local Rust iteration you can add a
-  # `dependency_overrides: { fjs: { path: <local fjs> } }` to the *app's*
-  # pubspec — see notes/fjs-fork.md.
-  fjs:
-    git:
-      url: https://github.com/wytzepiet/fjs.git
-      ref: solid-fuse
-  flutter_rust_bridge: ">=2.12.0 <2.13.0"
+  # fjs (the QuickJS runtime) is vendored in-tree at lib/src/fjs via git subtree
+  # (a mirror of wytzepiet/fjs). solid_fuse is itself the FFI plugin that builds
+  # it — see notes/vendoring-fjs.md. The runtime API is re-exported through
+  # lib/fjs.dart (import 'package:solid_fuse/fjs.dart').
+  # frb pinned exactly to the version the vendored bindings were generated with.
+  flutter_rust_bridge: 2.12.0
+  freezed_annotation: ^3.1.0
+  plugin_platform_interface: ^2.1.8
   http: ^1.2.0
   web_socket_channel: ^3.0.0
   path_provider: ^2.1.0
@@ -31,3 +28,20 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+
+# solid_fuse is an FFI plugin: it builds the vendored Rust crate (lib/src/fjs)
+# via cargokit from its own platform folders. No Dart platform class — the frb
+# bindings use direct FFI.
+flutter:
+  plugin:
+    platforms:
+      android:
+        ffiPlugin: true
+      ios:
+        ffiPlugin: true
+      linux:
+        ffiPlugin: true
+      macos:
+        ffiPlugin: true
+      windows:
+        ffiPlugin: true

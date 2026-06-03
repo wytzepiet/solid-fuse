@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -48,7 +48,7 @@ void main() {
     await server.start();
     debugPrint('Test WS server on port ${server.port}');
 
-    await LibFjs.init();
+    await initFjs();
     runtime = await JsAsyncRuntime.withOptions(
       builtin: JsBuiltinOptions.all(),
     );

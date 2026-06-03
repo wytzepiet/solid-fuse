@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,7 +16,7 @@ void main() {
   late List<Map<String, dynamic>> testCases;
 
   setUpAll(() async {
-    await LibFjs.init();
+    await initFjs();
 
     runtime = await JsAsyncRuntime.withOptions(
       builtin: JsBuiltinOptions.all(),

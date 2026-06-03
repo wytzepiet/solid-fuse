@@ -1,4 +1,4 @@
-import 'package:fjs/fjs.dart';
+import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +43,7 @@ class FuseRuntime {
   /// starts evaluating, it will push create ops that require those factories
   /// to already be in place.
   static Future<FuseRuntime> create() async {
-    await LibFjs.init();
+    await initFjs();
     return FuseRuntime._();
   }
 
