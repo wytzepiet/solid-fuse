@@ -44,21 +44,40 @@ export const devCommand = defineCommand({
 
     // Step 5: Start Vite dev server
     const host = detectLanIp();
-    console.log(`\nUsing host: ${host}, port: ${DEV_PORT}`);
 
+    // Let Vite pick the first free port at/above DEV_PORT (it increments when
+    // one is taken). We read back the actual port so the Flutter app dials the
+    // server we really bound to, not a stale one held by another `fuse dev`.
     const serverConfig = mergeConfig(viteConfig, {
       server: { host: true, port: DEV_PORT },
     });
 
-    async function startVite(): Promise<ViteDevServer> {
-      const server = await createServer(serverConfig);
+    function getBoundPort(server: ViteDevServer): number {
+      const addr = server.httpServer?.address();
+      if (addr && typeof addr === "object") return addr.port;
+      return DEV_PORT;
+    }
+
+    async function startVite(strictPort?: number): Promise<ViteDevServer> {
+      const server = await createServer(
+        strictPort
+          ? mergeConfig(serverConfig, { server: { port: strictPort, strictPort: true } })
+          : serverConfig,
+      );
       await server.listen();
       return server;
     }
 
     console.log("Starting Vite dev server...");
     let viteServer = await startVite();
-    console.log("Vite started.");
+    const devPort = getBoundPort(viteServer);
+    console.log(`Vite started on ${host}:${devPort}.`);
+    if (devPort !== DEV_PORT) {
+      console.log(
+        `(Port ${DEV_PORT} was in use — using ${devPort} instead. ` +
+          `Another \`fuse dev\` may already be running.)`,
+      );
+    }
 
     // Step 6: Start flutter run with piped stdin so we can intercept R (hot restart)
     let cleaning = false;
@@ -74,7 +93,7 @@ export const devCommand = defineCommand({
     const allFlutterArgs = [
       "run",
       `--dart-define=FUSE_HOST=${host}`,
-      `--dart-define=FUSE_PORT=${DEV_PORT}`,
+      `--dart-define=FUSE_PORT=${devPort}`,
       ...flutterArgs,
     ];
     console.log(`Running: flutter ${allFlutterArgs.join(" ")}`);
@@ -107,7 +126,8 @@ export const devCommand = defineCommand({
             viteServer.httpServer.closeAllConnections();
           }
           await viteServer.close();
-          viteServer = await startVite();
+          // Re-bind to the same port the app is already dialing.
+          viteServer = await startVite(devPort);
           console.log("Vite restarted.");
         }
 
