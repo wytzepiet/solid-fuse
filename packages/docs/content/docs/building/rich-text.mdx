@@ -1,17 +1,18 @@
 ---
 title: Rich text
-description: Flow styled, tappable text runs and inline widgets as one wrapping block with RichText
+description: Give Text styled, tappable runs and inline widgets and it flows them as one wrapping block
 ---
 
-`RichText` lays out a mix of styled text runs and inline widgets as a single
-wrapping paragraph — the Instagram-caption pattern: a tappable avatar and
-`@username`, then the caption, all flowing together and wrapping with
-`maxLines` / `overflow`. It maps to Flutter's `Text.rich`.
+`Text` is normally a plain label. Give it `<TextSpan>` runs and/or inline widgets
+as children and it becomes a wrapping rich block — the Instagram-caption pattern:
+a tappable avatar and `@username`, then the caption, all flowing together and
+wrapping with `maxLines` / `overflow`. There's no separate component; `Text`
+upgrades itself to Flutter's `Text.rich` when its children call for it.
 
 ```tsx
-import { RichText, TextSpan, View, Image } from "solid-fuse";
+import { Text, TextSpan, View, Image } from "solid-fuse";
 
-<RichText maxLines={4} overflow="ellipsis">
+<Text maxLines={4} overflow="ellipsis">
   {/* Any non-TextSpan child flows inline as a WidgetSpan */}
   <View width={18} height={18} borderRadius={9} clipBehavior="antiAlias">
     <Image src={user.avatarUrl} width={18} height={18} fit="cover" />
@@ -20,22 +21,29 @@ import { RichText, TextSpan, View, Image } from "solid-fuse";
     {" @" + user.handle + " "}
   </TextSpan>
   <TextSpan>{caption}</TextSpan>
-</RichText>
+</Text>
+```
+
+A `Text` with only a string child stays a plain, cheap label:
+
+```tsx
+<Text color="#fff">{caption}</Text>
 ```
 
 ## How children map to spans
 
-`RichText` walks its children and turns each into an inline span:
+When a `Text` has any non-string child it switches to rich layout and turns each
+child into an inline span:
 
 | Child | Becomes |
 |---|---|
+| A bare string | a text run in the `Text`'s root style |
 | A `<TextSpan>` | a styled (optionally tappable) text run |
-| A bare string | a text run in the root `RichText` style |
 | Any other widget (`<View>`, `<Image>`, …) | a `WidgetSpan` that flows inline with the text |
 
-The props on `RichText` itself set the **root style** — every run inherits it
-unless a `TextSpan` overrides a property. `RichText` also owns the block-level
-layout props: `maxLines`, `overflow`, `textAlign`, `softWrap`, and `textScaler`.
+The props on `Text` itself set the **root style** — every run inherits it unless
+a `TextSpan` overrides a property — and the block-level layout: `maxLines`,
+`overflow`, `textAlign`, `softWrap`, `textScaler`, `textDirection`, `locale`.
 
 ## Inline widgets flow with the text
 
@@ -44,16 +52,16 @@ icon wraps inline alongside the words — it isn't a separate row. This is what
 lets the avatar + handle + caption read as one continuous block that ellipsizes
 as a whole.
 
-Control how an inline widget sits against the text baseline with its
-`alignment` prop (a `PlaceholderAlignment`):
+Control how an inline widget sits against the text with its `alignment` prop (a
+`PlaceholderAlignment`):
 
 ```tsx
-<RichText>
+<Text>
   <View width={16} height={16} alignment="middle">
     <Image src="badge.png" width={16} height={16} />
   </View>
   <TextSpan> verified</TextSpan>
-</RichText>
+</Text>
 ```
 
 `alignment` is one of `baseline`, `aboveBaseline`, `belowBaseline`, `top`,
@@ -74,22 +82,20 @@ A `TextSpan`'s children may be a string, nested `<TextSpan>`s, or a mix. Nested
 spans inherit their parent's style and override selectively:
 
 ```tsx
-<RichText color="#fff">
-  <TextSpan>
-    Liked by <TextSpan fontWeight="bold" onTap={likers}>lysbth</TextSpan> and{" "}
-    <TextSpan fontWeight="bold">12 others</TextSpan>
-  </TextSpan>
-</RichText>
+<Text color="#fff">
+  Liked by <TextSpan fontWeight="bold" onTap={likers}>lysbth</TextSpan> and{" "}
+  <TextSpan fontWeight="bold">12 others</TextSpan>
+</Text>
 ```
 
 ## Styling props
 
-Both `RichText` (as the root style) and `TextSpan` accept the same `TextStyle`
+Both `Text` (as the root style) and `TextSpan` accept the same `TextStyle`
 subset: `fontSize`, `fontWeight`, `fontFamily`, `fontStyle`, `color`,
 `lineHeight`, `letterSpacing`, `wordSpacing`, `textDecoration`,
 `textDecorationColor`, `textDecorationStyle`, `backgroundColor`, and `shadows`.
 
 <Callout>
-`TextSpan` is only valid inside a `RichText`. It's a marker the `RichText`
-interprets — it doesn't render on its own.
+`TextSpan` is only meaningful as a child of `Text`. It's a marker the `Text`
+builder interprets — it doesn't render on its own.
 </Callout>

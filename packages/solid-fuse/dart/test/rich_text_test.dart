@@ -34,12 +34,12 @@ void main() {
   test('buildRootSpan maps children to the expected InlineSpan tree', () {
     final t = _Tree();
 
-    // <RichText color="#fff">
-    //   <View width={18} />                      ← WidgetSpan
+    // <Text color="#fff">                          ← becomes Text.rich
+    //   <View width={18} />                        ← WidgetSpan
     //   <TextSpan fontWeight="bold" onTap>@lysbth</TextSpan>  ← tappable run
     //   <TextSpan>caption <TextSpan color="#888">more</TextSpan></TextSpan> ← nested
-    // </RichText>
-    final root = t.node('richText', {'color': '#ffffff'}, [
+    // </Text>
+    final root = t.node('text', {'color': '#ffffff'}, [
       t.node('view', {'width': 18}),
       t.node('textSpan', {'fontWeight': 'bold', 'onTap': true}, [t.text('@lysbth')]),
       t.node('textSpan', {}, [
@@ -79,7 +79,7 @@ void main() {
   test('a tappable span fires its onTap callback', () {
     _Tree._calls.clear();
     final t = _Tree();
-    final root = t.node('richText', {}, [
+    final root = t.node('text', {}, [
       t.node('textSpan', {'onTap': true}, [t.text('tap me')]),
     ]);
 

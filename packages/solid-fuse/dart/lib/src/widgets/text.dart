@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../node.dart';
 import '../utils.dart';
+import 'rich_text.dart';
 
 class FuseText extends StatelessWidget {
   const FuseText(this.node);
@@ -10,14 +11,21 @@ class FuseText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Rich path: any non-text child — a `<textSpan>` run or an inline widget —
+    // means we need `Text.rich`. A plain string only (all `__text__` children)
+    // takes the cheap stateless fast path below. Same shape as `flexChildren`
+    // returning the bare child until a `Flex` is actually needed.
+    final isRich = node.children.any((c) => c.type != '__text__');
+    if (isRich) return FuseRichText(node);
+
     return Text(
       extractText(node),
       textAlign: parseTextAlign(node.string('textAlign')),
-      textDirection: _parseTextDirection(node.string('textDirection')),
+      textDirection: parseTextDirection(node.string('textDirection')),
       maxLines: node.int('maxLines'),
       overflow: parseTextOverflow(node.string('overflow')),
       softWrap: node.props['softWrap'] as bool?,
-      locale: _parseLocale(node.string('locale')),
+      locale: parseLocale(node.string('locale')),
       style: buildTextStyle(node),
     );
   }
@@ -65,7 +73,7 @@ TextOverflow? parseTextOverflow(String? value) {
   };
 }
 
-Locale? _parseLocale(String? value) {
+Locale? parseLocale(String? value) {
   if (value == null) return null;
   final parts = value.split('-');
   if (parts.length >= 2) {
@@ -95,7 +103,7 @@ TextDecoration? _parseTextDecoration(String? value) {
   };
 }
 
-TextDirection? _parseTextDirection(String? value) {
+TextDirection? parseTextDirection(String? value) {
   return switch (value) {
     'ltr' => TextDirection.ltr,
     'rtl' => TextDirection.rtl,

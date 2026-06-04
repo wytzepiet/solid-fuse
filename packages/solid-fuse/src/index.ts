@@ -33,15 +33,14 @@ export {
 export { materialPage, type MaterialPageProps } from "./pages/material";
 export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";
-export { Text, type TextProps } from "./widgets/text";
 export {
-  RichText,
+  Text,
   TextSpan,
-  type RichTextProps,
+  type TextProps,
   type TextSpanProps,
   type TextStyleProps,
   type InlineWidgetAlignment,
-} from "./widgets/rich-text";
+} from "./widgets/text";
 export { Icon, type IconProps, type IconData } from "./widgets/icon";
 export { Image, type ImageProps } from "./widgets/image";
 export { GestureDetector, type GestureDetectorProps } from "./widgets/gesture-detector";

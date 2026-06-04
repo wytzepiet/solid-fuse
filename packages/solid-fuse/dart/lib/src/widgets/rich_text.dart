@@ -8,6 +8,9 @@ import 'text.dart';
 /// `Text.rich` host: flows a mix of styled/tappable text runs (`<textSpan>`)
 /// and inline widgets (any other child → `WidgetSpan`) as one wrapping block.
 ///
+/// Not registered as its own wire tag — [FuseText] delegates here when a `<text>`
+/// node has any non-text child, so a plain label keeps the cheap stateless path.
+///
 /// Stateful so it can own the lifecycle of the [GestureRecognizer]s created for
 /// tappable spans — they must be disposed on rebuild and teardown.
 class FuseRichText extends StatefulWidget {
@@ -44,12 +47,16 @@ class _FuseRichTextState extends State<FuseRichText> {
 
     final textScaler = node.double('textScaler');
 
+    // Pass nullable layout props so an unset one inherits from DefaultTextStyle /
+    // ambient Directionality, exactly like the plain Text fast path in FuseText.
     return Text.rich(
       buildRootSpan(node, _recognizers),
-      textAlign: parseTextAlign(node.string('textAlign')) ?? TextAlign.start,
+      textAlign: parseTextAlign(node.string('textAlign')),
+      textDirection: parseTextDirection(node.string('textDirection')),
       maxLines: node.int('maxLines'),
-      overflow: parseTextOverflow(node.string('overflow')) ?? TextOverflow.clip,
-      softWrap: node.bool('softWrap') ?? true,
+      overflow: parseTextOverflow(node.string('overflow')),
+      softWrap: node.bool('softWrap'),
+      locale: parseLocale(node.string('locale')),
       textScaler: textScaler != null ? TextScaler.linear(textScaler) : null,
     );
   }
