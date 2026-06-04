@@ -60,7 +60,7 @@ export {
 
 // Tabs.
 export { Tab, type TabProps } from "./widgets/tabs/tab";
-export { TabBar, type TabBarProps } from "./widgets/tabs/tab-bar";
+export { TabBar, type TabBarProps, type SplashFactory } from "./widgets/tabs/tab-bar";
 export { TabBarView, type TabBarViewProps } from "./widgets/tabs/tab-bar-view";
 export {
   DefaultTabController,
@@ -115,7 +115,15 @@ export { createFocusNode } from "./focus-node";
 export type { FocusNode } from "./focus-node";
 export { on, send, channels } from "./channels";
 export { host } from "./host";
-export type { Host, Brightness, Platform, BuildMode } from "./host";
+export type {
+  Host,
+  Brightness,
+  Platform,
+  BuildMode,
+  Orientation,
+  Size,
+  EdgeInsets,
+} from "./host";
 export { defineConfig } from "./config";
 export type { FuseConfig } from "./config";
 export type * from "./types";

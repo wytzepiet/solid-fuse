@@ -199,9 +199,11 @@ class FuseTextSpanMarker extends StatelessWidget {
   }
 }
 
-/// Builds a [TextStyle] from a node's style props. Shared by [FuseText] and the
-/// rich-text span builder so the two never drift on how a style is parsed.
-TextStyle buildTextStyle(FuseNode node) {
+/// Builds a [TextStyle] from a map of style props. Shared by [FuseText], the
+/// rich-text span builder, and nested style props (e.g. `TabBar.labelStyle`) so
+/// they never drift on how a style is parsed. Takes a [FuseMap] so it works on
+/// a node's flat props or a nested style object alike.
+TextStyle buildTextStyle(FuseMap node) {
   return TextStyle(
     fontFamily: node.string('fontFamily'),
     fontSize: node.double('fontSize'),
@@ -215,7 +217,7 @@ TextStyle buildTextStyle(FuseNode node) {
     decorationColor: node.color('textDecorationColor'),
     decorationStyle: _parseTextDecorationStyle(node.string('textDecorationStyle')),
     backgroundColor: node.color('backgroundColor'),
-    shadows: _parseShadows(node.props['shadows']),
+    shadows: _parseShadows(node['shadows']),
   );
 }
 

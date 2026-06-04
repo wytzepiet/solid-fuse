@@ -128,12 +128,43 @@ import {
 | `indicatorColor` | `ColorInput` | Colour of the selection indicator |
 | `indicatorWeight` | `number` | Indicator thickness (default 2) |
 | `indicatorSize` | `"tab" \| "label"` | Whether the indicator spans the tab or just the label |
+| `indicator` | `DecorationInput` | A custom indicator decoration (overrides `indicatorColor`/`indicatorWeight`) |
+| `indicatorPadding` | `EdgeInsetsInput` | Insets the indicator from the tab's edges |
+| `indicatorAnimation` | `"linear" \| "elastic"` | How the indicator moves between tabs |
 | `labelColor` | `ColorInput` | Selected label colour |
 | `unselectedLabelColor` | `ColorInput` | Unselected label colour |
+| `labelStyle` | `TextStyleProps` | Text style for the selected tab's label |
+| `unselectedLabelStyle` | `TextStyleProps` | Text style for unselected tabs' labels |
+| `labelPadding` | `EdgeInsetsInput` | Padding around each tab's label |
 | `dividerColor` | `ColorInput` | Colour of the divider under the bar |
 | `dividerHeight` | `number` | Divider thickness |
 | `padding` | `EdgeInsetsInput` | Padding around the tabs |
+| `tabAlignment` | `"start" \| "startOffset" \| "fill" \| "center"` | How tabs are laid out along the bar |
+| `overlayColor` | `ColorInput` | The hover/focus/press ink colour |
+| `splashFactory` | `"ink" \| "noSplash" \| "inkRipple" \| "inkSparkle" \| "inkSplash"` | Which ink-splash factory to use |
+| `mouseCursor` | `"click" \| "basic" \| "forbidden" \| "grab" \| "text" \| "none"` | Pointer cursor over the tabs |
+| `enableFeedback` | `boolean` | Whether a tap produces audible/haptic feedback |
+| `automaticIndicatorColorAdjustment` | `boolean` | Auto-adjust the indicator colour for contrast (default `true`) |
+| `physics` | `"bouncing" \| "clamping" \| "always" \| "never" \| "page"` | Scroll physics when `isScrollable` |
 | `onTap` | `(index: number) => void` | Fired on tap (the controller already updates) |
+
+#### Turning off the ripple
+
+There's no "disable ripple" flag — you turn the ink off with the same properties Flutter uses. Either make the ink invisible by setting `overlayColor` to transparent, or drop the splash entirely with `splashFactory="noSplash"`:
+
+```tsx
+{/* Invisible ink, splash geometry intact */}
+<TabBar overlayColor="transparent">
+  <Tab text="Home" />
+  <Tab text="Profile" />
+</TabBar>
+
+{/* No splash at all */}
+<TabBar splashFactory="noSplash">
+  <Tab text="Home" />
+  <Tab text="Profile" />
+</TabBar>
+```
 
 ### TabBarView
 
