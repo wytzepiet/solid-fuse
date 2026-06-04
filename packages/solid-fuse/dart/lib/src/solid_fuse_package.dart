@@ -64,7 +64,6 @@ void registerSolidFuse(FuseRuntime runtime) {
   // Slivers — scroll-view hosts.
   runtime.registerWidget('customScrollView', FuseCustomScrollView.new);
   runtime.registerWidget('nestedScrollView', FuseNestedScrollView.new);
-  runtime.registerWidget('nestedScrollHeader', FuseNestedScrollHeader.new);
   runtime.registerWidget('sliverOverlapAbsorber', FuseSliverOverlapAbsorber.new);
   runtime.registerWidget('sliverOverlapInjector', FuseSliverOverlapInjector.new);
 

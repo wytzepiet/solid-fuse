@@ -18,6 +18,9 @@
 //      returns a JS Promise; Dart awaits it via node.asyncCallback and gets the
 //      resolved value.
 //   4. SliverToBoxAdapter nested inside SliverPadding renders.
+//   5. NestedScrollView: its header + body slivers render, AND a structural
+//      (sliver-count) change to the header refreshes without a scroll — the
+//      gap the old <nestedScrollHeader> extraction had.
 
 import 'package:solid_fuse/fjs.dart';
 import 'package:solid_fuse/solid_fuse.dart';
@@ -159,7 +162,16 @@ void main() {
     await mount(tester);
 
     expect(find.byType(SliverPadding), findsOneWidget);
-    expect(find.byType(SliverToBoxAdapter), findsOneWidget);
+    // Scope to the SliverPadding subtree: other SliverToBoxAdapters now exist
+    // elsewhere in the tree (the NestedScrollView header), so we assert the one
+    // nested inside this SliverPadding rather than a global single match.
+    expect(
+      find.descendant(
+        of: find.byType(SliverPadding),
+        matching: find.byType(SliverToBoxAdapter),
+      ),
+      findsOneWidget,
+    );
     expect(find.text('adapter-box'), findsOneWidget);
   });
 
@@ -191,6 +203,54 @@ void main() {
     expect(find.text('row-1'), findsOneWidget);
     expect(find.text('row-3'), findsOneWidget);
     expect(find.text('row-4'), findsOneWidget);
+  });
+
+  testWidgets('NestedScrollView renders its header and body slivers',
+      (tester) async {
+    await mount(tester);
+
+    expect(find.byType(NestedScrollView), findsOneWidget);
+    // The always-present header sliver and the body both materialized.
+    expect(find.textContaining('nested-header:'), findsOneWidget,
+        reason: 'the header sliver should render');
+    expect(find.text('nested-body'), findsOneWidget,
+        reason: 'the body should render');
+  });
+
+  testWidgets(
+      'NestedScrollView header refreshes on a structural (count) change '
+      'without a scroll', (tester) async {
+    await mount(tester);
+
+    // Initially the conditional second header sliver is absent.
+    expect(find.text('header-extra'), findsNothing,
+        reason: 'the extra header sliver starts hidden');
+
+    // Flip the Solid signal that adds a SECOND top-level header sliver. This is
+    // a structural (sliver-count) change. With the old <nestedScrollHeader>
+    // extraction it would stay stale until the next scroll-driven
+    // headerSliverBuilder run; mounting the header node as the NestedScrollView
+    // node's own children makes the count change mark the node dirty and re-run
+    // headerSliverBuilder immediately. We never scroll here.
+    await awaitBridge(
+      tester,
+      () => channels.send('test:setHeaderExtra', {'value': true}),
+    );
+    await settle(tester);
+
+    expect(find.text('header-extra'), findsOneWidget,
+        reason: 'a header sliver COUNT change must refresh without a scroll');
+
+    // And it disappears again when the signal flips back — proving removal of a
+    // top-level header sliver also propagates without a scroll.
+    await awaitBridge(
+      tester,
+      () => channels.send('test:setHeaderExtra', {'value': false}),
+    );
+    await settle(tester);
+
+    expect(find.text('header-extra'), findsNothing,
+        reason: 'removing a header sliver must also refresh without a scroll');
   });
 
   testWidgets('awaitable onRefresh round-trip: Dart awaits the JS Promise',

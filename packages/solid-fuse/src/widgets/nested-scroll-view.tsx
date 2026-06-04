@@ -20,6 +20,12 @@ export interface NestedScrollViewProps extends Omit<BaseProps, "children"> {
 export function NestedScrollView(props: NestedScrollViewProps) {
   const [innerBoxIsScrolled, setInnerBoxIsScrolled] = createSignal(false);
 
+  // The header slivers are rendered as the direct children of <nestedScrollView>
+  // (a reactive function child, the same pattern as <SliverPersistentHeader>).
+  // The Dart `headerSliverBuilder` returns this node's childWidgets, so a change
+  // to the *number* of header slivers marks the node dirty and refreshes the
+  // header without waiting for a scroll. `onHeader` feeds the live
+  // `innerBoxIsScrolled` flag back into the builder.
   return (
     <nestedScrollView
       scrollDirection={props.scrollDirection}
@@ -30,9 +36,7 @@ export function NestedScrollView(props: NestedScrollViewProps) {
       ref={props.ref}
       onHeader={setInnerBoxIsScrolled}
     >
-      <nestedScrollHeader>
-        {() => props.header(innerBoxIsScrolled())}
-      </nestedScrollHeader>
+      {() => props.header(innerBoxIsScrolled())}
     </nestedScrollView>
   );
 }

@@ -2117,6 +2117,7 @@
 	//#endregion
 	//#region ../../node_modules/.bun/solid-js@2.0.0-beta.14/node_modules/solid-js/dist/solid.js
 	var _MockPromise;
+	var IS_DEV = false;
 	function createContext(defaultValue, options) {
 		const id = Symbol(options && options.name || "");
 		function provider(props) {
@@ -2171,12 +2172,32 @@
 	function createComponent(Comp, props) {
 		return untrack(() => Comp(props || {}));
 	}
+	var narrowedError = (name) => `Stale read from <${name}>.`;
 	function For(props) {
 		const options = "fallback" in props ? {
 			keyed: props.keyed,
 			fallback: () => props.fallback
 		} : { keyed: props.keyed };
 		return mapArray(() => props.each, props.children, options);
+	}
+	function Show(props) {
+		const keyed = props.keyed;
+		const conditionValue = createMemo$1(() => props.when, void 0);
+		const condition = keyed ? conditionValue : createMemo$1(conditionValue, {
+			equals: (a, b) => !a === !b,
+			sync: true
+		});
+		return createMemo$1(() => {
+			const c = condition();
+			if (c) {
+				const child = props.children;
+				return typeof child === "function" && child.length > 0 ? keyed ? untrack(() => child(c), IS_DEV) : untrack(() => child(() => {
+					if (!untrack(condition)) throw narrowedError("Show");
+					return conditionValue();
+				}), IS_DEV) : child;
+			}
+			return props.fallback;
+		}, { sync: true });
 	}
 	//#endregion
 	//#region ../../node_modules/.bun/@solidjs+universal@2.0.0-beta.14+4805d24c3c460789/node_modules/@solidjs/universal/dist/universal.js
@@ -2413,14 +2434,14 @@
 	}
 	//#endregion
 	//#region dist/index.js
-	function f(e) {
+	function p(e) {
 		let t = globalThis.__fuseDevServer;
 		if (!t) {
 			console.error(e);
 			return;
 		}
 		try {
-			let n = e instanceof Error ? e : Error(String(e)), r = se(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			let n = e instanceof Error ? e : Error(String(e)), r = oe(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
 			fetch(`${t}/__fuse_error`, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
@@ -2434,7 +2455,7 @@
 			console.error(e);
 		}
 	}
-	function se(e) {
+	function oe(e) {
 		let t = new Set([e]), n = e;
 		for (;;) {
 			let e = n.cause;
@@ -2442,53 +2463,53 @@
 			t.add(e), n = e;
 		}
 	}
-	var p = /* @__PURE__ */ new Map(), m;
-	function h(e, t) {
-		p.set(e, t);
+	var m = /* @__PURE__ */ new Map(), h;
+	function g(e, t) {
+		m.set(e, t);
 	}
-	function g(e, t = {}) {
+	function _(e, t = {}) {
 		fjs.bridge_call({
 			channel: e,
 			...t
 		});
 	}
-	function le(e) {
-		m = e;
+	function ce(e) {
+		h = e;
 	}
-	function ue(e) {}
+	function le(e) {}
 	globalThis.__dispatch = async (e, t) => {
-		let n = p.get(e);
+		let n = m.get(e);
 		try {
 			let e = n ? await n(t) : void 0;
-			return m?.(), e;
+			return h?.(), e;
 		} catch (e) {
-			m?.(), f(e);
+			h?.(), p(e);
 		}
 	};
-	function y(e) {
+	function b(e) {
 		"@babel/helpers - typeof";
-		return y = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return b = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, y(e);
+		}, b(e);
 	}
-	function de(e, t) {
-		if (y(e) != "object" || !e) return e;
+	function ue(e, t) {
+		if (b(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (y(r) != "object") return r;
+			if (b(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function fe(e) {
-		var t = de(e, "string");
-		return y(t) == "symbol" ? t : t + "";
+	function de(e) {
+		var t = ue(e, "string");
+		return b(t) == "symbol" ? t : t + "";
 	}
-	function b(e, t, n) {
-		return (t = fe(t)) in e ? Object.defineProperty(e, t, {
+	function x(e, t, n) {
+		return (t = de(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -2509,7 +2530,7 @@
 		let e = /* @__PURE__ */ new Map(), t = 0;
 		class n {
 			constructor(n, r) {
-				b(this, "_id", void 0), b(this, "url", void 0), b(this, "readyState", 0), b(this, "protocol", ""), b(this, "binaryType", "blob"), b(this, "bufferedAmount", 0), b(this, "extensions", ""), b(this, "onopen", null), b(this, "onmessage", null), b(this, "onclose", null), b(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), g("_ws", {
+				x(this, "_id", void 0), x(this, "url", void 0), x(this, "readyState", 0), x(this, "protocol", ""), x(this, "binaryType", "blob"), x(this, "bufferedAmount", 0), x(this, "extensions", ""), x(this, "onopen", null), x(this, "onmessage", null), x(this, "onclose", null), x(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), _("_ws", {
 					op: "open",
 					id: this._id,
 					url: n,
@@ -2518,14 +2539,14 @@
 			}
 			send(e) {
 				if (this.readyState !== 1) throw Error("WebSocket is not open");
-				g("_ws", {
+				_("_ws", {
 					op: "send",
 					id: this._id,
 					data: e
 				});
 			}
 			close(e, t) {
-				this.readyState === 2 || this.readyState === 3 || (this.readyState = 2, g("_ws", {
+				this.readyState === 2 || this.readyState === 3 || (this.readyState = 2, _("_ws", {
 					op: "close",
 					id: this._id,
 					code: e ?? 1e3,
@@ -2538,7 +2559,7 @@
 				return !0;
 			}
 		}
-		b(n, "CONNECTING", 0), b(n, "OPEN", 1), b(n, "CLOSING", 2), b(n, "CLOSED", 3), h("_wsEvent", (t) => {
+		x(n, "CONNECTING", 0), x(n, "OPEN", 1), x(n, "CLOSING", 2), x(n, "CLOSED", 3), g("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -2596,7 +2617,7 @@
 			});
 			for (; r < t.length; r++) i += " " + e(t[r]);
 			return i;
-		}, n = (e, n) => g("_log", { message: e + t(n) }), r = () => {};
+		}, n = (e, n) => _("_log", { message: e + t(n) }), r = () => {};
 		globalThis.console = {
 			log: (...e) => n("", e),
 			info: (...e) => n("", e),
@@ -2619,35 +2640,35 @@
 			timeLog: r
 		};
 	}
-	var x = globalThis.__fuseHost;
-	if (!x) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [S, pe] = createSignal(x.brightness);
-	h("_brightness", (e) => pe(e.value));
-	var C = {
-		brightness: S,
-		platform: x.platform,
-		mode: x.mode
-	}, me = 0, w, T = class {
+	var S = globalThis.__fuseHost;
+	if (!S) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
+	var [C, fe] = createSignal(S.brightness);
+	g("_brightness", (e) => fe(e.value));
+	var w = {
+		brightness: C,
+		platform: S.platform,
+		mode: S.mode
+	}, pe = 0, T, E = class {
 		constructor(e) {
-			b(this, "id", me++), b(this, "props", {}), b(this, "children", []), b(this, "parent", void 0), this.type = e;
+			x(this, "id", pe++), x(this, "props", {}), x(this, "children", []), x(this, "parent", void 0), this.type = e;
 		}
-	}, E = /* @__PURE__ */ new Map();
-	h("_functionCall", (e) => {
+	}, D = /* @__PURE__ */ new Map();
+	g("_functionCall", (e) => {
 		let t = `${e.nodeId}:${e.name}`;
-		E.get(t)?.(e.value);
-	}), h("_functionCallAsync", (e) => E.get(`${e.nodeId}:${e.name}`)?.(e.value));
-	var D = [], O = new T("root"), k = !1, A = !1;
-	function j() {
-		flush(), k = !1, D.length !== 0 && (g("_ops", { ops: D.slice() }), D.length = 0);
-	}
+		D.get(t)?.(e.value);
+	}), g("_functionCallAsync", (e) => D.get(`${e.nodeId}:${e.name}`)?.(e.value));
+	var O = [], k = new E("root"), A = !1, j = !1;
 	function M() {
-		k || A || (k = !0, Promise.resolve().then(j));
+		flush(), A = !1, O.length !== 0 && (_("_ops", { ops: O.slice() }), O.length = 0);
 	}
-	le(j), ue(j);
-	var { render: N, effect: P, memo: F, createComponent: I, createElement: L, createTextNode: R, insertNode: z, insert: B, spread: V, setProp: H, mergeProps: U, ...he } = createRenderer({
+	function N() {
+		A || j || (A = !0, Promise.resolve().then(M));
+	}
+	ce(M), le(M);
+	var { render: P, effect: F, memo: I, createComponent: L, createElement: R, createTextNode: z, insertNode: B, insert: V, spread: H, setProp: U, mergeProps: W, ...me } = createRenderer({
 		createElement(e) {
-			let t = new T(e), n = {};
-			return C.mode !== "release" && w && (n._component = w), D.push({
+			let t = new E(e), n = {};
+			return w.mode !== "release" && T && (n._component = T), O.push({
 				op: "create",
 				id: t.id,
 				type: e,
@@ -2655,8 +2676,8 @@
 			}), t;
 		},
 		createTextNode(e) {
-			let t = new T("__text__");
-			return t.props.text = e, D.push({
+			let t = new E("__text__");
+			return t.props.text = e, O.push({
 				op: "create",
 				id: t.id,
 				type: "__text__",
@@ -2664,17 +2685,17 @@
 			}), t;
 		},
 		replaceText(e, t) {
-			e.props.text = t, D.push({
+			e.props.text = t, O.push({
 				op: "setText",
 				id: e.id,
 				text: t
-			}), M();
+			}), N();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
 		setProperty(e, t, n) {
-			if (typeof n == "function") E.set(`${e.id}:${t}`, n), e.props[t] = !0, D.push({
+			if (typeof n == "function") D.set(`${e.id}:${t}`, n), e.props[t] = !0, O.push({
 				op: "setProp",
 				id: e.id,
 				name: t,
@@ -2683,18 +2704,18 @@
 			else if (Array.isArray(n)) {
 				e.props[t] = n;
 				let r = n.map((e) => {
-					let t = e instanceof T ? e : e?.node instanceof T ? e.node : null;
+					let t = e instanceof E ? e : e?.node instanceof E ? e.node : null;
 					return t ? { _node: t.id } : e;
 				});
-				D.push({
+				O.push({
 					op: "setProp",
 					id: e.id,
 					name: t,
 					value: r
 				});
 			} else {
-				let r = n instanceof T ? n : n?.node instanceof T ? n.node : null;
-				e.props[t] = n, D.push(r ? {
+				let r = n instanceof E ? n : n?.node instanceof E ? n.node : null;
+				e.props[t] = n, O.push(r ? {
 					op: "setProp",
 					id: e.id,
 					name: t,
@@ -2706,7 +2727,7 @@
 					value: n
 				});
 			}
-			M();
+			N();
 		},
 		insertNode(e, t, n) {
 			t.parent = e;
@@ -2715,20 +2736,20 @@
 				let i = e.children.indexOf(n);
 				i >= 0 ? (e.children.splice(i, 0, t), r = i) : (e.children.push(t), r = e.children.length - 1);
 			} else e.children.push(t), r = e.children.length - 1;
-			D.push({
+			O.push({
 				op: "insert",
 				parentId: e.id,
 				childId: t.id,
 				index: r
-			}), M();
+			}), N();
 		},
 		removeNode(e, t) {
 			let n = e.children.indexOf(t);
-			n >= 0 && e.children.splice(n, 1), t.parent = void 0, D.push({
+			n >= 0 && e.children.splice(n, 1), t.parent = void 0, O.push({
 				op: "remove",
 				parentId: e.id,
 				childId: t.id
-			}), M();
+			}), N();
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -2743,124 +2764,150 @@
 			return t.children[n + 1];
 		}
 	});
-	function W(e, t) {
-		if (C.mode === "release") return I(e, t);
-		let n = w;
-		w = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+	function G(e, t) {
+		if (w.mode === "release") return L(e, t);
+		let n = T;
+		T = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
-			return I(e, t);
+			return L(e, t);
 		} finally {
-			w = n;
+			T = n;
 		}
 	}
-	function ge(e) {
-		A = !0;
+	function he(e) {
+		j = !0;
 		let t;
 		try {
-			t = N(e, O);
+			t = P(e, k);
 		} catch (e) {
-			return A = !1, f(e), () => {};
+			return j = !1, p(e), () => {};
 		}
-		return A = !1, j(), () => {
+		return j = !1, M(), () => {
 			typeof t == "function" && t();
-			for (let e of O.children) D.push({
+			for (let e of k.children) O.push({
 				op: "remove",
-				parentId: O.id,
+				parentId: k.id,
 				childId: e.id
 			});
-			O.children = [], E.clear();
+			k.children = [], D.clear();
 		};
 	}
-	he.ref;
+	var K = me.ref;
 	createContext();
 	function ye(e) {
 		return (() => {
-			var t = L("view");
-			return V(t, e, !1), t;
+			var t = R("view");
+			return H(t, e, !1), t;
 		})();
 	}
 	function be(e) {
 		return (() => {
-			var t = L("text");
-			return V(t, e, !1), t;
+			var t = R("text");
+			return H(t, e, !1), t;
 		})();
 	}
-	function De(e) {
+	function Oe(e) {
 		return (() => {
-			var t = L("customScrollView");
-			return V(t, e, !1), t;
+			var t = R("customScrollView");
+			return H(t, e, !1), t;
 		})();
 	}
-	function je(e) {
+	function ke(e) {
+		let [t, n] = createSignal(!1);
 		return (() => {
-			var t = L("sliverList");
-			return V(t, e, !1), t;
+			var r = R("nestedScrollView"), i = e.ref;
+			return typeof i == "function" || Array.isArray(i) ? K(() => i, r) : e.ref = r, U(r, "onHeader", n), V(r, () => e.header(t())), F(() => ({
+				e: e.scrollDirection,
+				t: e.reverse,
+				a: e.controller,
+				o: e.floatHeaderSlivers,
+				i: e.body
+			}), ({ e, t, a: n, o: i, i: a }, o = {
+				e: void 0,
+				t: void 0,
+				a: void 0,
+				o: void 0,
+				i: void 0
+			}) => {
+				e !== o.e && U(r, "scrollDirection", e, o.e), t !== o.t && U(r, "reverse", t, o.t), n !== o.a && U(r, "controller", n, o.a), i !== o.o && U(r, "floatHeaderSlivers", i, o.o), a !== o.i && U(r, "body", a, o.i);
+			}), r;
 		})();
 	}
-	function Ne(e) {
+	function Me(e) {
 		return (() => {
-			var t = L("sliverAppBar");
-			return V(t, e, !1), t;
+			var t = R("sliverList");
+			return H(t, e, !1), t;
 		})();
 	}
-	function ze(e) {
+	function Pe(e) {
 		return (() => {
-			var t = L("sliverToBoxAdapter");
-			return V(t, e, !1), t;
+			var t = R("sliverAppBar");
+			return H(t, e, !1), t;
 		})();
 	}
 	function Be(e) {
 		return (() => {
-			var t = L("sliverPadding");
-			return V(t, e, !1), t;
+			var t = R("sliverToBoxAdapter");
+			return H(t, e, !1), t;
 		})();
 	}
-	function nt(e) {
+	function Ve(e) {
 		return (() => {
-			var t = L("cupertinoSliverRefreshControl");
-			return V(t, e, !1), t;
+			var t = R("sliverPadding");
+			return H(t, e, !1), t;
+		})();
+	}
+	function rt(e) {
+		return (() => {
+			var t = R("cupertinoSliverRefreshControl");
+			return H(t, e, !1), t;
 		})();
 	}
 	//#endregion
 	//#region ../../examples/demo/src/sliver-test-entry.tsx
 	var rowSignals = Array.from({ length: 5 }, (_, i) => createSignal(`row-${i}`));
-	h("test:setRow", (data) => {
+	g("test:setRow", (data) => {
 		const sig = rowSignals[data.index];
 		if (sig) sig[1](data.label);
 		return { ok: true };
 	});
+	var [headerExtra, setHeaderExtra] = createSignal(false);
+	g("test:setHeaderExtra", (data) => {
+		setHeaderExtra(data.value);
+		return { ok: true };
+	});
 	async function handleRefresh() {
 		await new Promise((r) => setTimeout(r, 10));
-		g("test:refreshRan", {});
+		_("test:refreshRan", {});
 		return "refreshed-ok";
 	}
-	var App = () => W(De, { get children() {
+	var Slivers = () => G(Oe, { get children() {
 		return [
-			W(Ne, {
+			G(Pe, {
 				get title() {
-					return W(be, { children: "Sliver Suite" });
+					return G(be, { children: "Sliver Suite" });
 				},
 				get actions() {
-					return [W(be, { children: "action-A" }), W(be, { children: "action-B" })];
+					return [G(be, { children: "action-A" }), G(be, { children: "action-B" })];
 				},
 				pinned: true
 			}),
-			W(nt, { onRefresh: handleRefresh }),
-			W(Be, {
+			G(rt, { onRefresh: handleRefresh }),
+			G(Ve, {
 				padding: { all: 8 },
 				get children() {
-					return W(ze, { get children() {
-						return W(ye, { get children() {
-							return W(be, { children: "adapter-box" });
+					return G(Be, { get children() {
+						return G(ye, { get children() {
+							return G(be, { children: "adapter-box" });
 						} });
 					} });
 				}
 			}),
-			W(je, { get children() {
-				return W(For, {
+			G(Me, { get children() {
+				return G(For, {
 					each: rowSignals,
-					children: ([label]) => W(ye, { get children() {
-						return W(be, { get children() {
+					children: ([label]) => G(ye, { get children() {
+						return G(be, { get children() {
 							return label();
 						} });
 					} })
@@ -2868,7 +2915,53 @@
 			} })
 		];
 	} });
-	ge(App);
-	g("test:ready", {});
+	var Nested = () => G(ke, {
+		header: (innerBoxIsScrolled) => [G(Be, { get children() {
+			return G(ye, { get children() {
+				return G(be, { get children() {
+					return ["nested-header:", I(() => String(innerBoxIsScrolled))];
+				} });
+			} });
+		} }), G(Show, {
+			get when() {
+				return headerExtra();
+			},
+			get children() {
+				return G(Be, { get children() {
+					return G(ye, { get children() {
+						return G(be, { children: "header-extra" });
+					} });
+				} });
+			}
+		})],
+		get body() {
+			return G(ye, { get children() {
+				return G(be, { children: "nested-body" });
+			} });
+		}
+	});
+	var App = () => G(ye, {
+		flex: {
+			direction: "vertical",
+			expand: true
+		},
+		get children() {
+			return [G(ye, {
+				grow: 1,
+				fit: "tight",
+				get children() {
+					return G(Slivers, {});
+				}
+			}), G(ye, {
+				grow: 1,
+				fit: "tight",
+				get children() {
+					return G(Nested, {});
+				}
+			})];
+		}
+	});
+	he(App);
+	_("test:ready", {});
 	//#endregion
 })();

@@ -91,11 +91,13 @@ JSX children; **builder** = function child via the signal pattern. All enums are
 **`<NestedScrollView>`** → `FuseNestedScrollView` (advanced)
 - Props: `header` = **builder** `(innerBoxIsScrolled: boolean) => slivers`, `body` = slot,
   `controller`, `scrollDirection`, `reverse`, `floatHeaderSlivers:boolean`.
-- Dart: `NestedScrollView(headerSliverBuilder: (ctx, innerBoxIsScrolled) { push innerBoxIsScrolled to JS via node.callback('onHeader'); return [ ...node.widgetList('headerSlivers') or the rendered header children ]; }, body: node.widget('body'))`.
-  The header builder result is a list of slivers — render via the signal pattern (JS produces the header
-  slivers reactively into a sub-node whose `childWidgets` the Dart side reads). Own a
-  `SliverOverlapAbsorberHandle` and expose it to descendant absorber/injector via an inherited widget.
-- JS wrapper owns the `innerBoxIsScrolled` signal; `header={(scrolled) => <>...</>}`.
+- Dart: `NestedScrollView(headerSliverBuilder: (ctx, innerBoxIsScrolled) { push innerBoxIsScrolled to JS via node.callback('onHeader') only when it changed; return node.childWidgets; }, body: node.widget('body'))`.
+  The header slivers are the `<nestedScrollView>` node's own **direct children** (a reactive function
+  child via the signal pattern), so a header sliver *count* change marks the node dirty and re-runs
+  `headerSliverBuilder` without a scroll. The `SliverOverlapAbsorberHandle` is owned by
+  `NestedScrollView` itself; descendant absorber/injector resolve it from context (`overlapHandleOf`).
+- JS wrapper owns the `innerBoxIsScrolled` signal; `header={(scrolled) => <>...</>}`; the wrapper's
+  reactive child IS the header (no `<nestedScrollHeader>` indirection). See the resolved follow-ups below.
 
 **`<SliverOverlapAbsorber>` / `<SliverOverlapInjector>`** → `FuseSliverOverlapAbsorber/Injector`
 - Absorber: single sliver child; wraps `SliverOverlapAbsorber(handle: <from inherited NestedScrollView>, sliver: onlyChild(node))`.
@@ -209,26 +211,36 @@ animation primitive), `SliverFadeTransition` (no Animation-handle infra), `Slive
 (use `<Show>`), `AppBar` (not a sliver; needs a Scaffold element), `SliverEnsureSemantics` (niche, ≥3.35),
 Cupertino nav `.search` (version-gated), low-level `Viewport`/`Scrollable`/raw delegates.
 
-## Known follow-ups — NestedScrollView (works, but the rough-edge piece)
+## NestedScrollView — header reactivity (resolved)
 
-The current `FuseNestedScrollView` resolves the header reactively by extracting `childWidgets`
-from an *unmounted* `<nestedScrollHeader>` node inside `headerSliverBuilder`. It's correct for the
-common case but has sharp edges worth refining:
+`FuseNestedScrollView` now renders the header slivers as the **direct children** of the
+`<nestedScrollView>` node (a reactive function child, the same pattern as `<SliverPersistentHeader>`),
+and `headerSliverBuilder` returns `node.childWidgets` directly. The old `<nestedScrollHeader>`
+sub-element and the "extract `childWidgets` from an unmounted node" indirection are gone.
 
-1. **Redundant `onHeader` sends.** `headerSliverBuilder` calls `node.callback('onHeader')` on every
-   invocation (many per scroll), even when `innerBoxIsScrolled` is unchanged. The JS signal
-   value-equality no-ops it, but the bridge send still fires each time. Fix: guard Dart-side — store
-   the last `innerBoxIsScrolled` and only call `onHeader` on change.
-2. **Structural header changes can go stale.** Because the `<nestedScrollHeader>` node's own
-   `FuseNodeWidget` isn't mounted (only its extracted `childWidgets` are), a reactive change to the
-   *number* of top-level header slivers may not refresh until the next scroll-driven
-   `headerSliverBuilder` run. Prop changes on a stable set of header slivers (the normal
-   `SliverAppBar` pattern) are fine; a varying sliver *count* is the gap. Either mount the header
-   node properly or rethink how the header builder produces slivers so structural changes propagate.
-3. **The `nestedScrollHeader` sub-element is a hack.** The reactive-child-into-extracted-childWidgets
-   indirection is the awkward part; a cleaner header-reactivity design would remove it.
+Resolved:
+
+1. ~~**Redundant `onHeader` sends.**~~ **Fixed.** `headerSliverBuilder` tracks the last
+   `innerBoxIsScrolled` it pushed (a local in `build()`, which survives across the many
+   scroll-driven header builds of one widget instance) and only calls `onHeader` on change. This
+   guard is also load-bearing for loop-safety (see below).
+2. ~~**Structural header changes can go stale.**~~ **Fixed.** Because the header slivers are the
+   `<nestedScrollView>` node's own children, a change to the *number* of top-level header slivers
+   marks the node dirty → rebuilds `FuseNestedScrollView` → a fresh `NestedScrollView` whose `build`
+   re-invokes `headerSliverBuilder` with the new child set. No scroll needed. Per-sliver prop changes
+   stay granular (each child is its own `FuseNodeWidget`). Covered by the integration test
+   `NestedScrollView header refreshes on a structural (count) change without a scroll`
+   (`examples/polyfill_tests/integration_test/slivers_test.dart`) — proven to fail on the old
+   extraction approach and pass after the fix.
+3. ~~**The `nestedScrollHeader` sub-element is a hack.**~~ **Removed.** The element, its
+   `FuseNestedScrollHeader` widget, and its registration are deleted.
 4. **~1-frame lag** is inherent to the push-to-signal pattern (shared with `SliverPersistentHeader`
-   and `SliverLayoutBuilder`). Acceptable for `innerBoxIsScrolled` (a coarse bool); noted for completeness.
+   and `SliverLayoutBuilder`). Acceptable for `innerBoxIsScrolled` (a coarse bool); not addressed and
+   not regressed.
 
-Loop-safety is NOT a concern: `onHeader → setInnerBoxIsScrolled` re-renders only the header *content*
-(not `headerSliverBuilder`), and the Solid setter's value-equality is a backstop. Confirmed safe.
+Loop-safety is preserved. `onHeader → setInnerBoxIsScrolled` mutates only the props of existing
+header slivers (e.g. `forceElevated`), which dirties those child nodes — *not* the
+`<nestedScrollView>` node — so `headerSliverBuilder` does not re-run from a pure prop push. If a
+header builder instead *adds/removes* a sliver in response to `innerBoxIsScrolled`, the resulting
+structural change does re-run `headerSliverBuilder`, but the change-guarded `onHeader` re-push (#1)
+plus the Solid setter's value-equality backstop stop it from looping. Confirmed safe.

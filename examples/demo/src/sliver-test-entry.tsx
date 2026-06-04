@@ -10,7 +10,7 @@
 // Built into examples/polyfill_tests/assets/js/sliver_bundle.js by
 // examples/polyfill_tests/tool/build_sliver_bundle.ts.
 
-import { createSignal } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import {
   render,
   on,
@@ -19,6 +19,7 @@ import {
   View,
   Text,
   CustomScrollView,
+  NestedScrollView,
   SliverAppBar,
   SliverList,
   SliverToBoxAdapter,
@@ -42,6 +43,17 @@ on("test:setRow", (data: { index: number; label: string }) => {
   return { ok: true };
 });
 
+// Whether the NestedScrollView header shows an EXTRA top-level sliver. The Dart
+// test flips this to prove that a *structural* (count) change to the header
+// slivers refreshes without a scroll — the bug the old <nestedScrollHeader>
+// extraction had (structural changes went stale until the next scroll-driven
+// headerSliverBuilder run).
+const [headerExtra, setHeaderExtra] = createSignal(false);
+on("test:setHeaderExtra", (data: { value: boolean }) => {
+  setHeaderExtra(data.value);
+  return { ok: true };
+});
+
 // onRefresh round-trip: Dart awaits this Promise (via node.asyncCallback ->
 // _functionCallAsync channel). It resolves to a sentinel string so the Dart
 // side can assert the resolved value flowed back across the bridge.
@@ -52,7 +64,7 @@ async function handleRefresh(): Promise<string> {
   return "refreshed-ok";
 }
 
-const App = () => (
+const Slivers = () => (
   <CustomScrollView>
     <SliverAppBar
       title={<Text>Sliver Suite</Text>}
@@ -93,6 +105,57 @@ const App = () => (
       </For>
     </SliverList>
   </CustomScrollView>
+);
+
+// A NestedScrollView whose header's top-level sliver COUNT changes reactively.
+// The header always has a pinned SliverAppBar; when `headerExtra()` is true it
+// also renders a second top-level sliver. The body is a plain box (kept off the
+// CustomScrollView type so the existing `findsOneWidget` assertion holds).
+const Nested = () => (
+  <NestedScrollView
+    header={(innerBoxIsScrolled) => (
+      <>
+        {/* Always-present header sliver. Reflects innerBoxIsScrolled into its
+            text to exercise the onHeader push path (a prop change on a stable
+            sliver — the case the old design already handled). Deliberately NOT a
+            SliverAppBar, to keep the global SliverAppBar count at one. */}
+        <SliverToBoxAdapter>
+          <View>
+            <Text>nested-header:{String(innerBoxIsScrolled)}</Text>
+          </View>
+        </SliverToBoxAdapter>
+        {/* Structural change: this top-level sliver appears/disappears with the
+            `headerExtra` signal. Proves a header sliver COUNT change refreshes
+            without a scroll. */}
+        <Show when={headerExtra()}>
+          <SliverToBoxAdapter>
+            <View>
+              <Text>header-extra</Text>
+            </View>
+          </SliverToBoxAdapter>
+        </Show>
+      </>
+    )}
+    body={
+      <View>
+        <Text>nested-body</Text>
+      </View>
+    }
+  />
+);
+
+// Split the surface into two bounded halves with Expanded (grow + fit:tight) so
+// neither section overflows regardless of the test window size: the top half is
+// the original sliver suite, the bottom half the NestedScrollView.
+const App = () => (
+  <View flex={{ direction: "vertical", expand: true }}>
+    <View grow={1} fit="tight">
+      <Slivers />
+    </View>
+    <View grow={1} fit="tight">
+      <Nested />
+    </View>
+  </View>
 );
 
 render(App);
