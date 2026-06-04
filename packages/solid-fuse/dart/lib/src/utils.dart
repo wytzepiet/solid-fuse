@@ -251,7 +251,7 @@ DecorationImage? parseDecorationImage(dynamic value) {
 
   return DecorationImage(
     image: NetworkImage(url),
-    fit: _parseBoxFit(m.string('fit')),
+    fit: parseBoxFit(m.string('fit')),
   );
 }
 
@@ -313,7 +313,7 @@ Alignment? _parseAlignment(String? value) {
 
 // ─── parseBoxFit ─────────────────────────────────────────────────────────────
 
-BoxFit _parseBoxFit(String? value) {
+BoxFit parseBoxFit(String? value) {
   return switch (value) {
     'contain' => BoxFit.contain,
     'cover' => BoxFit.cover,
@@ -321,7 +321,19 @@ BoxFit _parseBoxFit(String? value) {
     'fitWidth' => BoxFit.fitWidth,
     'fitHeight' => BoxFit.fitHeight,
     'none' => BoxFit.none,
+    'scaleDown' => BoxFit.scaleDown,
     _ => BoxFit.cover,
+  };
+}
+
+// ─── parseImageRepeat ────────────────────────────────────────────────────────
+
+ImageRepeat parseImageRepeat(String? value) {
+  return switch (value) {
+    'repeat' => ImageRepeat.repeat,
+    'repeatX' => ImageRepeat.repeatX,
+    'repeatY' => ImageRepeat.repeatY,
+    _ => ImageRepeat.noRepeat,
   };
 }
 

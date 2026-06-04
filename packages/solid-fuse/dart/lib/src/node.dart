@@ -59,6 +59,8 @@ class FuseMap {
 
   Alignment? alignment(String key) => parseAlignment(_data[key] as String?);
   BlendMode? blendMode(String key) => parseBlendMode(_data[key] as String?);
+  BoxFit boxFit(String key) => parseBoxFit(_data[key] as String?);
+  ImageRepeat imageRepeat(String key) => parseImageRepeat(_data[key] as String?);
   Clip clipBehavior(String key) => parseClip(_data[key] as String?);
   FontWeight? fontWeight(String key) => parseFontWeight(_data[key]);
   Curve curve(String key) => parseCurve(_data[key] as String?);

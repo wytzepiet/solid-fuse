@@ -35,6 +35,7 @@ export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";
 export { Text, type TextProps } from "./widgets/text";
 export { Icon, type IconProps, type IconData } from "./widgets/icon";
+export { Image, type ImageProps } from "./widgets/image";
 export { GestureDetector, type GestureDetectorProps } from "./widgets/gesture-detector";
 export { ScrollView, type ScrollViewProps } from "./widgets/scroll-view";
 export { Stack, type StackProps } from "./widgets/stack";

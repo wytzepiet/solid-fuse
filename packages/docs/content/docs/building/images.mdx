@@ -1,0 +1,119 @@
+---
+title: Images
+description: Display network and bundled asset images with the Image widget
+---
+
+`Image` loads and displays a single image. It maps to Flutter's `Image` widget and takes a `src` — either a network URL or a path to an asset bundled with your Flutter app.
+
+```tsx
+import { Image } from "solid-fuse";
+
+<Image src="https://picsum.photos/400/300" width={400} height={300} fit="cover" />
+```
+
+## Image sources
+
+`src` is resolved by inspecting the string, mapping to Flutter's four image sources:
+
+| `src` starts with | Source | Flutter provider |
+|---|---|---|
+| `http://` / `https://` / `//` | network | `NetworkImage` |
+| `data:…;base64,…` | in-memory bytes | `MemoryImage` |
+| `file://` or `/` (absolute path) | local file | `FileImage` |
+| anything else | bundled asset | `AssetImage` |
+
+```tsx
+// Network
+<Image src="https://example.com/avatar.png" />
+
+// Bundled asset — path relative to your app, declared in pubspec.yaml
+<Image src="assets/logo.png" />
+
+// In-memory bytes via a base64 data URI
+<Image src="data:image/png;base64,iVBORw0KGgo…" />
+
+// Local file — `file://` or an absolute path (e.g. from an image picker)
+<Image src="/var/mobile/.../photo.jpg" />
+```
+
+An absolute path (`/…`) resolves to a file because it's never a valid Flutter asset key — asset paths are always relative (`assets/logo.png`). Use `type` to force the interpretation when the heuristic can't tell — the main case is a scheme-less network URL, but it also covers a bare base64 string (no `data:` prefix):
+
+```tsx
+<Image src="cdn.example.com/a.png" type="network" />
+<Image src="iVBORw0KGgo…" type="memory" />
+```
+
+<Callout type="info">
+  Asset images must be declared under `flutter: assets:` in the host app's
+  `pubspec.yaml`, like any other Flutter asset. Fuse only references them by
+  path — it doesn't bundle them.
+</Callout>
+
+## Fit and sizing
+
+`width` and `height` constrain the box; `fit` controls how the image is inscribed into it. Without a `fit`, images default to `cover`.
+
+```tsx
+<Image src={url} width={120} height={120} fit="cover" borderRadius={60} />
+```
+
+`borderRadius` clips the corners — a single number rounds all four, or pass per-corner values (see [BorderRadiusInput](/docs/building/ui-and-layout#borderradiusinput)). Combined with a square box and a radius of half the side, it produces a circular avatar.
+
+## Tinting
+
+Set `color` to tint the image. By default the tint is composited with `srcIn` (the image's alpha masks a solid colour — useful for monochrome icons shipped as images); override with `colorBlendMode`.
+
+```tsx
+<Image src="assets/badge.png" color="#EF4444" colorBlendMode="modulate" />
+```
+
+## Loading and error states
+
+For network images, `placeholder` is shown while the image downloads and `errorWidget` is shown if it fails. Both take a rendered element.
+
+```tsx
+<Image
+  src={remoteUrl}
+  placeholder={<Text>Loading…</Text>}
+  errorWidget={<Icon data={brokenImage} color="#9CA3AF" />}
+/>
+```
+
+A `placeholder` only applies to network sources — asset images resolve synchronously, so there's nothing to wait for.
+
+## Reactive props
+
+Every prop is reactive — drive `src`, `fit`, or any other prop from a signal and the image updates in place.
+
+```tsx
+import { createSignal } from "solid-js";
+import { Image } from "solid-fuse";
+
+const [url, setUrl] = createSignal("https://picsum.photos/seed/a/300");
+
+<Image src={url()} width={300} height={300} fit="cover" />
+```
+
+## Image props
+
+| Prop | Type | Description |
+|---|---|---|
+| `src` | `string` | Network URL, asset path, `data:` URI, or file path (required) |
+| `type` | `"network" \| "asset" \| "file" \| "memory"` | Override source detection |
+| `fit` | `BoxFit` | How the image fills its box. Defaults to `cover` |
+| `width` | `number` | Box width in logical pixels |
+| `height` | `number` | Box height in logical pixels |
+| `alignment` | `AlignmentString` | Alignment within the box when smaller than it |
+| `color` | `ColorInput` | Tint colour (see [ColorInput](/docs/building/ui-and-layout#colorinput)) |
+| `colorBlendMode` | `string` | Blend mode for the tint. Defaults to `srcIn` when `color` is set |
+| `repeat` | `"noRepeat" \| "repeat" \| "repeatX" \| "repeatY"` | Tile the image to fill the box |
+| `borderRadius` | `BorderRadiusInput` | Round the corners by clipping |
+| `semanticLabel` | `string` | Accessibility label |
+| `placeholder` | `Element` | Shown while a network image loads |
+| `errorWidget` | `Element` | Shown if the image fails to load |
+
+`BoxFit` is one of `contain`, `cover`, `fill`, `fitWidth`, `fitHeight`, `none`, or `scaleDown` — matching Flutter's [`BoxFit`](https://api.flutter.dev/flutter/painting/BoxFit.html).
+
+## Background images
+
+To paint an image *behind* other content rather than as its own element, use a [`View`'s decoration](/docs/building/ui-and-layout#decorationinput) `image` instead — that draws the image as a `DecoratedBox` background with children layered on top.

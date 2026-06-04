@@ -71,9 +71,14 @@ export type GradientInput = {
   radius?: number;
 };
 
+export type BoxFit =
+  | "contain" | "cover" | "fill" | "fitWidth" | "fitHeight" | "none" | "scaleDown";
+
+export type ImageRepeat = "noRepeat" | "repeat" | "repeatX" | "repeatY";
+
 export type ImageInput = {
   url: string;
-  fit?: "contain" | "cover" | "fill" | "fitWidth" | "fitHeight" | "none";
+  fit?: BoxFit;
 };
 
 export type DecorationInput = {

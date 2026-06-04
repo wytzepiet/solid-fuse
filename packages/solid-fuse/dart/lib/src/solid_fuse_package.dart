@@ -9,6 +9,7 @@ import 'widgets/decorated_sliver.dart';
 import 'widgets/flexible_space_bar.dart';
 import 'widgets/gesture_detector.dart';
 import 'widgets/icon.dart';
+import 'widgets/image.dart';
 import 'widgets/navigator.dart';
 import 'widgets/nested_scroll_view.dart';
 import 'widgets/pinned_header_sliver.dart';
@@ -52,6 +53,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('view', FuseViewWidget.new);
   runtime.registerWidget('text', FuseText.new);
   runtime.registerWidget('icon', FuseIcon.new);
+  runtime.registerWidget('image', FuseImage.new);
   runtime.registerWidget('gestureDetector', FuseGestureDetector.new);
   runtime.registerWidget('navigator', FuseNavigatorWidget.new);
   runtime.registerWidget('scrollView', FuseScrollView.new);
