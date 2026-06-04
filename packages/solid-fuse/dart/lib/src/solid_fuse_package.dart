@@ -1,6 +1,7 @@
 import 'handles/focus_node.dart';
 import 'handles/material_page.dart';
 import 'handles/scroll_controller.dart';
+import 'handles/tab_controller.dart';
 import 'runtime.dart';
 import 'widgets/gesture_detector.dart';
 import 'widgets/icon.dart';
@@ -10,6 +11,10 @@ import 'widgets/positioned.dart';
 import 'widgets/scroll_view.dart';
 import 'widgets/slivers/slivers.dart';
 import 'widgets/stack.dart';
+import 'widgets/tabs/default_tab_controller.dart';
+import 'widgets/tabs/tab.dart';
+import 'widgets/tabs/tab_bar.dart';
+import 'widgets/tabs/tab_bar_view.dart';
 import 'widgets/text.dart';
 import 'widgets/text_field.dart';
 import 'widgets/view.dart';
@@ -34,9 +39,17 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('positioned', FusePositioned.new);
   runtime.registerWidget('textField', FuseTextField.new);
 
+  // Tabs.
+  runtime.registerWidget('tab', FuseTab.new);
+  runtime.registerWidget('tabBar', FuseTabBar.new);
+  runtime.registerWidget('tabBarView', FuseTabBarView.new);
+  runtime.registerWidget('defaultTabController', FuseDefaultTabController.new);
+
+  // Slivers — full suite registered from its own barrel file.
   registerSlivers(runtime);
 
   runtime.registerHandle('scrollController', FuseScrollController.new);
+  runtime.registerHandle('tabController', FuseTabController.new);
   runtime.registerHandle('focusNode', FuseFocusNode.new);
   runtime.registerHandle('materialPage', FuseMaterialPage.new);
 }
