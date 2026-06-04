@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solid_fuse/src/node.dart';
-import 'package:solid_fuse/src/widgets/rich_text.dart';
+import 'package:solid_fuse/src/widgets/text.dart';
 
 /// Minimal node factory mirroring what the runtime builds. Function props are
 /// passed as `true` (the renderer's wire form for a registered callback).

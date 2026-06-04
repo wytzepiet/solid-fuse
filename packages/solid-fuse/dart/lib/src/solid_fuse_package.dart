@@ -7,7 +7,6 @@ import 'widgets/icon.dart';
 import 'widgets/image.dart';
 import 'widgets/navigator.dart';
 import 'widgets/positioned.dart';
-import 'widgets/rich_text.dart';
 import 'widgets/scroll_view.dart';
 import 'widgets/slivers/slivers.dart';
 import 'widgets/stack.dart';
