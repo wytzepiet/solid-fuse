@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:ui' show ViewPadding;
 
 import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +14,7 @@ typedef EngineResult = ({
   JsEngine engine,
   FuseWsManager wsManager,
   FuseChannels channels,
-  WidgetsBindingObserver brightnessObserver,
+  WidgetsBindingObserver hostObserver,
 });
 
 /// Creates a new engine with the channel system, console shim, and WebSocket
@@ -81,15 +83,17 @@ Future<EngineResult> createEngine({
       'globalThis.__fuseHost = {'
       ' mode: "$mode",'
       ' platform: "${_fusePlatformName()}",'
-      ' brightness: "${_fuseBrightnessName()}"'
+      ' brightness: "${_fuseBrightnessName()}",'
+      ' metrics: ${jsonEncode(_fuseMetrics())}'
       ' };',
     ),
   );
 
-  // Forward OS light/dark changes to JS so host.brightness() stays reactive.
-  // One observer per engine; retireEngine removes it from the binding.
-  final brightnessObserver = _FuseBrightnessObserver(channels);
-  WidgetsBinding.instance.addObserver(brightnessObserver);
+  // Forward OS theme/metrics changes to JS so the reactive `host` members
+  // (brightness, size, insets, …) stay live. One observer per engine;
+  // retireEngine removes it from the binding.
+  final hostObserver = _FuseHostObserver(channels);
+  WidgetsBinding.instance.addObserver(hostObserver);
 
   // NB: the `console` shim lives in the JS package (src/polyfills.ts), not here —
   // it's a standard-global polyfill with no Dart dependency, alongside
@@ -119,13 +123,13 @@ Future<EngineResult> createEngine({
     engine: engine,
     wsManager: wsManager,
     channels: channels,
-    brightnessObserver: brightnessObserver,
+    hostObserver: hostObserver,
   );
 }
 
 /// Creates a minimal engine for testing.
 Future<JsEngine> createTestEngine() async {
-  final (:engine, :wsManager, :channels, :brightnessObserver) =
+  final (:engine, :wsManager, :channels, :hostObserver) =
       await createEngine();
   return engine;
 }
@@ -137,10 +141,10 @@ Future<JsEngine> createTestEngine() async {
 Future<void> retireEngine(
   JsEngine engine,
   FuseWsManager wsManager,
-  WidgetsBindingObserver brightnessObserver,
+  WidgetsBindingObserver hostObserver,
 ) async {
   await engine.stopDrive();
-  WidgetsBinding.instance.removeObserver(brightnessObserver);
+  WidgetsBinding.instance.removeObserver(hostObserver);
   wsManager.dispose();
   await engine.close();
 }
@@ -167,16 +171,65 @@ String _fuseBrightnessName() =>
         ? 'dark'
         : 'light';
 
-/// Forwards OS light/dark changes to its engine's channels so host.brightness()
-/// stays reactive. One per engine; createEngine adds it, retireEngine removes it.
-class _FuseBrightnessObserver with WidgetsBindingObserver {
-  _FuseBrightnessObserver(this._channels);
+/// Snapshot of the implicit view's media-query metrics, in logical pixels —
+/// the source for the reactive `host.size()`, `host.padding()`, etc. Read from
+/// the FlutterView + PlatformDispatcher (never a BuildContext or MediaQuery), so
+/// it works before any widget tree exists and survives the design-system split.
+Map<String, dynamic> _fuseMetrics() {
+  final dispatcher = WidgetsBinding.instance.platformDispatcher;
+  final view = dispatcher.implicitView;
+  Map<String, double> zero() =>
+      {'top': 0, 'right': 0, 'bottom': 0, 'left': 0};
+
+  if (view == null) {
+    return {
+      'width': 0.0,
+      'height': 0.0,
+      'devicePixelRatio': 1.0,
+      'padding': zero(),
+      'viewInsets': zero(),
+      'viewPadding': zero(),
+      'textScaleFactor': dispatcher.textScaleFactor,
+    };
+  }
+
+  final dpr = view.devicePixelRatio;
+  Map<String, double> insets(ViewPadding p) => {
+        'top': p.top / dpr,
+        'right': p.right / dpr,
+        'bottom': p.bottom / dpr,
+        'left': p.left / dpr,
+      };
+
+  return {
+    'width': view.physicalSize.width / dpr,
+    'height': view.physicalSize.height / dpr,
+    'devicePixelRatio': dpr,
+    'padding': insets(view.padding),
+    'viewInsets': insets(view.viewInsets),
+    'viewPadding': insets(view.viewPadding),
+    'textScaleFactor': dispatcher.textScaleFactor,
+  };
+}
+
+/// Forwards OS theme and view-metric changes to its engine's channels so the
+/// reactive `host` members stay live. One per engine; createEngine adds it,
+/// retireEngine removes it.
+class _FuseHostObserver with WidgetsBindingObserver {
+  _FuseHostObserver(this._channels);
 
   final FuseChannels _channels;
 
   @override
   void didChangePlatformBrightness() => _channels
       .send('_brightness', <String, dynamic>{'value': _fuseBrightnessName()});
+
+  @override
+  void didChangeMetrics() => _channels.send('_metrics', _fuseMetrics());
+
+  @override
+  void didChangeTextScaleFactor() =>
+      _channels.send('_metrics', _fuseMetrics());
 }
 
 // --- Job pump ---

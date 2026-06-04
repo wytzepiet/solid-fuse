@@ -1,10 +1,11 @@
 ---
 title: Host facts
-description: Ambient app facts — brightness, platform, and build mode
+description: Ambient app facts — brightness, platform, build mode, and view metrics
 ---
 
 `host` is a small, read-only namespace describing the device and build your app is
-running on: the system's light/dark setting, the platform, and the build mode.
+running on: the system's light/dark setting, the platform, the build mode, and the
+view's media-query metrics (size, safe-area insets, keyboard inset, …).
 
 ```tsx
 import { host } from "solid-fuse";
@@ -12,6 +13,9 @@ import { host } from "solid-fuse";
 host.brightness(); // "light" | "dark"   — reactive
 host.platform;     // "ios" | "android" | "macos" | "windows" | "linux" | "fuchsia" | "web"
 host.mode;         // "debug" | "profile" | "release"
+
+host.size();        // { width, height }                  — reactive
+host.viewInsets();  // { top, right, bottom, left }       — reactive (keyboard)
 ```
 
 ## Members
@@ -21,10 +25,29 @@ host.mode;         // "debug" | "profile" | "release"
 | `brightness()` | `() => "light" \| "dark"` | ✅ | System light/dark setting. |
 | `platform` | `Platform` | — | Target platform, fixed for the session. |
 | `mode` | `"debug" \| "profile" \| "release"` | — | Build mode, fixed for the session. |
+| `size()` | `() => Size` | ✅ | Logical-pixel `{ width, height }` of the view; updates on resize/rotation. |
+| `padding()` | `() => EdgeInsets` | ✅ | Safe-area insets — status bar, notch, home indicator. |
+| `viewInsets()` | `() => EdgeInsets` | ✅ | Insets fully obscured by system UI, chiefly the on-screen keyboard at the bottom. |
+| `viewPadding()` | `() => EdgeInsets` | ✅ | The safe-area padding *before* `viewInsets` are applied — what stays put while the keyboard is up. |
+| `devicePixelRatio()` | `() => number` | ✅ | Physical pixels per logical pixel. |
+| `textScaleFactor()` | `() => number` | ✅ | Accessibility text-scaling factor. |
+| `orientation()` | `() => "portrait" \| "landscape"` | ✅ | Derived from `size()`. |
 
-`brightness` is an accessor because it can change while the app runs; `platform`
-and `mode` are fixed for the session, so they're plain values. The namespace is
-typed as `Host`.
+`platform` and `mode` are fixed for the session, so they're plain values.
+Everything else can change while the app runs, so it's an accessor — call it
+inside a tracking scope (a component body, `createMemo`, `createEffect`). The
+namespace is typed as `Host`; `Size` and `EdgeInsets` are exported too.
+
+`Size` is `{ width, height }`; `EdgeInsets` is `{ top, right, bottom, left }`,
+mirroring Flutter's `MediaQueryData`. All metrics are in **logical pixels**.
+
+### Fine-grained metrics
+
+Each metric is its own signal, so they invalidate independently: opening the
+keyboard moves `viewInsets()` without disturbing consumers of `size()`, and a
+rotation moves `size()` without touching `textScaleFactor()`. The signals also
+compare by value, so a metrics update that leaves a field unchanged is a no-op
+for that field's subscribers.
 
 ## Brightness
 
@@ -61,6 +84,36 @@ if (host.mode !== "release") {
   console.log("debug build — verbose logging on");
 }
 ```
+
+## View metrics
+
+The media-query metrics describe the view your app paints into. Use them for
+responsive layout, safe-area padding, and reacting to the keyboard.
+
+```tsx
+import { host, View } from "solid-fuse";
+
+// Responsive: switch layout on the logical width.
+const wide = () => host.size().width >= 600;
+
+// Safe area: pad past the notch / status bar / home indicator.
+function SafeArea(props) {
+  return <View padding={host.padding()}>{props.children}</View>;
+}
+
+// Keyboard: lift content by the bottom view inset as the keyboard opens.
+function KeyboardAware(props) {
+  return (
+    <View padding={{ bottom: host.viewInsets().bottom }}>
+      {props.children}
+    </View>
+  );
+}
+```
+
+Because each metric is a separate signal, a component that only reads
+`host.viewInsets()` re-runs when the keyboard opens but **not** when the device
+rotates — and vice-versa for one that only reads `host.size()`.
 
 > `host` only exists inside a running Fuse app — the engine seeds it before any JS
 > runs. Importing it elsewhere throws rather than returning a wrong default.
