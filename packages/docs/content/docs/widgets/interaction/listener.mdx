@@ -1,0 +1,62 @@
+---
+title: Listener
+description: Receive raw pointer events without gesture recognition
+---
+
+`Listener` reports raw pointer events for its subtree — down, move, up, hover, cancel, scroll signals, and trackpad pan/zoom. It maps to Flutter's [`Listener`](https://api.flutter.dev/flutter/widgets/Listener-class.html).
+
+Unlike [`GestureDetector`](/docs/widgets/interaction/gesture-detector), `Listener` does **not** participate in the gesture arena — it gives you every pointer event directly, with no tap/drag/long-press disambiguation. Reach for it when you need low-level pointer data (custom hit-testing, drawing, hover tracking) and `GestureDetector` when you want recognized gestures.
+
+```tsx
+import { Listener, Text, View } from "solid-fuse";
+
+<Listener
+  onPointerDown={(e) => console.log("down at", e.x, e.y)}
+  onPointerMove={(e) => setPos({ x: e.localX, y: e.localY })}
+  onPointerUp={() => console.log("up")}
+>
+  <View padding={16}>
+    <Text>Track me</Text>
+  </View>
+</Listener>
+```
+
+Like `GestureDetector`, `Listener` supports [`flex`](/docs/widgets/layout/flex), so it doubles as a layout container.
+
+## Callbacks
+
+| Callback | Fires on |
+|---|---|
+| `onPointerDown` | A pointer contacts the screen within the bounds |
+| `onPointerMove` | A pressed pointer moves |
+| `onPointerUp` | A pointer is lifted |
+| `onPointerHover` | An unpressed pointer (mouse/stylus) moves over the bounds |
+| `onPointerCancel` | The pointer is no longer in contact and won't produce more events |
+| `onPointerSignal` | A scroll or other signal occurs |
+| `onPointerPanZoomStart` / `Update` / `End` | A trackpad pan/zoom gesture |
+
+## Event data
+
+Down, move, up, hover, and cancel share the same shape:
+
+| Field | Description |
+|---|---|
+| `x`, `y` | Global position |
+| `localX`, `localY` | Position relative to the widget |
+| `dx`, `dy` | Delta since the last event (zero on down/up) |
+| `kind` | `"touch"`, `"mouse"`, `"stylus"`, `"invertedStylus"`, `"trackpad"`, `"unknown"` |
+| `buttons` | Bitmask of pressed buttons |
+| `pointer` | Unique id of the pointer (track multitouch) |
+| `pressure` | Normalized pressure |
+
+`onPointerSignal` carries `scrollDeltaX` / `scrollDeltaY` (non-zero only for scroll signals). The pan/zoom updates carry accumulated `panX`/`panY`, per-update `panDeltaX`/`panDeltaY`, `scale`, and `rotation` (radians).
+
+## Hit test behavior
+
+The `behavior` prop controls how the listener responds to touches, identical to `GestureDetector`:
+
+| Value | Description |
+|---|---|
+| `"deferToChild"` | Default. Only the child's area receives events. |
+| `"opaque"` | Entire bounds receive events, blocking widgets behind. |
+| `"translucent"` | Entire bounds receive events, which also pass through. |

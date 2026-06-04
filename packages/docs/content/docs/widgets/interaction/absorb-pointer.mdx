@@ -1,0 +1,33 @@
+---
+title: AbsorbPointer
+description: Swallow pointer events over a region
+---
+
+`AbsorbPointer` absorbs pointer events within its bounds: neither its own subtree nor any widget behind it receives them. It maps to Flutter's [`AbsorbPointer`](https://api.flutter.dev/flutter/widgets/AbsorbPointer-class.html).
+
+```tsx
+import { AbsorbPointer, GestureDetector, Text } from "solid-fuse";
+
+<AbsorbPointer absorbing={isSubmitting()}>
+  <GestureDetector onTap={submit}>
+    <Text>Submit</Text>
+  </GestureDetector>
+</AbsorbPointer>
+```
+
+While `absorbing` is `true`, taps land on the `AbsorbPointer` itself and stop there — the button never fires, and nothing stacked behind it does either.
+
+| Prop | Default | Description |
+|---|---|---|
+| `absorbing` | `true` | When true, the bounds swallow pointer events. |
+
+`AbsorbPointer` supports [`flex`](/docs/widgets/layout/flex) for layout.
+
+## AbsorbPointer vs IgnorePointer
+
+Both stop their subtree from handling pointer events. The difference is what happens to widgets *behind* them:
+
+- **`AbsorbPointer`** — swallows the event; widgets behind it receive nothing.
+- [**`IgnorePointer`**](/docs/widgets/interaction/ignore-pointer) — lets the event pass through to widgets behind it.
+
+Reach for `AbsorbPointer` to block an entire region (for example, a modal scrim that should eat stray taps); reach for `IgnorePointer` when the layer beneath should stay interactive.

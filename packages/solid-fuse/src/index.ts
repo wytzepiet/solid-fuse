@@ -44,6 +44,18 @@ export {
 export { Icon, type IconProps, type IconData } from "./widgets/icon";
 export { Image, type ImageProps } from "./widgets/image";
 export { GestureDetector, type GestureDetectorProps } from "./widgets/gesture-detector";
+export {
+  Listener,
+  type ListenerProps,
+  type PointerDevice,
+  type PointerDetails,
+  type PointerSignalDetails,
+  type PointerPanZoomStartDetails,
+  type PointerPanZoomUpdateDetails,
+  type PointerPanZoomEndDetails,
+} from "./widgets/listener";
+export { IgnorePointer, type IgnorePointerProps } from "./widgets/ignore-pointer";
+export { AbsorbPointer, type AbsorbPointerProps } from "./widgets/absorb-pointer";
 export { ScrollView, type ScrollViewProps } from "./widgets/scroll-view";
 export { Stack, type StackProps } from "./widgets/stack";
 export { Positioned, type PositionedProps } from "./widgets/positioned";

@@ -1,0 +1,33 @@
+---
+title: IgnorePointer
+description: Make a subtree invisible to pointer events
+---
+
+`IgnorePointer` makes its subtree invisible to hit-testing while leaving it visible on screen. Pointer events pass straight through to whatever is behind it. It maps to Flutter's [`IgnorePointer`](https://api.flutter.dev/flutter/widgets/IgnorePointer-class.html).
+
+```tsx
+import { IgnorePointer, GestureDetector, Text } from "solid-fuse";
+
+<IgnorePointer ignoring={isLoading()}>
+  <GestureDetector onTap={submit}>
+    <Text>Submit</Text>
+  </GestureDetector>
+</IgnorePointer>
+```
+
+When `ignoring` is `true`, taps on the button do nothing — and any widget stacked behind it still receives the event. Toggle `ignoring` reactively to enable or disable interaction.
+
+| Prop | Default | Description |
+|---|---|---|
+| `ignoring` | `true` | When true, the subtree is skipped during hit-testing and events fall through. |
+
+`IgnorePointer` supports [`flex`](/docs/widgets/layout/flex) for layout.
+
+## IgnorePointer vs AbsorbPointer
+
+Both block their subtree from receiving pointer events. The difference is what happens to the event:
+
+- **`IgnorePointer`** — the event *passes through* to widgets behind it.
+- [**`AbsorbPointer`**](/docs/widgets/interaction/absorb-pointer) — the event is *swallowed*, so nothing behind it receives it either.
+
+Use `IgnorePointer` when a disabled overlay should still let the layer beneath it stay interactive; use `AbsorbPointer` when you want to block a whole region.

@@ -1,4 +1,4 @@
 {
   "title": "Interaction",
-  "pages": ["gesture-detector"]
+  "pages": ["gesture-detector", "listener", "ignore-pointer", "absorb-pointer"]
 }
