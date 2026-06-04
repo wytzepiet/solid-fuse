@@ -15,6 +15,7 @@ import 'widgets/nested_scroll_view.dart';
 import 'widgets/pinned_header_sliver.dart';
 import 'widgets/positioned.dart';
 import 'widgets/refresh_indicator.dart';
+import 'widgets/rich_text.dart';
 import 'widgets/reorderable_delayed_drag_start_listener.dart';
 import 'widgets/reorderable_drag_start_listener.dart';
 import 'widgets/scroll_view.dart';
@@ -52,6 +53,9 @@ import 'widgets/view.dart';
 void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('view', FuseViewWidget.new);
   runtime.registerWidget('text', FuseText.new);
+  runtime.registerWidget('richText', FuseRichText.new);
+  // `textSpan` is a marker interpreted by FuseRichText, not a standalone widget.
+  runtime.registerWidget('textSpan', FuseTextSpanMarker.new);
   runtime.registerWidget('icon', FuseIcon.new);
   runtime.registerWidget('image', FuseImage.new);
   runtime.registerWidget('gestureDetector', FuseGestureDetector.new);

@@ -10,57 +10,40 @@ class FuseText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontSize = node.double('fontSize');
-    final fontFamily = node.string('fontFamily');
-    final fontWeight = node.fontWeight('fontWeight');
-    final fontStyle = node.string('fontStyle') == 'italic'
-        ? FontStyle.italic
-        : null;
-    final color = node.color('color');
-    final lineHeight = node.double('lineHeight');
-    final letterSpacing = node.double('letterSpacing');
-    final wordSpacing = node.double('wordSpacing');
-    final textAlign = _parseTextAlign(node.string('textAlign'));
-    final maxLines = node.int('maxLines');
-    final overflow = _parseOverflow(node.string('overflow'));
-    final softWrap = node.props['softWrap'] as bool?;
-    final textDecoration = _parseTextDecoration(node.string('textDecoration'));
-    final textDecorationColor = node.color('textDecorationColor');
-    final textDecorationStyle = _parseTextDecorationStyle(node.string('textDecorationStyle'));
-    final backgroundColor = node.color('backgroundColor');
-    final shadows = _parseShadows(node.props['shadows']);
-    final locale = _parseLocale(node.string('locale'));
-    final textDirection = _parseTextDirection(node.string('textDirection'));
-
-    final textContent = _extractText(node);
     return Text(
-      textContent,
-      textAlign: textAlign,
-      textDirection: textDirection,
-      maxLines: maxLines,
-      overflow: overflow,
-      softWrap: softWrap,
-      locale: locale,
-      style: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        fontStyle: fontStyle,
-        color: color,
-        height: lineHeight,
-        letterSpacing: letterSpacing,
-        wordSpacing: wordSpacing,
-        decoration: textDecoration,
-        decorationColor: textDecorationColor,
-        decorationStyle: textDecorationStyle,
-        backgroundColor: backgroundColor,
-        shadows: shadows,
-      ),
+      extractText(node),
+      textAlign: parseTextAlign(node.string('textAlign')),
+      textDirection: _parseTextDirection(node.string('textDirection')),
+      maxLines: node.int('maxLines'),
+      overflow: parseTextOverflow(node.string('overflow')),
+      softWrap: node.props['softWrap'] as bool?,
+      locale: _parseLocale(node.string('locale')),
+      style: buildTextStyle(node),
     );
   }
 }
 
-TextAlign? _parseTextAlign(String? value) {
+/// Builds a [TextStyle] from a node's style props. Shared by [FuseText] and the
+/// rich-text span builder so the two never drift on how a style is parsed.
+TextStyle buildTextStyle(FuseNode node) {
+  return TextStyle(
+    fontFamily: node.string('fontFamily'),
+    fontSize: node.double('fontSize'),
+    fontWeight: node.fontWeight('fontWeight'),
+    fontStyle: node.string('fontStyle') == 'italic' ? FontStyle.italic : null,
+    color: node.color('color'),
+    height: node.double('lineHeight'),
+    letterSpacing: node.double('letterSpacing'),
+    wordSpacing: node.double('wordSpacing'),
+    decoration: _parseTextDecoration(node.string('textDecoration')),
+    decorationColor: node.color('textDecorationColor'),
+    decorationStyle: _parseTextDecorationStyle(node.string('textDecorationStyle')),
+    backgroundColor: node.color('backgroundColor'),
+    shadows: _parseShadows(node.props['shadows']),
+  );
+}
+
+TextAlign? parseTextAlign(String? value) {
   return switch (value) {
     'left' => TextAlign.left,
     'right' => TextAlign.right,
@@ -72,7 +55,7 @@ TextAlign? _parseTextAlign(String? value) {
   };
 }
 
-TextOverflow? _parseOverflow(String? value) {
+TextOverflow? parseTextOverflow(String? value) {
   return switch (value) {
     'clip' => TextOverflow.clip,
     'fade' => TextOverflow.fade,
@@ -138,13 +121,15 @@ Shadow _parseOneShadow(dynamic value) {
   );
 }
 
-String _extractText(FuseNode node) {
+/// Flattens a node's text content by concatenating every descendant `__text__`
+/// node. Shared by [FuseText] and the rich-text span builder.
+String extractText(FuseNode node) {
   final buf = StringBuffer();
   for (final child in node.children) {
     if (child.type == '__text__') {
       buf.write(child.props['text'] ?? '');
     } else {
-      buf.write(_extractText(child));
+      buf.write(extractText(child));
     }
   }
   return buf.toString();
