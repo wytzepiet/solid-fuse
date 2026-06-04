@@ -58,6 +58,15 @@ export {
   type FloatingLabelBehavior,
 } from "./widgets/text-field";
 
+// Tabs.
+export { Tab, type TabProps } from "./widgets/tabs/tab";
+export { TabBar, type TabBarProps } from "./widgets/tabs/tab-bar";
+export { TabBarView, type TabBarViewProps } from "./widgets/tabs/tab-bar-view";
+export {
+  DefaultTabController,
+  type DefaultTabControllerProps,
+} from "./widgets/tabs/default-tab-controller";
+
 // Slivers — scroll-view hosts.
 export { CustomScrollView, type CustomScrollViewProps } from "./widgets/custom-scroll-view";
 export { NestedScrollView, type NestedScrollViewProps } from "./widgets/nested-scroll-view";
@@ -100,6 +109,8 @@ export { createHandle } from "./handle";
 export type { Handle, HandleRuntime } from "./handle";
 export { createScrollController } from "./scroll-controller";
 export type { ScrollController } from "./scroll-controller";
+export { createTabController } from "./tab-controller";
+export type { TabController } from "./tab-controller";
 export { createFocusNode } from "./focus-node";
 export type { FocusNode } from "./focus-node";
 export { on, send, channels } from "./channels";
