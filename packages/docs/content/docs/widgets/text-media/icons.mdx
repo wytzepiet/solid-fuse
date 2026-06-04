@@ -32,6 +32,23 @@ Each export is an `IconData` value. Import only the icons you use — the module
   the ~10,000 icon definitions off the main entry point's dependency graph.
 </Callout>
 
+### Lucide
+
+[Lucide](https://lucide.dev/) icons are available as the optional
+`@solid-fuse/lucide` package. Like the built-in sets, every export is a
+tree-shakeable `IconData` rendered by the same `Icon` widget — Lucide ships as a
+font, so there's no extra widget or SVG runtime.
+
+```tsx
+import { Icon } from "solid-fuse";
+import { house, search, settings } from "@solid-fuse/lucide";
+
+<Icon data={search} size={24} />
+```
+
+Add it with `bun add @solid-fuse/lucide`; `fuse link` then wires the `lucide`
+font into your app's `pubspec.yaml` automatically.
+
 ## Props
 
 | Prop | Type | Description |

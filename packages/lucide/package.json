@@ -1,0 +1,31 @@
+{
+  "name": "@solid-fuse/lucide",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "dart",
+    "fuse.config.ts"
+  ],
+  "scripts": {
+    "build": "fuse build",
+    "gen-icons": "bun scripts/gen-icons.ts"
+  },
+  "peerDependencies": {
+    "solid-fuse": "workspace:*"
+  },
+  "devDependencies": {
+    "solid-fuse": "workspace:*",
+    "typescript": "^5.9.3"
+  }
+}

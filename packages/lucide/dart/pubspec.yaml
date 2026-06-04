@@ -1,0 +1,16 @@
+name: lucide
+description: Lucide icon font for solid-fuse, via flutter_lucide.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.0-273.0.dev
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_lucide: ^1.11.0
+  solid_fuse: any
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
