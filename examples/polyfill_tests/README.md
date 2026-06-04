@@ -24,10 +24,8 @@ The JS half lives at `../demo/src/sliver-test-entry.tsx`. Rebuild the bundle
 changes:
 
 ```bash
-# from the solid-fuse package dir (where vite resolves)
-cd ../../packages/solid-fuse
-FUSE_REPO_ROOT="$(git rev-parse --show-toplevel)" \
-  bun ../../examples/polyfill_tests/tool/build_sliver_bundle.ts
+# from anywhere in the repo — the tool resolves vite from the solid-fuse package
+bun examples/polyfill_tests/tool/build_sliver_bundle.ts
 ```
 
 ---
