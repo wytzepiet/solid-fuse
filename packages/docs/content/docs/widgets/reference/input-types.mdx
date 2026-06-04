@@ -1,0 +1,72 @@
+---
+title: Input types
+description: Shared shapes for colors, spacing, borders, decorations, and transforms
+---
+
+These types are used across multiple widgets for colors, spacing, borders, and more. They're documented once here and referenced from each widget that accepts them. They map onto Flutter's [`Color`](https://api.flutter.dev/flutter/dart-ui/Color-class.html), [`EdgeInsets`](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html), [`BorderRadius`](https://api.flutter.dev/flutter/painting/BorderRadius-class.html), and [`BoxDecoration`](https://api.flutter.dev/flutter/painting/BoxDecoration-class.html).
+
+## ColorInput
+
+Colors can be specified as named strings, hex codes, or RGB/HSL objects:
+
+```tsx
+// Named
+<Text color="red" />
+<Text color="transparent" />
+
+// Hex (3, 4, 6, or 8 character) — CSS semantics, alpha LAST (#RGBA / #RRGGBBAA)
+<View decoration={{ color: "#F00" }} />
+<View decoration={{ color: "#FF0000" }} />
+<View decoration={{ color: "#FF000080" }} />  {/* red at 50% alpha */}
+
+// RGB object (r/g/b: 0-255, a: 0-1)
+<View decoration={{ color: { r: 255, g: 0, b: 0 } }} />
+<View decoration={{ color: { r: 255, g: 0, b: 0, a: 0.5 } }} />
+
+// HSL object (h: 0-360, s/l: 0-100, a: 0-1)
+<View decoration={{ color: { h: 0, s: 100, l: 50 } }} />
+```
+
+## EdgeInsetsInput
+
+Padding and margin accept a number (all sides) or an object:
+
+```tsx
+<View padding={16} />                                    {/* all sides */}
+<View padding={{ horizontal: 16, vertical: 8 }} />       {/* symmetric */}
+<View padding={{ top: 10, left: 20, bottom: 10 }} />     {/* individual */}
+```
+
+## BorderRadiusInput
+
+```tsx
+<View decoration={{ borderRadius: 12 }} />                          {/* all corners */}
+<View decoration={{ borderRadius: { topLeft: 12, topRight: 12 } }} /> {/* individual */}
+```
+
+## DecorationInput
+
+Combines background, borders, shadows, gradients, and images:
+
+```tsx
+<View decoration={{
+  color: "white",
+  borderRadius: 12,
+  border: { width: 1, color: "#E0E0E0" },
+  shadow: [{ blurRadius: 8, spreadRadius: 1, color: "#0001", offsetY: 2 }],
+  gradient: {
+    type: "linear",
+    colors: ["blue", "purple"],
+    begin: "topLeft",
+    end: "bottomRight",
+  },
+}} />
+```
+
+## TransformInput
+
+```tsx
+<View transform={{ rotate: 0.1 }} />           {/* radians */}
+<View transform={{ scale: 1.5 }} />
+<View transform={{ translateX: 10, translateY: -5 }} />
+```

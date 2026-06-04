@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "index",
+    "lists-and-grids",
+    "app-bars",
+    "sticky-headers",
+    "layout-and-effects",
+    "refresh-and-reorder",
+    "advanced"
+  ]
+}

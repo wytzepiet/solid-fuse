@@ -1,0 +1,83 @@
+---
+title: Layout & effects
+description: Padding, grouping, layout builders, and decoration slivers
+---
+
+These slivers arrange, pad, group, or decorate other slivers without breaking lazy layout.
+
+## Layout and grouping
+
+Most take a single sliver child; the group slivers take many.
+
+```tsx
+import {
+  CustomScrollView,
+  SliverMainAxisGroup,
+  SliverPadding,
+  SliverPersistentHeader,
+  SliverList,
+} from "solid-fuse";
+
+<CustomScrollView>
+  {/* Pins each section's header above its own list */}
+  <SliverMainAxisGroup>
+    <SliverPersistentHeader pinned minExtent={40} maxExtent={40}>
+      {() => <SectionHeader title="Today" />}
+    </SliverPersistentHeader>
+    <SliverPadding padding={{ horizontal: 16 }}>
+      <SliverList>{/* rows */}</SliverList>
+    </SliverPadding>
+  </SliverMainAxisGroup>
+</CustomScrollView>
+```
+
+| Component | Children/slot | Key props |
+|---|---|---|
+| `SliverToBoxAdapter` | single box child | Drops one ordinary widget into a sliver list |
+| `SliverPadding` | single sliver child | `padding: EdgeInsetsInput` |
+| `SliverFillRemaining` | single box child | `hasScrollBody` (default `true`), `fillOverscroll` (default `false`) — fills the leftover viewport |
+| `SliverFillViewport` | children (cells) | `viewportFraction` (default `1`), `padEnds` (default `true`) — each child fills a viewport page |
+| `SliverMainAxisGroup` | slivers | Stacks child slivers along the scroll axis; headers pin within the group |
+| `SliverCrossAxisGroup` | slivers | Lays child slivers out across the cross axis |
+| `SliverConstrainedCrossAxis` | single sliver child | `maxExtent: number` — caps the cross-axis size |
+| `SliverCrossAxisExpanded` | single sliver child | `flex: number` — must be a direct child of `SliverCrossAxisGroup` |
+
+## SliverLayoutBuilder
+
+A **builder** that receives the live `SliverConstraints` and returns a sliver — the sliver analogue of a layout builder. Same builder/signal mechanism (and the same [~1-frame lag](/docs/widgets/slivers/sticky-headers#the-buildersignal-pattern-and-its-1-frame-lag)) as `SliverPersistentHeader`. Maps to Flutter's [`SliverLayoutBuilder`](https://api.flutter.dev/flutter/widgets/SliverLayoutBuilder-class.html).
+
+```tsx
+import { SliverLayoutBuilder, SliverList, SliverGrid } from "solid-fuse";
+
+<SliverLayoutBuilder>
+  {(c) =>
+    c.crossAxisExtent > 600 ? (
+      <SliverGrid crossAxisCount={3}>{/* cells */}</SliverGrid>
+    ) : (
+      <SliverList>{/* rows */}</SliverList>
+    )
+  }
+</SliverLayoutBuilder>
+```
+
+The constraints object exposes `crossAxisExtent`, `scrollOffset`, `remainingPaintExtent`, `viewportMainAxisExtent`, `precedingScrollExtent`, `overlap`, `axisDirection`, `growthDirection`, and `userScrollDirection`.
+
+## Decoration and effects
+
+Wrap a single sliver child to decorate or modulate it without breaking lazy layout.
+
+| Component | Wraps | Key props |
+|---|---|---|
+| `DecoratedSliver` | a sliver | `decoration: DecorationInput`, `position` (`"background"` or `"foreground"`) |
+| `SliverOpacity` | a sliver | `opacity: number`, `alwaysIncludeSemantics?` |
+| `SliverAnimatedOpacity` | a sliver | `opacity: number`, `duration: number` (ms), `curve: string`, `onEnd?` |
+| `SliverIgnorePointer` | a sliver | `ignoring: boolean` |
+| `SliverSafeArea` | a sliver | `top` / `bottom` / `left` / `right` (default `true`), `minimum: EdgeInsetsInput` |
+
+```tsx
+import { DecoratedSliver, SliverList } from "solid-fuse";
+
+<DecoratedSliver decoration={{ color: "white", borderRadius: 12 }}>
+  <SliverList>{/* rows painted on the decoration */}</SliverList>
+</DecoratedSliver>
+```

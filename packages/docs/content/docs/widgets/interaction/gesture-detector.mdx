@@ -1,0 +1,60 @@
+---
+title: GestureDetector
+description: Handle touch, mouse, and trackpad gestures
+---
+
+`GestureDetector` wraps content and handles touch, mouse, and trackpad events. It maps to Flutter's [`GestureDetector`](https://api.flutter.dev/flutter/widgets/GestureDetector-class.html).
+
+```tsx
+import { GestureDetector, Text, View } from "solid-fuse";
+
+<GestureDetector onTap={() => setCount((c) => c + 1)}>
+  <View padding={16} decoration={{ color: "blue", borderRadius: 8 }}>
+    <Text color="white">Tap me</Text>
+  </View>
+</GestureDetector>
+```
+
+All standard Flutter gesture callbacks are available: `onTap`, `onTapDown`, `onTapUp`, `onDoubleTap`, `onLongPress`, `onVerticalDragUpdate`, `onHorizontalDragUpdate`, `onPanUpdate`, `onScaleUpdate`, and their variants. TypeScript autocomplete will show the full list.
+
+`GestureDetector` also supports [`flex`](/docs/widgets/layout/flex) for layout, so you can use it as a tappable container directly.
+
+## Event data
+
+Events include both global and local positions:
+
+```tsx
+<GestureDetector
+  onTapDown={(e) => console.log(e.localX, e.localY)}
+  onPanUpdate={(e) => {
+    // e.dx, e.dy — delta since last update
+    setX((x) => x + e.dx);
+    setY((y) => y + e.dy);
+  }}
+  onPanEnd={(e) => {
+    // e.vx, e.vy — velocity in pixels per second
+    console.log("flung at", e.vx, e.vy);
+  }}
+>
+  {/* ... */}
+</GestureDetector>
+```
+
+| Field | Present on | Description |
+|---|---|---|
+| `x`, `y` | All position events | Global position |
+| `localX`, `localY` | All position events | Position relative to the widget |
+| `dx`, `dy` | Drag/pan/scale update | Delta since last update |
+| `vx`, `vy` | End events | Velocity (pixels/sec) |
+| `scale`, `rotation` | Scale update | Pinch scale factor and rotation (radians) |
+| `kind` | Start/down events | `"touch"`, `"mouse"`, `"stylus"`, `"trackpad"` |
+
+## Hit test behavior
+
+The `behavior` prop controls how the detector responds to touches:
+
+| Value | Description |
+|---|---|
+| `"deferToChild"` | Default. Only the child's area is tappable. |
+| `"opaque"` | Entire bounds tappable, blocks gestures behind. |
+| `"translucent"` | Entire bounds tappable, gestures pass through. |

@@ -1,0 +1,60 @@
+---
+title: Lists & grids
+description: SliverList and SliverGrid — lazy rows and cells inside a CustomScrollView
+---
+
+`SliverList` and `SliverGrid` are the lazy-layout workhorses inside a [`CustomScrollView`](/docs/widgets/slivers). Both follow the [eager-children, lazy-layout](/docs/widgets/slivers#how-lists-render-eager-children-lazy-layout) model — render the whole collection with `<For>` and Flutter lays out only the visible window.
+
+## SliverList
+
+Children are rows. By default rows are measured individually. If every row is the same height, set `itemExtent` — Flutter skips per-row measurement and scrolling gets cheaper. If rows share a size but you'd rather describe it with a widget, pass a `prototypeItem` instead. Maps to Flutter's [`SliverList`](https://api.flutter.dev/flutter/widgets/SliverList-class.html).
+
+```tsx
+import { CustomScrollView, SliverList, Text, View } from "solid-fuse";
+
+<CustomScrollView>
+  <SliverList itemExtent={56}>
+    <For each={contacts()}>
+      {(c) => (
+        <View padding={{ horizontal: 16 }} flex={{ justify: "center" }}>
+          <Text>{c.name}</Text>
+        </View>
+      )}
+    </For>
+  </SliverList>
+</CustomScrollView>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `itemExtent` | `number` | Fixed row height (or width when horizontal). Cheapest option for uniform rows. |
+| `prototypeItem` | `JSX` | A sample row whose measured size fixes every row's extent. Alternative to `itemExtent`. |
+| `addAutomaticKeepAlives` | `boolean` | Keep off-screen rows alive (default `true`) |
+| `addRepaintBoundaries` | `boolean` | Wrap each row in a repaint boundary (default `true`) |
+| `addSemanticIndexes` | `boolean` | Add semantic index metadata (default `true`) |
+
+## SliverGrid
+
+Children are cells. Choose **one** of two layouts: a fixed column count (`crossAxisCount`) or a maximum cell width (`maxCrossAxisExtent`, columns computed to fit). Set one or the other, not both. Maps to Flutter's [`SliverGrid`](https://api.flutter.dev/flutter/widgets/SliverGrid-class.html).
+
+```tsx
+import { CustomScrollView, SliverGrid, Text, View } from "solid-fuse";
+
+<CustomScrollView>
+  <SliverGrid crossAxisCount={3} mainAxisSpacing={8} crossAxisSpacing={8}>
+    <For each={photos()}>
+      {(p) => <View decoration={{ color: p.color, borderRadius: 8 }} />}
+    </For>
+  </SliverGrid>
+</CustomScrollView>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `crossAxisCount` | `number` | Fixed number of columns. Mutually exclusive with `maxCrossAxisExtent`. |
+| `maxCrossAxisExtent` | `number` | Max cell width; column count is derived. Mutually exclusive with `crossAxisCount`. |
+| `mainAxisSpacing` | `number` | Gap between rows |
+| `crossAxisSpacing` | `number` | Gap between columns |
+| `childAspectRatio` | `number` | Cell width-to-height ratio (default `1`) |
+| `mainAxisExtent` | `number` | Fixed cell height along the scroll axis |
+| `addAutomaticKeepAlives` / `addRepaintBoundaries` / `addSemanticIndexes` | `boolean` | Keep-alive flags, as on `SliverList` |

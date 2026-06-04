@@ -1,0 +1,57 @@
+---
+title: Widgets
+description: The built-in widget catalogue — every Flutter widget Fuse exposes to JSX
+---
+
+Every built-in widget ships as an uppercase wrapper component imported from `solid-fuse`. They take typed props and render to native Flutter widgets — there's no DOM, no webview. `<View>` becomes a real Flutter `Container`, `<Text>` a real `Text`, and so on.
+
+This section documents that catalogue, one widget (or closely related family) per page.
+
+## Conventions
+
+A few rules hold across every widget page, so they're stated once here rather than repeated:
+
+- **Flutter names, not DOM names.** Wrappers are named after the Flutter widget they map to, and so are their props and methods (`requestFocus`, not `focus`). Each page links to the matching [Flutter API doc](https://api.flutter.dev/) so you can drop down to the underlying widget's full reference.
+- **Every prop is reactive.** Drive any prop from a signal and the widget updates in place — Fuse diffs the props and Flutter rebuilds only what changed. Pages don't repeat this; assume it everywhere.
+- **`flex` is universal.** Every element that accepts children takes a [`flex`](/docs/widgets/layout/flex) config for layout, instead of separate `Row`/`Column` components.
+- **Shared input shapes** — colours, spacing, borders, decorations — are documented once under [Input types](/docs/widgets/reference/input-types) and referenced from each widget that accepts them.
+
+## Layout
+
+<Cards>
+  <Card title="View" href="/docs/widgets/layout/view" description="The workhorse container — padding, decoration, sizing, transforms" />
+  <Card title="Flex" href="/docs/widgets/layout/flex" description="Row/column layout via the universal flex config" />
+  <Card title="Stack & Positioned" href="/docs/widgets/layout/stack" description="Layer children and place them at coordinates" />
+  <Card title="ScrollView" href="/docs/widgets/layout/scroll-view" description="A simple scrollable container" />
+</Cards>
+
+## Text & media
+
+<Cards>
+  <Card title="Text" href="/docs/widgets/text-media/text" description="Plain labels, and rich wrapping blocks with inline spans and widgets" />
+  <Card title="Icons" href="/docs/widgets/text-media/icons" description="Material and Cupertino glyphs via the Icon widget" />
+  <Card title="Images" href="/docs/widgets/text-media/images" description="Network, asset, file, and in-memory images" />
+</Cards>
+
+## Interaction
+
+<Cards>
+  <Card title="GestureDetector" href="/docs/widgets/interaction/gesture-detector" description="Touch, mouse, and trackpad gestures" />
+</Cards>
+
+## Slivers
+
+Lazy scrolling surfaces — lists, grids, collapsing app bars, sticky headers, and pull-to-refresh. See the [Slivers overview](/docs/widgets/slivers) for how they compose.
+
+<Cards>
+  <Card title="Slivers overview" href="/docs/widgets/slivers" description="CustomScrollView and the eager-children model" />
+  <Card title="Lists & grids" href="/docs/widgets/slivers/lists-and-grids" description="SliverList and SliverGrid" />
+  <Card title="App bars" href="/docs/widgets/slivers/app-bars" description="SliverAppBar, FlexibleSpaceBar, Cupertino nav bar" />
+  <Card title="Sticky headers" href="/docs/widgets/slivers/sticky-headers" description="Pinned, resizing, floating, and custom headers" />
+</Cards>
+
+## Reference
+
+<Cards>
+  <Card title="Input types" href="/docs/widgets/reference/input-types" description="ColorInput, EdgeInsetsInput, DecorationInput, and more" />
+</Cards>

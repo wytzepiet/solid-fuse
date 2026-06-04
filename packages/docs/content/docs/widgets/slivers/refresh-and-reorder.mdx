@@ -1,0 +1,114 @@
+---
+title: Refresh & reorder
+description: Pull-to-refresh indicators and drag-to-reorder lists
+---
+
+## Pull-to-refresh
+
+`onRefresh` is **awaitable**. You return a promise; the spinner stays up until it resolves. This is the one place where a callback's return value crosses the bridge and is awaited on the Dart side, so your refresh logic and the indicator animation stay in sync.
+
+### RefreshIndicator
+
+The Material spinner. Wrap a `CustomScrollView` (or any scrollable) in it. Maps to Flutter's [`RefreshIndicator`](https://api.flutter.dev/flutter/material/RefreshIndicator-class.html).
+
+```tsx
+import { CustomScrollView, RefreshIndicator, SliverList } from "solid-fuse";
+
+<RefreshIndicator
+  onRefresh={async () => {
+    const fresh = await api.fetchFeed();
+    setItems(fresh);
+  }}
+>
+  <CustomScrollView>
+    <SliverList>{/* rows */}</SliverList>
+  </CustomScrollView>
+</RefreshIndicator>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `onRefresh` | `() => Promise<void>` | Awaited; the spinner shows until it resolves |
+| `triggerMode` | `string` | `"onEdge"` or `"anywhere"` |
+| `color` / `backgroundColor` | `ColorInput` | Spinner and backdrop colors |
+| `displacement` / `edgeOffset` | `number` | Spinner position |
+| `strokeWidth` | `number` | Spinner stroke width |
+| `adaptive` | `boolean` | Use the platform-native indicator (Cupertino on iOS) |
+
+### CupertinoSliverRefreshControl
+
+The iOS-style refresh control. Unlike `RefreshIndicator` it **is** a sliver — place it as the first child of a `CustomScrollView`, above your content. Maps to Flutter's [`CupertinoSliverRefreshControl`](https://api.flutter.dev/flutter/cupertino/CupertinoSliverRefreshControl-class.html).
+
+```tsx
+import { CupertinoSliverRefreshControl, CustomScrollView, SliverList } from "solid-fuse";
+
+<CustomScrollView physics="bouncing">
+  <CupertinoSliverRefreshControl
+    onRefresh={async () => {
+      await api.refresh();
+    }}
+  />
+  <SliverList>{/* rows */}</SliverList>
+</CustomScrollView>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `onRefresh` | `() => Promise<void>` | Awaited; the control spins until it resolves |
+| `refreshTriggerPullDistance` | `number` | Pull distance that triggers a refresh |
+| `refreshIndicatorExtent` | `number` | Height held open while refreshing |
+
+## Reorderable lists
+
+`SliverReorderableList` lets the user drag rows to reorder. Rows are eager children, exactly like [`SliverList`](/docs/widgets/slivers/lists-and-grids). You provide `onReorder` and update your own data when it fires. Maps to Flutter's [`SliverReorderableList`](https://api.flutter.dev/flutter/widgets/SliverReorderableList-class.html).
+
+```tsx
+import { createSignal, For } from "solid-js";
+import {
+  CustomScrollView,
+  Icon,
+  ReorderableDragStartListener,
+  SliverReorderableList,
+  Text,
+  View,
+} from "solid-fuse";
+import { dragHandle } from "solid-fuse/icons/material";
+
+function Playlist() {
+  const [tracks, setTracks] = createSignal(["Intro", "Verse", "Chorus"]);
+
+  const reorder = (oldIndex: number, newIndex: number) =>
+    setTracks((t) => {
+      const next = [...t];
+      const [moved] = next.splice(oldIndex, 1);
+      // Flutter reports newIndex as if the moved item is still present
+      next.splice(newIndex > oldIndex ? newIndex - 1 : newIndex, 0, moved);
+      return next;
+    });
+
+  return (
+    <CustomScrollView>
+      <SliverReorderableList onReorder={reorder} itemExtent={56}>
+        <For each={tracks()}>
+          {(track, i) => (
+            <ReorderableDragStartListener index={i()}>
+              <View padding={16} flex={{ direction: "horizontal", justify: "spaceBetween" }}>
+                <Text>{track}</Text>
+                <Icon data={dragHandle} />
+              </View>
+            </ReorderableDragStartListener>
+          )}
+        </For>
+      </SliverReorderableList>
+    </CustomScrollView>
+  );
+}
+```
+
+A row only becomes draggable from inside a `ReorderableDragStartListener` (drag starts immediately) or `ReorderableDelayedDragStartListener` (drag starts after a long-press). Pass each its row `index`.
+
+| Component | Props |
+|---|---|
+| `SliverReorderableList` | `onReorder: (oldIndex, newIndex) => void` (required), `onReorderStart?`, `onReorderEnd?`, `itemExtent?`, `prototypeItem?` |
+| `ReorderableDragStartListener` | `index: number`, `enabled?`, single child |
+| `ReorderableDelayedDragStartListener` | `index: number`, `enabled?`, single child (long-press to start) |

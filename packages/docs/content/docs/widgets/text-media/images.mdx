@@ -1,9 +1,9 @@
 ---
 title: Images
-description: Display network and bundled asset images with the Image widget
+description: Display network, asset, file, and in-memory images with the Image widget
 ---
 
-`Image` loads and displays a single image. It maps to Flutter's `Image` widget and takes a `src` — either a network URL or a path to an asset bundled with your Flutter app.
+`Image` loads and displays a single image. It maps to Flutter's [`Image`](https://api.flutter.dev/flutter/widgets/Image-class.html) widget and takes a `src` — either a network URL or a path to an asset bundled with your Flutter app.
 
 ```tsx
 import { Image } from "solid-fuse";
@@ -57,7 +57,7 @@ An absolute path (`/…`) resolves to a file because it's never a valid Flutter 
 <Image src={url} width={120} height={120} fit="cover" borderRadius={60} />
 ```
 
-`borderRadius` clips the corners — a single number rounds all four, or pass per-corner values (see [BorderRadiusInput](/docs/building/ui-and-layout#borderradiusinput)). Combined with a square box and a radius of half the side, it produces a circular avatar.
+`borderRadius` clips the corners — a single number rounds all four, or pass per-corner values (see [BorderRadiusInput](/docs/widgets/reference/input-types#borderradiusinput)). Combined with a square box and a radius of half the side, it produces a circular avatar.
 
 ## Tinting
 
@@ -81,20 +81,7 @@ For network images, `placeholder` is shown while the image downloads and `errorW
 
 A `placeholder` only applies to network sources — asset images resolve synchronously, so there's nothing to wait for.
 
-## Reactive props
-
-Every prop is reactive — drive `src`, `fit`, or any other prop from a signal and the image updates in place.
-
-```tsx
-import { createSignal } from "solid-js";
-import { Image } from "solid-fuse";
-
-const [url, setUrl] = createSignal("https://picsum.photos/seed/a/300");
-
-<Image src={url()} width={300} height={300} fit="cover" />
-```
-
-## Image props
+## Props
 
 | Prop | Type | Description |
 |---|---|---|
@@ -104,7 +91,7 @@ const [url, setUrl] = createSignal("https://picsum.photos/seed/a/300");
 | `width` | `number` | Box width in logical pixels |
 | `height` | `number` | Box height in logical pixels |
 | `alignment` | `AlignmentString` | Alignment within the box when smaller than it |
-| `color` | `ColorInput` | Tint colour (see [ColorInput](/docs/building/ui-and-layout#colorinput)) |
+| `color` | `ColorInput` | Tint colour (see [ColorInput](/docs/widgets/reference/input-types#colorinput)) |
 | `colorBlendMode` | `string` | Blend mode for the tint. Defaults to `srcIn` when `color` is set |
 | `repeat` | `"noRepeat" \| "repeat" \| "repeatX" \| "repeatY"` | Tile the image to fill the box |
 | `borderRadius` | `BorderRadiusInput` | Round the corners by clipping |
@@ -116,4 +103,4 @@ const [url, setUrl] = createSignal("https://picsum.photos/seed/a/300");
 
 ## Background images
 
-To paint an image *behind* other content rather than as its own element, use a [`View`'s decoration](/docs/building/ui-and-layout#decorationinput) `image` instead — that draws the image as a `DecoratedBox` background with children layered on top.
+To paint an image *behind* other content rather than as its own element, use a [`View`'s decoration](/docs/widgets/reference/input-types#decorationinput) `image` instead — that draws the image as a `DecoratedBox` background with children layered on top.

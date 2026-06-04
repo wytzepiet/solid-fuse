@@ -1,0 +1,32 @@
+---
+title: ScrollView
+description: A simple scrollable container for a single child
+---
+
+`ScrollView` creates a scrollable container. It maps to Flutter's [`SingleChildScrollView`](https://api.flutter.dev/flutter/widgets/SingleChildScrollView-class.html).
+
+```tsx
+import { ScrollView, Text, View } from "solid-fuse";
+
+<ScrollView padding={16} physics="bouncing">
+  <View flex={{ gap: 8 }}>
+    <For each={items()}>{(item) => <Text>{item}</Text>}</For>
+  </View>
+</ScrollView>
+```
+
+## Props
+
+| Prop | Type | Description |
+|---|---|---|
+| `scrollDirection` | `string` | `"vertical"` (default) or `"horizontal"` |
+| `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
+| `reverse` | `boolean` | Reverse scroll direction |
+| `padding` | `EdgeInsetsInput` | Inner padding |
+| `controller` | `ScrollController` | Programmatic scroll control (see [Handles](/docs/building/handles)) |
+| `clipBehavior` | `string` | Clip behavior |
+| `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
+
+<Callout>
+`ScrollView` renders its child eagerly — fine for a bounded amount of content. When the scroll surface itself needs structure (pinned or collapsing headers, multiple lists, grids, lazy layout over a long list, or pull-to-refresh), reach for [slivers](/docs/widgets/slivers) instead.
+</Callout>

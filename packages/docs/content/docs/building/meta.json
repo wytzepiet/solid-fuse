@@ -1,3 +1,3 @@
 {
-  "pages": ["ui-and-layout", "rich-text", "slivers", "icons", "images", "host", "navigation", "handles", "channels"]
+  "pages": ["host", "navigation", "handles", "channels"]
 }

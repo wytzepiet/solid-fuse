@@ -1,0 +1,41 @@
+---
+title: View
+description: The workhorse layout container — padding, decoration, sizing, and transforms
+---
+
+`View` is the workhorse layout container. It maps to a composition of Flutter widgets — [`Container`](https://api.flutter.dev/flutter/widgets/Container-class.html), `Padding`, `SizedBox`, `Opacity`, `Transform`, and more — depending on which props you set.
+
+```tsx
+import { Text, View } from "solid-fuse";
+
+<View
+  padding={16}
+  decoration={{ color: "white", borderRadius: 12, shadow: [{ blurRadius: 8, color: "#0002" }] }}
+>
+  <Text fontSize={18}>Card content</Text>
+</View>
+```
+
+## Props
+
+| Prop | Type | Description |
+|---|---|---|
+| `flex` | `FlexInput` | Layout children (see [Flex](/docs/widgets/layout/flex)) |
+| `padding` | `EdgeInsetsInput` | Inner spacing |
+| `margin` | `EdgeInsetsInput` | Outer spacing |
+| `width` / `height` | `number` | Fixed dimensions |
+| `minWidth` / `maxWidth` | `number` | Size constraints |
+| `minHeight` / `maxHeight` | `number` | Size constraints |
+| `aspectRatio` | `number` | Width-to-height ratio |
+| `alignment` | `AlignmentString` | Align child within view |
+| `decoration` | `DecorationInput` | Background, borders, shadows, gradients |
+| `foregroundDecoration` | `DecorationInput` | Decoration painted on top |
+| `opacity` | `number` | 0–1 transparency |
+| `transform` | `TransformInput` | Rotate, scale, translate |
+| `clipBehavior` | `string` | Clip behavior (`"hardEdge"`, `"antiAlias"`, `"none"`) |
+| `grow` | `number` | Flex grow factor (when inside a flex parent) |
+| `fit` | `string` | `"tight"` or `"loose"` (with grow) |
+| `visible` | `boolean` | Show/hide without removing from tree |
+| `ignorePointer` | `boolean` | Disable hit testing |
+
+The `decoration`, `padding`/`margin`, `alignment`, and `transform` props take the shared shapes documented under [Input types](/docs/widgets/reference/input-types). To paint an image behind a `View`'s children, set [`decoration.image`](/docs/widgets/reference/input-types#decorationinput) rather than nesting an [`Image`](/docs/widgets/text-media/images).
