@@ -7,6 +7,8 @@ export interface PositionedProps extends BaseProps {
   bottom?: number;
   width?: number;
   height?: number;
+  /** Mirrors Flutter's Positioned.fill: sets unset sides (top/left/right/bottom) to 0. Explicit sides override. */
+  fill?: boolean;
   flex?: FlexInput;
 }
 

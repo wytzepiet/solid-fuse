@@ -30,5 +30,8 @@ import { Positioned, Stack, Text, View } from "solid-fuse";
 |---|---|---|
 | `top` / `left` / `right` / `bottom` | `number` | Offset from stack edges |
 | `width` / `height` | `number` | Fixed dimensions |
+| `fill` | `boolean` | Mirrors Flutter's `Positioned.fill`: sets any unset side to `0` so the child fills the stack. Explicitly-set sides override. |
 
 A child without a `Positioned` wrapper is laid out by the stack's `alignment`. Only `Positioned` children are placed by coordinate.
+
+`fill` resolves each side as `explicit ?? (fill ? 0 : null)`. So `<Positioned fill>` pins all four sides to `0`, while `<Positioned fill bottom={80}>` keeps `top`/`left`/`right` at `0` but places `bottom` at `80`.
