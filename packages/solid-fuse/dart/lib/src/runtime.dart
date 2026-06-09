@@ -2,11 +2,13 @@ import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'channels.dart';
 import 'connection.dart';
 import 'dev_connection.dart';
 import 'fuse_handle.dart';
 import 'node.dart';
 import 'quickjs_connection.dart';
+import 'raf_driver.dart';
 
 /// Signature for a Fuse widget builder.
 /// Matches the constructor signature of Fuse widget classes,
@@ -38,6 +40,16 @@ class FuseRuntime {
   final Map<String, FuseWidgetBuilder> _widgetBuilders = {};
   final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
   late final FuseNodeRegistry registry;
+
+  /// Dev/test seam: the live channel pipe to JS, or null before [start]. Lets
+  /// tooling send/receive raw channel messages without going through the widget
+  /// protocol (used by the demo's bridge benchmark and by integration tests).
+  FuseChannels? get channels => _connection?.channels;
+
+  /// Dev/test seam: invoked at the end of every [applyOps] batch, after all
+  /// dirty nodes are marked. Lets a harness observe exactly when a batch lands
+  /// (e.g. to time the JS-signal → ops → apply pipeline).
+  void Function(List<dynamic> ops)? onOpsApplied;
 
   /// Construct a runtime. Does FFI init only — does NOT start the JS engine.
   ///
@@ -150,6 +162,9 @@ class FuseRuntime {
   /// Register runtime-level channel handlers.
   void _registerChannels() {
     final channels = _connection!.channels!;
+    // Vsync-driven requestAnimationFrame. Registering the `_raf` handler in its
+    // constructor is what keeps the driver alive — the handler closure holds it.
+    FuseRafDriver(channels);
     channels.on('_ops', (data) {
       try {
         applyOps(data['ops'] as List<dynamic>);
@@ -268,6 +283,8 @@ class FuseRuntime {
     for (final node in dirty) {
       node.markDirty();
     }
+
+    onOpsApplied?.call(ops);
   }
 
   /// Recursively remove a node and its descendants from the registry,

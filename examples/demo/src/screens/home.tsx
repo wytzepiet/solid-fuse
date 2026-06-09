@@ -5,6 +5,7 @@ import { TextFieldScreen } from "./text-field";
 import { IconScreen } from "./icon";
 import { ScrollScreen } from "./scroll";
 import { SliverScreen } from "./sliver";
+import { RafScreen } from "./raf";
 
 export function HomeScreen() {
   const nav = useNavigation();
@@ -38,6 +39,10 @@ export function HomeScreen() {
       <MenuItem
         label="slivers"
         onTap={() => nav.push(() => <SliverScreen />)}
+      />
+      <MenuItem
+        label="requestAnimationFrame"
+        onTap={() => nav.push(() => <RafScreen />)}
       />
     </View>
   );

@@ -1,0 +1,69 @@
+---
+title: Animation frames
+description: requestAnimationFrame / cancelAnimationFrame, driven by Flutter's real vsync
+---
+
+`requestAnimationFrame` and `cancelAnimationFrame` work the way you expect from
+the browser, with one difference that matters: the clock is **Flutter's real
+vsync**, not a JavaScript timer.
+
+```tsx
+const id = requestAnimationFrame((time) => {
+  // `time` is a monotonic timestamp in milliseconds (same units as the DOM's).
+  // ...do per-frame work, then re-arm for the next frame:
+  requestAnimationFrame(loop);
+});
+
+cancelAnimationFrame(id); // stop a pending callback
+```
+
+## Why it's vsync-driven
+
+A timer-based `requestAnimationFrame` (e.g. `setTimeout(cb, 16)`) drifts against
+the display's actual refresh rate — it has no idea when a frame is really about
+to be drawn. In solid-fuse the loop lives on the Dart side: Flutter's frame
+pipeline calls into JS once per vsync and runs your queued callbacks, so the
+cadence is exactly one tick per displayed frame, whatever the refresh rate
+(60Hz, 120Hz, ProMotion, …).
+
+The `time` argument is Flutter's `SchedulerBinding.currentFrameTimeStamp` in
+milliseconds — a **monotonic** clock. Compute animation state as a function of
+this timestamp rather than accumulating per-frame deltas, and your animation
+stays correct even if a frame is dropped.
+
+## Semantics
+
+- A callback registered **during** a frame runs on the **next** frame, never the
+  current one — same as the browser. This is what makes the re-arm pattern above
+  loop once per frame instead of spinning.
+- The loop is **idle-gated**: when no callbacks are queued, nothing ticks. The
+  first `requestAnimationFrame` after an idle period wakes the loop; when the
+  last callback fails to re-arm, the loop stops on its own. You don't pay a
+  per-frame cost for an idle screen.
+- A callback that throws is reported and skipped; the rest of that frame's
+  callbacks still run.
+
+## Animating reactively
+
+Inside a callback, writing a signal flushes to the widget tree the same way any
+other reactive update does — so per-frame signal writes drive native Flutter
+widgets at the display's refresh rate:
+
+```tsx
+import { createSignal } from "solid-js";
+import { View } from "solid-fuse";
+
+function Slider() {
+  const [x, setX] = createSignal(0);
+
+  const loop = (t: number) => {
+    setX(100 * (1 - Math.cos(t / 500)) / 2);
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+
+  return <View padding={{ left: x() }}>{/* ... */}</View>;
+}
+```
+
+This pair is the foundation the higher-level animation primitives build on.

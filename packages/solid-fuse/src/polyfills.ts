@@ -142,6 +142,61 @@ if (typeof globalThis.WebSocket === "undefined") {
   globalThis.WebSocket = FuseWebSocket as any;
 }
 
+// requestAnimationFrame / cancelAnimationFrame — driven by Flutter's real
+// vsync, not a JS timer. A timer-based rAF drifts against the actual refresh
+// rate; instead Dart drives its frame pipeline and calls `_rafTick` into JS
+// once per vsync (see dart/lib/src/raf_driver.dart). The clock lives on Dart:
+// the timestamp handed to each callback is Flutter's monotonic
+// `currentFrameTimeStamp`, in milliseconds — same units as the DOM's.
+//
+// Always installed (not guarded behind `typeof`): any rAF fjs's builtins might
+// provide would be timer-based, which is exactly what we're avoiding.
+{
+  type FrameCallback = (time: number) => void;
+
+  const callbacks = new Map<number, FrameCallback>();
+  let nextId = 1;
+  // True while Dart is driving the frame loop. Lets us wake Dart only on the
+  // empty → non-empty transition, so nothing ticks when nothing's animating.
+  let running = false;
+
+  globalThis.requestAnimationFrame = (cb: FrameCallback): number => {
+    const id = nextId++;
+    callbacks.set(id, cb);
+    if (!running) {
+      running = true;
+      // Fire-and-forget: a JS→Dart call must never be awaited from inside a
+      // Dart→JS dispatch (it panics the bridge), and there's nothing to await.
+      send("_raf", { op: "wake" });
+    }
+    return id;
+  };
+
+  globalThis.cancelAnimationFrame = (id: number): void => {
+    callbacks.delete(id);
+  };
+
+  // Dart calls this once per vsync with the frame timestamp (ms, monotonic).
+  // Snapshot and clear the queue *before* running, so callbacks that re-arm via
+  // requestAnimationFrame land on the NEXT frame (standard rAF semantics), not
+  // this one. The return value tells Dart whether to schedule another frame;
+  // when the queue drains, Dart idles until the next `wake`.
+  on("_rafTick", (data: { ts: number }) => {
+    const batch = [...callbacks.values()];
+    callbacks.clear();
+    for (const cb of batch) {
+      try {
+        cb(data.ts);
+      } catch (err) {
+        // One bad callback shouldn't abort the rest of the frame.
+        console.error(err);
+      }
+    }
+    running = callbacks.size > 0;
+    return { more: running };
+  });
+}
+
 // console — fjs doesn't provide one, and a missing method throws
 // "console.x is not a function" deep inside dependency code (e.g. Convex's
 // verbose logger calls console.debug). Every line is shipped to Dart over the
