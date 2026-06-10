@@ -1,6 +1,6 @@
 import type {
   BaseProps,
-  ColorInput,
+  Color,
   FontWeight,
   ShadowInput,
 } from "../types";
@@ -11,14 +11,14 @@ export interface TextStyleProps {
   fontWeight?: FontWeight;
   fontFamily?: string;
   fontStyle?: "normal" | "italic";
-  color?: ColorInput;
+  color?: Color;
   lineHeight?: number;
   letterSpacing?: number;
   wordSpacing?: number;
   textDecoration?: "none" | "underline" | "overline" | "lineThrough";
-  textDecorationColor?: ColorInput;
+  textDecorationColor?: Color;
   textDecorationStyle?: "solid" | "double" | "dotted" | "dashed" | "wavy";
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
   shadows?: ShadowInput | ShadowInput[];
 }
 

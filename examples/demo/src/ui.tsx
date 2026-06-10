@@ -1,13 +1,13 @@
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Color, GestureDetector, Text, View } from "solid-fuse";
 
 export function Button(props: { onTap: () => void; children: JSX.Element }) {
   return (
     <GestureDetector onTap={props.onTap}>
       <View
         padding={{ horizontal: 16, vertical: 12 }}
-        decoration={{ color: "#2563eb", borderRadius: 8 }}
+        decoration={{ color: Color.hex("#2563eb"), borderRadius: 8 }}
       >
-        <Text color="white" fontWeight="semiBold">
+        <Text color={Color.white} fontWeight="semiBold">
           {props.children}
         </Text>
       </View>
@@ -28,7 +28,7 @@ export function MenuItem(props: { label: string; onTap: () => void }) {
     <GestureDetector onTap={props.onTap}>
       <View
         padding={16}
-        decoration={{ border: { bottom: { width: 1, color: "#E5E7EB" } } }}
+        decoration={{ border: { bottom: { width: 1, color: Color.hex("#E5E7EB") } } }}
       >
         <Text fontSize={16}>{props.label}</Text>
       </View>

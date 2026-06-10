@@ -1,16 +1,11 @@
 // Shared input and primitive types used across widgets.
 // Widget-specific prop types live alongside their components in `./widgets/`.
 
-export type NamedColor =
-  | "red" | "blue" | "green" | "white" | "black" | "grey"
-  | "orange" | "purple" | "yellow" | "teal" | "cyan" | "amber"
-  | "indigo" | "pink" | "brown" | "transparent";
-
-export type ColorInput =
-  | NamedColor
-  | (string & {})
-  | { r: number; g: number; b: number; a?: number }
-  | { h: number; s: number; l: number; a?: number };
+// Colors are always a `Color` value — build them with `Color.rgb`/`hsl`/`hex`/
+// `oklch` or the named constants (`Color.red`, `Color.white`, …). Re-exported
+// here so widget prop types can pull it in alongside the other input shapes.
+import type { Color } from "./color";
+export type { Color };
 
 export type EdgeInsetsInput = number | {
   all?: number;
@@ -32,7 +27,7 @@ export type BorderRadiusInput = number | {
 
 export type BorderSideInput = {
   width?: number;
-  color?: ColorInput;
+  color?: Color;
 };
 
 export type BorderInput = BorderSideInput | {
@@ -44,7 +39,7 @@ export type BorderInput = BorderSideInput | {
 };
 
 export type ShadowInput = {
-  color?: ColorInput;
+  color?: Color;
   blurRadius?: number;
   spreadRadius?: number;
   offsetX?: number;
@@ -63,7 +58,7 @@ export type AlignmentString =
 
 export type GradientInput = {
   type?: "linear" | "radial";
-  colors: ColorInput[];
+  colors: Color[];
   stops?: number[];
   begin?: AlignmentString;
   end?: AlignmentString;
@@ -82,7 +77,7 @@ export type ImageInput = {
 };
 
 export type DecorationInput = {
-  color?: ColorInput;
+  color?: Color;
   borderRadius?: BorderRadiusInput;
   border?: BorderInput;
   shadow?: ShadowInput | ShadowInput[];

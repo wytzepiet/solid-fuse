@@ -40,10 +40,10 @@ Use `grow` on children to distribute extra space, similar to CSS `flex-grow` (Fl
 
 ```tsx
 <View flex={{ direction: "horizontal", expand: true }}>
-  <View grow={1} decoration={{ color: "red" }}>
+  <View grow={1} decoration={{ color: Color.red }}>
     <Text>Takes remaining space</Text>
   </View>
-  <View width={100} decoration={{ color: "blue" }}>
+  <View width={100} decoration={{ color: Color.blue }}>
     <Text>Fixed 100px</Text>
   </View>
 </View>

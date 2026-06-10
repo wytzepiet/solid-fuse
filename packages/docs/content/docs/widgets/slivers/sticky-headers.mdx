@@ -17,10 +17,10 @@ These keep a header visible while a section scrolls. Pick by behavior:
 A single child that pins to the leading edge. Maps to Flutter's [`PinnedHeaderSliver`](https://api.flutter.dev/flutter/widgets/PinnedHeaderSliver-class.html).
 
 ```tsx
-import { PinnedHeaderSliver, Text, View } from "solid-fuse";
+import { Color, PinnedHeaderSliver, Text, View } from "solid-fuse";
 
 <PinnedHeaderSliver>
-  <View padding={12} decoration={{ color: "white" }}>
+  <View padding={12} decoration={{ color: Color.white }}>
     <Text fontWeight="bold">A</Text>
   </View>
 </PinnedHeaderSliver>
@@ -50,13 +50,13 @@ import { SliverResizingHeader, Text, View } from "solid-fuse";
 Stays hidden until you scroll back toward it, then animates in over the content. Maps to Flutter's [`SliverFloatingHeader`](https://api.flutter.dev/flutter/widgets/SliverFloatingHeader-class.html).
 
 ```tsx
-import { SliverFloatingHeader, Text, View } from "solid-fuse";
+import { Color, SliverFloatingHeader, Text, View } from "solid-fuse";
 
 <SliverFloatingHeader
   snapMode="overlay"
   animationStyle={{ duration: 200, curve: "easeOut" }}
 >
-  <View padding={12} decoration={{ color: "white" }}>
+  <View padding={12} decoration={{ color: Color.white }}>
     <Text>Floating toolbar</Text>
   </View>
 </SliverFloatingHeader>
@@ -72,14 +72,14 @@ import { SliverFloatingHeader, Text, View } from "solid-fuse";
 The general-purpose header. Its child is a **builder** — a function that receives the current shrink offset and whether it overlaps scrolled content, and returns JSX. Use it when you want to animate a header yourself based on how far it's collapsed. Maps to Flutter's [`SliverPersistentHeader`](https://api.flutter.dev/flutter/widgets/SliverPersistentHeader-class.html).
 
 ```tsx
-import { SliverPersistentHeader, Text, View } from "solid-fuse";
+import { Color, SliverPersistentHeader, Text, View } from "solid-fuse";
 
 <SliverPersistentHeader pinned minExtent={56} maxExtent={160}>
   {(shrinkOffset, overlapsContent) => {
     const t = 1 - shrinkOffset / 160; // 1 expanded → 0 collapsed
     return (
       <View
-        decoration={{ color: "white" }}
+        decoration={{ color: Color.white }}
         flex={{ justify: "center" }}
         padding={{ horizontal: 16 }}
       >

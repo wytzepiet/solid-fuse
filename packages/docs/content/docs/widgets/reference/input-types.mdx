@@ -5,27 +5,42 @@ description: Shared shapes for colors, spacing, borders, decorations, and transf
 
 These types are used across multiple widgets for colors, spacing, borders, and more. They're documented once here and referenced from each widget that accepts them. They map onto Flutter's [`Color`](https://api.flutter.dev/flutter/dart-ui/Color-class.html), [`EdgeInsets`](https://api.flutter.dev/flutter/painting/EdgeInsets-class.html), [`BorderRadius`](https://api.flutter.dev/flutter/painting/BorderRadius-class.html), and [`BoxDecoration`](https://api.flutter.dev/flutter/painting/BoxDecoration-class.html).
 
-## ColorInput
+## Color
 
-Colors can be specified as named strings, hex codes, or RGB/HSL objects:
+Colors are `Color` values — build them with a constructor or a named constant, imported from `solid-fuse`:
 
 ```tsx
-// Named
-<Text color="red" />
-<Text color="transparent" />
+import { Color } from "solid-fuse";
 
-// Hex (3, 4, 6, or 8 character) — CSS semantics, alpha LAST (#RGBA / #RRGGBBAA)
-<View decoration={{ color: "#F00" }} />
-<View decoration={{ color: "#FF0000" }} />
-<View decoration={{ color: "#FF000080" }} />  {/* red at 50% alpha */}
+// Named constants
+<Text color={Color.red} />
+<Text color={Color.transparent} />
 
-// RGB object (r/g/b: 0-255, a: 0-1)
-<View decoration={{ color: { r: 255, g: 0, b: 0 } }} />
-<View decoration={{ color: { r: 255, g: 0, b: 0, a: 0.5 } }} />
+// rgb (r/g/b: 0–255, a: 0–1) · hsl (h: 0–360, s/l: 0–100) · oklch (l: 0–1, c, h°)
+<View decoration={{ color: Color.rgb(255, 0, 0) }} />
+<View decoration={{ color: Color.rgb(255, 0, 0, 0.5) }} />
+<View decoration={{ color: Color.hsl(0, 100, 50) }} />
+<View decoration={{ color: Color.oklch(0.7, 0.15, 30) }} />
 
-// HSL object (h: 0-360, s/l: 0-100, a: 0-1)
-<View decoration={{ color: { h: 0, s: 100, l: 50 } }} />
+// hex (3, 4, 6, or 8 chars) — CSS semantics, alpha LAST (#RGBA / #RRGGBBAA)
+<View decoration={{ color: Color.hex("#F00") }} />
+<View decoration={{ color: Color.hex("#FF000080") }} />  {/* red at 50% alpha */}
 ```
+
+`Color` is immutable; its operations return new colors and chain left-to-right (like a pipe). `mix` and the lightness/chroma/hue ops work in OKLab/OKLCH, so blends stay perceptually smooth instead of muddying through grey:
+
+```tsx
+Color.red.withAlpha(0.5)           // translucent red
+Color.blue.lighten(0.1)            // L +0.1 in OKLCH
+Color.blue.darken(0.1)
+Color.red.saturate(0.05)
+Color.red.rotateHue(30)            // hue +30°
+Color.red.mix(Color.blue, 0.5)     // perceptual midpoint (OKLab)
+
+Color.teal.darken(0.1).withAlpha(0.8)   // chains
+```
+
+Named constants: `transparent`, `white`, `black`, `red`, `blue`, `green`, `grey`, `orange`, `purple`, `yellow`, `teal`, `cyan`, `amber`, `indigo`, `pink`, `brown` (the Material 500 swatch).
 
 ## EdgeInsetsInput
 
@@ -50,13 +65,13 @@ Combines background, borders, shadows, gradients, and images:
 
 ```tsx
 <View decoration={{
-  color: "white",
+  color: Color.white,
   borderRadius: 12,
-  border: { width: 1, color: "#E0E0E0" },
-  shadow: [{ blurRadius: 8, spreadRadius: 1, color: "#0001", offsetY: 2 }],
+  border: { width: 1, color: Color.hex("#E0E0E0") },
+  shadow: [{ blurRadius: 8, spreadRadius: 1, color: Color.hex("#0001"), offsetY: 2 }],
   gradient: {
     type: "linear",
-    colors: ["blue", "purple"],
+    colors: [Color.blue, Color.purple],
     begin: "topLeft",
     end: "bottomRight",
   },

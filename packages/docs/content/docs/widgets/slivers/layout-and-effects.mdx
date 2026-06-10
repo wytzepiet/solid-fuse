@@ -75,9 +75,9 @@ Wrap a single sliver child to decorate or modulate it without breaking lazy layo
 | `SliverSafeArea` | a sliver | `top` / `bottom` / `left` / `right` (default `true`), `minimum: EdgeInsetsInput` |
 
 ```tsx
-import { DecoratedSliver, SliverList } from "solid-fuse";
+import { Color, DecoratedSliver, SliverList } from "solid-fuse";
 
-<DecoratedSliver decoration={{ color: "white", borderRadius: 12 }}>
+<DecoratedSliver decoration={{ color: Color.white, borderRadius: 12 }}>
   <SliverList>{/* rows painted on the decoration */}</SliverList>
 </DecoratedSliver>
 ```

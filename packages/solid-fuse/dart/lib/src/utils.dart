@@ -2,80 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'node.dart';
 
-// ─── Named colors ────────────────────────────────────────────────────────────
-
-const _namedColors = <String, Color>{
-  'red': Colors.red,
-  'blue': Colors.blue,
-  'green': Colors.green,
-  'white': Colors.white,
-  'black': Colors.black,
-  'grey': Colors.grey,
-  'orange': Colors.orange,
-  'purple': Colors.purple,
-  'yellow': Colors.yellow,
-  'teal': Colors.teal,
-  'cyan': Colors.cyan,
-  'amber': Colors.amber,
-  'indigo': Colors.indigo,
-  'pink': Colors.pink,
-  'brown': Colors.brown,
-  'transparent': Colors.transparent,
-};
-
 // ─── parseColor ──────────────────────────────────────────────────────────────
 
-/// Accepts:
-///  - String hex (CSS semantics — alpha LAST): "#RGB", "#RGBA", "#RRGGBB",
-///    "#RRGGBBAA". Note this is the web standard, not Dart's `0xAARRGGBB`.
-///  - String named: "red", "blue", etc.
-///  - Map RGB: { r, g, b, a? }
-///  - Map HSL: { h, s, l, a? }
+/// Parses the wire form of a JS `Color`: an RGBA map `{ r, g, b, a? }`, with
+/// r/g/b in 0–255 and a in 0–1. Colors are always built with the `Color` value
+/// type on the JS side, so this is the only shape that crosses the bridge.
 Color? parseColor(dynamic value) {
-  if (value == null) return null;
-
-  if (value is String) {
-    if (value.startsWith('#')) {
-      final hex = value.substring(1);
-      // Flutter's Color int is 0xAARRGGBB, so we move the CSS alpha to the front.
-      switch (hex.length) {
-        case 3: // #RGB
-          final r = hex[0], g = hex[1], b = hex[2];
-          return Color(int.parse('FF$r$r$g$g$b$b', radix: 16));
-        case 4: // #RGBA (CSS — alpha last)
-          final r = hex[0], g = hex[1], b = hex[2], a = hex[3];
-          return Color(int.parse('$a$a$r$r$g$g$b$b', radix: 16));
-        case 6: // #RRGGBB
-          return Color(int.parse('FF$hex', radix: 16));
-        case 8: // #RRGGBBAA (CSS — alpha last)
-          final rgb = hex.substring(0, 6);
-          final a = hex.substring(6, 8);
-          return Color(int.parse('$a$rgb', radix: 16));
-      }
-      return null;
-    }
-    return _namedColors[value.toLowerCase()];
-  }
-
-  if (value is Map) {
-    final m = FuseMap.from(value)!;
-    if (m['r'] != null) {
-      final r = (m.int('r') ?? 0).clamp(0, 255);
-      final g = (m.int('g') ?? 0).clamp(0, 255);
-      final b = (m.int('b') ?? 0).clamp(0, 255);
-      final a = (m.double('a') ?? 1.0).clamp(0.0, 1.0);
-      return Color.fromRGBO(r, g, b, a);
-    }
-    if (m['h'] != null) {
-      final h = (m.double('h') ?? 0) % 360;
-      final s = ((m.double('s') ?? 0) / 100).clamp(0.0, 1.0);
-      final l = ((m.double('l') ?? 0) / 100).clamp(0.0, 1.0);
-      final a = (m.double('a') ?? 1.0).clamp(0.0, 1.0);
-      return HSLColor.fromAHSL(a, h, s, l).toColor();
-    }
-  }
-
-  return null;
+  if (value is! Map) return null;
+  final m = FuseMap.from(value)!;
+  if (m['r'] == null) return null;
+  final r = (m.int('r') ?? 0).clamp(0, 255);
+  final g = (m.int('g') ?? 0).clamp(0, 255);
+  final b = (m.int('b') ?? 0).clamp(0, 255);
+  final a = (m.double('a') ?? 1.0).clamp(0.0, 1.0);
+  return Color.fromRGBO(r, g, b, a);
 }
 
 // ─── parseEdgeInsets ─────────────────────────────────────────────────────────

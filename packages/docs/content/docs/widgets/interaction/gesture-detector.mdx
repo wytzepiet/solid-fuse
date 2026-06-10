@@ -6,11 +6,11 @@ description: Handle touch, mouse, and trackpad gestures
 `GestureDetector` wraps content and handles touch, mouse, and trackpad events. It maps to Flutter's [`GestureDetector`](https://api.flutter.dev/flutter/widgets/GestureDetector-class.html).
 
 ```tsx
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Color, GestureDetector, Text, View } from "solid-fuse";
 
 <GestureDetector onTap={() => setCount((c) => c + 1)}>
-  <View padding={16} decoration={{ color: "blue", borderRadius: 8 }}>
-    <Text color="white">Tap me</Text>
+  <View padding={16} decoration={{ color: Color.blue, borderRadius: 8 }}>
+    <Text color={Color.white}>Tap me</Text>
   </View>
 </GestureDetector>
 ```

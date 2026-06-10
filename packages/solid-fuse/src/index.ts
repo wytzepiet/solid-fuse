@@ -30,6 +30,7 @@ export {
   type PageConfig,
   type PageEntry,
 } from "./navigator";
+export { Color } from "./color";
 export { materialPage, type MaterialPageProps } from "./pages/material";
 export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";

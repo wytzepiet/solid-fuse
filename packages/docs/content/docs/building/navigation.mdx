@@ -22,7 +22,7 @@ function App() {
 Any component inside a `Navigator` can access the navigation API:
 
 ```tsx
-import { GestureDetector, Text, View, useNavigation } from "solid-fuse";
+import { Color, GestureDetector, Text, View, useNavigation } from "solid-fuse";
 
 function HomePage() {
   const nav = useNavigation();
@@ -31,8 +31,8 @@ function HomePage() {
     <View flex={{ gap: 16 }} padding={24}>
       <Text fontSize={24}>Home</Text>
       <GestureDetector onTap={() => nav.push(() => <DetailPage />)}>
-        <View padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
-          <Text color="white">Go to detail</Text>
+        <View padding={12} decoration={{ color: Color.blue, borderRadius: 8 }}>
+          <Text color={Color.white}>Go to detail</Text>
         </View>
       </GestureDetector>
     </View>
@@ -101,6 +101,7 @@ A two-page app with a list and detail view:
 ```tsx
 import { createSignal, For } from "solid-js";
 import {
+  Color,
   GestureDetector,
   Navigator,
   Text,
@@ -127,7 +128,7 @@ function ListPage() {
           <GestureDetector onTap={() => nav.push(() => <DetailPage name={item} />)}>
             <View
               padding={16}
-              decoration={{ border: { bottom: { width: 1, color: "#E0E0E0" } } }}
+              decoration={{ border: { bottom: { width: 1, color: Color.hex("#E0E0E0") } } }}
             >
               <Text fontSize={16}>{item}</Text>
             </View>
@@ -145,7 +146,7 @@ function DetailPage(props: { name: string }) {
     <View flex={{ align: "center", justify: "center", expand: true }}>
       <Text fontSize={32}>{props.name}</Text>
       <GestureDetector onTap={() => nav.pop()}>
-        <Text color="blue" fontSize={16}>Back to list</Text>
+        <Text color={Color.blue} fontSize={16}>Back to list</Text>
       </GestureDetector>
     </View>
   );

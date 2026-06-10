@@ -3,7 +3,7 @@ import type {
   BaseProps,
   BorderRadiusInput,
   BoxFit,
-  ColorInput,
+  Color,
   ImageRepeat,
 } from "../types";
 
@@ -25,7 +25,7 @@ export interface ImageProps extends BaseProps {
   /** Alignment within its bounds when it doesn't fill them (e.g. with `none`). */
   alignment?: AlignmentString;
   /** Tint colour, blended with the image via `colorBlendMode`. */
-  color?: ColorInput;
+  color?: Color;
   /** Blend mode used to combine `color` with the image. Defaults to `srcIn` when `color` is set. */
   colorBlendMode?: string;
   /** How to paint any space not covered by the image. Defaults to `noRepeat`. */

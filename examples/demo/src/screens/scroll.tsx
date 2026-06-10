@@ -1,4 +1,5 @@
 import {
+  Color,
   ScrollView,
   Text,
   View,
@@ -27,7 +28,7 @@ export function ScrollScreen() {
           <Text fontSize={24} fontWeight="bold">
             scrollController
           </Text>
-          <Text color="#6B7280" fontSize={14}>
+          <Text color={Color.hex("#6B7280")} fontSize={14}>
             initialScrollOffset, reactive offset, imperative scroll
           </Text>
         </View>
@@ -60,7 +61,7 @@ export function ScrollScreen() {
             <View
               padding={16}
               decoration={{
-                color: i % 2 === 0 ? "#F3F4F6" : "#E5E7EB",
+                color: i % 2 === 0 ? Color.hex("#F3F4F6") : Color.hex("#E5E7EB"),
                 borderRadius: 8,
               }}
             >

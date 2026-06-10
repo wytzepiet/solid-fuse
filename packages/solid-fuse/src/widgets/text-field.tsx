@@ -1,6 +1,6 @@
 import type {
   BaseProps,
-  ColorInput,
+  Color,
   EdgeInsetsInput,
   FlexInput,
   FontWeight,
@@ -31,7 +31,7 @@ export type FloatingLabelBehavior = "auto" | "always" | "never";
 export interface TextFieldDecoration {
   border?: TextFieldBorderStyle;
   filled?: boolean;
-  fillColor?: ColorInput;
+  fillColor?: Color;
   contentPadding?: EdgeInsetsInput;
   prefixText?: string;
   suffixText?: string;
@@ -43,7 +43,7 @@ export interface TextFieldDecoration {
   isCollapsed?: boolean;
   hintStyle?: {
     fontSize?: number;
-    color?: ColorInput;
+    color?: Color;
     fontWeight?: FontWeight;
     fontFamily?: string;
   };
@@ -88,17 +88,17 @@ export interface TextFieldProps extends BaseProps {
   fontWeight?: FontWeight;
   fontFamily?: string;
   fontStyle?: "normal" | "italic";
-  color?: ColorInput;
+  color?: Color;
   letterSpacing?: number;
   height?: number;
   textDecoration?: "none" | "underline" | "overline" | "lineThrough";
-  textDecorationColor?: ColorInput;
+  textDecorationColor?: Color;
   textDecorationStyle?: "solid" | "double" | "dotted" | "dashed" | "wavy";
   textAlign?: "left" | "right" | "center" | "justify" | "start" | "end";
 
   // Cursor
   showCursor?: boolean;
-  cursorColor?: ColorInput;
+  cursorColor?: Color;
   cursorWidth?: number;
   cursorHeight?: number;
   cursorRadius?: number;

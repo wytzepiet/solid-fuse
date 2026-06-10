@@ -1,4 +1,4 @@
-import { Text, View, useNavigation } from "solid-fuse";
+import { Color, Text, View, useNavigation } from "solid-fuse";
 import { MenuItem } from "../ui";
 import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
@@ -16,7 +16,7 @@ export function HomeScreen() {
         <Text fontSize={28} fontWeight="bold">
           solid-fuse demos
         </Text>
-        <Text color="#6B7280" fontSize={14}>
+        <Text color={Color.hex("#6B7280")} fontSize={14}>
           Playground for widget primitives
         </Text>
       </View>

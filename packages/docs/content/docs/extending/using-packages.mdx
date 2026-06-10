@@ -72,11 +72,11 @@ runtime.registerWidget('lineChart', FuseLineChart.new);
 ### Step 4: Write the JS wrapper
 
 ```tsx title="src/line-chart.tsx"
-import type { ColorInput } from "solid-fuse";
+import type { Color } from "solid-fuse";
 
 export interface LineChartProps {
   data: number[];
-  color?: ColorInput;
+  color?: Color;
   strokeWidth?: number;
 }
 
@@ -88,9 +88,10 @@ export function LineChart(props: LineChartProps) {
 ### Use it
 
 ```tsx
+import { Color } from "solid-fuse";
 import { LineChart } from "./line-chart";
 
-<LineChart data={[1, 4, 2, 8, 5]} color="green" strokeWidth={3} />
+<LineChart data={[1, 4, 2, 8, 5]} color={Color.green} strokeWidth={3} />
 ```
 
 A reactive `fl_chart` chart, driven by a Solid signal, in about 30 lines of glue.

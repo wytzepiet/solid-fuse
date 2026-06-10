@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import {
+  Color,
   Icon,
   ScrollView,
   Text,
@@ -12,7 +13,7 @@ import { Button, Row } from "../ui";
 export function IconScreen() {
   const nav = useNavigation();
   const [size, setSize] = createSignal(32);
-  const [color, setColor] = createSignal("#111827");
+  const [color, setColor] = createSignal(Color.hex("#111827"));
 
   return (
     <ScrollView flex={{ direction: "vertical", gap: 16 }}>
@@ -20,7 +21,7 @@ export function IconScreen() {
           <Text fontSize={24} fontWeight="bold">
             icon
           </Text>
-          <Text color="#6B7280" fontSize={14}>
+          <Text color={Color.hex("#6B7280")} fontSize={14}>
             Baseline icon rendering + reactive props
           </Text>
         </View>
@@ -34,8 +35,8 @@ export function IconScreen() {
               <Icon data={md.lock} size={32} />
               <Icon data={md.home} size={32} />
               <Icon data={md.settings} size={32} />
-              <Icon data={md.favorite} size={32} color="#EF4444" />
-              <Icon data={md.star} size={32} color="#F59E0B" />
+              <Icon data={md.favorite} size={32} color={Color.hex("#EF4444")} />
+              <Icon data={md.star} size={32} color={Color.hex("#F59E0B")} />
             </View>
           </View>
 
@@ -47,7 +48,7 @@ export function IconScreen() {
               padding={12}
             >
               <Icon data={md.favorite} size={size()} color={color()} />
-              <Text color="#6B7280" fontSize={13}>
+              <Text color={Color.hex("#6B7280")} fontSize={13}>
                 size = {size()}, color = {color()}
               </Text>
             </View>
@@ -57,9 +58,9 @@ export function IconScreen() {
               <Button onTap={() => setSize(64)}>64</Button>
             </Row>
             <Row>
-              <Button onTap={() => setColor("#EF4444")}>red</Button>
-              <Button onTap={() => setColor("#10B981")}>green</Button>
-              <Button onTap={() => setColor("#3B82F6")}>blue</Button>
+              <Button onTap={() => setColor(Color.hex("#EF4444"))}>red</Button>
+              <Button onTap={() => setColor(Color.hex("#10B981"))}>green</Button>
+              <Button onTap={() => setColor(Color.hex("#3B82F6"))}>blue</Button>
             </Row>
           </View>
 
@@ -71,7 +72,7 @@ export function IconScreen() {
               flex={{ direction: "horizontal", gap: 8, align: "center" }}
               padding={12}
             >
-              <Icon data={md.info} size={20} color="#3B82F6" />
+              <Icon data={md.info} size={20} color={Color.hex("#3B82F6")} />
               <Text>Inline icon + text composition</Text>
             </View>
           </View>

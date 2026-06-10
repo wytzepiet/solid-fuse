@@ -1,5 +1,5 @@
 import { createSignal, onCleanup } from "solid-js";
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Color, GestureDetector, Text, View } from "solid-fuse";
 
 // Verifies the vsync-driven requestAnimationFrame shim:
 //   • a box slides back and forth, one update per real frame;
@@ -63,16 +63,16 @@ export function RafScreen() {
       <Text fontSize={20} fontWeight="bold">
         requestAnimationFrame
       </Text>
-      <Text color="#6B7280" fontSize={14}>
+      <Text color={Color.hex("#6B7280")} fontSize={14}>
         Driven by Flutter's vsync. Watch the per-frame delta in the dev console.
       </Text>
 
-      <View width={TRACK} height={BOX} decoration={{ color: "#F3F4F6", borderRadius: 12 }}>
+      <View width={TRACK} height={BOX} decoration={{ color: Color.hex("#F3F4F6"), borderRadius: 12 }}>
         <View padding={{ left: x() }}>
           <View
             width={BOX}
             height={BOX}
-            decoration={{ color: "#2563eb", borderRadius: 12 }}
+            decoration={{ color: Color.hex("#2563eb"), borderRadius: 12 }}
           />
         </View>
       </View>
@@ -81,9 +81,9 @@ export function RafScreen() {
         <GestureDetector onTap={start}>
           <View
             padding={{ horizontal: 20, vertical: 12 }}
-            decoration={{ color: running() ? "#9CA3AF" : "#22c55e", borderRadius: 8 }}
+            decoration={{ color: running() ? Color.hex("#9CA3AF") : Color.hex("#22c55e"), borderRadius: 8 }}
           >
-            <Text color="#fff" fontWeight="semiBold">
+            <Text color={Color.hex("#fff")} fontWeight="semiBold">
               {running() ? "running…" : "play"}
             </Text>
           </View>
@@ -91,9 +91,9 @@ export function RafScreen() {
         <GestureDetector onTap={stop}>
           <View
             padding={{ horizontal: 20, vertical: 12 }}
-            decoration={{ color: "#ef4444", borderRadius: 8 }}
+            decoration={{ color: Color.hex("#ef4444"), borderRadius: 8 }}
           >
-            <Text color="#fff" fontWeight="semiBold">
+            <Text color={Color.hex("#fff")} fontWeight="semiBold">
               stop
             </Text>
           </View>

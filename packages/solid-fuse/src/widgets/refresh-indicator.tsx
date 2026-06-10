@@ -1,10 +1,10 @@
-import type { BaseProps, ColorInput } from "../types";
+import type { BaseProps, Color } from "../types";
 
 export interface RefreshIndicatorProps extends BaseProps {
   onRefresh?: () => Promise<void>;
   triggerMode?: "onEdge" | "anywhere";
-  color?: ColorInput;
-  backgroundColor?: ColorInput;
+  color?: Color;
+  backgroundColor?: Color;
   displacement?: number;
   edgeOffset?: number;
   strokeWidth?: number;

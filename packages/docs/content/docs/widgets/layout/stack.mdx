@@ -6,12 +6,12 @@ description: Layer children on top of each other and place them at coordinates
 `Stack` layers children on top of each other; `Positioned` places a child at specific coordinates within the stack. They map to Flutter's [`Stack`](https://api.flutter.dev/flutter/widgets/Stack-class.html) and [`Positioned`](https://api.flutter.dev/flutter/widgets/Positioned-class.html).
 
 ```tsx
-import { Positioned, Stack, Text, View } from "solid-fuse";
+import { Color, Positioned, Stack, Text, View } from "solid-fuse";
 
 <Stack alignment="center">
-  <View width={200} height={200} decoration={{ color: "blue" }} />
+  <View width={200} height={200} decoration={{ color: Color.blue }} />
   <Positioned top={10} right={10}>
-    <Text color="white">Badge</Text>
+    <Text color={Color.white}>Badge</Text>
   </Positioned>
 </Stack>
 ```

@@ -14,11 +14,12 @@ Let's build a `Badge` widget that renders a Flutter `Chip`.
 ### Step 1: Write the JS wrapper
 
 ```tsx title="src/badge.tsx"
-import type { ColorInput, FlexInput } from "solid-fuse";
+import type { FlexInput } from "solid-fuse";
+import { Color } from "solid-fuse";
 
 export interface BadgeProps {
   label: string;
-  color?: ColorInput;
+  color?: Color;
   children?: any;
   flex?: FlexInput;
 }
@@ -67,8 +68,9 @@ Now consumers can use it:
 
 ```tsx
 import { Badge } from "./badge";
+import { Color } from "solid-fuse";
 
-<Badge label="New" color="green" />
+<Badge label="New" color={Color.green} />
 ```
 
 ## Why wrappers?

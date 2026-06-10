@@ -10,16 +10,16 @@ Scrolling app bars that collapse, pin, float, and stretch. The Material `SliverA
 A Material app bar that scrolls, collapses, pins, floats, and stretches. Set `expandedHeight` and a `flexibleSpace` for the classic large-photo-collapses-to-toolbar effect. Maps to Flutter's [`SliverAppBar`](https://api.flutter.dev/flutter/material/SliverAppBar-class.html).
 
 ```tsx
-import { FlexibleSpaceBar, Icon, SliverAppBar, Text, View } from "solid-fuse";
+import { Color, FlexibleSpaceBar, Icon, SliverAppBar, Text, View } from "solid-fuse";
 import { share, favorite } from "solid-fuse/icons/material";
 
 <SliverAppBar
   pinned
   expandedHeight={240}
-  title={<Text color="white">Mount Rainier</Text>}
+  title={<Text color={Color.white}>Mount Rainier</Text>}
   actions={[
-    <Icon data={share} color="white" />,
-    <Icon data={favorite} color="white" />,
+    <Icon data={share} color={Color.white} />,
+    <Icon data={favorite} color={Color.white} />,
   ]}
   flexibleSpace={
     <FlexibleSpaceBar
@@ -64,7 +64,7 @@ Collapse behavior is fully declarative — `pinned`, `floating`, `snap`, and `st
 | `elevation` / `scrolledUnderElevation` | `number` | Shadow depth, resting and scrolled-under |
 | `titleSpacing` / `leadingWidth` / `bottomOpacity` | `number` | Layout tuning |
 | `stretchTriggerOffset` | `number` | Over-scroll distance that fires `onStretchTrigger` |
-| `backgroundColor` / `foregroundColor` / `shadowColor` / `surfaceTintColor` | `ColorInput` | Colors |
+| `backgroundColor` / `foregroundColor` / `shadowColor` / `surfaceTintColor` | `Color` | Colors |
 | `systemOverlayStyle` | `string` | `"light"` or `"dark"` status-bar icons |
 | `clipBehavior` | `string` | Clip behavior |
 | `onStretchTrigger` | `() => Promise<void>` | Awaitable callback fired when stretched past the trigger |
@@ -74,10 +74,10 @@ Collapse behavior is fully declarative — `pinned`, `floating`, `snap`, and `st
 Goes in `SliverAppBar`'s `flexibleSpace`. Holds a `title` and a `background` that animate as the bar collapses. Maps to Flutter's [`FlexibleSpaceBar`](https://api.flutter.dev/flutter/material/FlexibleSpaceBar-class.html).
 
 ```tsx
-import { FlexibleSpaceBar, Text, View } from "solid-fuse";
+import { Color, FlexibleSpaceBar, Text, View } from "solid-fuse";
 
 <FlexibleSpaceBar
-  title={<Text color="white">Gallery</Text>}
+  title={<Text color={Color.white}>Gallery</Text>}
   centerTitle
   collapseMode="parallax"
   stretchModes={["zoomBackground", "fadeTitle"]}
@@ -129,6 +129,6 @@ import { CupertinoSliverNavigationBar, CustomScrollView, SliverList, Text } from
 | `stretch` | `boolean` | Over-scroll stretch |
 | `transitionBetweenRoutes` | `boolean` | Hero-style transition between routes |
 | `brightness` | `string` | `"light"` or `"dark"` |
-| `backgroundColor` | `ColorInput` | Bar color |
+| `backgroundColor` | `Color` | Bar color |
 | `border` | `BorderInput` | Bottom border |
 | `padding` | `EdgeInsetsInput` | Content padding |

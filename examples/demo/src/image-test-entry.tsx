@@ -9,7 +9,7 @@
 // Built into examples/polyfill_tests/assets/js/image_bundle.js by
 // examples/polyfill_tests/tool/build_image_bundle.ts.
 
-import { render, send, View, Text, Image } from "solid-fuse";
+import { render, send, View, Text, Image, Color } from "solid-fuse";
 
 // A 1×1 transparent PNG. As a `data:` URI it resolves to a MemoryImage that
 // actually decodes and paints in a widget test (no network, no missing file).
@@ -40,7 +40,7 @@ const App = () => (
     <Image src={PNG_1X1} width={10} height={10} fit="cover" borderRadius={4} />
 
     {/* data: URI → MemoryImage; exercises the color tint (defaults to srcIn) */}
-    <Image src={PNG_1X1} width={10} height={10} color="red" />
+    <Image src={PNG_1X1} width={10} height={10} color={Color.red} />
   </View>
 );
 

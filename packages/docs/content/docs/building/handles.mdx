@@ -16,6 +16,7 @@ import {
   ScrollView,
   Text,
   View,
+  Color,
   createScrollController,
 } from "solid-fuse";
 
@@ -26,8 +27,8 @@ function ScrollableList() {
     <View flex={{ expand: true }}>
       <View flex={{ direction: "horizontal", gap: 8 }} padding={8}>
         <GestureDetector onTap={() => scroll.animateTo(0, { duration: 300 })}>
-          <View padding={8} decoration={{ color: "blue", borderRadius: 4 }}>
-            <Text color="white">Top</Text>
+          <View padding={8} decoration={{ color: Color.blue, borderRadius: 4 }}>
+            <Text color={Color.white}>Top</Text>
           </View>
         </GestureDetector>
         <Text>Offset: {Math.round(scroll.scrollOffset())}</Text>
@@ -65,7 +66,7 @@ const scroll = createScrollController({ initialScrollOffset: 200 });
 `createFocusNode` gives you a Flutter `FocusNode` you can pass to a `TextField` and drive imperatively. It exposes `hasFocus` as a reactive signal.
 
 ```tsx
-import { TextField, Text, View, createFocusNode } from "solid-fuse";
+import { TextField, Text, View, Color, createFocusNode } from "solid-fuse";
 
 function FocusDemo() {
   const focus = createFocusNode();
@@ -75,10 +76,10 @@ function FocusDemo() {
       <TextField focusNode={focus} placeholder="Type here" />
       <Text>hasFocus = {focus.hasFocus() ? "true" : "false"}</Text>
       <GestureDetector onTap={() => focus.focus()}>
-        <Text color="blue">Focus the field</Text>
+        <Text color={Color.blue}>Focus the field</Text>
       </GestureDetector>
       <GestureDetector onTap={() => focus.unfocus()}>
-        <Text color="blue">Unfocus</Text>
+        <Text color={Color.blue}>Unfocus</Text>
       </GestureDetector>
     </View>
   );

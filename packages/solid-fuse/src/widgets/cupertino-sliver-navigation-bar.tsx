@@ -1,4 +1,4 @@
-import type { BaseProps, BorderInput, ColorInput, EdgeInsetsInput } from "../types";
+import type { BaseProps, BorderInput, Color, EdgeInsetsInput } from "../types";
 
 export interface CupertinoSliverNavigationBarProps extends BaseProps {
   // Slots (inline JSX widgets)
@@ -16,7 +16,7 @@ export interface CupertinoSliverNavigationBarProps extends BaseProps {
   transitionBetweenRoutes?: boolean;
 
   brightness?: "light" | "dark";
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
   border?: BorderInput;
   padding?: EdgeInsetsInput;
 }

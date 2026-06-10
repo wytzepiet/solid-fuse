@@ -58,13 +58,13 @@ await runtime.start();
 ## JS entry point
 
 ```tsx title="src/App.tsx"
-import { Text, View } from "solid-fuse";
+import { Color, Text, View } from "solid-fuse";
 
 export default function App() {
   return (
     <View padding={24} flex={{ gap: 12 }}>
       <Text fontSize={24} fontWeight="bold">Hello Fuse</Text>
-      <Text color="grey">SolidJS inside Flutter</Text>
+      <Text color={Color.grey}>SolidJS inside Flutter</Text>
     </View>
   );
 }
@@ -86,7 +86,7 @@ Fuse uses standard SolidJS reactivity. Signals, effects, memos, `Show`, `For`, `
 
 ```tsx
 import { createSignal, Show, For } from "solid-js";
-import { Text, View } from "solid-fuse";
+import { Color, Text, View } from "solid-fuse";
 
 function TodoList() {
   const [todos, setTodos] = createSignal(["Learn Fuse", "Build app"]);
@@ -98,7 +98,7 @@ function TodoList() {
         {(todo) => <Text fontSize={16}>{todo}</Text>}
       </For>
       <Show when={showDone()}>
-        <Text color="green">All done!</Text>
+        <Text color={Color.green}>All done!</Text>
       </Show>
     </View>
   );

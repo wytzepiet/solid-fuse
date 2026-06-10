@@ -5,6 +5,7 @@ import {
   Text,
   TextField,
   View,
+  Color,
   createFocusNode,
   useNavigation,
 } from "solid-fuse";
@@ -24,7 +25,7 @@ export function TextFieldScreen() {
           <Text fontSize={24} fontWeight="bold">
             textField
           </Text>
-          <Text color="#6B7280" fontSize={14}>
+          <Text color={Color.hex("#6B7280")} fontSize={14}>
             Reactive value, focus control, filtering
           </Text>
         </View>
@@ -39,7 +40,7 @@ export function TextFieldScreen() {
               placeholder="Your name"
               decoration={{ border: "outline", contentPadding: 12 }}
             />
-            <Text color="#6B7280" fontSize={13}>
+            <Text color={Color.hex("#6B7280")} fontSize={13}>
               value = "{name()}"
             </Text>
             <Row>
@@ -56,7 +57,7 @@ export function TextFieldScreen() {
               placeholder="Controlled by buttons below"
               decoration={{ border: "outline", contentPadding: 12 }}
             />
-            <Text color="#6B7280" fontSize={13}>
+            <Text color={Color.hex("#6B7280")} fontSize={13}>
               hasFocus = {focus.hasFocus() ? "true" : "false"}
             </Text>
             <Row>
@@ -83,13 +84,13 @@ export function TextFieldScreen() {
             <Text fontWeight="semiBold">Slot widgets</Text>
             <TextField
               placeholder="Search…"
-              prefixIcon={<Icon data={search} size={20} color="#6B7280" />}
+              prefixIcon={<Icon data={search} size={20} color={Color.hex("#6B7280")} />}
               decoration={{ border: "outline", contentPadding: 12 }}
             />
             <TextField
               placeholder="Password"
               obscureText
-              prefixIcon={<Icon data={lock} size={20} color="#6B7280" />}
+              prefixIcon={<Icon data={lock} size={20} color={Color.hex("#6B7280")} />}
               decoration={{ border: "outline", contentPadding: 12 }}
             />
           </View>
@@ -97,7 +98,7 @@ export function TextFieldScreen() {
           {/* Autofocus */}
           <View flex={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Autofocus</Text>
-            <Text color="#6B7280" fontSize={13}>
+            <Text color={Color.hex("#6B7280")} fontSize={13}>
               (would autofocus on mount — disabled here so it doesn't steal focus)
             </Text>
           </View>

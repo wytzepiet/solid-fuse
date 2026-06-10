@@ -1,6 +1,6 @@
 import type {
   BaseProps,
-  ColorInput,
+  Color,
   DecorationInput,
   EdgeInsetsInput,
 } from "../../types";
@@ -22,7 +22,7 @@ export interface TabBarProps extends BaseProps {
   controller?: TabController;
   /** Let the tabs scroll horizontally instead of sharing the width equally. */
   isScrollable?: boolean;
-  indicatorColor?: ColorInput;
+  indicatorColor?: Color;
   indicatorWeight?: number;
   /** Whether the indicator spans the whole tab or just the label. */
   indicatorSize?: "tab" | "label";
@@ -33,15 +33,15 @@ export interface TabBarProps extends BaseProps {
   /** How the indicator moves between tabs. `"linear"` slides at a constant
    *  rate; `"elastic"` stretches and settles. */
   indicatorAnimation?: "linear" | "elastic";
-  labelColor?: ColorInput;
-  unselectedLabelColor?: ColorInput;
+  labelColor?: Color;
+  unselectedLabelColor?: Color;
   /** Text style for the selected tab's label. */
   labelStyle?: TextStyleProps;
   /** Text style for unselected tabs' labels. */
   unselectedLabelStyle?: TextStyleProps;
   /** Padding around each tab's label. */
   labelPadding?: EdgeInsetsInput;
-  dividerColor?: ColorInput;
+  dividerColor?: Color;
   dividerHeight?: number;
   padding?: EdgeInsetsInput;
   /** How tabs are laid out along the bar. `"fill"` (default for fixed bars)
@@ -49,7 +49,7 @@ export interface TabBarProps extends BaseProps {
   tabAlignment?: "start" | "startOffset" | "fill" | "center";
   /** The hover/focus/press ink colour (Flutter's `overlayColor`). Set it to
    *  `"transparent"` to make the ink invisible without disabling the splash. */
-  overlayColor?: ColorInput;
+  overlayColor?: Color;
   /** Which ink-splash factory to use. `"noSplash"` removes the splash entirely. */
   splashFactory?: SplashFactory;
   /** Pointer cursor over the tabs. */

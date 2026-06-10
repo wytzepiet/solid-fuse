@@ -6,11 +6,11 @@ description: The workhorse layout container — padding, decoration, sizing, and
 `View` is the workhorse layout container. It maps to a composition of Flutter widgets — [`Container`](https://api.flutter.dev/flutter/widgets/Container-class.html), `Padding`, `SizedBox`, `Opacity`, `Transform`, and more — depending on which props you set.
 
 ```tsx
-import { Text, View } from "solid-fuse";
+import { Color, Text, View } from "solid-fuse";
 
 <View
   padding={16}
-  decoration={{ color: "white", borderRadius: 12, shadow: [{ blurRadius: 8, color: "#0002" }] }}
+  decoration={{ color: Color.white, borderRadius: 12, shadow: [{ blurRadius: 8, color: Color.hex("#0002") }] }}
 >
   <Text fontSize={18}>Card content</Text>
 </View>

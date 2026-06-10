@@ -15,7 +15,7 @@ A counter app — the JS component and the Dart entry point that boots it:
 
 ```tsx title="App.tsx"
 import { createSignal } from "solid-js";
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Color, GestureDetector, Text, View } from "solid-fuse";
 
 export default function App() {
   const [count, setCount] = createSignal(0);
@@ -31,9 +31,9 @@ export default function App() {
       <GestureDetector onTap={() => setCount((c) => c + 1)}>
         <View
           padding={{ horizontal: 24, vertical: 12 }}
-          decoration={{ color: "blue", borderRadius: 8 }}
+          decoration={{ color: Color.blue, borderRadius: 8 }}
         >
-          <Text color="white" fontSize={16}>
+          <Text color={Color.white} fontSize={16}>
             Tap me
           </Text>
         </View>

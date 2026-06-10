@@ -1,4 +1,4 @@
-import type { BaseProps, ColorInput } from "../types";
+import type { BaseProps, Color } from "../types";
 
 export interface SliverAppBarProps extends BaseProps {
   // small (default) | medium | large constructor variant
@@ -34,10 +34,10 @@ export interface SliverAppBarProps extends BaseProps {
   leadingWidth?: number;
 
   // Colors
-  backgroundColor?: ColorInput;
-  foregroundColor?: ColorInput;
-  shadowColor?: ColorInput;
-  surfaceTintColor?: ColorInput;
+  backgroundColor?: Color;
+  foregroundColor?: Color;
+  shadowColor?: Color;
+  surfaceTintColor?: Color;
 
   systemOverlayStyle?: "light" | "dark";
   clipBehavior?: "none" | "hardEdge" | "antiAlias";

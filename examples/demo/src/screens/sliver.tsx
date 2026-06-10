@@ -14,6 +14,7 @@ import {
   SliverToBoxAdapter,
   Text,
   View,
+  Color,
   useNavigation,
 } from "solid-fuse";
 import { add, refresh, close } from "solid-fuse/icons/material";
@@ -22,10 +23,17 @@ import { Button, Row } from "../ui";
 interface Item {
   id: number;
   label: string;
-  tint: string;
+  tint: Color;
 }
 
-const TINTS = ["#2563eb", "#7c3aed", "#db2777", "#ea580c", "#16a34a", "#0891b2"];
+const TINTS = [
+  Color.hex("#2563eb"),
+  Color.hex("#7c3aed"),
+  Color.hex("#db2777"),
+  Color.hex("#ea580c"),
+  Color.hex("#16a34a"),
+  Color.hex("#0891b2"),
+];
 
 let nextId = 6;
 function makeItem(): Item {
@@ -73,26 +81,26 @@ export function SliverScreen() {
       <SliverAppBar
         pinned
         expandedHeight={220}
-        backgroundColor="#0f172a"
-        foregroundColor="white"
+        backgroundColor={Color.hex("#0f172a")}
+        foregroundColor={Color.white}
         leading={
           <GestureDetector onTap={() => nav.pop()}>
             <View padding={12} flex={{ align: "center", justify: "center" }}>
-              <Icon data={close} size={22} color="white" />
+              <Icon data={close} size={22} color={Color.white} />
             </View>
           </GestureDetector>
         }
         actions={[
           <GestureDetector onTap={addItem}>
             <View padding={12} flex={{ align: "center", justify: "center" }}>
-              <Icon data={add} size={22} color="white" />
+              <Icon data={add} size={22} color={Color.white} />
             </View>
           </GestureDetector>,
         ]}
         flexibleSpace={
           <FlexibleSpaceBar
             title={
-              <Text fontSize={18} fontWeight="bold" color="white">
+              <Text fontSize={18} fontWeight="bold" color={Color.white}>
                 slivers
               </Text>
             }
@@ -103,13 +111,13 @@ export function SliverScreen() {
                     type: "linear",
                     begin: "topLeft",
                     end: "bottomRight",
-                    colors: ["#1e3a8a", "#7c3aed", "#0f172a"],
+                    colors: [Color.hex("#1e3a8a"), Color.hex("#7c3aed"), Color.hex("#0f172a")],
                   },
                 }}
                 flex={{ direction: "vertical", justify: "end" }}
                 padding={{ horizontal: 20, bottom: 56 }}
               >
-                <Text color="#c7d2fe" fontSize={13}>
+                <Text color={Color.hex("#c7d2fe")} fontSize={13}>
                   CustomScrollView · pull to refresh · reactive lists
                 </Text>
               </View>
@@ -126,7 +134,7 @@ export function SliverScreen() {
         <View
           padding={16}
           flex={{ direction: "vertical", gap: 8 }}
-          decoration={{ border: { bottom: { width: 1, color: "#E5E7EB" } } }}
+          decoration={{ border: { bottom: { width: 1, color: Color.hex("#E5E7EB") } } }}
         >
           <Text fontWeight="semiBold">
             {items().length} item{items().length === 1 ? "" : "s"}
@@ -149,14 +157,14 @@ export function SliverScreen() {
             padding={{ horizontal: 16 }}
             alignment="centerLeft"
             decoration={{
-              color: "#111827",
+              color: Color.hex("#111827"),
               shadow:
                 shrinkOffset > 0
-                  ? { color: "#00000033", blurRadius: 6, offsetY: 2 }
+                  ? { color: Color.hex("#00000033"), blurRadius: 6, offsetY: 2 }
                   : undefined,
             }}
           >
-            <Text color="white" fontWeight="semiBold" fontSize={13}>
+            <Text color={Color.white} fontWeight="semiBold" fontSize={13}>
               SliverList — reactive rows
             </Text>
           </View>
@@ -172,7 +180,7 @@ export function SliverScreen() {
                 padding={16}
                 flex={{ direction: "horizontal", align: "center", gap: 12 }}
                 decoration={{
-                  border: { bottom: { width: 1, color: "#F3F4F6" } },
+                  border: { bottom: { width: 1, color: Color.hex("#F3F4F6") } },
                 }}
               >
                 <View
@@ -181,7 +189,7 @@ export function SliverScreen() {
                   decoration={{ color: item.tint, borderRadius: 18 }}
                   flex={{ align: "center", justify: "center" }}
                 >
-                  <Text color="white" fontWeight="bold" fontSize={13}>
+                  <Text color={Color.white} fontWeight="bold" fontSize={13}>
                     {item.id}
                   </Text>
                 </View>
@@ -190,7 +198,7 @@ export function SliverScreen() {
                 </View>
                 <GestureDetector onTap={() => removeItem(item.id)}>
                   <View padding={8}>
-                    <Icon data={close} size={18} color="#9CA3AF" />
+                    <Icon data={close} size={18} color={Color.hex("#9CA3AF")} />
                   </View>
                 </GestureDetector>
               </View>
@@ -206,9 +214,9 @@ export function SliverScreen() {
             height={44}
             padding={{ horizontal: 16 }}
             alignment="centerLeft"
-            decoration={{ color: "#111827" }}
+            decoration={{ color: Color.hex("#111827") }}
           >
-            <Text color="white" fontWeight="semiBold" fontSize={13}>
+            <Text color={Color.white} fontWeight="semiBold" fontSize={13}>
               SliverGrid — same data, gridded
             </Text>
           </View>
@@ -229,10 +237,10 @@ export function SliverScreen() {
                 decoration={{ color: item.tint, borderRadius: 12 }}
                 flex={{ direction: "vertical", align: "center", justify: "center", gap: 4 }}
               >
-                <Text color="white" fontWeight="bold" fontSize={22}>
+                <Text color={Color.white} fontWeight="bold" fontSize={22}>
                   {item.id}
                 </Text>
-                <Text color="#ffffffcc" fontSize={11}>
+                <Text color={Color.hex("#ffffffcc")} fontSize={11}>
                   {item.label}
                 </Text>
               </View>
@@ -244,8 +252,8 @@ export function SliverScreen() {
       {/* Footer. */}
       <SliverToBoxAdapter>
         <View padding={24} flex={{ direction: "vertical", align: "center", gap: 8 }}>
-          <Icon data={refresh} size={20} color="#9CA3AF" />
-          <Text color="#9CA3AF" fontSize={13} textAlign="center">
+          <Icon data={refresh} size={20} color={Color.hex("#9CA3AF")} />
+          <Text color={Color.hex("#9CA3AF")} fontSize={13} textAlign="center">
             Pull down from the top to refresh the list.
           </Text>
         </View>

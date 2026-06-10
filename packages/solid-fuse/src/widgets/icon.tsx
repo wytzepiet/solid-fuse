@@ -1,6 +1,6 @@
 import type {
   BaseProps,
-  ColorInput,
+  Color,
   FontWeight,
   ShadowInput,
 } from "../types";
@@ -15,7 +15,7 @@ export interface IconData {
 
 export interface IconProps extends BaseProps {
   data: IconData;
-  color?: ColorInput;
+  color?: Color;
   size?: number;
   semanticLabel?: string;
   // Variable-font axes (Material Symbols, etc.)

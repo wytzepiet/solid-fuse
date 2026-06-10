@@ -6,10 +6,10 @@ description: Render Material and Cupertino icons with the Icon widget
 `Icon` renders a single glyph from an icon font. It maps to Flutter's [`Icon`](https://api.flutter.dev/flutter/widgets/Icon-class.html) widget and takes an [`IconData`](#icondata) object describing which glyph to draw.
 
 ```tsx
-import { Icon } from "solid-fuse";
+import { Color, Icon } from "solid-fuse";
 import { search } from "solid-fuse/icons/material";
 
-<Icon data={search} size={24} color="#111827" />
+<Icon data={search} size={24} color={Color.hex("#111827")} />
 ```
 
 ## Icon sets
@@ -55,7 +55,7 @@ font into your app's `pubspec.yaml` automatically.
 |---|---|---|
 | `data` | `IconData` | The glyph to render (required) |
 | `size` | `number` | Width and height in logical pixels |
-| `color` | `ColorInput` | Icon color (see [ColorInput](/docs/widgets/reference/input-types#colorinput)) |
+| `color` | `Color` | Icon color (see [Color](/docs/widgets/reference/input-types#colorinput)) |
 | `semanticLabel` | `string` | Accessibility label |
 | `fill` | `number` | Variable-font fill axis, `0`–`1` |
 | `weight` | `number` | Variable-font weight axis |
@@ -99,11 +99,11 @@ Custom fonts must be declared in the host app's `pubspec.yaml` like any other Fl
 Widgets that accept icon slots — such as `TextField`'s `prefixIcon` and `suffixIcon` — take a rendered `Icon` element, not raw `IconData`:
 
 ```tsx
-import { Icon, TextField } from "solid-fuse";
+import { Color, Icon, TextField } from "solid-fuse";
 import { search } from "solid-fuse/icons/material";
 
 <TextField
   placeholder="Search"
-  prefixIcon={<Icon data={search} size={20} color="#6B7280" />}
+  prefixIcon={<Icon data={search} size={20} color={Color.hex("#6B7280")} />}
 />
 ```

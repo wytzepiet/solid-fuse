@@ -64,7 +64,7 @@ An absolute path (`/…`) resolves to a file because it's never a valid Flutter 
 Set `color` to tint the image. By default the tint is composited with `srcIn` (the image's alpha masks a solid colour — useful for monochrome icons shipped as images); override with `colorBlendMode`.
 
 ```tsx
-<Image src="assets/badge.png" color="#EF4444" colorBlendMode="modulate" />
+<Image src="assets/badge.png" color={Color.hex("#EF4444")} colorBlendMode="modulate" />
 ```
 
 ## Loading and error states
@@ -75,7 +75,7 @@ For network images, `placeholder` is shown while the image downloads and `errorW
 <Image
   src={remoteUrl}
   placeholder={<Text>Loading…</Text>}
-  errorWidget={<Icon data={brokenImage} color="#9CA3AF" />}
+  errorWidget={<Icon data={brokenImage} color={Color.hex("#9CA3AF")} />}
 />
 ```
 
@@ -91,7 +91,7 @@ A `placeholder` only applies to network sources — asset images resolve synchro
 | `width` | `number` | Box width in logical pixels |
 | `height` | `number` | Box height in logical pixels |
 | `alignment` | `AlignmentString` | Alignment within the box when smaller than it |
-| `color` | `ColorInput` | Tint colour (see [ColorInput](/docs/widgets/reference/input-types#colorinput)) |
+| `color` | `Color` | Tint colour (see [Color](/docs/widgets/reference/input-types#colorinput)) |
 | `colorBlendMode` | `string` | Blend mode for the tint. Defaults to `srcIn` when `color` is set |
 | `repeat` | `"noRepeat" \| "repeat" \| "repeatX" \| "repeatY"` | Tile the image to fill the box |
 | `borderRadius` | `BorderRadiusInput` | Round the corners by clipping |
