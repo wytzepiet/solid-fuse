@@ -9,14 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # fjs (the QuickJS runtime) is vendored in-tree at lib/src/fjs via git subtree
-  # (a mirror of wytzepiet/fjs). solid_fuse is itself the FFI plugin that builds
-  # it — see notes/vendoring-fjs.md. The runtime API is re-exported through
-  # lib/fjs.dart (import 'package:solid_fuse/fjs.dart').
-  # frb pinned exactly to the version the vendored bindings were generated with.
-  flutter_rust_bridge: 2.12.0
-  freezed_annotation: ^3.1.0
-  plugin_platform_interface: ^2.1.8
+  # fjs (the QuickJS runtime) is the published FFI plugin that builds and ships
+  # the Rust/QuickJS engine. Its API is re-exported through lib/fjs.dart
+  # (import 'package:solid_fuse/fjs.dart').
+  fjs: ^3.0.0
   http: ^1.2.0
   web_socket_channel: ^3.0.0
   path_provider: ^2.1.0
@@ -29,19 +25,5 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
 
-# solid_fuse is an FFI plugin: it builds the vendored Rust crate (lib/src/fjs)
-# via cargokit from its own platform folders. No Dart platform class — the frb
-# bindings use direct FFI.
-flutter:
-  plugin:
-    platforms:
-      android:
-        ffiPlugin: true
-      ios:
-        ffiPlugin: true
-      linux:
-        ffiPlugin: true
-      macos:
-        ffiPlugin: true
-      windows:
-        ffiPlugin: true
+# solid_fuse is a plain Dart package — fjs is the FFI plugin that owns the
+# native build, so solid_fuse declares no platform/plugin config of its own.

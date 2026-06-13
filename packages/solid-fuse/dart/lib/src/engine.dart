@@ -44,11 +44,9 @@ Future<EngineResult> createEngine({
           payload.remove('channel');
           try {
             final result = await channels.dispatch(channel, payload);
-            // No manual drain: once Rust resolves the Promise from our JsResult,
-            // the background driver (engine.startDrive) wakes and pumps the
-            // await-resumption microtask. fjs 2.2.0+ re-arms the driver after
-            // every call, so it stays awake for this; the manual drain we used to
-            // run here is what evicted the driver's waker and broke detached async.
+            // No manual drain: fjs 3.0's async runtime drives its own background
+            // jobs, so the await-resumption microtask after Rust resolves this
+            // Promise gets pumped automatically.
             return JsResult.ok(
               result == null ? JsValue.none() : JsValue.from(result),
             );
@@ -111,14 +109,6 @@ Future<EngineResult> createEngine({
     ),
   );
 
-  // Start fjs's background driver, which pumps async work that completes without
-  // a bridge event (fetch, setTimeout, …) so it resolves promptly. (In fjs 2.2.0+
-  // this is a short fixed-interval poll on the QoS-raised JS threads — an
-  // event-driven driver is unreliable here: the rquickjs scheduler's single-slot
-  // waker gets clobbered by every eval/executePendingJob, and iOS throttles
-  // idle-thread timer wakeups.)
-  await engine.startDrive();
-
   return (
     engine: engine,
     wsManager: wsManager,
@@ -134,16 +124,15 @@ Future<JsEngine> createTestEngine() async {
   return engine;
 }
 
-/// Retires an engine on HMR/hot-restart: stop its driver, remove its brightness
-/// observer, close its sockets, free the runtime. Closing is safe now that fjs
-/// fixed the drop-without-close crash (#8) — we used to keep dead engines alive
-/// forever, leaking a QuickJS runtime per reload.
+/// Retires an engine on HMR/hot-restart: remove its brightness observer, close
+/// its sockets, free the runtime. `close()` is safe (fjs handles drop without a
+/// prior close) — we used to keep dead engines alive forever, leaking a QuickJS
+/// runtime per reload.
 Future<void> retireEngine(
   JsEngine engine,
   FuseWsManager wsManager,
   WidgetsBindingObserver hostObserver,
 ) async {
-  await engine.stopDrive();
   WidgetsBinding.instance.removeObserver(hostObserver);
   wsManager.dispose();
   await engine.close();
@@ -231,18 +220,3 @@ class _FuseHostObserver with WidgetsBindingObserver {
   void didChangeTextScaleFactor() =>
       _channels.send('_metrics', _fuseMetrics());
 }
-
-// --- Job pump ---
-//
-// fjs builds on rquickjs's async runtime; async builtins like `fetch` and
-// `setTimeout` are Rust-side background futures. Work that completes WITHOUT a
-// bridge event used to have nothing to resume it — its continuation sat until
-// the next unrelated bridge event (e.g. a ~15s WebSocket ping) happened to pump
-// it, so `fetch` took ~15s instead of the network's ~100ms.
-//
-// This was previously worked around with a 33ms blind poll (_FuseJobPump). It
-// is now handled inside fjs by an event-driven background driver, started via
-// `engine.startDrive()` in createEngine (and stopped by the engine on close).
-// The driver parks when idle and wakes only when a background future becomes
-// runnable. See https://github.com/fluttercandies/fjs/pull/12 and the
-// `startDrive`/`stopDrive` primitives.

@@ -44,7 +44,16 @@ class FuseChannels {
         params: [JsValue.string(channel), JsValue.from(data)],
       );
     } catch (e) {
-      debugPrint('[Fuse] channels.send($channel) error: $e');
+      // send() is fire-and-forget, so we can't surface this to a caller. But as
+      // of fjs 3.0 the failure here may not be about THIS send at all: an
+      // unhandled background JS error (a detached setTimeout/fetch that threw
+      // with no .catch) is re-thrown on the next engine call, and send() — used
+      // for flush/metrics/brightness — is a frequent one. Log it loudly so it
+      // isn't dismissed as a benign send hiccup.
+      debugPrint(
+        '[Fuse] engine.call failed during channels.send("$channel") — this may '
+        'be an unhandled background JS error surfacing on an unrelated call: $e',
+      );
     }
   }
 

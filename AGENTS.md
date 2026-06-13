@@ -2,7 +2,7 @@
 
 This is the **solid-fuse framework repo**, not a consumer app. solid-fuse runs SolidJS 2.0 inside Flutter via QuickJS (`fjs`), rendering native Flutter widgets from a reactive component tree.
 
-> **fjs is vendored in-tree**, not a package dependency: `packages/solid-fuse/dart/lib/src/fjs` is a git-subtree mirror of `wytzepiet/fjs`, and `solid_fuse` is itself the FFI plugin that builds it. Don't add a `fjs` dependency or call `LibFjs.init()` directly (use `initFjs()`). Sync with `make sync-fjs`. See `notes/vendoring-fjs.md`.
+> **fjs is a published dependency** (`fjs: ^3.0.0` on pub.dev) — the FFI plugin that builds and ships the Rust/QuickJS engine. solid_fuse is a plain Dart package that re-exports it via `lib/fjs.dart`. Call `initFjs()` (not `LibFjs.init()` directly) so library loading stays idempotent. The `wytzepiet/fjs` fork (`~/github/fjs`) is dormant — used only to raise upstream PRs; see `notes/fjs-fork.md`.
 
 ## Before changing anything
 
@@ -28,7 +28,7 @@ examples/
 
 ## Internal patterns (not in user docs)
 
-- **Don't manually drain jobs or call `runtime.idle()` after running user code.** The background driver (`engine.startDrive()`) pumps async event-driven, and fjs re-arms it after every `with_js`. Manual draining (the old `drainImmediateJobs` loop) evicts the driver's single-slot scheduler waker, stalling detached `fetch`/timers until an unrelated event; `idle()` deadlocks on long-lived Promises (the WebSocket).
+- **Don't manually drain jobs or call `runtime.idle()` after running user code.** As of fjs 3.0 the async runtime owns its background driver internally (event-driven scheduler wakes + a 1s defensive fallback) and starts it automatically — app code never starts, stops, or polls it. Manual draining stalls detached `fetch`/timers; `idle()` deadlocks on long-lived Promises (the WebSocket). To *observe* unhandled background JS failures without failing an unrelated call, use `engine.drainUnhandledJobErrors()`.
 - The `solid-fuse` dist is an ESM bundle with `solid-js` and `@solidjs/universal` externalised — Vite in consumer apps resolves them to its pre-bundled deps at serve time.
 - `fuse dev` / `fuse build` auto-configure `vite-plugin-solid` with `generate: "universal"` and `moduleName: "solid-fuse"` — consumer apps don't need their own `vite.config.ts`.
 

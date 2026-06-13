@@ -128,6 +128,18 @@ class DevServerConnection extends FuseConnection {
     await _engine!.evaluateModule(
       module: JsModule.code(module: entryPath, code: _modules[entryPath]!),
     );
+    _drainJobErrors();
+  }
+
+  /// Drain and log any unhandled background JS failures (a detached
+  /// `setTimeout`/`fetch`/Promise that threw without a `.catch()`). fjs queues
+  /// these and would otherwise surface them on the next unrelated engine call —
+  /// where `channels.send`'s try/catch could swallow them. Dev-only visibility.
+  void _drainJobErrors() {
+    final errors = _engine?.drainUnhandledJobErrors() ?? const [];
+    for (final e in errors) {
+      debugPrint('[Fuse] unhandled background JS error:\n$e');
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -338,6 +350,7 @@ class DevServerConnection extends FuseConnection {
         await _channels!.send('_flush', {});
 
         await _engine!.runGc();
+        _drainJobErrors();
       }
     } catch (e, st) {
       debugPrint('[Fuse] HMR update failed: $e\n$st');

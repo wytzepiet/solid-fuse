@@ -144,19 +144,18 @@ class FuseRuntime {
     _registerChannels();
   }
 
-  /// Strip the FFI wrapping (`AnyhowException(Runtime error: …)`) and the
-  /// Rust backtrace from a JS-runtime error so what's left is the JS message
-  /// plus the JS stack — the part actually useful for fixing your code.
+  /// Format a JS startup failure for the console. fjs 3.0 throws a typed
+  /// [JsError] whose `toString()` is already clean (real JS message + stack, no
+  /// Rust backtrace); we just prefix the source location for syntax errors,
+  /// which is the part most useful for fixing your code.
   String _formatJsError(Object e) {
-    var msg = e.toString();
-    msg = msg.replaceFirst(
-      RegExp(r'^AnyhowException\(Runtime error:\s*'),
-      '',
-    );
-    final rustIdx = msg.indexOf('Stack backtrace:');
-    if (rustIdx >= 0) msg = msg.substring(0, rustIdx).trimRight();
-    if (msg.endsWith(')')) msg = msg.substring(0, msg.length - 1).trimRight();
-    return msg;
+    if (e is! JsError) return e.toString();
+    return switch (e) {
+      JsError_Syntax(:final line, :final column, :final message) =>
+        'Syntax error${line != null ? ' (line $line'
+            '${column != null ? ':$column' : ''})' : ''}: $message',
+      _ => e.toString(),
+    };
   }
 
   /// Register runtime-level channel handlers.
