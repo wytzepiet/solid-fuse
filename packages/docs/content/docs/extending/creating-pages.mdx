@@ -134,4 +134,5 @@ If the Navigator encounters a page config whose `type` isn't registered, it fall
 - Page handles extend `FusePageHandle` so they pick up `pageKey` and `pageContent`
 - Always use `pageKey` (not a manual `ValueKey`) so Navigator 2.0's page diff stays stable
 - `pageContent` is reactive — content updates don't re-trigger transitions
+- Render `pageContent` as your route's child — it carries a lifecycle sentinel that disposes the page's reactive nodes only when its Flutter route is actually disposed (after the exit transition and any shared-element flight). A popped page therefore stays mounted through its own exit, and you get correct disposal timing for free — no matter what transition or `Route` your page uses
 - Register via `runtime.registerHandle(name, FuseYourPage.new)` like any other handle

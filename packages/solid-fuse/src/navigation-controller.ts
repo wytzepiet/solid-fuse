@@ -72,13 +72,20 @@ export type NavigationController = {
    */
   replaceAll: (cfgs: PageConfig[]) => Promise<unknown>[];
   /**
-   * Called by the Navigator widget when Flutter removes a page (hardware
-   * back, swipe, or a declarative mid-stack removal whose animation just
-   * completed). Resolves the removed entry's push-promise with `null` and
-   * drops it from the stack. Safe to call with a stale id — unknown ids
-   * are no-ops.
+   * Called by the Navigator widget when Flutter removes a page from the route
+   * stack (hardware back, swipe, JS-initiated pop, or a declarative mid-stack
+   * removal whose animation just completed). Resolves the removed entry's
+   * push-promise and drops it from the *logical* stack — but keeps its node
+   * alive (see `onRouteDisposed`). Safe to call with a stale id.
    */
   onDidRemovePage: (id: number) => void;
+  /**
+   * Called by the Navigator widget when the page's Flutter route is actually
+   * disposed — after its exit transition and any shared-element flight have
+   * finished and the route's content has left the tree. Only now is it safe to
+   * drop the entry and dispose its FuseNodes. Safe to call with a stale id.
+   */
+  onRouteDisposed: (id: number) => void;
 };
 
 export const NavigationContext = createContext<NavigationController>();
@@ -133,18 +140,11 @@ export function createNavigationController(
     });
   }
 
-  function removeEntry(id: number, result: unknown) {
-    let removed: PageEntry | undefined;
-    setPages((prev) =>
-      prev.filter((e) => {
-        if (e.id === id) {
-          removed = e;
-          return false;
-        }
-        return true;
-      }),
-    );
-    removed?.resolve(result);
+  // Drop the entry from the stack, disposing its FuseNodes. The push-promise
+  // is resolved separately, in onDidRemovePage — by the time we get here it's
+  // long settled. Called only once the page's route has actually disposed.
+  function removeEntry(id: number) {
+    setPages((prev) => prev.filter((e) => e.id !== id));
   }
 
   // Mark an entry as logically popped. It stays in the stack — keeping its
@@ -220,15 +220,22 @@ export function createNavigationController(
       for (const e of liveEntries()) markPopping(e.id, null);
       return cfgs.map((cfg) => pushEntry(cfg));
     },
-    // Flutter finished animating a route out (JS-initiated pop, hardware back,
-    // swipe, or declarative mid-stack removal). Now — and only now — drop the
-    // entry and resolve its push-promise. For a JS-initiated pop the result
-    // threaded through pop()/pushReplacement() rides on pendingResult; any
-    // other removal (e.g. a back gesture) carries no result, so resolve null.
+    // Flutter removed the page from the route stack. Resolve the push-promise
+    // (the logical pop is done) and make sure the entry is flagged popping — a
+    // back gesture / swipe never went through markPopping, so flag it here to
+    // drop it from Flutter's pages list. The node stays alive: it's only
+    // disposed once the route itself disposes, in onRouteDisposed. For a
+    // JS-initiated pop the result threaded through pop()/pushReplacement()
+    // rides on pendingResult; any other removal carries none, so resolve null.
     onDidRemovePage: (id) => {
       const entry = pages().find((e) => e.id === id);
-      removeEntry(id, entry?.popping ? entry.pendingResult : null);
+      if (!entry) return;
+      entry.resolve(entry.popping ? entry.pendingResult : null);
+      if (!entry.popping) markPopping(id, null);
     },
+    // The route — and any exit flight it drove — is fully gone and its content
+    // has left the tree. Now it's safe to drop the entry and dispose its nodes.
+    onRouteDisposed: (id) => removeEntry(id),
   };
 
   return nav;

@@ -20,6 +20,19 @@ class FuseNavigatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A JS-initiated pop toggles a child's `_popping` prop instead of removing
+    // the child — keeping the page's content alive through its exit animation.
+    // That prop change only marks the child dirty, not this navigator node, so
+    // listen to the children directly: when one flips `_popping` we rebuild and
+    // re-filter `pages`. Child insert/remove dirties this node and re-runs the
+    // build (via FuseNodeWidget's node-level listener), re-subscribing here.
+    return ListenableBuilder(
+      listenable: Listenable.merge(node.children),
+      builder: (context, _) => _buildNavigator(context),
+    );
+  }
+
+  Widget _buildNavigator(BuildContext context) {
     final pages = <Page<dynamic>>[];
     for (final child in node.children) {
       // A child marked `_popping` has been logically popped on the JS side but

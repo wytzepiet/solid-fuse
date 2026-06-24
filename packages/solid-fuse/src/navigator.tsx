@@ -53,6 +53,7 @@ export function Navigator(props: {
               component={entry().config.type}
               _pageId={entry().id}
               _popping={entry().popping}
+              _onRouteDisposed={() => nav.onRouteDisposed(entry().id)}
               {...entry().config.props}
             >
               {entry().config.child()}

@@ -94,6 +94,17 @@ When you pass a plain thunk to `nav.push(() => <X />)`, it's sugar for `material
 
 iOS swipe-back and Android back button are handled automatically. The Navigator's `onDidRemovePage` callback fires when the system removes a page (back gesture, declarative mid-stack removal) and resolves the corresponding push promise with `null`. You don't need to wire this up.
 
+## Popped pages stay mounted until the transition ends
+
+Popping a page — whether from `nav.pop()`, a back gesture, `pushReplacement`, `popUntil`, or `replaceAll` — is two-phase: the page leaves the logical stack immediately (so `nav.stackDepth()` drops and `nav.pages()` no longer counts it), but its contents stay mounted until Flutter finishes animating the route out. The page only unmounts once the exit transition completes.
+
+This matters in two places:
+
+- **The push promise resolves when the page is actually gone**, not when you call `pop()`. So `await nav.push(...)` returns after the exit (and any shared-element flight, e.g. [`@solid-fuse/heroine`](/docs/extending/creating-handles#navigator-observers)) has finished — the page you pushed has fully left the screen.
+- **You can read or animate the page during its own exit.** Signals the page depends on keep working through the transition, so a page that animates out under a hero flight renders correctly the whole way.
+
+You don't manage any of this — it's automatic. It's called out only because the resolution timing is observable: code after `await nav.push(...)` runs post-animation.
+
 ## Navigator observers
 
 Some Flutter features hook into route changes through a `NavigatorObserver` — a
