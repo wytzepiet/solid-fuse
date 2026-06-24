@@ -50,7 +50,7 @@ function HomePage() {
 | `nav.popUntil(name?)` | Pop until the named route is on top, or to the root if no name given. No-op (with warning) if the name isn't on the stack. |
 | `nav.replaceAll(configs)` | Replace the entire stack with new pages. Returns a promise per new page. |
 | `nav.stackDepth()` | Reactive getter for the current stack depth. |
-| `nav.pages()` | Reactive getter for the page entry list. |
+| `nav.pages` | Reactive store of page entries (a proxy array — read it directly, no call). |
 
 ## Pages are configs, not JSX
 
@@ -96,7 +96,7 @@ iOS swipe-back and Android back button are handled automatically. The Navigator'
 
 ## Popped pages stay mounted until the transition ends
 
-Popping a page — whether from `nav.pop()`, a back gesture, `pushReplacement`, `popUntil`, or `replaceAll` — is two-phase: the page leaves the logical stack immediately (so `nav.stackDepth()` drops and `nav.pages()` no longer counts it), but its contents stay mounted until Flutter finishes animating the route out. The page only unmounts once the exit transition completes.
+Popping a page — whether from `nav.pop()`, a back gesture, `pushReplacement`, `popUntil`, or `replaceAll` — is two-phase: the page leaves the logical stack immediately (so `nav.stackDepth()` drops and `nav.pages` no longer counts it), but its contents stay mounted until Flutter finishes animating the route out. The page only unmounts once the exit transition completes.
 
 This matters in two places:
 

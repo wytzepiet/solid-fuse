@@ -47,7 +47,7 @@ export function Navigator(props: {
         observers={props.observers}
         onDidRemovePage={(e: { id: number }) => nav.onDidRemovePage(e.id)}
       >
-        <For each={nav.pages()} keyed={(e) => e.id}>
+        <For each={nav.pages} keyed={(e) => e.id}>
           {(entry) => (
             <Dynamic
               component={entry().config.type}

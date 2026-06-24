@@ -1,6 +1,7 @@
 import {
   createContext,
-  createSignal,
+  createStore,
+  snapshot,
   untrack,
   useContext,
 } from "solid-js";
@@ -38,8 +39,13 @@ export type PageEntry = {
 };
 
 export type NavigationController = {
-  /** Reactive page stack. Passed to `<For>` inside the Navigator wrapper. */
-  pages: () => PageEntry[];
+  /**
+   * Reactive page stack — a store proxy. Passed straight to
+   * `<For each={nav.pages}>` inside the Navigator wrapper. Entries are stable
+   * proxies, so `popping` flips in place (property-level tracking) without
+   * re-rendering the row.
+   */
+  pages: readonly PageEntry[];
   /** Reactive stack depth — components can `nav.stackDepth() > 1`. */
   stackDepth: () => number;
   /**
@@ -75,8 +81,8 @@ export type NavigationController = {
    * Called by the Navigator widget when Flutter removes a page from the route
    * stack (hardware back, swipe, JS-initiated pop, or a declarative mid-stack
    * removal whose animation just completed). Resolves the removed entry's
-   * push-promise and drops it from the *logical* stack immediately, then
-   * disposes its node one vsync later. Safe to call with a stale id.
+   * push-promise and drops it from the stack — disposing its node —
+   * synchronously. Safe to call with a stale id.
    */
   onDidRemovePage: (id: number) => void;
 };
@@ -108,18 +114,26 @@ export function createNavigationController(
       : ip;
   });
 
-  // `ownedWrite: true` because setPages is also called from the onCleanup
-  // below. Solid 2.0's reactive setup cascades disposal through
-  // auto-disposed memos during initial render — even on a clean mount our
-  // cleanup runs while a parent owner is still in scope, which the default
-  // "no signal writes in owned scope" check flags. Every write in this
-  // module (push, pop, popUntil, replaceAll, the cleanup) is intentional.
+  // A draft-first store (Solid 2.0): popping flips one field on one entry in
+  // place (`e.popping = true`), so property-level tracking re-runs only the
+  // `_popping` binding — the row's never-mutated `config` is built once by
+  // construction. `<For keyed={(e) => e.id}>` still reconciles by id (stable
+  // identity through markPopping, correct for mid-stack removal), but the flag
+  // now re-threads through the entry proxy instead of by replacing the entry
+  // object — so the old identity-swap hack is gone.
+  //
+  // The old signal carried `{ ownedWrite: true }` so a now-removed onCleanup
+  // could write during the disposal cascade Solid runs through auto-disposed
+  // memos on initial render (the default "no writes in an owned scope" guard
+  // flags that). Plain `createStore` has no such option — and doesn't need
+  // one: store setters route writes through internal data nodes inside an
+  // untracked scope, and every write here (push, pop, markPopping,
+  // removeEntry) fires from an event/bridge callback outside any owned scope,
+  // so none trip the guard.
   const initial: PageEntry[] = initialPage
     ? [{ id: nextId++, config: initialPage, resolve: () => {} }]
     : [];
-  const [pages, setPages] = createSignal<PageEntry[]>(initial, {
-    ownedWrite: true,
-  });
+  const [pages, setPages] = createStore<PageEntry[]>(initial);
 
   function pushEntry<T>(cfg: PageConfig | (() => JSX.Element)): Promise<T | null> {
     const config = typeof cfg === "function" ? materialPage({ child: cfg }) : cfg;
@@ -129,7 +143,9 @@ export function createNavigationController(
         config,
         resolve: resolve as (value: any) => void,
       };
-      setPages((prev) => [...prev, entry]);
+      setPages((p) => {
+        p.push(entry);
+      });
     });
   }
 
@@ -137,27 +153,28 @@ export function createNavigationController(
   // is resolved separately, in onDidRemovePage — by the time we get here (one
   // vsync later) it's long settled. id-keyed, so a stale id is a harmless no-op.
   function removeEntry(id: number) {
-    setPages((prev) => prev.filter((e) => e.id !== id));
+    setPages((p) => p.filter((e) => e.id !== id));
   }
 
   // Mark an entry as logically popped. It stays in the stack — keeping its
   // node alive — but the Dart navigator drops it, so Flutter animates the
   // route out. The real removeEntry (and promise resolution) is deferred to
-  // onDidRemovePage when that animation completes. Replaces the entry object
-  // (new identity, same id) so `<For keyed>`'s per-entry accessor updates and
-  // the `_popping` prop re-threads. Already-popping entries are left alone.
+  // onDidRemovePage when that animation completes. Flips `popping` in place on
+  // the entry; property-level store tracking re-runs only the `_popping`
+  // binding, leaving the row's config untouched. Already-popping entries are
+  // left alone.
   function markPopping(id: number, result: unknown) {
-    setPages((prev) =>
-      prev.map((e) =>
-        e.id === id && !e.popping
-          ? { ...e, popping: true, pendingResult: result }
-          : e,
-      ),
-    );
+    setPages((p) => {
+      const e = p.find((e) => e.id === id);
+      if (e && !e.popping) {
+        e.popping = true;
+        e.pendingResult = result;
+      }
+    });
   }
 
   /** Entries not yet animating out — the logical stack the user sees. */
-  const liveEntries = () => pages().filter((e) => !e.popping);
+  const liveEntries = () => pages.filter((e) => !e.popping);
 
   // No onCleanup tied to the current owner. Solid 2.0's reactive setup
   // cascades disposal through intermediate auto-disposed memos during the
@@ -214,24 +231,24 @@ export function createNavigationController(
       return cfgs.map((cfg) => pushEntry(cfg));
     },
     // Flutter removed the page from the route stack (exit animation done).
-    // Resolve the push-promise and drop the entry from the logical stack right
-    // away — `await nav.push()` and `stackDepth()` shouldn't wait a frame —
-    // but defer the node-disposing removal by one vsync. On the completion
-    // frame a hero-flight overlay re-inflates a copy of the popped hero; if we
-    // disposed the node on that same frame it'd build against a dead node.
-    // heroine's handoverFlight removes that overlay on the completion frame, so
-    // one vsync later it's structurally gone and disposal is safe. For a
-    // JS-initiated pop the result threaded through pop()/pushReplacement()
+    // Resolve the push-promise and remove the entry — disposing its node —
+    // synchronously. This fires at the END of the exit animation, so the route
+    // is already gone; there's no remaining frame to draw the disposed node on.
+    // (We used to defer removal by one vsync to dodge a hero-flight overlay that
+    // re-inflated a copy of the popped hero on the completion frame — but that
+    // race was fixed upstream in heroine 0.7.x, and the deferral was unsafe: if
+    // the tree went idle after the pop, the vsync-driven rAF never fired and the
+    // page node leaked, keeping e.g. a video controller alive and audible.) For
+    // a JS-initiated pop the result threaded through pop()/pushReplacement()
     // rides on pendingResult; any other removal carries none, so resolve null.
     onDidRemovePage: (id) => {
-      const entry = pages().find((e) => e.id === id);
+      const entry = pages.find((e) => e.id === id);
       if (!entry) return;
-      entry.resolve(entry.popping ? entry.pendingResult : null);
-      if (!entry.popping) markPopping(id, null);
-      // Vsync-driven rAF (Flutter's real frame clock), not a microtask/timer —
-      // we need the *next frame*, not the next turn. removeEntry is id-keyed
-      // and stale-safe, so a rapid double-pop within the frame is harmless.
-      requestAnimationFrame(() => removeEntry(id));
+      // `pendingResult` lives in the store, so a non-primitive result reads
+      // back as a proxy — snapshot() unwraps it to the original reference the
+      // caller passed to pop()/pushReplacement() (primitives pass through).
+      entry.resolve(entry.popping ? snapshot(entry.pendingResult) : null);
+      removeEntry(id);
     },
   };
 

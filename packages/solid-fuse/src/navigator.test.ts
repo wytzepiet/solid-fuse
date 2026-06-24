@@ -82,7 +82,7 @@ describe("NavigationController", () => {
     await withController(async (nav) => {
       const p = nav.push(page("a"));
       flush();
-      const top = nav.pages()[nav.pages().length - 1]!;
+      const top = nav.pages[nav.pages.length - 1]!;
       nav.onDidRemovePage(top.id);
       await expect(p).resolves.toBeNull();
     });
