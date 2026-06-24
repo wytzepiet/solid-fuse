@@ -75,17 +75,10 @@ export type NavigationController = {
    * Called by the Navigator widget when Flutter removes a page from the route
    * stack (hardware back, swipe, JS-initiated pop, or a declarative mid-stack
    * removal whose animation just completed). Resolves the removed entry's
-   * push-promise and drops it from the *logical* stack — but keeps its node
-   * alive (see `onRouteDisposed`). Safe to call with a stale id.
+   * push-promise and drops it from the *logical* stack immediately, then
+   * disposes its node one vsync later. Safe to call with a stale id.
    */
   onDidRemovePage: (id: number) => void;
-  /**
-   * Called by the Navigator widget when the page's Flutter route is actually
-   * disposed — after its exit transition and any shared-element flight have
-   * finished and the route's content has left the tree. Only now is it safe to
-   * drop the entry and dispose its FuseNodes. Safe to call with a stale id.
-   */
-  onRouteDisposed: (id: number) => void;
 };
 
 export const NavigationContext = createContext<NavigationController>();
@@ -141,8 +134,8 @@ export function createNavigationController(
   }
 
   // Drop the entry from the stack, disposing its FuseNodes. The push-promise
-  // is resolved separately, in onDidRemovePage — by the time we get here it's
-  // long settled. Called only once the page's route has actually disposed.
+  // is resolved separately, in onDidRemovePage — by the time we get here (one
+  // vsync later) it's long settled. id-keyed, so a stale id is a harmless no-op.
   function removeEntry(id: number) {
     setPages((prev) => prev.filter((e) => e.id !== id));
   }
@@ -220,11 +213,14 @@ export function createNavigationController(
       for (const e of liveEntries()) markPopping(e.id, null);
       return cfgs.map((cfg) => pushEntry(cfg));
     },
-    // Flutter removed the page from the route stack. Resolve the push-promise
-    // (the logical pop is done) and make sure the entry is flagged popping — a
-    // back gesture / swipe never went through markPopping, so flag it here to
-    // drop it from Flutter's pages list. The node stays alive: it's only
-    // disposed once the route itself disposes, in onRouteDisposed. For a
+    // Flutter removed the page from the route stack (exit animation done).
+    // Resolve the push-promise and drop the entry from the logical stack right
+    // away — `await nav.push()` and `stackDepth()` shouldn't wait a frame —
+    // but defer the node-disposing removal by one vsync. On the completion
+    // frame a hero-flight overlay re-inflates a copy of the popped hero; if we
+    // disposed the node on that same frame it'd build against a dead node.
+    // heroine's handoverFlight removes that overlay on the completion frame, so
+    // one vsync later it's structurally gone and disposal is safe. For a
     // JS-initiated pop the result threaded through pop()/pushReplacement()
     // rides on pendingResult; any other removal carries none, so resolve null.
     onDidRemovePage: (id) => {
@@ -232,10 +228,11 @@ export function createNavigationController(
       if (!entry) return;
       entry.resolve(entry.popping ? entry.pendingResult : null);
       if (!entry.popping) markPopping(id, null);
+      // Vsync-driven rAF (Flutter's real frame clock), not a microtask/timer —
+      // we need the *next frame*, not the next turn. removeEntry is id-keyed
+      // and stale-safe, so a rapid double-pop within the frame is harmless.
+      requestAnimationFrame(() => removeEntry(id));
     },
-    // The route — and any exit flight it drove — is fully gone and its content
-    // has left the tree. Now it's safe to drop the entry and dispose its nodes.
-    onRouteDisposed: (id) => removeEntry(id),
   };
 
   return nav;
