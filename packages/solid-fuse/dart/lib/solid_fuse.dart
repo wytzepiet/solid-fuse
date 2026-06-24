@@ -6,6 +6,7 @@ export 'src/fuse_handle.dart';
 export 'src/fuse_package.dart';
 export 'src/fuse_page_handle.dart';
 export 'src/handles/material_page.dart';
+export 'src/handles/navigator_observer.dart';
 export 'src/node.dart';
 export 'src/node_widget.dart';
 export 'src/quickjs_connection.dart';

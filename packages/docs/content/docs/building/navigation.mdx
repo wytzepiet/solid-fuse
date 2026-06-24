@@ -94,6 +94,50 @@ When you pass a plain thunk to `nav.push(() => <X />)`, it's sugar for `material
 
 iOS swipe-back and Android back button are handled automatically. The Navigator's `onDidRemovePage` callback fires when the system removes a page (back gesture, declarative mid-stack removal) and resolves the corresponding push promise with `null`. You don't need to wire this up.
 
+## Navigator observers
+
+Some Flutter features hook into route changes through a `NavigatorObserver` — a
+Dart object the framework calls on every `didPush` / `didPop`. Hero-flight
+controllers and route-level analytics trackers are the common cases. The
+`packages/heroine` controller is the motivating example: its shared-element
+flights never fire unless its observer is installed on the Navigator.
+
+A `NavigatorObserver` is a Dart object, so it can't cross the bridge directly.
+Instead a package exposes it through the [handle](/docs/extending/creating-handles)
+pattern: a `create*` factory returns a handle whose Dart object *is* the
+observer. Pass that handle to the Navigator's `observers` prop — just like you
+pass a `ScrollController` to a `ScrollView`. Consuming apps write no Dart.
+
+```tsx
+import { Navigator } from "solid-fuse";
+import { createHeroineController } from "@solid-fuse/heroine";
+
+function App() {
+  const heroine = createHeroineController();
+
+  return (
+    <Navigator observers={[heroine]} initialPage={() => <Gallery />} />
+  );
+}
+```
+
+Because the observer is a prop of the Navigator, it's guaranteed to exist before
+the Navigator first builds — so the initial `didPush` fires. Like any handle, it
+auto-disposes with its reactive owner (here, `App`); created with
+`new HeroineController()` instead, call `dispose()` yourself.
+
+<Callout type="info">
+Pass a given observer handle to at most one live Navigator — Flutter asserts if
+an observer **instance** is attached to more than one at a time.
+</Callout>
+
+### Providing your own observer
+
+To expose a `NavigatorObserver` from a package, subclass `NavigatorObserverHandle`
+on the JS side and `FuseNavigatorObserverHandle` on the Dart side. See
+[Creating handles](/docs/extending/creating-handles#navigator-observers) for the
+full pattern.
+
 ## Full example
 
 A two-page app with a list and detail view:

@@ -11,65 +11,67 @@ A **handle** is a persistent native Dart object (controllers, managers, connecti
 - JS needs to call methods on it (`jumpTo`, `requestFocus`, `forward`)
 - Dart needs to push state back to JS reactively (`scrollOffset`, `hasFocus`, `animationValue`)
 
-## JS side: createHandle
+## JS side: extend `FuseHandle`
 
-`createHandle(type, props)` allocates a Dart-side object and returns three things:
+A handle is a class extending `FuseHandle<K>`, where `K` is the node type string. The base class allocates the backing node, emits the create op, and gives you a protected `call` and a public `dispose`. Subclasses declare the node type to `super`, expose typed methods, and store any reactive signals as fields.
 
 ```tsx
 import { createSignal } from "solid-js";
-import { createHandle, type Handle } from "solid-fuse";
+import { FuseHandle } from "solid-fuse";
 
-export type FocusNode = Handle<"focusNode"> & {
-  hasFocus: () => boolean;
-  focus: () => void;
-  unfocus: () => void;
-  dispose: () => void;
-};
+export class FocusNode extends FuseHandle<"focusNode"> {
+  readonly hasFocus: () => boolean;
 
-export function createFocusNode(): FocusNode {
-  const [hasFocus, setHasFocus] = createSignal(false);
+  constructor() {
+    const [hasFocus, setHasFocus] = createSignal(false);
 
-  // setHasFocus is a function — it's stored in the JS handler map and
-  // exposed to Dart, which calls it whenever the FocusNode's value changes.
-  const { node, call, dispose } = createHandle("focusNode", { setHasFocus });
+    // setHasFocus is a function — it's stored in the JS handler map and
+    // exposed to Dart, which calls it whenever the FocusNode's value changes.
+    super("focusNode", { setHasFocus });
 
-  return {
-    node,
-    hasFocus,
-    focus: () => call("focus"),
-    unfocus: () => call("unfocus"),
-    dispose,
-  };
+    this.hasFocus = hasFocus;
+  }
+
+  focus() {
+    return this.call("focus");
+  }
+
+  unfocus() {
+    return this.call("unfocus");
+  }
 }
 ```
 
+### Why a class
+
+`FuseHandle` is a class, not a `{ node, call, dispose }` factory object, so the handle's *type* is nominal: a `FocusNode` is distinguishable from a `ScrollController` even though both structurally carry a `node`. That distinction is real at runtime (`instanceof`) and at the type level (the prototype chain plus the private `#disposed` field), which is what lets a widget prop demand a *specific* kind of handle. It also keeps the wire shape tight — methods live on the prototype, so when a handle is passed as a prop the instance's only own property is `node`, and that's all that crosses the bridge.
+
 ### node
 
-A `FuseNode<K>` reference. Include it on the returned object — widgets that accept the handle (like `<TextField focusNode={focus} />`) read this to serialize a `_node: <id>` ref over the bridge.
-
-The `K` type parameter (`"focusNode"` here) discriminates handle kinds at prop sites, so a `ScrollController` can't be passed where a `FocusNode` is expected.
+A `FuseNode<K>` reference, set by the base constructor. Widgets that accept the handle (like `<TextField focusNode={focus} />`) read this to serialize a `_node: <id>` ref over the bridge. The `K` type parameter (`"focusNode"` here) discriminates handle kinds at prop sites.
 
 ### call(method, value?, options?)
 
-Sends an imperative RPC to the Dart handle. Returns a promise that resolves with the Dart handler's return value.
+`protected` — call it from your subclass methods. Sends an imperative RPC to the Dart handle and returns a promise that resolves with the Dart handler's return value.
 
 ```tsx
-call("animateTo", { offset: 500, duration: 300 });
+this.call("animateTo", { offset: 500, duration: 300 });
 ```
 
-Default timeout is 30 seconds. Pass `{ timeout: 0 }` for long-running native operations.
+Default timeout is 30 seconds. Pass `{ timeout: 0 }` for long-running native operations. It's protected so the raw RPC surface stays off the public API — consumers call your typed wrappers (`animateTo`, `focus`) instead.
 
 ### dispose()
 
-Idempotent. If `createHandle` is called inside a reactive owner, `dispose` is wired to `onCleanup` automatically — explicit calls are only needed for handles owned outside any owner.
+Public and idempotent — emits the dispose op, guarded so repeated calls are no-ops. Safe to call manually even when a factory has already wired it to owner cleanup (see below).
 
 ### Pushing state from Dart with setters
 
-There's no built-in "state signal" primitive — state from Dart flows through ordinary function props. Pass a setter from `createSignal` as a prop to `createHandle`; the Dart side invokes it whenever the value changes:
+There's no built-in "state signal" primitive — state from Dart flows through ordinary function props. Pass a setter from `createSignal` to `super(...)`; the Dart side invokes it whenever the value changes:
 
 ```tsx
 const [hasFocus, setHasFocus] = createSignal(false);
-const { node, call, dispose } = createHandle("focusNode", { setHasFocus });
+super("focusNode", { setHasFocus });
+this.hasFocus = hasFocus;
 
 // In JSX — subscribes, re-renders when Dart pushes
 <Text>{hasFocus() ? "Focused" : "Blurred"}</Text>
@@ -79,10 +81,10 @@ The function is stored in the JS handler map and surfaces on the Dart side as a 
 
 ### Plain-value props go inline
 
-Plain (JSON-serializable) props passed to `createHandle` land inline in the `create` op so the Dart factory can read them immediately at construction time:
+Plain (JSON-serializable) props passed to `super(...)` land inline in the `create` op so the Dart factory can read them immediately at construction time:
 
 ```tsx
-createHandle("scrollController", {
+super("scrollController", {
   initialScrollOffset: 120,   // read by Dart constructor
   setScrollOffset,            // setter callback
 });
@@ -90,7 +92,31 @@ createHandle("scrollController", {
 
 On the Dart side, the constructor sees `node.double('initialScrollOffset')` populated before `object` is built.
 
-## Dart side: FuseHandle\<T\>
+## The `create*` factory: lifecycle
+
+Constructing a handle with `new` does **not** tie it to a reactive owner — you own `dispose()`. The Solid-flavored entry point is a small `create*` factory that constructs the handle and wires owner-scoped auto-disposal, mirroring `createSignal`/`createMemo`:
+
+```tsx
+import { getOwner, onCleanup } from "solid-js";
+
+export function createFocusNode(): FocusNode {
+  const node = new FocusNode();
+  if (getOwner()) onCleanup(() => node.dispose());
+  return node;
+}
+```
+
+This split is deliberate:
+
+- `createFocusNode()` — auto-disposes with the owning component. The common case.
+- `new FocusNode()` — manual lifecycle. For module-level singletons or code outside any owner; call `dispose()` yourself.
+
+<Callout type="info">
+Wrap the disposal in an arrow (`() => node.dispose()`), not a bare `node.dispose`
+reference — `dispose` reads `this`, so a detached reference would lose its receiver.
+</Callout>
+
+## Dart side: `FuseHandle<T>`
 
 Implement `FuseHandle<T>` where `T` is the type of the wrapped native object. The base class gives you the node, a `call` hook, and a `dispose` hook.
 
@@ -148,11 +174,11 @@ State updates back to JS go through `node.callback(name)`, which returns a calla
 node.callback('setScrollOffset')?.call(controller.offset);
 ```
 
-The callback name is the same string you passed in `createHandle({ ... })` on the JS side.
+The callback name is the same string you passed to `super(...)` on the JS side.
 
 ## How handle references resolve
 
-When JS sets a widget prop to a value carrying `.node` (like `<ScrollView controller={scroll}>`), the renderer serializes the reference as `_node: <id>`. Dart hydrates it back into a `FuseNode` reference, and widgets can pull the wrapped object out with `node.handle<T>(propName)`:
+When JS sets a widget prop to a handle (like `<ScrollView controller={scroll}>`), the renderer reads `scroll.node` and serializes the reference as `_node: <id>`. Dart hydrates it back into a `FuseNode` reference, and widgets pull the wrapped object out with `node.handle<T>(propName)`:
 
 ```dart
 final controller = node.handle<ScrollController>('controller');
@@ -163,7 +189,7 @@ The `node.handle<T>` accessor null-checks the type — if a `FocusNode` ends up 
 
 ## Cleanup
 
-Handles created inside a Solid reactive context (inside a component or `createRoot`) automatically dispose when the owner is cleaned up:
+Handles created with a `create*` factory inside a Solid reactive context (inside a component or `createRoot`) automatically dispose when the owner is cleaned up:
 
 ```tsx
 function MyComponent() {
@@ -173,7 +199,7 @@ function MyComponent() {
 ```
 
 <Callout type="warn">
-Handles created **outside** a reactive context (module-level, manual scripts) won't auto-dispose. Call `dispose()` yourself if the handle manages resources.
+A handle built with `new` (or created **outside** a reactive context) won't auto-dispose. Call `dispose()` yourself if it manages native resources.
 </Callout>
 
 ## Registration
@@ -184,38 +210,83 @@ runtime.registerHandle('focusNode', FuseFocusNode.new);
 
 The lifecycle: on `create` op the runtime instantiates the handle, stores it on the node. On `_handleCall` channel messages, it delegates to `handle.call(...)`. On `dispose` op, it calls `handle.dispose()`.
 
+## Navigator observers
+
+A `NavigatorObserver` is a handle whose wrapped Dart object hooks into route changes (hero flights, route analytics). Core stays observer-agnostic — it only knows "a handle can supply a `NavigatorObserver`" — so any package can ship one and apps install it by passing the handle to `<Navigator observers={[...]}>`, with zero Dart edits. See [Navigation → Navigator observers](/docs/building/navigation#navigator-observers) for how consumers use it.
+
+On the JS side, subclass `NavigatorObserverHandle` (itself a `FuseHandle`) so the handle is nominally a navigator observer — this is the type the `observers` prop accepts:
+
+```tsx
+import { getOwner, onCleanup } from "solid-js";
+import { NavigatorObserverHandle } from "solid-fuse";
+
+export class HeroineController extends NavigatorObserverHandle<"heroineController"> {
+  constructor() {
+    super("heroineController");
+  }
+}
+
+export function createHeroineController(): HeroineController {
+  const controller = new HeroineController();
+  if (getOwner()) onCleanup(() => controller.dispose());
+  return controller;
+}
+```
+
+On the Dart side, wrap your `NavigatorObserver` in a `FuseNavigatorObserverHandle` and register it:
+
+```dart title="dart/lib/src/register.dart"
+import 'package:solid_fuse/solid_fuse.dart';
+
+void register(FuseRuntime runtime) {
+  runtime.registerHandle(
+    'heroineController',
+    (node) => FuseNavigatorObserverHandle(node, HeroineController()),
+  );
+}
+```
+
+When the handle is passed to `<Navigator observers={[heroine]}>`, the renderer serializes the reference like any other handle prop, and `FuseNavigatorWidget` resolves each referenced handle's `object` into its `Navigator(observers:)`. The observer lives as long as its handle node is mounted.
+
+<Callout type="info">
+Pass a given observer handle to at most one live Navigator — Flutter asserts if
+an observer **instance** is attached to more than one at a time.
+</Callout>
+
 ## ScrollController: the complete example
 
 The built-in `ScrollController` is a good reference for the full pattern:
 
 ```tsx title="JS — scroll-controller.ts"
-import { createSignal } from "solid-js";
-import { createHandle, type Handle } from "solid-fuse";
+import { createSignal, getOwner, onCleanup } from "solid-js";
+import { FuseHandle } from "solid-fuse";
 
-export type ScrollController = Handle<"scrollController"> & {
-  scrollOffset: () => number;
-  animateTo: (offset: number, opts?: { duration?: number }) => void;
-  jumpTo: (offset: number) => void;
-  dispose: () => void;
-};
+export class ScrollController extends FuseHandle<"scrollController"> {
+  readonly scrollOffset: () => number;
+
+  constructor(opts: { initialScrollOffset?: number } = {}) {
+    const [scrollOffset, setScrollOffset] = createSignal(
+      opts.initialScrollOffset ?? 0,
+    );
+    super("scrollController", { ...opts, setScrollOffset });
+    this.scrollOffset = scrollOffset;
+  }
+
+  animateTo(offset: number, opts?: { duration?: number }) {
+    return this.call("animateTo", { offset, ...opts });
+  }
+
+  jumpTo(offset: number) {
+    return this.call("jumpTo", offset);
+  }
+}
 
 export function createScrollController(
   opts: { initialScrollOffset?: number } = {},
 ): ScrollController {
-  const [scrollOffset, setScrollOffset] = createSignal(
-    opts.initialScrollOffset ?? 0,
-  );
-  const { node, call, dispose } = createHandle("scrollController", {
-    ...opts,
-    setScrollOffset,
-  });
-  return {
-    node,
-    scrollOffset,
-    animateTo: (offset, o) => call("animateTo", { offset, ...o }),
-    jumpTo: (offset) => call("jumpTo", offset),
-    dispose,
-  };
+  const controller = new ScrollController(opts);
+  if (getOwner()) onCleanup(() => controller.dispose());
+  return controller;
 }
 ```
 

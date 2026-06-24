@@ -23,6 +23,18 @@ export type PageEntry = {
   id: number;
   config: PageConfig;
   resolve: (value: any) => void;
+  /**
+   * True once a JS-initiated pop has started. The entry stays in the stack
+   * (so its reactive root — and FuseNodes — stay alive), but the Dart
+   * navigator omits it from its `pages:` list, so Flutter animates the route
+   * out. The entry is only disposed when `onDidRemovePage` fires at the end
+   * of that animation. Without this two-phase state, a reactive single-phase
+   * list would dispose the node the instant it's logically popped — before
+   * Flutter (or a hero-flight overlay) finishes rendering the exit.
+   */
+  popping?: boolean;
+  /** Result to resolve the push-promise with once `onDidRemovePage` fires. */
+  pendingResult?: unknown;
 };
 
 export type NavigationController = {
@@ -135,6 +147,25 @@ export function createNavigationController(
     removed?.resolve(result);
   }
 
+  // Mark an entry as logically popped. It stays in the stack — keeping its
+  // node alive — but the Dart navigator drops it, so Flutter animates the
+  // route out. The real removeEntry (and promise resolution) is deferred to
+  // onDidRemovePage when that animation completes. Replaces the entry object
+  // (new identity, same id) so `<For keyed>`'s per-entry accessor updates and
+  // the `_popping` prop re-threads. Already-popping entries are left alone.
+  function markPopping(id: number, result: unknown) {
+    setPages((prev) =>
+      prev.map((e) =>
+        e.id === id && !e.popping
+          ? { ...e, popping: true, pendingResult: result }
+          : e,
+      ),
+    );
+  }
+
+  /** Entries not yet animating out — the logical stack the user sees. */
+  const liveEntries = () => pages().filter((e) => !e.popping);
+
   // No onCleanup tied to the current owner. Solid 2.0's reactive setup
   // cascades disposal through intermediate auto-disposed memos during the
   // initial render, which would fire our cleanup mid-mount, wipe the page
@@ -145,27 +176,27 @@ export function createNavigationController(
 
   const nav: NavigationController = {
     pages,
-    stackDepth: () => pages().length,
+    stackDepth: () => liveEntries().length,
     push: <T,>(cfg: PageConfig | (() => JSX.Element)) => pushEntry<T>(cfg),
     pop: (result) => {
-      const current = pages();
-      if (current.length <= 1) {
+      const live = liveEntries();
+      if (live.length <= 1) {
         console.warn("[Fuse] nav.pop() ignored — cannot pop the root page");
         return;
       }
-      removeEntry(current[current.length - 1]!.id, result);
+      markPopping(live[live.length - 1]!.id, result);
     },
     pushReplacement: <T,>(cfg: PageConfig | (() => JSX.Element), result?: unknown) => {
-      const current = pages();
-      if (current.length > 0) {
-        removeEntry(current[current.length - 1]!.id, result);
+      const live = liveEntries();
+      if (live.length > 0) {
+        markPopping(live[live.length - 1]!.id, result);
       }
       return pushEntry<T>(cfg);
     },
     popUntil: (name) => {
-      const current = pages();
+      const live = liveEntries();
       if (name) {
-        const idx = current.findLastIndex(
+        const idx = live.findLastIndex(
           (e) => (e.config.props as { name?: string }).name === name,
         );
         if (idx < 0) {
@@ -174,13 +205,9 @@ export function createNavigationController(
           );
           return;
         }
-        const drop = current.slice(idx + 1);
-        setPages(current.slice(0, idx + 1));
-        for (const e of drop) e.resolve(null);
+        for (const e of live.slice(idx + 1)) markPopping(e.id, null);
       } else {
-        const drop = current.slice(1);
-        setPages(current.slice(0, 1));
-        for (const e of drop) e.resolve(null);
+        for (const e of live.slice(1)) markPopping(e.id, null);
       }
     },
     replaceAll: (cfgs) => {
@@ -190,12 +217,18 @@ export function createNavigationController(
         );
         return [];
       }
-      const current = pages();
-      setPages([]);
-      for (const e of current) e.resolve(null);
+      for (const e of liveEntries()) markPopping(e.id, null);
       return cfgs.map((cfg) => pushEntry(cfg));
     },
-    onDidRemovePage: (id) => removeEntry(id, null),
+    // Flutter finished animating a route out (JS-initiated pop, hardware back,
+    // swipe, or declarative mid-stack removal). Now — and only now — drop the
+    // entry and resolve its push-promise. For a JS-initiated pop the result
+    // threaded through pop()/pushReplacement() rides on pendingResult; any
+    // other removal (e.g. a back gesture) carries no result, so resolve null.
+    onDidRemovePage: (id) => {
+      const entry = pages().find((e) => e.id === id);
+      removeEntry(id, entry?.popping ? entry.pendingResult : null);
+    },
   };
 
   return nav;

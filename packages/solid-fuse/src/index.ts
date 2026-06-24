@@ -118,14 +118,10 @@ export { ReorderableDelayedDragStartListener, type ReorderableDelayedDragStartLi
 export { CupertinoSliverRefreshControl } from "./widgets/cupertino-sliver-refresh-control";
 export { RefreshIndicator } from "./widgets/refresh-indicator";
 export { CupertinoSliverNavigationBar } from "./widgets/cupertino-sliver-navigation-bar";
-export { createHandle } from "./handle";
-export type { Handle, HandleRuntime } from "./handle";
-export { createScrollController } from "./scroll-controller";
-export type { ScrollController } from "./scroll-controller";
-export { createTabController } from "./tab-controller";
-export type { TabController } from "./tab-controller";
-export { createFocusNode } from "./focus-node";
-export type { FocusNode } from "./focus-node";
+export { FuseHandle, NavigatorObserverHandle } from "./handle";
+export { ScrollController, createScrollController } from "./scroll-controller";
+export { TabController, createTabController } from "./tab-controller";
+export { FocusNode, createFocusNode } from "./focus-node";
 export { on, send, channels } from "./channels";
 export { host } from "./host";
 export type {

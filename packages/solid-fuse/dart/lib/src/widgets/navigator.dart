@@ -22,6 +22,11 @@ class FuseNavigatorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final pages = <Page<dynamic>>[];
     for (final child in node.children) {
+      // A child marked `_popping` has been logically popped on the JS side but
+      // is kept in the node tree so its content stays alive through the exit
+      // animation. Omitting it here is what tells Flutter to animate the route
+      // out; the node is disposed later, when onDidRemovePage fires.
+      if (child.props['_popping'] == true) continue;
       final h = child.ownHandle;
       if (h is FusePageHandle) {
         pages.add(h.object);
@@ -32,8 +37,24 @@ class FuseNavigatorWidget extends StatelessWidget {
       }
     }
     if (pages.isEmpty) return const SizedBox.shrink();
+
+    // `observers` is an array-of-handles prop: each element arrives as a
+    // FuseNode reference whose handle wraps a NavigatorObserver (see
+    // FuseNavigatorObserverHandle). Resolve each to its observer object. Lets
+    // a package (e.g. heroine) supply a hero-flight controller from JS with no
+    // app-side Dart.
+    final observers = <NavigatorObserver>[];
+    final rawObservers = node.props['observers'];
+    if (rawObservers is List) {
+      for (final ref in rawObservers) {
+        final observer = ref is FuseNode ? ref.handle<NavigatorObserver>() : null;
+        if (observer != null) observers.add(observer);
+      }
+    }
+
     return Navigator(
       pages: pages,
+      observers: observers,
       onDidRemovePage: (page) {
         final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
         node.callback('onDidRemovePage')?.call({'id': id});

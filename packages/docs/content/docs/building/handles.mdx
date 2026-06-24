@@ -99,7 +99,7 @@ function FocusDemo() {
 
 Both are thin wrappers around the same [handle system](/docs/extending/creating-handles):
 
-1. `createHandle("scrollController", { initialScrollOffset, setScrollOffset })` creates a JS-side `{ node, call, dispose }` triple. The Dart side instantiates a `FuseScrollController` handle wrapping a real Flutter `ScrollController`.
+1. `createScrollController(...)` constructs a `ScrollController` (a `FuseHandle` subclass), which allocates a backing node and emits a `create` op. The Dart side instantiates a `FuseScrollController` handle wrapping a real Flutter `ScrollController`.
 2. When you pass `controller={scroll}` to `<ScrollView>`, the renderer serializes the reference as `_node: <id>`. The Dart `ScrollView` widget reads it as a `FuseNode` reference, looks up the handle, and uses its wrapped `ScrollController`.
 3. State updates from Dart (the user scrolls) call the `setScrollOffset` callback you passed in, which updates a Solid signal.
 4. Imperative calls (`scroll.animateTo(...)`) go over a `_handleCall` channel that targets the node by id.

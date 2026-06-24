@@ -1,5 +1,6 @@
 import { For, untrack } from "solid-js";
 import { Dynamic } from "./dynamic";
+import type { NavigatorObserverHandle } from "./handle";
 import {
   NavigationContext,
   createNavigationController,
@@ -23,10 +24,16 @@ export {
  * `initialPage`.
  *
  * The `controller` prop is read once at mount; reactive swaps are ignored.
+ *
+ * `observers` installs Flutter `NavigatorObserver`s — handles whose Dart object
+ * is an observer (e.g. a hero-flight controller). Pass the same handle to at
+ * most one live Navigator: Flutter asserts if an observer instance is attached
+ * to two at once.
  */
 export function Navigator(props: {
   controller?: NavigationController;
   initialPage?: (() => JSX.Element) | PageConfig;
+  observers?: NavigatorObserverHandle<string>[];
 }): JSX.Element {
   const nav = untrack(
     () =>
@@ -37,6 +44,7 @@ export function Navigator(props: {
   return (
     <NavigationContext value={nav}>
       <navigator
+        observers={props.observers}
         onDidRemovePage={(e: { id: number }) => nav.onDidRemovePage(e.id)}
       >
         <For each={nav.pages()} keyed={(e) => e.id}>
@@ -44,6 +52,7 @@ export function Navigator(props: {
             <Dynamic
               component={entry().config.type}
               _pageId={entry().id}
+              _popping={entry().popping}
               {...entry().config.props}
             >
               {entry().config.child()}

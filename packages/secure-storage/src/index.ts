@@ -1,4 +1,5 @@
-import { createHandle, type Handle } from "solid-fuse";
+import { getOwner, onCleanup } from "solid-js";
+import { FuseHandle } from "solid-fuse";
 
 export type IOSAccessibility =
   | "passcode"
@@ -14,30 +15,42 @@ export type SecureStorageOptions = {
   androidResetOnError?: boolean;
 };
 
-export type SecureStorage = Handle<"secureStorage"> & {
-  read: (key: string) => Promise<string | null>;
-  write: (key: string, value: string) => Promise<void>;
-  delete: (key: string) => Promise<void>;
-  readAll: () => Promise<Record<string, string>>;
-  deleteAll: () => Promise<void>;
-  containsKey: (key: string) => Promise<boolean>;
-  dispose: () => void;
-};
+export class SecureStorage extends FuseHandle<"secureStorage"> {
+  constructor(options: SecureStorageOptions = {}) {
+    super("secureStorage", options);
+  }
+
+  read(key: string): Promise<string | null> {
+    return this.call("read", { key });
+  }
+
+  write(key: string, value: string): Promise<void> {
+    return this.call("write", { key, value });
+  }
+
+  delete(key: string): Promise<void> {
+    return this.call("delete", { key });
+  }
+
+  readAll(): Promise<Record<string, string>> {
+    return this.call("readAll");
+  }
+
+  deleteAll(): Promise<void> {
+    return this.call("deleteAll");
+  }
+
+  containsKey(key: string): Promise<boolean> {
+    return this.call("containsKey", { key });
+  }
+}
 
 export function createSecureStorage(
   options: SecureStorageOptions = {},
 ): SecureStorage {
-  const { node, call, dispose } = createHandle("secureStorage", options);
-  return {
-    node,
-    read: (key) => call("read", { key }),
-    write: (key, value) => call("write", { key, value }),
-    delete: (key) => call("delete", { key }),
-    readAll: () => call("readAll"),
-    deleteAll: () => call("deleteAll"),
-    containsKey: (key) => call("containsKey", { key }),
-    dispose,
-  };
+  const storage = new SecureStorage(options);
+  if (getOwner()) onCleanup(() => storage.dispose());
+  return storage;
 }
 
 /**
