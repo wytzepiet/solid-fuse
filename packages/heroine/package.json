@@ -1,0 +1,32 @@
+{
+  "name": "@solid-fuse/heroine",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "dart",
+    "fuse.config.ts"
+  ],
+  "scripts": {
+    "build": "fuse build"
+  },
+  "peerDependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "2.0.0-beta.14"
+  },
+  "devDependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "2.0.0-beta.14",
+    "typescript": "^5.9.3"
+  }
+}
