@@ -78,11 +78,16 @@ export type NavigationController = {
    */
   replaceAll: (cfgs: PageConfig[]) => Promise<unknown>[];
   /**
-   * Called by the Navigator widget when Flutter removes a page from the route
-   * stack (hardware back, swipe, JS-initiated pop, or a declarative mid-stack
-   * removal whose animation just completed). Resolves the removed entry's
-   * push-promise and drops it from the stack — disposing its node —
-   * synchronously. Safe to call with a stale id.
+   * Fire the removal of a page that Flutter has finished tearing down.
+   * Primarily called from the page content's `State.dispose()` (via the
+   * `_onDisposed` callback), which fires when Flutter destroys the route's
+   * element subtree — for *every* removal path, app-initiated (declarative
+   * `pages:` omission via `pop()`) or Flutter-initiated (hardware back, swipe,
+   * route self-pop). The Dart navigator's `onDidRemovePage` hook may also call
+   * this redundantly for Flutter-initiated pops. Resolves the removed entry's
+   * push-promise and drops it from the stack — disposing its node. Id-keyed
+   * and idempotent: a stale id (already-removed entry) is a harmless no-op, so
+   * racing trigger paths are safe.
    */
   onDidRemovePage: (id: number) => void;
 };
@@ -230,17 +235,16 @@ export function createNavigationController(
       for (const e of liveEntries()) markPopping(e.id, null);
       return cfgs.map((cfg) => pushEntry(cfg));
     },
-    // Flutter removed the page from the route stack (exit animation done).
-    // Resolve the push-promise and remove the entry — disposing its node —
-    // synchronously. This fires at the END of the exit animation, so the route
-    // is already gone; there's no remaining frame to draw the disposed node on.
-    // (We used to defer removal by one vsync to dodge a hero-flight overlay that
-    // re-inflated a copy of the popped hero on the completion frame — but that
-    // race was fixed upstream in heroine 0.7.x, and the deferral was unsafe: if
-    // the tree went idle after the pop, the vsync-driven rAF never fired and the
-    // page node leaked, keeping e.g. a video controller alive and audible.) For
-    // a JS-initiated pop the result threaded through pop()/pushReplacement()
-    // rides on pendingResult; any other removal carries none, so resolve null.
+    // Flutter has finished tearing down the page's route subtree (the page
+    // content's State.dispose() fired, deferred one microtask so we don't
+    // re-enter disposal mid-teardown). Resolve the push-promise and remove the
+    // entry — disposing its node. Triggering off content disposal rather than
+    // Navigator.onDidRemovePage is what makes this fire for app-initiated pops
+    // too (nav.pop() → declarative `pages:` omission), which Flutter's hook
+    // skips — previously leaking the popped node forever on iOS, keeping e.g. a
+    // video controller alive and audible. For a JS-initiated pop the result
+    // threaded through pop()/pushReplacement() rides on pendingResult; any
+    // other removal carries none, so resolve null.
     onDidRemovePage: (id) => {
       const entry = pages.find((e) => e.id === id);
       if (!entry) return;

@@ -8,11 +8,12 @@ import '../node.dart';
 /// by the FuseNode's children. Each child must be a [FusePageHandle]
 /// (e.g. `materialPage`, a third-party `cupertinoPage`, etc.).
 ///
-/// When Flutter removes a page (hardware back, swipe, or mid-stack
-/// declarative removal whose animation completed), we forward the popped
-/// page's key (the JS-assigned entry id) to JS. JS removes the entry from
-/// its pages signal, which round-trips as ops to remove the child node —
-/// but Flutter has already popped, so the rebuild is a no-op visually.
+/// The JS-side removal of a popped entry is driven by the page content's
+/// `State.dispose()` (see `_FusePageLifecycle` in fuse_page_handle.dart),
+/// which fires for every removal path — app- or Flutter-initiated. The
+/// `onDidRemovePage` hook below is a harmless redundant trigger for
+/// Flutter-initiated pops (hardware back, swipe); the JS handler is id-keyed
+/// and idempotent, so whichever path fires first wins and the other no-ops.
 class FuseNavigatorWidget extends StatelessWidget {
   const FuseNavigatorWidget(this.node);
 
@@ -38,7 +39,8 @@ class FuseNavigatorWidget extends StatelessWidget {
       // A child marked `_popping` has been logically popped on the JS side but
       // is kept in the node tree so its content stays alive through the exit
       // animation. Omitting it here is what tells Flutter to animate the route
-      // out; the node is disposed later, when onDidRemovePage fires.
+      // out; the node is disposed later, when the route's element subtree is
+      // torn down and the page content's State.dispose() fires the JS removal.
       if (child.props['_popping'] == true) continue;
       final h = child.ownHandle;
       if (h is FusePageHandle) {
