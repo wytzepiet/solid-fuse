@@ -7,7 +7,7 @@ import 'package:solid_fuse/solid_fuse.dart';
 ///
 /// Returns null when nothing is set, so `<Heroine>` falls back to its own
 /// default ([FadeShuttleBuilder]).
-HeroineShuttleBuilder? parseShuttle(dynamic raw) {
+SimpleShuttleBuilder? parseShuttle(dynamic raw) {
   if (raw == null) return null;
   if (raw is String) return _byName(raw);
 
@@ -38,7 +38,7 @@ HeroineShuttleBuilder? parseShuttle(dynamic raw) {
       );
 
     case 'chained':
-      final builders = <HeroineShuttleBuilder>[];
+      final builders = <SimpleShuttleBuilder>[];
       for (final b in (m['builders'] as List? ?? const [])) {
         final parsed = parseShuttle(b);
         if (parsed != null) builders.add(parsed);
@@ -51,7 +51,7 @@ HeroineShuttleBuilder? parseShuttle(dynamic raw) {
   }
 }
 
-HeroineShuttleBuilder _byName(String name) => switch (name) {
+SimpleShuttleBuilder _byName(String name) => switch (name) {
       'flip' => const FlipShuttleBuilder(),
       'single' => const SingleShuttleBuilder(),
       'fadeThrough' => const FadeThroughShuttleBuilder(),

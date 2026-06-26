@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  heroine: ^0.5.0+2
+  heroine: ^0.7.2
   motor: ^1.1.0
   solid_fuse: any
 
