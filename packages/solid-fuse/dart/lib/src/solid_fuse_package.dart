@@ -1,5 +1,6 @@
 import 'handles/focus_node.dart';
 import 'handles/material_page.dart';
+import 'handles/page_controller.dart';
 import 'handles/scroll_controller.dart';
 import 'handles/tab_controller.dart';
 import 'runtime.dart';
@@ -10,6 +11,7 @@ import 'widgets/ignore_pointer.dart';
 import 'widgets/listener.dart';
 import 'widgets/image.dart';
 import 'widgets/navigator.dart';
+import 'widgets/page_view.dart';
 import 'widgets/positioned.dart';
 import 'widgets/scroll_view.dart';
 import 'widgets/slivers/slivers.dart';
@@ -41,6 +43,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('absorbPointer', FuseAbsorbPointer.new);
   runtime.registerWidget('navigator', FuseNavigatorWidget.new);
   runtime.registerWidget('scrollView', FuseScrollView.new);
+  runtime.registerWidget('pageView', FusePageView.new);
   runtime.registerWidget('stack', FuseStack.new);
   runtime.registerWidget('positioned', FusePositioned.new);
   runtime.registerWidget('textField', FuseTextField.new);
@@ -55,6 +58,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   registerSlivers(runtime);
 
   runtime.registerHandle('scrollController', FuseScrollController.new);
+  runtime.registerHandle('pageController', FusePageController.new);
   runtime.registerHandle('tabController', FuseTabController.new);
   runtime.registerHandle('focusNode', FuseFocusNode.new);
   runtime.registerHandle('materialPage', FuseMaterialPage.new);

@@ -1,0 +1,86 @@
+---
+title: PageView
+description: A swipeable list of full-viewport pages with reactive page tracking
+---
+
+`PageView` lays its children out one-per-viewport and snaps between them as the user swipes. It maps to Flutter's [`PageView`](https://api.flutter.dev/flutter/widgets/PageView-class.html).
+
+Like the [sliver lists](/docs/widgets/slivers/lists-and-grids), children are built eagerly in JS but rendered lazily — Flutter only inflates the pages near the viewport, so a long pager stays cheap.
+
+```tsx
+import { PageView, View, Text } from "solid-fuse";
+
+<PageView onPageChanged={(i) => console.log("landed on", i)}>
+  <For each={slides()}>{(slide) => (
+    <View flex={{ justify: "center", align: "center" }}>
+      <Text>{slide.title}</Text>
+    </View>
+  )}</For>
+</PageView>
+```
+
+## Tracking the current page
+
+Attach a [`PageController`](/docs/building/handles) to read the live position. Its `page()` signal is reactive and updates every frame during a drag — a fractional value that settles to an integer when a page lands.
+
+Because each child already knows its own index (you have it from `<For>`), visibility and the active page are just derived signals — no per-child machinery:
+
+```tsx
+import { PageController, PageView } from "solid-fuse";
+import { VideoTile } from "./video-tile"; // your own component
+
+function Feed(props: { clips: Clip[] }) {
+  const pager = new PageController();
+
+  return (
+    <PageView controller={pager}>
+      <For each={props.clips}>{(clip, i) => {
+        const isActive = () => Math.round(pager.page()) === i();
+        // Play only the page that's centred; pause the rest.
+        return <VideoTile src={clip.url} playing={isActive()} />;
+      }}</For>
+    </PageView>
+  );
+}
+```
+
+`Math.round(pager.page())` gives the active index; `Math.abs(pager.page() - i()) < 1` is true for any page currently peeking into the viewport (useful for preloading a neighbour).
+
+<Callout>
+`onPageChanged` and `controller.page()` overlap by design. `onPageChanged` fires once per landed page with the settled integer — good for analytics or fetching the next batch. `page()` is the continuous position for frame-by-frame work. You need neither to use the other.
+</Callout>
+
+## Imperative control
+
+```tsx
+const pager = new PageController({ initialPage: 2, viewportFraction: 0.9 });
+
+pager.animateToPage(5, { duration: 400, curve: "easeInOut" });
+pager.nextPage();
+pager.jumpToPage(0);
+```
+
+Created inside a component, the controller auto-disposes on cleanup. See [Handles](/docs/building/handles) for the lifecycle rules.
+
+## Props
+
+| Prop | Type | Description |
+|---|---|---|
+| `scrollDirection` | `string` | `"horizontal"` (default) or `"vertical"` |
+| `controller` | `PageController` | Reactive position + imperative paging |
+| `onPageChanged` | `(page: number) => void` | Fires with the settled index when a page lands |
+| `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
+| `reverse` | `boolean` | Reverse the paging direction |
+| `pageSnapping` | `boolean` | Snap to page boundaries on release (default `true`) |
+| `allowImplicitScrolling` | `boolean` | Keep neighbour pages alive so they can preload (default `false`) |
+| `padEnds` | `boolean` | Half-page padding at the ends when `viewportFraction` < 1 (default `true`) |
+| `clipBehavior` | `string` | Clip behavior |
+| `dragStartBehavior` | `string` | `"start"` (default) or `"down"` |
+
+### `PageController` options
+
+| Option | Type | Description |
+|---|---|---|
+| `initialPage` | `number` | Page shown first (default `0`) |
+| `keepPage` | `boolean` | Preserve the page in `PageStorage` (default `true`) |
+| `viewportFraction` | `number` | Fraction of the viewport each page fills; `< 1` reveals neighbours (default `1`) |

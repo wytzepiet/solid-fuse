@@ -58,6 +58,7 @@ export {
 export { IgnorePointer, type IgnorePointerProps } from "./widgets/ignore-pointer";
 export { AbsorbPointer, type AbsorbPointerProps } from "./widgets/absorb-pointer";
 export { ScrollView, type ScrollViewProps } from "./widgets/scroll-view";
+export { PageView, type PageViewProps } from "./widgets/page-view";
 export { Stack, type StackProps } from "./widgets/stack";
 export { Positioned, type PositionedProps } from "./widgets/positioned";
 export {
@@ -120,6 +121,12 @@ export { RefreshIndicator } from "./widgets/refresh-indicator";
 export { CupertinoSliverNavigationBar } from "./widgets/cupertino-sliver-navigation-bar";
 export { FuseHandle, NavigatorObserverHandle } from "./handle";
 export { ScrollController, createScrollController } from "./scroll-controller";
+export {
+  PageController,
+  createPageController,
+  type PageControllerOptions,
+  type PageAnimateOptions,
+} from "./page-controller";
 export { TabController, createTabController } from "./tab-controller";
 export { FocusNode, createFocusNode } from "./focus-node";
 export { on, send, channels } from "./channels";
