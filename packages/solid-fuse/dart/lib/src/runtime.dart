@@ -225,11 +225,16 @@ class FuseRuntime {
       switch (map['op']) {
         case 'create':
           final type = map['type'] as String;
-          final node = registry.create(
-            map['id'] as int,
-            type,
-            Map<String, dynamic>.from(map['props'] as Map),
-          );
+          final node = registry.create(map['id'] as int, type, {});
+          // Resolve props the same way setProp does, so refs/arrays passed at
+          // construction (e.g. handle props) become live FuseNodes before the
+          // factory reads them — not raw `{_node: id}` maps.
+          (map['props'] as Map).forEach((name, value) {
+            node.setPropSilent(
+              name as String,
+              _resolveProp(node, name, value, dirty),
+            );
+          });
           final factory = _handleFactories[type];
           if (factory != null) {
             node.ownHandle = factory(node);
@@ -242,25 +247,10 @@ class FuseRuntime {
         case 'setProp':
           final node = registry.get(map['id'] as int);
           final name = map['name'] as String;
-          var value = map['value'];
-          if (value is List) {
-            // Array-of-nodes prop (e.g. `actions`): resolve each `{_node: id}`
-            // element to its FuseNode; other elements pass through unchanged.
-            value = value.map((e) {
-              if (e is Map && e.containsKey('_node')) {
-                return registry.get(e['_node'] as int);
-              }
-              return e;
-            }).toList();
-          } else if (value is Map && value.containsKey('_node')) {
-            final target = registry.get(value['_node'] as int);
-            final prev = node.props[name];
-            if (prev is FuseNode && prev.id != target.id) {
-              _removeSubtree(prev, dirty);
-            }
-            value = target;
-          }
-          node.setPropSilent(name, value);
+          node.setPropSilent(
+            name,
+            _resolveProp(node, name, map['value'], dirty),
+          );
           dirty.add(node);
         case 'insert':
           final parent = registry.get(map['parentId'] as int);
@@ -284,6 +274,36 @@ class FuseRuntime {
     }
 
     onOpsApplied?.call(ops);
+  }
+
+  /// Resolve a wire prop value into its local form: `{_node: id}` maps become
+  /// the referenced [FuseNode], arrays resolve element-wise, everything else
+  /// passes through. Shared by the `create` and `setProp` op handlers so both
+  /// paths decode the bridge encoding identically. Replacing an existing node
+  /// ref tears down the displaced subtree.
+  dynamic _resolveProp(
+    FuseNode node,
+    String name,
+    dynamic value,
+    Set<FuseNode> dirty,
+  ) {
+    if (value is List) {
+      return value.map((e) {
+        if (e is Map && e.containsKey('_node')) {
+          return registry.get(e['_node'] as int);
+        }
+        return e;
+      }).toList();
+    }
+    if (value is Map && value.containsKey('_node')) {
+      final target = registry.get(value['_node'] as int);
+      final prev = node.props[name];
+      if (prev is FuseNode && prev.id != target.id) {
+        _removeSubtree(prev, dirty);
+      }
+      return target;
+    }
+    return value;
   }
 
   /// Recursively remove a node and its descendants from the registry,

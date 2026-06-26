@@ -1,10 +1,5 @@
 import { channels } from "./channels";
-import {
-  FuseNode,
-  ops,
-  scheduleFlush,
-  setProp as rawSetProp,
-} from "./renderer";
+import { FuseNode, ops, scheduleFlush, encodeProp } from "./renderer";
 
 /**
  * A persistent Dart-side object backed by a `FuseNode`, controlled from JS.
@@ -37,27 +32,16 @@ export abstract class FuseHandle<K extends string> {
     const node = new FuseNode(type);
     this.node = node;
 
-    // Split props: plain values land inline in the create op so the Dart
-    // factory sees them immediately (needed for things like
-    // `initialScrollOffset` on ScrollController). Functions and node refs go
-    // through rawSetProp so the renderer's setProperty logic registers them
-    // correctly (handlers registry for functions, `_node` wire tag for refs).
+    // Encode every prop through the renderer's shared `encodeProp` so handle
+    // props cross the bridge exactly like JSX props (functions registered in
+    // the handlers registry and sent as `true`, node/handle refs and arrays
+    // tagged `{ _node: id }`). They all land inline in the create op, so the
+    // Dart factory sees them at construction time (e.g. `initialScrollOffset`).
     const createProps: Record<string, any> = {};
-    const deferred: Array<[string, any]> = [];
     for (const [k, v] of Object.entries(props)) {
-      if (
-        typeof v === "function" ||
-        v instanceof FuseNode ||
-        v?.node instanceof FuseNode
-      ) {
-        deferred.push([k, v]);
-      } else {
-        createProps[k] = v;
-        node.props[k] = v;
-      }
+      createProps[k] = encodeProp(node, k, v);
     }
     ops.push({ op: "create", id: node.id, type, props: createProps });
-    for (const [k, v] of deferred) rawSetProp(node, k, v);
     scheduleFlush();
   }
 

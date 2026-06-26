@@ -34,6 +34,43 @@ on("_functionCallAsync", (data: { nodeId: number; name: string; value?: any }) =
   return handlers.get(`${data.nodeId}:${data.name}`)?.(data.value);
 });
 
+/** A FuseNode passed directly, or a handle carrying one as `.node`. */
+function nodeRef(value: any): FuseNode | null {
+  return value instanceof FuseNode
+    ? value
+    : value?.node instanceof FuseNode
+      ? value.node
+      : null;
+}
+
+/**
+ * The single source of truth for how a prop value crosses the bridge. Updates
+ * `node.props` to the local representation and returns the wire form:
+ *   - function     → registered in `handlers`, stored/sent as `true`
+ *   - array        → each FuseNode/handle element mapped to `{ _node: id }`
+ *   - node/handle  → `{ _node: id }`
+ *   - anything else → passed through untouched
+ *
+ * Used by both the renderer's `setProperty` (JSX props) and `FuseHandle`'s
+ * constructor (handle props in the create op), so the two paths can never drift.
+ */
+export function encodeProp(node: FuseNode, name: string, value: any): any {
+  if (typeof value === "function") {
+    handlers.set(`${node.id}:${name}`, value);
+    node.props[name] = true;
+    return true;
+  }
+  node.props[name] = value;
+  if (Array.isArray(value)) {
+    return value.map((el) => {
+      const ref = nodeRef(el);
+      return ref ? { _node: ref.id } : el;
+    });
+  }
+  const ref = nodeRef(value);
+  return ref ? { _node: ref.id } : value;
+}
+
 // --- Ops journal ---
 
 type Op =
@@ -120,38 +157,7 @@ const {
   },
 
   setProperty(node: FuseNode, name: string, value: any) {
-    if (typeof value === "function") {
-      handlers.set(`${node.id}:${name}`, value);
-      node.props[name] = true;
-      ops.push({ op: "setProp", id: node.id, name, value: true });
-    } else if (Array.isArray(value)) {
-      // Array-of-nodes prop (e.g. `actions`, multi-widget slots): store the
-      // raw array, but on the wire map each FuseNode element (passed itself,
-      // or a handle carrying `.node`) to { _node: id } — same shape as the
-      // single-node ref below. Non-node elements pass through untouched.
-      node.props[name] = value;
-      const wire = value.map((el) => {
-        const ref = el instanceof FuseNode
-          ? el
-          : el?.node instanceof FuseNode
-            ? el.node
-            : null;
-        return ref ? { _node: ref.id } : el;
-      });
-      ops.push({ op: "setProp", id: node.id, name, value: wire });
-    } else {
-      const ref = value instanceof FuseNode
-        ? value
-        : value?.node instanceof FuseNode
-          ? value.node
-          : null;
-      node.props[name] = value;
-      // ref: orphan JSX node (passed itself) or a handle (carries `.node`) —
-      // same wire shape either way.
-      ops.push(ref
-        ? { op: "setProp", id: node.id, name, value: { _node: ref.id } }
-        : { op: "setProp", id: node.id, name, value });
-    }
+    ops.push({ op: "setProp", id: node.id, name, value: encodeProp(node, name, value) });
     // Like insertNode/removeNode/replaceText: schedule a flush so the op is
     // sent. Without this, a prop-only reactive update that runs after a
     // dispatch's flush (e.g. an async `.then(setState)`) buffers an op that
