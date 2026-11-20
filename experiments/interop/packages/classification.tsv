@@ -1,0 +1,64 @@
+fl_chart	ui	C	bridge	Plain line/bar/pie charts work today (example compiles); custom axis titles (getTitlesWidget), tooltips and touch callbacks do not. Lands in B.
+table_calendar	ui	C	bridge	Basic setup works; selection and event markers need selectedDayPredicate / eventLoader (sync). DateTime type lost month/day. Lands in B (Date wrapper). Dart alternative written: 52 lines.
+carousel_slider	ui	B	-	Works as generated; wrapper flattens options and takes slides as children. onPageChanged is nested (bridge 05).
+cached_network_image	ui	C	bridge	Crashed as-is (fix 1). Image loads; placeholder / errorWidget builders are missing. Lands in A.
+flutter_svg	ui	B	-	Crashed as-is (fix 1). SvgPictureAsset / Network / String work; wrapper gives one Svg with src and color.
+shimmer	ui	A	-	Shimmer.fromColors is ShimmerFromColors.
+skeletonizer	ui	A	-	Main widget missing as-is (abstract class with factory constructors, fix 2); with the fix line for line.
+lottie	ui	B	-	Lottie.asset / .network are LottieBuilderAsset / LottieBuilderNetwork; wrapper gives one Lottie with src. Controller-driven playback needs an AnimationController handle (object generator).
+rive	ui	D	builder, unencodable args	RiveWidgetBuilder's builder receives native File / controller objects; 6 of 13 constructors skipped. 80 lines of Dart.
+google_maps_flutter	ui	C	bridge	Map, camera position and markers work; the controller arrives as a record (no animateCamera), marker onTap is nested, CameraUpdate has only static factories. Lands in B.
+flutter_map	ui	C	generator + bridge	LatLng is from latlong2 (not exported): no initialCenter, 8 constructors skipped including MarkerLayer; 2 analyze errors in generated Dart. Lands in A or B.
+webview_flutter	ui	C	bridge	WebViewWidget + controller.loadRequest work; NavigationDelegate comes out as {} (nested, Future-returning callbacks), JavaScript channels take a callback. Lands in B.
+video_player	ui	B	-	Controller from the object generator plus the VideoPlayer widget; wrapper composes the aspect-ratio box (1 extra node).
+chewie	ui	C	generator	Chewie(controller:) generates, but ChewieController's constructor is dropped: it takes a VideoPlayerController, an object from another package's unit. Lands in B.
+flutter_markdown_plus	ui	A	-	Markdown(data:) and onTapLink work; custom element builders and syntaxes do not (abstract classes: Dart only).
+flutter_html	ui	A	-	Html(data:) works. style (default not reproducible) and onLinkTap (unencodable args) are missing, which limits real use.
+pull_to_refresh	ui	B	-	SmartRefresher + RefreshController work by signature; wrapper turns the controller protocol into promises. Generated module Dart has 3 analyze errors (nullable Future).
+flutter_staggered_grid_view	ui	A	-	StaggeredGrid.count with tiles is line for line. 14 constructors skipped, 11 of them for itemBuilder (lazy grids: bridge 05).
+modal_bottom_sheet	ui	D	required BuildContext	API is showMaterialModalBottomSheet(context:, builder:). 78 lines of Dart make it a declarative widget.
+fluttertoast	ui	A	-	Fluttertoast.showToast via the module generator. FToast (custom widget toasts) needs a BuildContext.
+qr_flutter	ui	A	-	QrVersions.auto is the literal -1. errorStateBuilder omitted.
+mobile_scanner	ui	A	-	MobileScanner(onDetect:) line for line; controller from the object generator.
+signature	ui	A	-	Signature(controller:) plus SignatureController from the object generator; toPngBytes crosses as a number array.
+flutter_rating_bar	ui	C	bridge	All 3 constructors skipped: RatingWidget holds widgets (nested), the others take itemBuilder(context, index). Lands in A.
+auto_size_text	ui	A	-	Line for line.
+flutter_slidable	ui	C	generator	startActionPane / endActionPane are typed ActionPane?, so a wrapped node is not accepted: nothing to slide to. Lands in A.
+pin_code_fields	ui	A	-	MaterialPinField(length:, onCompleted:). Not proven with an example.
+pinput	ui	A	-	Pinput(onCompleted:) and PinTheme records line for line; validator (sync) omitted.
+photo_view	ui	B	-	PhotoView(imageProvider: {$: "AssetImage"}) works; wrapper gives src. Gallery builder omitted.
+confetti	ui	B	-	ConfettiWidget + controller.play(); the generated controller module fails tsc (duplicate identifier), so not proven.
+badges	ui	A	-	Line for line; Badge.onTap omitted (typed Function()? returning dynamic), wrap in GestureDetector.
+dropdown_button2	ui	C	generator	items is List<DropdownItem<T>> (typed widget slot): the dropdown is empty. Values are unknown (generics). Lands in B.
+flutter_typeahead	ui	D	builder, unencodable args	builder(context, controller, focusNode) and a pull-style suggestionsCallback. 86 lines of Dart.
+percent_indicator	ui	A	-	Line for line (also run end to end in report 06).
+smooth_page_indicator	ui	B	-	AnimatedSmoothIndicator works; wrapper picks the effect by name. SmoothPageIndicator needs a PageController handle.
+flutter_spinkit	ui	A	-	32 spinners line for line; itemBuilder omitted on 23 of them.
+animated_text_kit	ui	A	-	animatedTexts is a tagged array; reads close to the Dart.
+font_awesome_flutter	ui	B	-	FaIcon generates but FontAwesomeIcons.* (2,858 static consts) do not; wrapper needs a generated code-point table (data, not logic).
+google_fonts	ui	B	-	GoogleFonts.getFont(family) via the module generator, async; wrapper returns the family name as a signal.
+flutter_animate	ui	B	-	Animate(effects: [...]) works with tagged records; helpers restore fade()/scale(). The .animate() extension chain has no 1:1 form.
+infinite_scroll_pagination	ui	E	-	All 22 constructors skipped (builder delegates, PagingController with sync/async callbacks). Paging state is app logic: do it in JS over the framework's own lazy list.
+shared_preferences	plugin	A	-	Line for line; synchronous getters become promises.
+url_launcher	plugin	A	-	Line for line.
+path_provider	plugin	A	-	Line for line (Directory crosses as a path).
+image_picker	plugin	A	-	Line for line.
+file_picker	plugin	A	-	pickFiles works; saveFile(bytes:) does not (binary).
+permission_handler	plugin	C	generator	Only openAppSettings() is generated: Permission.camera.request() / .status are extension methods on static const instances. Lands in B.
+geolocator	plugin	A	-	Line for line, including the position stream.
+connectivity_plus	plugin	A	-	Line for line.
+device_info_plus	plugin	A	-	Line for line.
+package_info_plus	plugin	A	-	Line for line.
+share_plus	plugin	A	-	SharePlus.instance.share(ShareParams(...)).
+local_auth	plugin	A	-	Line for line.
+flutter_secure_storage	plugin	C	generator	FlutterSecureStorage is classified as a record (const constructor), so read / write / delete are not generated. One declaration line fixes it. Lands in A.
+flutter_local_notifications	plugin	C	bridge	initialize + show work; the tap callback (onDidReceiveNotificationResponse) is silently dropped; zonedSchedule needs TZDateTime (unexported). Lands in B.
+in_app_purchase	plugin	D	object identity	ProductDetails / PurchaseDetails cross as records, but the store implementations need the original platform subclasses back. Needs a small Dart facade keyed by product id.
+firebase_core	plugin	A	-	Firebase.initializeApp(options: record).
+firebase_auth	plugin	A	-	Email/password and authStateChanges work; signInWithCredential (credential has no usable constructor) and verifyPhoneNumber (callbacks) do not.
+firebase_messaging	plugin	D	imperative delegate	Foreground API works; onBackgroundMessage must be a top-level Dart function run in a background isolate.
+sqflite	plugin	C	bridge	Generated TS does not compile (a parameter named arguments). openDatabase(onCreate:) and transaction() take async callbacks. Lands in A.
+camera	plugin	B	-	availableCameras + CameraController + CameraPreview by signature; needs the same initialise-then-show wrapper as video. Not proven with an example.
+audioplayers	plugin	B	-	play(UrlSource(url)) cannot be called (Source is an object, UrlSource a record); wrapper uses setSourceUrl + resume.
+just_audio	plugin	A	-	AudioPlayer().setUrl(...) then play(); 114 of 116 members.
+sensors_plus	plugin	A	-	Streams line for line.

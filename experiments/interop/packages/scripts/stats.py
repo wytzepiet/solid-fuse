@@ -47,6 +47,7 @@ def declared_by(pkg,tn):
     return re.search(r'(class|mixin|enum)\s+'+re.escape(tn)+r'\b',_src[pkg]) is not None
 for f in sorted(glob.glob(R+'/out/widgets/*.summary.json')):
     n=os.path.basename(f)[:-13]
+    if n=='app': continue  # hand-written escape-hatch widgets, reported separately
     try: s=json.load(open(f))
     except Exception: rows[n]={'error':open(R+'/out/widgets/'+n+'.log').read()[-400:]}; continue
     u=s['units'][n]
