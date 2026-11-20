@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": [],
+    "paths": { "~/*": ["../../packages/solid-fuse/src/*"] }
+  },
+  "include": ["out/*.d.ts", "../../packages/solid-fuse/src/global.d.ts", "../../packages/solid-fuse/src/jsx.d.ts"]
+}

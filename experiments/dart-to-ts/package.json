@@ -1,0 +1,14 @@
+{
+  "name": "@solid-fuse-experiments/dart-to-ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "dart run bin/generate.dart",
+    "compare": "bun compare.ts",
+    "typecheck": "tsc -p .",
+    "all": "bun run generate && bun run typecheck && bun run compare"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
