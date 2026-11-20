@@ -1,0 +1,5 @@
+name: decode_bench
+description: Micro-benchmark - string-keyed FuseMap reads vs generated typed/slot decoders.
+publish_to: "none"
+environment:
+  sdk: ^3.12.0

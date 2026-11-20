@@ -1,0 +1,11 @@
+name: size_app
+description: Tree-shaking / binary size spike for a generated Flutter constructor table.
+publish_to: "none"
+version: 0.0.0+1
+environment:
+  sdk: ^3.12.0
+dependencies:
+  flutter:
+    sdk: flutter
+flutter:
+  uses-material-design: true
