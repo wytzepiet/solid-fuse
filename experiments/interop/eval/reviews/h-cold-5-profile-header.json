@@ -1,0 +1,35 @@
+{
+  "5-profile-header-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "Each Stat is Flexible(loose) so it shrinks to its text width; the three stats pack at the left of the full-width row instead of occupying equal thirds.", "tags": ["grow-loose"]}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stats rely on grow={1} to split the row into thirds, but loose fit leaves them clustered at the start."
+  },
+  "5-profile-header-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "The row expands to full width, but each Stat is Flexible(loose) and shrinks to its text width, so the stats pack at the left rather than being evenly distributed.", "tags": ["grow-loose"]}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stats rely on grow={1} to split the row into thirds, but loose fit leaves them clustered at the start."
+  },
+  "5-profile-header-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "The row is stretched to full width, but each Stat is Flexible(loose) and shrinks to its text width, so the stats pack at the left rather than being evenly distributed.", "tags": ["grow-loose"]}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stats rely on grow={1} to split the row into thirds, but loose fit leaves them clustered at the start."
+  }
+}

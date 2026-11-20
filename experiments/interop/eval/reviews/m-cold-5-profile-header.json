@@ -1,0 +1,35 @@
+{
+  "5-profile-header-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Stretch Column needs bounded width from the parent, which a full-width header implies; Stack is tightly sized by the 212-high SizedBox so all Positioned children are bounded."},
+    "notes": "No notable mistake: 104 white circle with 4 padding around a 96 ClipOval image, centred on the banner's bottom edge (top 108, centre at 160) inside a 212-high Stack so nothing is clipped."
+  },
+  "5-profile-header-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Stretch Column needs bounded width from the parent, which a full-width header implies; Stack is tightly sized by the 212-high SizedBox so all Positioned children are bounded."},
+    "notes": "No notable mistake: ClipRRect with radius 48 on a tight 96x96 child yields a true circle, inside a 104 white circular ring, centred on the banner's bottom edge."
+  },
+  "5-profile-header-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Stretch Column needs bounded width from the parent, which a full-width header implies; Stack is tightly sized by the 212-high SizedBox so all Positioned children are bounded."},
+    "notes": "No notable mistake: same structure as file 1 (104 white circle, 4 padding, 96 ClipOval image, centre on the banner's bottom edge, Stack tall enough to contain the overhang)."
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "4-login-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "The whole form is passed as Scaffold's `body` prop, which does not exist (body must be JSX children), so nothing is rendered: an empty Scaffold.", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 2, "v": "fail", "why": "Heading and both fields are inside the ignored `body` prop and never appear (the subtree itself would have been correct).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 3, "v": "fail", "why": "Button is inside the ignored `body` prop and never appears (stretch Column would have made it full-width).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 4, "v": "fail", "why": "Button is never rendered, so there is no disabled/enabled state to see (the onPressed null logic itself is right).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 5, "v": "fail", "why": "Helper text is inside the ignored `body` prop and never appears (the condition and placement are right).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 6, "v": "fail", "why": "No button on screen to tap, so onSubmit can never be called.", "tags": ["scaffold-body-prop", "not-rendered"]}
+    ],
+    "runtime": {"v": "ok", "why": "No exception; it renders a blank Scaffold because the `body` prop is dropped."},
+    "notes": "Used `<Scaffold body={...} />` instead of JSX children, so the otherwise correct form is never displayed."
+  },
+  "4-login-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Material(transparency) > Center > ConstrainedBox(maxWidth 320) > Padding > Column(min, stretch) gets a bounded width, so stretch is safe; TextFields have a Material ancestor."},
+    "notes": "The 16 padding sits inside the 320 box so fields are 288 wide (still within 'at most 320'); no Scaffold, so the background is whatever the parent paints."
+  },
+  "4-login-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "The whole form is passed as Scaffold's `body` prop, which does not exist (body must be JSX children), so nothing is rendered: an empty Scaffold.", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 2, "v": "fail", "why": "Heading and both fields are inside the ignored `body` prop and never appear (the subtree itself would have been correct).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 3, "v": "fail", "why": "Button is inside the ignored `body` prop and never appears (stretch Column would have made it full-width).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 4, "v": "fail", "why": "Button is never rendered, so there is no disabled/enabled state to see (the onPressed null logic itself is right).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 5, "v": "fail", "why": "Helper text is inside the ignored `body` prop and never appears (the condition and placement are right).", "tags": ["scaffold-body-prop", "not-rendered"]},
+      {"n": 6, "v": "fail", "why": "No button on screen to tap, so onSubmit can never be called.", "tags": ["scaffold-body-prop", "not-rendered"]}
+    ],
+    "runtime": {"v": "ok", "why": "No exception; it renders a blank Scaffold because the `body` prop is dropped."},
+    "notes": "Used `<Scaffold body={...} />` instead of JSX children, so the otherwise correct form is never displayed."
+  }
+}
