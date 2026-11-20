@@ -409,3 +409,22 @@ Nothing here was measured on a phone. A mid-range phone is commonly several time
 - A virtualised list, the JSON-string transport inside the renderer, and by-value comparison in `spread`: recommended above from measurements of what they would avoid, not implemented.
 - Only 3 runs for parts 3 and 5 and 5 runs for parts 2 and 4; worst cases are the worst of few samples.
 - The keyed-reorder fix has no unit test and its interaction with handle and slot-node disposal across batches was not examined.
+
+## Addendum: re-run on an idle machine, engine optimization level, and a JIT reference
+
+Run by the thread owner after the report, same release build, load average 0.0 to 0.5 for the baseline. Raw output: `examples/perf_bench/results/part1-z-idle.txt`, `part1-o3-idle.txt`, `agg-z.md`, `agg-o3.md` on `spike/perf`.
+
+CPU: 4 vCPUs of an Intel Xeon at 2.10 GHz under KVM, llvmpipe software rendering.
+
+| Operation (median) | JS task, `opt-level = "z"` | JS task, `opt-level = 3` | UI thread busy, z | UI thread busy, 3 |
+|---|---:|---:|---:|---:|
+| Mount 200 nodes | 15.9 ms | 13.0 ms | 10.6 ms | 13.1 ms |
+| Mount 1,000 nodes | 84.0 ms | 62.5 ms | 65.8 ms | 63.8 ms |
+| Mount 5,000 nodes | 472 ms | 404 ms | 310 ms | 291 ms |
+| Replace 500-row list | 193 ms | 171 ms | 150 ms | 172 ms |
+| Sort 2,000 keyed rows | 88.5 ms | 73.3 ms | 133 ms | 122 ms |
+| Parse 1 MB JSON | 25.4 ms | 17.2 ms | | |
+
+- The idle baseline reproduces the report's numbers, so they were not inflated by machine load.
+- Compiling the engine for speed (`[profile.release] opt-level = 3` in `libfjs/Cargo.toml`) cuts JS time by 14 to 26% and JSON parsing by about a third. It does not touch the UI-thread cost. The load average was 1.2 to 1.6 during the second run because the build had just finished, so the gain is if anything understated. The change is not committed.
+- JIT reference: the same bundle under Bun (JavaScriptCore) with a stub bridge, `tools/run-in-bun.ts`, mounts 1,000 nodes in 13 to 16 ms cold and 3 to 6 ms warm, and 5,000 nodes in 21 to 29 ms cold and 11 ms warm. QuickJS, excluding time inside `bridge_call`, takes about 55 ms and 344 ms. So the renderer's own logic is not heavy; the interpreter is roughly 4 to 30 times slower than a JIT on it. No profile of where QuickJS spends that time was taken.
