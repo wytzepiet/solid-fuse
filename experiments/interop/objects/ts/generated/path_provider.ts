@@ -3,6 +3,9 @@ import { createModule } from "../fuse-objects";
 
 const m = createModule("path_provider");
 
+/** `FuseError.type` values this package can produce itself (its exported exception classes). */
+export type PathProviderErrorType = "MissingPlatformDirectoryException";
+
 /**
  * Path to a directory where the application may place application-specific
  * cache files.

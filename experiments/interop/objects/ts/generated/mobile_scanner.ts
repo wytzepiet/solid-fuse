@@ -6,6 +6,9 @@ import type { ColorInput } from "../fuse-objects";
 
 const m = createModule("mobile_scanner");
 
+/** `FuseError.type` values this package can produce itself (its exported exception classes). */
+export type MobileScannerErrorType = "MobileScannerBarcodeException" | "MobileScannerException";
+
 /** Static members of Dart `MobileScannerPlatform`. */
 export const MobileScannerPlatform = {
   /** The default instance of [MobileScannerPlatform] to use. */

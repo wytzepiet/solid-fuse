@@ -5,6 +5,9 @@ import type { ColorInput } from "../fuse-objects";
 
 const m = createModule("geolocator");
 
+/** `FuseError.type` values this package can produce itself (its exported exception classes). */
+export type GeolocatorErrorType = "ActivityMissingException" | "AlreadySubscribedException" | "InvalidPermissionException" | "LocationServiceDisabledException" | "PermissionDefinitionsNotFoundException" | "PermissionDeniedException" | "PermissionRequestInProgressException" | "PositionUpdateException";
+
 /** Static members of Dart `AndroidPosition`. */
 export const AndroidPosition = {
   /** Converts the supplied [Map] to an instance of the [AndroidPosition] class. */

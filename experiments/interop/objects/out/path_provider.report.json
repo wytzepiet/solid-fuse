@@ -21,6 +21,6 @@
     "StorageDirectory": "enum (by the data rules)"
   },
   "dartLines": 62,
-  "tsLines": 77,
+  "tsLines": 80,
   "warnings": []
 }

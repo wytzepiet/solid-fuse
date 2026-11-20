@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart' show PlatformException, MissingPluginException;
 import 'package:solid_fuse/solid_fuse.dart';
 
@@ -115,6 +116,32 @@ mixin FuseTickerProvider<T> on FuseHandle<T> implements TickerProvider {
   /// Flutter controllers dispose their own ticker; this only clears the set
   /// and catches tickers a controller leaked.
   void disposeTickers() => _tickers.clear();
+
+  /// Lets a widget feed its `TickerMode` to tickers that live outside the
+  /// tree (see [FuseTickerModeScope]).
+  set tickersMuted(bool muted) {
+    for (final t in _tickers) {
+      t.muted = muted;
+    }
+  }
+}
+
+/// Optional widget-side half of an environmental dependency: wrap the part of
+/// the tree an animation belongs to, and the handle's tickers follow that
+/// subtree's [TickerMode] (muted when the route is offstage), as a
+/// `State with TickerProviderStateMixin` would.
+class FuseTickerModeScope extends StatelessWidget {
+  const FuseTickerModeScope({super.key, required this.handle, required this.child});
+  final FuseHandle? handle;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final h = handle;
+    // ignore: deprecated_member_use
+    if (h is FuseTickerProvider) h.tickersMuted = !TickerMode.of(context);
+    return child;
+  }
 }
 
 // ── Dart-created objects handed to JS ───────────────────────────────────────

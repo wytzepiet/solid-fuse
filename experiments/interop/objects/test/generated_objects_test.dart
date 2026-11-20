@@ -343,6 +343,29 @@ void main() {
     });
   });
 
+  testWidgets('environmental dependency: handle tickers can follow a subtree TickerMode', (tester) async {
+    final b = Bridge();
+    final node = b.node('gen_AnimationController', {'duration': 200});
+    final h = node.ownHandle = GenAnimationControllerHandle(node);
+    final c = h.object;
+    Widget tree(bool enabled) => host(TickerMode(
+          enabled: enabled,
+          child: FuseTickerModeScope(handle: h, child: FadeTransition(opacity: c, child: const Text('x'))),
+        ));
+    await tester.pumpWidget(tree(false));
+    unawaited(b.call(node, 'forward'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(c.value, 0); // muted: time does not advance, like an offstage route
+    await tester.pumpWidget(tree(true));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(c.value, greaterThan(0));
+    await tester.pumpAndSettle();
+    expect(c.value, 1);
+    b.dispose(node);
+  });
+
   group('TabController', () {
     testWidgets('index mirror collapses the double notification; setter jumps; animateTo animates', (tester) async {
       final b = Bridge();

@@ -296,6 +296,6 @@
     "WebBarcodeReader": "enum (by the data rules)"
   },
   "dartLines": 1026,
-  "tsLines": 844,
+  "tsLines": 847,
   "warnings": []
 }
