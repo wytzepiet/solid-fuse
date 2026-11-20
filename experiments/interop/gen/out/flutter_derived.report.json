@@ -1,0 +1,543 @@
+{
+  "name": "flutter_derived",
+  "overrides": false,
+  "widgetsRequested": 34,
+  "widgetsEmitted": 32,
+  "paramsTotal": 721,
+  "paramsEmitted": 652,
+  "dartBytes": 174219,
+  "dartLines": 3177,
+  "dartAdapterLines": 1076,
+  "dartCodecLines": 2023,
+  "tsBytes": 142792,
+  "tsWidgetBytes": 78239,
+  "tsSharedBytes": 64331,
+  "decoders": 75,
+  "encoders": 20,
+  "enums": 54,
+  "data": {
+    "types": 75,
+    "ctorVariants": 315,
+    "staticConsts": 431,
+    "ctorParamsKept": 847,
+    "ctorParamsDropped": 41,
+    "droppedByReason": {
+      "nested:callback/sync-return": 16,
+      "nested:widget/slot": 11,
+      "nested:builder/unencodable args": 4,
+      "deprecated": 4,
+      "nested:callback/void(encodable args)": 2,
+      "unbridgeable/abstract-no-impl": 1,
+      "nested:widget/subtype": 1,
+      "nested:callback/void(unencodable args)": 1,
+      "unbridgeable/private/unexported-type": 1
+    },
+    "droppedExamples": {
+      "unbridgeable/abstract-no-impl": [
+        "ButtonStyle.splashFactory"
+      ],
+      "nested:builder/unencodable args": [
+        "ButtonStyle.backgroundBuilder",
+        "ButtonStyle.foregroundBuilder",
+        "SpellCheckConfiguration.spellCheckSuggestionsToolbarBuilder",
+        "TextMagnifierConfiguration.magnifierBuilder"
+      ],
+      "nested:widget/subtype": [
+        "WidgetStatePropertyAll(WidgetStatePropertyAll).value"
+      ],
+      "nested:widget/slot": [
+        "InputDecoration.icon",
+        "InputDecoration.label",
+        "InputDecoration.helper",
+        "InputDecoration.hint",
+        "InputDecoration.error",
+        "InputDecoration.prefixIcon"
+      ],
+      "deprecated": [
+        "InputDecoration.maintainHintHeight",
+        "InputDecoration(collapsed).floatingLabelBehavior",
+        "InputDecoration(collapsed).floatingLabelAlignment",
+        "InputDecoration(collapsed).maintainHintHeight"
+      ],
+      "nested:callback/void(encodable args)": [
+        "TextSpan(TextSpan).onEnter",
+        "TextSpan(TextSpan).onExit"
+      ],
+      "nested:callback/void(unencodable args)": [
+        "DecorationImage.onError"
+      ],
+      "unbridgeable/private/unexported-type": [
+        "Uri(dataFromString).encoding"
+      ],
+      "nested:callback/sync-return": [
+        "EagerGestureRecognizer(EagerGestureRecognizer).allowedButtonsFilter",
+        "ForcePressGestureRecognizer(ForcePressGestureRecognizer).interpolation",
+        "ForcePressGestureRecognizer(ForcePressGestureRecognizer).allowedButtonsFilter",
+        "LongPressGestureRecognizer(LongPressGestureRecognizer).allowedButtonsFilter",
+        "VerticalDragGestureRecognizer(VerticalDragGestureRecognizer).allowedButtonsFilter",
+        "HorizontalDragGestureRecognizer(HorizontalDragGestureRecognizer).allowedButtonsFilter"
+      ]
+    },
+    "ctorsRejected": 56,
+    "ctorsRejectedWhy": {
+      "TextStyle.WidgetStateTextStyle.resolveWith": "nested:callback: nested:callback/sync-return",
+      "TextStyle.WidgetStateTextStyle.fromMap": "map: unbridgeable/map-key",
+      "Color.WidgetStateColor.resolveWith": "nested:callback: nested:callback/sync-return",
+      "Color.WidgetStateColor.fromMap": "map: unbridgeable/map-key",
+      "Matrix4.columns": "arg0: unbridgeable/private/unexported-type",
+      "Matrix4.outer": "u: unbridgeable/private/unexported-type",
+      "Matrix4.translation": "translation: unbridgeable/private/unexported-type",
+      "Matrix4.diagonal3": "scale: unbridgeable/private/unexported-type",
+      "Matrix4.fromFloat64List": "_m4storage: unbridgeable/binary/typed-data",
+      "Matrix4.fromBuffer": "buffer: unbridgeable/binary/typed-data",
+      "Matrix4.compose": "translation: unbridgeable/private/unexported-type",
+      "ShapeBorder.WidgetStateInputBorder.resolveWith": "nested:callback: nested:callback/sync-return",
+      "ShapeBorder.WidgetStateInputBorder.fromMap": "map: unbridgeable/map-key",
+      "ShapeBorder.WidgetStateOutlinedBorder.resolveWith": "nested:callback: nested:callback/sync-return",
+      "ShapeBorder.WidgetStateOutlinedBorder.fromMap": "map: unbridgeable/map-key",
+      "MouseCursor.WidgetStateMouseCursor.resolveWith": "nested:callback: nested:callback/sync-return",
+      "MouseCursor.WidgetStateMouseCursor.fromMap": "map: unbridgeable/map-key",
+      "ImageProviderOfObject.FileImage": "file: unbridgeable/private/unexported-type",
+      "ImageProviderOfObject.MemoryImage": "bytes: unbridgeable/binary/typed-data",
+      "ImageProviderOfObject.ScrollAwareImageProvider": "context: unbridgeable/no-usable-constructor",
+      "WidgetStatePropertyOfColorN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfColorN.WidgetStateColor.resolveWith": "nested:callback: nested:callback/sync-return",
+      "WidgetStatePropertyOfColorN.WidgetStateColor.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfColorN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfdoubleN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfdoubleN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfIconN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfIconN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "TextInputFormatter.withFunction": "nested:formatFunction: nested:callback/sync-return",
+      "OutlinedBorder.WidgetStateOutlinedBorder.resolveWith": "nested:callback: nested:callback/sync-return",
+      "OutlinedBorder.WidgetStateOutlinedBorder.fromMap": "map: unbridgeable/map-key",
+      "BorderSide.WidgetStateBorderSide.resolveWith": "nested:callback: nested:callback/sync-return",
+      "BorderSide.WidgetStateBorderSide.fromMap": "map: unbridgeable/map-key",
+      "InlineSpan.WidgetSpan": "nested:child: nested:widget/slot",
+      "WidgetStatePropertyOfTextStyleN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfTextStyleN.WidgetStateTextStyle.resolveWith": "nested:callback: nested:callback/sync-return",
+      "WidgetStatePropertyOfTextStyleN.WidgetStateTextStyle.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfTextStyleN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfEdgeInsetsGeometryN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfEdgeInsetsGeometryN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfSizeN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfSizeN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfBorderSideN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfBorderSideN.WidgetStateBorderSide.resolveWith": "nested:callback: nested:callback/sync-return",
+      "WidgetStatePropertyOfBorderSideN.WidgetStateBorderSide.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfBorderSideN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfOutlinedBorderN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfOutlinedBorderN.WidgetStateOutlinedBorder.resolveWith": "nested:callback: nested:callback/sync-return",
+      "WidgetStatePropertyOfOutlinedBorderN.WidgetStateOutlinedBorder.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfOutlinedBorderN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfMouseCursorN.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfMouseCursorN.WidgetStateMouseCursor.resolveWith": "nested:callback: nested:callback/sync-return",
+      "WidgetStatePropertyOfMouseCursorN.WidgetStateMouseCursor.fromMap": "map: unbridgeable/map-key",
+      "WidgetStatePropertyOfMouseCursorN.WidgetStateMapper": "map: unbridgeable/map-key",
+      "InputBorder.WidgetStateInputBorder.resolveWith": "nested:callback: nested:callback/sync-return",
+      "InputBorder.WidgetStateInputBorder.fromMap": "map: unbridgeable/map-key"
+    }
+  },
+  "warnings": [],
+  "widgets": [
+    {
+      "component": "Text",
+      "params": 18,
+      "emitted": 16,
+      "dropped": {
+        "textScaleFactor": "deprecated"
+      },
+      "notes": [
+        "data: positional String is filled from text children when the prop is absent"
+      ],
+      "dartLines": 30,
+      "tsBytes": 1671
+    },
+    {
+      "component": "Container",
+      "params": 15,
+      "emitted": 14,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 26,
+      "tsBytes": 1529
+    },
+    {
+      "component": "Padding",
+      "params": 3,
+      "emitted": 2,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 14,
+      "tsBytes": 459
+    },
+    {
+      "component": "GestureDetector",
+      "params": 66,
+      "emitted": 65,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 77,
+      "tsBytes": 11546
+    },
+    {
+      "component": "Opacity",
+      "params": 4,
+      "emitted": 3,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 15,
+      "tsBytes": 592
+    },
+    {
+      "component": "Icon",
+      "params": 14,
+      "emitted": 12,
+      "dropped": {
+        "icon": "unbridgeable/no-usable-constructor"
+      },
+      "notes": [],
+      "dartLines": 27,
+      "tsBytes": 1296
+    },
+    {
+      "component": "ElevatedButton",
+      "params": 11,
+      "emitted": 10,
+      "dropped": {},
+      "notes": [
+        "style: data type ButtonStyle has dropped optional ctor params"
+      ],
+      "dartLines": 22,
+      "tsBytes": 1194
+    },
+    {
+      "component": "ElevatedButtonIcon",
+      "params": 13,
+      "emitted": 12,
+      "dropped": {},
+      "notes": [
+        "style: data type ButtonStyle has dropped optional ctor params"
+      ],
+      "dartLines": 24,
+      "tsBytes": 1191
+    },
+    {
+      "component": "ListTile",
+      "params": 38,
+      "emitted": 37,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 49,
+      "tsBytes": 3915
+    },
+    {
+      "component": "Switch",
+      "params": 28,
+      "emitted": 24,
+      "dropped": {
+        "activeColor": "deprecated",
+        "onActiveThumbImageError": "callback/void(unencodable args)",
+        "onInactiveThumbImageError": "callback/void(unencodable args)"
+      },
+      "notes": [
+        "thumbIcon: data type WidgetStateProperty<Icon?> has dropped optional ctor params"
+      ],
+      "dartLines": 38,
+      "tsBytes": 2402
+    },
+    {
+      "component": "Slider",
+      "params": 23,
+      "emitted": 20,
+      "dropped": {
+        "semanticFormatterCallback": "callback/sync-return",
+        "year2023": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 34,
+      "tsBytes": 2278
+    },
+    {
+      "component": "AppBar",
+      "params": 34,
+      "emitted": 32,
+      "dropped": {
+        "notificationPredicate": "callback/sync-return"
+      },
+      "notes": [
+        "actions: List<Widget> prop needs the renderer to resolve node refs inside arrays",
+        "bottom: PreferredSizeWidget slot wrapped in PreferredSize (fixed height hack)"
+      ],
+      "dartLines": 46,
+      "tsBytes": 4103
+    },
+    {
+      "component": "Scaffold",
+      "params": 28,
+      "emitted": 26,
+      "dropped": {
+        "bottomSheetScrimBuilder": "builder/unencodable args"
+      },
+      "notes": [
+        "appBar: PreferredSizeWidget slot wrapped in PreferredSize (fixed height hack)",
+        "persistentFooterButtons: List<Widget> prop needs the renderer to resolve node refs inside arrays"
+      ],
+      "dartLines": 40,
+      "tsBytes": 4255
+    },
+    {
+      "component": "SliverAppBar",
+      "params": 39,
+      "emitted": 37,
+      "dropped": {
+        "onStretchTrigger": "callback/Future<void>"
+      },
+      "notes": [
+        "actions: List<Widget> prop needs the renderer to resolve node refs inside arrays",
+        "bottom: PreferredSizeWidget slot wrapped in PreferredSize (fixed height hack)"
+      ],
+      "dartLines": 51,
+      "tsBytes": 4061
+    },
+    {
+      "component": "CupertinoButton",
+      "params": 19,
+      "emitted": 17,
+      "dropped": {
+        "minSize": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 31,
+      "tsBytes": 2047
+    },
+    {
+      "component": "CupertinoButtonFilled",
+      "params": 19,
+      "emitted": 17,
+      "dropped": {
+        "minSize": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 31,
+      "tsBytes": 2076
+    },
+    {
+      "component": "AnimatedContainer",
+      "params": 17,
+      "emitted": 16,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 28,
+      "tsBytes": 1795
+    },
+    {
+      "component": "Wrap",
+      "params": 11,
+      "emitted": 10,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 22,
+      "tsBytes": 1576
+    },
+    {
+      "component": "Column",
+      "params": 9,
+      "emitted": 8,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 20,
+      "tsBytes": 1212
+    },
+    {
+      "component": "Stack",
+      "params": 6,
+      "emitted": 5,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 17,
+      "tsBytes": 1233
+    },
+    {
+      "component": "ImageNetwork",
+      "params": 26,
+      "emitted": 22,
+      "dropped": {
+        "frameBuilder": "builder/unencodable args",
+        "loadingBuilder": "builder/unencodable args",
+        "errorBuilder": "builder/unencodable args"
+      },
+      "notes": [
+        "src: positional String is filled from text children when the prop is absent"
+      ],
+      "dartLines": 36,
+      "tsBytes": 2358
+    },
+    {
+      "component": "ImageAsset",
+      "params": 25,
+      "emitted": 22,
+      "dropped": {
+        "frameBuilder": "builder/unencodable args",
+        "errorBuilder": "builder/unencodable args"
+      },
+      "notes": [
+        "name: positional String is filled from text children when the prop is absent"
+      ],
+      "dartLines": 36,
+      "tsBytes": 2251
+    },
+    {
+      "component": "ListView",
+      "params": 23,
+      "emitted": 20,
+      "dropped": {
+        "itemExtentBuilder": "callback/sync-return",
+        "cacheExtent": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 34,
+      "tsBytes": 2292
+    },
+    {
+      "component": "ListViewBuilder",
+      "skipped": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+      "params": 25,
+      "emitted": 9,
+      "dropped": {
+        "itemExtentBuilder": "callback/sync-return"
+      },
+      "notes": [],
+      "dartLines": 0,
+      "tsBytes": 0
+    },
+    {
+      "component": "TextField",
+      "params": 72,
+      "emitted": 64,
+      "dropped": {
+        "groupId": "default value not reproducible (EditableText)",
+        "toolbarOptions": "deprecated",
+        "onAppPrivateCommand": "callback/void(unencodable args)",
+        "buildCounter": "builder/context-only",
+        "contentInsertionConfiguration": "unbridgeable/needs-nested-widget/callback",
+        "scribbleEnabled": "deprecated",
+        "contextMenuBuilder": "builder/unencodable args"
+      },
+      "notes": [
+        "decoration: data type InputDecoration has dropped optional ctor params",
+        "spellCheckConfiguration: data type SpellCheckConfiguration has dropped optional ctor params",
+        "magnifierConfiguration: data type TextMagnifierConfiguration has dropped optional ctor params"
+      ],
+      "dartLines": 78,
+      "tsBytes": 5032
+    },
+    {
+      "component": "DropdownButton",
+      "params": 31,
+      "emitted": 28,
+      "dropped": {
+        "items": "widget/subtype[list]",
+        "selectedItemBuilder": "builder/context-only"
+      },
+      "notes": [
+        "generic class instantiated to bounds: DropdownButton<dynamic>"
+      ],
+      "dartLines": 43,
+      "tsBytes": 3328
+    },
+    {
+      "component": "Checkbox",
+      "params": 20,
+      "emitted": 19,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 31,
+      "tsBytes": 2010
+    },
+    {
+      "component": "Radio",
+      "params": 21,
+      "emitted": 17,
+      "dropped": {
+        "groupValue": "deprecated",
+        "onChanged": "deprecated",
+        "groupRegistry": "unbridgeable/abstract-no-impl"
+      },
+      "notes": [
+        "generic class instantiated to bounds: Radio<dynamic>"
+      ],
+      "dartLines": 31,
+      "tsBytes": 1776
+    },
+    {
+      "component": "CustomScrollView",
+      "params": 20,
+      "emitted": 17,
+      "dropped": {
+        "center": "key",
+        "cacheExtent": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 31,
+      "tsBytes": 2075
+    },
+    {
+      "component": "BottomNavigationBar",
+      "skipped": "required param `items` (List<BottomNavigationBarItem>) is not bridgeable: unbridgeable/needs-nested-widget/callback[list]",
+      "params": 23,
+      "emitted": 0,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 0,
+      "tsBytes": 0
+    },
+    {
+      "component": "TextRich",
+      "params": 18,
+      "emitted": 16,
+      "dropped": {
+        "textScaleFactor": "deprecated"
+      },
+      "notes": [
+        "textSpan: data type InlineSpan has dropped optional ctor params"
+      ],
+      "dartLines": 30,
+      "tsBytes": 1694
+    },
+    {
+      "component": "CircularProgressIndicator",
+      "params": 15,
+      "emitted": 13,
+      "dropped": {
+        "year2023": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 27,
+      "tsBytes": 1511
+    },
+    {
+      "component": "Card",
+      "params": 11,
+      "emitted": 10,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 22,
+      "tsBytes": 1422
+    },
+    {
+      "component": "Tooltip",
+      "params": 24,
+      "emitted": 21,
+      "dropped": {
+        "height": "deprecated",
+        "positionDelegate": "callback/sync-return"
+      },
+      "notes": [
+        "richMessage: data type InlineSpan has dropped optional ctor params"
+      ],
+      "dartLines": 35,
+      "tsBytes": 2059
+    }
+  ]
+}

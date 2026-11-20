@@ -1,0 +1,57 @@
+{
+  "name": "percent_indicator",
+  "overrides": true,
+  "widgetsRequested": 2,
+  "widgetsEmitted": 2,
+  "paramsTotal": 61,
+  "paramsEmitted": 57,
+  "dartBytes": 31306,
+  "dartLines": 554,
+  "dartAdapterLines": 85,
+  "dartCodecLines": 453,
+  "tsBytes": 18667,
+  "tsWidgetBytes": 7103,
+  "tsSharedBytes": 11360,
+  "decoders": 12,
+  "encoders": 0,
+  "enums": 7,
+  "data": {
+    "types": 12,
+    "ctorVariants": 51,
+    "staticConsts": 203,
+    "ctorParamsKept": 125,
+    "ctorParamsDropped": 0,
+    "droppedByReason": {},
+    "droppedExamples": {},
+    "ctorsRejected": 2,
+    "ctorsRejectedWhy": {
+      "Color.WidgetStateColor.resolveWith": "nested:callback: nested:callback/sync-return",
+      "Color.WidgetStateColor.fromMap": "map: unbridgeable/map-key"
+    }
+  },
+  "warnings": [],
+  "widgets": [
+    {
+      "component": "CircularPercentIndicator",
+      "params": 31,
+      "emitted": 29,
+      "dropped": {
+        "onPercentValue": "callback/sync-return"
+      },
+      "notes": [],
+      "dartLines": 43,
+      "tsBytes": 3607
+    },
+    {
+      "component": "LinearPercentIndicator",
+      "params": 30,
+      "emitted": 28,
+      "dropped": {
+        "onPercentValue": "callback/sync-return"
+      },
+      "notes": [],
+      "dartLines": 42,
+      "tsBytes": 3496
+    }
+  ]
+}

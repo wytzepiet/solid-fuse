@@ -1,0 +1,185 @@
+{
+  "name": "fl_chart",
+  "overrides": true,
+  "widgetsRequested": 8,
+  "widgetsEmitted": 8,
+  "paramsTotal": 53,
+  "paramsEmitted": 30,
+  "dartBytes": 101726,
+  "dartLines": 1751,
+  "dartAdapterLines": 140,
+  "dartCodecLines": 1583,
+  "tsBytes": 52205,
+  "tsWidgetBytes": 5840,
+  "tsSharedBytes": 46155,
+  "decoders": 98,
+  "encoders": 0,
+  "enums": 24,
+  "data": {
+    "types": 98,
+    "ctorVariants": 219,
+    "staticConsts": 261,
+    "ctorParamsKept": 779,
+    "ctorParamsDropped": 58,
+    "droppedByReason": {
+      "nested:callback/sync-return": 39,
+      "unbridgeable/no-usable-constructor": 8,
+      "nested:callback/void(encodable args)": 7,
+      "nested:widget/slot": 2,
+      "nested:handle/controller": 1,
+      "nested:builder/encodable args": 1
+    },
+    "droppedExamples": {
+      "nested:handle/controller": [
+        "FlTransformationConfig.transformationController"
+      ],
+      "nested:callback/sync-return": [
+        "RadarChartData.getTitle",
+        "BarTouchData.mouseCursorResolver",
+        "FlGridData.getDrawingHorizontalLine",
+        "FlGridData.checkToShowHorizontalLine",
+        "FlGridData.getDrawingVerticalLine",
+        "FlGridData.checkToShowVerticalLine"
+      ],
+      "nested:callback/void(encodable args)": [
+        "BarTouchData.touchCallback",
+        "CandlestickTouchData.touchCallback",
+        "GaugeTouchData.touchCallback",
+        "LineTouchData.touchCallback",
+        "PieTouchData.touchCallback",
+        "RadarTouchData.touchCallback"
+      ],
+      "nested:widget/slot": [
+        "PieChartSectionData.badgeWidget",
+        "AxisTitles.axisNameWidget"
+      ],
+      "nested:builder/encodable args": [
+        "SideTitles.getTitlesWidget"
+      ],
+      "unbridgeable/no-usable-constructor": [
+        "HorizontalLine.image",
+        "HorizontalLine.sizedPicture",
+        "VerticalLine.image",
+        "VerticalLine.sizedPicture",
+        "HorizontalLine(HorizontalLine).image",
+        "HorizontalLine(HorizontalLine).sizedPicture"
+      ]
+    },
+    "ctorsRejected": 6,
+    "ctorsRejectedWhy": {
+      "Color.WidgetStateColor.resolveWith": "nested:callback: nested:callback/sync-return",
+      "Color.WidgetStateColor.fromMap": "map: unbridgeable/map-key",
+      "BorderSide.WidgetStateBorderSide.resolveWith": "nested:callback: nested:callback/sync-return",
+      "BorderSide.WidgetStateBorderSide.fromMap": "map: unbridgeable/map-key",
+      "TextStyle.WidgetStateTextStyle.resolveWith": "nested:callback: nested:callback/sync-return",
+      "TextStyle.WidgetStateTextStyle.fromMap": "map: unbridgeable/map-key"
+    }
+  },
+  "warnings": [],
+  "widgets": [
+    {
+      "component": "BarChart",
+      "params": 8,
+      "emitted": 4,
+      "dropped": {
+        "chartRendererKey": "key",
+        "swapAnimationDuration": "deprecated",
+        "swapAnimationCurve": "deprecated"
+      },
+      "notes": [
+        "transformationConfig: data type FlTransformationConfig has dropped optional ctor params"
+      ],
+      "dartLines": 18,
+      "tsBytes": 762
+    },
+    {
+      "component": "CandlestickChart",
+      "params": 8,
+      "emitted": 4,
+      "dropped": {
+        "chartRendererKey": "key",
+        "swapAnimationDuration": "deprecated",
+        "swapAnimationCurve": "deprecated"
+      },
+      "notes": [
+        "transformationConfig: data type FlTransformationConfig has dropped optional ctor params"
+      ],
+      "dartLines": 18,
+      "tsBytes": 826
+    },
+    {
+      "component": "GaugeChart",
+      "params": 5,
+      "emitted": 3,
+      "dropped": {
+        "chartRendererKey": "key"
+      },
+      "notes": [],
+      "dartLines": 17,
+      "tsBytes": 601
+    },
+    {
+      "component": "LineChart",
+      "params": 6,
+      "emitted": 4,
+      "dropped": {
+        "chartRendererKey": "key"
+      },
+      "notes": [
+        "transformationConfig: data type FlTransformationConfig has dropped optional ctor params"
+      ],
+      "dartLines": 18,
+      "tsBytes": 771
+    },
+    {
+      "component": "PieChart",
+      "params": 6,
+      "emitted": 3,
+      "dropped": {
+        "swapAnimationDuration": "deprecated",
+        "swapAnimationCurve": "deprecated"
+      },
+      "notes": [],
+      "dartLines": 17,
+      "tsBytes": 657
+    },
+    {
+      "component": "RadarChart",
+      "params": 6,
+      "emitted": 3,
+      "dropped": {
+        "swapAnimationDuration": "deprecated",
+        "swapAnimationCurve": "deprecated"
+      },
+      "notes": [
+        "data: data type RadarChartData has dropped optional ctor params"
+      ],
+      "dartLines": 17,
+      "tsBytes": 675
+    },
+    {
+      "component": "ScatterChart",
+      "params": 8,
+      "emitted": 4,
+      "dropped": {
+        "chartRendererKey": "key",
+        "swapAnimationDuration": "deprecated",
+        "swapAnimationCurve": "deprecated"
+      },
+      "notes": [
+        "transformationConfig: data type FlTransformationConfig has dropped optional ctor params"
+      ],
+      "dartLines": 18,
+      "tsBytes": 794
+    },
+    {
+      "component": "SideTitleWidget",
+      "params": 6,
+      "emitted": 5,
+      "dropped": {},
+      "notes": [],
+      "dartLines": 17,
+      "tsBytes": 754
+    }
+  ]
+}
