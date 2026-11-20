@@ -1,0 +1,105 @@
+---
+title: Sticky headers
+description: Headers that pin, resize, float, or collapse under your own control
+---
+
+These keep a header visible while a section scrolls. Pick by behavior:
+
+| Component | Behavior | Notes |
+|---|---|---|
+| [`PinnedHeaderSliver`](#pinnedheadersliver) | Sticks at the top, no resize | Simplest. Flutter ≥ 3.24. |
+| [`SliverResizingHeader`](#sliverresizingheader) | Sticks and shrinks between two extents | Flutter ≥ 3.24. |
+| [`SliverFloatingHeader`](#sliverfloatingheader) | Hidden until you scroll up, then floats in | Flutter ≥ 3.24. |
+| [`SliverPersistentHeader`](#sliverpersistentheader) | Full control via a builder that gets the shrink offset | Builder/signal pattern; see below. |
+
+## PinnedHeaderSliver
+
+A single child that pins to the leading edge. Maps to Flutter's [`PinnedHeaderSliver`](https://api.flutter.dev/flutter/widgets/PinnedHeaderSliver-class.html).
+
+```tsx
+import { PinnedHeaderSliver, Text, View } from "solid-fuse";
+
+<PinnedHeaderSliver>
+  <View padding={12} decoration={{ color: "white" }}>
+    <Text fontWeight="bold">A</Text>
+  </View>
+</PinnedHeaderSliver>
+```
+
+## SliverResizingHeader
+
+Pins and resizes between `minExtent` and `maxExtent` as you scroll. Maps to Flutter's [`SliverResizingHeader`](https://api.flutter.dev/flutter/widgets/SliverResizingHeader-class.html).
+
+```tsx
+import { SliverResizingHeader, Text, View } from "solid-fuse";
+
+<SliverResizingHeader minExtent={56} maxExtent={120}>
+  <View flex={{ justify: "center" }} padding={{ horizontal: 16 }}>
+    <Text fontSize={20}>Header</Text>
+  </View>
+</SliverResizingHeader>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `minExtent` | `number` | Collapsed height |
+| `maxExtent` | `number` | Expanded height |
+
+## SliverFloatingHeader
+
+Stays hidden until you scroll back toward it, then animates in over the content. Maps to Flutter's [`SliverFloatingHeader`](https://api.flutter.dev/flutter/widgets/SliverFloatingHeader-class.html).
+
+```tsx
+import { SliverFloatingHeader, Text, View } from "solid-fuse";
+
+<SliverFloatingHeader
+  snapMode="overlay"
+  animationStyle={{ duration: 200, curve: "easeOut" }}
+>
+  <View padding={12} decoration={{ color: "white" }}>
+    <Text>Floating toolbar</Text>
+  </View>
+</SliverFloatingHeader>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `animationStyle` | `{ duration: number; curve: string }` | Show/hide animation (duration in ms) |
+| `snapMode` | `string` | `"overlay"` or `"scroll"`. Needs Flutter ≥ 3.27. |
+
+## SliverPersistentHeader
+
+The general-purpose header. Its child is a **builder** — a function that receives the current shrink offset and whether it overlaps scrolled content, and returns JSX. Use it when you want to animate a header yourself based on how far it's collapsed. Maps to Flutter's [`SliverPersistentHeader`](https://api.flutter.dev/flutter/widgets/SliverPersistentHeader-class.html).
+
+```tsx
+import { SliverPersistentHeader, Text, View } from "solid-fuse";
+
+<SliverPersistentHeader pinned minExtent={56} maxExtent={160}>
+  {(shrinkOffset, overlapsContent) => {
+    const t = 1 - shrinkOffset / 160; // 1 expanded → 0 collapsed
+    return (
+      <View
+        decoration={{ color: "white" }}
+        flex={{ justify: "center" }}
+        padding={{ horizontal: 16 }}
+      >
+        <Text fontSize={20 + t * 12}>Scaling title</Text>
+      </View>
+    );
+  }}
+</SliverPersistentHeader>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `pinned` | `boolean` | Stick at the top when collapsed |
+| `floating` | `boolean` | Reappear on upward scroll |
+| `minExtent` | `number` | Collapsed extent |
+| `maxExtent` | `number` | Expanded extent |
+| `children` | `(shrinkOffset, overlapsContent) => JSX` | Builder for the header content |
+
+### The builder/signal pattern and its ~1-frame lag
+
+`SliverPersistentHeader` (and [`SliverLayoutBuilder`](/docs/widgets/slivers/layout-and-effects#sliverlayoutbuilder)) take a builder instead of plain children because the value they depend on — the shrink offset, the layout constraints — only exists *during Flutter's layout pass*, on the Dart side. There's no prop you could set ahead of time.
+
+Under the hood the wrapper holds a Solid signal. Each Flutter layout pass pushes the live value across the bridge; the wrapper writes it into the signal, your builder re-runs reactively, and the new JSX flows back to Dart for the next frame. Because that round-trip is asynchronous, **the rendered child reflects the previous frame's value — a lag of roughly one frame.** For smooth collapse animations that's invisible. It does mean these builders aren't the place for layout that must be pixel-exact on the very first frame; prefer the declarative headers (`SliverResizingHeader`, [`SliverAppBar`](/docs/widgets/slivers/app-bars)) when you can express the behavior without a builder.

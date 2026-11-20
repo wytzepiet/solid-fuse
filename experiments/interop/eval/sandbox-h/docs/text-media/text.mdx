@@ -1,0 +1,113 @@
+---
+title: Text
+description: Plain labels, and rich wrapping blocks with inline styled runs and widgets
+---
+
+`Text` renders text. With a plain string child it's a cheap label (Flutter [`Text`](https://api.flutter.dev/flutter/widgets/Text-class.html)); give it [`<TextSpan>`](#rich-text) runs or inline widgets as children and it upgrades itself to a wrapping rich block (Flutter [`Text.rich`](https://api.flutter.dev/flutter/widgets/Text/Text.rich.html)). There's no separate component.
+
+```tsx
+import { Text } from "solid-fuse";
+
+<Text fontSize={24} fontWeight="bold" color="blue">
+  Hello world
+</Text>
+```
+
+## Props
+
+| Prop | Type | Description |
+|---|---|---|
+| `fontSize` | `number` | Font size in logical pixels |
+| `fontWeight` | `FontWeight` | `100`–`900` or `"thin"`, `"light"`, `"regular"`, `"medium"`, `"semiBold"`, `"bold"`, `"extraBold"`, `"black"` |
+| `fontFamily` | `string` | Font family name |
+| `fontStyle` | `string` | `"normal"` or `"italic"` |
+| `color` | `ColorInput` | Text color |
+| `lineHeight` | `number` | Line height multiplier |
+| `letterSpacing` | `number` | Space between characters |
+| `textAlign` | `string` | `"left"`, `"right"`, `"center"`, `"justify"`, `"start"`, `"end"` |
+| `maxLines` | `number` | Maximum number of lines |
+| `overflow` | `string` | `"clip"`, `"fade"`, `"ellipsis"`, `"visible"` |
+| `textDecoration` | `string` | `"underline"`, `"overline"`, `"lineThrough"`, `"none"` |
+| `backgroundColor` | `ColorInput` | Highlight behind text |
+| `shadows` | `ShadowInput[]` | Text shadows |
+
+When `Text` holds spans (below), its own props set the **root style** that every run inherits, plus the block-level layout: `maxLines`, `overflow`, `textAlign`, `softWrap`, `textScaler`, `textDirection`, `locale`.
+
+## Rich text
+
+Give `Text` `<TextSpan>` runs and/or inline widgets as children and it becomes a wrapping rich block — the Instagram-caption pattern: a tappable avatar and `@username`, then the caption, all flowing together and wrapping with `maxLines` / `overflow`.
+
+```tsx
+import { Text, TextSpan, View, Image } from "solid-fuse";
+
+<Text maxLines={4} overflow="ellipsis">
+  {/* Any non-TextSpan child flows inline as a WidgetSpan */}
+  <View width={18} height={18} borderRadius={9} clipBehavior="antiAlias">
+    <Image src={user.avatarUrl} width={18} height={18} fit="cover" />
+  </View>
+  <TextSpan fontWeight="bold" color="#fff" onTap={() => openProfile(user.id)}>
+    {" @" + user.handle + " "}
+  </TextSpan>
+  <TextSpan>{caption}</TextSpan>
+</Text>
+```
+
+A `Text` with only a string child stays a plain, cheap label:
+
+```tsx
+<Text color="#fff">{caption}</Text>
+```
+
+### How children map to spans
+
+When a `Text` has any non-string child it switches to rich layout and turns each child into an inline span:
+
+| Child | Becomes |
+|---|---|
+| A bare string | a text run in the `Text`'s root style |
+| A `<TextSpan>` | a styled (optionally tappable) text run |
+| Any other widget (`<View>`, `<Image>`, …) | a `WidgetSpan` that flows inline with the text |
+
+### Inline widgets flow with the text
+
+Because any non-`TextSpan` child becomes a `WidgetSpan`, an avatar, badge, or icon wraps inline alongside the words — it isn't a separate row. This is what lets the avatar + handle + caption read as one continuous block that ellipsizes as a whole.
+
+Control how an inline widget sits against the text with its `alignment` prop (a `PlaceholderAlignment`):
+
+```tsx
+<Text>
+  <View width={16} height={16} alignment="middle">
+    <Image src="badge.png" width={16} height={16} />
+  </View>
+  <TextSpan> verified</TextSpan>
+</Text>
+```
+
+`alignment` is one of `baseline`, `aboveBaseline`, `belowBaseline`, `top`, `bottom`, or `middle` (the default).
+
+### Tappable runs
+
+Give a `TextSpan` an `onTap` to make just that run tappable — it's wired to a Flutter `TapGestureRecognizer`, so the rest of the paragraph stays inert:
+
+```tsx
+<TextSpan fontWeight="bold" onTap={() => openProfile()}> @lysbth </TextSpan>
+```
+
+### Nesting
+
+A `TextSpan`'s children may be a string, nested `<TextSpan>`s, or a mix. Nested spans inherit their parent's style and override selectively:
+
+```tsx
+<Text color="#fff">
+  Liked by <TextSpan fontWeight="bold" onTap={likers}>lysbth</TextSpan> and{" "}
+  <TextSpan fontWeight="bold">12 others</TextSpan>
+</Text>
+```
+
+### TextSpan styling props
+
+Both `Text` (as the root style) and `TextSpan` accept the same `TextStyle` subset: `fontSize`, `fontWeight`, `fontFamily`, `fontStyle`, `color`, `lineHeight`, `letterSpacing`, `wordSpacing`, `textDecoration`, `textDecorationColor`, `textDecorationStyle`, `backgroundColor`, and `shadows`.
+
+<Callout>
+`TextSpan` is only meaningful as a child of `Text`. It's a marker the `Text` builder interprets — it doesn't render on its own.
+</Callout>

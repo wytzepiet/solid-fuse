@@ -1,0 +1,5 @@
+.dart_tool/
+build/
+# raw per-parameter survey rows (2 MB, reproducible with tool/survey.dart)
+out/survey.json
+out/survey_pub.json

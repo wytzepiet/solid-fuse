@@ -1,0 +1,35 @@
+{
+  "2-product-card-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Container width 180 gives the Column a tight width, the 180x180 cover image is clipped by a top-only ClipRRect, and the shadow is painted by the outer decoration so it is not clipped."
+  },
+  "2-product-card-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "ClipRRect sits inside the decorated Container, so the image corners are clipped while the shadow stays visible."
+  },
+  "2-product-card-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Image gets tight 180x180 constraints from the SizedBox with fit cover; the inner ClipRRect rounds it without clipping the outer shadow."
+  }
+}

@@ -1,0 +1,93 @@
+---
+title: Slivers
+description: Lazy scrolling surfaces — lists, grids, collapsing app bars, sticky headers, and pull-to-refresh
+---
+
+A **sliver** is a scrollable region with custom layout behavior. Flutter composes a single scroll view out of many slivers: a collapsing app bar, then a grid, then a list, then a footer — all sharing one scroll offset. Fuse exposes the whole suite as wrapper components you import from `solid-fuse`.
+
+If you just need a scrolling column, reach for [`ScrollView`](/docs/widgets/layout/scroll-view) — it's simpler. Slivers are for when the scroll view itself needs structure: headers that pin or collapse, multiple lists with different layouts, grids, or pull-to-refresh.
+
+## The host: CustomScrollView
+
+Every sliver lives inside a `CustomScrollView` (Flutter [`CustomScrollView`](https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html)). Its children **are** slivers — you can't put a `View` or `Text` directly inside it; wrap leaf content in a sliver like [`SliverToBoxAdapter`](/docs/widgets/slivers/layout-and-effects) or [`SliverList`](/docs/widgets/slivers/lists-and-grids).
+
+```tsx
+import { CustomScrollView, SliverAppBar, SliverList, Text, View } from "solid-fuse";
+
+<CustomScrollView>
+  <SliverAppBar title={<Text>Inbox</Text>} expandedHeight={200} pinned />
+  <SliverList>
+    <For each={messages()}>
+      {(m) => (
+        <View padding={16}>
+          <Text>{m.subject}</Text>
+        </View>
+      )}
+    </For>
+  </SliverList>
+</CustomScrollView>
+```
+
+`CustomScrollView` mirrors [`ScrollView`](/docs/widgets/layout/scroll-view)'s props — same physics, same controller, same axis switches.
+
+| Prop | Type | Description |
+|---|---|---|
+| `scrollDirection` | `string` | `"vertical"` (default) or `"horizontal"` |
+| `reverse` | `boolean` | Reverse scroll direction |
+| `controller` | `ScrollController` | Programmatic scroll control (see [Handles](/docs/building/handles)) |
+| `primary` | `boolean` | Use the inherited primary scroll controller |
+| `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
+| `shrinkWrap` | `boolean` | Size to content instead of filling the viewport |
+| `anchor` | `number` | 0–1 — where the zero scroll offset sits in the viewport |
+| `cacheExtent` | `number` | Pixels of off-screen content to keep built |
+| `clipBehavior` | `string` | `"hardEdge"`, `"antiAlias"`, `"none"` |
+| `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
+| `dragStartBehavior` | `string` | `"start"` or `"down"` |
+| `hitTestBehavior` | `string` | Hit-test behavior for the viewport |
+| `restorationId` | `string` | Scroll-position restoration key |
+| `paintOrder` | `string` | `"firstIsTop"` or `"lastIsTop"` — which sliver paints over the others. Needs a recent Flutter SDK; safely ignored on older versions. |
+
+## How lists render: eager children, lazy layout
+
+This is the model to keep in your head. **Your children render eagerly** — every `<For>` iteration produces a Solid node up front, the same as anywhere else in Fuse. But Flutter only *lays out and paints the visible window*. A `SliverList` of 10,000 rows builds 10,000 light Solid nodes, while Flutter inflates Flutter widgets for the dozen rows on screen (plus a small cache margin) and recycles them as you scroll.
+
+Concretely: each sliver wraps your eager `children` in a lazy `SliverChildBuilderDelegate`. Children are keyed by their node identity, so inserting, removing, or reordering preserves widget state and scroll position instead of rebuilding everything below the change.
+
+The practical consequences:
+
+- **You don't manage windowing.** Render the whole list; Flutter handles what's visible.
+- **The eager nodes still cost something.** 10,000 Solid nodes is fine; 10,000,000 is not. For unbounded data, **cap N at the data layer** — paginate or virtualize the array you pass to `<For>`, not the sliver. The sliver makes *layout* lazy, not your data.
+- **Keys come for free.** Identity is tracked per node, so you don't add `key=` yourself.
+
+## The suite
+
+<Cards>
+  <Card title="Lists & grids" href="/docs/widgets/slivers/lists-and-grids" description="SliverList and SliverGrid" />
+  <Card title="App bars" href="/docs/widgets/slivers/app-bars" description="SliverAppBar, FlexibleSpaceBar, Cupertino nav bar" />
+  <Card title="Sticky headers" href="/docs/widgets/slivers/sticky-headers" description="Pinned, resizing, floating, and custom headers" />
+  <Card title="Layout & effects" href="/docs/widgets/slivers/layout-and-effects" description="Padding, grouping, layout builders, decoration" />
+  <Card title="Refresh & reorder" href="/docs/widgets/slivers/refresh-and-reorder" description="Pull-to-refresh and drag-to-reorder" />
+  <Card title="Nested scroll views" href="/docs/widgets/slivers/advanced" description="Coordinate an outer header with an inner scrollable body" />
+</Cards>
+
+## Version gates
+
+A few slivers depend on newer Flutter SDKs. They compile away or no-op on older versions, but to use them you need at least the version noted:
+
+| Feature | Minimum Flutter |
+|---|---|
+| `PinnedHeaderSliver`, `SliverResizingHeader`, `SliverFloatingHeader` | 3.24 |
+| `SliverFloatingHeader`'s `snapMode` | 3.27 |
+| `CustomScrollView`'s `paintOrder` | recent SDK (silently ignored if unsupported) |
+
+## What's not here, and why
+
+Some Flutter slivers are deliberately omitted because they don't fit Fuse's reactive, eager-children model:
+
+- **`SliverVariedExtentList` / `itemExtentBuilder`** — these need a synchronous per-index size callback, which the async JS↔Dart bridge can't provide. Use `itemExtent` (uniform) or let rows self-measure.
+- **`SliverAnimatedList` / `SliverAnimatedGrid`** — their imperative insert/remove animation builders fight reactive eager children. Render with `<For>` and animate items with [`SliverAnimatedOpacity`](/docs/widgets/slivers/layout-and-effects#decoration-and-effects) or per-row transitions until a reactive animation primitive lands.
+- **`SliverFadeTransition`** — needs an `Animation` handle Fuse doesn't expose yet. Reach for `SliverAnimatedOpacity`.
+- **`SliverOffstage` / `SliverVisibility`** — use Solid's `<Show>` to add or remove a sliver instead.
+- **`AppBar` (non-sliver)** — it isn't a sliver and needs a `Scaffold`; it isn't part of this suite.
+- **The Cupertino nav bar `.search` variant** — version-gated, omitted for now.
+- **Low-level `Viewport` / `Scrollable` and raw sliver delegates** — out of scope; the wrappers above cover the practical surface.

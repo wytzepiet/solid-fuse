@@ -6,3 +6,6 @@ pubspec.lock
 *.iml
 .flutter-plugins*
 .idea/
+eval/gen-copy/
+eval/logs/
+*.log

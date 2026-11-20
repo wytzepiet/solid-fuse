@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "skipLibCheck": false,
+    "types": [],
+    "lib": ["ES2022", "DOM"],
+    "paths": {
+      "solid-fuse": ["./lib/solid-fuse/index"],
+      "solid-fuse/icons/*": ["./lib/solid-fuse/icons/*"],
+      "solid-js": ["./lib/solid-js"]
+    }
+  },
+  "include": ["attempts/**/*.tsx", "smoke/*.tsx", "lib/**/*"]
+}

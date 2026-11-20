@@ -1,0 +1,30 @@
+name: fuse_objects_spike
+description: Generator spike for the "objects" and "callback interfaces" half of solid-fuse interop (handles + non-UI plugin modules).
+publish_to: "none"
+version: 0.0.1
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  solid_fuse:
+    path: ../../../packages/solid-fuse/dart
+  analyzer: 14.7.0
+  # one controller-centric package + non-UI plugins, exactly as `fuse add` would add them
+  video_player: any
+  mobile_scanner: any
+  url_launcher: any
+  shared_preferences: any
+  path_provider: any
+  share_plus: any
+  geolocator: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  plugin_platform_interface: any
+  url_launcher_platform_interface: any
+  shared_preferences_platform_interface: any
+  video_player_platform_interface: any

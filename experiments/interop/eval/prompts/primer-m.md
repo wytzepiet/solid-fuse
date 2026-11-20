@@ -1,0 +1,15 @@
+1. Components are Flutter's Material widgets under the same names, with the constructor's parameters as props: `<Container>`, `<Row>`, `<Column>`, `<Expanded>`, `<Padding>`, `<SizedBox>`, `<Stack>`, `<Positioned>`, `<Text>`, `<ListView>`, `<Scaffold>`, `<ElevatedButton>`, `<Switch>`, `<Slider>`, `<Card>`, `<ListTile>`, `<Wrap>`, `<AnimatedContainer>`, `<ClipRRect>`, ...
+2. `child` / `children` are JSX children; other widget-typed parameters are JSX-valued props: `<ListTile title={<Text>Hi</Text>} trailing={<Switch value={on()} onChanged={setOn} />} />`. Text's string is its JSX child.
+3. Named widget constructors are concatenated: `Image.network(url)` is `<ImageNetwork src={url} />`, `Transform.rotate` is `<TransformRotate angle={...}>`.
+4. Enums are the member name as a string: `mainAxisAlignment="spaceBetween"`, `overflow="ellipsis"`, `fit="cover"`, `clipBehavior="antiAlias"`.
+5. Value classes are plain objects keyed by the constructor's parameter names (positional ones too): `style={{ fontSize: 18, fontWeight: "bold", color: "#333" }}`, `offset={{ dx: 0, dy: 2 }}`, `constraints={{ maxWidth: 300 }}`.
+6. A named constructor is selected with a `$` tag: `padding={{ $: "symmetric", horizontal: 16, vertical: 8 }}`, `{ $: "only", left: 8 }`, `border={{ $: "all", color: "#ddd", width: 1 }}`.
+7. Where the parameter type is abstract, the concrete subclass is the `$` tag: `decoration={{ $: "BoxDecoration", color: "white", borderRadius: 12, boxShadow: [{ color: "#0002", blurRadius: 8, offset: { dx: 0, dy: 2 } }] }}`, `gradient={{ $: "LinearGradient", colors: [...] }}`, `shape={{ $: "RoundedRectangleBorder", borderRadius: 8 }}`.
+8. Static constants are strings: bare on the type itself (`alignment="center"`, `fontWeight="w600"`), qualified on a namespace class (`curve="Curves.easeInOut"`, `color="Colors.black54"`).
+9. Shorthands: Color also takes names ("red", "white", "grey", "transparent", ...) and CSS hex "#RGB" / "#RRGGBB" / "#RRGGBBAA"; EdgeInsets, BorderRadius and Radius take a number (all sides); Duration takes milliseconds; FontWeight takes 100..900.
+10. No method calls or indexing on values: there is no `Colors.grey[300]`, `.withOpacity()` or `ElevatedButton.styleFrom()`; use hex colors and plain objects.
+11. `<Icon icon={star} size={24} color="amber" />` with `import { star } from "solid-fuse/icons/material"` (Flutter's icon names, camelCase).
+12. Callbacks keep Flutter's names and get Flutter's details objects as plain data: `onPanUpdate={(d) => d.delta.dx}`, `onChanged={(v) => ...}`; `onPressed={null}` disables a button. BuildContext is never passed.
+13. `<TextField decoration={{ labelText: "Email", border: { $: "OutlineInputBorder" } }} obscureText keyboardType="emailAddress" onChanged={(text) => ...} />`; controllers are not needed.
+14. Builders (`ListView.builder`, `LayoutBuilder`) are not available: render lists as children with `<For>` or `.map`.
+15. Every prop is reactive; implicitly animated widgets (`<AnimatedContainer duration={300}>`) animate when their props change.

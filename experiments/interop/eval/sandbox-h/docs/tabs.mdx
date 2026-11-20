@@ -1,0 +1,160 @@
+---
+title: Tabs
+description: A tab strip and swipeable pages kept in sync by a shared controller
+---
+
+Fuse exposes Flutter's tab system as four wrappers: a [`TabBar`](https://api.flutter.dev/flutter/material/TabBar-class.html) (the strip of labels), a [`TabBarView`](https://api.flutter.dev/flutter/material/TabBarView-class.html) (the swipeable pages), [`Tab`](https://api.flutter.dev/flutter/material/Tab-class.html) (one label), and a [`DefaultTabController`](https://api.flutter.dev/flutter/material/DefaultTabController-class.html) for the common case.
+
+A **controller** binds the bar and the view together: tap a tab and the pages slide; swipe the pages and the indicator follows. The bar and the view must share the same controller — that's the whole trick.
+
+## The common case: DefaultTabController
+
+Wrap a `TabBar` and a `TabBarView` in a `DefaultTabController` and they find the controller through context. No handle, no wiring — the bar and the view stay in sync by both swipe and tap.
+
+```tsx
+import { DefaultTabController, Tab, TabBar, TabBarView, Text, View } from "solid-fuse";
+
+<DefaultTabController length={2}>
+  <View flex={{ direction: "vertical", expand: true }}>
+    <TabBar>
+      <Tab text="Home" />
+      <Tab text="Profile" />
+    </TabBar>
+    <View grow={1} fit="tight">
+      <TabBarView>
+        <View padding={16}><Text>Home page</Text></View>
+        <View padding={16}><Text>Profile page</Text></View>
+      </TabBarView>
+    </View>
+  </View>
+</DefaultTabController>
+```
+
+`TabBarView` sizes itself to fill its parent, so give it a bounded box — here a `grow={1} fit="tight"` view inside a vertical flex.
+
+## Programmatic control: createTabController
+
+When you need the selected index in JS — to react to it, or to drive it from a button — create a controller explicitly and pass the same one to both the bar and the view.
+
+```tsx
+import { createTabController, Tab, TabBar, TabBarView, Text, View } from "solid-fuse";
+import { createEffect } from "solid-js";
+
+function Tabs() {
+  const tabs = createTabController({ length: 3 });
+
+  // `index()` is a signal — read it anywhere it's reactive.
+  createEffect(
+    () => tabs.index(),
+    (i) => console.log("tab changed to", i),
+  );
+
+  return (
+    <View flex={{ direction: "vertical", expand: true }}>
+      <TabBar controller={tabs}>
+        <Tab text="One" />
+        <Tab text="Two" />
+        <Tab text="Three" />
+      </TabBar>
+      <View grow={1} fit="tight">
+        <TabBarView controller={tabs}>
+          <View><Text>1</Text></View>
+          <View><Text>2</Text></View>
+          <View><Text>3</Text></View>
+        </TabBarView>
+      </View>
+      {/* Jump to the last tab from anywhere. */}
+      <GestureDetector onTap={() => tabs.animateTo(2)}>
+        <Text>Skip to end</Text>
+      </GestureDetector>
+    </View>
+  );
+}
+```
+
+`createTabController` returns a handle:
+
+| Member | Type | Description |
+|---|---|---|
+| `index` | `() => number` | The selected tab, as a reactive signal |
+| `length` | `number` | Number of tabs (fixed at creation) |
+| `animateTo` | `(index, opts?) => void` | Animate to a tab, like a tap. `opts.duration` in ms |
+| `jumpTo` | `(index) => void` | Switch immediately, no animation |
+| `dispose` | `() => void` | Release it (automatic inside a reactive owner) |
+
+Created inside a component it disposes itself on cleanup; outside one, call `dispose()` yourself. See [Handles](/docs/building/handles) for the general pattern.
+
+## Tabs under an app bar
+
+`TabBar` is a `PreferredSizeWidget`, so it drops straight into a [`SliverAppBar`](/docs/widgets/slivers/app-bars)'s `bottom` slot — the classic "tabs pinned under a collapsing header". Wrap the whole scroll view in a `DefaultTabController` so the bar in the header and the view in the body share one controller.
+
+```tsx
+import {
+  CustomScrollView, DefaultTabController, SliverAppBar, SliverFillRemaining,
+  Tab, TabBar, TabBarView, Text, View,
+} from "solid-fuse";
+
+<DefaultTabController length={2}>
+  <CustomScrollView>
+    <SliverAppBar
+      pinned
+      title={<Text>Inbox</Text>}
+      bottom={
+        <TabBar>
+          <Tab text="Unread" />
+          <Tab text="All" />
+        </TabBar>
+      }
+      bottomHeight={48}
+    />
+    <SliverFillRemaining>
+      <TabBarView>
+        <View padding={16}><Text>Unread messages</Text></View>
+        <View padding={16}><Text>All messages</Text></View>
+      </TabBarView>
+    </SliverFillRemaining>
+  </CustomScrollView>
+</DefaultTabController>
+```
+
+## Props
+
+### TabBar
+
+| Prop | Type | Description |
+|---|---|---|
+| `controller` | `TabController` | The shared controller. Omit inside a `DefaultTabController` |
+| `isScrollable` | `boolean` | Let tabs scroll horizontally instead of splitting the width |
+| `indicatorColor` | `ColorInput` | Colour of the selection indicator |
+| `indicatorWeight` | `number` | Indicator thickness (default 2) |
+| `indicatorSize` | `"tab" \| "label"` | Whether the indicator spans the tab or just the label |
+| `labelColor` | `ColorInput` | Selected label colour |
+| `unselectedLabelColor` | `ColorInput` | Unselected label colour |
+| `dividerColor` | `ColorInput` | Colour of the divider under the bar |
+| `dividerHeight` | `number` | Divider thickness |
+| `padding` | `EdgeInsetsInput` | Padding around the tabs |
+| `onTap` | `(index: number) => void` | Fired on tap (the controller already updates) |
+
+### TabBarView
+
+| Prop | Type | Description |
+|---|---|---|
+| `controller` | `TabController` | The shared controller. Omit inside a `DefaultTabController` |
+| `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
+| `viewportFraction` | `number` | Fraction of the viewport each page occupies (default 1) |
+
+### Tab
+
+| Prop | Type | Description |
+|---|---|---|
+| `text` | `string` | A plain text label. Mutually exclusive with children |
+| `height` | `number` | Override the tab height |
+
+A `Tab` with children renders them as its content instead of `text` — an icon over a label, say.
+
+### DefaultTabController
+
+| Prop | Type | Description |
+|---|---|---|
+| `length` | `number` | Number of tabs |
+| `initialIndex` | `number` | Tab selected at first build (default 0) |

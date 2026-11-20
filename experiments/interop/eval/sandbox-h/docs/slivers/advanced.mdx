@@ -1,0 +1,28 @@
+---
+title: Nested scroll views
+description: Coordinate an outer collapsing header with an inner scrollable body
+---
+
+`NestedScrollView` coordinates an outer header (slivers that collapse) with an inner scrollable body — the pattern behind a collapsing app bar that sits above a `TabBar` with independently scrolling tabs. Its `header` is a **builder** receiving whether the inner body has scrolled. Maps to Flutter's [`NestedScrollView`](https://api.flutter.dev/flutter/widgets/NestedScrollView-class.html).
+
+```tsx
+import { NestedScrollView, SliverAppBar, Text } from "solid-fuse";
+
+<NestedScrollView
+  header={(innerBoxIsScrolled) => (
+    <SliverAppBar pinned forceElevated={innerBoxIsScrolled} title={<Text>Feed</Text>} />
+  )}
+  body={<TabbedContent />}
+/>
+```
+
+For overlap handling between the header and body, `SliverOverlapAbsorber` and `SliverOverlapInjector` resolve the absorber handle from the enclosing `NestedScrollView` automatically — you don't thread it through props.
+
+| Prop | Type | Description |
+|---|---|---|
+| `header` | `(innerBoxIsScrolled) => slivers` | Builder for the outer header slivers |
+| `body` | `JSX` | The inner scrollable body |
+| `controller` | `ScrollController` | Outer scroll controller |
+| `scrollDirection` | `string` | `"vertical"` or `"horizontal"` |
+| `reverse` | `boolean` | Reverse scroll direction |
+| `floatHeaderSlivers` | `boolean` | Let floating headers in the body float the outer header |

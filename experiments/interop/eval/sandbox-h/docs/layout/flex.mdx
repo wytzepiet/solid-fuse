@@ -1,0 +1,52 @@
+---
+title: Flex
+description: Row and column layout via the universal flex config
+---
+
+Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `Row` and `Column` components, Fuse uses `flex` as a universal layout config. It maps to Flutter's [`Flex`](https://api.flutter.dev/flutter/widgets/Flex-class.html) (the widget behind `Row` and `Column`).
+
+```tsx
+{/* Horizontal row with spacing */}
+<View flex={{ direction: "horizontal", gap: 12 }}>
+  <Text>Left</Text>
+  <Text>Right</Text>
+</View>
+
+{/* Centered content filling available space */}
+<View flex={{ align: "center", justify: "center", expand: true }}>
+  <Text>Centered</Text>
+</View>
+
+{/* Space between items */}
+<View flex={{ justify: "spaceBetween" }}>
+  <Text>Start</Text>
+  <Text>End</Text>
+</View>
+```
+
+## FlexInput
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `direction` | `string` | `"vertical"` | `"horizontal"` or `"vertical"` |
+| `gap` | `number` | `0` | Spacing between children (pixels) |
+| `align` | `string` | `"start"` | Cross-axis: `"start"`, `"center"`, `"end"`, `"stretch"` |
+| `justify` | `string` | `"start"` | Main-axis: `"start"`, `"center"`, `"end"`, `"spaceBetween"`, `"spaceAround"`, `"spaceEvenly"` |
+| `expand` | `boolean` | `false` | Fill available space on main axis |
+
+## Grow
+
+Use `grow` on children to distribute extra space, similar to CSS `flex-grow` (Flutter [`Expanded`](https://api.flutter.dev/flutter/widgets/Expanded-class.html) / [`Flexible`](https://api.flutter.dev/flutter/widgets/Flexible-class.html)):
+
+```tsx
+<View flex={{ direction: "horizontal", expand: true }}>
+  <View grow={1} decoration={{ color: "red" }}>
+    <Text>Takes remaining space</Text>
+  </View>
+  <View width={100} decoration={{ color: "blue" }}>
+    <Text>Fixed 100px</Text>
+  </View>
+</View>
+```
+
+The companion `fit` prop on a child (`"tight"` or `"loose"`) chooses between `Expanded` and `Flexible` semantics.

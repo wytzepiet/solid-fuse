@@ -1,0 +1,35 @@
+{
+  "2-product-card-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Clip on the card View sits inside its DecoratedBox so the shadow stays visible; the 156-wide spaceBetween row puts the rating at the right edge; rating is forced to one decimal, which is acceptable."
+  },
+  "2-product-card-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Shadow on the outer View and a ClipRRect(16) on the inner View; the stretch column gives the spaceBetween row the full 156 width."
+  },
+  "2-product-card-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Card itself is unclipped, but the image wrapper clips its top corners to 16 and the spaceBetween row takes max main size (156), so layout is as asked."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "controllers",
+  "libs": {
+    "package:video_player/video_player.dart": "video_player"
+  },
+  "objects": {
+    "ScrollController": {
+      "mirror": {
+        "offset": { "guard": "o.positions.length == 1", "seed": "initialScrollOffset" },
+        "hasClients": {}
+      },
+      "exclude": ["attach", "detach"]
+    },
+    "ScrollPosition": {
+      "wrapOnly": true,
+      "mirror": ["pixels", "maxScrollExtent"],
+      "methods": ["animateTo", "jumpTo", "moveTo", "pointerScroll"]
+    },
+    "FocusNode": { "mirror": ["hasFocus", "hasPrimaryFocus"], "exclude": ["attach", "consumeKeyboardToken"] },
+    "TextEditingController": {},
+    "PageController": {
+      "mirror": { "page": { "guard": "o.positions.length == 1 && o.position.hasContentDimensions" } },
+      "exclude": ["attach", "detach"]
+    },
+    "AnimationController": { "mirror": ["status", "isAnimating"] },
+    "TabController": { "mirror": ["index", "indexIsChanging"] },
+    "VideoPlayerController": {}
+  }
+}

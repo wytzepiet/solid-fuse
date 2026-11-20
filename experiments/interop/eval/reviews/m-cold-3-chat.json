@@ -1,0 +1,38 @@
+{
+  "3-chat-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "ListView gives each item a tight width, so the Column fills the row and crossAxisAlignment end/start places the loosely-constrained bubble (maxWidth 260, no alignment, shrink-wraps) and timestamp on the correct side."
+  },
+  "3-chat-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Same structure as a correct solution: full-width Column per item with end/start cross alignment, shrink-wrapping Container capped at 260, top padding of 8 on all but the first item."
+  },
+  "3-chat-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "No mistakes found; the 2px gap above the timestamp sits inside each message and does not change the 8 between messages."
+  }
+}

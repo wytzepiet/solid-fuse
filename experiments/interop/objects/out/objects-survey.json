@@ -1,0 +1,5893 @@
+{
+ "totals": {
+  "classes": 40,
+  "classes.push.listenable": 20,
+  "classes.dispose": 29,
+  "classes.ownCtor": 33,
+  "classes.usableCtor": 31,
+  "ctors": 38,
+  "ctors.usable": 36,
+  "ctors.env": 3,
+  "ctorParams": 80,
+  "ctorParams.data": 54,
+  "ctorParams.unbridgeable": 16,
+  "methods": 164,
+  "methods.ok": 143,
+  "methods.standalone": 116,
+  "methods.ret.unbridgeable": 4,
+  "methods.ret.value": 31,
+  "methods.ok.value": 27,
+  "methods.ret.void": 85,
+  "methods.ok.void": 80,
+  "getters": 164,
+  "getters.value": 123,
+  "getters.object": 19,
+  "getters.stream": 0,
+  "getters.future": 0,
+  "getters.unbridgeable": 22,
+  "setters": 37,
+  "setters.ok": 30,
+  "methods.ret.future-void": 35,
+  "methods.ok.future-void": 34,
+  "methods.ret.object": 8,
+  "classes.push.valueListenable": 11,
+  "ctorParams.object": 4,
+  "classes.viaSubclassOnly": 7,
+  "classes.push.none": 9,
+  "ctorParams.env-vsync": 3,
+  "ctorParams.callback": 3,
+  "methods.ret.future-value": 1,
+  "methods.ok.future-value": 1,
+  "methods.ok.object": 1
+ },
+ "objects": [
+  {
+   "class": "FocusNode",
+   "lib": "package:flutter/src/widgets/focus_manager.dart",
+   "usage": 94,
+   "widgets": 62,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "onKey",
+       "type": "KeyEventResult Function(FocusNode, RawKeyEvent)?",
+       "kind": "unbridgeable",
+       "why": "callback sync-return"
+      },
+      {
+       "name": "onKeyEvent",
+       "type": "KeyEventResult Function(FocusNode, KeyEvent)?",
+       "kind": "unbridgeable",
+       "why": "callback sync-return"
+      },
+      {
+       "name": "skipTraversal",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "canRequestFocus",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "descendantsAreFocusable",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "descendantsAreTraversable",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "attach",
+     "ok": false,
+     "ret": "unbridgeable",
+     "blocker": "returns FocusAttachment (no record shape)",
+     "sig": "FocusAttachment Function(BuildContext?, {KeyEventResult Function(FocusNode, RawKeyEvent)? onKey, KeyEventResult Function(FocusNode, KeyEvent)? onKeyEvent})",
+     "from": "FocusNode"
+    },
+    {
+     "name": "consumeKeyboardToken",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function()",
+     "from": "FocusNode"
+    },
+    {
+     "name": "focusInDirection",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(TraversalDirection)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "nextFocus",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function()",
+     "from": "FocusNode"
+    },
+    {
+     "name": "previousFocus",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function()",
+     "from": "FocusNode"
+    },
+    {
+     "name": "requestFocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function([FocusNode?])",
+     "from": "FocusNode"
+    },
+    {
+     "name": "unfocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function({UnfocusDisposition disposition})",
+     "from": "FocusNode"
+    }
+   ],
+   "getters": [
+    {
+     "name": "ancestors",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "canRequestFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "children",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "context",
+     "kind": "unbridgeable",
+     "type": "BuildContext?",
+     "why": "BuildContext? (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "descendants",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "descendantsAreFocusable",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "descendantsAreTraversable",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "enclosingScope",
+     "kind": "object",
+     "type": "FocusScopeNode?",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "hasFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "hasPrimaryFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "highlightMode",
+     "kind": "value",
+     "type": "FocusHighlightMode",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "nearestScope",
+     "kind": "object",
+     "type": "FocusScopeNode?",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "Offset",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "parent",
+     "kind": "object",
+     "type": "FocusNode?",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "rect",
+     "kind": "value",
+     "type": "Rect",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "size",
+     "kind": "value",
+     "type": "Size",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "skipTraversal",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "traversalChildren",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "traversalDescendants",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    }
+   ],
+   "setters": [
+    {
+     "name": "canRequestFocus",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "descendantsAreFocusable",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "descendantsAreTraversable",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "onKey",
+     "ok": false,
+     "type": "KeyEventResult Function(FocusNode, RawKeyEvent)?"
+    },
+    {
+     "name": "onKeyEvent",
+     "ok": false,
+     "type": "KeyEventResult Function(FocusNode, KeyEvent)?"
+    },
+    {
+     "name": "skipTraversal",
+     "ok": true,
+     "type": "bool"
+    }
+   ]
+  },
+  {
+   "class": "ScrollController",
+   "lib": "package:flutter/src/widgets/scroll_controller.dart",
+   "usage": 38,
+   "widgets": 24,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "initialScrollOffset",
+       "type": "double",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "keepScrollOffset",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "onAttach",
+       "type": "void Function(ScrollPosition)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      },
+      {
+       "name": "onDetach",
+       "type": "void Function(ScrollPosition)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "ScrollController"
+    },
+    {
+     "name": "attach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "createScrollPosition",
+     "ok": false,
+     "ret": "object",
+     "blocker": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+     "sig": "ScrollPosition Function(ScrollPhysics, ScrollContext, ScrollPosition?)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "detach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ScrollController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "hasClients",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "initialScrollOffset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "keepScrollOffset",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "position",
+     "kind": "object",
+     "type": "ScrollPosition",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "positions",
+     "kind": "unbridgeable",
+     "type": "Iterable<ScrollPosition>",
+     "why": "Iterable<ScrollPosition> (not encodable)",
+     "from": "ScrollController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "Animation",
+   "lib": "package:flutter/src/animation/animation.dart",
+   "usage": 35,
+   "widgets": 27,
+   "abstract": true,
+   "push": "valueListenable",
+   "valueOf": "double",
+   "status": true,
+   "dispose": false,
+   "ctors": [
+    {
+     "name": "fromValueListenable",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "listenable",
+       "type": "ValueListenable<double>",
+       "kind": "object",
+       "why": null
+      },
+      {
+       "name": "transformer",
+       "type": "double Function(double)?",
+       "kind": "unbridgeable",
+       "why": "callback sync-return"
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "drive",
+     "ok": false,
+     "ret": "object",
+     "blocker": "generic method",
+     "sig": "Animation<U> Function<U>(Animatable<U>)",
+     "from": "Animation"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isAnimating",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "isCompleted",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "isDismissed",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "isForwardOrCompleted",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "status",
+     "kind": "value",
+     "type": "AnimationStatus",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "Animation"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "WidgetStatesController",
+   "lib": "package:flutter/src/widgets/widget_state.dart",
+   "usage": 30,
+   "widgets": 18,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "Set<WidgetState>",
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "Set<WidgetState>?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "update",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(WidgetState, bool)",
+     "from": "WidgetStatesController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "Set<WidgetState>",
+     "why": null,
+     "from": "ValueNotifier"
+    }
+   ],
+   "setters": [
+    {
+     "name": "value",
+     "ok": true,
+     "type": "Set<WidgetState>"
+    }
+   ]
+  },
+  {
+   "class": "TextEditingController",
+   "lib": "package:flutter/src/widgets/editable_text.dart",
+   "usage": 12,
+   "widgets": 11,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "TextEditingValue",
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "text",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    },
+    {
+     "name": "fromValue",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "TextEditingValue?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "buildTextSpan",
+     "ok": false,
+     "ret": "value",
+     "blocker": "context: env-context",
+     "sig": "TextSpan Function({required BuildContext context, TextStyle? style, required bool withComposing})",
+     "from": "TextEditingController"
+    },
+    {
+     "name": "clear",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "TextEditingController"
+    },
+    {
+     "name": "clearComposing",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "TextEditingController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "selection",
+     "kind": "value",
+     "type": "TextSelection",
+     "why": null,
+     "from": "TextEditingController"
+    },
+    {
+     "name": "text",
+     "kind": "value",
+     "type": "String",
+     "why": null,
+     "from": "TextEditingController"
+    },
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "TextEditingValue",
+     "why": null,
+     "from": "ValueNotifier"
+    }
+   ],
+   "setters": [
+    {
+     "name": "selection",
+     "ok": true,
+     "type": "TextSelection"
+    },
+    {
+     "name": "text",
+     "ok": true,
+     "type": "String"
+    },
+    {
+     "name": "value",
+     "ok": true,
+     "type": "TextEditingValue"
+    }
+   ]
+  },
+  {
+   "class": "CustomClipper",
+   "lib": "package:flutter/src/rendering/proxy_box.dart",
+   "usage": 8,
+   "widgets": 8,
+   "abstract": true,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [],
+   "methods": [
+    {
+     "name": "getApproximateClipRect",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "Rect Function(Size)",
+     "from": "CustomClipper"
+    },
+    {
+     "name": "getClip",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "Rect Function(Size)",
+     "from": "CustomClipper"
+    },
+    {
+     "name": "shouldReclip",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(CustomClipper<Rect>)",
+     "from": "CustomClipper"
+    }
+   ],
+   "getters": [],
+   "setters": []
+  },
+  {
+   "class": "MenuController",
+   "lib": "package:flutter/src/widgets/raw_menu_anchor.dart",
+   "usage": 8,
+   "widgets": 8,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "close",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "MenuController"
+    },
+    {
+     "name": "closeChildren",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "MenuController"
+    },
+    {
+     "name": "open",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function({Offset? position})",
+     "from": "MenuController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isOpen",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "MenuController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "ValueNotifier",
+   "lib": "package:listen/src/listen.dart",
+   "usage": 6,
+   "widgets": 6,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "int",
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "_value",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [],
+   "getters": [
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "ValueNotifier"
+    }
+   ],
+   "setters": [
+    {
+     "name": "value",
+     "ok": true,
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "class": "UndoHistoryController",
+   "lib": "package:flutter/src/widgets/undo_history.dart",
+   "usage": 6,
+   "widgets": 5,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "UndoHistoryValue",
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "UndoHistoryValue?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "redo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "UndoHistoryController"
+    },
+    {
+     "name": "undo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "UndoHistoryController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "onRedo",
+     "kind": "object",
+     "type": "ChangeNotifier",
+     "why": null,
+     "from": "UndoHistoryController"
+    },
+    {
+     "name": "onUndo",
+     "kind": "object",
+     "type": "ChangeNotifier",
+     "why": null,
+     "from": "UndoHistoryController"
+    },
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "UndoHistoryValue",
+     "why": null,
+     "from": "ValueNotifier"
+    }
+   ],
+   "setters": [
+    {
+     "name": "value",
+     "ok": true,
+     "type": "UndoHistoryValue"
+    }
+   ]
+  },
+  {
+   "class": "RouteInformationProvider",
+   "lib": "package:flutter/src/widgets/router.dart",
+   "usage": 4,
+   "widgets": 4,
+   "abstract": true,
+   "push": "valueListenable",
+   "valueOf": "RouteInformation",
+   "status": false,
+   "dispose": false,
+   "ctors": [],
+   "methods": [
+    {
+     "name": "routerReportsNewRouteInformation",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(RouteInformation, {RouteInformationReportingType type})",
+     "from": "RouteInformationProvider"
+    }
+   ],
+   "getters": [
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "RouteInformation",
+     "why": null,
+     "from": "ValueListenable"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "ViewportOffset",
+   "lib": "package:flutter/src/rendering/viewport_offset.dart",
+   "usage": 4,
+   "widgets": 4,
+   "abstract": true,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "fixed",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "double",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    },
+    {
+     "name": "zero",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "applyContentDimensions",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(double, double)",
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "applyViewportDimension",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(double)",
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "correctBy",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "moveTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {bool? clamp, Curve? curve, Duration? duration})",
+     "from": "ViewportOffset"
+    }
+   ],
+   "getters": [
+    {
+     "name": "allowImplicitScrolling",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "hasPixels",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "pixels",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ViewportOffset"
+    },
+    {
+     "name": "userScrollDirection",
+     "kind": "value",
+     "type": "ScrollDirection",
+     "why": null,
+     "from": "ViewportOffset"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "AnimationController",
+   "lib": "package:flutter/src/animation/animation_controller.dart",
+   "usage": 4,
+   "widgets": 3,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "double",
+   "status": true,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "double?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "duration",
+       "type": "Duration?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "reverseDuration",
+       "type": "Duration?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "lowerBound",
+       "type": "double",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "upperBound",
+       "type": "double",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "animationBehavior",
+       "type": "AnimationBehavior",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "vsync",
+       "type": "TickerProvider",
+       "kind": "env-vsync",
+       "why": null
+      }
+     ]
+    },
+    {
+     "name": "unbounded",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "double",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "duration",
+       "type": "Duration?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "reverseDuration",
+       "type": "Duration?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "vsync",
+       "type": "TickerProvider",
+       "kind": "env-vsync",
+       "why": null
+      },
+      {
+       "name": "animationBehavior",
+       "type": "AnimationBehavior",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateBack",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function(double, {Curve curve, Duration? duration})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "animateBackWith",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function(Simulation)",
+     "from": "AnimationController"
+    },
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function(double, {Curve curve, Duration? duration})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "animateWith",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function(Simulation)",
+     "from": "AnimationController"
+    },
+    {
+     "name": "drive",
+     "ok": false,
+     "ret": "object",
+     "blocker": "generic method",
+     "sig": "Animation<U> Function<U>(Animatable<U>)",
+     "from": "Animation"
+    },
+    {
+     "name": "fling",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function({AnimationBehavior? animationBehavior, SpringDescription? springDescription, double velocity})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "forward",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function({double? from})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "repeat",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function({int? count, double? max, double? min, Duration? period, bool reverse})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "reset",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "AnimationController"
+    },
+    {
+     "name": "resync",
+     "ok": false,
+     "ret": "void",
+     "blocker": "vsync: env-vsync",
+     "sig": "void Function(TickerProvider)",
+     "from": "AnimationController"
+    },
+    {
+     "name": "reverse",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function({double? from})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "stop",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function({bool canceled})",
+     "from": "AnimationController"
+    },
+    {
+     "name": "toggle",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "TickerFuture Function({double? from})",
+     "from": "AnimationController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "animationBehavior",
+     "kind": "value",
+     "type": "AnimationBehavior",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "duration",
+     "kind": "value",
+     "type": "Duration?",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "isAnimating",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "isCompleted",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "isDismissed",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "isForwardOrCompleted",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "Animation"
+    },
+    {
+     "name": "lastElapsedDuration",
+     "kind": "value",
+     "type": "Duration?",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "lowerBound",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "reverseDuration",
+     "kind": "value",
+     "type": "Duration?",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "status",
+     "kind": "value",
+     "type": "AnimationStatus",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "upperBound",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "velocity",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "AnimationController"
+    },
+    {
+     "name": "view",
+     "kind": "object",
+     "type": "Animation<double>",
+     "why": null,
+     "from": "AnimationController"
+    }
+   ],
+   "setters": [
+    {
+     "name": "duration",
+     "ok": true,
+     "type": "Duration?"
+    },
+    {
+     "name": "reverseDuration",
+     "ok": true,
+     "type": "Duration?"
+    },
+    {
+     "name": "value",
+     "ok": true,
+     "type": "double"
+    }
+   ]
+  },
+  {
+   "class": "CarouselController",
+   "lib": "package:flutter/src/material/carousel.dart",
+   "usage": 4,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "initialItem",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "ScrollController"
+    },
+    {
+     "name": "animateToItem",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(int, {Curve curve, Duration duration})",
+     "from": "CarouselController"
+    },
+    {
+     "name": "attach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "CarouselController"
+    },
+    {
+     "name": "createScrollPosition",
+     "ok": false,
+     "ret": "object",
+     "blocker": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+     "sig": "ScrollPosition Function(ScrollPhysics, ScrollContext, ScrollPosition?)",
+     "from": "CarouselController"
+    },
+    {
+     "name": "detach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ScrollController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "hasClients",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "initialItem",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "CarouselController"
+    },
+    {
+     "name": "initialScrollOffset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "keepScrollOffset",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "leadingItem",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "CarouselController"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "position",
+     "kind": "object",
+     "type": "ScrollPosition",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "positions",
+     "kind": "unbridgeable",
+     "type": "Iterable<ScrollPosition>",
+     "why": "Iterable<ScrollPosition> (not encodable)",
+     "from": "ScrollController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "TabController",
+   "lib": "package:flutter/src/material/tab_controller.dart",
+   "usage": 4,
+   "widgets": 3,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "initialIndex",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "animationDuration",
+       "type": "Duration?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "length",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "vsync",
+       "type": "TickerProvider",
+       "kind": "env-vsync",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(int, {Curve curve, Duration? duration})",
+     "from": "TabController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "animation",
+     "kind": "object",
+     "type": "Animation<double>?",
+     "why": null,
+     "from": "TabController"
+    },
+    {
+     "name": "animationDuration",
+     "kind": "value",
+     "type": "Duration",
+     "why": null,
+     "from": "TabController"
+    },
+    {
+     "name": "index",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "TabController"
+    },
+    {
+     "name": "indexIsChanging",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "TabController"
+    },
+    {
+     "name": "length",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "TabController"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "TabController"
+    },
+    {
+     "name": "previousIndex",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "TabController"
+    }
+   ],
+   "setters": [
+    {
+     "name": "index",
+     "ok": true,
+     "type": "int"
+    },
+    {
+     "name": "offset",
+     "ok": true,
+     "type": "double"
+    }
+   ]
+  },
+  {
+   "class": "ExpansibleController",
+   "lib": "package:flutter/src/widgets/expansible.dart",
+   "usage": 3,
+   "widgets": 3,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "collapse",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "ExpansibleController"
+    },
+    {
+     "name": "expand",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "ExpansibleController"
+    },
+    {
+     "name": "toggle",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "ExpansibleController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isExpanded",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ExpansibleController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "SliverOverlapAbsorberHandle",
+   "lib": "package:flutter/src/widgets/nested_scroll_view.dart",
+   "usage": 3,
+   "widgets": 3,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [],
+   "getters": [
+    {
+     "name": "layoutExtent",
+     "kind": "value",
+     "type": "double?",
+     "why": null,
+     "from": "SliverOverlapAbsorberHandle"
+    },
+    {
+     "name": "scrollExtent",
+     "kind": "value",
+     "type": "double?",
+     "why": null,
+     "from": "SliverOverlapAbsorberHandle"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "PageController",
+   "lib": "package:flutter/src/widgets/page_view.dart",
+   "usage": 3,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "initialPage",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "keepPage",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "viewportFraction",
+       "type": "double",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "onAttach",
+       "type": "void Function(ScrollPosition)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      },
+      {
+       "name": "onDetach",
+       "type": "void Function(ScrollPosition)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "ScrollController"
+    },
+    {
+     "name": "animateToPage",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(int, {required Curve curve, required Duration duration})",
+     "from": "PageController"
+    },
+    {
+     "name": "attach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "PageController"
+    },
+    {
+     "name": "createScrollPosition",
+     "ok": false,
+     "ret": "object",
+     "blocker": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+     "sig": "ScrollPosition Function(ScrollPhysics, ScrollContext, ScrollPosition?)",
+     "from": "PageController"
+    },
+    {
+     "name": "detach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpToPage",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(int)",
+     "from": "PageController"
+    },
+    {
+     "name": "nextPage",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({required Curve curve, required Duration duration})",
+     "from": "PageController"
+    },
+    {
+     "name": "previousPage",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({required Curve curve, required Duration duration})",
+     "from": "PageController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "hasClients",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "initialPage",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "PageController"
+    },
+    {
+     "name": "initialScrollOffset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "keepPage",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "PageController"
+    },
+    {
+     "name": "keepScrollOffset",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "page",
+     "kind": "value",
+     "type": "double?",
+     "why": null,
+     "from": "PageController"
+    },
+    {
+     "name": "position",
+     "kind": "object",
+     "type": "ScrollPosition",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "positions",
+     "kind": "unbridgeable",
+     "type": "Iterable<ScrollPosition>",
+     "why": "Iterable<ScrollPosition> (not encodable)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "viewportFraction",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "PageController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "FocusScopeNode",
+   "lib": "package:flutter/src/widgets/focus_manager.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "onKeyEvent",
+       "type": "KeyEventResult Function(FocusNode, KeyEvent)?",
+       "kind": "unbridgeable",
+       "why": "callback sync-return"
+      },
+      {
+       "name": "onKey",
+       "type": "KeyEventResult Function(FocusNode, RawKeyEvent)?",
+       "kind": "unbridgeable",
+       "why": "callback sync-return"
+      },
+      {
+       "name": "skipTraversal",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "canRequestFocus",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "traversalEdgeBehavior",
+       "type": "TraversalEdgeBehavior",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "directionalTraversalEdgeBehavior",
+       "type": "TraversalEdgeBehavior",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "attach",
+     "ok": false,
+     "ret": "unbridgeable",
+     "blocker": "returns FocusAttachment (no record shape)",
+     "sig": "FocusAttachment Function(BuildContext?, {KeyEventResult Function(FocusNode, RawKeyEvent)? onKey, KeyEventResult Function(FocusNode, KeyEvent)? onKeyEvent})",
+     "from": "FocusNode"
+    },
+    {
+     "name": "autofocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(FocusNode)",
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "consumeKeyboardToken",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function()",
+     "from": "FocusNode"
+    },
+    {
+     "name": "focusInDirection",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(TraversalDirection)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "nextFocus",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function()",
+     "from": "FocusNode"
+    },
+    {
+     "name": "previousFocus",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function()",
+     "from": "FocusNode"
+    },
+    {
+     "name": "requestFocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function([FocusNode?])",
+     "from": "FocusNode"
+    },
+    {
+     "name": "requestScopeFocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "setFirstFocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(FocusScopeNode)",
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "unfocus",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function({UnfocusDisposition disposition})",
+     "from": "FocusNode"
+    }
+   ],
+   "getters": [
+    {
+     "name": "ancestors",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "canRequestFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "children",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "context",
+     "kind": "unbridgeable",
+     "type": "BuildContext?",
+     "why": "BuildContext? (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "descendants",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusNode"
+    },
+    {
+     "name": "descendantsAreFocusable",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "descendantsAreTraversable",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "directionalTraversalEdgeBehavior",
+     "kind": "value",
+     "type": "TraversalEdgeBehavior",
+     "why": null,
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "enclosingScope",
+     "kind": "object",
+     "type": "FocusScopeNode?",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "focusedChild",
+     "kind": "object",
+     "type": "FocusNode?",
+     "why": null,
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "hasFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "hasPrimaryFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "highlightMode",
+     "kind": "value",
+     "type": "FocusHighlightMode",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "isFirstFocus",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "nearestScope",
+     "kind": "object",
+     "type": "FocusScopeNode",
+     "why": null,
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "Offset",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "parent",
+     "kind": "object",
+     "type": "FocusNode?",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "rect",
+     "kind": "value",
+     "type": "Rect",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "size",
+     "kind": "value",
+     "type": "Size",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "skipTraversal",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "FocusNode"
+    },
+    {
+     "name": "traversalChildren",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "traversalDescendants",
+     "kind": "unbridgeable",
+     "type": "Iterable<FocusNode>",
+     "why": "Iterable<FocusNode> (not encodable)",
+     "from": "FocusScopeNode"
+    },
+    {
+     "name": "traversalEdgeBehavior",
+     "kind": "value",
+     "type": "TraversalEdgeBehavior",
+     "why": null,
+     "from": "FocusScopeNode"
+    }
+   ],
+   "setters": [
+    {
+     "name": "canRequestFocus",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "descendantsAreFocusable",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "descendantsAreTraversable",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "directionalTraversalEdgeBehavior",
+     "ok": true,
+     "type": "TraversalEdgeBehavior"
+    },
+    {
+     "name": "onKey",
+     "ok": false,
+     "type": "KeyEventResult Function(FocusNode, RawKeyEvent)?"
+    },
+    {
+     "name": "onKeyEvent",
+     "ok": false,
+     "type": "KeyEventResult Function(FocusNode, KeyEvent)?"
+    },
+    {
+     "name": "skipTraversal",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "traversalEdgeBehavior",
+     "ok": true,
+     "type": "TraversalEdgeBehavior"
+    }
+   ]
+  },
+  {
+   "class": "TransformationController",
+   "lib": "package:flutter/src/widgets/interactive_viewer.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "Matrix4",
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "value",
+       "type": "Matrix4?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "toScene",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "Offset Function(Offset)",
+     "from": "TransformationController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "value",
+     "kind": "unbridgeable",
+     "type": "Matrix4",
+     "why": "Matrix4 (no record shape)",
+     "from": "ValueNotifier"
+    }
+   ],
+   "setters": [
+    {
+     "name": "value",
+     "ok": true,
+     "type": "Matrix4"
+    }
+   ]
+  },
+  {
+   "class": "CustomPainter",
+   "lib": "package:flutter/src/rendering/custom_paint.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": true,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [],
+   "methods": [
+    {
+     "name": "hitTest",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool? Function(Offset)",
+     "from": "CustomPainter"
+    },
+    {
+     "name": "paint",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Canvas, Size)",
+     "from": "CustomPainter"
+    },
+    {
+     "name": "shouldRebuildSemantics",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(CustomPainter)",
+     "from": "CustomPainter"
+    },
+    {
+     "name": "shouldRepaint",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(CustomPainter)",
+     "from": "CustomPainter"
+    }
+   ],
+   "getters": [],
+   "setters": []
+  },
+  {
+   "class": "OverlayPortalController",
+   "lib": "package:flutter/src/widgets/overlay.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "hide",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "OverlayPortalController"
+    },
+    {
+     "name": "show",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "OverlayPortalController"
+    },
+    {
+     "name": "toggle",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "OverlayPortalController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isShowing",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "OverlayPortalController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "Listenable",
+   "lib": "package:listen/src/listen.dart",
+   "usage": 2,
+   "widgets": 2,
+   "abstract": true,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [
+    {
+     "name": "merge",
+     "usable": false,
+     "blocker": "listenables: unbridgeable (handle/animation[iterable])",
+     "params": [
+      {
+       "name": "listenables",
+       "type": "Iterable<Listenable?>",
+       "kind": "unbridgeable",
+       "why": "handle/animation[iterable]"
+      }
+     ]
+    }
+   ],
+   "methods": [],
+   "getters": [],
+   "setters": []
+  },
+  {
+   "class": "PipelineOwner",
+   "lib": "package:flutter/src/rendering/object.dart",
+   "usage": 2,
+   "widgets": 2,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "onNeedVisualUpdate",
+       "type": "void Function()?",
+       "kind": "callback",
+       "why": null
+      },
+      {
+       "name": "onSemanticsOwnerCreated",
+       "type": "void Function()?",
+       "kind": "callback",
+       "why": null
+      },
+      {
+       "name": "onSemanticsUpdate",
+       "type": "void Function(SemanticsUpdate)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      },
+      {
+       "name": "onSemanticsOwnerDisposed",
+       "type": "void Function()?",
+       "kind": "callback",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "adoptChild",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(PipelineOwner)",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "attach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(PipelineManifold)",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "detach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "dropChild",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(PipelineOwner)",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "flushCompositingBits",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "flushLayout",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "flushPaint",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "flushSemantics",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "requestVisualUpdate",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "visitChildren",
+     "ok": false,
+     "ret": "void",
+     "blocker": "visitor: callback",
+     "sig": "void Function(void Function(PipelineOwner))",
+     "from": "PipelineOwner"
+    }
+   ],
+   "getters": [
+    {
+     "name": "rootNode",
+     "kind": "unbridgeable",
+     "type": "RenderObject?",
+     "why": "RenderObject? (not encodable)",
+     "from": "PipelineOwner"
+    },
+    {
+     "name": "semanticsOwner",
+     "kind": "object",
+     "type": "SemanticsOwner?",
+     "why": null,
+     "from": "PipelineOwner"
+    }
+   ],
+   "setters": [
+    {
+     "name": "rootNode",
+     "ok": false,
+     "type": "RenderObject?"
+    }
+   ]
+  },
+  {
+   "class": "SearchController",
+   "lib": "package:flutter/src/material/search_anchor.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": false,
+   "push": "valueListenable",
+   "valueOf": "TextEditingValue",
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "buildTextSpan",
+     "ok": false,
+     "ret": "value",
+     "blocker": "context: env-context",
+     "sig": "TextSpan Function({required BuildContext context, TextStyle? style, required bool withComposing})",
+     "from": "TextEditingController"
+    },
+    {
+     "name": "clear",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "TextEditingController"
+    },
+    {
+     "name": "clearComposing",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "TextEditingController"
+    },
+    {
+     "name": "closeView",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(String?)",
+     "from": "SearchController"
+    },
+    {
+     "name": "openView",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "SearchController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isAttached",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "SearchController"
+    },
+    {
+     "name": "isOpen",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "SearchController"
+    },
+    {
+     "name": "selection",
+     "kind": "value",
+     "type": "TextSelection",
+     "why": null,
+     "from": "TextEditingController"
+    },
+    {
+     "name": "text",
+     "kind": "value",
+     "type": "String",
+     "why": null,
+     "from": "TextEditingController"
+    },
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "TextEditingValue",
+     "why": null,
+     "from": "ValueNotifier"
+    }
+   ],
+   "setters": [
+    {
+     "name": "selection",
+     "ok": true,
+     "type": "TextSelection"
+    },
+    {
+     "name": "text",
+     "ok": true,
+     "type": "String"
+    },
+    {
+     "name": "value",
+     "ok": true,
+     "type": "TextEditingValue"
+    }
+   ]
+  },
+  {
+   "class": "TabBarScrollController",
+   "lib": "package:flutter/src/material/tabs.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "ScrollController"
+    },
+    {
+     "name": "attach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "createScrollPosition",
+     "ok": false,
+     "ret": "object",
+     "blocker": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+     "sig": "ScrollPosition Function(ScrollPhysics, ScrollContext, ScrollPosition?)",
+     "from": "TabBarScrollController"
+    },
+    {
+     "name": "detach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ScrollController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "hasClients",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "initialScrollOffset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "keepScrollOffset",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "position",
+     "kind": "object",
+     "type": "ScrollPosition",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "positions",
+     "kind": "unbridgeable",
+     "type": "Iterable<ScrollPosition>",
+     "why": "Iterable<ScrollPosition> (not encodable)",
+     "from": "ScrollController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "FixedExtentScrollController",
+   "lib": "package:flutter/src/widgets/list_wheel_scroll_view.dart",
+   "usage": 2,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "initialItem",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "keepScrollOffset",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "debugLabel",
+       "type": "String?",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "onAttach",
+       "type": "void Function(ScrollPosition)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      },
+      {
+       "name": "onDetach",
+       "type": "void Function(ScrollPosition)?",
+       "kind": "unbridgeable",
+       "why": "callback void(unencodable args)"
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "ScrollController"
+    },
+    {
+     "name": "animateToItem",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(int, {required Curve curve, required Duration duration})",
+     "from": "FixedExtentScrollController"
+    },
+    {
+     "name": "attach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "createScrollPosition",
+     "ok": false,
+     "ret": "object",
+     "blocker": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+     "sig": "ScrollPosition Function(ScrollPhysics, ScrollContext, ScrollPosition?)",
+     "from": "FixedExtentScrollController"
+    },
+    {
+     "name": "detach",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(ScrollPosition)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "jumpToItem",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(int)",
+     "from": "FixedExtentScrollController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "hasClients",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "initialItem",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "FixedExtentScrollController"
+    },
+    {
+     "name": "initialScrollOffset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "keepScrollOffset",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "offset",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "position",
+     "kind": "object",
+     "type": "ScrollPosition",
+     "why": null,
+     "from": "ScrollController"
+    },
+    {
+     "name": "positions",
+     "kind": "unbridgeable",
+     "type": "Iterable<ScrollPosition>",
+     "why": "Iterable<ScrollPosition> (not encodable)",
+     "from": "ScrollController"
+    },
+    {
+     "name": "selectedItem",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "FixedExtentScrollController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "DraggableScrollableController",
+   "lib": "package:flutter/src/widgets/draggable_scrollable_sheet.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "animateTo",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(double, {required Curve curve, required Duration duration})",
+     "from": "DraggableScrollableController"
+    },
+    {
+     "name": "jumpTo",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(double)",
+     "from": "DraggableScrollableController"
+    },
+    {
+     "name": "pixelsToSize",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "double Function(double)",
+     "from": "DraggableScrollableController"
+    },
+    {
+     "name": "reset",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "DraggableScrollableController"
+    },
+    {
+     "name": "sizeToPixels",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "double Function(double)",
+     "from": "DraggableScrollableController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isAttached",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "DraggableScrollableController"
+    },
+    {
+     "name": "pixels",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "DraggableScrollableController"
+    },
+    {
+     "name": "size",
+     "kind": "value",
+     "type": "double",
+     "why": null,
+     "from": "DraggableScrollableController"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "HeroController",
+   "lib": "package:flutter/src/widgets/heroes.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "createRectTween",
+       "type": "Tween<Rect?> Function(Rect?, Rect?)?",
+       "kind": "unbridgeable",
+       "why": "callback sync-return"
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "didChangeTop",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)",
+     "from": "HeroController"
+    },
+    {
+     "name": "didPop",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)",
+     "from": "NavigatorObserver"
+    },
+    {
+     "name": "didPush",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)",
+     "from": "NavigatorObserver"
+    },
+    {
+     "name": "didRemove",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)",
+     "from": "NavigatorObserver"
+    },
+    {
+     "name": "didReplace",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function({Route<dynamic>? newRoute, Route<dynamic>? oldRoute})",
+     "from": "NavigatorObserver"
+    },
+    {
+     "name": "didStartUserGesture",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)",
+     "from": "HeroController"
+    },
+    {
+     "name": "didStopUserGesture",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "HeroController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "navigator",
+     "kind": "unbridgeable",
+     "type": "NavigatorState?",
+     "why": "NavigatorState? (not encodable)",
+     "from": "NavigatorObserver"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "OverlayEntry",
+   "lib": "package:flutter/src/widgets/overlay.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": false,
+     "blocker": "builder: unbridgeable (builder)",
+     "params": [
+      {
+       "name": "builder",
+       "type": "Widget Function(BuildContext)",
+       "kind": "unbridgeable",
+       "why": "builder"
+      },
+      {
+       "name": "opaque",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "maintainState",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "canSizeOverlay",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "markNeedsBuild",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "OverlayEntry"
+    },
+    {
+     "name": "remove",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "OverlayEntry"
+    }
+   ],
+   "getters": [
+    {
+     "name": "canSizeOverlay",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "OverlayEntry"
+    },
+    {
+     "name": "maintainState",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "OverlayEntry"
+    },
+    {
+     "name": "mounted",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "OverlayEntry"
+    },
+    {
+     "name": "opaque",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "OverlayEntry"
+    }
+   ],
+   "setters": [
+    {
+     "name": "maintainState",
+     "ok": true,
+     "type": "bool"
+    },
+    {
+     "name": "opaque",
+     "ok": true,
+     "type": "bool"
+    }
+   ]
+  },
+  {
+   "class": "AndroidViewController",
+   "lib": "package:flutter/src/services/platform_views.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": true,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [],
+   "methods": [
+    {
+     "name": "addOnPlatformViewCreatedListener",
+     "ok": false,
+     "ret": "void",
+     "blocker": "listener: callback",
+     "sig": "void Function(void Function(int))",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "clearFocus",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function()",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "create",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({Offset? position, Size? size})",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "dispatchPointerEvent",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(PointerEvent)",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "rejectGesture",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({int? gestureId})",
+     "from": "PlatformViewController"
+    },
+    {
+     "name": "removeOnPlatformViewCreatedListener",
+     "ok": false,
+     "ret": "void",
+     "blocker": "listener: callback",
+     "sig": "void Function(void Function(int))",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "sendMotionEvent",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(AndroidMotionEvent)",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "setLayoutDirection",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(TextDirection)",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "setOffset",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(Offset)",
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "setSize",
+     "ok": true,
+     "ret": "future-value",
+     "blocker": null,
+     "sig": "Future<Size> Function(Size)",
+     "from": "AndroidViewController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "awaitingCreation",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "isCreated",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "requiresViewComposition",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "textureId",
+     "kind": "value",
+     "type": "int?",
+     "why": null,
+     "from": "AndroidViewController"
+    },
+    {
+     "name": "viewId",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "AndroidViewController"
+    }
+   ],
+   "setters": [
+    {
+     "name": "pointTransformer",
+     "ok": false,
+     "type": "Offset Function(Offset)"
+    }
+   ]
+  },
+  {
+   "class": "RestorationBucket",
+   "lib": "package:flutter/src/services/restoration.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "empty",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "restorationId",
+       "type": "String",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "debugOwner",
+       "type": "Object?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    },
+    {
+     "name": "root",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "manager",
+       "type": "RestorationManager",
+       "kind": "object",
+       "why": null
+      },
+      {
+       "name": "rawData",
+       "type": "Map<Object?, Object?>?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    },
+    {
+     "name": "child",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "restorationId",
+       "type": "String",
+       "kind": "data",
+       "why": null
+      },
+      {
+       "name": "parent",
+       "type": "RestorationBucket",
+       "kind": "object",
+       "why": null
+      },
+      {
+       "name": "debugOwner",
+       "type": "Object?",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "adoptChild",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(RestorationBucket)",
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "claimChild",
+     "ok": true,
+     "ret": "object",
+     "blocker": null,
+     "sig": "RestorationBucket Function(String, {required Object? debugOwner})",
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "contains",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(String)",
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "read",
+     "ok": false,
+     "ret": "value",
+     "blocker": "generic method",
+     "sig": "P? Function<P>(String)",
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "remove",
+     "ok": false,
+     "ret": "value",
+     "blocker": "generic method",
+     "sig": "P? Function<P>(String)",
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "rename",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(String)",
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "write",
+     "ok": false,
+     "ret": "void",
+     "blocker": "generic method",
+     "sig": "void Function<P>(String, P)",
+     "from": "RestorationBucket"
+    }
+   ],
+   "getters": [
+    {
+     "name": "isReplacing",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "RestorationBucket"
+    },
+    {
+     "name": "restorationId",
+     "kind": "value",
+     "type": "String",
+     "why": null,
+     "from": "RestorationBucket"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "SelectionListenerNotifier",
+   "lib": "package:flutter/src/widgets/selectable_region.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [],
+   "getters": [
+    {
+     "name": "registered",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "SelectionListenerNotifier"
+    },
+    {
+     "name": "selection",
+     "kind": "unbridgeable",
+     "type": "SelectionDetails",
+     "why": "SelectionDetails (no record shape)",
+     "from": "SelectionListenerNotifier"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "SelectionContainerDelegate",
+   "lib": "package:flutter/src/widgets/selection_container.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": true,
+   "push": "valueListenable",
+   "valueOf": "SelectionGeometry",
+   "status": false,
+   "dispose": false,
+   "ctors": [],
+   "methods": [
+    {
+     "name": "add",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Selectable)",
+     "from": "SelectionRegistrar"
+    },
+    {
+     "name": "dispatchSelectionEvent",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "SelectionResult Function(SelectionEvent)",
+     "from": "SelectionHandler"
+    },
+    {
+     "name": "getSelectedContent",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "SelectedContent? Function()",
+     "from": "SelectionHandler"
+    },
+    {
+     "name": "getSelection",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "SelectedContentRange? Function()",
+     "from": "SelectionHandler"
+    },
+    {
+     "name": "getTransformFrom",
+     "ok": false,
+     "ret": "unbridgeable",
+     "blocker": "returns Matrix4 (no record shape)",
+     "sig": "Matrix4 Function(Selectable)",
+     "from": "SelectionContainerDelegate"
+    },
+    {
+     "name": "getTransformTo",
+     "ok": false,
+     "ret": "unbridgeable",
+     "blocker": "returns Matrix4 (no record shape)",
+     "sig": "Matrix4 Function(RenderObject?)",
+     "from": "SelectionContainerDelegate"
+    },
+    {
+     "name": "pushHandleLayers",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(LayerLink?, LayerLink?)",
+     "from": "SelectionHandler"
+    },
+    {
+     "name": "remove",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(Selectable)",
+     "from": "SelectionRegistrar"
+    }
+   ],
+   "getters": [
+    {
+     "name": "containerSize",
+     "kind": "value",
+     "type": "Size",
+     "why": null,
+     "from": "SelectionContainerDelegate"
+    },
+    {
+     "name": "contentLength",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "SelectionHandler"
+    },
+    {
+     "name": "hasSize",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "SelectionContainerDelegate"
+    },
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "SelectionGeometry",
+     "why": null,
+     "from": "ValueListenable"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "CupertinoTabController",
+   "lib": "package:flutter/src/cupertino/tab_scaffold.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "initialIndex",
+       "type": "int",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [],
+   "getters": [
+    {
+     "name": "index",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "CupertinoTabController"
+    }
+   ],
+   "setters": [
+    {
+     "name": "index",
+     "ok": true,
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "class": "TreeSliverController",
+   "lib": "package:flutter/src/widgets/sliver_tree.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": []
+    }
+   ],
+   "methods": [
+    {
+     "name": "collapseAll",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "collapseNode",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(TreeSliverNode<Object?>)",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "expandAll",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "expandNode",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(TreeSliverNode<Object?>)",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "getActiveIndexFor",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "int? Function(TreeSliverNode<Object?>)",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "getNodeFor",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "TreeSliverNode<Object?>? Function(Object?)",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "isActive",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(TreeSliverNode<Object?>)",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "isExpanded",
+     "ok": true,
+     "ret": "value",
+     "blocker": null,
+     "sig": "bool Function(TreeSliverNode<Object?>)",
+     "from": "TreeSliverController"
+    },
+    {
+     "name": "toggleNode",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function(TreeSliverNode<Object?>)",
+     "from": "TreeSliverController"
+    }
+   ],
+   "getters": [],
+   "setters": []
+  },
+  {
+   "class": "SnapshotController",
+   "lib": "package:flutter/src/widgets/snapshot_widget.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "allowSnapshotting",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "clear",
+     "ok": true,
+     "ret": "void",
+     "blocker": null,
+     "sig": "void Function()",
+     "from": "SnapshotController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "allowSnapshotting",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "SnapshotController"
+    }
+   ],
+   "setters": [
+    {
+     "name": "allowSnapshotting",
+     "ok": true,
+     "type": "bool"
+    }
+   ]
+  },
+  {
+   "class": "ValueListenable",
+   "lib": "package:listen/src/listen.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": true,
+   "push": "valueListenable",
+   "valueOf": "T",
+   "status": false,
+   "dispose": false,
+   "ctors": [],
+   "methods": [],
+   "getters": [
+    {
+     "name": "value",
+     "kind": "value",
+     "type": "T",
+     "why": null,
+     "from": "ValueListenable"
+    }
+   ],
+   "setters": []
+  },
+  {
+   "class": "ShortcutManager",
+   "lib": "package:flutter/src/widgets/shortcuts.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "listenable",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "shortcuts",
+       "type": "Map<ShortcutActivator, Intent>",
+       "kind": "unbridgeable",
+       "why": "unbridgeable/map-key"
+      },
+      {
+       "name": "modal",
+       "type": "bool",
+       "kind": "data",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [],
+   "getters": [
+    {
+     "name": "modal",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "ShortcutManager"
+    },
+    {
+     "name": "shortcuts",
+     "kind": "unbridgeable",
+     "type": "Map<ShortcutActivator, Intent>",
+     "why": "Map<ShortcutActivator, Intent> (not encodable)",
+     "from": "ShortcutManager"
+    }
+   ],
+   "setters": [
+    {
+     "name": "shortcuts",
+     "ok": false,
+     "type": "Map<ShortcutActivator, Intent>"
+    }
+   ]
+  },
+  {
+   "class": "MagnifierController",
+   "lib": "package:flutter/src/widgets/magnifier.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": false,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": false,
+   "ctors": [
+    {
+     "name": "",
+     "usable": true,
+     "blocker": null,
+     "params": [
+      {
+       "name": "animationController",
+       "type": "AnimationController?",
+       "kind": "object",
+       "why": null
+      }
+     ]
+    }
+   ],
+   "methods": [
+    {
+     "name": "hide",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({bool removeFromOverlay})",
+     "from": "MagnifierController"
+    },
+    {
+     "name": "show",
+     "ok": false,
+     "ret": "future-void",
+     "blocker": "context: env-context",
+     "sig": "Future<void> Function({OverlayEntry? below, required Widget Function(BuildContext) builder, required BuildContext context, Widget? debugRequiredFor})",
+     "from": "MagnifierController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "animationController",
+     "kind": "object",
+     "type": "AnimationController?",
+     "why": null,
+     "from": "MagnifierController"
+    },
+    {
+     "name": "overlayEntry",
+     "kind": "object",
+     "type": "OverlayEntry?",
+     "why": null,
+     "from": "MagnifierController"
+    },
+    {
+     "name": "shown",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "MagnifierController"
+    }
+   ],
+   "setters": [
+    {
+     "name": "animationController",
+     "ok": true,
+     "type": "AnimationController?"
+    }
+   ]
+  },
+  {
+   "class": "PlatformViewController",
+   "lib": "package:flutter/src/services/platform_views.dart",
+   "usage": 1,
+   "widgets": 1,
+   "abstract": true,
+   "push": "none",
+   "valueOf": null,
+   "status": false,
+   "dispose": true,
+   "ctors": [],
+   "methods": [
+    {
+     "name": "clearFocus",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function()",
+     "from": "PlatformViewController"
+    },
+    {
+     "name": "create",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({Offset? position, Size? size})",
+     "from": "PlatformViewController"
+    },
+    {
+     "name": "dispatchPointerEvent",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function(PointerEvent)",
+     "from": "PlatformViewController"
+    },
+    {
+     "name": "rejectGesture",
+     "ok": true,
+     "ret": "future-void",
+     "blocker": null,
+     "sig": "Future<void> Function({int? gestureId})",
+     "from": "PlatformViewController"
+    }
+   ],
+   "getters": [
+    {
+     "name": "awaitingCreation",
+     "kind": "value",
+     "type": "bool",
+     "why": null,
+     "from": "PlatformViewController"
+    },
+    {
+     "name": "viewId",
+     "kind": "value",
+     "type": "int",
+     "why": null,
+     "from": "PlatformViewController"
+    }
+   ],
+   "setters": []
+  }
+ ],
+ "interfaces": [
+  {
+   "class": "EdgeInsetsGeometry",
+   "usage": 152,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "resolve",
+     "kind": "sync EdgeInsets",
+     "rank": 1,
+     "sig": "EdgeInsets Function(TextDirection?)"
+    }
+   ]
+  },
+  {
+   "class": "WidgetStateProperty",
+   "usage": 107,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "resolve",
+     "kind": "sync MouseCursor",
+     "rank": 1,
+     "sig": "MouseCursor Function(Set<WidgetState>)"
+    }
+   ]
+  },
+  {
+   "class": "MouseCursor",
+   "usage": 63,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "createSession",
+     "kind": "sync MouseCursorSession",
+     "rank": 1,
+     "sig": "MouseCursorSession Function(int)"
+    }
+   ]
+  },
+  {
+   "class": "AlignmentGeometry",
+   "usage": 53,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 3,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "resolve",
+     "kind": "sync Alignment",
+     "rank": 1,
+     "sig": "Alignment Function(TextDirection?)"
+    }
+   ]
+  },
+  {
+   "class": "ShapeBorder",
+   "usage": 52,
+   "abstractMembers": 4,
+   "listenable": false,
+   "concreteSubclasses": 14,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "getInnerPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "getOuterPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "paint",
+     "kind": "opaque(Canvas)",
+     "rank": 3,
+     "sig": "void Function(Canvas, Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "scale",
+     "kind": "sync ShapeBorder",
+     "rank": 1,
+     "sig": "ShapeBorder Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "ImageProvider",
+   "usage": 17,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 6,
+   "recordAlternative": true,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "obtainKey",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<Object> Function(ImageConfiguration)"
+    }
+   ]
+  },
+  {
+   "class": "OutlinedBorder",
+   "usage": 17,
+   "abstractMembers": 5,
+   "listenable": false,
+   "concreteSubclasses": 9,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "copyWith",
+     "kind": "sync OutlinedBorder",
+     "rank": 1,
+     "sig": "OutlinedBorder Function({BorderSide? side})"
+    },
+    {
+     "name": "getInnerPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "getOuterPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "paint",
+     "kind": "opaque(Canvas)",
+     "rank": 3,
+     "sig": "void Function(Canvas, Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "scale",
+     "kind": "sync ShapeBorder",
+     "rank": 1,
+     "sig": "ShapeBorder Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "Decoration",
+   "usage": 14,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 4,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "createBoxPainter",
+     "kind": "opaque(void Function())",
+     "rank": 3,
+     "sig": "BoxPainter Function([void Function()])"
+    }
+   ]
+  },
+  {
+   "class": "BorderRadiusGeometry",
+   "usage": 10,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "resolve",
+     "kind": "sync BorderRadius",
+     "rank": 1,
+     "sig": "BorderRadius Function(TextDirection?)"
+    }
+   ]
+  },
+  {
+   "class": "TextSelectionControls",
+   "usage": 10,
+   "abstractMembers": 4,
+   "listenable": false,
+   "concreteSubclasses": 7,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "buildHandle",
+     "kind": "opaque(void Function()?)",
+     "rank": 3,
+     "sig": "Widget Function(BuildContext, TextSelectionHandleType, double, [void Function()?])"
+    },
+    {
+     "name": "buildToolbar",
+     "kind": "opaque(TextSelectionDelegate) +obj(ValueListenable<ClipboardStatus>?)",
+     "rank": 3,
+     "sig": "Widget Function(BuildContext, Rect, double, Offset, List<TextSelectionPoint>, TextSelectionDelegate, ValueListenable<ClipboardStatus>?, Offset?)"
+    },
+    {
+     "name": "getHandleAnchor",
+     "kind": "sync Offset",
+     "rank": 1,
+     "sig": "Offset Function(TextSelectionHandleType, double)"
+    },
+    {
+     "name": "getHandleSize",
+     "kind": "sync Size",
+     "rank": 1,
+     "sig": "Size Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "TextScaler",
+   "usage": 9,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "scale",
+     "kind": "sync double",
+     "rank": 1,
+     "sig": "double Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "Action",
+   "usage": 9,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 10,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "invoke",
+     "kind": "opaque(Intent)",
+     "rank": 3,
+     "sig": "Object? Function(Intent)"
+    }
+   ]
+  },
+  {
+   "class": "SliverChildDelegate",
+   "usage": 9,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "build",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget? Function(BuildContext, int)"
+    },
+    {
+     "name": "shouldRebuild",
+     "kind": "opaque(SliverChildDelegate)",
+     "rank": 3,
+     "sig": "bool Function(SliverChildDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "SliverGridDelegate",
+   "usage": 8,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "getLayout",
+     "kind": "sync SliverGridLayout",
+     "rank": 1,
+     "sig": "SliverGridLayout Function(SliverConstraints)"
+    },
+    {
+     "name": "shouldRelayout",
+     "kind": "opaque(SliverGridDelegate)",
+     "rank": 3,
+     "sig": "bool Function(SliverGridDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "LocalizationsDelegate",
+   "usage": 8,
+   "abstractMembers": 3,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "isSupported",
+     "kind": "opaque(Locale)",
+     "rank": 3,
+     "sig": "bool Function(Locale)"
+    },
+    {
+     "name": "load",
+     "kind": "opaque(Locale)",
+     "rank": 3,
+     "sig": "Future<dynamic> Function(Locale)"
+    },
+    {
+     "name": "shouldReload",
+     "kind": "opaque(LocalizationsDelegate<dynamic>)",
+     "rank": 3,
+     "sig": "bool Function(LocalizationsDelegate<dynamic>)"
+    }
+   ]
+  },
+  {
+   "class": "CustomClipper",
+   "usage": 8,
+   "abstractMembers": 2,
+   "listenable": true,
+   "concreteSubclasses": 1,
+   "recordAlternative": false,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "getClip",
+     "kind": "sync Rect",
+     "rank": 1,
+     "sig": "Rect Function(Size)"
+    },
+    {
+     "name": "shouldReclip",
+     "kind": "sync bool +obj(CustomClipper<Rect>)",
+     "rank": 1,
+     "sig": "bool Function(CustomClipper<Rect>)"
+    }
+   ]
+  },
+  {
+   "class": "TextInputFormatter",
+   "usage": 8,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "formatEditUpdate",
+     "kind": "sync TextEditingValue",
+     "rank": 1,
+     "sig": "TextEditingValue Function(TextEditingValue, TextEditingValue)"
+    }
+   ]
+  },
+  {
+   "class": "UndoHistoryController",
+   "usage": 6,
+   "abstractMembers": 0,
+   "listenable": true,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "undo",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function()"
+    },
+    {
+     "name": "redo",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function()"
+    }
+   ]
+  },
+  {
+   "class": "InputBorder",
+   "usage": 6,
+   "abstractMembers": 5,
+   "listenable": false,
+   "concreteSubclasses": 3,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "copyWith",
+     "kind": "sync InputBorder",
+     "rank": 1,
+     "sig": "InputBorder Function({BorderSide? borderSide})"
+    },
+    {
+     "name": "getInnerPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "getOuterPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, {TextDirection? textDirection})"
+    },
+    {
+     "name": "paint",
+     "kind": "opaque(Canvas)",
+     "rank": 3,
+     "sig": "void Function(Canvas, Rect, {double gapExtent, double gapPercentage, double? gapStart, TextDirection? textDirection})"
+    },
+    {
+     "name": "scale",
+     "kind": "sync ShapeBorder",
+     "rank": 1,
+     "sig": "ShapeBorder Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "CalendarDelegate",
+   "usage": 5,
+   "abstractMembers": 17,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "addDaysToDate",
+     "kind": "sync DateTime",
+     "rank": 1,
+     "sig": "DateTime Function(DateTime, int)"
+    },
+    {
+     "name": "addMonthsToMonthDate",
+     "kind": "sync DateTime",
+     "rank": 1,
+     "sig": "DateTime Function(DateTime, int)"
+    },
+    {
+     "name": "dateHelpText",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(MaterialLocalizations)"
+    },
+    {
+     "name": "dateOnly",
+     "kind": "sync DateTime",
+     "rank": 1,
+     "sig": "DateTime Function(DateTime)"
+    },
+    {
+     "name": "firstDayOffset",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "int Function(int, int, MaterialLocalizations)"
+    },
+    {
+     "name": "formatCompactDate",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(DateTime, MaterialLocalizations)"
+    },
+    {
+     "name": "formatFullDate",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(DateTime, MaterialLocalizations)"
+    },
+    {
+     "name": "formatMediumDate",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(DateTime, MaterialLocalizations)"
+    },
+    {
+     "name": "formatMonthYear",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(DateTime, MaterialLocalizations)"
+    },
+    {
+     "name": "formatShortDate",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(DateTime, MaterialLocalizations)"
+    },
+    {
+     "name": "formatShortMonthDay",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "String Function(DateTime, MaterialLocalizations)"
+    },
+    {
+     "name": "getDay",
+     "kind": "sync DateTime",
+     "rank": 1,
+     "sig": "DateTime Function(int, int, int)"
+    },
+    {
+     "name": "getDaysInMonth",
+     "kind": "sync int",
+     "rank": 1,
+     "sig": "int Function(int, int)"
+    },
+    {
+     "name": "getMonth",
+     "kind": "sync DateTime",
+     "rank": 1,
+     "sig": "DateTime Function(int, int)"
+    },
+    {
+     "name": "monthDelta",
+     "kind": "sync int",
+     "rank": 1,
+     "sig": "int Function(DateTime, DateTime)"
+    },
+    {
+     "name": "now",
+     "kind": "sync DateTime",
+     "rank": 1,
+     "sig": "DateTime Function()"
+    },
+    {
+     "name": "parseCompactDate",
+     "kind": "opaque(MaterialLocalizations)",
+     "rank": 3,
+     "sig": "DateTime? Function(String?, MaterialLocalizations)"
+    }
+   ]
+  },
+  {
+   "class": "InteractiveInkFeatureFactory",
+   "usage": 5,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "create",
+     "kind": "opaque(RenderBox, Color, Rect Function()?, ShapeBorder?, void Function()?) +obj(MaterialInkController)",
+     "rank": 3,
+     "sig": "InteractiveInkFeature Function({BorderRadius? borderRadius, required Color color, bool containedInkWell, required MaterialInkController controller, ShapeBorder? customBorder, void Function()? onRemoved, required Offset position, double? radius, Rect Function()? rectCallback, required RenderBox referenceBox, required TextDirection textDirection})"
+    }
+   ]
+  },
+  {
+   "class": "RouteInformationProvider",
+   "usage": 4,
+   "abstractMembers": 0,
+   "listenable": true,
+   "concreteSubclasses": 1,
+   "recordAlternative": false,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "routerReportsNewRouteInformation",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function(RouteInformation, {RouteInformationReportingType type})"
+    }
+   ]
+  },
+  {
+   "class": "RouterDelegate",
+   "usage": 4,
+   "abstractMembers": 3,
+   "listenable": true,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "builder",
+   "methods": [
+    {
+     "name": "build",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget Function(BuildContext)"
+    },
+    {
+     "name": "popRoute",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<bool> Function()"
+    },
+    {
+     "name": "setNewRoutePath",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<void> Function(Object)"
+    }
+   ]
+  },
+  {
+   "class": "RadioGroupRegistry",
+   "usage": 4,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "registerClient",
+     "kind": "opaque(RadioClient<T>)",
+     "rank": 3,
+     "sig": "void Function(RadioClient<T>)"
+    },
+    {
+     "name": "unregisterClient",
+     "kind": "opaque(RadioClient<T>)",
+     "rank": 3,
+     "sig": "void Function(RadioClient<T>)"
+    }
+   ]
+  },
+  {
+   "class": "AssetBundle",
+   "usage": 3,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "load",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<ByteData> Function(String)"
+    }
+   ]
+  },
+  {
+   "class": "SelectionRegistrar",
+   "usage": 3,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "add",
+     "kind": "fire +obj(Selectable)",
+     "rank": 0,
+     "sig": "void Function(Selectable)"
+    },
+    {
+     "name": "remove",
+     "kind": "fire +obj(Selectable)",
+     "rank": 0,
+     "sig": "void Function(Selectable)"
+    }
+   ]
+  },
+  {
+   "class": "InlineSpan",
+   "usage": 3,
+   "abstractMembers": 8,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "build",
+     "kind": "opaque(ParagraphBuilder, TextScaler)",
+     "rank": 3,
+     "sig": "void Function(ParagraphBuilder, {List<PlaceholderDimensions>? dimensions, TextScaler textScaler})"
+    },
+    {
+     "name": "codeUnitAtVisitor",
+     "kind": "opaque(Accumulator)",
+     "rank": 3,
+     "sig": "int? Function(int, Accumulator)"
+    },
+    {
+     "name": "compareTo",
+     "kind": "opaque(InlineSpan)",
+     "rank": 3,
+     "sig": "RenderComparison Function(InlineSpan)"
+    },
+    {
+     "name": "computeSemanticsInformation",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function(List<InlineSpanSemanticsInformation>)"
+    },
+    {
+     "name": "computeToPlainText",
+     "kind": "opaque(StringBuffer)",
+     "rank": 3,
+     "sig": "void Function(StringBuffer, {bool includePlaceholders, bool includeSemanticsLabels})"
+    },
+    {
+     "name": "getSpanForPositionVisitor",
+     "kind": "opaque(Accumulator)",
+     "rank": 3,
+     "sig": "InlineSpan? Function(TextPosition, Accumulator)"
+    },
+    {
+     "name": "visitChildren",
+     "kind": "opaque(bool Function(InlineSpan))",
+     "rank": 3,
+     "sig": "bool Function(bool Function(InlineSpan))"
+    },
+    {
+     "name": "visitDirectChildren",
+     "kind": "opaque(bool Function(InlineSpan))",
+     "rank": 3,
+     "sig": "bool Function(bool Function(InlineSpan))"
+    }
+   ]
+  },
+  {
+   "class": "MessageCodec",
+   "usage": 3,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 4,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "decodeMessage",
+     "kind": "opaque(ByteData?)",
+     "rank": 3,
+     "sig": "dynamic Function(ByteData?)"
+    },
+    {
+     "name": "encodeMessage",
+     "kind": "sync ByteData?",
+     "rank": 1,
+     "sig": "ByteData? Function(dynamic)"
+    }
+   ]
+  },
+  {
+   "class": "ListWheelChildDelegate",
+   "usage": 2,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 3,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "build",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget? Function(BuildContext, int)"
+    },
+    {
+     "name": "shouldRebuild",
+     "kind": "opaque(ListWheelChildDelegate)",
+     "rank": 3,
+     "sig": "bool Function(ListWheelChildDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "TableColumnWidth",
+   "usage": 2,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 6,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "maxIntrinsicWidth",
+     "kind": "opaque(Iterable<RenderBox>)",
+     "rank": 3,
+     "sig": "double Function(Iterable<RenderBox>, double)"
+    },
+    {
+     "name": "minIntrinsicWidth",
+     "kind": "opaque(Iterable<RenderBox>)",
+     "rank": 3,
+     "sig": "double Function(Iterable<RenderBox>, double)"
+    }
+   ]
+  },
+  {
+   "class": "NotchedShape",
+   "usage": 2,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "getOuterPath",
+     "kind": "sync Path",
+     "rank": 1,
+     "sig": "Path Function(Rect, Rect?)"
+    }
+   ]
+  },
+  {
+   "class": "ImageFilterConfig",
+   "usage": 2,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "resolve",
+     "kind": "sync ImageFilter",
+     "rank": 1,
+     "sig": "ImageFilter Function(ImageFilterContext)"
+    }
+   ]
+  },
+  {
+   "class": "Listenable",
+   "usage": 2,
+   "abstractMembers": 0,
+   "listenable": true,
+   "concreteSubclasses": 69,
+   "recordAlternative": false,
+   "verdict": "async-ok",
+   "methods": []
+  },
+  {
+   "class": "FlowDelegate",
+   "usage": 2,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "paintChildren",
+     "kind": "opaque(FlowPaintingContext)",
+     "rank": 3,
+     "sig": "void Function(FlowPaintingContext)"
+    },
+    {
+     "name": "shouldRepaint",
+     "kind": "opaque(FlowDelegate)",
+     "rank": 3,
+     "sig": "bool Function(FlowDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "CustomPainter",
+   "usage": 2,
+   "abstractMembers": 2,
+   "listenable": true,
+   "concreteSubclasses": 2,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "paint",
+     "kind": "opaque(Canvas)",
+     "rank": 3,
+     "sig": "void Function(Canvas, Size)"
+    },
+    {
+     "name": "shouldRepaint",
+     "kind": "sync bool +obj(CustomPainter)",
+     "rank": 1,
+     "sig": "bool Function(CustomPainter)"
+    }
+   ]
+  },
+  {
+   "class": "SemanticsSortKey",
+   "usage": 2,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "doCompare",
+     "kind": "opaque(SemanticsSortKey)",
+     "rank": 3,
+     "sig": "int Function(SemanticsSortKey)"
+    }
+   ]
+  },
+  {
+   "class": "FocusOrder",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "doCompare",
+     "kind": "opaque(FocusOrder)",
+     "rank": 3,
+     "sig": "int Function(FocusOrder)"
+    }
+   ]
+  },
+  {
+   "class": "Page",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": false,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "createRoute",
+     "kind": "sync Route<dynamic>",
+     "rank": 1,
+     "sig": "Route<dynamic> Function(BuildContext)"
+    }
+   ]
+  },
+  {
+   "class": "TransitionDelegate",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "resolve",
+     "kind": "opaque(Map<RouteTransitionRecord?, RouteTransitionRecord>, Map<RouteTransitionRecord?, List<RouteTransitionRecord>>)",
+     "rank": 3,
+     "sig": "Iterable<RouteTransitionRecord> Function({required Map<RouteTransitionRecord?, RouteTransitionRecord> locationToExitingPageRoute, required List<RouteTransitionRecord> newPageRouteHistory, required Map<RouteTransitionRecord?, List<RouteTransitionRecord>> pageRouteToPagelessRoutes})"
+    }
+   ]
+  },
+  {
+   "class": "MultiChildLayoutDelegate",
+   "usage": 1,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "performLayout",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function(Size)"
+    },
+    {
+     "name": "shouldRelayout",
+     "kind": "opaque(MultiChildLayoutDelegate)",
+     "rank": 3,
+     "sig": "bool Function(MultiChildLayoutDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "SingleChildLayoutDelegate",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 3,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "shouldRelayout",
+     "kind": "opaque(SingleChildLayoutDelegate)",
+     "rank": 3,
+     "sig": "bool Function(SingleChildLayoutDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "FocusTraversalPolicy",
+   "usage": 1,
+   "abstractMembers": 3,
+   "listenable": false,
+   "concreteSubclasses": 3,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "findFirstFocusInDirection",
+     "kind": "sync FocusNode? +obj(FocusNode)",
+     "rank": 1,
+     "sig": "FocusNode? Function(FocusNode, TraversalDirection)"
+    },
+    {
+     "name": "inDirection",
+     "kind": "sync bool +obj(FocusNode)",
+     "rank": 1,
+     "sig": "bool Function(FocusNode, TraversalDirection)"
+    },
+    {
+     "name": "sortDescendants",
+     "kind": "opaque(Iterable<FocusNode>) +obj(FocusNode)",
+     "rank": 3,
+     "sig": "Iterable<FocusNode> Function(Iterable<FocusNode>, FocusNode)"
+    }
+   ]
+  },
+  {
+   "class": "FloatingActionButtonLocation",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "getOffset",
+     "kind": "sync Offset",
+     "rank": 1,
+     "sig": "Offset Function(ScaffoldPrelayoutGeometry)"
+    }
+   ]
+  },
+  {
+   "class": "GestureRecognizerFactory",
+   "usage": 1,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": false,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "constructor",
+     "kind": "sync GestureRecognizer",
+     "rank": 1,
+     "sig": "GestureRecognizer Function()"
+    },
+    {
+     "name": "initializer",
+     "kind": "fire +obj(GestureRecognizer)",
+     "rank": 0,
+     "sig": "void Function(GestureRecognizer)"
+    }
+   ]
+  },
+  {
+   "class": "Animatable",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 28,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "transform",
+     "kind": "sync T",
+     "rank": 1,
+     "sig": "T Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "Image",
+   "usage": 1,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "toByteData",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<ByteData?> Function({ImageByteFormat format})"
+    },
+    {
+     "name": "clone",
+     "kind": "sync Image",
+     "rank": 1,
+     "sig": "Image Function()"
+    },
+    {
+     "name": "isCloneOf",
+     "kind": "sync bool +obj(Image)",
+     "rank": 1,
+     "sig": "bool Function(Image)"
+    }
+   ]
+  },
+  {
+   "class": "SnapshotPainter",
+   "usage": 1,
+   "abstractMembers": 3,
+   "listenable": true,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "paint",
+     "kind": "opaque(void Function(PaintingContext, Offset))",
+     "rank": 3,
+     "sig": "void Function(PaintingContext, Offset, Size, void Function(PaintingContext, Offset))"
+    },
+    {
+     "name": "paintSnapshot",
+     "kind": "fire +obj(Image)",
+     "rank": 0,
+     "sig": "void Function(PaintingContext, Offset, Size, Image, Size, double)"
+    },
+    {
+     "name": "shouldRepaint",
+     "kind": "sync bool +obj(SnapshotPainter)",
+     "rank": 1,
+     "sig": "bool Function(SnapshotPainter)"
+    }
+   ]
+  },
+  {
+   "class": "DataTableSource",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": true,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "getRow",
+     "kind": "sync DataRow?",
+     "rank": 1,
+     "sig": "DataRow? Function(int)"
+    }
+   ]
+  },
+  {
+   "class": "SemanticsGestureDelegate",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "assignSemantics",
+     "kind": "opaque(RenderSemanticsGestureHandler)",
+     "rank": 3,
+     "sig": "void Function(RenderSemanticsGestureHandler)"
+    }
+   ]
+  },
+  {
+   "class": "SliverPersistentHeaderDelegate",
+   "usage": 1,
+   "abstractMembers": 2,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "build",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget Function(BuildContext, double, bool)"
+    },
+    {
+     "name": "shouldRebuild",
+     "kind": "opaque(SliverPersistentHeaderDelegate)",
+     "rank": 3,
+     "sig": "bool Function(SliverPersistentHeaderDelegate)"
+    }
+   ]
+  },
+  {
+   "class": "IOSSystemContextMenuItem",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 9,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "getData",
+     "kind": "opaque(WidgetsLocalizations)",
+     "rank": 3,
+     "sig": "IOSSystemContextMenuItemData Function(WidgetsLocalizations)"
+    }
+   ]
+  },
+  {
+   "class": "FloatingActionButtonAnimator",
+   "usage": 1,
+   "abstractMembers": 3,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "getOffset",
+     "kind": "sync Offset",
+     "rank": 1,
+     "sig": "Offset Function({required Offset begin, required Offset end, required double progress})"
+    },
+    {
+     "name": "getRotationAnimation",
+     "kind": "sync Animation<double> +obj(Animation<double>)",
+     "rank": 1,
+     "sig": "Animation<double> Function({required Animation<double> parent})"
+    },
+    {
+     "name": "getScaleAnimation",
+     "kind": "sync Animation<double> +obj(Animation<double>)",
+     "rank": 1,
+     "sig": "Animation<double> Function({required Animation<double> parent})"
+    }
+   ]
+  },
+  {
+   "class": "AutofillClient",
+   "usage": 1,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": false,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "autofill",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function(TextEditingValue)"
+    }
+   ]
+  },
+  {
+   "class": "RouteInformationParser",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "parseRouteInformation",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<T> Function(RouteInformation)"
+    },
+    {
+     "name": "parseRouteInformationWithDependencies",
+     "kind": "async",
+     "rank": 0,
+     "sig": "Future<T> Function(RouteInformation, BuildContext)"
+    },
+    {
+     "name": "restoreRouteInformation",
+     "kind": "sync RouteInformation?",
+     "rank": 1,
+     "sig": "RouteInformation? Function(T)"
+    }
+   ]
+  },
+  {
+   "class": "ScrollPhysics",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 8,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "buildParent",
+     "kind": "opaque(ScrollPhysics?)",
+     "rank": 3,
+     "sig": "ScrollPhysics? Function(ScrollPhysics?)"
+    },
+    {
+     "name": "applyTo",
+     "kind": "opaque(ScrollPhysics?)",
+     "rank": 3,
+     "sig": "ScrollPhysics Function(ScrollPhysics?)"
+    },
+    {
+     "name": "applyPhysicsToUserOffset",
+     "kind": "opaque(ScrollMetrics)",
+     "rank": 3,
+     "sig": "double Function(ScrollMetrics, double)"
+    },
+    {
+     "name": "shouldAcceptUserOffset",
+     "kind": "opaque(ScrollMetrics)",
+     "rank": 3,
+     "sig": "bool Function(ScrollMetrics)"
+    },
+    {
+     "name": "recommendDeferredLoading",
+     "kind": "opaque(ScrollMetrics)",
+     "rank": 3,
+     "sig": "bool Function(double, ScrollMetrics, BuildContext)"
+    },
+    {
+     "name": "applyBoundaryConditions",
+     "kind": "opaque(ScrollMetrics)",
+     "rank": 3,
+     "sig": "double Function(ScrollMetrics, double)"
+    },
+    {
+     "name": "adjustPositionForNewDimensions",
+     "kind": "opaque(ScrollMetrics, ScrollMetrics)",
+     "rank": 3,
+     "sig": "double Function({required bool isScrolling, required ScrollMetrics newPosition, required ScrollMetrics oldPosition, required double velocity})"
+    },
+    {
+     "name": "createBallisticSimulation",
+     "kind": "opaque(ScrollMetrics)",
+     "rank": 3,
+     "sig": "Simulation? Function(ScrollMetrics, double)"
+    },
+    {
+     "name": "toleranceFor",
+     "kind": "opaque(ScrollMetrics)",
+     "rank": 3,
+     "sig": "Tolerance Function(ScrollMetrics)"
+    },
+    {
+     "name": "carriedMomentum",
+     "kind": "sync double",
+     "rank": 1,
+     "sig": "double Function(double)"
+    },
+    {
+     "name": "shouldUpdate",
+     "kind": "opaque(ScrollPhysics)",
+     "rank": 3,
+     "sig": "bool Function(ScrollPhysics)"
+    }
+   ]
+  },
+  {
+   "class": "Simulation",
+   "usage": 0,
+   "abstractMembers": 3,
+   "listenable": false,
+   "concreteSubclasses": 8,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "dx",
+     "kind": "sync double",
+     "rank": 1,
+     "sig": "double Function(double)"
+    },
+    {
+     "name": "isDone",
+     "kind": "sync bool",
+     "rank": 1,
+     "sig": "bool Function(double)"
+    },
+    {
+     "name": "x",
+     "kind": "sync double",
+     "rank": 1,
+     "sig": "double Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "Curve",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 11,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "transform",
+     "kind": "sync double",
+     "rank": 1,
+     "sig": "double Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "BackButtonDispatcher",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "invokeCallback",
+     "kind": "opaque(Future<bool>)",
+     "rank": 3,
+     "sig": "Future<bool> Function(Future<bool>)"
+    },
+    {
+     "name": "createChildBackButtonDispatcher",
+     "kind": "sync ChildBackButtonDispatcher",
+     "rank": 1,
+     "sig": "ChildBackButtonDispatcher Function()"
+    },
+    {
+     "name": "takePriority",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function()"
+    },
+    {
+     "name": "deferTo",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function(ChildBackButtonDispatcher)"
+    },
+    {
+     "name": "forget",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function(ChildBackButtonDispatcher)"
+    }
+   ]
+  },
+  {
+   "class": "SearchDelegate",
+   "usage": 0,
+   "abstractMembers": 4,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "builder",
+   "methods": [
+    {
+     "name": "buildActions",
+     "kind": "sync List<Widget>?",
+     "rank": 1,
+     "sig": "List<Widget>? Function(BuildContext)"
+    },
+    {
+     "name": "buildLeading",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget? Function(BuildContext)"
+    },
+    {
+     "name": "buildResults",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget Function(BuildContext)"
+    },
+    {
+     "name": "buildSuggestions",
+     "kind": "builder",
+     "rank": 2,
+     "sig": "Widget Function(BuildContext)"
+    }
+   ]
+  },
+  {
+   "class": "TextSelectionHandleControls",
+   "usage": 0,
+   "abstractMembers": 3,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "buildHandle",
+     "kind": "opaque(void Function()?)",
+     "rank": 3,
+     "sig": "Widget Function(BuildContext, TextSelectionHandleType, double, [void Function()?])"
+    },
+    {
+     "name": "getHandleAnchor",
+     "kind": "sync Offset",
+     "rank": 1,
+     "sig": "Offset Function(TextSelectionHandleType, double)"
+    },
+    {
+     "name": "getHandleSize",
+     "kind": "sync Size",
+     "rank": 1,
+     "sig": "Size Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "PageTransitionsBuilder",
+   "usage": 0,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 7,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "buildTransitions",
+     "kind": "opaque(Widget) +obj(PageRoute<T>, Animation<double>, Animation<double>)",
+     "rank": 3,
+     "sig": "Widget Function<T>(PageRoute<T>, BuildContext, Animation<double>, Animation<double>, Widget)"
+    }
+   ]
+  },
+  {
+   "class": "SliverGridLayout",
+   "usage": 0,
+   "abstractMembers": 4,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "sync-return",
+   "methods": [
+    {
+     "name": "computeMaxScrollOffset",
+     "kind": "sync double",
+     "rank": 1,
+     "sig": "double Function(int)"
+    },
+    {
+     "name": "getGeometryForChildIndex",
+     "kind": "sync SliverGridGeometry",
+     "rank": 1,
+     "sig": "SliverGridGeometry Function(int)"
+    },
+    {
+     "name": "getMaxChildIndexForScrollOffset",
+     "kind": "sync int",
+     "rank": 1,
+     "sig": "int Function(double)"
+    },
+    {
+     "name": "getMinChildIndexForScrollOffset",
+     "kind": "sync int",
+     "rank": 1,
+     "sig": "int Function(double)"
+    }
+   ]
+  },
+  {
+   "class": "SpellCheckService",
+   "usage": 0,
+   "abstractMembers": 1,
+   "listenable": false,
+   "concreteSubclasses": 1,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "fetchSpellCheckSuggestions",
+     "kind": "opaque(Locale)",
+     "rank": 3,
+     "sig": "Future<List<SuggestionSpan>?> Function(Locale, String)"
+    }
+   ]
+  },
+  {
+   "class": "ScrollBehavior",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "copyWith",
+     "kind": "opaque(ScrollPhysics?)",
+     "rank": 3,
+     "sig": "ScrollBehavior Function({Set<PointerDeviceKind>? dragDevices, ScrollViewKeyboardDismissBehavior? keyboardDismissBehavior, MultitouchDragStrategy? multitouchDragStrategy, bool? overscroll, ScrollPhysics? physics, TargetPlatform? platform, Set<LogicalKeyboardKey>? pointerAxisModifiers, bool? scrollbars})"
+    },
+    {
+     "name": "getPlatform",
+     "kind": "sync TargetPlatform",
+     "rank": 1,
+     "sig": "TargetPlatform Function(BuildContext)"
+    },
+    {
+     "name": "getMultitouchDragStrategy",
+     "kind": "sync MultitouchDragStrategy",
+     "rank": 1,
+     "sig": "MultitouchDragStrategy Function(BuildContext)"
+    },
+    {
+     "name": "buildScrollbar",
+     "kind": "opaque(Widget)",
+     "rank": 3,
+     "sig": "Widget Function(BuildContext, Widget, ScrollableDetails)"
+    },
+    {
+     "name": "buildOverscrollIndicator",
+     "kind": "opaque(Widget)",
+     "rank": 3,
+     "sig": "Widget Function(BuildContext, Widget, ScrollableDetails)"
+    },
+    {
+     "name": "velocityTrackerBuilder",
+     "kind": "sync VelocityTracker Function(PointerEvent)",
+     "rank": 1,
+     "sig": "VelocityTracker Function(PointerEvent) Function(BuildContext)"
+    },
+    {
+     "name": "getScrollPhysics",
+     "kind": "sync ScrollPhysics",
+     "rank": 1,
+     "sig": "ScrollPhysics Function(BuildContext)"
+    },
+    {
+     "name": "shouldNotify",
+     "kind": "opaque(ScrollBehavior)",
+     "rank": 3,
+     "sig": "bool Function(ScrollBehavior)"
+    },
+    {
+     "name": "getKeyboardDismissBehavior",
+     "kind": "sync ScrollViewKeyboardDismissBehavior",
+     "rank": 1,
+     "sig": "ScrollViewKeyboardDismissBehavior Function(BuildContext)"
+    }
+   ]
+  },
+  {
+   "class": "ContextMenuController",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 0,
+   "recordAlternative": false,
+   "verdict": "never",
+   "methods": [
+    {
+     "name": "show",
+     "kind": "opaque(Widget Function(BuildContext), Widget?)",
+     "rank": 3,
+     "sig": "void Function({required BuildContext context, required Widget Function(BuildContext) contextMenuBuilder, Widget? debugRequiredFor})"
+    },
+    {
+     "name": "markNeedsBuild",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function()"
+    },
+    {
+     "name": "remove",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function()"
+    }
+   ]
+  },
+  {
+   "class": "NavigatorObserver",
+   "usage": 0,
+   "abstractMembers": 0,
+   "listenable": false,
+   "concreteSubclasses": 2,
+   "recordAlternative": true,
+   "verdict": "async-ok",
+   "methods": [
+    {
+     "name": "didPush",
+     "kind": "fire +obj(Route<dynamic>, Route<dynamic>?)",
+     "rank": 0,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)"
+    },
+    {
+     "name": "didPop",
+     "kind": "fire +obj(Route<dynamic>, Route<dynamic>?)",
+     "rank": 0,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)"
+    },
+    {
+     "name": "didRemove",
+     "kind": "fire +obj(Route<dynamic>, Route<dynamic>?)",
+     "rank": 0,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)"
+    },
+    {
+     "name": "didReplace",
+     "kind": "fire +obj(Route<dynamic>?, Route<dynamic>?)",
+     "rank": 0,
+     "sig": "void Function({Route<dynamic>? newRoute, Route<dynamic>? oldRoute})"
+    },
+    {
+     "name": "didChangeTop",
+     "kind": "fire +obj(Route<dynamic>, Route<dynamic>?)",
+     "rank": 0,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)"
+    },
+    {
+     "name": "didStartUserGesture",
+     "kind": "fire +obj(Route<dynamic>, Route<dynamic>?)",
+     "rank": 0,
+     "sig": "void Function(Route<dynamic>, Route<dynamic>?)"
+    },
+    {
+     "name": "didStopUserGesture",
+     "kind": "fire",
+     "rank": 0,
+     "sig": "void Function()"
+    }
+   ]
+  }
+ ]
+}

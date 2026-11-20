@@ -1,0 +1,38 @@
+{
+  "4-login-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "Outer Align(center) fills the screen and centers the min-size vertical Flex, which ConstrainedBox caps at 320; the TextFields expand it to the full 320.", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "Button View's Align(center) expands to the loose max width (320) under the Flex's bounded cross axis and shrink-wraps height, with the DecoratedBox outside it.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Assumes the usual bounded (screen) parent; in an unbounded-width parent the TextFields would fail, but nothing in the component itself causes that."},
+    "notes": "No mistakes found; full-width button relies on Align expanding under loose width rather than align: \"stretch\", which works but is implicit."
+  },
+  "4-login-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Stretch cross axis is bounded by the outer Align's loose constraints and maxWidth 320; assumes a bounded (screen) parent."},
+    "notes": "No mistakes found; explicit align: \"stretch\" makes the 320 width and full-width button robust."
+  },
+  "4-login-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "SizedBox(height 48) passes loose width to Align(center), which expands to the full 320 with the DecoratedBox outside it.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Assumes the usual bounded (screen) parent; in an unbounded-width parent the TextFields would fail, but nothing in the component itself causes that."},
+    "notes": "No mistakes found; full-width button relies on Align expanding under loose width rather than align: \"stretch\", which works but is implicit."
+  }
+}

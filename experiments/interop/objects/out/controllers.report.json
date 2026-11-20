@@ -1,0 +1,449 @@
+{
+  "name": "controllers",
+  "objects": [
+    {
+      "class": "ScrollController",
+      "tag": "gen_ScrollController",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 3,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "onAttach": "not exposed to JS (callback void(unencodable args)); wired to a state refresh",
+        "onDetach": "not exposed to JS (callback void(unencodable args)); wired to a state refresh"
+      },
+      "methods": [
+        "animateTo",
+        "jumpTo"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [
+        "hasClients",
+        "initialScrollOffset",
+        "keepScrollOffset",
+        "offset"
+      ],
+      "gettersTotal": 6,
+      "objectGetters": [
+        "position"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [
+        "offset",
+        "hasClients"
+      ],
+      "dropped": {
+        "attach()": "excluded by declaration",
+        "createScrollPosition()": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+        "detach()": "excluded by declaration",
+        "positions": "Iterable<ScrollPosition> (not encodable)"
+      },
+      "dartLines": 85,
+      "tsLines": 104
+    },
+    {
+      "class": "ScrollPosition",
+      "tag": "gen_ScrollPosition",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "animateTo",
+        "jumpTo",
+        "moveTo",
+        "pointerScroll"
+      ],
+      "methodsTotal": 22,
+      "streams": [],
+      "readable": [
+        "allowImplicitScrolling",
+        "atEdge",
+        "axis",
+        "axisDirection",
+        "devicePixelRatio",
+        "extentAfter",
+        "extentBefore",
+        "extentInside",
+        "extentTotal",
+        "hasContentDimensions",
+        "hasPixels",
+        "hasViewportDimension",
+        "haveDimensions",
+        "keepScrollOffset",
+        "maxScrollExtent",
+        "minScrollExtent",
+        "outOfRange",
+        "pixels",
+        "shouldIgnorePointer",
+        "userScrollDirection",
+        "viewportDimension"
+      ],
+      "gettersTotal": 24,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [
+        "pixels",
+        "maxScrollExtent"
+      ],
+      "dropped": {
+        "applyContentDimensions()": "excluded by declaration",
+        "applyViewportDimension()": "excluded by declaration",
+        "beginActivity()": "excluded by declaration",
+        "copyWith()": "excluded by declaration",
+        "correctBy()": "excluded by declaration",
+        "correctPixels()": "excluded by declaration",
+        "didEndScroll()": "excluded by declaration",
+        "didOverscrollBy()": "excluded by declaration",
+        "didStartScroll()": "excluded by declaration",
+        "didUpdateScrollDirection()": "excluded by declaration",
+        "didUpdateScrollMetrics()": "excluded by declaration",
+        "didUpdateScrollPositionBy()": "excluded by declaration",
+        "drag()": "excluded by declaration",
+        "ensureVisible()": "excluded by declaration",
+        "hold()": "excluded by declaration",
+        "recommendDeferredLoading()": "excluded by declaration",
+        "restoreOffset()": "excluded by declaration",
+        "setPixels()": "excluded by declaration",
+        "context": "ScrollContext (no record shape)",
+        "isScrollingNotifier": "returns ValueNotifier<bool>, not a generated object",
+        "physics": "ScrollPhysics (no record shape)"
+      },
+      "dartLines": 127,
+      "tsLines": 115
+    },
+    {
+      "class": "FocusNode",
+      "tag": "gen_FocusNode",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 5,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "onKey": "deprecated",
+        "onKeyEvent": "unbridgeable (callback sync-return)"
+      },
+      "methods": [
+        "focusInDirection",
+        "nextFocus",
+        "previousFocus",
+        "requestFocus",
+        "unfocus"
+      ],
+      "methodsTotal": 7,
+      "streams": [],
+      "readable": [
+        "canRequestFocus",
+        "descendantsAreFocusable",
+        "descendantsAreTraversable",
+        "hasFocus",
+        "hasPrimaryFocus",
+        "highlightMode",
+        "offset",
+        "rect",
+        "size",
+        "skipTraversal"
+      ],
+      "gettersTotal": 19,
+      "objectGetters": [
+        "parent"
+      ],
+      "setters": [
+        "canRequestFocus",
+        "descendantsAreFocusable",
+        "descendantsAreTraversable",
+        "skipTraversal"
+      ],
+      "settersTotal": 6,
+      "mirrored": [
+        "hasFocus",
+        "hasPrimaryFocus"
+      ],
+      "dropped": {
+        "attach()": "excluded by declaration",
+        "consumeKeyboardToken()": "excluded by declaration",
+        "ancestors": "Iterable<FocusNode> (not encodable)",
+        "children": "Iterable<FocusNode> (not encodable)",
+        "context": "BuildContext? (not encodable)",
+        "descendants": "Iterable<FocusNode> (not encodable)",
+        "enclosingScope": "returns FocusScopeNode?, not a generated object",
+        "nearestScope": "returns FocusScopeNode?, not a generated object",
+        "traversalChildren": "Iterable<FocusNode> (not encodable)",
+        "traversalDescendants": "Iterable<FocusNode> (not encodable)",
+        "onKey=": "unbridgeable callback sync-return",
+        "onKeyEvent=": "unbridgeable callback sync-return"
+      },
+      "dartLines": 120,
+      "tsLines": 161
+    },
+    {
+      "class": "TextEditingController",
+      "tag": "gen_TextEditingController",
+      "push": "valueListenable",
+      "ctors": [
+        "new",
+        "fromValue"
+      ],
+      "ctorParamsKept": 2,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clear",
+        "clearComposing"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "selection",
+        "text",
+        "value"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [],
+      "setters": [
+        "selection",
+        "text",
+        "value"
+      ],
+      "settersTotal": 3,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "buildTextSpan()": "context: env-context"
+      },
+      "dartLines": 93,
+      "tsLines": 77
+    },
+    {
+      "class": "PageController",
+      "tag": "gen_PageController",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 3,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "onAttach": "not exposed to JS (callback void(unencodable args)); wired to a state refresh",
+        "onDetach": "not exposed to JS (callback void(unencodable args)); wired to a state refresh"
+      },
+      "methods": [
+        "animateTo",
+        "animateToPage",
+        "jumpTo",
+        "jumpToPage",
+        "nextPage",
+        "previousPage"
+      ],
+      "methodsTotal": 9,
+      "streams": [],
+      "readable": [
+        "hasClients",
+        "initialPage",
+        "initialScrollOffset",
+        "keepPage",
+        "keepScrollOffset",
+        "offset",
+        "page",
+        "viewportFraction"
+      ],
+      "gettersTotal": 10,
+      "objectGetters": [
+        "position"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [
+        "page"
+      ],
+      "dropped": {
+        "attach()": "excluded by declaration",
+        "createScrollPosition()": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+        "detach()": "excluded by declaration",
+        "positions": "Iterable<ScrollPosition> (not encodable)"
+      },
+      "dartLines": 104,
+      "tsLines": 119
+    },
+    {
+      "class": "AnimationController",
+      "tag": "gen_AnimationController",
+      "push": "valueListenable",
+      "ctors": [
+        "new",
+        "unbounded"
+      ],
+      "ctorParamsKept": 12,
+      "ctorParamsEnv": 2,
+      "ctorDropped": {},
+      "methods": [
+        "animateBack",
+        "animateBackWith",
+        "animateTo",
+        "animateWith",
+        "fling",
+        "forward",
+        "repeat",
+        "reset",
+        "reverse",
+        "stop",
+        "toggle"
+      ],
+      "methodsTotal": 13,
+      "streams": [],
+      "readable": [
+        "animationBehavior",
+        "duration",
+        "isAnimating",
+        "isCompleted",
+        "isDismissed",
+        "isForwardOrCompleted",
+        "lastElapsedDuration",
+        "lowerBound",
+        "reverseDuration",
+        "status",
+        "upperBound",
+        "value",
+        "velocity"
+      ],
+      "gettersTotal": 14,
+      "objectGetters": [],
+      "setters": [
+        "duration",
+        "reverseDuration",
+        "value"
+      ],
+      "settersTotal": 3,
+      "mirrored": [
+        "status",
+        "isAnimating"
+      ],
+      "dropped": {
+        "drive()": "generic method",
+        "resync()": "vsync: env-vsync",
+        "view": "returns Animation<double>, not a generated object"
+      },
+      "dartLines": 155,
+      "tsLines": 197
+    },
+    {
+      "class": "TabController",
+      "tag": "gen_TabController",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 3,
+      "ctorParamsEnv": 1,
+      "ctorDropped": {},
+      "methods": [
+        "animateTo"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "animationDuration",
+        "index",
+        "indexIsChanging",
+        "length",
+        "offset",
+        "previousIndex"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [
+        "index",
+        "offset"
+      ],
+      "settersTotal": 2,
+      "mirrored": [
+        "index",
+        "indexIsChanging"
+      ],
+      "dropped": {
+        "animation": "returns Animation<double>?, not a generated object"
+      },
+      "dartLines": 94,
+      "tsLines": 90
+    },
+    {
+      "class": "VideoPlayerController",
+      "tag": "gen_VideoPlayerController",
+      "push": "valueListenable",
+      "ctors": [
+        "asset",
+        "networkUrl",
+        "contentUri"
+      ],
+      "ctorParamsKept": 12,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "asset.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
+        "networkUrl.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
+        "contentUri.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)"
+      },
+      "methods": [
+        "getAudioTracks",
+        "getVideoTracks",
+        "initialize",
+        "isAudioTrackSupportAvailable",
+        "isVideoTrackSupportAvailable",
+        "pause",
+        "play",
+        "seekTo",
+        "selectAudioTrack",
+        "selectVideoTrack",
+        "setCaptionOffset",
+        "setClosedCaptionFile",
+        "setLooping",
+        "setPlaybackSpeed",
+        "setPreventsDisplaySleepDuringVideoPlayback",
+        "setVolume"
+      ],
+      "methodsTotal": 16,
+      "streams": [],
+      "readable": [
+        "dataSource",
+        "dataSourceType",
+        "formatHint",
+        "httpHeaders",
+        "package",
+        "position",
+        "value",
+        "videoPlayerOptions",
+        "viewType"
+      ],
+      "gettersTotal": 10,
+      "objectGetters": [],
+      "setters": [
+        "value"
+      ],
+      "settersTotal": 1,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "constructor VideoPlayerController.file": "file: unbridgeable (unbridgeable/private/unexported-type)",
+        "setClosedCaptionFile(closedCaptionFile)": "unbridgeable (unbridgeable/future/stream)",
+        "closedCaptionFile": "ClosedCaptionFile (no record shape)"
+      },
+      "dartLines": 145,
+      "tsLines": 199
+    }
+  ],
+  "dartLines": 1492,
+  "codecLines": 525,
+  "tsLines": 1447,
+  "decoders": 19,
+  "encoders": 14,
+  "warnings": []
+}

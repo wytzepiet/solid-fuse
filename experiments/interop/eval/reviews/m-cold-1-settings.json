@@ -1,0 +1,38 @@
+{
+  "1-settings-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Slider is continuous (no divisions) so the stored value is fractional, but the displayed value is rounded as asked."
+  },
+  "1-settings-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": ""
+  },
+  "1-settings-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "All content is passed via a non-existent Scaffold `body` prop instead of JSX children, so the title is never rendered.", "tags": ["scaffold-body-prop"]},
+      {"n": 2, "v": "fail", "why": "Group cards and headings live inside the ignored `body` prop, so nothing is shown.", "tags": ["scaffold-body-prop"]},
+      {"n": 3, "v": "fail", "why": "Notification toggle rows are inside the ignored `body` prop and never appear.", "tags": ["scaffold-body-prop"]},
+      {"n": 4, "v": "fail", "why": "Slider and value label are inside the ignored `body` prop and never appear.", "tags": ["scaffold-body-prop"]},
+      {"n": 5, "v": "fail", "why": "Dark mode row is inside the ignored `body` prop and never appears.", "tags": ["scaffold-body-prop"]},
+      {"n": 6, "v": "fail", "why": "The ListView is inside the ignored `body` prop, so there is no scrolling content at all.", "tags": ["scaffold-body-prop"]}
+    ],
+    "runtime": {"v": "ok", "why": "No exception; the Scaffold just renders an empty grey background."},
+    "notes": "Scaffold has no `body` prop (body must be JSX children), so the screen is blank; the tree itself would have been correct as children."
+  }
+}

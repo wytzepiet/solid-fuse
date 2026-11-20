@@ -1,0 +1,1 @@
+Before writing, you may read the framework's type definitions and documentation under {{REF}} (lib/solid-fuse holds the package's types, docs/ holds the documentation; the icons files are very large, so search them instead of reading them). Do not read anything outside that directory.

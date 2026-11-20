@@ -1,0 +1,38 @@
+{
+  "3-chat-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Align wrappers expand to the bounded list width inside the start-aligned column, so the bubble (ConstrainedBox max 260, loose) and timestamp sit on the correct edge; relies on the scroll view having a bounded width."
+  },
+  "3-chat-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "align: \"stretch\" on the scroll content only needs a bounded width, which a vertical scroll view passes through from any normal parent."},
+    "notes": "Stretch on the list makes each row full width and the per-row cross-axis end/start places bubble and timestamp; simplest correct tree of the three."
+  },
+  "3-chat-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "justify \"end\" makes the row main-axis max so mine reach the right edge, while justify \"start\" rows shrink but sit at the left of the start-aligned column; the 260 cap is on the bubble+timestamp column, which still bounds the bubble."
+  }
+}

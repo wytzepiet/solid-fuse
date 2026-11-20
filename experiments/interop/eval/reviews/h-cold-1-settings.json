@@ -1,0 +1,38 @@
+{
+  "1-settings-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent, but each row is a min-size horizontal Flex whose label is only loosely flexible, so the row shrink-wraps and the toggle sits 12px after the label text instead of at the right end (toggles do not line up between rows).", "tags": ["grow-loose"]},
+      {"n": 4, "v": "fail", "why": "Slider drags and taps correctly over 12..24 with a rounded value, but the label line shrink-wraps (loose grow, cross-axis start), so the number sits right after 'Text size' at the left, not at the right end of the line.", "tags": ["grow-loose"]},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Relies on grow={1} to fill rows: the Notifications card hugs its widest row while the Display card is stretched by the justify:center slider row, and the dividers (height only, loose width) collapse to zero width."
+  },
+  "1-settings-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent, but each row is a min-size horizontal Flex whose label is only loosely flexible, so the row shrink-wraps and the toggle sits 12px after the label text instead of at the right end (toggles do not line up between rows).", "tags": ["grow-loose"]},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Toggle rows rely on grow={1} to fill, so the Notifications card hugs its content and the Dark mode toggle sits next to its label inside a full-width card; the dividers collapse to zero width; the slider only responds on the thumb/track, not the empty area around them."
+  },
+  "1-settings-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent, but each row is a min-size horizontal Flex whose label is only loosely flexible, so the row shrink-wraps and the toggle sits 12px after the label text instead of at the right end (toggles do not line up between rows).", "tags": ["grow-loose"]},
+      {"n": 4, "v": "fail", "why": "Slider drags correctly over 12..24 and the value is shown rounded, but the label line shrink-wraps (loose grow, cross-axis start), so the number sits right after 'Text size' at the left, not at the right end of the line.", "tags": ["grow-loose"]},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Relies on grow={1} to fill rows: the Notifications card hugs its widest row while the Display card is stretched by the alignment:center slider wrapper, and the dividers (height only, loose width) collapse to zero width."
+  }
+}
