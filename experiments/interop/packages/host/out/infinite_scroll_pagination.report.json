@@ -1,0 +1,492 @@
+{
+  "name": "infinite_scroll_pagination",
+  "libs": [
+    "package:infinite_scroll_pagination/infinite_scroll_pagination.dart"
+  ],
+  "surface": {
+    "total": 85,
+    "bridged": 53,
+    "byKind": {
+      "constructor": {
+        "bridged": 1,
+        "total": 3
+      },
+      "method": {
+        "bridged": 30,
+        "total": 54
+      },
+      "stream": {
+        "bridged": 1,
+        "total": 1
+      },
+      "getter": {
+        "bridged": 15,
+        "total": 20
+      },
+      "setter": {
+        "bridged": 6,
+        "total": 7
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "Omit#catchError()",
+      "ok": false,
+      "why": "onError: unbridgeable (unbridgeable/untyped-Function)"
+    },
+    {
+      "kind": "method",
+      "name": "Omit#then()",
+      "ok": false,
+      "why": "onValue: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "method",
+      "name": "Omit#whenComplete()",
+      "ok": false,
+      "why": "action: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "constructor",
+      "name": "PagingController#constructor PagingController",
+      "ok": false,
+      "why": "getNextPageKey: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "constructor",
+      "name": "RenderSliverMasonryGrid#constructor RenderSliverMasonryGrid",
+      "ok": false,
+      "why": "childManager: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#add()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#applyPaintTransform()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#attach()",
+      "ok": false,
+      "why": "owner: object type PipelineOwner is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#childAfter()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#childBefore()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#childScrollOffset()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#describeApproximatePaintClip()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#getTransformTo()",
+      "ok": false,
+      "why": "returns Matrix4 (no record shape)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#handleEvent()",
+      "ok": false,
+      "why": "entry: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#indexOf()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#insert()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#move()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#paint()",
+      "ok": false,
+      "why": "context: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#paintsChild()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#remove()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#replaceRootLayer()",
+      "ok": false,
+      "why": "rootLayer: object type OffsetLayer is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#scheduleInitialPaint()",
+      "ok": false,
+      "why": "rootLayer: object type ContainerLayer is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#setupParentData()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#updateCompositedLayer()",
+      "ok": false,
+      "why": "returns OffsetLayer, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#visitChildren()",
+      "ok": false,
+      "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+      "kind": "method",
+      "name": "RenderSliverMasonryGrid#visitChildrenForSemantics()",
+      "ok": false,
+      "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderSliverMasonryGrid#firstChild",
+      "ok": false,
+      "why": "RenderBox? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderSliverMasonryGrid#lastChild",
+      "ok": false,
+      "why": "RenderBox? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderSliverMasonryGrid#owner",
+      "ok": false,
+      "why": "returns PipelineOwner?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderSliverMasonryGrid#parent",
+      "ok": false,
+      "why": "RenderObject? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderSliverMasonryGrid#parentData",
+      "ok": false,
+      "why": "ParentData? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "RenderSliverMasonryGrid#gridDelegate=",
+      "ok": false,
+      "why": "object"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "Omit",
+      "tag": "infinite_scroll_pagination_Omit",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "timeout"
+      ],
+      "methodsTotal": 5,
+      "streams": [
+        "asStream"
+      ],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "catchError()": "onError: unbridgeable (unbridgeable/untyped-Function)",
+        "then()": "onValue: callback-async (needs _functionCallAsync)",
+        "timeout(onTimeout)": "callback-async (needs _functionCallAsync)",
+        "whenComplete()": "action: callback-async (needs _functionCallAsync)"
+      },
+      "dartLines": 63,
+      "tsLines": 42
+    },
+    {
+      "class": "PagingController",
+      "tag": "infinite_scroll_pagination_PagingController",
+      "push": "valueListenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "cancel",
+        "fetchNextPage",
+        "refresh"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "operation",
+        "value"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [
+        "operation",
+        "value"
+      ],
+      "settersTotal": 2,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "constructor PagingController": "getNextPageKey: unbridgeable (callback sync-return)"
+      },
+      "dartLines": 81,
+      "tsLines": 58
+    },
+    {
+      "class": "QuiltedGridRepeatPattern",
+      "tag": "infinite_scroll_pagination_QuiltedGridRepeatPattern",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "repeatedIndexes",
+        "repeatedTileCount"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 49,
+      "tsLines": 27
+    },
+    {
+      "class": "RenderSliverMasonryGrid",
+      "tag": "infinite_scroll_pagination_RenderSliverMasonryGrid",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "addAll",
+        "assembleSemanticsNode",
+        "calculateCacheOffset",
+        "calculatePaintOffset",
+        "clearSemantics",
+        "describeForError",
+        "describeSemanticsClip",
+        "detach",
+        "hitTest",
+        "layout",
+        "markNeedsCompositedLayerUpdate",
+        "markNeedsCompositingBitsUpdate",
+        "markNeedsLayout",
+        "markNeedsLayoutForSizedByParentChange",
+        "markNeedsPaint",
+        "markNeedsSemanticsUpdate",
+        "reassemble",
+        "removeAll",
+        "scheduleInitialLayout",
+        "scheduleInitialSemantics",
+        "sendSemanticsEvent",
+        "showOnScreen"
+      ],
+      "methodsTotal": 43,
+      "streams": [],
+      "readable": [
+        "attached",
+        "centerOffsetAdjustment",
+        "childCount",
+        "crossAxisSpacing",
+        "depth",
+        "ensureSemantics",
+        "geometry",
+        "isRepaintBoundary",
+        "mainAxisSpacing",
+        "needsCompositing",
+        "paintBounds",
+        "semanticBounds"
+      ],
+      "gettersTotal": 18,
+      "objectGetters": [
+        "gridDelegate"
+      ],
+      "setters": [
+        "crossAxisSpacing",
+        "geometry",
+        "mainAxisSpacing",
+        "parentData"
+      ],
+      "settersTotal": 5,
+      "mirrored": [],
+      "dropped": {
+        "constructor RenderSliverMasonryGrid": "childManager: unbridgeable (unbridgeable/no-usable-constructor)",
+        "add()": "child: unbridgeable (unbridgeable/framework-object)",
+        "addAll(children)": "unbridgeable (unbridgeable/framework-object[list])",
+        "applyPaintTransform()": "child: unbridgeable (unbridgeable/framework-object)",
+        "attach()": "owner: object type PipelineOwner is not a generated object",
+        "childAfter()": "child: unbridgeable (unbridgeable/framework-object)",
+        "childBefore()": "child: unbridgeable (unbridgeable/framework-object)",
+        "childScrollOffset()": "child: unbridgeable (unbridgeable/framework-object)",
+        "describeApproximatePaintClip()": "child: unbridgeable (unbridgeable/framework-object)",
+        "describeSemanticsClip(child)": "unbridgeable (unbridgeable/framework-object)",
+        "getTransformTo()": "returns Matrix4 (no record shape)",
+        "handleEvent()": "entry: unbridgeable (unbridgeable/no-usable-constructor)",
+        "indexOf()": "child: unbridgeable (unbridgeable/framework-object)",
+        "insert()": "child: unbridgeable (unbridgeable/framework-object)",
+        "move()": "child: unbridgeable (unbridgeable/framework-object)",
+        "paint()": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+        "paintsChild()": "child: unbridgeable (unbridgeable/framework-object)",
+        "remove()": "child: unbridgeable (unbridgeable/framework-object)",
+        "replaceRootLayer()": "rootLayer: object type OffsetLayer is not a generated object",
+        "scheduleInitialPaint()": "rootLayer: object type ContainerLayer is not a generated object",
+        "setupParentData()": "child: unbridgeable (unbridgeable/framework-object)",
+        "showOnScreen(descendant)": "unbridgeable (unbridgeable/framework-object)",
+        "updateCompositedLayer()": "returns OffsetLayer, not a generated object",
+        "visitChildren()": "visitor: unbridgeable (callback void(unencodable args))",
+        "visitChildrenForSemantics()": "visitor: unbridgeable (callback void(unencodable args))",
+        "firstChild": "RenderBox? (not encodable)",
+        "lastChild": "RenderBox? (not encodable)",
+        "owner": "returns PipelineOwner?, not a generated object",
+        "parent": "RenderObject? (not encodable)",
+        "parentData": "ParentData? (not encodable)",
+        "gridDelegate=": "object"
+      },
+      "dartLines": 162,
+      "tsLines": 176
+    },
+    {
+      "class": "SliverSimpleGridDelegate",
+      "tag": "infinite_scroll_pagination_SliverSimpleGridDelegate",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getCrossAxisCount",
+        "shouldRelayout"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 48,
+      "tsLines": 30
+    }
+  ],
+  "notCallable": {
+    "AlignedGridView": "widget (widget generator)",
+    "AppendedSliverChildBuilderDelegate": "record (by the data rules)",
+    "AppendedSliverGrid": "widget (widget generator)",
+    "MasonryGridView": "widget (widget generator)",
+    "PagedAlignedGridView": "widget (widget generator)",
+    "PagedChildBuilderDelegate": "record (by the data rules)",
+    "PagedGridView": "widget (widget generator)",
+    "PagedLayoutBuilder": "widget (widget generator)",
+    "PagedListView": "widget (widget generator)",
+    "PagedMasonryGridView": "widget (widget generator)",
+    "PagedPageView": "widget (widget generator)",
+    "PagedSliverAlignedGrid": "widget (widget generator)",
+    "PagedSliverGrid": "widget (widget generator)",
+    "PagedSliverList": "widget (widget generator)",
+    "PagedSliverMasonryGrid": "widget (widget generator)",
+    "PagingListener": "widget (widget generator)",
+    "PagingState": "record (by the data rules)",
+    "PagingStateBase": "record (by the data rules)",
+    "QuiltedGridTile": "record (by the data rules)",
+    "SliverAlignedGrid": "widget (widget generator)",
+    "SliverMasonryGrid": "widget (widget generator)",
+    "SliverMasonryGridParentData": "record (by the data rules)",
+    "SliverQuiltedGridDelegate": "record (by the data rules)",
+    "SliverSimpleGridDelegateWithFixedCrossAxisCount": "record (by the data rules)",
+    "SliverSimpleGridDelegateWithMaxCrossAxisExtent": "record (by the data rules)",
+    "SliverStairedGridDelegate": "record (by the data rules)",
+    "SliverWovenGridDelegate": "record (by the data rules)",
+    "StaggeredGrid": "widget (widget generator)",
+    "StaggeredGridTile": "widget (widget generator)",
+    "StairedGridTile": "record (by the data rules)",
+    "WovenGridTile": "record (by the data rules)",
+    "CompletedListingBuilder": "typedef",
+    "Defaulted": "typedef",
+    "ErrorListingBuilder": "typedef",
+    "FetchPageCallback": "typedef",
+    "IntPagingStateExtension": "extension",
+    "ItemWidgetBuilder": "typedef",
+    "LoadingListingBuilder": "typedef",
+    "NextPageCallback": "typedef",
+    "NextPageKeyCallback": "typedef",
+    "PagedLayoutProtocol": "enum (by the data rules)",
+    "PagingControllerExtension": "extension",
+    "PagingStateExtension": "extension",
+    "PagingStatus": "enum (by the data rules)",
+    "PagingStatusExtension": "extension",
+    "SliverGridBuilder": "typedef",
+    "SliverSimpleGridDelegateBuilder": "typedef"
+  },
+  "dartLines": 896,
+  "tsLines": 623,
+  "warnings": []
+}

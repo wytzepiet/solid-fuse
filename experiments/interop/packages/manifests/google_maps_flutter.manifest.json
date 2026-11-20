@@ -1,0 +1,389 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "google_maps_flutter",
+ "version": "2.19.0",
+ "register": "registerGoogleMapsFlutterWidgets",
+ "widgets": {
+  "GoogleMap": {
+   "tag": "google_maps_flutter.GoogleMap",
+   "dart": "GoogleMap",
+   "library": "package:google_maps_flutter/google_maps_flutter.dart",
+   "doc": "A widget which displays a map with data obtained from the Google Maps service.",
+   "props": {
+    "initialCameraPosition": {"type":{"k":"data","n":"CameraPosition"},"dart":"CameraPosition","required":true,"doc":"The initial position of the map's camera."},
+    "style": {"type":{"k":"string"},"dart":"String?","doc":"The style for the map."},
+    "onMapCreated": {"type":{"k":"callback","args":[{"name":"controller","type":{"k":"payload","n":"GoogleMapController"}}]},"dart":"void Function(GoogleMapController)?","doc":"Callback method for when the map is ready to be used."},
+    "webGestureHandling": {"type":{"k":"enum","n":"WebGestureHandling"},"dart":"WebGestureHandling?","doc":"This setting controls how the API handles gestures on the map. Web only."},
+    "webCameraControlPosition": {"type":{"k":"enum","n":"WebCameraControlPosition"},"dart":"WebCameraControlPosition?","doc":"This setting controls how the API handles cameraControl button position on the map. Web only."},
+    "webCameraControlEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Enables or disables the Camera controls. Web only."},
+    "compassEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map should show a compass when rotated."},
+    "mapToolbarEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map should show a toolbar when you interact with the map. Android only."},
+    "mapTypeControlEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"True if map type control should be shown."},
+    "fullscreenControlEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"True if fullscreen control should be shown."},
+    "streetViewControlEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"True if street view control should be shown."},
+    "cameraTargetBounds": {"type":{"k":"data","n":"CameraTargetBounds"},"dart":"CameraTargetBounds","default":"Dart `CameraTargetBounds.unbounded`","doc":"Geographical bounding box for the camera target."},
+    "mapType": {"type":{"k":"enum","n":"MapType"},"dart":"MapType","default":"\"normal\"","doc":"Type of map tiles to be rendered."},
+    "minMaxZoomPreference": {"type":{"k":"data","n":"MinMaxZoomPreference"},"dart":"MinMaxZoomPreference","default":"Dart `MinMaxZoomPreference.unbounded`","doc":"Preferred bounds for the camera zoom level."},
+    "rotateGesturesEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map view should respond to rotate gestures."},
+    "scrollGesturesEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map view should respond to scroll gestures."},
+    "zoomControlsEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map view should show zoom controls. This includes two buttons\nto zoom in and zoom out. The default value is to show zoom controls."},
+    "zoomGesturesEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map view should respond to zoom gestures."},
+    "liteModeEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"True if the map view should be in lite mode. Android only."},
+    "tiltGesturesEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"True if the map view should respond to tilt gestures."},
+    "fortyFiveDegreeImageryEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"True if 45 degree imagery should be enabled. Web only."},
+    "myLocationEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"True if a \"My Location\" layer should be shown on the map."},
+    "myLocationButtonEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Enables or disables the my-location button."},
+    "layoutDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"The layout direction to use for the embedded view."},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `EdgeInsets.zero`","doc":"Padding to be set on map. See https://developers.google.com/maps/documentation/android-sdk/map#map_padding for more details."},
+    "indoorViewEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Enables or disables the indoor view from the map"},
+    "trafficEnabled": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Enables or disables the traffic layer of the map"},
+    "buildingsEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Enables or disables showing 3D buildings where available"},
+    "markers": {"type":{"k":"list","e":{"k":"data","n":"Marker"}},"dart":"Set<Marker>","default":"Dart `const <Marker>{}`","doc":"Markers to be placed on the map."},
+    "polygons": {"type":{"k":"list","e":{"k":"data","n":"Polygon"}},"dart":"Set<Polygon>","default":"Dart `const <Polygon>{}`","doc":"Polygons to be placed on the map."},
+    "polylines": {"type":{"k":"list","e":{"k":"data","n":"Polyline"}},"dart":"Set<Polyline>","default":"Dart `const <Polyline>{}`","doc":"Polylines to be placed on the map."},
+    "circles": {"type":{"k":"list","e":{"k":"data","n":"Circle"}},"dart":"Set<Circle>","default":"Dart `const <Circle>{}`","doc":"Circles to be placed on the map."},
+    "clusterManagers": {"type":{"k":"list","e":{"k":"data","n":"ClusterManager"}},"dart":"Set<ClusterManager>","default":"Dart `const <ClusterManager>{}`","doc":"Cluster Managers to be initialized for the map."},
+    "heatmaps": {"type":{"k":"list","e":{"k":"data","n":"Heatmap"}},"dart":"Set<Heatmap>","default":"Dart `const <Heatmap>{}`","doc":"Heatmaps to show on the map."},
+    "onCameraMoveStarted": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when the camera starts moving."},
+    "tileOverlays": {"type":{"k":"list","e":{"k":"data","n":"TileOverlay"}},"dart":"Set<TileOverlay>","default":"Dart `const <TileOverlay>{}`","doc":"Tile overlays to be placed on the map."},
+    "onCameraMove": {"type":{"k":"callback","args":[{"name":"position","type":{"k":"payload","n":"CameraPosition"}}]},"dart":"void Function(CameraPosition)?","doc":"Called repeatedly as the camera continues to move after an\nonCameraMoveStarted call."},
+    "onCameraIdle": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when camera movement has ended, there are no pending\nanimations and the user has stopped interacting with the map."},
+    "onTap": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"payload","n":"LatLng"}}]},"dart":"void Function(LatLng)?","doc":"Called every time a [GoogleMap] is tapped."},
+    "onLongPress": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"payload","n":"LatLng"}}]},"dart":"void Function(LatLng)?","doc":"Called every time a [GoogleMap] is long pressed."},
+    "onPointOfInterestTap": {"type":{"k":"callback","args":[{"name":"argument","type":{"k":"payload","n":"PointOfInterestId"}}]},"dart":"void Function(PointOfInterestId)?","doc":"Called when a point of interest on the map is tapped."},
+    "markerType": {"type":{"k":"enum","n":"GoogleMapMarkerType"},"dart":"GoogleMapMarkerType","default":"\"marker\"","doc":"Indicates whether map uses [AdvancedMarker]s or [Marker]s."},
+    "colorScheme": {"type":{"k":"enum","n":"MapColorScheme"},"dart":"MapColorScheme?","doc":"Color scheme for the cloud-style map. Web only."},
+    "mapId": {"type":{"k":"string"},"dart":"String?","doc":"Identifier that's associated with a specific cloud-based map style."}
+   },
+   "omitted": {
+    "gestureRecognizers": "unbridgeable/needs-nested-widget/callback[set]",
+    "groundOverlays": "unbridgeable/no-usable-constructor[set]",
+    "cloudMapId": "deprecated"
+   },
+   "notes": ["markers: data type Set<Marker> has dropped optional ctor params","polygons: data type Set<Polygon> has dropped optional ctor params","polylines: data type Set<Polyline> has dropped optional ctor params","circles: data type Set<Circle> has dropped optional ctor params","clusterManagers: data type Set<ClusterManager> has dropped optional ctor params","tileOverlays: data type Set<TileOverlay> has dropped optional ctor params"]
+  }
+ },
+ "enums": {
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "GoogleMapMarkerType": {
+   "values": ["marker","advancedMarker"],
+   "doc": "Indicates the type of marker that the map should use."
+  },
+  "JointType": {
+   "values": ["mitered","bevel","round"],
+   "doc": "Joint types for [Polyline]."
+  },
+  "MapColorScheme": {
+   "values": ["light","dark","followSystem"],
+   "doc": "The color scheme of the map to be used with cloud styles."
+  },
+  "MapType": {
+   "values": ["none","normal","satellite","terrain","hybrid"],
+   "doc": "Type of map tiles to display."
+  },
+  "MarkerCollisionBehavior": {
+   "values": ["requiredDisplay","optionalAndHidesLowerPriority","requiredAndHidesOptional"],
+   "doc": "Indicates how the marker behaves when it collides with other markers."
+  },
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  },
+  "WebCameraControlPosition": {
+   "values": ["blockEndInlineCenter","blockEndInlineStart","blockEndInlineEnd","blockStartInlineCenter","blockStartInlineStart","blockStartInlineEnd","bottomCenter","bottomLeft","bottomRight","inlineEndBlockCenter","inlineEndBlockEnd","inlineEndBlockStart","inlineStartBlockCenter","inlineStartBlockEnd","inlineStartBlockStart","leftBottom","leftCenter","leftTop","rightBottom","rightCenter","rightTop","topCenter","topLeft","topRight"],
+   "doc": "This setting controls how the API handles camera control button on the map."
+  },
+  "WebGestureHandling": {
+   "values": ["cooperative","greedy","none","auto"],
+   "doc": "This setting controls how the API handles gestures on the map"
+  }
+ },
+ "types": {
+  "AdvancedMarkerGlyph": {
+   "dart": "AdvancedMarkerGlyph",
+   "doc": "Defines a glyph (the element at the center of an [AdvancedMarker] icon).",
+   "variants": [
+    {"tag":"CircleGlyph","fields":{"color":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"BitmapGlyph","fields":{"bitmap":{"type":{"k":"data","n":"BitmapDescriptor"},"required":true}}},
+    {"tag":"TextGlyph","fields":{"text":{"type":{"k":"string"},"required":true},"textColor":{"type":{"k":"data","n":"Color"},"nullable":true}}}
+   ]
+  },
+  "BitmapDescriptor": {
+   "dart": "BitmapDescriptor",
+   "doc": "Defines a bitmap image. For a marker, this class can be used to set the\nimage of the marker icon. For a ground overlay, it can be used to set the\nimage to place on the surface of the earth.",
+   "consts": ["defaultMarker"],
+   "variants": [
+    {"tag":"AssetMapBitmap","fields":{"assetName":{"type":{"k":"string"},"required":true},"imagePixelRatio":{"type":{"k":"double"},"nullable":true},"width":{"type":{"k":"double"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true}}},
+    {"tag":"PinConfig","fields":{"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"borderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"glyph":{"type":{"k":"data","n":"AdvancedMarkerGlyph"},"nullable":true}}},
+    {"tag":"CircleGlyph","fields":{"color":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"BitmapGlyph","fields":{"bitmap":{"type":{"k":"data","n":"BitmapDescriptor"},"required":true}}},
+    {"tag":"TextGlyph","fields":{"text":{"type":{"k":"string"},"required":true},"textColor":{"type":{"k":"data","n":"Color"},"nullable":true}}}
+   ]
+  },
+  "CameraPosition": {
+   "dart": "CameraPosition",
+   "doc": "The position of the map \"camera\", the view point from which the world is shown in the map view.",
+   "variants": [
+    {"tag":null,"fields":{"bearing":{"type":{"k":"double"}},"target":{"type":{"k":"data","n":"LatLng"},"required":true},"tilt":{"type":{"k":"double"}},"zoom":{"type":{"k":"double"}}}}
+   ]
+  },
+  "CameraTargetBounds": {
+   "dart": "CameraTargetBounds",
+   "doc": "Bounds for the map camera target.",
+   "consts": ["unbounded"],
+   "variants": [
+    {"tag":null,"fields":{"bounds":{"type":{"k":"data","n":"LatLngBounds"},"nullable":true}}}
+   ]
+  },
+  "Cap": {
+   "dart": "Cap",
+   "doc": "Cap that can be applied at the start or end vertex of a [Polyline].",
+   "consts": ["buttCap","roundCap","squareCap"]
+  },
+  "Circle": {
+   "dart": "Circle",
+   "doc": "Draws a circle on the map.",
+   "variants": [
+    {"tag":null,"fields":{"circleId":{"type":{"k":"data","n":"CircleId"},"required":true},"consumeTapEvents":{"type":{"k":"bool"}},"fillColor":{"type":{"k":"data","n":"Color"}},"center":{"type":{"k":"data","n":"LatLng"}},"radius":{"type":{"k":"double"}},"strokeColor":{"type":{"k":"data","n":"Color"}},"strokeWidth":{"type":{"k":"int"}},"visible":{"type":{"k":"bool"}},"zIndex":{"type":{"k":"int"}}},"omitted":{"onTap":"nested:callback/void()"}}
+   ]
+  },
+  "CircleId": {
+   "dart": "CircleId",
+   "doc": "Uniquely identifies a [Circle] among [GoogleMap] circles.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "ClusterManager": {
+   "dart": "ClusterManager",
+   "doc": "[ClusterManager] manages marker clustering for set of [Marker]s that have\nthe same [ClusterManagerId] set.",
+   "variants": [
+    {"tag":null,"fields":{"clusterManagerId":{"type":{"k":"data","n":"ClusterManagerId"},"required":true}},"omitted":{"onClusterTap":"nested:callback/void(encodable args)"}}
+   ]
+  },
+  "ClusterManagerId": {
+   "dart": "ClusterManagerId",
+   "doc": "Uniquely identifies a [ClusterManager] among [GoogleMap] clusters.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Heatmap": {
+   "dart": "Heatmap",
+   "doc": "Draws a heatmap on the map.",
+   "variants": [
+    {"tag":null,"fields":{"heatmapId":{"type":{"k":"data","n":"HeatmapId"},"required":true},"data":{"type":{"k":"list","e":{"k":"data","n":"WeightedLatLng"}},"required":true},"dissipating":{"type":{"k":"bool"}},"gradient":{"type":{"k":"data","n":"HeatmapGradient"},"nullable":true},"maxIntensity":{"type":{"k":"double"},"nullable":true},"opacity":{"type":{"k":"double"}},"radius":{"type":{"k":"data","n":"HeatmapRadius"},"required":true},"minimumZoomIntensity":{"type":{"k":"int"}},"maximumZoomIntensity":{"type":{"k":"int"}}}}
+   ]
+  },
+  "HeatmapGradient": {
+   "dart": "HeatmapGradient",
+   "doc": "Represents a mapping of intensity to color.",
+   "variants": [
+    {"tag":null,"fields":{"colors":{"type":{"k":"list","e":{"k":"data","n":"HeatmapGradientColor"}},"required":true},"colorMapSize":{"type":{"k":"int"}}}}
+   ]
+  },
+  "HeatmapGradientColor": {
+   "dart": "HeatmapGradientColor",
+   "doc": "A [Color] with a [startPoint] for use in a [HeatmapGradient].",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"},"required":true},"startPoint":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "HeatmapId": {
+   "dart": "HeatmapId",
+   "doc": "Uniquely identifies a [Heatmap] among [GoogleMap] heatmaps.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "HeatmapRadius": {
+   "dart": "HeatmapRadius",
+   "doc": "A wrapper around platform specific behavior for the radius of a [Heatmap].",
+   "variants": [
+    {"tag":"fromPixels","fields":{"radius":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "InfoWindow": {
+   "dart": "InfoWindow",
+   "doc": "Text labels for a [Marker] info window.",
+   "consts": ["noText"],
+   "variants": [
+    {"tag":null,"fields":{"title":{"type":{"k":"string"},"nullable":true},"snippet":{"type":{"k":"string"},"nullable":true},"anchor":{"type":{"k":"data","n":"Offset"}}},"omitted":{"onTap":"nested:callback/void()"}}
+   ]
+  },
+  "LatLng": {
+   "dart": "LatLng",
+   "doc": "A pair of latitude and longitude coordinates, stored as degrees.",
+   "variants": [
+    {"tag":null,"fields":{"latitude":{"type":{"k":"double"},"required":true},"longitude":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "LatLngBounds": {
+   "dart": "LatLngBounds",
+   "doc": "A latitude/longitude aligned rectangle.",
+   "variants": [
+    {"tag":null,"fields":{"southwest":{"type":{"k":"data","n":"LatLng"},"required":true},"northeast":{"type":{"k":"data","n":"LatLng"},"required":true}}}
+   ]
+  },
+  "Marker": {
+   "dart": "Marker",
+   "doc": "Marks a geographical location on the map.",
+   "variants": [
+    {"tag":null,"fields":{"markerId":{"type":{"k":"data","n":"MarkerId"},"required":true},"alpha":{"type":{"k":"double"}},"anchor":{"type":{"k":"data","n":"Offset"}},"consumeTapEvents":{"type":{"k":"bool"}},"draggable":{"type":{"k":"bool"}},"flat":{"type":{"k":"bool"}},"icon":{"type":{"k":"data","n":"BitmapDescriptor"}},"infoWindow":{"type":{"k":"data","n":"InfoWindow"}},"position":{"type":{"k":"data","n":"LatLng"}},"rotation":{"type":{"k":"double"}},"visible":{"type":{"k":"bool"}},"zIndexInt":{"type":{"k":"int"}},"clusterManagerId":{"type":{"k":"data","n":"ClusterManagerId"},"nullable":true}},"omitted":{"zIndex":"deprecated","onTap":"nested:callback/void()","onDrag":"nested:callback/void(encodable args)","onDragStart":"nested:callback/void(encodable args)","onDragEnd":"nested:callback/void(encodable args)"}},
+    {"tag":"AdvancedMarker","fields":{"markerId":{"type":{"k":"data","n":"MarkerId"},"required":true},"alpha":{"type":{"k":"double"}},"anchor":{"type":{"k":"data","n":"Offset"}},"consumeTapEvents":{"type":{"k":"bool"}},"draggable":{"type":{"k":"bool"}},"flat":{"type":{"k":"bool"}},"icon":{"type":{"k":"data","n":"BitmapDescriptor"}},"infoWindow":{"type":{"k":"data","n":"InfoWindow"}},"position":{"type":{"k":"data","n":"LatLng"}},"rotation":{"type":{"k":"double"}},"visible":{"type":{"k":"bool"}},"clusterManagerId":{"type":{"k":"data","n":"ClusterManagerId"},"nullable":true},"zIndex":{"type":{"k":"int"}},"collisionBehavior":{"type":{"k":"enum","n":"MarkerCollisionBehavior"}}},"omitted":{"onTap":"nested:callback/void()","onDrag":"nested:callback/void(encodable args)","onDragStart":"nested:callback/void(encodable args)","onDragEnd":"nested:callback/void(encodable args)"}}
+   ]
+  },
+  "MarkerId": {
+   "dart": "MarkerId",
+   "doc": "Uniquely identifies a [Marker] among [GoogleMap] markers.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "MinMaxZoomPreference": {
+   "dart": "MinMaxZoomPreference",
+   "doc": "Preferred bounds for map camera zoom level.",
+   "consts": ["unbounded"],
+   "variants": [
+    {"tag":null,"fields":{"minZoom":{"type":{"k":"double"},"nullable":true},"maxZoom":{"type":{"k":"double"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "PatternItem": {
+   "dart": "PatternItem",
+   "doc": "Item used in the stroke pattern for a Polyline.",
+   "consts": ["dot"]
+  },
+  "Polygon": {
+   "dart": "Polygon",
+   "doc": "Draws a polygon through geographical locations on the map.",
+   "variants": [
+    {"tag":null,"fields":{"polygonId":{"type":{"k":"data","n":"PolygonId"},"required":true},"consumeTapEvents":{"type":{"k":"bool"}},"fillColor":{"type":{"k":"data","n":"Color"}},"geodesic":{"type":{"k":"bool"}},"points":{"type":{"k":"list","e":{"k":"data","n":"LatLng"}}},"holes":{"type":{"k":"list","e":{"k":"list","e":{"k":"data","n":"LatLng"}}}},"strokeColor":{"type":{"k":"data","n":"Color"}},"strokeWidth":{"type":{"k":"int"}},"visible":{"type":{"k":"bool"}},"zIndex":{"type":{"k":"int"}}},"omitted":{"onTap":"nested:callback/void()"}}
+   ]
+  },
+  "PolygonId": {
+   "dart": "PolygonId",
+   "doc": "Uniquely identifies a [Polygon] among [GoogleMap] polygons.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "Polyline": {
+   "dart": "Polyline",
+   "doc": "Draws a line through geographical locations on the map.",
+   "variants": [
+    {"tag":null,"fields":{"polylineId":{"type":{"k":"data","n":"PolylineId"},"required":true},"consumeTapEvents":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"}},"endCap":{"type":{"k":"data","n":"Cap"}},"geodesic":{"type":{"k":"bool"}},"jointType":{"type":{"k":"enum","n":"JointType"}},"points":{"type":{"k":"list","e":{"k":"data","n":"LatLng"}}},"patterns":{"type":{"k":"list","e":{"k":"data","n":"PatternItem"}}},"startCap":{"type":{"k":"data","n":"Cap"}},"visible":{"type":{"k":"bool"}},"width":{"type":{"k":"int"}},"zIndex":{"type":{"k":"int"}}},"omitted":{"onTap":"nested:callback/void()"}}
+   ]
+  },
+  "PolylineId": {
+   "dart": "PolylineId",
+   "doc": "Uniquely identifies a [Polyline] among [GoogleMap] polylines.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "TileOverlay": {
+   "dart": "TileOverlay",
+   "doc": "A set of images which are displayed on top of the base map tiles.",
+   "variants": [
+    {"tag":null,"fields":{"tileOverlayId":{"type":{"k":"data","n":"TileOverlayId"},"required":true},"fadeIn":{"type":{"k":"bool"}},"transparency":{"type":{"k":"double"}},"zIndex":{"type":{"k":"int"}},"visible":{"type":{"k":"bool"}},"tileSize":{"type":{"k":"int"}}},"omitted":{"tileProvider":"unbridgeable/abstract-no-impl"}}
+   ]
+  },
+  "TileOverlayId": {
+   "dart": "TileOverlayId",
+   "doc": "Uniquely identifies a [TileOverlay] among [GoogleMap] tile overlays.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  },
+  "WeightedLatLng": {
+   "dart": "WeightedLatLng",
+   "doc": "A data point entry for a heatmap.",
+   "variants": [
+    {"tag":null,"fields":{"point":{"type":{"k":"data","n":"LatLng"},"required":true},"weight":{"type":{"k":"double"}}}}
+   ]
+  }
+ },
+ "payloads": {
+  "CameraPosition": {
+   "dart": "CameraPosition",
+   "fields": {
+    "bearing": {"k":"double"},
+    "target": {"k":"payload","n":"LatLng"},
+    "tilt": {"k":"double"},
+    "zoom": {"k":"double"}
+   }
+  },
+  "GoogleMapController": {
+   "dart": "GoogleMapController",
+   "fields": {
+    "mapId": {"k":"int"}
+   }
+  },
+  "LatLng": {
+   "dart": "LatLng",
+   "fields": {
+    "latitude": {"k":"double"},
+    "longitude": {"k":"double"}
+   }
+  },
+  "PointOfInterestId": {
+   "dart": "PointOfInterestId",
+   "fields": {
+    "value": {"k":"string"}
+   }
+  }
+ },
+ "libraries": ["package:google_maps_flutter/google_maps_flutter.dart"]
+}

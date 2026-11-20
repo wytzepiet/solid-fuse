@@ -1,0 +1,84 @@
+name: fuse_pub_sample
+description: Host package for the pub-package translatability spike (report 09). One package_config for every sampled package.
+publish_to: "none"
+version: 0.0.1
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  solid_fuse:
+    path: /home/claude/wt/e2e/packages/solid-fuse/dart
+  analyzer: 14.7.0
+  # --- UI widget packages
+  fl_chart: any
+  table_calendar: any
+  carousel_slider: any
+  cached_network_image: any
+  flutter_svg: any
+  shimmer: any
+  skeletonizer: any
+  lottie: any
+  rive: any
+  google_maps_flutter: any
+  flutter_map: any
+  webview_flutter: any
+  video_player: any
+  chewie: any
+  flutter_markdown_plus: any
+  flutter_html: any
+  pull_to_refresh: any
+  flutter_staggered_grid_view: any
+  modal_bottom_sheet: any
+  fluttertoast: any
+  qr_flutter: any
+  mobile_scanner: any
+  signature: any
+  flutter_rating_bar: any
+  auto_size_text: any
+  flutter_slidable: any
+  pin_code_fields: any
+  pinput: any
+  photo_view: any
+  confetti: any
+  badges: any
+  dropdown_button2: any
+  flutter_typeahead: any
+  percent_indicator: any
+  smooth_page_indicator: any
+  flutter_spinkit: any
+  animated_text_kit: any
+  font_awesome_flutter: any
+  google_fonts: any
+  flutter_animate: any
+  infinite_scroll_pagination: any
+  # --- plugins / services
+  shared_preferences: any
+  url_launcher: any
+  path_provider: any
+  image_picker: any
+  file_picker: any
+  permission_handler: any
+  geolocator: any
+  connectivity_plus: any
+  device_info_plus: any
+  package_info_plus: any
+  share_plus: any
+  local_auth: any
+  flutter_secure_storage: any
+  flutter_local_notifications: any
+  in_app_purchase: any
+  firebase_core: any
+  firebase_auth: any
+  firebase_messaging: any
+  sqflite: any
+  camera: any
+  audioplayers: any
+  just_audio: any
+  sensors_plus: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

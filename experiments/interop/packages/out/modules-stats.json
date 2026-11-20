@@ -1,0 +1,4734 @@
+{
+ "packages": {
+  "audioplayers": {
+   "wallS": 27.1,
+   "total": 91,
+   "bridged": 83,
+   "objects": [
+    "AudioPlayer",
+    "AudioPool",
+    "FramePositionUpdater",
+    "GlobalAudioScope",
+    "PositionUpdater",
+    "Source",
+    "TimerPositionUpdater"
+   ],
+   "notBridged": [
+    {
+     "kind": "static getter",
+     "name": "AudioCache.fileSystem",
+     "ok": false,
+     "why": "returns FileSystem (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AudioPlayer#setSourceBytes()",
+     "ok": false,
+     "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+     "kind": "getter",
+     "name": "AudioPlayer#creatingCompleter",
+     "ok": false,
+     "why": "Completer<void> (no record shape)"
+    },
+    {
+     "kind": "setter",
+     "name": "AudioPlayer#positionUpdater=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "method",
+     "name": "AudioPool#start()",
+     "ok": false,
+     "why": "returns Future<void> Function() (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "FramePositionUpdater#constructor FramePositionUpdater",
+     "ok": false,
+     "why": "getPosition: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "setter",
+     "name": "GlobalAudioScope#eventStream=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/future/stream"
+    },
+    {
+     "kind": "constructor",
+     "name": "TimerPositionUpdater#constructor TimerPositionUpdater",
+     "ok": false,
+     "why": "getPosition: callback-async (needs _functionCallAsync)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 2,
+    "binary data": 1,
+    "dart record type": 1,
+    "other": 1,
+    "takes a callback": 1,
+    "sync-return callback": 2
+   },
+   "dartLines": 812,
+   "tsLines": 563,
+   "warnings": [],
+   "notCallable": {
+    "AssetSource": "record (by the data rules)",
+    "AudioCache": "record (by the data rules)",
+    "AudioContext": "record (by the data rules)",
+    "AudioContextAndroid": "record (by the data rules)",
+    "AudioContextConfig": "record (by the data rules)",
+    "AudioContextIOS": "record (by the data rules)",
+    "AudioEvent": "record (by the data rules)",
+    "AudioLogger": "no members",
+    "AudioPlayerException": "record (by the data rules)",
+    "BytesSource": "record (by the data rules)",
+    "DeviceFileSource": "record (by the data rules)",
+    "GlobalAudioEvent": "record (by the data rules)",
+    "UrlSource": "record (by the data rules)",
+    "AVAudioSessionCategory": "enum (by the data rules)",
+    "AVAudioSessionOptions": "enum (by the data rules)",
+    "AndroidAudioFocus": "enum (by the data rules)",
+    "AndroidAudioMode": "enum (by the data rules)",
+    "AndroidContentType": "enum (by the data rules)",
+    "AndroidUsageType": "enum (by the data rules)",
+    "AudioContextConfigFocus": "enum (by the data rules)",
+    "AudioContextConfigRoute": "enum (by the data rules)",
+    "AudioEventType": "enum (by the data rules)",
+    "AudioLogLevel": "enum (by the data rules)",
+    "GlobalAudioEventType": "enum (by the data rules)",
+    "PlayerMode": "enum (by the data rules)",
+    "PlayerState": "enum (by the data rules)",
+    "ReleaseMode": "enum (by the data rules)",
+    "StopFunction": "typedef"
+   }
+  },
+  "cached_network_image": {
+   "wallS": 38.8,
+   "total": 2,
+   "bridged": 0,
+   "objects": [],
+   "notBridged": [
+    {
+     "kind": "static getter",
+     "name": "CachedNetworkImageProvider.defaultCacheManager",
+     "ok": false,
+     "why": "returns BaseCacheManager, not a generated object"
+    },
+    {
+     "kind": "top-level variable",
+     "name": "timeDilation",
+     "ok": false,
+     "why": "top-level variables are not bridged"
+    }
+   ],
+   "byCat": {
+    "other": 2
+   },
+   "dartLines": 35,
+   "tsLines": 9,
+   "warnings": [],
+   "notCallable": {
+    "CachedNetworkImage": "widget (widget generator)",
+    "CachedNetworkImageProvider": "record (by the data rules)",
+    "DownloadProgress": "record (by the data rules)",
+    "MultiImageStreamCompleter": "record (by the data rules)",
+    "CacheManagerLogLevel": "enum (by the data rules)",
+    "ImageWidgetBuilder": "typedef",
+    "LoadingErrorWidgetBuilder": "typedef",
+    "PlaceholderWidgetBuilder": "typedef",
+    "ProgressIndicatorBuilder": "typedef",
+    "timeDilation": "top-level variable"
+   }
+  },
+  "camera": {
+   "wallS": 26.6,
+   "total": 43,
+   "bridged": 40,
+   "objects": [
+    "CameraController"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "CameraController#buildPreview()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "CameraController#startImageStream()",
+     "ok": false,
+     "why": "onAvailable: callback"
+    },
+    {
+     "kind": "getter",
+     "name": "CameraController#mediaSettings",
+     "ok": false,
+     "why": "MediaSettings (not encodable)"
+    }
+   ],
+   "byCat": {
+    "returns/takes a widget": 1,
+    "takes a callback": 1,
+    "opaque type": 1
+   },
+   "dartLines": 335,
+   "tsLines": 293,
+   "warnings": [],
+   "notCallable": {
+    "CameraDescription": "record (by the data rules)",
+    "CameraException": "record (by the data rules)",
+    "CameraImage": "record (by the data rules)",
+    "CameraPreview": "widget (widget generator)",
+    "CameraValue": "record (by the data rules)",
+    "ImageFormat": "record (by the data rules)",
+    "Optional": "record (by the data rules)",
+    "Plane": "record (by the data rules)",
+    "XFile": "record (by the data rules)",
+    "CameraLensDirection": "enum (by the data rules)",
+    "CameraLensType": "enum (by the data rules)",
+    "ExposureMode": "enum (by the data rules)",
+    "FlashMode": "enum (by the data rules)",
+    "FocusMode": "enum (by the data rules)",
+    "ImageFormatGroup": "enum (by the data rules)",
+    "ResolutionPreset": "enum (by the data rules)",
+    "VideoStabilizationMode": "enum (by the data rules)",
+    "onLatestImageAvailable": "typedef"
+   }
+  },
+  "carousel_slider": {
+   "wallS": 31.5,
+   "total": 45,
+   "bridged": 29,
+   "objects": [
+    "CarouselSliderController",
+    "CarouselSliderControllerImpl",
+    "CarouselSliderState"
+   ],
+   "notBridged": [
+    {
+     "kind": "getter",
+     "name": "CarouselSliderController#onReady",
+     "ok": false,
+     "why": "Null (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CarouselSliderControllerImpl#onReady",
+     "ok": false,
+     "why": "Null (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "CarouselSliderControllerImpl#state=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+     "kind": "method",
+     "name": "CarouselSliderState#createTicker()",
+     "ok": false,
+     "why": "onTick: callback"
+    },
+    {
+     "kind": "method",
+     "name": "CarouselSliderState#getCenterWrapper()",
+     "ok": false,
+     "why": "child: unbridgeable (widget/slot)"
+    },
+    {
+     "kind": "method",
+     "name": "CarouselSliderState#getEnlargeWrapper()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "CarouselSliderState#getGestureWrapper()",
+     "ok": false,
+     "why": "child: unbridgeable (widget/slot)"
+    },
+    {
+     "kind": "method",
+     "name": "CarouselSliderState#getTimer()",
+     "ok": false,
+     "why": "returns Timer? (no record shape)"
+    },
+    {
+     "kind": "getter",
+     "name": "CarouselSliderState#carouselState",
+     "ok": false,
+     "why": "CarouselState? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CarouselSliderState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CarouselSliderState#pageController",
+     "ok": false,
+     "why": "returns PageController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "CarouselSliderState#timer",
+     "ok": false,
+     "why": "Timer? (no record shape)"
+    },
+    {
+     "kind": "getter",
+     "name": "CarouselSliderState#widget",
+     "ok": false,
+     "why": "CarouselSlider (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "CarouselSliderState#carouselState=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+     "kind": "setter",
+     "name": "CarouselSliderState#pageController=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "setter",
+     "name": "CarouselSliderState#timer=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/needs-nested-widget/callback"
+    }
+   ],
+   "byCat": {
+    "opaque type": 6,
+    "takes a callback": 2,
+    "returns/takes a widget": 3,
+    "dart record type": 2,
+    "context": 1,
+    "other": 2
+   },
+   "dartLines": 477,
+   "tsLines": 251,
+   "warnings": [],
+   "notCallable": {
+    "CarouselOptions": "record (by the data rules)",
+    "CarouselSlider": "widget (widget generator)",
+    "CarouselPageChangedReason": "enum (by the data rules)",
+    "CenterPageEnlargeStrategy": "enum (by the data rules)",
+    "ExtendedIndexedWidgetBuilder": "typedef"
+   }
+  },
+  "chewie": {
+   "wallS": 44.7,
+   "total": 158,
+   "bridged": 137,
+   "objects": [
+    "CastPlaybackTarget",
+    "ChewieCastController",
+    "ChewieController",
+    "ChewiePlaybackTarget",
+    "ChewieState",
+    "LocalPlaybackTarget"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "ChewieController.of",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "getter",
+     "name": "CastPlaybackTarget#value",
+     "ok": false,
+     "why": "VideoPlayerValue (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieCastController#value",
+     "ok": false,
+     "why": "VideoPlayerValue (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "ChewieController#constructor ChewieController",
+     "ok": false,
+     "why": "videoPlayerController: object type VideoPlayerController is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "ChewieController#swapVideoSource()",
+     "ok": false,
+     "why": "newController: object type VideoPlayerController is not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#customControls",
+     "ok": false,
+     "why": "Widget? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#externalPlayback",
+     "ok": false,
+     "why": "returns ValueListenable<bool>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#liveSubtitle",
+     "ok": false,
+     "why": "returns ValueNotifier<String?>, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#overlay",
+     "ok": false,
+     "why": "Widget? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#placeholder",
+     "ok": false,
+     "why": "Widget? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#transformationController",
+     "ok": false,
+     "why": "returns TransformationController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieController#videoPlayerController",
+     "ok": false,
+     "why": "returns VideoPlayerController, not a generated object"
+    },
+    {
+     "kind": "setter",
+     "name": "ChewieController#subtitleBuilder=",
+     "ok": false,
+     "why": "unbridgeable builder"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewiePlaybackTarget#value",
+     "ok": false,
+     "why": "VideoPlayerValue (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieState#notifier",
+     "ok": false,
+     "why": "returns PlayerNotifier, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ChewieState#widget",
+     "ok": false,
+     "why": "Chewie (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "ChewieState#notifier=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "constructor",
+     "name": "LocalPlaybackTarget#constructor LocalPlaybackTarget",
+     "ok": false,
+     "why": "controller: object type VideoPlayerController is not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "LocalPlaybackTarget#controller",
+     "ok": false,
+     "why": "returns VideoPlayerController, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "LocalPlaybackTarget#value",
+     "ok": false,
+     "why": "VideoPlayerValue (not encodable)"
+    }
+   ],
+   "byCat": {
+    "context": 2,
+    "opaque type": 6,
+    "other": 10,
+    "returns/takes a widget": 3
+   },
+   "dartLines": 2036,
+   "tsLines": 1447,
+   "warnings": [],
+   "notCallable": {
+    "AudioTrack": "record (by the data rules)",
+    "CastButton": "widget (widget generator)",
+    "CastDevice": "record (by the data rules)",
+    "CastDevicesDialog": "widget (widget generator)",
+    "CastMedia": "record (by the data rules)",
+    "CastOverlay": "widget (widget generator)",
+    "CastTranslations": "record (by the data rules)",
+    "Chewie": "widget (widget generator)",
+    "ChewieChapter": "record (by the data rules)",
+    "ChewieControlStyle": "widget (widget generator)",
+    "ChewieControllerProvider": "widget (widget generator)",
+    "ChewieProgressColors": "record (by the data rules)",
+    "CupertinoCastButton": "widget (widget generator)",
+    "CupertinoCastDevicesSheet": "widget (widget generator)",
+    "CupertinoControls": "widget (widget generator)",
+    "MaterialControls": "widget (widget generator)",
+    "MaterialDesktopControls": "widget (widget generator)",
+    "MaterialVideoProgressBar": "widget (widget generator)",
+    "OptionItem": "record (by the data rules)",
+    "OptionsTranslation": "record (by the data rules)",
+    "Subtitle": "record (by the data rules)",
+    "SubtitleStyle": "record (by the data rules)",
+    "SubtitleTrack": "record (by the data rules)",
+    "Subtitles": "record (by the data rules)",
+    "VideoQuality": "record (by the data rules)",
+    "CastConnectionState": "enum (by the data rules)",
+    "CastConnectionStateX": "extension",
+    "CastPickerStyle": "enum (by the data rules)",
+    "ChewieRoutePageBuilder": "typedef"
+   }
+  },
+  "confetti": {
+   "wallS": 29.1,
+   "total": 13,
+   "bridged": 11,
+   "objects": [
+    "ConfettiController",
+    "ParticlePainter"
+   ],
+   "notBridged": [
+    {
+     "kind": "constructor",
+     "name": "ParticlePainter#constructor ParticlePainter",
+     "ok": false,
+     "why": "particles: unbridgeable (unbridgeable/private/unexported-type[list])"
+    },
+    {
+     "kind": "getter",
+     "name": "ParticlePainter#particles",
+     "ok": false,
+     "why": "List<Particle> (not encodable)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 2
+   },
+   "dartLines": 306,
+   "tsLines": 170,
+   "warnings": [],
+   "notCallable": {
+    "ConfettiWidget": "widget (widget generator)",
+    "ParticleStats": "record (by the data rules)",
+    "BlastDirectionality": "enum (by the data rules)",
+    "ConfettiControllerState": "enum (by the data rules)",
+    "ParticleStatsCallback": "typedef"
+   }
+  },
+  "connectivity_plus": {
+   "wallS": 33.8,
+   "total": 8,
+   "bridged": 7,
+   "objects": [
+    "Connectivity",
+    "ConnectivityPlusLinuxPlugin"
+   ],
+   "notBridged": [
+    {
+     "kind": "setter",
+     "name": "ConnectivityPlusLinuxPlugin#createClient=",
+     "ok": false,
+     "why": "unbridgeable callback sync-return"
+    }
+   ],
+   "byCat": {
+    "sync-return callback": 1
+   },
+   "dartLines": 170,
+   "tsLines": 90,
+   "warnings": [],
+   "notCallable": {
+    "ConnectivityResult": "enum (by the data rules)",
+    "ConnectivityResultListX": "extension"
+   }
+  },
+  "device_info_plus": {
+   "wallS": 30.0,
+   "total": 20,
+   "bridged": 19,
+   "objects": [
+    "DeviceInfoPlugin",
+    "DeviceInfoPlusLinuxPlugin",
+    "DeviceInfoPlusWindowsPlugin"
+   ],
+   "notBridged": [
+    {
+     "kind": "setter",
+     "name": "DeviceInfoPlusWindowsPlugin#RtlGetVersion=",
+     "ok": false,
+     "why": "unbridgeable callback void(unencodable args)"
+    }
+   ],
+   "byCat": {
+    "takes a callback": 1
+   },
+   "dartLines": 416,
+   "tsLines": 317,
+   "warnings": [],
+   "notCallable": {
+    "AndroidBuildVersion": "record (by the data rules)",
+    "AndroidDeviceInfo": "record (by the data rules)",
+    "BaseDeviceInfo": "record (by the data rules)",
+    "IosDeviceInfo": "record (by the data rules)",
+    "IosUtsname": "record (by the data rules)",
+    "LinuxDeviceInfo": "record (by the data rules)",
+    "MacOsDeviceInfo": "record (by the data rules)",
+    "WebBrowserInfo": "record (by the data rules)",
+    "WindowsDeviceInfo": "record (by the data rules)",
+    "BrowserName": "enum (by the data rules)"
+   }
+  },
+  "dropdown_button2": {
+   "wallS": 31.4,
+   "total": 0,
+   "bridged": 0,
+   "objects": [],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 34,
+   "tsLines": 9,
+   "warnings": [],
+   "notCallable": {
+    "ButtonStyleData": "record (by the data rules)",
+    "DropdownButton2": "widget (widget generator)",
+    "DropdownButtonFormField2": "widget (widget generator)",
+    "DropdownItem": "widget (widget generator)",
+    "DropdownSearchData": "record (by the data rules)",
+    "DropdownSeparator": "widget (widget generator)",
+    "DropdownStyleData": "record (by the data rules)",
+    "FormFieldButtonStyleData": "record (by the data rules)",
+    "IconStyleData": "record (by the data rules)",
+    "MenuItemStyleData": "record (by the data rules)",
+    "DropdownBuilder": "typedef",
+    "DropdownButton2Builder": "typedef",
+    "DropdownDirection": "enum (by the data rules)",
+    "OnMenuStateChangeFn": "typedef",
+    "SearchMatchFn": "typedef",
+    "SelectedMenuItemBuilder": "typedef"
+   }
+  },
+  "file_picker": {
+   "wallS": 37.4,
+   "total": 26,
+   "bridged": 22,
+   "objects": [
+    "FilePickerPlatform",
+    "PlatformFile"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "FilePicker.saveFile",
+     "ok": false,
+     "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+     "kind": "static method",
+     "name": "FilePickerSaveUtils.saveBytesToFile",
+     "ok": false,
+     "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+     "kind": "method",
+     "name": "FilePickerPlatform#saveFile()",
+     "ok": false,
+     "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+     "kind": "getter",
+     "name": "PlatformFile#xFile",
+     "ok": false,
+     "why": "XFile (not encodable)"
+    }
+   ],
+   "byCat": {
+    "binary data": 3,
+    "opaque type": 1
+   },
+   "dartLines": 256,
+   "tsLines": 194,
+   "warnings": [],
+   "notCallable": {
+    "AndroidOptions": "no members",
+    "DarwinOptions": "record (by the data rules)",
+    "DesktopWindowOptions": "record (by the data rules)",
+    "FilePicker": "no members",
+    "FilePickerSaveUtils": "no members",
+    "IllegalCharacterInFileNameException": "record (by the data rules)",
+    "LinuxOptions": "record (by the data rules)",
+    "MethodChannelFilePicker": "record (by the data rules)",
+    "WebOptions": "no members",
+    "WindowsOptions": "record (by the data rules)",
+    "DarwinAssetRepresentationMode": "enum (by the data rules)",
+    "FilePickerStatus": "enum (by the data rules)",
+    "FileType": "enum (by the data rules)"
+   }
+  },
+  "firebase_auth": {
+   "wallS": 28.4,
+   "total": 147,
+   "bridged": 131,
+   "objects": [
+    "ConfirmationResult",
+    "FirebaseAuth",
+    "IdTokenResult",
+    "MultiFactor",
+    "MultiFactorResolver",
+    "RecaptchaVerifier",
+    "User",
+    "UserCredential",
+    "UserInfo",
+    "UserMetadata"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "PhoneMultiFactorGenerator.getAssertion",
+     "ok": false,
+     "why": "returns MultiFactorAssertion (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TotpMultiFactorGenerator.getAssertionForEnrollment",
+     "ok": false,
+     "why": "returns MultiFactorAssertion (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TotpMultiFactorGenerator.getAssertionForSignIn",
+     "ok": false,
+     "why": "returns MultiFactorAssertion (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "FirebaseAuth#constructor FirebaseAuth.instanceFor",
+     "ok": false,
+     "why": "app: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "FirebaseAuth#sendSignInLinkToEmail()",
+     "ok": false,
+     "why": "actionCodeSettings: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "FirebaseAuth#signInWithCredential()",
+     "ok": false,
+     "why": "credential: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "FirebaseAuth#verifyPhoneNumber()",
+     "ok": false,
+     "why": "verificationCompleted: callback"
+    },
+    {
+     "kind": "getter",
+     "name": "FirebaseAuth#app",
+     "ok": false,
+     "why": "FirebaseApp (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "FirebaseAuth#pluginConstants",
+     "ok": false,
+     "why": "Map<dynamic, dynamic> (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "FirebaseAuth#app=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+     "kind": "method",
+     "name": "MultiFactor#enroll()",
+     "ok": false,
+     "why": "assertion: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "MultiFactorResolver#resolveSignIn()",
+     "ok": false,
+     "why": "assertion: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "constructor",
+     "name": "RecaptchaVerifier#constructor RecaptchaVerifier",
+     "ok": false,
+     "why": "auth: object type FirebaseAuthPlatform is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "User#linkWithCredential()",
+     "ok": false,
+     "why": "credential: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "User#reauthenticateWithCredential()",
+     "ok": false,
+     "why": "credential: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "User#updatePhoneNumber()",
+     "ok": false,
+     "why": "phoneCredential: unbridgeable (unbridgeable/no-usable-constructor)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 14,
+    "takes a callback": 1,
+    "other": 1
+   },
+   "dartLines": 1053,
+   "tsLines": 912,
+   "warnings": [],
+   "notCallable": {
+    "ActionCodeInfo": "record (by the data rules)",
+    "ActionCodeSettings": "record (by the data rules)",
+    "AdditionalUserInfo": "record (by the data rules)",
+    "AppleAuthCredential": "record (by the data rules)",
+    "AppleAuthProvider": "record (by the data rules)",
+    "AppleFullPersonName": "record (by the data rules)",
+    "AuthCredential": "record (by the data rules)",
+    "AuthProvider": "record (by the data rules)",
+    "EmailAuthCredential": "record (by the data rules)",
+    "EmailAuthProvider": "record (by the data rules)",
+    "FacebookAuthCredential": "record (by the data rules)",
+    "FacebookAuthProvider": "record (by the data rules)",
+    "FirebaseAuthException": "record (by the data rules)",
+    "FirebaseAuthMultiFactorException": "record (by the data rules)",
+    "FirebaseException": "record (by the data rules)",
+    "GameCenterAuthCredential": "record (by the data rules)",
+    "GameCenterAuthProvider": "record (by the data rules)",
+    "GithubAuthCredential": "record (by the data rules)",
+    "GithubAuthProvider": "record (by the data rules)",
+    "GoogleAuthCredential": "record (by the data rules)",
+    "GoogleAuthProvider": "record (by the data rules)",
+    "MicrosoftAuthProvider": "record (by the data rules)",
+    "MultiFactorAssertion": "no members",
+    "MultiFactorInfo": "record (by the data rules)",
+    "MultiFactorSession": "record (by the data rules)",
+    "OAuthCredential": "record (by the data rules)",
+    "OAuthProvider": "record (by the data rules)",
+    "PasswordValidationStatus": "record (by the data rules)",
+    "PhoneAuthCredential": "record (by the data rules)",
+    "PhoneAuthProvider": "record (by the data rules)",
+    "PhoneMultiFactorGenerator": "no members",
+    "PhoneMultiFactorInfo": "record (by the data rules)",
+    "PlayGamesAuthCredential": "record (by the data rules)",
+    "PlayGamesAuthProvider": "record (by the data rules)",
+    "SAMLAuthProvider": "record (by the data rules)",
+    "TotpMultiFactorGenerator": "no members",
+    "TotpMultiFactorInfo": "record (by the data rules)",
+    "TotpSecret": "record (by the data rules)",
+    "TwitterAuthCredential": "record (by the data rules)",
+    "TwitterAuthProvider": "record (by the data rules)",
+    "YahooAuthCredential": "record (by the data rules)",
+    "YahooAuthProvider": "record (by the data rules)",
+    "ActionCodeInfoOperation": "enum (by the data rules)",
+    "Persistence": "enum (by the data rules)",
+    "PhoneCodeAutoRetrievalTimeout": "typedef",
+    "PhoneCodeSent": "typedef",
+    "PhoneVerificationCompleted": "typedef",
+    "PhoneVerificationFailed": "typedef",
+    "RecaptchaVerifierOnError": "typedef",
+    "RecaptchaVerifierOnExpired": "typedef",
+    "RecaptchaVerifierOnSuccess": "typedef",
+    "RecaptchaVerifierSize": "enum (by the data rules)",
+    "RecaptchaVerifierTheme": "enum (by the data rules)"
+   }
+  },
+  "firebase_core": {
+   "wallS": 33.1,
+   "total": 13,
+   "bridged": 10,
+   "objects": [
+    "FirebaseApp"
+   ],
+   "notBridged": [
+    {
+     "kind": "static getter",
+     "name": "Firebase.delegatePackingProperty",
+     "ok": false,
+     "why": "returns FirebasePlatform? (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "FirebaseApp#getService()",
+     "ok": false,
+     "why": "generic method"
+    },
+    {
+     "kind": "method",
+     "name": "FirebaseApp#registerService()",
+     "ok": false,
+     "why": "generic method"
+    }
+   ],
+   "byCat": {
+    "opaque type": 1,
+    "generics": 2
+   },
+   "dartLines": 149,
+   "tsLines": 115,
+   "warnings": [],
+   "notCallable": {
+    "Firebase": "no members",
+    "FirebaseException": "record (by the data rules)",
+    "FirebaseOptions": "record (by the data rules)",
+    "FirebaseService": "no members",
+    "defaultFirebaseAppName": "constant"
+   }
+  },
+  "firebase_messaging": {
+   "wallS": 26.0,
+   "total": 22,
+   "bridged": 18,
+   "objects": [
+    "FirebaseMessaging"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "FirebaseMessaging.onBackgroundMessage",
+     "ok": false,
+     "why": "handler: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "getter",
+     "name": "FirebaseMessaging#app",
+     "ok": false,
+     "why": "FirebaseApp (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "FirebaseMessaging#pluginConstants",
+     "ok": false,
+     "why": "Map<dynamic, dynamic> (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "FirebaseMessaging#app=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/private/unexported-type"
+    }
+   ],
+   "byCat": {
+    "sync-return callback": 1,
+    "opaque type": 3
+   },
+   "dartLines": 243,
+   "tsLines": 198,
+   "warnings": [],
+   "notCallable": {
+    "AndroidNotification": "record (by the data rules)",
+    "AppleNotification": "record (by the data rules)",
+    "AppleNotificationSound": "record (by the data rules)",
+    "NotificationSettings": "record (by the data rules)",
+    "RemoteMessage": "record (by the data rules)",
+    "RemoteNotification": "record (by the data rules)",
+    "WebNotification": "record (by the data rules)",
+    "AndroidNotificationPriority": "enum (by the data rules)",
+    "AndroidNotificationVisibility": "enum (by the data rules)",
+    "AppleNotificationSetting": "enum (by the data rules)",
+    "AppleShowPreviewSetting": "enum (by the data rules)",
+    "AuthorizationStatus": "enum (by the data rules)",
+    "BackgroundMessageHandler": "typedef"
+   }
+  },
+  "flutter_animate": {
+   "wallS": 33.2,
+   "total": 67,
+   "bridged": 19,
+   "objects": [
+    "AnimateList"
+   ],
+   "notBridged": [
+    {
+     "kind": "static getter",
+     "name": "AnimateList.ignoreTypes",
+     "ok": false,
+     "why": "returns Set<Type> (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "FlipEffect.getTransformMatrix",
+     "ok": false,
+     "why": "returns Matrix4 (no record shape)"
+    },
+    {
+     "kind": "static method",
+     "name": "FollowPathEffect.getMatrix",
+     "ok": false,
+     "why": "returns Matrix4 (no record shape)"
+    },
+    {
+     "kind": "constructor",
+     "name": "AnimateList#constructor AnimateList",
+     "ok": false,
+     "why": "children: unbridgeable (widget/slot[list])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#add()",
+     "ok": false,
+     "why": "element: unbridgeable (widget/slot)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#addAll()",
+     "ok": false,
+     "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#any()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#asMap()",
+     "ok": false,
+     "why": "returns Map<int, Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#cast()",
+     "ok": false,
+     "why": "generic method"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#elementAt()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#every()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#expand()",
+     "ok": false,
+     "why": "f: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#firstWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#fold()",
+     "ok": false,
+     "why": "combine: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#followedBy()",
+     "ok": false,
+     "why": "other: unbridgeable (widget/slot[iterable])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#forEach()",
+     "ok": false,
+     "why": "action: unbridgeable (callback void(unencodable args))"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#getRange()",
+     "ok": false,
+     "why": "returns Iterable<Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#indexWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#insert()",
+     "ok": false,
+     "why": "element: unbridgeable (widget/slot)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#insertAll()",
+     "ok": false,
+     "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#lastIndexWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#lastWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#map()",
+     "ok": false,
+     "why": "f: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#reduce()",
+     "ok": false,
+     "why": "combine: unbridgeable (builder)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#removeAt()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#removeLast()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#removeWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#replaceRange()",
+     "ok": false,
+     "why": "newContents: unbridgeable (widget/slot[iterable])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#retainWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#setAll()",
+     "ok": false,
+     "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#setRange()",
+     "ok": false,
+     "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#singleWhere()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#skip()",
+     "ok": false,
+     "why": "returns Iterable<Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#skipWhile()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#sublist()",
+     "ok": false,
+     "why": "returns List<Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#take()",
+     "ok": false,
+     "why": "returns Iterable<Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#takeWhile()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#toList()",
+     "ok": false,
+     "why": "returns List<Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#toSet()",
+     "ok": false,
+     "why": "returns Set<Widget> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#where()",
+     "ok": false,
+     "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "method",
+     "name": "AnimateList#whereType()",
+     "ok": false,
+     "why": "generic method"
+    },
+    {
+     "kind": "getter",
+     "name": "AnimateList#first",
+     "ok": false,
+     "why": "Widget (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "AnimateList#iterator",
+     "ok": false,
+     "why": "Iterator<Widget> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "AnimateList#last",
+     "ok": false,
+     "why": "Widget (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "AnimateList#reversed",
+     "ok": false,
+     "why": "Iterable<Widget> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "AnimateList#single",
+     "ok": false,
+     "why": "Widget (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "AnimateList#first=",
+     "ok": false,
+     "why": "unbridgeable widget/slot"
+    },
+    {
+     "kind": "setter",
+     "name": "AnimateList#last=",
+     "ok": false,
+     "why": "unbridgeable widget/slot"
+    }
+   ],
+   "byCat": {
+    "opaque type": 2,
+    "dart record type": 2,
+    "returns/takes a widget": 26,
+    "sync-return callback": 15,
+    "generics": 2,
+    "takes a callback": 1
+   },
+   "dartLines": 670,
+   "tsLines": 325,
+   "warnings": [],
+   "notCallable": {
+    "Adapter": "record (by the data rules)",
+    "AlignEffect": "record (by the data rules)",
+    "Animate": "widget (widget generator)",
+    "BlurEffect": "record (by the data rules)",
+    "BoxShadowEffect": "record (by the data rules)",
+    "CallbackEffect": "record (by the data rules)",
+    "ChangeNotifierAdapter": "record (by the data rules)",
+    "ColorEffect": "record (by the data rules)",
+    "CrossfadeEffect": "record (by the data rules)",
+    "CustomEffect": "record (by the data rules)",
+    "Effect": "record (by the data rules)",
+    "EffectEntry": "record (by the data rules)",
+    "EffectList": "record (by the data rules)",
+    "ElevationEffect": "record (by the data rules)",
+    "FadeEffect": "record (by the data rules)",
+    "FlipEffect": "record (by the data rules)",
+    "FollowPathEffect": "record (by the data rules)",
+    "ListenEffect": "record (by the data rules)",
+    "MoveEffect": "record (by the data rules)",
+    "RotateEffect": "record (by the data rules)",
+    "SaturateEffect": "record (by the data rules)",
+    "ScaleEffect": "record (by the data rules)",
+    "ScrollAdapter": "record (by the data rules)",
+    "ShaderEffect": "record (by the data rules)",
+    "ShaderUpdateDetails": "record (by the data rules)",
+    "ShakeEffect": "record (by the data rules)",
+    "ShimmerEffect": "record (by the data rules)",
+    "SlideEffect": "record (by the data rules)",
+    "SwapEffect": "record (by the data rules)",
+    "ThenEffect": "record (by the data rules)",
+    "TintEffect": "record (by the data rules)",
+    "ToggleEffect": "record (by the data rules)",
+    "ValueAdapter": "record (by the data rules)",
+    "ValueNotifierAdapter": "record (by the data rules)",
+    "VisibilityEffect": "record (by the data rules)",
+    "AlignEffectExtensions": "extension",
+    "AnimateCallback": "typedef",
+    "AnimateListExtensions": "extension",
+    "AnimateManager": "mixin",
+    "AnimateWidgetExtensions": "extension",
+    "AnimationControllerLoopExtensions": "extension",
+    "BlurEffectExtensions": "extension",
+    "BoxShadowEffectExtensions": "extension",
+    "CallbackEffectExtensions": "extension",
+    "ColorEffectExtension": "extension",
+    "CrossfadeEffectExtensions": "extension",
+    "CustomEffectBuilder": "typedef",
+    "CustomEffectExtensions": "extension",
+    "Direction": "enum (by the data rules)",
+    "EffectExtensions": "extension",
+    "ElevationEffectExtensions": "extension",
+    "FadeEffectExtensions": "extension",
+    "FlipEffectExtensions": "extension",
+    "FollowPathEffectExtensions": "extension",
+    "ListenEffectExtensions": "extension",
+    "MoveEffectExtensions": "extension",
+    "NumDurationExtensions": "extension",
+    "OffsetCopyWithExtensions": "extension",
+    "ReparentChildBuilder": "typedef",
+    "RotateEffectExtensions": "extension",
+    "SaturateEffectExtensions": "extension",
+    "ScaleEffectExtensions": "extension",
+    "ShaderEffectExtensions": "extension",
+    "ShaderLayer": "enum (by the data rules)",
+    "ShaderUpdateCallback": "typedef",
+    "ShakeEffectExtensions": "extension",
+    "ShimmerEffectExtensions": "extension",
+    "SlideEffectExtensions": "extension",
+    "SwapEffectExtensions": "extension",
+    "ThenEffectExtensions": "extension",
+    "TintEffectExtensions": "extension",
+    "ToggleEffectBuilder": "typedef",
+    "ToggleEffectExtensions": "extension",
+    "VisibilityEffectExtensions": "extension"
+   }
+  },
+  "flutter_local_notifications": {
+   "wallS": 28.7,
+   "total": 140,
+   "bridged": 129,
+   "objects": [
+    "AndroidFlutterLocalNotificationsPlugin",
+    "FlutterLocalNotificationsPlatform",
+    "FlutterLocalNotificationsPlugin",
+    "FlutterLocalNotificationsWindows",
+    "IOSFlutterLocalNotificationsPlugin",
+    "LinuxFlutterLocalNotificationsPlugin",
+    "MacOSFlutterLocalNotificationsPlugin",
+    "WebFlutterLocalNotificationsPlugin"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "AndroidFlutterLocalNotificationsPlugin#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "FlutterLocalNotificationsPlatform#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "FlutterLocalNotificationsPlugin#resolvePlatformSpecificImplementation()",
+     "ok": false,
+     "why": "generic method"
+    },
+    {
+     "kind": "method",
+     "name": "FlutterLocalNotificationsPlugin#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "FlutterLocalNotificationsWindows#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "FlutterLocalNotificationsWindows#zonedScheduleRawXml()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "IOSFlutterLocalNotificationsPlugin#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "LinuxFlutterLocalNotificationsPlugin#getSystemIdMap()",
+     "ok": false,
+     "why": "returns Map<int, int> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "LinuxFlutterLocalNotificationsPlugin#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MacOSFlutterLocalNotificationsPlugin#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "WebFlutterLocalNotificationsPlugin#zonedSchedule()",
+     "ok": false,
+     "why": "scheduledDate: unbridgeable (unbridgeable/private/unexported-type)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 10,
+    "generics": 1
+   },
+   "dartLines": 1614,
+   "tsLines": 1312,
+   "warnings": [],
+   "notCallable": {
+    "ActiveNotification": "record (by the data rules)",
+    "AndroidBitmap": "record (by the data rules)",
+    "AndroidIcon": "record (by the data rules)",
+    "AndroidInitializationSettings": "record (by the data rules)",
+    "AndroidNotificationAction": "record (by the data rules)",
+    "AndroidNotificationActionInput": "record (by the data rules)",
+    "AndroidNotificationChannel": "record (by the data rules)",
+    "AndroidNotificationChannelGroup": "record (by the data rules)",
+    "AndroidNotificationDetails": "record (by the data rules)",
+    "AndroidNotificationSound": "record (by the data rules)",
+    "AssetsLinuxIcon": "record (by the data rules)",
+    "AssetsLinuxSound": "record (by the data rules)",
+    "BigPictureStyleInformation": "record (by the data rules)",
+    "BigTextStyleInformation": "record (by the data rules)",
+    "BitmapFilePathAndroidIcon": "record (by the data rules)",
+    "ByteArrayAndroidBitmap": "record (by the data rules)",
+    "ByteArrayAndroidIcon": "record (by the data rules)",
+    "ByteDataLinuxIcon": "record (by the data rules)",
+    "ContentUriAndroidIcon": "record (by the data rules)",
+    "DarwinInitializationSettings": "record (by the data rules)",
+    "DarwinNotificationAction": "record (by the data rules)",
+    "DarwinNotificationAttachment": "record (by the data rules)",
+    "DarwinNotificationAttachmentThumbnailClippingRect": "record (by the data rules)",
+    "DarwinNotificationCategory": "record (by the data rules)",
+    "DarwinNotificationDetails": "record (by the data rules)",
+    "DefaultStyleInformation": "record (by the data rules)",
+    "DrawableResourceAndroidBitmap": "record (by the data rules)",
+    "DrawableResourceAndroidIcon": "record (by the data rules)",
+    "FilePathAndroidBitmap": "record (by the data rules)",
+    "FilePathLinuxIcon": "record (by the data rules)",
+    "FlutterBitmapAssetAndroidIcon": "record (by the data rules)",
+    "IOSInitializationSettings": "record (by the data rules)",
+    "InboxStyleInformation": "record (by the data rules)",
+    "InitializationSettings": "record (by the data rules)",
+    "LinuxInitializationSettings": "record (by the data rules)",
+    "LinuxNotificationAction": "record (by the data rules)",
+    "LinuxNotificationDetails": "record (by the data rules)",
+    "LinuxNotificationIcon": "record (by the data rules)",
+    "LinuxNotificationLocation": "record (by the data rules)",
+    "LinuxNotificationSound": "record (by the data rules)",
+    "LinuxNotificationTimeout": "record (by the data rules)",
+    "LinuxRawIconData": "record (by the data rules)",
+    "LinuxServerCapabilities": "record (by the data rules)",
+    "MediaStyleInformation": "record (by the data rules)",
+    "Message": "record (by the data rules)",
+    "MessagingStyleInformation": "record (by the data rules)",
+    "MsixUtils": "no members",
+    "NotificationAppLaunchDetails": "record (by the data rules)",
+    "NotificationDetails": "record (by the data rules)",
+    "NotificationResponse": "record (by the data rules)",
+    "NotificationsEnabledOptions": "record (by the data rules)",
+    "PendingNotificationRequest": "record (by the data rules)",
+    "Person": "record (by the data rules)",
+    "ProgressStyleInformation": "record (by the data rules)",
+    "ProgressStylePoint": "record (by the data rules)",
+    "ProgressStyleSegment": "record (by the data rules)",
+    "RawResourceAndroidNotificationSound": "record (by the data rules)",
+    "StyleInformation": "record (by the data rules)",
+    "ThemeLinuxIcon": "record (by the data rules)",
+    "ThemeLinuxSound": "record (by the data rules)",
+    "UriAndroidNotificationSound": "record (by the data rules)",
+    "WebInitializationSettings": "no members",
+    "WebNotificationAction": "record (by the data rules)",
+    "WebNotificationDetails": "record (by the data rules)",
+    "WindowsAction": "record (by the data rules)",
+    "WindowsColumn": "record (by the data rules)",
+    "WindowsHeader": "record (by the data rules)",
+    "WindowsImage": "record (by the data rules)",
+    "WindowsInitializationSettings": "record (by the data rules)",
+    "WindowsInput": "record (by the data rules)",
+    "WindowsNotificationAudio": "record (by the data rules)",
+    "WindowsNotificationDetails": "record (by the data rules)",
+    "WindowsNotificationPart": "record (by the data rules)",
+    "WindowsNotificationText": "record (by the data rules)",
+    "WindowsProgressBar": "record (by the data rules)",
+    "WindowsRow": "record (by the data rules)",
+    "WindowsSelection": "record (by the data rules)",
+    "WindowsSelectionInput": "record (by the data rules)",
+    "WindowsTextInput": "record (by the data rules)",
+    "AndroidNotificationCategory": "enum (by the data rules)",
+    "AndroidNotificationChannelAction": "enum (by the data rules)",
+    "AndroidNotificationStyle": "enum (by the data rules)",
+    "AndroidScheduleMode": "enum (by the data rules)",
+    "AndroidServiceForegroundType": "enum (by the data rules)",
+    "AndroidServiceStartType": "enum (by the data rules)",
+    "AudioAttributesUsage": "enum (by the data rules)",
+    "DarwinNotificationActionOption": "enum (by the data rules)",
+    "DarwinNotificationCategoryOption": "enum (by the data rules)",
+    "DateTimeComponents": "enum (by the data rules)",
+    "Day": "enum (by the data rules)",
+    "DidReceiveBackgroundNotificationResponseCallback": "typedef",
+    "DidReceiveLocalNotificationCallback": "typedef",
+    "DidReceiveNotificationResponseCallback": "typedef",
+    "GroupAlertBehavior": "enum (by the data rules)",
+    "Importance": "enum (by the data rules)",
+    "InterruptionLevel": "enum (by the data rules)",
+    "LinuxHintValueType": "enum (by the data rules)",
+    "LinuxIconType": "enum (by the data rules)",
+    "LinuxNotificationCategory": "enum (by the data rules)",
+    "LinuxNotificationUrgency": "enum (by the data rules)",
+    "LinuxSoundType": "enum (by the data rules)",
+    "NotificationDismissedIsolate": "enum (by the data rules)",
+    "NotificationResponseType": "enum (by the data rules)",
+    "NotificationUpdateResult": "enum (by the data rules)",
+    "NotificationVisibility": "enum (by the data rules)",
+    "Priority": "enum (by the data rules)",
+    "RepeatInterval": "enum (by the data rules)",
+    "SemanticAction": "enum (by the data rules)",
+    "SemanticStyle": "enum (by the data rules)",
+    "WebNotificationDirection": "enum (by the data rules)",
+    "WebNotificationPermission": "enum (by the data rules)",
+    "WindowsActionPlacement": "enum (by the data rules)",
+    "WindowsActivationType": "enum (by the data rules)",
+    "WindowsButtonStyle": "enum (by the data rules)",
+    "WindowsHeaderActivation": "enum (by the data rules)",
+    "WindowsImageCrop": "enum (by the data rules)",
+    "WindowsImagePlacement": "enum (by the data rules)",
+    "WindowsInputType": "enum (by the data rules)",
+    "WindowsNotificationBehavior": "enum (by the data rules)",
+    "WindowsNotificationDuration": "enum (by the data rules)",
+    "WindowsNotificationScenario": "enum (by the data rules)",
+    "WindowsNotificationSound": "enum (by the data rules)",
+    "WindowsTextPlacement": "enum (by the data rules)"
+   }
+  },
+  "flutter_map": {
+   "wallS": 39.7,
+   "total": 262,
+   "bridged": 166,
+   "objects": [
+    "AssetTileProvider",
+    "BuiltInMapCachingProvider",
+    "CameraConstraint",
+    "CameraFit",
+    "CentroidCalculator",
+    "CirclePainter",
+    "DisabledMapCachingProvider",
+    "FileTileProvider",
+    "LatLngTween",
+    "MapCachingProvider",
+    "MapController",
+    "MapControllerImpl",
+    "NetworkTileProvider",
+    "PolygonLabelPlacementCalculator",
+    "PositionedTapController",
+    "RenderTranslucentPointer",
+    "ScalebarPainter",
+    "SimpleCentroidCalculator",
+    "SimpleMultiWorldCentroidCalculator",
+    "TileDisplay",
+    "TileImage",
+    "TileProvider",
+    "UnconstrainedCamera"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "MapCamera.maybeOf",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "static method",
+     "name": "MapCamera.of",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "static method",
+     "name": "MapController.maybeOf",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "static method",
+     "name": "MapController.of",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "static method",
+     "name": "MapOptions.maybeOf",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "static method",
+     "name": "MapOptions.of",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "static method",
+     "name": "Polygon.isClockwise",
+     "ok": false,
+     "why": "points: unbridgeable (unbridgeable/private/unexported-type[list])"
+    },
+    {
+     "kind": "static getter",
+     "name": "TileProvider.templatePlaceholderElement",
+     "ok": false,
+     "why": "returns RegExp (no record shape)"
+    },
+    {
+     "kind": "static method",
+     "name": "TileUpdateTransformers.throttle",
+     "ok": false,
+     "why": "returns StreamTransformer<TileUpdateEvent, TileUpdateEvent> (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TileUpdateTransformers.debounce",
+     "ok": false,
+     "why": "returns StreamTransformer<TileUpdateEvent, TileUpdateEvent> (not encodable)"
+    },
+    {
+     "kind": "static getter",
+     "name": "TileUpdateTransformers.ignoreTapEvents",
+     "ok": false,
+     "why": "returns StreamTransformer<TileUpdateEvent, TileUpdateEvent> (not encodable)"
+    },
+    {
+     "kind": "function",
+     "name": "coordinateDebugTileBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "function",
+     "name": "darkModeTileBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "function",
+     "name": "darkModeTilesContainerBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "function",
+     "name": "loadingTimeDebugTileBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "AssetTileProvider#getImage()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "AssetTileProvider#getImageWithCancelLoadingSupport()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "AssetTileProvider#getTileFallbackUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "AssetTileProvider#getTileUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "BuiltInMapCachingProvider#getTile()",
+     "ok": false,
+     "why": "returns ({Uint8List bytes, CachedMapTileMetadata metadata})? (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "CameraFit#constructor CameraFit.coordinates",
+     "ok": false,
+     "why": "coordinates: unbridgeable (unbridgeable/private/unexported-type[list])"
+    },
+    {
+     "kind": "method",
+     "name": "CentroidCalculator#call()",
+     "ok": false,
+     "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "constructor",
+     "name": "CirclePainter#constructor CirclePainter",
+     "ok": false,
+     "why": "circles: unbridgeable (unbridgeable/no-usable-constructor[list])"
+    },
+    {
+     "kind": "method",
+     "name": "CirclePainter#elementHitTest()",
+     "ok": false,
+     "why": "element: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "CirclePainter#metersToScreenPixels()",
+     "ok": false,
+     "why": "point: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "CirclePainter#workAcrossWorlds()",
+     "ok": false,
+     "why": "work: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "getter",
+     "name": "CirclePainter#hitNotifier",
+     "ok": false,
+     "why": "returns ValueNotifier<LayerHitResult<Object>?>?, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "FileTileProvider#getImage()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "FileTileProvider#getImageWithCancelLoadingSupport()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "FileTileProvider#getTileFallbackUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "FileTileProvider#getTileUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "constructor",
+     "name": "LatLngTween#constructor LatLngTween",
+     "ok": false,
+     "why": "begin: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "LatLngTween#animate()",
+     "ok": false,
+     "why": "returns Animation<LatLng>, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "LatLngTween#chain()",
+     "ok": false,
+     "why": "returns Animatable<LatLng> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "LatLngTween#evaluate()",
+     "ok": false,
+     "why": "returns LatLng (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "LatLngTween#transform()",
+     "ok": false,
+     "why": "returns LatLng (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "LatLngTween#begin",
+     "ok": false,
+     "why": "LatLng? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "LatLngTween#end",
+     "ok": false,
+     "why": "LatLng? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "LatLngTween#begin=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+     "kind": "setter",
+     "name": "LatLngTween#end=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+     "kind": "method",
+     "name": "MapCachingProvider#getTile()",
+     "ok": false,
+     "why": "returns ({Uint8List bytes, CachedMapTileMetadata metadata})? (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MapController#move()",
+     "ok": false,
+     "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapController#moveAndRotate()",
+     "ok": false,
+     "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapController#rotateAroundPoint()",
+     "ok": false,
+     "why": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#longPressed()",
+     "ok": false,
+     "why": "position: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#move()",
+     "ok": false,
+     "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#moveAndRotate()",
+     "ok": false,
+     "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#moveAndRotateAnimatedRaw()",
+     "ok": false,
+     "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#moveAndRotateRaw()",
+     "ok": false,
+     "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#moveAnimatedRaw()",
+     "ok": false,
+     "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#moveRaw()",
+     "ok": false,
+     "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#rotateAroundPoint()",
+     "ok": false,
+     "why": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#rotateAroundPointRaw()",
+     "ok": false,
+     "why": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#secondaryTapped()",
+     "ok": false,
+     "why": "position: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "method",
+     "name": "MapControllerImpl#tapped()",
+     "ok": false,
+     "why": "position: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "getter",
+     "name": "MapControllerImpl#value",
+     "ok": false,
+     "why": "_MapControllerState (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "MapControllerImpl#interactiveViewerState=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+     "kind": "setter",
+     "name": "MapControllerImpl#vsync=",
+     "ok": false,
+     "why": "env-vsync"
+    },
+    {
+     "kind": "method",
+     "name": "NetworkTileProvider#getImage()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "NetworkTileProvider#getImageWithCancelLoadingSupport()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "NetworkTileProvider#getTileFallbackUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "NetworkTileProvider#getTileUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "PolygonLabelPlacementCalculator#call()",
+     "ok": false,
+     "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#applyPaintTransform()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#attach()",
+     "ok": false,
+     "why": "owner: object type PipelineOwner is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#describeApproximatePaintClip()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#getTransformTo()",
+     "ok": false,
+     "why": "returns Matrix4 (no record shape)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#handleEvent()",
+     "ok": false,
+     "why": "entry: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#paint()",
+     "ok": false,
+     "why": "context: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#paintsChild()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#replaceRootLayer()",
+     "ok": false,
+     "why": "rootLayer: object type OffsetLayer is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#scheduleInitialPaint()",
+     "ok": false,
+     "why": "rootLayer: object type ContainerLayer is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#setupParentData()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#updateCompositedLayer()",
+     "ok": false,
+     "why": "returns OffsetLayer, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#visitChildren()",
+     "ok": false,
+     "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+     "kind": "method",
+     "name": "RenderTranslucentPointer#visitChildrenForSemantics()",
+     "ok": false,
+     "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderTranslucentPointer#child",
+     "ok": false,
+     "why": "RenderBox? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderTranslucentPointer#owner",
+     "ok": false,
+     "why": "returns PipelineOwner?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderTranslucentPointer#parent",
+     "ok": false,
+     "why": "RenderObject? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderTranslucentPointer#parentData",
+     "ok": false,
+     "why": "ParentData? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "RenderTranslucentPointer#child=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+     "kind": "method",
+     "name": "SimpleCentroidCalculator#call()",
+     "ok": false,
+     "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "SimpleMultiWorldCentroidCalculator#call()",
+     "ok": false,
+     "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "TileDisplay#when()",
+     "ok": false,
+     "why": "generic method"
+    },
+    {
+     "kind": "getter",
+     "name": "TileImage#animation",
+     "ok": false,
+     "why": "returns AnimationController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "TileImage#cancelLoading",
+     "ok": false,
+     "why": "Completer<void> (no record shape)"
+    },
+    {
+     "kind": "getter",
+     "name": "TileImage#errorImage",
+     "ok": false,
+     "why": "ImageProvider<Object>? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "TileImage#imageInfo",
+     "ok": false,
+     "why": "returns ImageInfo?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "TileImage#imageProvider",
+     "ok": false,
+     "why": "ImageProvider<Object> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "TileImage#vsync",
+     "ok": false,
+     "why": "TickerProvider (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "TileImage#imageInfo=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "setter",
+     "name": "TileImage#tileDisplay=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "method",
+     "name": "TileProvider#getImage()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "TileProvider#getImageWithCancelLoadingSupport()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "TileProvider#getTileFallbackUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+     "kind": "method",
+     "name": "TileProvider#getTileUrl()",
+     "ok": false,
+     "why": "options: unbridgeable (widget/subtype)"
+    }
+   ],
+   "byCat": {
+    "context": 7,
+    "opaque type": 45,
+    "dart record type": 3,
+    "streams": 3,
+    "returns/takes a widget": 20,
+    "binary data": 2,
+    "sync-return callback": 1,
+    "other": 12,
+    "takes a callback": 2,
+    "generics": 1
+   },
+   "dartLines": 2626,
+   "tsLines": 2038,
+   "warnings": [
+    "MapControllerImpl: cannot mirror \"value\" (not a synchronous value getter)"
+   ],
+   "notCallable": {
+    "BaseOverlayImage": "widget (widget generator)",
+    "CachedMapTileMetadata": "record (by the data rules)",
+    "CachedMapTileReadFailure": "record (by the data rules)",
+    "CircleLayer": "widget (widget generator)",
+    "CircleMarker": "record (by the data rules)",
+    "ContainCamera": "record (by the data rules)",
+    "ContainCameraCenter": "record (by the data rules)",
+    "ContainCameraLatitude": "record (by the data rules)",
+    "Crs": "record (by the data rules)",
+    "CrsSimple": "record (by the data rules)",
+    "CursorKeyboardRotationOptions": "record (by the data rules)",
+    "Epsg3857": "record (by the data rules)",
+    "Epsg4326": "record (by the data rules)",
+    "FadeInTileDisplay": "record (by the data rules)",
+    "FadeRAWA": "record (by the data rules)",
+    "FitBounds": "record (by the data rules)",
+    "FitCoordinates": "record (by the data rules)",
+    "FitInsideBounds": "record (by the data rules)",
+    "FlutterMap": "widget (widget generator)",
+    "InstantaneousTileDisplay": "record (by the data rules)",
+    "InteractionOptions": "record (by the data rules)",
+    "InteractiveFlag": "no members",
+    "KeyboardOptions": "record (by the data rules)",
+    "LatLngBounds": "record (by the data rules)",
+    "LayerHitResult": "record (by the data rules)",
+    "LogoSourceAttribution": "widget (widget generator)",
+    "MapCamera": "record (by the data rules)",
+    "MapEvent": "record (by the data rules)",
+    "MapEventDoubleTapZoom": "record (by the data rules)",
+    "MapEventDoubleTapZoomEnd": "record (by the data rules)",
+    "MapEventDoubleTapZoomStart": "record (by the data rules)",
+    "MapEventFlingAnimation": "record (by the data rules)",
+    "MapEventFlingAnimationEnd": "record (by the data rules)",
+    "MapEventFlingAnimationNotStarted": "record (by the data rules)",
+    "MapEventFlingAnimationStart": "record (by the data rules)",
+    "MapEventLongPress": "record (by the data rules)",
+    "MapEventMove": "record (by the data rules)",
+    "MapEventMoveEnd": "record (by the data rules)",
+    "MapEventMoveStart": "record (by the data rules)",
+    "MapEventNonRotatedSizeChange": "record (by the data rules)",
+    "MapEventRotate": "record (by the data rules)",
+    "MapEventRotateEnd": "record (by the data rules)",
+    "MapEventRotateStart": "record (by the data rules)",
+    "MapEventScrollWheelZoom": "record (by the data rules)",
+    "MapEventSecondaryTap": "record (by the data rules)",
+    "MapEventTap": "record (by the data rules)",
+    "MapEventWithMove": "record (by the data rules)",
+    "MapOptions": "record (by the data rules)",
+    "Marker": "record (by the data rules)",
+    "MarkerLayer": "widget (widget generator)",
+    "MobileLayerTransformer": "widget (widget generator)",
+    "MultiFingerGesture": "no members",
+    "OverlayImage": "widget (widget generator)",
+    "OverlayImageLayer": "widget (widget generator)",
+    "Polygon": "record (by the data rules)",
+    "PolygonLayer": "widget (widget generator)",
+    "PolylabelCalculator": "record (by the data rules)",
+    "Polyline": "record (by the data rules)",
+    "PolylineLayer": "widget (widget generator)",
+    "PositionedTapDetector2": "widget (widget generator)",
+    "Proj4Crs": "record (by the data rules)",
+    "Projection": "record (by the data rules)",
+    "RichAttributionWidget": "widget (widget generator)",
+    "RichAttributionWidgetAnimation": "record (by the data rules)",
+    "RotatedOverlayImage": "widget (widget generator)",
+    "ScaleRAWA": "record (by the data rules)",
+    "Scalebar": "widget (widget generator)",
+    "SimpleAttributionWidget": "widget (widget generator)",
+    "SourceAttribution": "widget (widget generator)",
+    "SphericalMercator": "record (by the data rules)",
+    "StrokePattern": "record (by the data rules)",
+    "TapPosition": "record (by the data rules)",
+    "TextSourceAttribution": "widget (widget generator)",
+    "TileCoordinates": "record (by the data rules)",
+    "TileCoordinatesResolver": "record (by the data rules)",
+    "TileLayer": "widget (widget generator)",
+    "TileUpdateEvent": "record (by the data rules)",
+    "TileUpdateTransformers": "no members",
+    "TranslucentPointer": "widget (widget generator)",
+    "WMSTileLayerOptions": "record (by the data rules)",
+    "AttributionAlignment": "enum (by the data rules)",
+    "CachedMapTile": "typedef",
+    "CursorRotationBehaviour": "enum (by the data rules)",
+    "ErrorTileCallBack": "typedef",
+    "EvictErrorTileStrategy": "enum (by the data rules)",
+    "IsKeyCursorRotationTrigger": "typedef",
+    "LayerHitNotifier": "typedef",
+    "LongPressCallback": "typedef",
+    "MapEventCallback": "typedef",
+    "MapEventSource": "enum (by the data rules)",
+    "PatternFit": "enum (by the data rules)",
+    "PointerCancelCallback": "typedef",
+    "PointerDownCallback": "typedef",
+    "PointerHoverCallback": "typedef",
+    "PointerMoveCallback": "typedef",
+    "PointerUpCallback": "typedef",
+    "PolygonPainterFillMethod": "enum (by the data rules)",
+    "PositionCallback": "typedef",
+    "RetinaMode": "enum (by the data rules)",
+    "ScalebarLength": "enum (by the data rules)",
+    "TapCallback": "typedef",
+    "TapPositionCallback": "typedef",
+    "TileBuilder": "typedef",
+    "TileUpdateTransformer": "typedef"
+   }
+  },
+  "flutter_secure_storage": {
+   "wallS": 27.3,
+   "total": 5,
+   "bridged": 5,
+   "objects": [
+    "LinuxOptions",
+    "WindowsOptions"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 155,
+   "tsLines": 106,
+   "warnings": [],
+   "notCallable": {
+    "AndroidOptions": "record (by the data rules)",
+    "AppleOptions": "record (by the data rules)",
+    "FlutterSecureStorage": "record (by the data rules)",
+    "IOSOptions": "record (by the data rules)",
+    "MacOsOptions": "record (by the data rules)",
+    "SecureStorageUpgradeStatus": "record (by the data rules)",
+    "WebOptions": "record (by the data rules)",
+    "AccessControlFlag": "enum (by the data rules)",
+    "AndroidBiometricType": "enum (by the data rules)",
+    "KeyCipherAlgorithm": "enum (by the data rules)",
+    "KeychainAccessibility": "enum (by the data rules)",
+    "SecureStorageUpgradeReason": "enum (by the data rules)",
+    "SecureStorageUpgradeState": "enum (by the data rules)",
+    "StorageCipherAlgorithm": "enum (by the data rules)"
+   }
+  },
+  "flutter_typeahead": {
+   "wallS": 38.6,
+   "total": 49,
+   "bridged": 33,
+   "objects": [
+    "SuggestionsController"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "SuggestionsController.maybeOf",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "static method",
+     "name": "SuggestionsController.of",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.loadingBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.errorBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.emptyBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.itemBuilder",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.wrapperBuilder",
+     "ok": false,
+     "why": "returns Widget Function(BuildContext, Widget) (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.decorationBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadCupertinoDefaults.builder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.loadingBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.errorBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.emptyBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.itemBuilder",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.wrapperBuilder",
+     "ok": false,
+     "why": "returns Widget Function(BuildContext, Widget) (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.decorationBuilder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "TypeAheadMaterialDefaults.builder",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    }
+   ],
+   "byCat": {
+    "takes a callback": 6,
+    "returns/takes a widget": 10
+   },
+   "dartLines": 189,
+   "tsLines": 128,
+   "warnings": [],
+   "notCallable": {
+    "CupertinoTypeAheadField": "widget (widget generator)",
+    "RawTypeAheadField": "widget (widget generator)",
+    "SuggestionsControllerProvider": "widget (widget generator)",
+    "TypeAheadCupertinoDefaults": "no members",
+    "TypeAheadField": "widget (widget generator)",
+    "TypeAheadMaterialDefaults": "no members",
+    "SuggestionSelectionCallback": "typedef",
+    "SuggestionsAnimationBuilder": "typedef",
+    "SuggestionsCallback": "typedef",
+    "SuggestionsDecorationBuilder": "typedef",
+    "SuggestionsErrorBuilder": "typedef",
+    "SuggestionsFieldBuilder": "typedef",
+    "SuggestionsFocusState": "enum (by the data rules)",
+    "SuggestionsItemBuilder": "typedef",
+    "SuggestionsListBuilder": "typedef"
+   }
+  },
+  "fluttertoast": {
+   "wallS": 33.6,
+   "total": 18,
+   "bridged": 10,
+   "objects": [
+    "FToast",
+    "ToastStateFulState"
+   ],
+   "notBridged": [
+    {
+     "kind": "function",
+     "name": "FToastBuilder",
+     "ok": false,
+     "why": "returns Widget Function(BuildContext, Widget?) (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "FToast#init()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "FToast#showToast()",
+     "ok": false,
+     "why": "child: unbridgeable (widget/slot)"
+    },
+    {
+     "kind": "getter",
+     "name": "FToast#context",
+     "ok": false,
+     "why": "BuildContext? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "FToast#context=",
+     "ok": false,
+     "why": "env-context"
+    },
+    {
+     "kind": "method",
+     "name": "ToastStateFulState#createTicker()",
+     "ok": false,
+     "why": "onTick: callback"
+    },
+    {
+     "kind": "getter",
+     "name": "ToastStateFulState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ToastStateFulState#widget",
+     "ok": false,
+     "why": "_ToastStateFul (not encodable)"
+    }
+   ],
+   "byCat": {
+    "takes a callback": 2,
+    "context": 4,
+    "returns/takes a widget": 1,
+    "opaque type": 1
+   },
+   "dartLines": 300,
+   "tsLines": 155,
+   "warnings": [],
+   "notCallable": {
+    "Fluttertoast": "no members",
+    "PositionedToastBuilder": "typedef",
+    "Toast": "enum (by the data rules)",
+    "ToastGravity": "enum (by the data rules)",
+    "ToastPositionMapping": "typedef"
+   }
+  },
+  "font_awesome_flutter": {
+   "wallS": 31.1,
+   "total": 0,
+   "bridged": 0,
+   "objects": [],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 34,
+   "tsLines": 9,
+   "warnings": [],
+   "notCallable": {
+    "FaDuotoneIconData": "record (by the data rules)",
+    "FaIcon": "widget (widget generator)",
+    "FaIconData": "record (by the data rules)",
+    "FontAwesomeIcons": "no members"
+   }
+  },
+  "geolocator": {
+   "wallS": 33.7,
+   "total": 29,
+   "bridged": 29,
+   "objects": [
+    "GeolocatorPlatform"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 437,
+   "tsLines": 295,
+   "warnings": [],
+   "notCallable": {
+    "ActivityMissingException": "record (by the data rules)",
+    "AlreadySubscribedException": "no members",
+    "AndroidPosition": "record (by the data rules)",
+    "AndroidResource": "record (by the data rules)",
+    "AndroidSettings": "record (by the data rules)",
+    "AppleSettings": "record (by the data rules)",
+    "ForegroundNotificationConfig": "record (by the data rules)",
+    "Geolocator": "no members",
+    "InvalidPermissionException": "record (by the data rules)",
+    "LocationServiceDisabledException": "no members",
+    "LocationSettings": "record (by the data rules)",
+    "PermissionDefinitionsNotFoundException": "record (by the data rules)",
+    "PermissionDeniedException": "record (by the data rules)",
+    "PermissionRequestInProgressException": "record (by the data rules)",
+    "Position": "record (by the data rules)",
+    "PositionUpdateException": "record (by the data rules)",
+    "WebSettings": "record (by the data rules)",
+    "ActivityType": "enum (by the data rules)",
+    "IntergerExtensions": "extension",
+    "LocationAccuracy": "enum (by the data rules)",
+    "LocationAccuracyStatus": "enum (by the data rules)",
+    "LocationPermission": "enum (by the data rules)",
+    "ServiceStatus": "enum (by the data rules)"
+   }
+  },
+  "google_fonts": {
+   "wallS": 37.9,
+   "total": 10,
+   "bridged": 4,
+   "objects": [],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "GoogleFonts.pendingFonts",
+     "ok": false,
+     "why": "returns List<void> (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "GoogleFonts.asMap",
+     "ok": false,
+     "why": "returns Map<String, TextStyle Function({Paint? background, Color? backgroundColor, Color? color, TextDecoration? decoration, Color? decorationColor, TextDecorationStyle? decorationStyle, double? decorationThickness, List<FontFeature>? fontFeatures, double? fontSize, FontStyle? fontStyle, FontWeight? fontWeight, Paint? foreground, double? height, double? letterSpacing, Locale? locale, List<Shadow>? shadows, TextBaseline? textBaseline, TextStyle? textStyle, double? wordSpacing})> (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "GoogleFonts.getTextTheme",
+     "ok": false,
+     "why": "returns TextTheme (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "GoogleFontsLite.pendingFonts",
+     "ok": false,
+     "why": "returns List<void> (not encodable)"
+    },
+    {
+     "kind": "static method",
+     "name": "GoogleFontsLite.getTextTheme",
+     "ok": false,
+     "why": "returns TextTheme (not encodable)"
+    },
+    {
+     "kind": "static getter",
+     "name": "GoogleFontsLite.fontsMap",
+     "ok": false,
+     "why": "returns Map<String, Map<GoogleFontsVariant, GoogleFontsFile>> (not encodable)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 5,
+    "takes a callback": 1
+   },
+   "dartLines": 497,
+   "tsLines": 301,
+   "warnings": [],
+   "notCallable": {
+    "GoogleFonts": "no members",
+    "GoogleFontsConfig": "record (by the data rules)",
+    "GoogleFontsLite": "no members"
+   }
+  },
+  "google_maps_flutter": {
+   "wallS": 26.9,
+   "total": 45,
+   "bridged": 39,
+   "objects": [
+    "AdvancedMarkerGlyph",
+    "ArgumentCallbacks",
+    "BitmapDescriptor",
+    "BitmapGlyph",
+    "GoogleMapController",
+    "TileProvider"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "BitmapDescriptor.bytes",
+     "ok": false,
+     "why": "byteData: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+     "kind": "static method",
+     "name": "GoogleMapController.init",
+     "ok": false,
+     "why": "googleMapState: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "ArgumentCallbacks#add()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "ArgumentCallbacks#remove()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "GoogleMapController#animateCamera()",
+     "ok": false,
+     "why": "cameraUpdate: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "method",
+     "name": "GoogleMapController#moveCamera()",
+     "ok": false,
+     "why": "cameraUpdate: unbridgeable (unbridgeable/abstract-no-impl)"
+    }
+   ],
+   "byCat": {
+    "binary data": 1,
+    "opaque type": 3,
+    "takes a callback": 2
+   },
+   "dartLines": 795,
+   "tsLines": 548,
+   "warnings": [],
+   "notCallable": {
+    "AdvancedMarker": "record (by the data rules)",
+    "AssetMapBitmap": "record (by the data rules)",
+    "BytesMapBitmap": "record (by the data rules)",
+    "CameraPosition": "record (by the data rules)",
+    "CameraTargetBounds": "record (by the data rules)",
+    "CameraUpdate": "record (by the data rules)",
+    "Cap": "record (by the data rules)",
+    "Circle": "record (by the data rules)",
+    "CircleGlyph": "record (by the data rules)",
+    "CircleId": "record (by the data rules)",
+    "Cluster": "record (by the data rules)",
+    "ClusterManager": "record (by the data rules)",
+    "ClusterManagerId": "record (by the data rules)",
+    "GoogleMap": "widget (widget generator)",
+    "GroundOverlay": "record (by the data rules)",
+    "GroundOverlayId": "record (by the data rules)",
+    "Heatmap": "record (by the data rules)",
+    "HeatmapGradient": "record (by the data rules)",
+    "HeatmapGradientColor": "record (by the data rules)",
+    "HeatmapId": "record (by the data rules)",
+    "HeatmapRadius": "record (by the data rules)",
+    "InfoWindow": "record (by the data rules)",
+    "LatLng": "record (by the data rules)",
+    "LatLngBounds": "record (by the data rules)",
+    "MapStyleException": "record (by the data rules)",
+    "Marker": "record (by the data rules)",
+    "MarkerId": "record (by the data rules)",
+    "MinMaxZoomPreference": "record (by the data rules)",
+    "PatternItem": "record (by the data rules)",
+    "PinConfig": "record (by the data rules)",
+    "PointOfInterestId": "record (by the data rules)",
+    "Polygon": "record (by the data rules)",
+    "PolygonId": "record (by the data rules)",
+    "Polyline": "record (by the data rules)",
+    "PolylineId": "record (by the data rules)",
+    "ScreenCoordinate": "record (by the data rules)",
+    "TextGlyph": "record (by the data rules)",
+    "Tile": "record (by the data rules)",
+    "TileOverlay": "record (by the data rules)",
+    "TileOverlayId": "record (by the data rules)",
+    "UnknownMapObjectIdError": "record (by the data rules)",
+    "WeightedLatLng": "record (by the data rules)",
+    "ArgumentCallback": "typedef",
+    "CameraPositionCallback": "typedef",
+    "GoogleMapMarkerType": "enum (by the data rules)",
+    "JointType": "enum (by the data rules)",
+    "MapBitmapScaling": "enum (by the data rules)",
+    "MapColorScheme": "enum (by the data rules)",
+    "MapCreatedCallback": "typedef",
+    "MapType": "enum (by the data rules)",
+    "MarkerCollisionBehavior": "enum (by the data rules)",
+    "WebCameraControlPosition": "enum (by the data rules)",
+    "WebGestureHandling": "enum (by the data rules)"
+   }
+  },
+  "image_picker": {
+   "wallS": 35.6,
+   "total": 9,
+   "bridged": 9,
+   "objects": [
+    "ImagePicker"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 172,
+   "tsLines": 110,
+   "warnings": [],
+   "notCallable": {
+    "LostData": "record (by the data rules)",
+    "LostDataResponse": "record (by the data rules)",
+    "PickedFile": "record (by the data rules)",
+    "XFile": "record (by the data rules)",
+    "CameraDevice": "enum (by the data rules)",
+    "ImageSource": "enum (by the data rules)",
+    "RetrieveType": "enum (by the data rules)",
+    "kTypeImage": "constant",
+    "kTypeVideo": "constant"
+   }
+  },
+  "in_app_purchase": {
+   "wallS": 32.7,
+   "total": 10,
+   "bridged": 9,
+   "objects": [
+    "InAppPurchase"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "InAppPurchase#getPlatformAddition()",
+     "ok": false,
+     "why": "generic method"
+    }
+   ],
+   "byCat": {
+    "generics": 1
+   },
+   "dartLines": 198,
+   "tsLines": 140,
+   "warnings": [],
+   "notCallable": {
+    "IAPError": "record (by the data rules)",
+    "InAppPurchaseException": "record (by the data rules)",
+    "ProductDetails": "record (by the data rules)",
+    "ProductDetailsResponse": "record (by the data rules)",
+    "PurchaseDetails": "record (by the data rules)",
+    "PurchaseParam": "record (by the data rules)",
+    "PurchaseVerificationData": "record (by the data rules)",
+    "PurchaseStatus": "enum (by the data rules)"
+   }
+  },
+  "infinite_scroll_pagination": {
+   "wallS": 31.9,
+   "total": 85,
+   "bridged": 53,
+   "objects": [
+    "Omit",
+    "PagingController",
+    "QuiltedGridRepeatPattern",
+    "RenderSliverMasonryGrid",
+    "SliverSimpleGridDelegate"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "Omit#catchError()",
+     "ok": false,
+     "why": "onError: unbridgeable (unbridgeable/untyped-Function)"
+    },
+    {
+     "kind": "method",
+     "name": "Omit#then()",
+     "ok": false,
+     "why": "onValue: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "method",
+     "name": "Omit#whenComplete()",
+     "ok": false,
+     "why": "action: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "constructor",
+     "name": "PagingController#constructor PagingController",
+     "ok": false,
+     "why": "getNextPageKey: unbridgeable (callback sync-return)"
+    },
+    {
+     "kind": "constructor",
+     "name": "RenderSliverMasonryGrid#constructor RenderSliverMasonryGrid",
+     "ok": false,
+     "why": "childManager: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#add()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#applyPaintTransform()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#attach()",
+     "ok": false,
+     "why": "owner: object type PipelineOwner is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#childAfter()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#childBefore()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#childScrollOffset()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#describeApproximatePaintClip()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#getTransformTo()",
+     "ok": false,
+     "why": "returns Matrix4 (no record shape)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#handleEvent()",
+     "ok": false,
+     "why": "entry: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#indexOf()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#insert()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#move()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#paint()",
+     "ok": false,
+     "why": "context: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#paintsChild()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#remove()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#replaceRootLayer()",
+     "ok": false,
+     "why": "rootLayer: object type OffsetLayer is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#scheduleInitialPaint()",
+     "ok": false,
+     "why": "rootLayer: object type ContainerLayer is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#setupParentData()",
+     "ok": false,
+     "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#updateCompositedLayer()",
+     "ok": false,
+     "why": "returns OffsetLayer, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#visitChildren()",
+     "ok": false,
+     "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+     "kind": "method",
+     "name": "RenderSliverMasonryGrid#visitChildrenForSemantics()",
+     "ok": false,
+     "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderSliverMasonryGrid#firstChild",
+     "ok": false,
+     "why": "RenderBox? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderSliverMasonryGrid#lastChild",
+     "ok": false,
+     "why": "RenderBox? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderSliverMasonryGrid#owner",
+     "ok": false,
+     "why": "returns PipelineOwner?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderSliverMasonryGrid#parent",
+     "ok": false,
+     "why": "RenderObject? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RenderSliverMasonryGrid#parentData",
+     "ok": false,
+     "why": "ParentData? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "RenderSliverMasonryGrid#gridDelegate=",
+     "ok": false,
+     "why": "object"
+    }
+   ],
+   "byCat": {
+    "takes a callback": 3,
+    "sync-return callback": 3,
+    "opaque type": 18,
+    "other": 6,
+    "dart record type": 1,
+    "context": 1
+   },
+   "dartLines": 896,
+   "tsLines": 623,
+   "warnings": [],
+   "notCallable": {
+    "AlignedGridView": "widget (widget generator)",
+    "AppendedSliverChildBuilderDelegate": "record (by the data rules)",
+    "AppendedSliverGrid": "widget (widget generator)",
+    "MasonryGridView": "widget (widget generator)",
+    "PagedAlignedGridView": "widget (widget generator)",
+    "PagedChildBuilderDelegate": "record (by the data rules)",
+    "PagedGridView": "widget (widget generator)",
+    "PagedLayoutBuilder": "widget (widget generator)",
+    "PagedListView": "widget (widget generator)",
+    "PagedMasonryGridView": "widget (widget generator)",
+    "PagedPageView": "widget (widget generator)",
+    "PagedSliverAlignedGrid": "widget (widget generator)",
+    "PagedSliverGrid": "widget (widget generator)",
+    "PagedSliverList": "widget (widget generator)",
+    "PagedSliverMasonryGrid": "widget (widget generator)",
+    "PagingListener": "widget (widget generator)",
+    "PagingState": "record (by the data rules)",
+    "PagingStateBase": "record (by the data rules)",
+    "QuiltedGridTile": "record (by the data rules)",
+    "SliverAlignedGrid": "widget (widget generator)",
+    "SliverMasonryGrid": "widget (widget generator)",
+    "SliverMasonryGridParentData": "record (by the data rules)",
+    "SliverQuiltedGridDelegate": "record (by the data rules)",
+    "SliverSimpleGridDelegateWithFixedCrossAxisCount": "record (by the data rules)",
+    "SliverSimpleGridDelegateWithMaxCrossAxisExtent": "record (by the data rules)",
+    "SliverStairedGridDelegate": "record (by the data rules)",
+    "SliverWovenGridDelegate": "record (by the data rules)",
+    "StaggeredGrid": "widget (widget generator)",
+    "StaggeredGridTile": "widget (widget generator)",
+    "StairedGridTile": "record (by the data rules)",
+    "WovenGridTile": "record (by the data rules)",
+    "CompletedListingBuilder": "typedef",
+    "Defaulted": "typedef",
+    "ErrorListingBuilder": "typedef",
+    "FetchPageCallback": "typedef",
+    "IntPagingStateExtension": "extension",
+    "ItemWidgetBuilder": "typedef",
+    "LoadingListingBuilder": "typedef",
+    "NextPageCallback": "typedef",
+    "NextPageKeyCallback": "typedef",
+    "PagedLayoutProtocol": "enum (by the data rules)",
+    "PagingControllerExtension": "extension",
+    "PagingStateExtension": "extension",
+    "PagingStatus": "enum (by the data rules)",
+    "PagingStatusExtension": "extension",
+    "SliverGridBuilder": "typedef",
+    "SliverSimpleGridDelegateBuilder": "typedef"
+   }
+  },
+  "just_audio": {
+   "wallS": 26.8,
+   "total": 116,
+   "bridged": 114,
+   "objects": [
+    "AndroidEqualizer",
+    "AndroidLoudnessEnhancer",
+    "AudioEffect",
+    "AudioPlayer",
+    "ShuffleOrder"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "AudioPlayer#setAndroidAudioAttributes()",
+     "ok": false,
+     "why": "audioAttributes: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "getter",
+     "name": "AudioPlayer#audioSource",
+     "ok": false,
+     "why": "AudioSource? (no record shape)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 1,
+    "dart record type": 1
+   },
+   "dartLines": 950,
+   "tsLines": 876,
+   "warnings": [],
+   "notCallable": {
+    "AndroidAudioOffloadPreferences": "record (by the data rules)",
+    "AndroidEqualizerBand": "record (by the data rules)",
+    "AndroidEqualizerParameters": "record (by the data rules)",
+    "AndroidExtractorOptions": "record (by the data rules)",
+    "AndroidLivePlaybackSpeedControl": "record (by the data rules)",
+    "AndroidLoadControl": "record (by the data rules)",
+    "AudioLoadConfiguration": "record (by the data rules)",
+    "AudioPipeline": "record (by the data rules)",
+    "AudioSource": "record (by the data rules)",
+    "ClippingAudioSource": "record (by the data rules)",
+    "DarwinAssetOptions": "record (by the data rules)",
+    "DarwinLoadControl": "record (by the data rules)",
+    "DashAudioSource": "record (by the data rules)",
+    "DefaultShuffleOrder": "record (by the data rules)",
+    "HlsAudioSource": "record (by the data rules)",
+    "IcyHeaders": "record (by the data rules)",
+    "IcyInfo": "record (by the data rules)",
+    "IcyMetadata": "record (by the data rules)",
+    "IndexedAudioSource": "record (by the data rules)",
+    "LockCachingAudioSource": "record (by the data rules)",
+    "PlaybackEvent": "record (by the data rules)",
+    "PlayerEvent": "record (by the data rules)",
+    "PlayerException": "record (by the data rules)",
+    "PlayerInterruptedException": "record (by the data rules)",
+    "PlayerState": "record (by the data rules)",
+    "PositionDiscontinuity": "record (by the data rules)",
+    "ProgressiveAudioSource": "record (by the data rules)",
+    "ProgressiveAudioSourceOptions": "record (by the data rules)",
+    "SequenceState": "record (by the data rules)",
+    "SilenceAudioSource": "record (by the data rules)",
+    "StreamAudioResponse": "record (by the data rules)",
+    "StreamAudioSource": "record (by the data rules)",
+    "UriAudioSource": "record (by the data rules)",
+    "AndroidAudioEffect": "mixin",
+    "AndroidAudioOffloadMode": "enum (by the data rules)",
+    "DarwinAudioEffect": "mixin",
+    "LoopMode": "enum (by the data rules)",
+    "PositionDiscontinuityReason": "enum (by the data rules)",
+    "ProcessingState": "enum (by the data rules)",
+    "WebCrossOrigin": "enum (by the data rules)"
+   }
+  },
+  "local_auth": {
+   "wallS": 29.5,
+   "total": 6,
+   "bridged": 6,
+   "objects": [
+    "LocalAuthentication"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 104,
+   "tsLines": 80,
+   "warnings": [],
+   "notCallable": {
+    "LocalAuthException": "record (by the data rules)",
+    "BiometricType": "enum (by the data rules)",
+    "LocalAuthExceptionCode": "enum (by the data rules)"
+   }
+  },
+  "lottie": {
+   "wallS": 33.5,
+   "total": 48,
+   "bridged": 45,
+   "objects": [
+    "LottieCache",
+    "RenderCache"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "LottieComposition.fromByteData",
+     "ok": false,
+     "why": "data: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+     "kind": "method",
+     "name": "LottieCache#putIfAbsent()",
+     "ok": false,
+     "why": "loader: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "method",
+     "name": "RenderCache#acquire()",
+     "ok": false,
+     "why": "returns AnimationCache (not encodable)"
+    }
+   ],
+   "byCat": {
+    "binary data": 1,
+    "sync-return callback": 1,
+    "opaque type": 1
+   },
+   "dartLines": 573,
+   "tsLines": 301,
+   "warnings": [],
+   "notCallable": {
+    "AssetLottie": "record (by the data rules)",
+    "DropShadow": "record (by the data rules)",
+    "FileLottie": "record (by the data rules)",
+    "FrameRate": "record (by the data rules)",
+    "Lottie": "widget (widget generator)",
+    "LottieBuilder": "widget (widget generator)",
+    "LottieComposition": "record (by the data rules)",
+    "LottieDelegates": "record (by the data rules)",
+    "LottieDrawable": "record (by the data rules)",
+    "LottieFontStyle": "record (by the data rules)",
+    "LottieImageAsset": "record (by the data rules)",
+    "LottieOptions": "record (by the data rules)",
+    "LottieProvider": "record (by the data rules)",
+    "Marker": "record (by the data rules)",
+    "MemoryLottie": "record (by the data rules)",
+    "NetworkLottie": "record (by the data rules)",
+    "RawLottie": "widget (widget generator)",
+    "ValueDelegate": "record (by the data rules)",
+    "LottieDecoder": "typedef",
+    "LottieImageProviderFactory": "typedef"
+   }
+  },
+  "mobile_scanner": {
+   "wallS": 26.2,
+   "total": 79,
+   "bridged": 74,
+   "objects": [
+    "BarcodePainter",
+    "MobileScannerController",
+    "MobileScannerPlatform",
+    "ScanWindowPainter"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "ScanWindowUtils.calculateBoxFitRatio",
+     "ok": false,
+     "why": "returns ({double heightRatio, double widthRatio}) (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "BarcodePainter#constructor BarcodePainter",
+     "ok": false,
+     "why": "textPainter: object type TextPainter is not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "BarcodePainter#textPainter",
+     "ok": false,
+     "why": "returns TextPainter, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "MobileScannerController#buildCameraView()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MobileScannerPlatform#buildCameraView()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 1,
+    "other": 2,
+    "returns/takes a widget": 2
+   },
+   "dartLines": 1026,
+   "tsLines": 847,
+   "warnings": [],
+   "notCallable": {
+    "Address": "record (by the data rules)",
+    "Barcode": "record (by the data rules)",
+    "BarcodeBytes": "no members",
+    "BarcodeCapture": "record (by the data rules)",
+    "BarcodeOverlay": "widget (widget generator)",
+    "CalendarEvent": "record (by the data rules)",
+    "ContactInfo": "record (by the data rules)",
+    "DecodedBarcodeBytes": "record (by the data rules)",
+    "DecodedVisionBarcodeBytes": "record (by the data rules)",
+    "DriverLicense": "record (by the data rules)",
+    "Email": "record (by the data rules)",
+    "GeoPoint": "record (by the data rules)",
+    "MobileScanner": "widget (widget generator)",
+    "MobileScannerBarcodeException": "record (by the data rules)",
+    "MobileScannerErrorDetails": "record (by the data rules)",
+    "MobileScannerException": "record (by the data rules)",
+    "MobileScannerState": "record (by the data rules)",
+    "MobileScannerViewAttributes": "record (by the data rules)",
+    "PersonName": "record (by the data rules)",
+    "Phone": "record (by the data rules)",
+    "SMS": "record (by the data rules)",
+    "ScanWindowOverlay": "widget (widget generator)",
+    "ScanWindowUtils": "no members",
+    "SelectCamera": "record (by the data rules)",
+    "StartOptions": "record (by the data rules)",
+    "SwitchCameraOption": "record (by the data rules)",
+    "ToggleDirection": "no members",
+    "ToggleLensType": "no members",
+    "UrlBookmark": "record (by the data rules)",
+    "WiFi": "record (by the data rules)",
+    "AddressType": "enum (by the data rules)",
+    "BarcodeFormat": "enum (by the data rules)",
+    "BarcodeType": "enum (by the data rules)",
+    "CameraFacing": "enum (by the data rules)",
+    "CameraLensType": "enum (by the data rules)",
+    "DetectionSpeed": "enum (by the data rules)",
+    "EmailType": "enum (by the data rules)",
+    "EncryptionType": "enum (by the data rules)",
+    "MobileScannerAuthorizationState": "enum (by the data rules)",
+    "MobileScannerErrorCode": "enum (by the data rules)",
+    "PhoneType": "enum (by the data rules)",
+    "TorchState": "enum (by the data rules)",
+    "WebBarcodeReader": "enum (by the data rules)"
+   }
+  },
+  "modal_bottom_sheet": {
+   "wallS": 32.6,
+   "total": 222,
+   "bridged": 150,
+   "objects": [
+    "CupertinoModalBottomSheetRoute",
+    "MaterialWithModalsPageRoute",
+    "ModalBottomSheetState",
+    "ModalSheetRoute"
+   ],
+   "notBridged": [
+    {
+     "kind": "function",
+     "name": "defaultPointerDeviceKind",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "function",
+     "name": "showBarModalBottomSheet",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "function",
+     "name": "showCupertinoModalBottomSheet",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "function",
+     "name": "showCustomModalBottomSheet",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "function",
+     "name": "showMaterialModalBottomSheet",
+     "ok": false,
+     "why": "generic function"
+    },
+    {
+     "kind": "constructor",
+     "name": "CupertinoModalBottomSheetRoute#constructor CupertinoModalBottomSheetRoute",
+     "ok": false,
+     "why": "builder: unbridgeable (builder)"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#buildModalBarrier()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#buildPage()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#buildTransitions()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#createAnimation()",
+     "ok": false,
+     "why": "returns Animation<double>, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#createAnimationController()",
+     "ok": false,
+     "why": "returns AnimationController, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#createOverlayEntries()",
+     "ok": false,
+     "why": "returns Iterable<OverlayEntry> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#getPreviousRouteTransition()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#registerPopEntry()",
+     "ok": false,
+     "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "method",
+     "name": "CupertinoModalBottomSheetRoute#unregisterPopEntry()",
+     "ok": false,
+     "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#animation",
+     "ok": false,
+     "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#animationCurve",
+     "ok": false,
+     "why": "Curve? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#barrierCurve",
+     "ok": false,
+     "why": "Curve (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#filter",
+     "ok": false,
+     "why": "ImageFilter? (no record shape)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#navigator",
+     "ok": false,
+     "why": "NavigatorState? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#overlayEntries",
+     "ok": false,
+     "why": "List<OverlayEntry> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#previousRouteAnimationCurve",
+     "ok": false,
+     "why": "Curve? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#restorationScopeId",
+     "ok": false,
+     "why": "returns ValueListenable<String?>, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#scrollController",
+     "ok": false,
+     "why": "returns ScrollController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#secondAnimationController",
+     "ok": false,
+     "why": "returns AnimationController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#secondaryAnimation",
+     "ok": false,
+     "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "CupertinoModalBottomSheetRoute#subtreeContext",
+     "ok": false,
+     "why": "BuildContext? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "CupertinoModalBottomSheetRoute#receivedTransition=",
+     "ok": false,
+     "why": "unbridgeable builder"
+    },
+    {
+     "kind": "constructor",
+     "name": "MaterialWithModalsPageRoute#constructor MaterialWithModalsPageRoute",
+     "ok": false,
+     "why": "builder: unbridgeable (builder)"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#buildModalBarrier()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#buildPage()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#buildTransitions()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#createAnimation()",
+     "ok": false,
+     "why": "returns Animation<double>, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#createAnimationController()",
+     "ok": false,
+     "why": "returns AnimationController, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#createOverlayEntries()",
+     "ok": false,
+     "why": "returns Iterable<OverlayEntry> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#registerPopEntry()",
+     "ok": false,
+     "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "method",
+     "name": "MaterialWithModalsPageRoute#unregisterPopEntry()",
+     "ok": false,
+     "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#animation",
+     "ok": false,
+     "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#barrierCurve",
+     "ok": false,
+     "why": "Curve (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#filter",
+     "ok": false,
+     "why": "ImageFilter? (no record shape)"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#navigator",
+     "ok": false,
+     "why": "NavigatorState? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#overlayEntries",
+     "ok": false,
+     "why": "List<OverlayEntry> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#restorationScopeId",
+     "ok": false,
+     "why": "returns ValueListenable<String?>, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#secondaryAnimation",
+     "ok": false,
+     "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "MaterialWithModalsPageRoute#subtreeContext",
+     "ok": false,
+     "why": "BuildContext? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "MaterialWithModalsPageRoute#receivedTransition=",
+     "ok": false,
+     "why": "unbridgeable builder"
+    },
+    {
+     "kind": "method",
+     "name": "ModalBottomSheetState#createTicker()",
+     "ok": false,
+     "why": "onTick: callback"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalBottomSheetState#animationCurve",
+     "ok": false,
+     "why": "ParametricCurve<double> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalBottomSheetState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalBottomSheetState#widget",
+     "ok": false,
+     "why": "ModalBottomSheet (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "ModalSheetRoute#constructor ModalSheetRoute",
+     "ok": false,
+     "why": "builder: unbridgeable (builder)"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#buildModalBarrier()",
+     "ok": false,
+     "why": "returns Widget (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#buildPage()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#buildTransitions()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#createAnimation()",
+     "ok": false,
+     "why": "returns Animation<double>, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#createAnimationController()",
+     "ok": false,
+     "why": "returns AnimationController, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#createOverlayEntries()",
+     "ok": false,
+     "why": "returns Iterable<OverlayEntry> (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#getPreviousRouteTransition()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#registerPopEntry()",
+     "ok": false,
+     "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "method",
+     "name": "ModalSheetRoute#unregisterPopEntry()",
+     "ok": false,
+     "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#animation",
+     "ok": false,
+     "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#animationCurve",
+     "ok": false,
+     "why": "Curve? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#barrierCurve",
+     "ok": false,
+     "why": "Curve (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#filter",
+     "ok": false,
+     "why": "ImageFilter? (no record shape)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#navigator",
+     "ok": false,
+     "why": "NavigatorState? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#overlayEntries",
+     "ok": false,
+     "why": "List<OverlayEntry> (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#restorationScopeId",
+     "ok": false,
+     "why": "returns ValueListenable<String?>, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#scrollController",
+     "ok": false,
+     "why": "returns ScrollController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#secondAnimationController",
+     "ok": false,
+     "why": "returns AnimationController?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#secondaryAnimation",
+     "ok": false,
+     "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "ModalSheetRoute#subtreeContext",
+     "ok": false,
+     "why": "BuildContext? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "ModalSheetRoute#receivedTransition=",
+     "ok": false,
+     "why": "unbridgeable builder"
+    }
+   ],
+   "byCat": {
+    "context": 13,
+    "takes a callback": 5,
+    "opaque type": 29,
+    "returns/takes a widget": 3,
+    "other": 19,
+    "dart record type": 3
+   },
+   "dartLines": 1025,
+   "tsLines": 621,
+   "warnings": [],
+   "notCallable": {
+    "BarBottomSheet": "widget (widget generator)",
+    "CupertinoScaffold": "widget (widget generator)",
+    "CupertinoScaffoldInheirted": "widget (widget generator)",
+    "ModalBottomSheet": "widget (widget generator)",
+    "ModalScrollController": "widget (widget generator)",
+    "WidgetWithChildBuilder": "typedef",
+    "kDefaultBarTopRadius": "constant"
+   }
+  },
+  "package_info_plus": {
+   "wallS": 29.7,
+   "total": 7,
+   "bridged": 5,
+   "objects": [
+    "PackageInfoPlusLinuxPlugin",
+    "PackageInfoPlusWindowsPlugin"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "PackageInfoPlusLinuxPlugin#getAll()",
+     "ok": false,
+     "why": "returns PackageInfoData (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "PackageInfoPlusWindowsPlugin#getAll()",
+     "ok": false,
+     "why": "returns PackageInfoData (not encodable)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 2
+   },
+   "dartLines": 167,
+   "tsLines": 103,
+   "warnings": [],
+   "notCallable": {
+    "PackageInfo": "record (by the data rules)"
+   }
+  },
+  "path_provider": {
+   "wallS": 35.8,
+   "total": 9,
+   "bridged": 9,
+   "objects": [],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 62,
+   "tsLines": 80,
+   "warnings": [],
+   "notCallable": {
+    "MissingPlatformDirectoryException": "record (by the data rules)",
+    "StorageDirectory": "enum (by the data rules)"
+   }
+  },
+  "permission_handler": {
+   "wallS": 36.4,
+   "total": 1,
+   "bridged": 1,
+   "objects": [],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 37,
+   "tsLines": 14,
+   "warnings": [],
+   "notCallable": {
+    "Permission": "record (by the data rules)",
+    "PermissionWithService": "record (by the data rules)",
+    "FuturePermissionStatusGetters": "extension",
+    "FutureServiceStatusGetters": "extension",
+    "PermissionActions": "extension",
+    "PermissionCheckShortcuts": "extension",
+    "PermissionListActions": "extension",
+    "PermissionStatus": "enum (by the data rules)",
+    "PermissionStatusGetters": "extension",
+    "ServicePermissionActions": "extension",
+    "ServiceStatus": "enum (by the data rules)",
+    "ServiceStatusGetters": "extension"
+   }
+  },
+  "photo_view": {
+   "wallS": 36.7,
+   "total": 52,
+   "bridged": 46,
+   "objects": [
+    "PhotoViewController",
+    "PhotoViewControllerBase",
+    "PhotoViewScaleStateController"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "PhotoViewController#addIgnorableListener()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "PhotoViewController#removeIgnorableListener()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "PhotoViewControllerBase#addIgnorableListener()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "PhotoViewControllerBase#removeIgnorableListener()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "PhotoViewScaleStateController#addIgnorableListener()",
+     "ok": false,
+     "why": "callback: callback"
+    },
+    {
+     "kind": "method",
+     "name": "PhotoViewScaleStateController#removeIgnorableListener()",
+     "ok": false,
+     "why": "callback: callback"
+    }
+   ],
+   "byCat": {
+    "takes a callback": 6
+   },
+   "dartLines": 407,
+   "tsLines": 241,
+   "warnings": [],
+   "notCallable": {
+    "PhotoView": "widget (widget generator)",
+    "PhotoViewComputedScale": "record (by the data rules)",
+    "PhotoViewControllerValue": "record (by the data rules)",
+    "PhotoViewGestureDetectorScope": "widget (widget generator)",
+    "PhotoViewHeroAttributes": "record (by the data rules)",
+    "LoadingBuilder": "typedef",
+    "PhotoViewImageScaleEndCallback": "typedef",
+    "PhotoViewImageTapDownCallback": "typedef",
+    "PhotoViewImageTapUpCallback": "typedef",
+    "PhotoViewScaleState": "enum (by the data rules)",
+    "PhotoViewScaleStateIZoomingExtension": "extension",
+    "ScaleStateCycle": "typedef",
+    "ScaleStateListener": "typedef"
+   }
+  },
+  "pinput": {
+   "wallS": 34.7,
+   "total": 2,
+   "bridged": 2,
+   "objects": [
+    "SmsRetriever"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 89,
+   "tsLines": 42,
+   "warnings": [],
+   "notCallable": {
+    "PinItemState": "record (by the data rules)",
+    "PinTheme": "record (by the data rules)",
+    "Pinput": "widget (widget generator)",
+    "PinputConstants": "no members",
+    "AndroidSmsAutofillMethod": "enum (by the data rules)",
+    "HapticFeedbackType": "enum (by the data rules)",
+    "JustIndexedWidgetBuilder": "typedef",
+    "PinAnimationType": "enum (by the data rules)",
+    "PinItemStateType": "enum (by the data rules)",
+    "PinItemWidgetBuilder": "typedef",
+    "PinputAutovalidateMode": "enum (by the data rules)",
+    "PinputControllerExt": "extension",
+    "PinputErrorBuilder": "typedef"
+   }
+  },
+  "pull_to_refresh": {
+   "wallS": 30.3,
+   "total": 101,
+   "bridged": 70,
+   "objects": [
+    "LoadIndicatorState",
+    "LoadingProcessor",
+    "RefreshController",
+    "RefreshIndicatorState",
+    "RefreshLocalizationsDelegate",
+    "RefreshNotifier",
+    "RefreshProcessor",
+    "SmartRefresherState"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "RefreshLocalizations.of",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "method",
+     "name": "LoadIndicatorState#buildContent()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "getter",
+     "name": "LoadIndicatorState#activity",
+     "ok": false,
+     "why": "returns ScrollActivity?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "LoadIndicatorState#configuration",
+     "ok": false,
+     "why": "RefreshConfiguration? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "LoadIndicatorState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "LoadIndicatorState#refresher",
+     "ok": false,
+     "why": "SmartRefresher? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "LoadIndicatorState#refresherState",
+     "ok": false,
+     "why": "SmartRefresherState? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "LoadIndicatorState#widget",
+     "ok": false,
+     "why": "LoadIndicator (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "LoadIndicatorState#configuration=",
+     "ok": false,
+     "why": "unbridgeable widget/subtype"
+    },
+    {
+     "kind": "setter",
+     "name": "LoadIndicatorState#refresher=",
+     "ok": false,
+     "why": "unbridgeable widget/subtype"
+    },
+    {
+     "kind": "setter",
+     "name": "LoadIndicatorState#refresherState=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+     "kind": "method",
+     "name": "RefreshController#onPositionUpdated()",
+     "ok": false,
+     "why": "newPosition: object type ScrollPosition is not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshController#position",
+     "ok": false,
+     "why": "returns ScrollPosition?, not a generated object"
+    },
+    {
+     "kind": "setter",
+     "name": "RefreshController#footerMode=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "setter",
+     "name": "RefreshController#headerMode=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "setter",
+     "name": "RefreshController#position=",
+     "ok": false,
+     "why": "object"
+    },
+    {
+     "kind": "method",
+     "name": "RefreshIndicatorState#buildContent()",
+     "ok": false,
+     "why": "context: env-context"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshIndicatorState#activity",
+     "ok": false,
+     "why": "returns ScrollActivity?, not a generated object"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshIndicatorState#configuration",
+     "ok": false,
+     "why": "RefreshConfiguration? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshIndicatorState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshIndicatorState#refresher",
+     "ok": false,
+     "why": "SmartRefresher? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshIndicatorState#refresherState",
+     "ok": false,
+     "why": "SmartRefresherState? (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshIndicatorState#widget",
+     "ok": false,
+     "why": "RefreshIndicator (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "RefreshIndicatorState#configuration=",
+     "ok": false,
+     "why": "unbridgeable widget/subtype"
+    },
+    {
+     "kind": "setter",
+     "name": "RefreshIndicatorState#refresher=",
+     "ok": false,
+     "why": "unbridgeable widget/subtype"
+    },
+    {
+     "kind": "setter",
+     "name": "RefreshIndicatorState#refresherState=",
+     "ok": false,
+     "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+     "kind": "getter",
+     "name": "RefreshLocalizationsDelegate#type",
+     "ok": false,
+     "why": "Type (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "SmartRefresherState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "SmartRefresherState#defaultFooter",
+     "ok": false,
+     "why": "LoadIndicator (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "SmartRefresherState#defaultHeader",
+     "ok": false,
+     "why": "RefreshIndicator (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "SmartRefresherState#widget",
+     "ok": false,
+     "why": "SmartRefresher (not encodable)"
+    }
+   ],
+   "byCat": {
+    "context": 6,
+    "other": 7,
+    "opaque type": 14,
+    "returns/takes a widget": 4
+   },
+   "dartLines": 832,
+   "tsLines": 471,
+   "warnings": [],
+   "notCallable": {
+    "BezierCircleHeader": "widget (widget generator)",
+    "BezierHeader": "widget (widget generator)",
+    "ChRefreshString": "record (by the data rules)",
+    "ClassicFooter": "widget (widget generator)",
+    "ClassicHeader": "widget (widget generator)",
+    "CustomFooter": "widget (widget generator)",
+    "CustomHeader": "widget (widget generator)",
+    "DeRefreshString": "record (by the data rules)",
+    "EnRefreshString": "record (by the data rules)",
+    "EsRefreshString": "record (by the data rules)",
+    "FrRefreshString": "record (by the data rules)",
+    "ItRefreshString": "record (by the data rules)",
+    "JpRefreshString": "record (by the data rules)",
+    "KrRefreshString": "record (by the data rules)",
+    "LinkFooter": "widget (widget generator)",
+    "LinkHeader": "widget (widget generator)",
+    "LoadIndicator": "widget (widget generator)",
+    "MaterialClassicHeader": "widget (widget generator)",
+    "NlRefreshString": "record (by the data rules)",
+    "PtRefreshString": "record (by the data rules)",
+    "RefreshConfiguration": "widget (widget generator)",
+    "RefreshIndicator": "widget (widget generator)",
+    "RefreshLocalizations": "record (by the data rules)",
+    "RefreshPhysics": "record (by the data rules)",
+    "RefreshString": "record (by the data rules)",
+    "RuRefreshString": "record (by the data rules)",
+    "SmartRefresher": "widget (widget generator)",
+    "SvRefreshString": "record (by the data rules)",
+    "TwoLevelHeader": "widget (widget generator)",
+    "UkRefreshString": "record (by the data rules)",
+    "WaterDropHeader": "widget (widget generator)",
+    "WaterDropMaterialHeader": "widget (widget generator)",
+    "BezierCircleType": "enum (by the data rules)",
+    "BezierDismissType": "enum (by the data rules)",
+    "FooterBuilder": "typedef",
+    "HeaderBuilder": "typedef",
+    "IconPosition": "enum (by the data rules)",
+    "IndicatorBuilder": "typedef",
+    "IndicatorStateMixin": "mixin",
+    "LoadStatus": "enum (by the data rules)",
+    "LoadStyle": "enum (by the data rules)",
+    "ModeChangeCallBack": "typedef",
+    "OffsetCallBack": "typedef",
+    "OnTwoLevel": "typedef",
+    "OuterBuilder": "typedef",
+    "RefreshStatus": "enum (by the data rules)",
+    "RefreshStyle": "enum (by the data rules)",
+    "RefresherBuilder": "typedef",
+    "ShouldFollowContent": "typedef",
+    "TwoLevelDisplayAlignment": "enum (by the data rules)",
+    "VoidFutureCallBack": "typedef"
+   }
+  },
+  "sensors_plus": {
+   "wallS": 29.0,
+   "total": 17,
+   "bridged": 17,
+   "objects": [
+    "Sensors",
+    "SensorsPlatform"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 277,
+   "tsLines": 217,
+   "warnings": [],
+   "notCallable": {
+    "AccelerometerEvent": "record (by the data rules)",
+    "BarometerEvent": "record (by the data rules)",
+    "GyroscopeEvent": "record (by the data rules)",
+    "MagnetometerEvent": "record (by the data rules)",
+    "SensorInterval": "no members",
+    "UserAccelerometerEvent": "record (by the data rules)"
+   }
+  },
+  "share_plus": {
+   "wallS": 34.3,
+   "total": 10,
+   "bridged": 6,
+   "objects": [
+    "SharePlus",
+    "SharePlusLinuxPlugin",
+    "SharePlusWindowsPlugin"
+   ],
+   "notBridged": [
+    {
+     "kind": "constructor",
+     "name": "SharePlusLinuxPlugin#constructor SharePlusLinuxPlugin",
+     "ok": false,
+     "why": "urlLauncher: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "getter",
+     "name": "SharePlusLinuxPlugin#urlLauncher",
+     "ok": false,
+     "why": "UrlLauncherPlatform (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "SharePlusWindowsPlugin#constructor SharePlusWindowsPlugin",
+     "ok": false,
+     "why": "urlLauncher: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "getter",
+     "name": "SharePlusWindowsPlugin#urlLauncher",
+     "ok": false,
+     "why": "UrlLauncherPlatform (not encodable)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 4
+   },
+   "dartLines": 279,
+   "tsLines": 159,
+   "warnings": [],
+   "notCallable": {
+    "ShareParams": "record (by the data rules)",
+    "ShareResult": "record (by the data rules)",
+    "XFile": "record (by the data rules)",
+    "CupertinoActivityType": "enum (by the data rules)",
+    "ShareResultStatus": "enum (by the data rules)"
+   }
+  },
+  "shared_preferences": {
+   "wallS": 31.6,
+   "total": 51,
+   "bridged": 51,
+   "objects": [
+    "SharedPreferences",
+    "SharedPreferencesAsync",
+    "SharedPreferencesWithCache"
+   ],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 330,
+   "tsLines": 313,
+   "warnings": [],
+   "notCallable": {
+    "SharedPreferencesOptions": "no members",
+    "SharedPreferencesWithCacheOptions": "record (by the data rules)"
+   }
+  },
+  "signature": {
+   "wallS": 35.7,
+   "total": 48,
+   "bridged": 41,
+   "objects": [
+    "SignatureController",
+    "SignatureState"
+   ],
+   "notBridged": [
+    {
+     "kind": "method",
+     "name": "SignatureController#toImage()",
+     "ok": false,
+     "why": "returns Image?, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "SignatureController#toSVG()",
+     "ok": false,
+     "why": "returns SvgPicture? (not encodable)"
+    },
+    {
+     "kind": "setter",
+     "name": "SignatureController#onDrawEnd=",
+     "ok": false,
+     "why": "callback"
+    },
+    {
+     "kind": "setter",
+     "name": "SignatureController#onDrawMove=",
+     "ok": false,
+     "why": "callback"
+    },
+    {
+     "kind": "setter",
+     "name": "SignatureController#onDrawStart=",
+     "ok": false,
+     "why": "callback"
+    },
+    {
+     "kind": "getter",
+     "name": "SignatureState#context",
+     "ok": false,
+     "why": "BuildContext (not encodable)"
+    },
+    {
+     "kind": "getter",
+     "name": "SignatureState#widget",
+     "ok": false,
+     "why": "Signature (not encodable)"
+    }
+   ],
+   "byCat": {
+    "other": 1,
+    "opaque type": 2,
+    "takes a callback": 3,
+    "context": 1
+   },
+   "dartLines": 487,
+   "tsLines": 351,
+   "warnings": [],
+   "notCallable": {
+    "Point": "record (by the data rules)",
+    "Signature": "widget (widget generator)",
+    "PointType": "enum (by the data rules)"
+   }
+  },
+  "sqflite": {
+   "wallS": 25.9,
+   "total": 90,
+   "bridged": 83,
+   "objects": [
+    "Batch",
+    "Database",
+    "DatabaseException",
+    "DatabaseExecutor",
+    "DatabaseFactory",
+    "QueryCursor",
+    "Transaction"
+   ],
+   "notBridged": [
+    {
+     "kind": "static method",
+     "name": "Sqflite.firstIntValue",
+     "ok": false,
+     "why": "list: unbridgeable (unbridgeable/nested-collection)"
+    },
+    {
+     "kind": "top-level variable",
+     "name": "databaseFactory",
+     "ok": false,
+     "why": "top-level variables are not bridged"
+    },
+    {
+     "kind": "top-level variable",
+     "name": "databaseFactoryOrNull",
+     "ok": false,
+     "why": "top-level variables are not bridged"
+    },
+    {
+     "kind": "top-level variable",
+     "name": "databaseFactorySqflitePlugin",
+     "ok": false,
+     "why": "top-level variables are not bridged"
+    },
+    {
+     "kind": "method",
+     "name": "Database#readTransaction()",
+     "ok": false,
+     "why": "action: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "method",
+     "name": "Database#transaction()",
+     "ok": false,
+     "why": "action: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "method",
+     "name": "DatabaseFactory#writeDatabaseBytes()",
+     "ok": false,
+     "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 1,
+    "other": 3,
+    "sync-return callback": 2,
+    "binary data": 1
+   },
+   "dartLines": 621,
+   "tsLines": 574,
+   "warnings": [],
+   "notCallable": {
+    "OpenDatabaseOptions": "record (by the data rules)",
+    "Sqflite": "no members",
+    "SqfliteDarwin": "no members",
+    "SqflitePlugin": "no members",
+    "SqfliteSqlCommand": "record (by the data rules)",
+    "ConflictAlgorithm": "enum (by the data rules)",
+    "DatabaseFactoryLoggerDebugExt": "extension",
+    "OnDatabaseConfigureFn": "typedef",
+    "OnDatabaseCreateFn": "typedef",
+    "OnDatabaseOpenFn": "typedef",
+    "OnDatabaseVersionChangeFn": "typedef",
+    "SqfliteCursorRowCallback": "typedef",
+    "SqfliteDatabaseAndroidExt": "extension",
+    "SqfliteDatabaseExecutorExt": "extension",
+    "SqfliteDatabaseExecutorIterateExt": "extension",
+    "SqfliteDatabaseExt": "extension",
+    "SqfliteDatabaseFactoryDebug": "extension",
+    "SqfliteDatabaseFactorySandboxExtension": "extension",
+    "SqfliteSqlCommandExecutorExt": "extension",
+    "SqliteSqlCommandType": "enum (by the data rules)",
+    "databaseFactory": "top-level variable",
+    "databaseFactory=": "top-level variable",
+    "databaseFactoryOrNull": "top-level variable",
+    "databaseFactoryOrNull=": "top-level variable",
+    "databaseFactorySqflitePlugin": "top-level variable",
+    "inMemoryDatabasePath": "constant",
+    "onDatabaseDowngradeDelete": "constant",
+    "sqfliteLogLevelNone": "constant",
+    "sqfliteLogLevelSql": "constant",
+    "sqfliteLogLevelVerbose": "constant"
+   }
+  },
+  "table_calendar": {
+   "wallS": 31.6,
+   "total": 3,
+   "bridged": 3,
+   "objects": [],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 49,
+   "tsLines": 37,
+   "warnings": [],
+   "notCallable": {
+    "CalendarBuilders": "no members",
+    "CalendarStyle": "record (by the data rules)",
+    "DaysOfWeekStyle": "record (by the data rules)",
+    "HeaderStyle": "record (by the data rules)",
+    "PositionedOffset": "record (by the data rules)",
+    "TableCalendar": "widget (widget generator)",
+    "TableCalendarBase": "widget (widget generator)",
+    "AvailableGestures": "enum (by the data rules)",
+    "CalendarFormat": "enum (by the data rules)",
+    "DayBuilder": "typedef",
+    "FocusedDayBuilder": "typedef",
+    "HighlightBuilder": "typedef",
+    "MarkerBuilder": "typedef",
+    "OnDaySelected": "typedef",
+    "OnRangeSelected": "typedef",
+    "RangeSelectionMode": "enum (by the data rules)",
+    "SingleMarkerBuilder": "typedef",
+    "StartingDayOfWeek": "enum (by the data rules)",
+    "TextFormatter": "typedef"
+   }
+  },
+  "url_launcher": {
+   "wallS": 31.4,
+   "total": 7,
+   "bridged": 7,
+   "objects": [],
+   "notBridged": [],
+   "byCat": {},
+   "dartLines": 78,
+   "tsLines": 79,
+   "warnings": [],
+   "notCallable": {
+    "BrowserConfiguration": "record (by the data rules)",
+    "WebViewConfiguration": "record (by the data rules)",
+    "LaunchMode": "enum (by the data rules)"
+   }
+  },
+  "video_player": {
+   "wallS": 26.4,
+   "total": 31,
+   "bridged": 30,
+   "objects": [
+    "VideoPlayerController"
+   ],
+   "notBridged": [
+    {
+     "kind": "getter",
+     "name": "VideoPlayerController#closedCaptionFile",
+     "ok": false,
+     "why": "ClosedCaptionFile (no record shape)"
+    }
+   ],
+   "byCat": {
+    "dart record type": 1
+   },
+   "dartLines": 440,
+   "tsLines": 436,
+   "warnings": [],
+   "notCallable": {
+    "Caption": "record (by the data rules)",
+    "ClosedCaption": "widget (widget generator)",
+    "ClosedCaptionFile": "record (by the data rules)",
+    "DurationRange": "record (by the data rules)",
+    "SubRipCaptionFile": "record (by the data rules)",
+    "VideoAudioTrack": "record (by the data rules)",
+    "VideoPlayer": "widget (widget generator)",
+    "VideoPlayerOptions": "record (by the data rules)",
+    "VideoPlayerValue": "record (by the data rules)",
+    "VideoPlayerWebOptions": "record (by the data rules)",
+    "VideoPlayerWebOptionsControls": "record (by the data rules)",
+    "VideoProgressColors": "record (by the data rules)",
+    "VideoProgressIndicator": "widget (widget generator)",
+    "VideoScrubber": "widget (widget generator)",
+    "VideoTrack": "record (by the data rules)",
+    "WebVTTCaptionFile": "record (by the data rules)",
+    "DataSourceType": "enum (by the data rules)",
+    "VideoFormat": "enum (by the data rules)",
+    "VideoViewType": "enum (by the data rules)"
+   }
+  },
+  "webview_flutter": {
+   "wallS": 25.7,
+   "total": 55,
+   "bridged": 41,
+   "objects": [
+    "SslAuthError",
+    "WebViewController",
+    "WebViewCookieManager",
+    "WebViewPlatform"
+   ],
+   "notBridged": [
+    {
+     "kind": "getter",
+     "name": "SslAuthError#platform",
+     "ok": false,
+     "why": "PlatformSslAuthError (not encodable)"
+    },
+    {
+     "kind": "constructor",
+     "name": "WebViewController#constructor WebViewController.fromPlatform",
+     "ok": false,
+     "why": "platform: object type PlatformWebViewController is not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewController#addJavaScriptChannel()",
+     "ok": false,
+     "why": "onMessageReceived: callback"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewController#setOnConsoleMessage()",
+     "ok": false,
+     "why": "onConsoleMessage: callback"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewController#setOnJavaScriptAlertDialog()",
+     "ok": false,
+     "why": "onJavaScriptAlertDialog: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewController#setOnJavaScriptConfirmDialog()",
+     "ok": false,
+     "why": "onJavaScriptConfirmDialog: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewController#setOnJavaScriptTextInputDialog()",
+     "ok": false,
+     "why": "onJavaScriptTextInputDialog: callback-async (needs _functionCallAsync)"
+    },
+    {
+     "kind": "getter",
+     "name": "WebViewController#platform",
+     "ok": false,
+     "why": "returns PlatformWebViewController, not a generated object"
+    },
+    {
+     "kind": "constructor",
+     "name": "WebViewCookieManager#constructor WebViewCookieManager.fromPlatform",
+     "ok": false,
+     "why": "platform: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+     "kind": "getter",
+     "name": "WebViewCookieManager#platform",
+     "ok": false,
+     "why": "PlatformWebViewCookieManager (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewPlatform#createPlatformCookieManager()",
+     "ok": false,
+     "why": "returns PlatformWebViewCookieManager (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewPlatform#createPlatformNavigationDelegate()",
+     "ok": false,
+     "why": "returns PlatformNavigationDelegate (not encodable)"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewPlatform#createPlatformWebViewController()",
+     "ok": false,
+     "why": "returns PlatformWebViewController, not a generated object"
+    },
+    {
+     "kind": "method",
+     "name": "WebViewPlatform#createPlatformWebViewWidget()",
+     "ok": false,
+     "why": "params: unbridgeable (unbridgeable/no-usable-constructor)"
+    }
+   ],
+   "byCat": {
+    "opaque type": 6,
+    "other": 3,
+    "takes a callback": 2,
+    "sync-return callback": 3
+   },
+   "dartLines": 587,
+   "tsLines": 401,
+   "warnings": [],
+   "notCallable": {
+    "HttpAuthRequest": "record (by the data rules)",
+    "HttpResponseError": "record (by the data rules)",
+    "JavaScriptAlertDialogRequest": "record (by the data rules)",
+    "JavaScriptConfirmDialogRequest": "record (by the data rules)",
+    "JavaScriptConsoleMessage": "record (by the data rules)",
+    "JavaScriptMessage": "record (by the data rules)",
+    "JavaScriptTextInputDialogRequest": "record (by the data rules)",
+    "NavigationDelegate": "record (by the data rules)",
+    "NavigationRequest": "record (by the data rules)",
+    "PlatformNavigationDelegateCreationParams": "no members",
+    "PlatformWebViewControllerCreationParams": "no members",
+    "PlatformWebViewCookieManagerCreationParams": "no members",
+    "PlatformWebViewPermissionRequest": "record (by the data rules)",
+    "PlatformWebViewWidgetCreationParams": "record (by the data rules)",
+    "ScrollPositionChange": "record (by the data rules)",
+    "UrlChange": "record (by the data rules)",
+    "WebResourceError": "record (by the data rules)",
+    "WebResourceRequest": "record (by the data rules)",
+    "WebResourceResponse": "record (by the data rules)",
+    "WebViewCookie": "record (by the data rules)",
+    "WebViewCredential": "record (by the data rules)",
+    "WebViewPermissionRequest": "record (by the data rules)",
+    "WebViewPermissionResourceType": "record (by the data rules)",
+    "WebViewWidget": "widget (widget generator)",
+    "X509Certificate": "record (by the data rules)",
+    "HttpResponseErrorCallback": "typedef",
+    "JavaScriptLogLevel": "enum (by the data rules)",
+    "JavaScriptMode": "enum (by the data rules)",
+    "LoadRequestMethod": "enum (by the data rules)",
+    "NavigationDecision": "enum (by the data rules)",
+    "NavigationRequestCallback": "typedef",
+    "PageEventCallback": "typedef",
+    "ProgressCallback": "typedef",
+    "WebResourceErrorCallback": "typedef",
+    "WebResourceErrorType": "enum (by the data rules)",
+    "WebViewOverScrollMode": "enum (by the data rules)"
+   }
+  }
+ },
+ "totals": {
+  "opaque type": 181,
+  "binary data": 9,
+  "dart record type": 14,
+  "other": 69,
+  "takes a callback": 39,
+  "sync-return callback": 29,
+  "returns/takes a widget": 73,
+  "context": 35,
+  "generics": 7,
+  "streams": 3
+ }
+}

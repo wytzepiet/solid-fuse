@@ -1,0 +1,149 @@
+{
+  "name": "camera",
+  "libs": [
+    "package:camera/camera.dart"
+  ],
+  "surface": {
+    "total": 43,
+    "bridged": 40,
+    "byKind": {
+      "function": {
+        "bridged": 1,
+        "total": 1
+      },
+      "constructor": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 31,
+        "total": 33
+      },
+      "getter": {
+        "bridged": 6,
+        "total": 7
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "CameraController#buildPreview()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "CameraController#startImageStream()",
+      "ok": false,
+      "why": "onAvailable: callback"
+    },
+    {
+      "kind": "getter",
+      "name": "CameraController#mediaSettings",
+      "ok": false,
+      "why": "MediaSettings (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "CameraController",
+      "tag": "camera_CameraController",
+      "push": "valueListenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 7,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getExposureOffsetStepSize",
+        "getMaxExposureOffset",
+        "getMaxZoomLevel",
+        "getMinExposureOffset",
+        "getMinZoomLevel",
+        "getSupportedVideoStabilizationModes",
+        "initialize",
+        "isZeroShutterLagSupported",
+        "lockCaptureOrientation",
+        "pausePreview",
+        "pauseVideoRecording",
+        "prepareForVideoRecording",
+        "resumePreview",
+        "resumeVideoRecording",
+        "setDescription",
+        "setExposureMode",
+        "setExposureOffset",
+        "setExposurePoint",
+        "setFlashMode",
+        "setFocusMode",
+        "setFocusPoint",
+        "setJpegImageQuality",
+        "setVideoStabilizationMode",
+        "setZeroShutterLagEnabled",
+        "setZoomLevel",
+        "startVideoRecording",
+        "stopImageStream",
+        "stopVideoRecording",
+        "supportsImageStreaming",
+        "takePicture",
+        "unlockCaptureOrientation"
+      ],
+      "methodsTotal": 33,
+      "streams": [],
+      "readable": [
+        "cameraId",
+        "description",
+        "enableAudio",
+        "imageFormatGroup",
+        "resolutionPreset",
+        "value"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [
+        "value"
+      ],
+      "settersTotal": 1,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "buildPreview()": "returns Widget (not encodable)",
+        "startImageStream()": "onAvailable: callback",
+        "startVideoRecording(onAvailable)": "callback",
+        "mediaSettings": "MediaSettings (not encodable)"
+      },
+      "dartLines": 177,
+      "tsLines": 171
+    }
+  ],
+  "notCallable": {
+    "CameraDescription": "record (by the data rules)",
+    "CameraException": "record (by the data rules)",
+    "CameraImage": "record (by the data rules)",
+    "CameraPreview": "widget (widget generator)",
+    "CameraValue": "record (by the data rules)",
+    "ImageFormat": "record (by the data rules)",
+    "Optional": "record (by the data rules)",
+    "Plane": "record (by the data rules)",
+    "XFile": "record (by the data rules)",
+    "CameraLensDirection": "enum (by the data rules)",
+    "CameraLensType": "enum (by the data rules)",
+    "ExposureMode": "enum (by the data rules)",
+    "FlashMode": "enum (by the data rules)",
+    "FocusMode": "enum (by the data rules)",
+    "ImageFormatGroup": "enum (by the data rules)",
+    "ResolutionPreset": "enum (by the data rules)",
+    "VideoStabilizationMode": "enum (by the data rules)",
+    "onLatestImageAvailable": "typedef"
+  },
+  "dartLines": 335,
+  "tsLines": 293,
+  "warnings": []
+}

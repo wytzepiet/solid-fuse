@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"qr_flutter","version":"4.1.0","libs":[["package:qr_flutter/qr_flutter.dart","qr_flutter_qr_flutter"]],"include":null}]}

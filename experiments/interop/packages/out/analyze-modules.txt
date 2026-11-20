@@ -1,0 +1,70 @@
+   Woah! You appear to be trying to run flutter as root.
+   We strongly recommend running the flutter tool without superuser privileges.
+  /
+📎
+Analyzing generated...                                          
+
+warning • The member 'desiredState' can only be used within 'package:audioplayers/src/audioplayer.dart' or a test • lib/generated/audioplayers.g.dart:171:36 • invalid_use_of_visible_for_testing_member
+warning • The member 'desiredState' can only be used within 'package:audioplayers/src/audioplayer.dart' or a test • lib/generated/audioplayers.g.dart:199:26 • invalid_use_of_visible_for_testing_member
+warning • The member 'availablePlayers' can only be used within 'package:audioplayers/src/audio_pool.dart' or a test • lib/generated/audioplayers.g.dart:292:36 • invalid_use_of_visible_for_testing_member
+warning • The member 'currentPlayers' can only be used within 'package:audioplayers/src/audio_pool.dart' or a test • lib/generated/audioplayers.g.dart:295:36 • invalid_use_of_visible_for_testing_member
+warning • The member 'duration' can only be used within 'package:audioplayers/src/audio_pool.dart' or a test • lib/generated/audioplayers.g.dart:298:36 • invalid_use_of_visible_for_testing_member
+warning • The member 'duration' can only be used within 'package:audioplayers/src/audio_pool.dart' or a test • lib/generated/audioplayers.g.dart:313:26 • invalid_use_of_visible_for_testing_member
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/audioplayers.g.dart:404:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/carousel_slider.g.dart:43:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/carousel_slider.g.dart:119:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/chewie.g.dart:591:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/connectivity_plus.g.dart:42:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/connectivity_plus.g.dart:107:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/device_info_plus.g.dart:59:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/device_info_plus.g.dart:136:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/device_info_plus.g.dart:195:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:75:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:275:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:359:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:455:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:544:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:631:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_local_notifications.g.dart:720:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_map.g.dart:134:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_map.g.dart:503:11 • unused_local_variable
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/generated/flutter_map.g.dart:540:15 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/generated/flutter_map.g.dart:543:15 • dead_code
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_map.g.dart:567:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_map.g.dart:731:11 • unused_local_variable
+warning • This instance creation must be 'const', because 'PolygonLabelPlacementCalculator.simpleMultiWorldCentroid' is marked as '@literal'. Try adding a 'const' keyword • lib/generated/flutter_map.g.dart:1009:37 • non_const_call_to_literal_constructor
+warning • This instance creation must be 'const', because 'PolygonLabelPlacementCalculator.centroid' is marked as '@literal'. Try adding a 'const' keyword • lib/generated/flutter_map.g.dart:1010:21 • non_const_call_to_literal_constructor
+warning • This instance creation must be 'const', because 'PolygonLabelPlacementCalculator.simpleCentroid' is marked as '@literal'. Try adding a 'const' keyword • lib/generated/flutter_map.g.dart:1012:12 • non_const_call_to_literal_constructor
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_map.g.dart:1063:11 • unused_local_variable
+  error • The class 'flutter_map.UnconstrainedCamera' doesn't have a constant constructor 'unconstrained'. Try calling a different constructor • lib/generated/flutter_map.g.dart:2241:356 • const_with_undefined_constructor
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_secure_storage.g.dart:39:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/flutter_typeahead.g.dart:37:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/fluttertoast.g.dart:49:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/fluttertoast.g.dart:106:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/google_maps_flutter.g.dart:148:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/image_picker.g.dart:38:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/infinite_scroll_pagination.g.dart:46:11 • unused_local_variable
+warning • The member 'operation' can only be used within 'package:infinite_scroll_pagination/src/core/paging_controller.dart' or a test • lib/generated/infinite_scroll_pagination.g.dart:158:33 • invalid_use_of_visible_for_testing_member
+warning • The member 'operation' can only be used within instance members of subclasses of 'PagingController' • lib/generated/infinite_scroll_pagination.g.dart:158:33 • invalid_use_of_protected_member
+warning • The member 'operation' can only be used within 'package:infinite_scroll_pagination/src/core/paging_controller.dart' or a test • lib/generated/infinite_scroll_pagination.g.dart:166:26 • invalid_use_of_visible_for_testing_member
+warning • The member 'operation' can only be used within instance members of subclasses of 'PagingController' • lib/generated/infinite_scroll_pagination.g.dart:166:26 • invalid_use_of_protected_member
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/just_audio.g.dart:56:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/just_audio.g.dart:127:11 • unused_local_variable
+warning • 'LockCachingAudioSource' is experimental and could be removed or changed at any time • lib/generated/just_audio.g.dart:732:25 • experimental_member_use
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/local_auth.g.dart:39:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/lottie.g.dart:156:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/modal_bottom_sheet.g.dart:383:11 • unused_local_variable
+  error • The argument type 'FutureOr<bool>' can't be assigned to the parameter type 'Future<Object?>'.  • lib/generated/modal_bottom_sheet.g.dart:419:38 • argument_type_not_assignable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/package_info_plus.g.dart:50:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/package_info_plus.g.dart:103:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/photo_view.g.dart:273:11 • unused_local_variable
+  error • The argument type 'Future<void>?' can't be assigned to the parameter type 'Future<void>'.  • lib/generated/pull_to_refresh.g.dart:252:31 • argument_type_not_assignable
+  error • The argument type 'Future<void>?' can't be assigned to the parameter type 'Future<void>'.  • lib/generated/pull_to_refresh.g.dart:255:31 • argument_type_not_assignable
+  error • The argument type 'Future<void>?' can't be assigned to the parameter type 'Future<void>'.  • lib/generated/pull_to_refresh.g.dart:264:31 • argument_type_not_assignable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/pull_to_refresh.g.dart:395:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/pull_to_refresh.g.dart:587:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/sensors_plus.g.dart:62:11 • unused_local_variable
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/generated/signature.g.dart:193:11 • unused_local_variable
+warning • The member 'dispose' can only be used within instance members of subclasses of 'State' • lib/generated/signature.g.dart:269:12 • invalid_use_of_protected_member
+
+62 issues found. (ran in 7.9s)

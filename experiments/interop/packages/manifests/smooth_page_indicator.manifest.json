@@ -1,0 +1,247 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "smooth_page_indicator",
+ "version": "3.0.0",
+ "register": "registerSmoothPageIndicatorWidgets",
+ "widgets": {
+  "AnimatedSmoothIndicator": {
+   "tag": "smooth_page_indicator.AnimatedSmoothIndicator",
+   "dart": "AnimatedSmoothIndicator",
+   "library": "package:smooth_page_indicator/src/smooth_page_indicator.dart",
+   "doc": "Unlike [SmoothPageIndicator] this indicator is self-animated\nand it only needs to know active index",
+   "props": {
+    "activeIndex": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The index of active page"},
+    "count": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The number of children in [PageView]"},
+    "axisDirection": {"type":{"k":"enum","n":"Axis"},"dart":"Axis","default":"\"horizontal\"","doc":"layout direction vertical || horizontal"},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"If [textDirection] is [TextDirection.rtl], page direction will be flipped"},
+    "effect": {"type":{"k":"data","n":"IndicatorEffect"},"dart":"IndicatorEffect?","doc":"Holds effect configuration to be used in the [BasicIndicatorPainter]\nIf null, the effect will be read from [SmoothPageIndicatorTheme] or default to [WormEffect]"},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.easeInOut`","doc":"The curve used to animate between active indices."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 300)`","doc":"The duration of the animation between active indices."},
+    "onEnd": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when an active-index animation completes."}
+   },
+   "omitted": {
+    "onDotClicked": "callback/sync-return"
+   },
+   "notes": ["effect: data type IndicatorEffect has dropped optional ctor params"]
+  },
+  "SmoothIndicator": {
+   "tag": "smooth_page_indicator.SmoothIndicator",
+   "dart": "SmoothIndicator",
+   "library": "package:smooth_page_indicator/src/smooth_page_indicator.dart",
+   "doc": "Draws dot-ish representation of pages by\nthe number of [count] and animates the active\npage using [offset]",
+   "props": {
+    "offset": {"type":{"k":"handle","n":"ValueListenable<double>"},"dart":"ValueListenable<double>","required":true,"doc":"The active page offset"},
+    "count": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The number of pages"},
+    "size": {"type":{"k":"data","n":"Size"},"dart":"Size","required":true,"doc":"The size of canvas"},
+    "quarterTurns": {"type":{"k":"int"},"dart":"int","default":"0","doc":"The rotation of cans based on\ntext directionality and [axisDirection]"},
+    "effect": {"type":{"k":"data","n":"IndicatorEffect"},"dart":"IndicatorEffect","default":"Dart `const WormEffect()`","doc":"Holds effect configuration to be used in the [BasicIndicatorPainter]"},
+    "onDotClicked": {"type":{"k":"callback","args":[{"name":"index","type":{"k":"int"}}]},"dart":"void Function(int)?","doc":"Reports dot-taps"}
+   },
+   "notes": ["effect: data type IndicatorEffect has dropped optional ctor params"]
+  },
+  "SmoothPageIndicator": {
+   "tag": "smooth_page_indicator.SmoothPageIndicator",
+   "dart": "SmoothPageIndicator",
+   "library": "package:smooth_page_indicator/src/smooth_page_indicator.dart",
+   "doc": "A widget that draws a representation of pages count\nInside of a  [PageView]",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"PageController"},"dart":"PageController","required":true,"doc":"The page view controller"},
+    "count": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The number of pages"},
+    "axisDirection": {"type":{"k":"enum","n":"Axis"},"dart":"Axis","default":"\"horizontal\"","doc":"Layout direction vertical || horizontal"},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"If [textDirection] is [TextDirection.rtl], page direction will be flipped"},
+    "onDotClicked": {"type":{"k":"callback","args":[{"name":"index","type":{"k":"int"}}]},"dart":"void Function(int)?","doc":"Reports dot taps"},
+    "effect": {"type":{"k":"data","n":"IndicatorEffect"},"dart":"IndicatorEffect?","doc":"Holds effect configuration to be used in the [BasicIndicatorPainter]\nIf null, the effect will be read from [SmoothPageIndicatorTheme] or default to [WormEffect]"}
+   },
+   "notes": ["effect: data type IndicatorEffect has dropped optional ctor params"]
+  },
+  "SmoothPageIndicatorTheme": {
+   "tag": "smooth_page_indicator.SmoothPageIndicatorTheme",
+   "dart": "SmoothPageIndicatorTheme",
+   "library": "package:smooth_page_indicator/src/theme_defaults.dart",
+   "doc": "An [InheritedTheme] that provides default configuration to descendant\n[SmoothPageIndicator] and [AnimatedSmoothIndicator] widgets.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "effect": {"type":{"k":"data","n":"IndicatorEffect"},"dart":"IndicatorEffect?","doc":"The default effect to use when none is specified.\nIf null, [WormEffect] will be used as the fallback."},
+    "defaultColors": {"type":{"k":"data","n":"DefaultIndicatorColors"},"dart":"DefaultIndicatorColors?","doc":"Default colors for the indicator.\nIf null, [DefaultIndicatorColors.defaults] will be used."}
+   },
+   "notes": ["effect: data type IndicatorEffect has dropped optional ctor params"]
+  }
+ },
+ "enums": {
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "DotBorderType": {
+   "values": ["solid","none"],
+   "doc": "The variants of dot borders"
+  },
+  "PaintingStyle": {
+   "values": ["fill","stroke"],
+   "doc": "Strategies for painting shapes and paths on a canvas."
+  },
+  "SlideType": {
+   "values": ["normal","slideUnder"],
+   "doc": "The Slide effect variants"
+  },
+  "SwapType": {
+   "values": ["normal","yRotation","zRotation"],
+   "doc": "The swap effect variants"
+  },
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  },
+  "WormType": {
+   "values": ["normal","thin","underground","thinUnderground"],
+   "doc": "The Worm effect variants"
+  }
+ },
+ "types": {
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "DefaultIndicatorColors": {
+   "dart": "DefaultIndicatorColors",
+   "doc": "Holds default colors for an indicator.",
+   "consts": ["defaults"],
+   "variants": [
+    {"tag":null,"fields":{"active":{"type":{"k":"data","n":"Color"},"required":true},"inactive":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "DotBorder": {
+   "dart": "DotBorder",
+   "doc": "Holds dot-border painting specs",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"}},"color":{"type":{"k":"data","n":"Color"}},"padding":{"type":{"k":"double"}},"type":{"type":{"k":"enum","n":"DotBorderType"}}}}
+   ]
+  },
+  "DotDecoration": {
+   "dart": "DotDecoration",
+   "doc": "Holds dot painting specs",
+   "variants": [
+    {"tag":null,"fields":{"borderRadius":{"type":{"k":"data","n":"BorderRadius"}},"color":{"type":{"k":"data","n":"Color"}},"dotBorder":{"type":{"k":"data","n":"DotBorder"}},"verticalOffset":{"type":{"k":"double"}},"rotationAngle":{"type":{"k":"double"}},"width":{"type":{"k":"double"}},"height":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "IndicatorEffect": {
+   "dart": "IndicatorEffect",
+   "doc": "An Abstraction for a dot-indicator animation effect",
+   "variants": [
+    {"tag":"ColorTransitionEffect","fields":{"activeStrokeWidth":{"type":{"k":"double"}},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}}}},
+    {"tag":"CustomizableEffect","fields":{"dotDecoration":{"type":{"k":"data","n":"DotDecoration"},"required":true},"activeDotDecoration":{"type":{"k":"data","n":"DotDecoration"},"required":true},"spacing":{"type":{"k":"double"}}},"omitted":{"activeColorOverride":"nested:callback/sync-return","inActiveColorOverride":"nested:callback/sync-return"}},
+    {"tag":"ExpandingDotsEffect","fields":{"expansionFactor":{"type":{"k":"double"}},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}}}},
+    {"tag":"JumpingDotEffect","fields":{"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"jumpScale":{"type":{"k":"double"}},"verticalOffset":{"type":{"k":"double"}},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}}}},
+    {"tag":"ScaleEffect","fields":{"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"activePaintStyle":{"type":{"k":"enum","n":"PaintingStyle"}},"scale":{"type":{"k":"double"}},"activeStrokeWidth":{"type":{"k":"double"}},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}}}},
+    {"tag":"ScrollingDotsEffect","fields":{"activeStrokeWidth":{"type":{"k":"double"}},"activeDotScale":{"type":{"k":"double"}},"smallDotScale":{"type":{"k":"double"}},"maxVisibleDots":{"type":{"k":"int"}},"fixedCenter":{"type":{"k":"bool"}},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}}}},
+    {"tag":"SlideEffect","fields":{"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}},"type":{"type":{"k":"enum","n":"SlideType"}}}},
+    {"tag":"SwapEffect","fields":{"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"type":{"type":{"k":"enum","n":"SwapType"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}}}},
+    {"tag":"WormEffect","fields":{"offset":{"type":{"k":"double"}},"dotWidth":{"type":{"k":"double"}},"dotHeight":{"type":{"k":"double"}},"spacing":{"type":{"k":"double"}},"radius":{"type":{"k":"double"}},"dotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"activeDotColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"paintStyle":{"type":{"k":"enum","n":"PaintingStyle"}},"type":{"type":{"k":"enum","n":"WormType"}}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:smooth_page_indicator/smooth_page_indicator.dart"]
+}

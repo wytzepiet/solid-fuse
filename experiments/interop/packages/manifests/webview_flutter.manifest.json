@@ -1,0 +1,35 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "webview_flutter",
+ "version": "4.14.1",
+ "register": "registerWebviewFlutterWidgets",
+ "widgets": {
+  "WebViewWidget": {
+   "tag": "webview_flutter.WebViewWidget",
+   "dart": "WebViewWidget",
+   "library": "package:webview_flutter/src/webview_widget.dart",
+   "doc": "Displays a native WebView as a Widget.",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"WebViewController"},"dart":"WebViewController","required":true},
+    "layoutDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection","default":"\"ltr\"","doc":"The layout direction to use for the embedded WebView."}
+   },
+   "omitted": {
+    "gestureRecognizers": "unbridgeable/needs-nested-widget/callback[set]"
+   }
+  }
+ },
+ "skipped": {
+  "WebViewWidgetFromPlatformCreationParams": "required param `params` (PlatformWebViewWidgetCreationParams) is not bridgeable: unbridgeable/no-usable-constructor",
+  "WebViewWidgetFromPlatform": "required param `platform` (PlatformWebViewWidget) is not bridgeable: unbridgeable/private/unexported-type"
+ },
+ "enums": {
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  }
+ },
+ "types": {},
+ "payloads": {},
+ "libraries": ["package:webview_flutter/webview_flutter.dart"]
+}

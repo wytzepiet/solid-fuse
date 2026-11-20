@@ -1,0 +1,12 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "fluttertoast",
+ "version": "10.0.3",
+ "register": "registerFluttertoastWidgets",
+ "widgets": {},
+ "enums": {},
+ "types": {},
+ "payloads": {},
+ "libraries": ["package:fluttertoast/fluttertoast.dart"]
+}

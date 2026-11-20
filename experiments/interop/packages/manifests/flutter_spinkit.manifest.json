@@ -1,0 +1,571 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_spinkit",
+ "version": "5.2.2",
+ "register": "registerFlutterSpinkitWidgets",
+ "widgets": {
+  "DottedScaleXWidget": {
+   "tag": "flutter_spinkit.DottedScaleXWidget",
+   "dart": "DottedScaleXWidget",
+   "library": "package:flutter_spinkit/src/piano_wave.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "scaleX": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>","required":true},
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment","default":"Dart `Alignment.center`"}
+   }
+  },
+  "ScaleYWidget": {
+   "tag": "flutter_spinkit.ScaleYWidget",
+   "dart": "ScaleYWidget",
+   "library": "package:flutter_spinkit/src/wave.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "scaleY": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>","required":true},
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment","default":"Dart `Alignment.center`"}
+   }
+  },
+  "SpinKitChasingDots": {
+   "tag": "flutter_spinkit.SpinKitChasingDots",
+   "dart": "SpinKitChasingDots",
+   "library": "package:flutter_spinkit/src/chasing_dots.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2000)`"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitCircle": {
+   "tag": "flutter_spinkit.SpinKitCircle",
+   "dart": "SpinKitCircle",
+   "library": "package:flutter_spinkit/src/circle.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitCubeGrid": {
+   "tag": "flutter_spinkit.SpinKitCubeGrid",
+   "dart": "SpinKitCubeGrid",
+   "library": "package:flutter_spinkit/src/cube_grid.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitDancingSquare": {
+   "tag": "flutter_spinkit.SpinKitDancingSquare",
+   "dart": "SpinKitDancingSquare",
+   "library": "package:flutter_spinkit/src/dancing_square.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"60"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitDoubleBounce": {
+   "tag": "flutter_spinkit.SpinKitDoubleBounce",
+   "dart": "SpinKitDoubleBounce",
+   "library": "package:flutter_spinkit/src/double_bounce.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2000)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitDualRing": {
+   "tag": "flutter_spinkit.SpinKitDualRing",
+   "dart": "SpinKitDualRing",
+   "library": "package:flutter_spinkit/src/dual_ring.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "lineWidth": {"type":{"k":"double"},"dart":"double","default":"7"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  },
+  "SpinKitFadingCircle": {
+   "tag": "flutter_spinkit.SpinKitFadingCircle",
+   "dart": "SpinKitFadingCircle",
+   "library": "package:flutter_spinkit/src/fading_circle.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "itemSize": {"type":{"k":"double"},"dart":"double?"},
+    "itemCount": {"type":{"k":"int"},"dart":"int?"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitFadingCube": {
+   "tag": "flutter_spinkit.SpinKitFadingCube",
+   "dart": "SpinKitFadingCube",
+   "library": "package:flutter_spinkit/src/fading_cube.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2400)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitFadingFour": {
+   "tag": "flutter_spinkit.SpinKitFadingFour",
+   "dart": "SpinKitFadingFour",
+   "library": "package:flutter_spinkit/src/fading_four.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "shape": {"type":{"k":"enum","n":"BoxShape"},"dart":"BoxShape","default":"\"circle\""},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitFadingGrid": {
+   "tag": "flutter_spinkit.SpinKitFadingGrid",
+   "dart": "SpinKitFadingGrid",
+   "library": "package:flutter_spinkit/src/fading_grid.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "shape": {"type":{"k":"enum","n":"BoxShape"},"dart":"BoxShape","default":"\"circle\""},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitFoldingCube": {
+   "tag": "flutter_spinkit.SpinKitFoldingCube",
+   "dart": "SpinKitFoldingCube",
+   "library": "package:flutter_spinkit/src/folding_cube.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2400)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitHourGlass": {
+   "tag": "flutter_spinkit.SpinKitHourGlass",
+   "dart": "SpinKitHourGlass",
+   "library": "package:flutter_spinkit/src/hour_glass.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  },
+  "SpinKitPianoWave": {
+   "tag": "flutter_spinkit.SpinKitPianoWave",
+   "dart": "SpinKitPianoWave",
+   "library": "package:flutter_spinkit/src/piano_wave.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "type": {"type":{"k":"enum","n":"SpinKitPianoWaveType"},"dart":"SpinKitPianoWaveType","default":"\"start\""},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "itemCount": {"type":{"k":"int"},"dart":"int","default":"5"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitPouringHourGlass": {
+   "tag": "flutter_spinkit.SpinKitPouringHourGlass",
+   "dart": "SpinKitPouringHourGlass",
+   "library": "package:flutter_spinkit/src/pouring_hour_glass.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2400)`"},
+    "strokeWidth": {"type":{"k":"double"},"dart":"double?"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  },
+  "SpinKitPouringHourGlassRefined": {
+   "tag": "flutter_spinkit.SpinKitPouringHourGlassRefined",
+   "dart": "SpinKitPouringHourGlassRefined",
+   "library": "package:flutter_spinkit/src/pouring_hour_glass_refined.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2400)`"},
+    "strokeWidth": {"type":{"k":"double"},"dart":"double?"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  },
+  "SpinKitPulse": {
+   "tag": "flutter_spinkit.SpinKitPulse",
+   "dart": "SpinKitPulse",
+   "library": "package:flutter_spinkit/src/pulse.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(seconds: 1)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitPulsingGrid": {
+   "tag": "flutter_spinkit.SpinKitPulsingGrid",
+   "dart": "SpinKitPulsingGrid",
+   "library": "package:flutter_spinkit/src/pulsing_grid.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1500)`"},
+    "boxShape": {"type":{"k":"enum","n":"BoxShape"},"dart":"BoxShape?"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitPumpingHeart": {
+   "tag": "flutter_spinkit.SpinKitPumpingHeart",
+   "dart": "SpinKitPumpingHeart",
+   "library": "package:flutter_spinkit/src/pumping_heart.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2400)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitRing": {
+   "tag": "flutter_spinkit.SpinKitRing",
+   "dart": "SpinKitRing",
+   "library": "package:flutter_spinkit/src/ring.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "lineWidth": {"type":{"k":"double"},"dart":"double","default":"7"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  },
+  "SpinKitRipple": {
+   "tag": "flutter_spinkit.SpinKitRipple",
+   "dart": "SpinKitRipple",
+   "library": "package:flutter_spinkit/src/ripple.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "borderWidth": {"type":{"k":"double"},"dart":"double","default":"6"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1800)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitRotatingCircle": {
+   "tag": "flutter_spinkit.SpinKitRotatingCircle",
+   "dart": "SpinKitRotatingCircle",
+   "library": "package:flutter_spinkit/src/rotating_circle.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitRotatingPlain": {
+   "tag": "flutter_spinkit.SpinKitRotatingPlain",
+   "dart": "SpinKitRotatingPlain",
+   "library": "package:flutter_spinkit/src/rotating_plain.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitSpinningCircle": {
+   "tag": "flutter_spinkit.SpinKitSpinningCircle",
+   "dart": "SpinKitSpinningCircle",
+   "library": "package:flutter_spinkit/src/spinning_circle.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "shape": {"type":{"k":"enum","n":"BoxShape"},"dart":"BoxShape","default":"\"circle\""},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitSpinningLines": {
+   "tag": "flutter_spinkit.SpinKitSpinningLines",
+   "dart": "SpinKitSpinningLines",
+   "library": "package:flutter_spinkit/src/spinning_lines.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "size": {"type":{"k":"double"},"dart":"double","default":"70"},
+    "lineWidth": {"type":{"k":"double"},"dart":"double","default":"2"},
+    "itemCount": {"type":{"k":"int"},"dart":"int","default":"5"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 3000)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  },
+  "SpinKitSquareCircle": {
+   "tag": "flutter_spinkit.SpinKitSquareCircle",
+   "dart": "SpinKitSquareCircle",
+   "library": "package:flutter_spinkit/src/square_circle.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitThreeBounce": {
+   "tag": "flutter_spinkit.SpinKitThreeBounce",
+   "dart": "SpinKitThreeBounce",
+   "library": "package:flutter_spinkit/src/three_bounce.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1400)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitThreeInOut": {
+   "tag": "flutter_spinkit.SpinKitThreeInOut",
+   "dart": "SpinKitThreeInOut",
+   "library": "package:flutter_spinkit/src/three_in_out.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`"},
+    "delay": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 50)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitWanderingCubes": {
+   "tag": "flutter_spinkit.SpinKitWanderingCubes",
+   "dart": "SpinKitWanderingCubes",
+   "library": "package:flutter_spinkit/src/wandering_cubes.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "shape": {"type":{"k":"enum","n":"BoxShape"},"dart":"BoxShape","default":"\"rectangle\""},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1800)`"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitWave": {
+   "tag": "flutter_spinkit.SpinKitWave",
+   "dart": "SpinKitWave",
+   "library": "package:flutter_spinkit/src/wave.dart",
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "type": {"type":{"k":"enum","n":"SpinKitWaveType"},"dart":"SpinKitWaveType","default":"\"start\""},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "itemCount": {"type":{"k":"int"},"dart":"int","default":"5"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1200)`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   }
+  },
+  "SpinKitWaveSpinner": {
+   "tag": "flutter_spinkit.SpinKitWaveSpinner",
+   "dart": "SpinKitWaveSpinner",
+   "library": "package:flutter_spinkit/src/wave_spinner.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "trackColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `const Color(0x68757575)`"},
+    "waveColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `const Color(0x68757575)`"},
+    "size": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 3000)`"},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.decelerate`"},
+    "controller": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"}
+   }
+  }
+ },
+ "enums": {
+  "BoxShape": {
+   "values": ["rectangle","circle"],
+   "doc": "The shape to use when rendering a [Border] or [BoxDecoration]."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "SpinKitPianoWaveType": {
+   "values": ["start","end","center"]
+  },
+  "SpinKitWaveType": {
+   "values": ["start","end","center"]
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"SpinKitPumpCurve","fields":{}},
+    {"tag":"SpinKitRingCurve","fields":{}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:flutter_spinkit/flutter_spinkit.dart"]
+}

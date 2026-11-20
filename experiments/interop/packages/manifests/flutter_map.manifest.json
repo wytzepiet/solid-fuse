@@ -1,0 +1,585 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_map",
+ "version": "8.3.2",
+ "register": "registerFlutterMapWidgets",
+ "widgets": {
+  "FlutterMap": {
+   "tag": "flutter_map.FlutterMap",
+   "dart": "FlutterMap",
+   "library": "package:flutter_map/src/map/widget.dart",
+   "doc": "An interactive geographical map",
+   "children": "children",
+   "childrenParam": "children",
+   "props": {
+    "mapController": {"type":{"k":"handle","n":"MapController"},"dart":"MapController?","doc":"Programmatically interact with this map"},
+    "options": {"type":{"k":"data","n":"MapOptions"},"dart":"MapOptions","default":"Dart `const MapOptions()`","doc":"Configure this map's permanent rules and initial state"}
+   },
+   "notes": ["options: data type MapOptions has dropped optional ctor params"]
+  },
+  "LogoSourceAttribution": {
+   "tag": "flutter_map.LogoSourceAttribution",
+   "dart": "LogoSourceAttribution",
+   "library": "package:flutter_map/src/layer/attribution_layer/rich/source.dart",
+   "doc": "An image attribution permanently displayed adjacent to the open/close icon of\na [RichAttributionWidget]",
+   "props": {
+    "image": {"type":{"k":"widget"},"dart":"Widget","required":true,"doc":"The logo to display as attribution, usually an [Image.asset] or\n[Image.network]"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"This callback gets called when the user clicks or taps on the attribution\nsource."},
+    "tooltip": {"type":{"k":"string"},"dart":"String?","doc":"Optional text to display inside a [Tooltip] when the logo is hovered over,\nto provide extra clarity"},
+    "height": {"type":{"k":"double"},"dart":"double","default":"24","doc":"Height of the [image] (fitted into a [SizedBox])"}
+   }
+  },
+  "MobileLayerTransformer": {
+   "tag": "flutter_map.MobileLayerTransformer",
+   "dart": "MobileLayerTransformer",
+   "library": "package:flutter_map/src/layer/shared/mobile_layer_transformer.dart",
+   "doc": "Transforms a [child] widget tree into a layer that can move and rotate based\non the [MapCamera]",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {}
+  },
+  "OverlayImage": {
+   "tag": "flutter_map.OverlayImage",
+   "dart": "OverlayImage",
+   "library": "package:flutter_map/src/layer/overlay_image_layer/overlay_image_layer.dart",
+   "doc": "Unrotated overlay image that spans between a given bounding box.",
+   "props": {
+    "imageProvider": {"type":{"k":"data","n":"ImageProviderOfObject"},"dart":"ImageProvider<Object>","required":true,"doc":"The [ImageProvider] to use within the [Image] widget."},
+    "bounds": {"type":{"k":"data","n":"LatLngBounds"},"dart":"LatLngBounds","required":true,"doc":"The latitude / longitude corners of the image."},
+    "opacity": {"type":{"k":"double"},"dart":"double","default":"1","doc":"The opacity in which the image should get rendered on the map."},
+    "gaplessPlayback": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to continue showing the old image (true), or briefly show nothing\n(false), when the image provider changes. The default value is false."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality","default":"\"medium\"","doc":"The [FilterQuality] of the image, used to define how high quality the\noverlay image should have on the map."}
+   }
+  },
+  "PositionedTapDetector2": {
+   "tag": "flutter_map.PositionedTapDetector2",
+   "dart": "PositionedTapDetector2",
+   "library": "package:flutter_map/src/gestures/positioned_tap_detector_2.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "onTap": {"type":{"k":"callback","args":[{"name":"position","type":{"k":"payload","n":"TapPosition"}}]},"dart":"void Function(TapPosition)?"},
+    "onDoubleTap": {"type":{"k":"callback","args":[{"name":"position","type":{"k":"payload","n":"TapPosition"}}]},"dart":"void Function(TapPosition)?"},
+    "onSecondaryTap": {"type":{"k":"callback","args":[{"name":"position","type":{"k":"payload","n":"TapPosition"}}]},"dart":"void Function(TapPosition)?"},
+    "onLongPress": {"type":{"k":"callback","args":[{"name":"position","type":{"k":"payload","n":"TapPosition"}}]},"dart":"void Function(TapPosition)?"},
+    "doubleTapDelay": {"type":{"k":"data","n":"Duration"},"dart":"Duration?"},
+    "behavior": {"type":{"k":"enum","n":"HitTestBehavior"},"dart":"HitTestBehavior?"},
+    "controller": {"type":{"k":"handle","n":"PositionedTapController"},"dart":"PositionedTapController?"}
+   }
+  },
+  "Scalebar": {
+   "tag": "flutter_map.Scalebar",
+   "dart": "Scalebar",
+   "library": "package:flutter_map/src/layer/scalebar/scalebar.dart",
+   "doc": "The [Scalebar] widget is a map layer for [FlutterMap].",
+   "props": {
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment","default":"Dart `Alignment.topRight`","doc":"The [Alignment] of the Scalebar."},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","default":"Dart `const TextStyle(color: Color(0xFF000000), fontSize: 14)`","doc":"The [TextStyle] for the scale bar label."},
+    "lineColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `const Color(0xFF000000)`","doc":"The color of the lines."},
+    "strokeWidth": {"type":{"k":"double"},"dart":"double","default":"2","doc":"The width of the line strokes in pixel."},
+    "lineHeight": {"type":{"k":"double"},"dart":"double","default":"5","doc":"The height of the line strokes in pixel."},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.all(10)`","doc":"The padding of the scale bar."},
+    "length": {"type":{"k":"enum","n":"ScalebarLength"},"dart":"ScalebarLength","default":"\"m\"","doc":"The relative length of the scalebar."}
+   }
+  },
+  "TextSourceAttribution": {
+   "tag": "flutter_map.TextSourceAttribution",
+   "dart": "TextSourceAttribution",
+   "library": "package:flutter_map/src/layer/attribution_layer/rich/source.dart",
+   "doc": "A simple text attribution displayed in the popup box of a\n[RichAttributionWidget]",
+   "children": "text",
+   "childrenParam": "text",
+   "props": {
+    "text": {"type":{"k":"string"},"dart":"String","doc":"The text to display as attribution, styled with [textStyle]"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"This callback gets called when the user clicks or taps on the attribution\nsource."},
+    "prependCopyright": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to add the '©' character to the start of [text] automatically"},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style used to display the [text]"}
+   },
+   "notes": ["text: positional String is filled from text children when the prop is absent"]
+  },
+  "TileLayer": {
+   "tag": "flutter_map.TileLayer",
+   "dart": "TileLayer",
+   "library": "package:flutter_map/src/layer/tile_layer/tile_layer.dart",
+   "doc": "Describes the needed properties to create a raster tile layer. A tile is an\nimage bound to a specific geographical position.",
+   "props": {
+    "urlTemplate": {"type":{"k":"string"},"dart":"String?","doc":"The URL template is a string that contains placeholders, which, when filled\nin, create a URL/URI to a specific tile."},
+    "fallbackUrl": {"type":{"k":"string"},"dart":"String?","doc":"Fallback URL template, used if an error occurs when fetching tiles from\nthe [urlTemplate]."},
+    "tileDimension": {"type":{"k":"int"},"dart":"int","default":"256","doc":"Size in pixels of each tile image"},
+    "minZoom": {"type":{"k":"double"},"dart":"double","default":"0","doc":"The minimum zoom level down to which this layer will be displayed\n(inclusive)"},
+    "maxZoom": {"type":{"k":"double"},"dart":"double","default":"Infinity","doc":"The maximum zoom level up to which this layer will be displayed\n(inclusive)."},
+    "minNativeZoom": {"type":{"k":"int"},"dart":"int","default":"0","doc":"Minimum zoom level supported by the tile source"},
+    "maxNativeZoom": {"type":{"k":"int"},"dart":"int","default":"19","doc":"Maximum zoom number supported by the tile source has available."},
+    "zoomReverse": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If set to true, the zoom number used in tile URLs will be reversed\n(`maxZoom - zoom` instead of `zoom`)"},
+    "zoomOffset": {"type":{"k":"double"},"dart":"double","default":"0","doc":"The zoom number used in tile URLs will be offset with this value."},
+    "subdomains": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","default":"Dart `const ['a', 'b', 'c']`","doc":"List of subdomains for the URL."},
+    "keepBuffer": {"type":{"k":"int"},"dart":"int","default":"2","doc":"When panning the map, keep this many rows and columns of tiles before\nunloading them."},
+    "panBuffer": {"type":{"k":"int"},"dart":"int","default":"1","doc":"When loading tiles only visible tiles are loaded by default. This option\nincreases the loaded tiles by the given number on both axis which can help\nprevent the user from seeing loading tiles whilst panning. Setting the\npan buffer too high can impact performance, typically this is set to zero\nor one."},
+    "errorImage": {"type":{"k":"data","n":"ImageProviderOfObject"},"dart":"ImageProvider<Object>?","doc":"Tile image to show in place of the tile that failed to load."},
+    "tileProvider": {"type":{"k":"data","n":"TileProvider"},"dart":"TileProvider?","doc":"Provider with which to load map tiles"},
+    "tms": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If `true`, inverses Y axis numbering for tiles (turn this on for\n[TMS](https://en.wikipedia.org/wiki/Tile_Map_Service) services)."},
+    "wmsOptions": {"type":{"k":"data","n":"WMSTileLayerOptions"},"dart":"WMSTileLayerOptions?","doc":"If not `null`, then tiles will pull's WMS protocol requests"},
+    "tileDisplay": {"type":{"k":"data","n":"TileDisplay"},"dart":"TileDisplay","default":"Dart `const TileDisplay.fadeIn()`","doc":"Control how tiles are displayed and whether they are faded in when loaded.\nDefaults to TileDisplay.fadeIn()."},
+    "retinaMode": {"type":{"k":"bool"},"dart":"bool?"},
+    "evictErrorTileStrategy": {"type":{"k":"enum","n":"EvictErrorTileStrategy"},"dart":"EvictErrorTileStrategy","default":"\"none\"","doc":"If a Tile was loaded with error and if strategy isn't `none` then TileProvider\nwill be asked to evict Image based on current strategy\n(see #576 - even Error Images are cached in flutter)"},
+    "tileBounds": {"type":{"k":"data","n":"LatLngBounds"},"dart":"LatLngBounds?","doc":"Only load tiles that are within these bounds"},
+    "tileUpdateTransformer": {"type":{"k":"data","n":"StreamTransformerOfTileUpdateEventAndTileUpdateEvent"},"dart":"StreamTransformer<TileUpdateEvent, TileUpdateEvent>?","doc":"Restricts and limits [TileUpdateEvent]s (which are emitted 'by'\n[MapEvent]s), which cause tiles to update."},
+    "userAgentPackageName": {"type":{"k":"string"},"dart":"String","default":"\"unknown\""}
+   },
+   "omitted": {
+    "tileSize": "deprecated",
+    "additionalOptions": "default value not reproducible (const {})",
+    "errorTileCallback": "callback/void(unencodable args)",
+    "tileBuilder": "builder/unencodable args",
+    "reset": "unbridgeable/future/stream"
+   },
+   "notes": ["tileProvider: data type TileProvider has dropped optional ctor params","tileUpdateTransformer: data type StreamTransformer<TileUpdateEvent, TileUpdateEvent> has dropped optional ctor params"]
+  },
+  "TranslucentPointer": {
+   "tag": "flutter_map.TranslucentPointer",
+   "dart": "TranslucentPointer",
+   "library": "package:flutter_map/src/layer/shared/translucent_pointer.dart",
+   "doc": "A widget that is invisible for its parent during hit testing, but still\nallows its subtree to receive pointer events",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "translucent": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether this widget is invisible to its parent during hit testing."}
+   }
+  }
+ },
+ "skipped": {
+  "CircleLayer": "required param `circles` (List<CircleMarker<Object>>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+  "MarkerLayer": "required param `markers` (List<Marker>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+  "OverlayImageLayer": "required param `overlayImages` (List<BaseOverlayImage>) is not bridgeable: widget/subtype[list]",
+  "PolygonLayer": "required param `polygons` (List<Polygon<Object>>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+  "PolylineLayer": "required param `polylines` (List<Polyline<Object>>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+  "RichAttributionWidget": "required param `attributions` (List<SourceAttribution>) is not bridgeable: widget/subtype[list]",
+  "RotatedOverlayImage": "required param `topLeftCorner` (LatLng) is not bridgeable: unbridgeable/private/unexported-type",
+  "SimpleAttributionWidget": "required param `source` (Text) is not bridgeable: widget/subtype"
+ },
+ "enums": {
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "CursorRotationBehaviour": {
+   "values": ["setNorth","offset"],
+   "doc": "The behaviour of the cursor/keyboard rotation function in terms of the angle\nthat the map is rotated to"
+  },
+  "EvictErrorTileStrategy": {
+   "values": ["none","dispose","notVisibleRespectMargin","notVisible"],
+   "doc": "Strategies on how to handle tile errors"
+  },
+  "FilterQuality": {
+   "values": ["none","low","medium","high"],
+   "doc": "Quality levels for image sampling in [ImageFilter] and [Shader] objects that sample\nimages and for [Canvas] operations that render images."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "HitTestBehavior": {
+   "values": ["deferToChild","opaque","translucent"],
+   "doc": "How to behave during hit tests."
+  },
+  "ResizeImagePolicy": {
+   "values": ["exact","fit"],
+   "doc": "Configures the behavior for [ResizeImage]."
+  },
+  "ScalebarLength": {
+   "values": ["s","m","l","xl","xxl"],
+   "doc": "The relative length of the scalebar."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  },
+  "WebHtmlElementStrategy": {
+   "values": ["never","fallback","prefer"],
+   "doc": "The strategy for [Image.network] and [NetworkImage] to decide whether to\ndisplay images in HTML elements contained in a platform view instead of\nfetching bytes."
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "CameraConstraint": {
+   "dart": "CameraConstraint",
+   "doc": "Describes a boundary for a [MapCamera], that cannot be exceeded by movement",
+   "variants": [
+    {"tag":"unconstrained","fields":{}},
+    {"tag":"containCenter","fields":{"bounds":{"type":{"k":"data","n":"LatLngBounds"},"required":true}}},
+    {"tag":"contain","fields":{"bounds":{"type":{"k":"data","n":"LatLngBounds"},"required":true}}},
+    {"tag":"containLatitude","fields":{"a":{"type":{"k":"double"}},"b":{"type":{"k":"double"}}}}
+   ]
+  },
+  "CameraFit": {
+   "dart": "CameraFit",
+   "doc": "Describes a position for a [MapCamera]",
+   "variants": [
+    {"tag":"bounds","fields":{"bounds":{"type":{"k":"data","n":"LatLngBounds"},"required":true},"padding":{"type":{"k":"data","n":"EdgeInsets"}},"maxZoom":{"type":{"k":"double"},"nullable":true},"minZoom":{"type":{"k":"double"}},"forceIntegerZoomLevel":{"type":{"k":"bool"}}}},
+    {"tag":"insideBounds","fields":{"bounds":{"type":{"k":"data","n":"LatLngBounds"},"required":true},"padding":{"type":{"k":"data","n":"EdgeInsets"}},"maxZoom":{"type":{"k":"double"},"nullable":true},"minZoom":{"type":{"k":"double"}},"forceIntegerZoomLevel":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Crs": {
+   "dart": "Crs",
+   "doc": "An abstract representation of a\n[Coordinate Reference System](https://bit.ly/3iVKpja).",
+   "variants": [
+    {"tag":"CrsSimple","fields":{}},
+    {"tag":"Epsg3857","fields":{}},
+    {"tag":"Epsg4326","fields":{}}
+   ]
+  },
+  "CursorKeyboardRotationOptions": {
+   "dart": "CursorKeyboardRotationOptions",
+   "doc": "Options to configure cursor/keyboard rotation",
+   "variants": [
+    {"tag":null,"fields":{"behaviour":{"type":{"k":"enum","n":"CursorRotationBehaviour"}},"setNorthOnClick":{"type":{"k":"bool"}}},"omitted":{"isKeyTrigger":"nested:callback/sync-return"}},
+    {"tag":"disabled","fields":{}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "ImageProviderOfObject": {
+   "dart": "ImageProvider<Object>",
+   "doc": "Identifies an image without committing to the precise final asset. This\nallows a set of images to be identified and for the precise image to later\nbe resolved based on the environment, e.g. the device pixel ratio.",
+   "variants": [
+    {"tag":"ResizeImage","fields":{"imageProvider":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"width":{"type":{"k":"int"},"nullable":true},"height":{"type":{"k":"int"},"nullable":true},"policy":{"type":{"k":"enum","n":"ResizeImagePolicy"}},"allowUpscaling":{"type":{"k":"bool"}},"useLogicalSize":{"type":{"k":"bool"}}}},
+    {"tag":"NetworkImage","fields":{"url":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"webHtmlElementStrategy":{"type":{"k":"enum","n":"WebHtmlElementStrategy"}}}},
+    {"tag":"ExactAssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"AssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "InteractionOptions": {
+   "dart": "InteractionOptions",
+   "doc": "All interactive options for [FlutterMap]",
+   "variants": [
+    {"tag":null,"fields":{"flags":{"type":{"k":"int"}},"debugMultiFingerGestureWinner":{"type":{"k":"bool"}},"enableMultiFingerGestureRace":{"type":{"k":"bool"}},"rotationThreshold":{"type":{"k":"double"}},"rotationWinGestures":{"type":{"k":"int"}},"pinchZoomThreshold":{"type":{"k":"double"}},"pinchZoomWinGestures":{"type":{"k":"int"}},"pinchMoveThreshold":{"type":{"k":"double"}},"pinchMoveWinGestures":{"type":{"k":"int"}},"scrollWheelVelocity":{"type":{"k":"double"}},"doubleTapZoomDuration":{"type":{"k":"data","n":"Duration"}},"doubleTapZoomCurve":{"type":{"k":"data","n":"Curve"}},"flingAnimationDampingRatio":{"type":{"k":"double"}},"cursorKeyboardRotationOptions":{"type":{"k":"data","n":"CursorKeyboardRotationOptions"}},"keyboardOptions":{"type":{"k":"data","n":"KeyboardOptions"}}},"omitted":{"doubleTapDragZoomChangeCalculator":"nested:callback/sync-return"}}
+   ]
+  },
+  "KeyboardOptions": {
+   "dart": "KeyboardOptions",
+   "doc": "Options to configure how keyboard keys may be used to control the map",
+   "variants": [
+    {"tag":null,"fields":{"enableArrowKeysPanning":{"type":{"k":"bool"}},"enableWASDPanning":{"type":{"k":"bool"}},"enableQERotating":{"type":{"k":"bool"}},"enableRFZooming":{"type":{"k":"bool"}},"panLeapVelocityMultiplier":{"type":{"k":"double"}},"maxZoomVelocity":{"type":{"k":"double"}},"zoomLeapVelocityMultiplier":{"type":{"k":"double"}},"maxRotateVelocity":{"type":{"k":"double"}},"rotateLeapVelocityMultiplier":{"type":{"k":"double"}},"animationCurveDuration":{"type":{"k":"data","n":"Duration"}},"animationCurveReverseDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"animationCurveCurve":{"type":{"k":"data","n":"Curve"}},"performLeapTriggerDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"leapMaxOfCurveComponent":{"type":{"k":"double"}},"autofocus":{"type":{"k":"bool"}}},"omitted":{"maxPanVelocity":"nested:callback/sync-return","focusNode":"nested:handle/focus"}},
+    {"tag":"disabled","fields":{}}
+   ]
+  },
+  "LatLngBounds": {
+   "dart": "LatLngBounds",
+   "doc": "Data structure representing rectangular bounding box constrained by its\nnorthwest and southeast corners",
+   "variants": [
+    {"tag":"worldSafe","fields":{"north":{"type":{"k":"double"},"required":true},"south":{"type":{"k":"double"},"required":true},"longitudeCenter":{"type":{"k":"double"},"required":true},"longitudeWidth":{"type":{"k":"double"},"required":true}}},
+    {"tag":"unsafe","fields":{"north":{"type":{"k":"double"},"required":true},"south":{"type":{"k":"double"},"required":true},"east":{"type":{"k":"double"},"required":true},"west":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "MapCachingProvider": {
+   "dart": "MapCachingProvider",
+   "doc": "Provides tile caching facilities to [TileProvider]s",
+   "variants": [
+    {"tag":"BuiltInMapCachingProvider.getOrCreateInstance","fields":{"cacheDirectory":{"type":{"k":"string"},"nullable":true},"maxCacheSize":{"type":{"k":"int"},"nullable":true},"overrideFreshAge":{"type":{"k":"data","n":"Duration"},"nullable":true},"readOnly":{"type":{"k":"bool"}}},"omitted":{"tileKeyGenerator":"nested:callback/sync-return"}},
+    {"tag":"DisabledMapCachingProvider","fields":{}}
+   ]
+  },
+  "MapOptions": {
+   "dart": "MapOptions",
+   "doc": "All options for the [FlutterMap] widget.",
+   "variants": [
+    {"tag":null,"fields":{"crs":{"type":{"k":"data","n":"Crs"}},"initialZoom":{"type":{"k":"double"}},"initialRotation":{"type":{"k":"double"}},"initialCameraFit":{"type":{"k":"data","n":"CameraFit"},"nullable":true},"cameraConstraint":{"type":{"k":"data","n":"CameraConstraint"}},"interactionOptions":{"type":{"k":"data","n":"InteractionOptions"}},"minZoom":{"type":{"k":"double"},"nullable":true},"maxZoom":{"type":{"k":"double"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"}},"keepAlive":{"type":{"k":"bool"}}},"omitted":{"initialCenter":"unbridgeable/private/unexported-type","onTap":"nested:callback/void(unencodable args)","onSecondaryTap":"nested:callback/void(unencodable args)","onLongPress":"nested:callback/void(unencodable args)","onPointerDown":"nested:callback/void(unencodable args)","onPointerUp":"nested:callback/void(unencodable args)","onPointerCancel":"nested:callback/void(unencodable args)","onPointerHover":"nested:callback/void(unencodable args)","onPointerMove":"nested:callback/void(unencodable args)","onPositionChanged":"nested:callback/void(encodable args)","onMapEvent":"nested:callback/void(encodable args)","onMapReady":"nested:callback/void()"}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "StreamTransformerOfTileUpdateEventAndTileUpdateEvent": {
+   "dart": "StreamTransformer<TileUpdateEvent, TileUpdateEvent>",
+   "doc": "Transforms a Stream.",
+   "variants": [
+    {"tag":"fromHandlers","fields":{},"omitted":{"handleData":"nested:callback/void(unencodable args)","handleError":"nested:callback/void(unencodable args)","handleDone":"nested:callback/void(unencodable args)"}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "TileDisplay": {
+   "dart": "TileDisplay",
+   "doc": "Defines how the tile should get displayed on the map.",
+   "variants": [
+    {"tag":"instantaneous","fields":{"opacity":{"type":{"k":"double"}}}},
+    {"tag":"fadeIn","fields":{"duration":{"type":{"k":"data","n":"Duration"}},"startOpacity":{"type":{"k":"double"}},"reloadStartOpacity":{"type":{"k":"double"}}}}
+   ]
+  },
+  "TileProvider": {
+   "dart": "TileProvider",
+   "doc": "The base tile provider, extended by other classes with more specialised\npurposes and/or requirements",
+   "variants": [
+    {"tag":"AssetTileProvider","fields":{}},
+    {"tag":"FileTileProvider","fields":{}},
+    {"tag":"NetworkTileProvider","fields":{"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"silenceExceptions":{"type":{"k":"bool"}},"attemptDecodeOfHttpErrorResponses":{"type":{"k":"bool"}},"abortObsoleteRequests":{"type":{"k":"bool"}},"cachingProvider":{"type":{"k":"data","n":"MapCachingProvider"},"nullable":true}},"omitted":{"httpClient":"unbridgeable/private/unexported-type"}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  },
+  "WMSTileLayerOptions": {
+   "dart": "WMSTileLayerOptions",
+   "doc": "Options for the []",
+   "variants": [
+    {"tag":null,"fields":{"baseUrl":{"type":{"k":"string"},"required":true},"layers":{"type":{"k":"list","e":{"k":"string"}}},"styles":{"type":{"k":"list","e":{"k":"string"}}},"format":{"type":{"k":"string"}},"version":{"type":{"k":"string"}},"transparent":{"type":{"k":"bool"}},"uppercaseBoolValue":{"type":{"k":"bool"}},"crs":{"type":{"k":"data","n":"Crs"}}}}
+   ]
+  }
+ },
+ "payloads": {
+  "Offset": {
+   "dart": "Offset",
+   "fields": {
+    "dx": {"k":"double"},
+    "dy": {"k":"double"}
+   }
+  },
+  "TapPosition": {
+   "dart": "TapPosition",
+   "fields": {
+    "global": {"k":"payload","n":"Offset"},
+    "relative": {"k":"payload","n":"Offset","nullable":true}
+   }
+  }
+ },
+ "libraries": ["package:flutter_map/flutter_map.dart"]
+}

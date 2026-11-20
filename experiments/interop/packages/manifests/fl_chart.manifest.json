@@ -1,0 +1,1077 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "fl_chart",
+ "version": "1.3.1",
+ "register": "registerFlChartWidgets",
+ "widgets": {
+  "BarChart": {
+   "tag": "fl_chart.BarChart",
+   "dart": "BarChart",
+   "library": "package:fl_chart/src/chart/bar_chart/bar_chart.dart",
+   "doc": "Renders a bar chart as a widget, using provided [BarChartData].",
+   "props": {
+    "data": {"type":{"k":"data","n":"BarChartData"},"dart":"BarChartData","required":true,"doc":"Determines how the [BarChart] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."},
+    "transformationConfig": {"type":{"k":"data","n":"FlTransformationConfig"},"dart":"FlTransformationConfig","default":"Dart `const FlTransformationConfig()`"}
+   },
+   "omitted": {
+    "chartRendererKey": "key",
+    "swapAnimationDuration": "deprecated",
+    "swapAnimationCurve": "deprecated"
+   },
+   "notes": ["transformationConfig: data type FlTransformationConfig has dropped optional ctor params"]
+  },
+  "CandlestickChart": {
+   "tag": "fl_chart.CandlestickChart",
+   "dart": "CandlestickChart",
+   "library": "package:fl_chart/src/chart/candlestick_chart/candlestick_chart.dart",
+   "doc": "Renders a pie chart as a widget, using provided [CandlestickChartData].",
+   "props": {
+    "data": {"type":{"k":"data","n":"CandlestickChartData"},"dart":"CandlestickChartData","required":true,"doc":"Determines how the [CandlestickChart] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."},
+    "transformationConfig": {"type":{"k":"data","n":"FlTransformationConfig"},"dart":"FlTransformationConfig","default":"Dart `const FlTransformationConfig()`"}
+   },
+   "omitted": {
+    "chartRendererKey": "key",
+    "swapAnimationDuration": "deprecated",
+    "swapAnimationCurve": "deprecated"
+   },
+   "notes": ["transformationConfig: data type FlTransformationConfig has dropped optional ctor params"]
+  },
+  "GaugeChart": {
+   "tag": "fl_chart.GaugeChart",
+   "dart": "GaugeChart",
+   "library": "package:fl_chart/src/chart/gauge_chart/gauge_chart.dart",
+   "props": {
+    "data": {"type":{"k":"data","n":"GaugeChartData"},"dart":"GaugeChartData","required":true,"doc":"Determines how the [GaugeChartData] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."}
+   },
+   "omitted": {
+    "chartRendererKey": "key"
+   }
+  },
+  "LineChart": {
+   "tag": "fl_chart.LineChart",
+   "dart": "LineChart",
+   "library": "package:fl_chart/src/chart/line_chart/line_chart.dart",
+   "doc": "Renders a line chart as a widget, using provided [LineChartData].",
+   "props": {
+    "data": {"type":{"k":"data","n":"LineChartData"},"dart":"LineChartData","required":true,"doc":"Determines how the [LineChart] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."},
+    "transformationConfig": {"type":{"k":"data","n":"FlTransformationConfig"},"dart":"FlTransformationConfig","default":"Dart `const FlTransformationConfig()`"}
+   },
+   "omitted": {
+    "chartRendererKey": "key"
+   },
+   "notes": ["transformationConfig: data type FlTransformationConfig has dropped optional ctor params"]
+  },
+  "PieChart": {
+   "tag": "fl_chart.PieChart",
+   "dart": "PieChart",
+   "library": "package:fl_chart/src/chart/pie_chart/pie_chart.dart",
+   "doc": "Renders a pie chart as a widget, using provided [PieChartData].",
+   "props": {
+    "data": {"type":{"k":"data","n":"PieChartData"},"dart":"PieChartData","required":true,"doc":"Determines how the [PieChart] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."}
+   },
+   "omitted": {
+    "swapAnimationDuration": "deprecated",
+    "swapAnimationCurve": "deprecated"
+   }
+  },
+  "RadarChart": {
+   "tag": "fl_chart.RadarChart",
+   "dart": "RadarChart",
+   "library": "package:fl_chart/src/chart/radar_chart/radar_chart.dart",
+   "doc": "Renders a radar chart as a widget, using provided [RadarChartData].",
+   "props": {
+    "data": {"type":{"k":"data","n":"RadarChartData"},"dart":"RadarChartData","required":true,"doc":"Determines how the [RadarChart] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."}
+   },
+   "omitted": {
+    "swapAnimationDuration": "deprecated",
+    "swapAnimationCurve": "deprecated"
+   },
+   "notes": ["data: data type RadarChartData has dropped optional ctor params"]
+  },
+  "ScatterChart": {
+   "tag": "fl_chart.ScatterChart",
+   "dart": "ScatterChart",
+   "library": "package:fl_chart/src/chart/scatter_chart/scatter_chart.dart",
+   "doc": "Renders a pie chart as a widget, using provided [ScatterChartData].",
+   "props": {
+    "data": {"type":{"k":"data","n":"ScatterChartData"},"dart":"ScatterChartData","required":true,"doc":"Determines how the [ScatterChart] should be look like."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 150)`","doc":"The duration over which to animate the parameters of this container."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"The curve to apply when animating the parameters of this container."},
+    "transformationConfig": {"type":{"k":"data","n":"FlTransformationConfig"},"dart":"FlTransformationConfig","default":"Dart `const FlTransformationConfig()`"}
+   },
+   "omitted": {
+    "chartRendererKey": "key",
+    "swapAnimationDuration": "deprecated",
+    "swapAnimationCurve": "deprecated"
+   },
+   "notes": ["transformationConfig: data type FlTransformationConfig has dropped optional ctor params"]
+  },
+  "SideTitleWidget": {
+   "tag": "fl_chart.SideTitleWidget",
+   "dart": "SideTitleWidget",
+   "library": "package:fl_chart/src/chart/base/axis_chart/axis_chart_widgets.dart",
+   "doc": "Wraps a [child] widget and applies some default behaviours",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "meta": {"type":{"k":"data","n":"TitleMeta"},"dart":"TitleMeta","required":true},
+    "space": {"type":{"k":"double"},"dart":"double","default":"8"},
+    "angle": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "fitInside": {"type":{"k":"data","n":"SideTitleFitInsideData"},"dart":"SideTitleFitInsideData","default":"Dart `const SideTitleFitInsideData(enabled: false, distanceFromEdge: 0, parentAxisSize: 0, axisPosition: 0)`","doc":"Define fitInside options with [SideTitleFitInsideData]"}
+   }
+  }
+ },
+ "enums": {
+  "AxisSide": {
+   "values": ["left","top","right","bottom"],
+   "doc": "Represents a side of the chart"
+  },
+  "BarChartAlignment": {
+   "values": ["start","end","center","spaceEvenly","spaceAround","spaceBetween"],
+   "doc": "defines arrangement of [BarChartData.barGroups], check [MainAxisAlignment] for more details."
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "FLHorizontalAlignment": {
+   "values": ["center","left","right"],
+   "doc": "Controls an element horizontal alignment to given point."
+  },
+  "FlScaleAxis": {
+   "values": ["horizontal","vertical","free","none"]
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "GaugeDirection": {
+   "values": ["clockwise","counterClockwise"],
+   "doc": "Direction the arc travels from [GaugeChartData.startDegreeOffset]."
+  },
+  "GaugeMarkerLabelSide": {
+   "values": ["outward","inward"],
+   "doc": "Which side of the line a [GaugeMarkerLinePainter]'s optional label\nsits on, in the painter's pre-transformed local frame."
+  },
+  "GaugeMarkerLineAlignment": {
+   "values": ["centered","outward"],
+   "doc": "Where the line sits relative to the marker's anchor on the arc."
+  },
+  "GaugeTickPosition": {
+   "values": ["outer","inner","center"],
+   "doc": "Where tick marks sit relative to the gauge's ring stack."
+  },
+  "LabelDirection": {
+   "values": ["horizontal","vertical","horizontalMirrored","verticalMirrored"]
+  },
+  "LineChartGradientArea": {
+   "values": ["rectAroundTheLine","wholeChart"]
+  },
+  "RadarShape": {
+   "values": ["circle","polygon"]
+  },
+  "SideTitleAlignment": {
+   "values": ["outside","border","inside"],
+   "doc": "Represents where the [SideTitles] are drawn in relation to the chart.\nWhere the side titles are placed, relative to the border of the chart."
+  },
+  "StrokeCap": {
+   "values": ["butt","round","square"],
+   "doc": "Styles to use for line endings."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  },
+  "TooltipDirection": {
+   "values": ["auto","top","bottom"],
+   "doc": "Controls showing tooltip on top or bottom."
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AxisSpotIndicator": {
+   "dart": "AxisSpotIndicator",
+   "doc": "The class to hold the information about showing a specific point\nin the axis-based charts",
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"nullable":true},"y":{"type":{"k":"double"},"nullable":true},"painter":{"type":{"k":"data","n":"AxisSpotIndicatorPainter"},"required":true}}}
+   ]
+  },
+  "AxisSpotIndicatorPainter": {
+   "dart": "AxisSpotIndicatorPainter",
+   "doc": "The abstract class that is used to draw the point indicator",
+   "variants": [
+    {"tag":"AxisLinesIndicatorPainter","fields":{},"omitted":{"verticalLineProvider":"nested:callback/sync-return","horizontalLineProvider":"nested:callback/sync-return"}}
+   ]
+  },
+  "AxisTitles": {
+   "dart": "AxisTitles",
+   "doc": "Holds data for showing each side titles (left, top, right, bottom)",
+   "variants": [
+    {"tag":null,"fields":{"axisNameSize":{"type":{"k":"double"}},"sideTitles":{"type":{"k":"data","n":"SideTitles"}},"drawBelowEverything":{"type":{"k":"bool"}},"sideTitleAlignment":{"type":{"k":"enum","n":"SideTitleAlignment"}}},"omitted":{"axisNameWidget":"nested:widget/slot"}}
+   ]
+  },
+  "BackgroundBarChartRodData": {
+   "dart": "BackgroundBarChartRodData",
+   "doc": "Holds values to draw a rod in rear of the main rod.",
+   "variants": [
+    {"tag":null,"fields":{"fromY":{"type":{"k":"double"},"nullable":true},"toY":{"type":{"k":"double"},"nullable":true},"show":{"type":{"k":"bool"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true}}}
+   ]
+  },
+  "BarAreaData": {
+   "dart": "BarAreaData",
+   "doc": "Holds data for filling an area (above or below) of the line with a color or gradient.",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"spotsLine":{"type":{"k":"data","n":"BarAreaSpotsLine"}},"cutOffY":{"type":{"k":"double"}},"applyCutOffY":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "BarAreaSpotsLine": {
+   "dart": "BarAreaSpotsLine",
+   "doc": "Holds data for drawing line on the spots under the [BarAreaData].",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}},"flLineStyle":{"type":{"k":"data","n":"FlLine"}},"applyCutOffY":{"type":{"k":"bool"}}},"omitted":{"checkToShowSpotLine":"nested:callback/sync-return"}}
+   ]
+  },
+  "BarChartData": {
+   "dart": "BarChartData",
+   "doc": "[BarChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"barGroups":{"type":{"k":"list","e":{"k":"data","n":"BarChartGroupData"}}},"groupsSpace":{"type":{"k":"double"},"nullable":true},"alignment":{"type":{"k":"enum","n":"BarChartAlignment"},"nullable":true},"titlesData":{"type":{"k":"data","n":"FlTitlesData"},"nullable":true},"barTouchData":{"type":{"k":"data","n":"BarTouchData"},"nullable":true},"maxY":{"type":{"k":"double"},"nullable":true},"minY":{"type":{"k":"double"},"nullable":true},"baselineY":{"type":{"k":"double"},"nullable":true},"gridData":{"type":{"k":"data","n":"FlGridData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true},"rangeAnnotations":{"type":{"k":"data","n":"RangeAnnotations"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"extraLinesData":{"type":{"k":"data","n":"ExtraLinesData"},"nullable":true},"rotationQuarterTurns":{"type":{"k":"int"}},"errorIndicatorData":{"type":{"k":"data","n":"FlErrorIndicatorDataOfBarChartSpotErrorRangeCallbackInput"}}}}
+   ]
+  },
+  "BarChartGroupData": {
+   "dart": "BarChartGroupData",
+   "doc": "Represents a group of rods (or bars) inside the [BarChart].",
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"int"},"required":true},"groupVertically":{"type":{"k":"bool"},"nullable":true},"barRods":{"type":{"k":"list","e":{"k":"data","n":"BarChartRodData"}}},"barsSpace":{"type":{"k":"double"},"nullable":true},"showingTooltipIndicators":{"type":{"k":"list","e":{"k":"int"}}}}}
+   ]
+  },
+  "BarChartRodData": {
+   "dart": "BarChartRodData",
+   "doc": "Holds data about rendering each rod (or bar) in the [BarChart].",
+   "variants": [
+    {"tag":null,"fields":{"fromY":{"type":{"k":"double"},"nullable":true},"toY":{"type":{"k":"double"},"required":true},"toYErrorRange":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"width":{"type":{"k":"double"},"nullable":true},"borderRadius":{"type":{"k":"data","n":"BorderRadius"},"nullable":true},"borderDashArray":{"type":{"k":"list","e":{"k":"int"}}},"borderSide":{"type":{"k":"data","n":"BorderSide"},"nullable":true},"backDrawRodData":{"type":{"k":"data","n":"BackgroundBarChartRodData"},"nullable":true},"rodStackItems":{"type":{"k":"list","e":{"k":"data","n":"BarChartRodStackItem"}}},"label":{"type":{"k":"data","n":"BarChartRodLabel"}}}}
+   ]
+  },
+  "BarChartRodLabel": {
+   "dart": "BarChartRodLabel",
+   "doc": "Label configuration for a bar chart rod.",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}},"text":{"type":{"k":"string"}},"style":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"angle":{"type":{"k":"double"}},"textDirection":{"type":{"k":"enum","n":"TextDirection"}},"offset":{"type":{"k":"data","n":"Offset"}}}}
+   ]
+  },
+  "BarChartRodStackItem": {
+   "dart": "BarChartRodStackItem",
+   "doc": "A colored section of Stacked Chart rod item",
+   "variants": [
+    {"tag":null,"fields":{"fromY":{"type":{"k":"double"},"required":true},"toY":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"label":{"type":{"k":"string"},"nullable":true},"labelStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"borderSide":{"type":{"k":"data","n":"BorderSide"}}}}
+   ]
+  },
+  "BarTouchData": {
+   "dart": "BarTouchData",
+   "doc": "Holds data to handle touch events, and touch responses in the [BarChart].",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"nullable":true},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"touchTooltipData":{"type":{"k":"data","n":"BarTouchTooltipData"},"nullable":true},"touchExtraThreshold":{"type":{"k":"data","n":"EdgeInsets"},"nullable":true},"allowTouchBarBackDraw":{"type":{"k":"bool"},"nullable":true},"handleBuiltInTouches":{"type":{"k":"bool"},"nullable":true}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "BarTouchTooltipData": {
+   "dart": "BarTouchTooltipData",
+   "doc": "Holds representation data for showing tooltip popup on top of rods.",
+   "variants": [
+    {"tag":null,"fields":{"tooltipBorderRadius":{"type":{"k":"data","n":"BorderRadius"},"nullable":true},"tooltipPadding":{"type":{"k":"data","n":"EdgeInsets"},"nullable":true},"tooltipMargin":{"type":{"k":"double"},"nullable":true},"tooltipHorizontalAlignment":{"type":{"k":"enum","n":"FLHorizontalAlignment"},"nullable":true},"tooltipHorizontalOffset":{"type":{"k":"double"},"nullable":true},"maxContentWidth":{"type":{"k":"double"},"nullable":true},"fitInsideHorizontally":{"type":{"k":"bool"},"nullable":true},"fitInsideVertically":{"type":{"k":"bool"},"nullable":true},"direction":{"type":{"k":"enum","n":"TooltipDirection"},"nullable":true},"rotateAngle":{"type":{"k":"double"},"nullable":true},"tooltipBorder":{"type":{"k":"data","n":"BorderSide"},"nullable":true}},"omitted":{"getTooltipItem":"nested:callback/sync-return","getTooltipColor":"nested:callback/sync-return"}}
+   ]
+  },
+  "BetweenBarsData": {
+   "dart": "BetweenBarsData",
+   "doc": "Holds data about filling below or above space of the bar line,",
+   "variants": [
+    {"tag":null,"fields":{"fromIndex":{"type":{"k":"int"},"required":true},"toIndex":{"type":{"k":"int"},"required":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true}}}
+   ]
+  },
+  "Border": {
+   "dart": "Border",
+   "doc": "A border of a box, comprised of four sides: top, right, bottom, left.",
+   "variants": [
+    {"tag":null,"fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "CandlestickChartData": {
+   "dart": "CandlestickChartData",
+   "doc": "[CandlestickChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"candlestickSpots":{"type":{"k":"list","e":{"k":"data","n":"CandlestickSpot"}}},"candlestickPainter":{"type":{"k":"data","n":"FlCandlestickPainter"},"nullable":true},"titlesData":{"type":{"k":"data","n":"FlTitlesData"},"nullable":true},"candlestickTouchData":{"type":{"k":"data","n":"CandlestickTouchData"},"nullable":true},"showingTooltipIndicators":{"type":{"k":"list","e":{"k":"int"}}},"gridData":{"type":{"k":"data","n":"FlGridData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true},"minX":{"type":{"k":"double"},"nullable":true},"maxX":{"type":{"k":"double"},"nullable":true},"baselineX":{"type":{"k":"double"},"nullable":true},"minY":{"type":{"k":"double"},"nullable":true},"maxY":{"type":{"k":"double"},"nullable":true},"baselineY":{"type":{"k":"double"},"nullable":true},"rangeAnnotations":{"type":{"k":"data","n":"RangeAnnotations"},"nullable":true},"clipData":{"type":{"k":"data","n":"FlClipData"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"rotationQuarterTurns":{"type":{"k":"int"}},"touchedPointIndicator":{"type":{"k":"data","n":"AxisSpotIndicator"},"nullable":true}}}
+   ]
+  },
+  "CandlestickSpot": {
+   "dart": "CandlestickSpot",
+   "doc": "Defines information about a spot in the [CandlestickChart]",
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"open":{"type":{"k":"double"},"required":true},"high":{"type":{"k":"double"},"required":true},"low":{"type":{"k":"double"},"required":true},"close":{"type":{"k":"double"},"required":true},"show":{"type":{"k":"bool"},"nullable":true}}}
+   ]
+  },
+  "CandlestickTouchData": {
+   "dart": "CandlestickTouchData",
+   "doc": "Holds data to handle touch events, and touch responses in the [CandlestickChart].",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"nullable":true},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"touchTooltipData":{"type":{"k":"data","n":"CandlestickTouchTooltipData"},"nullable":true},"handleBuiltInTouches":{"type":{"k":"bool"},"nullable":true},"touchSpotThreshold":{"type":{"k":"double"},"nullable":true}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "CandlestickTouchTooltipData": {
+   "dart": "CandlestickTouchTooltipData",
+   "doc": "Holds representation data for showing tooltip popup on top of spots.",
+   "variants": [
+    {"tag":null,"fields":{"tooltipBorderRadius":{"type":{"k":"data","n":"BorderRadius"},"nullable":true},"tooltipPadding":{"type":{"k":"data","n":"EdgeInsets"},"nullable":true},"tooltipHorizontalAlignment":{"type":{"k":"enum","n":"FLHorizontalAlignment"},"nullable":true},"tooltipHorizontalOffset":{"type":{"k":"double"},"nullable":true},"maxContentWidth":{"type":{"k":"double"},"nullable":true},"fitInsideHorizontally":{"type":{"k":"bool"},"nullable":true},"fitInsideVertically":{"type":{"k":"bool"},"nullable":true},"showOnTopOfTheChartBoxArea":{"type":{"k":"bool"},"nullable":true},"rotateAngle":{"type":{"k":"double"},"nullable":true},"tooltipBorder":{"type":{"k":"data","n":"BorderSide"},"nullable":true}},"omitted":{"getTooltipItems":"nested:callback/sync-return","getTooltipColor":"nested:callback/sync-return"}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "EdgeInsetsGeometry": {
+   "dart": "EdgeInsetsGeometry",
+   "doc": "Base class for [EdgeInsets] that allows for text-direction aware\nresolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","infinity","EdgeInsets.zero","EdgeInsetsDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.only","fields":{"start":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.symmetric","fields":{"horizontal":{"type":{"k":"double"}},"vertical":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.all","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ExtraLinesData": {
+   "dart": "ExtraLinesData",
+   "doc": "Draws some straight horizontal or vertical lines in the [LineChart]",
+   "variants": [
+    {"tag":null,"fields":{"horizontalLines":{"type":{"k":"list","e":{"k":"data","n":"HorizontalLine"}}},"verticalLines":{"type":{"k":"list","e":{"k":"data","n":"VerticalLine"}}},"extraLinesOnTop":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "FlBorderData": {
+   "dart": "FlBorderData",
+   "doc": "Holds data to drawing border around the chart.",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"},"nullable":true},"border":{"type":{"k":"data","n":"Border"},"nullable":true}}}
+   ]
+  },
+  "FlCandlestickPainter": {
+   "dart": "FlCandlestickPainter",
+   "doc": "This class contains the interface for drawing the candlestick shape.",
+   "variants": [
+    {"tag":"DefaultCandlestickPainter","fields":{},"omitted":{"candlestickStyleProvider":"nested:callback/sync-return"}}
+   ]
+  },
+  "FlClipData": {
+   "dart": "FlClipData",
+   "doc": "Holds data to clipping chart around its borders.",
+   "variants": [
+    {"tag":null,"fields":{"top":{"type":{"k":"bool"},"required":true},"bottom":{"type":{"k":"bool"},"required":true},"left":{"type":{"k":"bool"},"required":true},"right":{"type":{"k":"bool"},"required":true}}},
+    {"tag":"all","fields":{}},
+    {"tag":"vertical","fields":{}},
+    {"tag":"horizontal","fields":{}},
+    {"tag":"none","fields":{}}
+   ]
+  },
+  "FlDotData": {
+   "dart": "FlDotData",
+   "doc": "This class holds data about drawing spot dots on the drawing bar line.",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}}},"omitted":{"checkToShowDot":"nested:callback/sync-return","getDotPainter":"nested:callback/sync-return"}}
+   ]
+  },
+  "FlDotPainter": {
+   "dart": "FlDotPainter",
+   "doc": "This class contains the interface that all DotPainters should conform to.",
+   "variants": [
+    {"tag":"FlDotCirclePainter","fields":{"color":{"type":{"k":"data","n":"Color"}},"radius":{"type":{"k":"double"},"nullable":true},"strokeColor":{"type":{"k":"data","n":"Color"}},"strokeWidth":{"type":{"k":"double"}}}},
+    {"tag":"FlDotSquarePainter","fields":{"color":{"type":{"k":"data","n":"Color"}},"size":{"type":{"k":"double"}},"strokeColor":{"type":{"k":"data","n":"Color"}},"strokeWidth":{"type":{"k":"double"}}}},
+    {"tag":"FlDotCrossPainter","fields":{"color":{"type":{"k":"data","n":"Color"}},"size":{"type":{"k":"double"}},"width":{"type":{"k":"double"}}}}
+   ]
+  },
+  "FlErrorIndicatorDataOfBarChartSpotErrorRangeCallbackInput": {
+   "dart": "FlErrorIndicatorData<BarChartSpotErrorRangeCallbackInput>",
+   "doc": "Holds the information about the error range of a spot",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}}},"omitted":{"painter":"nested:callback/sync-return"}}
+   ]
+  },
+  "FlErrorIndicatorDataOfLineChartSpotErrorRangeCallbackInput": {
+   "dart": "FlErrorIndicatorData<LineChartSpotErrorRangeCallbackInput>",
+   "doc": "Holds the information about the error range of a spot",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}}},"omitted":{"painter":"nested:callback/sync-return"}}
+   ]
+  },
+  "FlErrorIndicatorDataOfScatterChartSpotErrorRangeCallbackInput": {
+   "dart": "FlErrorIndicatorData<ScatterChartSpotErrorRangeCallbackInput>",
+   "doc": "Holds the information about the error range of a spot",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}}},"omitted":{"painter":"nested:callback/sync-return"}}
+   ]
+  },
+  "FlErrorRange": {
+   "dart": "FlErrorRange",
+   "doc": "Represents a range of values that can be used to show error bars/threshold",
+   "variants": [
+    {"tag":null,"fields":{"lowerBy":{"type":{"k":"double"},"required":true},"upperBy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"symmetric","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FlGridData": {
+   "dart": "FlGridData",
+   "doc": "Responsible to hold grid data,",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}},"drawHorizontalLine":{"type":{"k":"bool"}},"horizontalInterval":{"type":{"k":"double"},"nullable":true},"drawVerticalLine":{"type":{"k":"bool"}},"verticalInterval":{"type":{"k":"double"},"nullable":true}},"omitted":{"getDrawingHorizontalLine":"nested:callback/sync-return","checkToShowHorizontalLine":"nested:callback/sync-return","getDrawingVerticalLine":"nested:callback/sync-return","checkToShowVerticalLine":"nested:callback/sync-return"}}
+   ]
+  },
+  "FlLine": {
+   "dart": "FlLine",
+   "doc": "Defines style of a line.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"dashArray":{"type":{"k":"list","e":{"k":"int"}}}}},
+    {"tag":"HorizontalLine","fields":{"y":{"type":{"k":"double"},"required":true},"label":{"type":{"k":"data","n":"HorizontalLineLabel"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"dashArray":{"type":{"k":"list","e":{"k":"int"}}},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}}},"omitted":{"image":"unbridgeable/no-usable-constructor","sizedPicture":"unbridgeable/no-usable-constructor"}},
+    {"tag":"VerticalLine","fields":{"x":{"type":{"k":"double"},"required":true},"label":{"type":{"k":"data","n":"VerticalLineLabel"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"dashArray":{"type":{"k":"list","e":{"k":"int"}}},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}}},"omitted":{"image":"unbridgeable/no-usable-constructor","sizedPicture":"unbridgeable/no-usable-constructor"}}
+   ]
+  },
+  "FlSpot": {
+   "dart": "FlSpot",
+   "doc": "Represents a conceptual position in cartesian (axis based) space.",
+   "consts": ["nullSpot","zero"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true},"xError":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true},"yError":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true}}},
+    {"tag":"CandlestickSpot","fields":{"x":{"type":{"k":"double"},"required":true},"open":{"type":{"k":"double"},"required":true},"high":{"type":{"k":"double"},"required":true},"low":{"type":{"k":"double"},"required":true},"close":{"type":{"k":"double"},"required":true},"show":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"LineBarSpot","fields":{"bar":{"type":{"k":"data","n":"LineChartBarData"},"required":true},"barIndex":{"type":{"k":"int"},"required":true},"spot":{"type":{"k":"data","n":"FlSpot"},"required":true}}},
+    {"tag":"TouchLineBarSpot","fields":{"bar":{"type":{"k":"data","n":"LineChartBarData"},"required":true},"barIndex":{"type":{"k":"int"},"required":true},"spot":{"type":{"k":"data","n":"FlSpot"},"required":true},"distance":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ScatterSpot","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true},"show":{"type":{"k":"bool"},"nullable":true},"renderPriority":{"type":{"k":"int"},"nullable":true},"dotPainter":{"type":{"k":"data","n":"FlDotPainter"},"nullable":true},"xError":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true},"yError":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true}}}
+   ]
+  },
+  "FlTitlesData": {
+   "dart": "FlTitlesData",
+   "doc": "Holds data for showing titles on each side of charts.",
+   "variants": [
+    {"tag":null,"fields":{"show":{"type":{"k":"bool"}},"leftTitles":{"type":{"k":"data","n":"AxisTitles"}},"topTitles":{"type":{"k":"data","n":"AxisTitles"}},"rightTitles":{"type":{"k":"data","n":"AxisTitles"}},"bottomTitles":{"type":{"k":"data","n":"AxisTitles"}}}}
+   ]
+  },
+  "FlTransformationConfig": {
+   "dart": "FlTransformationConfig",
+   "doc": "Configuration for the transformation of an axis-based chart.",
+   "variants": [
+    {"tag":null,"fields":{"scaleAxis":{"type":{"k":"enum","n":"FlScaleAxis"}},"minScale":{"type":{"k":"double"}},"maxScale":{"type":{"k":"double"}},"panEnabled":{"type":{"k":"bool"}},"scaleEnabled":{"type":{"k":"bool"}},"trackpadScrollCausesScale":{"type":{"k":"bool"}}},"omitted":{"transformationController":"nested:handle/controller"}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "GaugeChartData": {
+   "dart": "GaugeChartData",
+   "doc": "[GaugeChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"rings":{"type":{"k":"list","e":{"k":"data","n":"GaugeRing"}},"required":true},"minValue":{"type":{"k":"double"}},"maxValue":{"type":{"k":"double"}},"startDegreeOffset":{"type":{"k":"double"}},"sweepAngle":{"type":{"k":"double"}},"direction":{"type":{"k":"enum","n":"GaugeDirection"}},"defaultRingWidth":{"type":{"k":"double"}},"ringsSpace":{"type":{"k":"double"}},"ticks":{"type":{"k":"data","n":"GaugeTicks"},"nullable":true},"pointers":{"type":{"k":"list","e":{"k":"data","n":"GaugePointer"}}},"markers":{"type":{"k":"list","e":{"k":"data","n":"GaugeMarker"}}},"touchData":{"type":{"k":"data","n":"GaugeTouchData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true}}},
+    {"tag":"progress","fields":{"value":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"width":{"type":{"k":"double"},"required":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"min":{"type":{"k":"double"}},"max":{"type":{"k":"double"}},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}},"startDegreeOffset":{"type":{"k":"double"}},"sweepAngle":{"type":{"k":"double"}},"direction":{"type":{"k":"enum","n":"GaugeDirection"}},"ticks":{"type":{"k":"data","n":"GaugeTicks"},"nullable":true},"pointers":{"type":{"k":"list","e":{"k":"data","n":"GaugePointer"}}},"markers":{"type":{"k":"list","e":{"k":"data","n":"GaugeMarker"}}},"touchData":{"type":{"k":"data","n":"GaugeTouchData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true}}}
+   ]
+  },
+  "GaugeMarker": {
+   "dart": "GaugeMarker",
+   "doc": "A single marker drawn along the gauge's arc at an arbitrary\ncontinuous [value]. Conceptually a continuous-value cousin of\n[GaugeTicks] — markers reference the ring stack as a whole (outer /\ninner / center) and use the same arc-anchored local frame as\n[GaugeTickPainter], but each carries its own `value` instead of\nbeing constrained to an evenly-spaced index.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true},"position":{"type":{"k":"enum","n":"GaugeTickPosition"}},"offset":{"type":{"k":"double"}},"painter":{"type":{"k":"data","n":"GaugeMarkerPainter"}}}}
+   ]
+  },
+  "GaugeMarkerPainter": {
+   "dart": "GaugeMarkerPainter",
+   "doc": "Interface for rendering a single [GaugeMarker].",
+   "variants": [
+    {"tag":"GaugeMarkerLinePainter","fields":{"length":{"type":{"k":"double"}},"thickness":{"type":{"k":"double"}},"color":{"type":{"k":"data","n":"Color"}},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}},"alignment":{"type":{"k":"enum","n":"GaugeMarkerLineAlignment"}},"label":{"type":{"k":"string"},"nullable":true},"labelStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"labelOffset":{"type":{"k":"double"}},"labelSide":{"type":{"k":"enum","n":"GaugeMarkerLabelSide"}}}}
+   ]
+  },
+  "GaugePointer": {
+   "dart": "GaugePointer",
+   "doc": "A single pointer drawn on top of the gauge, indicating a specific\n[value] on the scale shared by [GaugeChartData.rings].",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true},"painter":{"type":{"k":"data","n":"GaugePointerPainter"}}}}
+   ]
+  },
+  "GaugePointerPainter": {
+   "dart": "GaugePointerPainter",
+   "doc": "Interface for rendering a single [GaugePointer].",
+   "variants": [
+    {"tag":"GaugePointerNeedlePainter","fields":{"length":{"type":{"k":"double"}},"width":{"type":{"k":"double"}},"tailLength":{"type":{"k":"double"}},"color":{"type":{"k":"data","n":"Color"}}}},
+    {"tag":"GaugePointerCirclePainter","fields":{"radius":{"type":{"k":"double"}},"anchorRadius":{"type":{"k":"double"}},"color":{"type":{"k":"data","n":"Color"}},"strokeWidth":{"type":{"k":"double"}},"strokeColor":{"type":{"k":"data","n":"Color"}}}}
+   ]
+  },
+  "GaugeRing": {
+   "dart": "GaugeRing",
+   "doc": "Base type for a single concentric ring of a [GaugeChartData].",
+   "variants": [
+    {"tag":"GaugeProgressRing","fields":{"value":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}},"width":{"type":{"k":"double"},"nullable":true}}},
+    {"tag":"GaugeZonesRing","fields":{"zones":{"type":{"k":"list","e":{"k":"data","n":"GaugeZone"}},"required":true},"zonesSpace":{"type":{"k":"double"}},"width":{"type":{"k":"double"},"nullable":true}}}
+   ]
+  },
+  "GaugeTickPainter": {
+   "dart": "GaugeTickPainter",
+   "doc": "Interface for rendering a single tick mark on a [GaugeChart].",
+   "variants": [
+    {"tag":"GaugeTickLinePainter","fields":{"length":{"type":{"k":"double"}},"thickness":{"type":{"k":"double"}},"color":{"type":{"k":"data","n":"Color"}}}},
+    {"tag":"GaugeTickCirclePainter","fields":{"radius":{"type":{"k":"double"}},"color":{"type":{"k":"data","n":"Color"}},"strokeWidth":{"type":{"k":"double"}},"strokeColor":{"type":{"k":"data","n":"Color"}}}}
+   ]
+  },
+  "GaugeTicks": {
+   "dart": "GaugeTicks",
+   "doc": "Configuration for tick marks drawn along a [GaugeChartData]'s arc.",
+   "variants": [
+    {"tag":null,"fields":{"count":{"type":{"k":"int"}},"position":{"type":{"k":"enum","n":"GaugeTickPosition"}},"offset":{"type":{"k":"double"}},"painter":{"type":{"k":"data","n":"GaugeTickPainter"}},"labelStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"labelOffset":{"type":{"k":"double"}}},"omitted":{"checkToShowTick":"nested:callback/sync-return","labelBuilder":"nested:callback/sync-return"}}
+   ]
+  },
+  "GaugeTouchData": {
+   "dart": "GaugeTouchData",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"nullable":true},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "GaugeZone": {
+   "dart": "GaugeZone",
+   "doc": "A single colored band within a [GaugeZonesRing]. [from] and [to]\nare positions on the shared [GaugeChartData.minValue] /\n[GaugeChartData.maxValue] scale; [to] must be `>= from`.",
+   "variants": [
+    {"tag":null,"fields":{"from":{"type":{"k":"double"},"required":true},"to":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}}}}
+   ]
+  },
+  "Gradient": {
+   "dart": "Gradient",
+   "doc": "A 2D gradient.",
+   "variants": [
+    {"tag":"LinearGradient","fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"}},"end":{"type":{"k":"data","n":"AlignmentGeometry"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"RadialGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"radius":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"focal":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"focalRadius":{"type":{"k":"double"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"SweepGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"startAngle":{"type":{"k":"double"}},"endAngle":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "HorizontalLine": {
+   "dart": "HorizontalLine",
+   "doc": "Holds data for drawing extra horizontal lines.",
+   "variants": [
+    {"tag":null,"fields":{"y":{"type":{"k":"double"},"required":true},"label":{"type":{"k":"data","n":"HorizontalLineLabel"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"dashArray":{"type":{"k":"list","e":{"k":"int"}}},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}}},"omitted":{"image":"unbridgeable/no-usable-constructor","sizedPicture":"unbridgeable/no-usable-constructor"}}
+   ]
+  },
+  "HorizontalLineLabel": {
+   "dart": "HorizontalLineLabel",
+   "doc": "Draws a title on the [HorizontalLine]",
+   "variants": [
+    {"tag":null,"fields":{"padding":{"type":{"k":"data","n":"EdgeInsetsGeometry"}},"style":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"alignment":{"type":{"k":"data","n":"Alignment"}},"show":{"type":{"k":"bool"}},"direction":{"type":{"k":"enum","n":"LabelDirection"}}},"omitted":{"labelResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "HorizontalRangeAnnotation": {
+   "dart": "HorizontalRangeAnnotation",
+   "doc": "Defines an annotation region in y (vertical) axis.",
+   "variants": [
+    {"tag":null,"fields":{"y1":{"type":{"k":"double"},"required":true},"y2":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true}}}
+   ]
+  },
+  "LineBarSpot": {
+   "dart": "LineBarSpot",
+   "doc": "Represent a targeted spot inside a line bar.",
+   "variants": [
+    {"tag":null,"fields":{"bar":{"type":{"k":"data","n":"LineChartBarData"},"required":true},"barIndex":{"type":{"k":"int"},"required":true},"spot":{"type":{"k":"data","n":"FlSpot"},"required":true}}},
+    {"tag":"TouchLineBarSpot","fields":{"bar":{"type":{"k":"data","n":"LineChartBarData"},"required":true},"barIndex":{"type":{"k":"int"},"required":true},"spot":{"type":{"k":"data","n":"FlSpot"},"required":true},"distance":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "LineChartBarData": {
+   "dart": "LineChartBarData",
+   "doc": "Holds data for drawing each individual line in the [LineChart]",
+   "variants": [
+    {"tag":null,"fields":{"spots":{"type":{"k":"list","e":{"k":"data","n":"FlSpot"}}},"show":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"gradientArea":{"type":{"k":"enum","n":"LineChartGradientArea"}},"barWidth":{"type":{"k":"double"}},"isCurved":{"type":{"k":"bool"}},"curveSmoothness":{"type":{"k":"double"}},"preventCurveOverShooting":{"type":{"k":"bool"}},"preventCurveOvershootingThreshold":{"type":{"k":"double"}},"isStrokeCapRound":{"type":{"k":"bool"}},"isStrokeJoinRound":{"type":{"k":"bool"}},"belowBarData":{"type":{"k":"data","n":"BarAreaData"},"nullable":true},"aboveBarData":{"type":{"k":"data","n":"BarAreaData"},"nullable":true},"dotData":{"type":{"k":"data","n":"FlDotData"}},"errorIndicatorData":{"type":{"k":"data","n":"FlErrorIndicatorDataOfLineChartSpotErrorRangeCallbackInput"}},"showingIndicators":{"type":{"k":"list","e":{"k":"int"}}},"dashArray":{"type":{"k":"list","e":{"k":"int"}}},"shadow":{"type":{"k":"data","n":"Shadow"}},"isStepLineChart":{"type":{"k":"bool"}},"lineChartStepData":{"type":{"k":"data","n":"LineChartStepData"}}}}
+   ]
+  },
+  "LineChartData": {
+   "dart": "LineChartData",
+   "doc": "[LineChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"lineBarsData":{"type":{"k":"list","e":{"k":"data","n":"LineChartBarData"}}},"betweenBarsData":{"type":{"k":"list","e":{"k":"data","n":"BetweenBarsData"}}},"titlesData":{"type":{"k":"data","n":"FlTitlesData"}},"extraLinesData":{"type":{"k":"data","n":"ExtraLinesData"},"nullable":true},"lineTouchData":{"type":{"k":"data","n":"LineTouchData"}},"showingTooltipIndicators":{"type":{"k":"list","e":{"k":"data","n":"ShowingTooltipIndicators"}}},"gridData":{"type":{"k":"data","n":"FlGridData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true},"rangeAnnotations":{"type":{"k":"data","n":"RangeAnnotations"},"nullable":true},"minX":{"type":{"k":"double"},"nullable":true},"maxX":{"type":{"k":"double"},"nullable":true},"baselineX":{"type":{"k":"double"},"nullable":true},"minY":{"type":{"k":"double"},"nullable":true},"maxY":{"type":{"k":"double"},"nullable":true},"baselineY":{"type":{"k":"double"},"nullable":true},"clipData":{"type":{"k":"data","n":"FlClipData"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"rotationQuarterTurns":{"type":{"k":"int"}}}}
+   ]
+  },
+  "LineChartStepData": {
+   "dart": "LineChartStepData",
+   "doc": "Holds data for representing a Step Line Chart, and works only if [LineChartBarData.isStepLineChart] is true.",
+   "variants": [
+    {"tag":null,"fields":{"stepDirection":{"type":{"k":"double"}}}}
+   ]
+  },
+  "LineTouchData": {
+   "dart": "LineTouchData",
+   "doc": "Holds data to handle touch events, and touch responses in the [LineChart].",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"}},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"touchTooltipData":{"type":{"k":"data","n":"LineTouchTooltipData"}},"touchSpotThreshold":{"type":{"k":"double"}},"handleBuiltInTouches":{"type":{"k":"bool"}}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return","getTouchedSpotIndicator":"nested:callback/sync-return","distanceCalculator":"nested:callback/sync-return","getTouchLineStart":"nested:callback/sync-return","getTouchLineEnd":"nested:callback/sync-return"}}
+   ]
+  },
+  "LineTouchTooltipData": {
+   "dart": "LineTouchTooltipData",
+   "doc": "Holds representation data for showing tooltip popup on top of spots.",
+   "variants": [
+    {"tag":null,"fields":{"tooltipBorderRadius":{"type":{"k":"data","n":"BorderRadius"},"nullable":true},"tooltipPadding":{"type":{"k":"data","n":"EdgeInsets"}},"tooltipMargin":{"type":{"k":"double"}},"tooltipHorizontalAlignment":{"type":{"k":"enum","n":"FLHorizontalAlignment"}},"tooltipHorizontalOffset":{"type":{"k":"double"}},"maxContentWidth":{"type":{"k":"double"}},"fitInsideHorizontally":{"type":{"k":"bool"}},"fitInsideVertically":{"type":{"k":"bool"}},"showOnTopOfTheChartBoxArea":{"type":{"k":"bool"}},"rotateAngle":{"type":{"k":"double"}},"tooltipBorder":{"type":{"k":"data","n":"BorderSide"}}},"omitted":{"getTooltipItems":"nested:callback/sync-return","getTooltipColor":"nested:callback/sync-return"}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "PieChartData": {
+   "dart": "PieChartData",
+   "doc": "[PieChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"sections":{"type":{"k":"list","e":{"k":"data","n":"PieChartSectionData"}}},"centerSpaceRadius":{"type":{"k":"double"},"nullable":true},"centerSpaceColor":{"type":{"k":"data","n":"Color"},"nullable":true},"sectionsSpace":{"type":{"k":"double"},"nullable":true},"startDegreeOffset":{"type":{"k":"double"},"nullable":true},"pieTouchData":{"type":{"k":"data","n":"PieTouchData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true},"titleSunbeamLayout":{"type":{"k":"bool"},"nullable":true}}}
+   ]
+  },
+  "PieChartSectionData": {
+   "dart": "PieChartSectionData",
+   "doc": "Holds data related to drawing each [PieChart] section.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"radius":{"type":{"k":"double"},"nullable":true},"showTitle":{"type":{"k":"bool"},"nullable":true},"titleStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"title":{"type":{"k":"string"},"nullable":true},"borderSide":{"type":{"k":"data","n":"BorderSide"},"nullable":true},"cornerRadius":{"type":{"k":"double"},"nullable":true},"titlePositionPercentageOffset":{"type":{"k":"double"},"nullable":true},"badgePositionPercentageOffset":{"type":{"k":"double"},"nullable":true},"segments":{"type":{"k":"list","e":{"k":"data","n":"PieChartStackSegmentData"}}}},"omitted":{"badgeWidget":"nested:widget/slot"}}
+   ]
+  },
+  "PieChartStackSegmentData": {
+   "dart": "PieChartStackSegmentData",
+   "doc": "A stylized segment of a Stacked Pie Chart section item.",
+   "variants": [
+    {"tag":null,"fields":{"fromRadius":{"type":{"k":"double"},"nullable":true},"toRadius":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true}}}
+   ]
+  },
+  "PieTouchData": {
+   "dart": "PieTouchData",
+   "doc": "Holds data to handle touch events, and touch responses in the [PieChart].",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"nullable":true},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "RadarChartData": {
+   "dart": "RadarChartData",
+   "doc": "[RadarChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"dataSets":{"type":{"k":"list","e":{"k":"data","n":"RadarDataSet"}}},"radarBackgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"radarBorderData":{"type":{"k":"data","n":"BorderSide"},"nullable":true},"radarShape":{"type":{"k":"enum","n":"RadarShape"},"nullable":true},"titleTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"titlePositionPercentageOffset":{"type":{"k":"double"},"nullable":true},"tickCount":{"type":{"k":"int"},"nullable":true},"ticksTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"tickBorderData":{"type":{"k":"data","n":"BorderSide"},"nullable":true},"gridBorderData":{"type":{"k":"data","n":"BorderSide"},"nullable":true},"radarTouchData":{"type":{"k":"data","n":"RadarTouchData"},"nullable":true},"isMinValueAtCenter":{"type":{"k":"bool"}},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true}},"omitted":{"getTitle":"nested:callback/sync-return"}}
+   ]
+  },
+  "RadarDataSet": {
+   "dart": "RadarDataSet",
+   "doc": "the data values for drawing [RadarChart] sections",
+   "variants": [
+    {"tag":null,"fields":{"dataEntries":{"type":{"k":"list","e":{"k":"data","n":"RadarEntry"}}},"fillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fillGradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"borderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"borderWidth":{"type":{"k":"double"},"nullable":true},"entryRadius":{"type":{"k":"double"},"nullable":true}}}
+   ]
+  },
+  "RadarEntry": {
+   "dart": "RadarEntry",
+   "doc": "holds the data about each entry or point in [RadarChart]",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "RadarTouchData": {
+   "dart": "RadarTouchData",
+   "doc": "Holds data to handle touch events, and touch responses in the [RadarChart].",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"nullable":true},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"touchSpotThreshold":{"type":{"k":"double"},"nullable":true}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "RangeAnnotations": {
+   "dart": "RangeAnnotations",
+   "doc": "Holds data for rendering horizontal and vertical range annotations.",
+   "variants": [
+    {"tag":null,"fields":{"horizontalRangeAnnotations":{"type":{"k":"list","e":{"k":"data","n":"HorizontalRangeAnnotation"}}},"verticalRangeAnnotations":{"type":{"k":"list","e":{"k":"data","n":"VerticalRangeAnnotation"}}}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "ScatterChartData": {
+   "dart": "ScatterChartData",
+   "doc": "[ScatterChart] needs this class to render itself.",
+   "variants": [
+    {"tag":null,"fields":{"scatterSpots":{"type":{"k":"list","e":{"k":"data","n":"ScatterSpot"}}},"titlesData":{"type":{"k":"data","n":"FlTitlesData"},"nullable":true},"scatterTouchData":{"type":{"k":"data","n":"ScatterTouchData"},"nullable":true},"showingTooltipIndicators":{"type":{"k":"list","e":{"k":"int"}}},"gridData":{"type":{"k":"data","n":"FlGridData"},"nullable":true},"borderData":{"type":{"k":"data","n":"FlBorderData"},"nullable":true},"minX":{"type":{"k":"double"},"nullable":true},"maxX":{"type":{"k":"double"},"nullable":true},"baselineX":{"type":{"k":"double"},"nullable":true},"minY":{"type":{"k":"double"},"nullable":true},"maxY":{"type":{"k":"double"},"nullable":true},"baselineY":{"type":{"k":"double"},"nullable":true},"clipData":{"type":{"k":"data","n":"FlClipData"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"scatterLabelSettings":{"type":{"k":"data","n":"ScatterLabelSettings"},"nullable":true},"rotationQuarterTurns":{"type":{"k":"int"}},"errorIndicatorData":{"type":{"k":"data","n":"FlErrorIndicatorDataOfScatterChartSpotErrorRangeCallbackInput"}}}}
+   ]
+  },
+  "ScatterLabelSettings": {
+   "dart": "ScatterLabelSettings",
+   "doc": "Defines information about the labels in the [ScatterChart]",
+   "variants": [
+    {"tag":null,"fields":{"showLabel":{"type":{"k":"bool"},"nullable":true},"textDirection":{"type":{"k":"enum","n":"TextDirection"},"nullable":true}},"omitted":{"getLabelTextStyleFunction":"nested:callback/sync-return","getLabelFunction":"nested:callback/sync-return"}}
+   ]
+  },
+  "ScatterSpot": {
+   "dart": "ScatterSpot",
+   "doc": "Defines information about a spot in the [ScatterChart]",
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true},"show":{"type":{"k":"bool"},"nullable":true},"renderPriority":{"type":{"k":"int"},"nullable":true},"dotPainter":{"type":{"k":"data","n":"FlDotPainter"},"nullable":true},"xError":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true},"yError":{"type":{"k":"data","n":"FlErrorRange"},"nullable":true}}}
+   ]
+  },
+  "ScatterTouchData": {
+   "dart": "ScatterTouchData",
+   "doc": "Holds data to handle touch events, and touch responses in the [ScatterChart].",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"nullable":true},"longPressDuration":{"type":{"k":"data","n":"Duration"},"nullable":true},"touchTooltipData":{"type":{"k":"data","n":"ScatterTouchTooltipData"},"nullable":true},"touchSpotThreshold":{"type":{"k":"double"},"nullable":true},"handleBuiltInTouches":{"type":{"k":"bool"},"nullable":true}},"omitted":{"touchCallback":"nested:callback/void(encodable args)","mouseCursorResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "ScatterTouchTooltipData": {
+   "dart": "ScatterTouchTooltipData",
+   "doc": "Holds representation data for showing tooltip popup on top of spots.",
+   "variants": [
+    {"tag":null,"fields":{"tooltipBorderRadius":{"type":{"k":"data","n":"BorderRadius"},"nullable":true},"tooltipPadding":{"type":{"k":"data","n":"EdgeInsets"},"nullable":true},"tooltipHorizontalAlignment":{"type":{"k":"enum","n":"FLHorizontalAlignment"},"nullable":true},"tooltipHorizontalOffset":{"type":{"k":"double"},"nullable":true},"maxContentWidth":{"type":{"k":"double"},"nullable":true},"fitInsideHorizontally":{"type":{"k":"bool"},"nullable":true},"fitInsideVertically":{"type":{"k":"bool"},"nullable":true},"rotateAngle":{"type":{"k":"double"},"nullable":true},"tooltipBorder":{"type":{"k":"data","n":"BorderSide"},"nullable":true}},"omitted":{"getTooltipItems":"nested:callback/sync-return","getTooltipColor":"nested:callback/sync-return"}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "ShowingTooltipIndicators": {
+   "dart": "ShowingTooltipIndicators",
+   "doc": "Holds data for showing tooltips over a line",
+   "variants": [
+    {"tag":null,"fields":{"showingSpots":{"type":{"k":"list","e":{"k":"data","n":"LineBarSpot"}},"required":true}}}
+   ]
+  },
+  "SideTitleFitInsideData": {
+   "dart": "SideTitleFitInsideData",
+   "doc": "Force child widget to be positioned inside its\ncorresponding axis bounding box",
+   "variants": [
+    {"tag":null,"fields":{"enabled":{"type":{"k":"bool"},"required":true},"axisPosition":{"type":{"k":"double"},"required":true},"parentAxisSize":{"type":{"k":"double"},"required":true},"distanceFromEdge":{"type":{"k":"double"},"required":true}}},
+    {"tag":"disable","fields":{}},
+    {"tag":"fromTitleMeta","fields":{"meta":{"type":{"k":"data","n":"TitleMeta"},"required":true},"enabled":{"type":{"k":"bool"}},"distanceFromEdge":{"type":{"k":"double"}}}}
+   ]
+  },
+  "SideTitles": {
+   "dart": "SideTitles",
+   "doc": "Holds data for showing label values on axis numbers",
+   "variants": [
+    {"tag":null,"fields":{"showTitles":{"type":{"k":"bool"}},"reservedSize":{"type":{"k":"double"}},"interval":{"type":{"k":"double"},"nullable":true},"minIncluded":{"type":{"k":"bool"}},"maxIncluded":{"type":{"k":"bool"}}},"omitted":{"getTitlesWidget":"nested:builder/encodable args"}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "TitleMeta": {
+   "dart": "TitleMeta",
+   "doc": "Contains meta information about the drawing title.",
+   "variants": [
+    {"tag":null,"fields":{"min":{"type":{"k":"double"},"required":true},"max":{"type":{"k":"double"},"required":true},"parentAxisSize":{"type":{"k":"double"},"required":true},"axisPosition":{"type":{"k":"double"},"required":true},"appliedInterval":{"type":{"k":"double"},"required":true},"sideTitles":{"type":{"k":"data","n":"SideTitles"},"required":true},"formattedValue":{"type":{"k":"string"},"required":true},"axisSide":{"type":{"k":"enum","n":"AxisSide"},"required":true},"rotationQuarterTurns":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "VerticalLine": {
+   "dart": "VerticalLine",
+   "doc": "Holds data for drawing extra vertical lines.",
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"label":{"type":{"k":"data","n":"VerticalLineLabel"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"strokeWidth":{"type":{"k":"double"}},"dashArray":{"type":{"k":"list","e":{"k":"int"}}},"strokeCap":{"type":{"k":"enum","n":"StrokeCap"}}},"omitted":{"image":"unbridgeable/no-usable-constructor","sizedPicture":"unbridgeable/no-usable-constructor"}}
+   ]
+  },
+  "VerticalLineLabel": {
+   "dart": "VerticalLineLabel",
+   "doc": "Draws a title on the [VerticalLine]",
+   "variants": [
+    {"tag":null,"fields":{"padding":{"type":{"k":"data","n":"EdgeInsetsGeometry"}},"style":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"alignment":{"type":{"k":"data","n":"Alignment"}},"show":{"type":{"k":"bool"}},"direction":{"type":{"k":"enum","n":"LabelDirection"}}},"omitted":{"labelResolver":"nested:callback/sync-return"}}
+   ]
+  },
+  "VerticalRangeAnnotation": {
+   "dart": "VerticalRangeAnnotation",
+   "doc": "Defines an annotation region in x (horizontal) axis.",
+   "variants": [
+    {"tag":null,"fields":{"x1":{"type":{"k":"double"},"required":true},"x2":{"type":{"k":"double"},"required":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:fl_chart/fl_chart.dart"]
+}

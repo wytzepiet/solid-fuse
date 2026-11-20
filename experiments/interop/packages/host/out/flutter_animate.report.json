@@ -1,0 +1,496 @@
+{
+  "name": "flutter_animate",
+  "libs": [
+    "package:flutter_animate/flutter_animate.dart"
+  ],
+  "surface": {
+    "total": 67,
+    "bridged": 19,
+    "byKind": {
+      "static getter": {
+        "bridged": 1,
+        "total": 2
+      },
+      "static method": {
+        "bridged": 2,
+        "total": 4
+      },
+      "method": {
+        "bridged": 12,
+        "total": 49
+      },
+      "getter": {
+        "bridged": 3,
+        "total": 8
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 3
+      },
+      "constructor": {
+        "bridged": 0,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static getter",
+      "name": "AnimateList.ignoreTypes",
+      "ok": false,
+      "why": "returns Set<Type> (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "FlipEffect.getTransformMatrix",
+      "ok": false,
+      "why": "returns Matrix4 (no record shape)"
+    },
+    {
+      "kind": "static method",
+      "name": "FollowPathEffect.getMatrix",
+      "ok": false,
+      "why": "returns Matrix4 (no record shape)"
+    },
+    {
+      "kind": "constructor",
+      "name": "AnimateList#constructor AnimateList",
+      "ok": false,
+      "why": "children: unbridgeable (widget/slot[list])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#add()",
+      "ok": false,
+      "why": "element: unbridgeable (widget/slot)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#addAll()",
+      "ok": false,
+      "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#any()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#asMap()",
+      "ok": false,
+      "why": "returns Map<int, Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#cast()",
+      "ok": false,
+      "why": "generic method"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#elementAt()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#every()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#expand()",
+      "ok": false,
+      "why": "f: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#firstWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#fold()",
+      "ok": false,
+      "why": "combine: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#followedBy()",
+      "ok": false,
+      "why": "other: unbridgeable (widget/slot[iterable])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#forEach()",
+      "ok": false,
+      "why": "action: unbridgeable (callback void(unencodable args))"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#getRange()",
+      "ok": false,
+      "why": "returns Iterable<Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#indexWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#insert()",
+      "ok": false,
+      "why": "element: unbridgeable (widget/slot)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#insertAll()",
+      "ok": false,
+      "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#lastIndexWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#lastWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#map()",
+      "ok": false,
+      "why": "f: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#reduce()",
+      "ok": false,
+      "why": "combine: unbridgeable (builder)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#removeAt()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#removeLast()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#removeWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#replaceRange()",
+      "ok": false,
+      "why": "newContents: unbridgeable (widget/slot[iterable])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#retainWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#setAll()",
+      "ok": false,
+      "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#setRange()",
+      "ok": false,
+      "why": "iterable: unbridgeable (widget/slot[iterable])"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#singleWhere()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#skip()",
+      "ok": false,
+      "why": "returns Iterable<Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#skipWhile()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#sublist()",
+      "ok": false,
+      "why": "returns List<Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#take()",
+      "ok": false,
+      "why": "returns Iterable<Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#takeWhile()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#toList()",
+      "ok": false,
+      "why": "returns List<Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#toSet()",
+      "ok": false,
+      "why": "returns Set<Widget> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#where()",
+      "ok": false,
+      "why": "test: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "method",
+      "name": "AnimateList#whereType()",
+      "ok": false,
+      "why": "generic method"
+    },
+    {
+      "kind": "getter",
+      "name": "AnimateList#first",
+      "ok": false,
+      "why": "Widget (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "AnimateList#iterator",
+      "ok": false,
+      "why": "Iterator<Widget> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "AnimateList#last",
+      "ok": false,
+      "why": "Widget (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "AnimateList#reversed",
+      "ok": false,
+      "why": "Iterable<Widget> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "AnimateList#single",
+      "ok": false,
+      "why": "Widget (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "AnimateList#first=",
+      "ok": false,
+      "why": "unbridgeable widget/slot"
+    },
+    {
+      "kind": "setter",
+      "name": "AnimateList#last=",
+      "ok": false,
+      "why": "unbridgeable widget/slot"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "AnimateList",
+      "tag": "flutter_animate_AnimateList",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "addEffect",
+        "addEffects",
+        "clear",
+        "contains",
+        "fillRange",
+        "indexOf",
+        "join",
+        "lastIndexOf",
+        "remove",
+        "removeRange",
+        "shuffle",
+        "sort"
+      ],
+      "methodsTotal": 49,
+      "streams": [],
+      "readable": [
+        "isEmpty",
+        "isNotEmpty",
+        "length"
+      ],
+      "gettersTotal": 8,
+      "objectGetters": [],
+      "setters": [
+        "length"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "constructor AnimateList": "children: unbridgeable (widget/slot[list])",
+        "add()": "element: unbridgeable (widget/slot)",
+        "addAll()": "iterable: unbridgeable (widget/slot[iterable])",
+        "any()": "test: unbridgeable (callback sync-return)",
+        "asMap()": "returns Map<int, Widget> (not encodable)",
+        "cast()": "generic method",
+        "elementAt()": "returns Widget (not encodable)",
+        "every()": "test: unbridgeable (callback sync-return)",
+        "expand()": "f: unbridgeable (callback sync-return)",
+        "fillRange(fill)": "unbridgeable (widget/slot)",
+        "firstWhere()": "test: unbridgeable (callback sync-return)",
+        "fold()": "combine: unbridgeable (callback sync-return)",
+        "followedBy()": "other: unbridgeable (widget/slot[iterable])",
+        "forEach()": "action: unbridgeable (callback void(unencodable args))",
+        "getRange()": "returns Iterable<Widget> (not encodable)",
+        "indexWhere()": "test: unbridgeable (callback sync-return)",
+        "insert()": "element: unbridgeable (widget/slot)",
+        "insertAll()": "iterable: unbridgeable (widget/slot[iterable])",
+        "lastIndexWhere()": "test: unbridgeable (callback sync-return)",
+        "lastWhere()": "test: unbridgeable (callback sync-return)",
+        "map()": "f: unbridgeable (callback sync-return)",
+        "reduce()": "combine: unbridgeable (builder)",
+        "removeAt()": "returns Widget (not encodable)",
+        "removeLast()": "returns Widget (not encodable)",
+        "removeWhere()": "test: unbridgeable (callback sync-return)",
+        "replaceRange()": "newContents: unbridgeable (widget/slot[iterable])",
+        "retainWhere()": "test: unbridgeable (callback sync-return)",
+        "setAll()": "iterable: unbridgeable (widget/slot[iterable])",
+        "setRange()": "iterable: unbridgeable (widget/slot[iterable])",
+        "singleWhere()": "test: unbridgeable (callback sync-return)",
+        "skip()": "returns Iterable<Widget> (not encodable)",
+        "skipWhile()": "test: unbridgeable (callback sync-return)",
+        "sort(compare)": "unbridgeable (callback sync-return)",
+        "sublist()": "returns List<Widget> (not encodable)",
+        "take()": "returns Iterable<Widget> (not encodable)",
+        "takeWhile()": "test: unbridgeable (callback sync-return)",
+        "toList()": "returns List<Widget> (not encodable)",
+        "toSet()": "returns Set<Widget> (not encodable)",
+        "where()": "test: unbridgeable (callback sync-return)",
+        "whereType()": "generic method",
+        "first": "Widget (not encodable)",
+        "iterator": "Iterator<Widget> (not encodable)",
+        "last": "Widget (not encodable)",
+        "reversed": "Iterable<Widget> (not encodable)",
+        "single": "Widget (not encodable)",
+        "first=": "unbridgeable widget/slot",
+        "last=": "unbridgeable widget/slot"
+      },
+      "dartLines": 90,
+      "tsLines": 65
+    }
+  ],
+  "notCallable": {
+    "Adapter": "record (by the data rules)",
+    "AlignEffect": "record (by the data rules)",
+    "Animate": "widget (widget generator)",
+    "BlurEffect": "record (by the data rules)",
+    "BoxShadowEffect": "record (by the data rules)",
+    "CallbackEffect": "record (by the data rules)",
+    "ChangeNotifierAdapter": "record (by the data rules)",
+    "ColorEffect": "record (by the data rules)",
+    "CrossfadeEffect": "record (by the data rules)",
+    "CustomEffect": "record (by the data rules)",
+    "Effect": "record (by the data rules)",
+    "EffectEntry": "record (by the data rules)",
+    "EffectList": "record (by the data rules)",
+    "ElevationEffect": "record (by the data rules)",
+    "FadeEffect": "record (by the data rules)",
+    "FlipEffect": "record (by the data rules)",
+    "FollowPathEffect": "record (by the data rules)",
+    "ListenEffect": "record (by the data rules)",
+    "MoveEffect": "record (by the data rules)",
+    "RotateEffect": "record (by the data rules)",
+    "SaturateEffect": "record (by the data rules)",
+    "ScaleEffect": "record (by the data rules)",
+    "ScrollAdapter": "record (by the data rules)",
+    "ShaderEffect": "record (by the data rules)",
+    "ShaderUpdateDetails": "record (by the data rules)",
+    "ShakeEffect": "record (by the data rules)",
+    "ShimmerEffect": "record (by the data rules)",
+    "SlideEffect": "record (by the data rules)",
+    "SwapEffect": "record (by the data rules)",
+    "ThenEffect": "record (by the data rules)",
+    "TintEffect": "record (by the data rules)",
+    "ToggleEffect": "record (by the data rules)",
+    "ValueAdapter": "record (by the data rules)",
+    "ValueNotifierAdapter": "record (by the data rules)",
+    "VisibilityEffect": "record (by the data rules)",
+    "AlignEffectExtensions": "extension",
+    "AnimateCallback": "typedef",
+    "AnimateListExtensions": "extension",
+    "AnimateManager": "mixin",
+    "AnimateWidgetExtensions": "extension",
+    "AnimationControllerLoopExtensions": "extension",
+    "BlurEffectExtensions": "extension",
+    "BoxShadowEffectExtensions": "extension",
+    "CallbackEffectExtensions": "extension",
+    "ColorEffectExtension": "extension",
+    "CrossfadeEffectExtensions": "extension",
+    "CustomEffectBuilder": "typedef",
+    "CustomEffectExtensions": "extension",
+    "Direction": "enum (by the data rules)",
+    "EffectExtensions": "extension",
+    "ElevationEffectExtensions": "extension",
+    "FadeEffectExtensions": "extension",
+    "FlipEffectExtensions": "extension",
+    "FollowPathEffectExtensions": "extension",
+    "ListenEffectExtensions": "extension",
+    "MoveEffectExtensions": "extension",
+    "NumDurationExtensions": "extension",
+    "OffsetCopyWithExtensions": "extension",
+    "ReparentChildBuilder": "typedef",
+    "RotateEffectExtensions": "extension",
+    "SaturateEffectExtensions": "extension",
+    "ScaleEffectExtensions": "extension",
+    "ShaderEffectExtensions": "extension",
+    "ShaderLayer": "enum (by the data rules)",
+    "ShaderUpdateCallback": "typedef",
+    "ShakeEffectExtensions": "extension",
+    "ShimmerEffectExtensions": "extension",
+    "SlideEffectExtensions": "extension",
+    "SwapEffectExtensions": "extension",
+    "ThenEffectExtensions": "extension",
+    "TintEffectExtensions": "extension",
+    "ToggleEffectBuilder": "typedef",
+    "ToggleEffectExtensions": "extension",
+    "VisibilityEffectExtensions": "extension"
+  },
+  "dartLines": 670,
+  "tsLines": 325,
+  "warnings": []
+}

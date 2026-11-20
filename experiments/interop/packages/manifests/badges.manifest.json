@@ -1,0 +1,285 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "badges",
+ "version": "4.0.1",
+ "register": "registerBadgesWidgets",
+ "widgets": {
+  "Badge": {
+   "tag": "badges.Badge",
+   "dart": "Badge",
+   "library": "package:badges/src/badge.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "badgeContent": {"type":{"k":"widget"},"dart":"Widget?","doc":"Content inside badge."},
+    "badgeStyle": {"type":{"k":"data","n":"BadgeStyle"},"dart":"BadgeStyle","default":"Dart `const BadgeStyle()`","doc":"Contains all badge style properties."},
+    "badgeAnimation": {"type":{"k":"data","n":"BadgeAnimation"},"dart":"BadgeAnimation","default":"Dart `const BadgeAnimation.slide()`","doc":"Contains all badge animation properties."},
+    "position": {"type":{"k":"data","n":"BadgePosition"},"dart":"BadgePosition?","doc":"Allows to set custom position of badge according to [child].\nIf [child] is null, it doesn't make sense to use it."},
+    "showBadge": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Allows you to hide or show entire badge.\nThe default value is true."},
+    "ignorePointer": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether the badge ignores taps.\nThe default value is false.\nKeep it false so the badge receives taps ([onTap] and any interactive\n[badgeContent] work).\nMake it true and all taps will pass through the badge to the widgets\nbelow it. [onTap] is not called then."},
+    "stackFit": {"type":{"k":"enum","n":"StackFit"},"dart":"StackFit","default":"\"loose\"","doc":"Allows to edit fit parameter to [Stack] widget.\nThe default value is [StackFit.loose]."}
+   },
+   "omitted": {
+    "onTap": "callback/sync-return"
+   }
+  },
+  "BadgePositioned": {
+   "tag": "badges.BadgePositioned",
+   "dart": "BadgePositioned",
+   "library": "package:badges/src/badge_positioned.dart",
+   "doc": "Utility class. Don't try to use it!",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "position": {"type":{"k":"data","n":"BadgePosition"},"dart":"BadgePosition?","doc":"Specifies badge position according to [child]"}
+   }
+  }
+ },
+ "enums": {
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "BadgeShape": {
+   "values": ["circle","square","twitter","instagram"],
+   "doc": "Set of shapes that you can use for your [badges.Badge] widget."
+  },
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "StackFit": {
+   "values": ["loose","expand","passthrough"],
+   "doc": "How to size the non-positioned children of a [Stack]."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "BadgeAnimation": {
+   "dart": "BadgeAnimation",
+   "variants": [
+    {"tag":"slide","fields":{"toAnimate":{"type":{"k":"bool"}},"animationDuration":{"type":{"k":"data","n":"Duration"}},"loopAnimation":{"type":{"k":"bool"}},"disappearanceFadeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}},"slideTransitionPositionTween":{"type":{"k":"data","n":"SlideTween"},"nullable":true},"colorChangeAnimationCurve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationDuration":{"type":{"k":"data","n":"Duration"}}}},
+    {"tag":"fade","fields":{"toAnimate":{"type":{"k":"bool"}},"animationDuration":{"type":{"k":"data","n":"Duration"}},"loopAnimation":{"type":{"k":"bool"}},"disappearanceFadeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationCurve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationDuration":{"type":{"k":"data","n":"Duration"}}}},
+    {"tag":"size","fields":{"toAnimate":{"type":{"k":"bool"}},"animationDuration":{"type":{"k":"data","n":"Duration"}},"loopAnimation":{"type":{"k":"bool"}},"disappearanceFadeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}},"sizeTransitionAxis":{"type":{"k":"enum","n":"Axis"},"nullable":true},"sizeTransitionAxisAlignment":{"type":{"k":"double"},"nullable":true},"colorChangeAnimationCurve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"appearanceDisappearanceFadeAnimationEnabled":{"type":{"k":"bool"}}}},
+    {"tag":"rotation","fields":{"toAnimate":{"type":{"k":"bool"}},"animationDuration":{"type":{"k":"data","n":"Duration"}},"loopAnimation":{"type":{"k":"bool"}},"disappearanceFadeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationCurve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationDuration":{"type":{"k":"data","n":"Duration"}}}},
+    {"tag":"scale","fields":{"toAnimate":{"type":{"k":"bool"}},"animationDuration":{"type":{"k":"data","n":"Duration"}},"loopAnimation":{"type":{"k":"bool"}},"disappearanceFadeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationCurve":{"type":{"k":"data","n":"Curve"}},"colorChangeAnimationDuration":{"type":{"k":"data","n":"Duration"}},"appearanceDisappearanceFadeAnimationEnabled":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "BadgeGradient": {
+   "dart": "BadgeGradient",
+   "variants": [
+    {"tag":"linear","fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"end":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"radial","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"radius":{"type":{"k":"double"},"nullable":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"focal":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"focalRadius":{"type":{"k":"double"},"nullable":true},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"sweep","fields":{"tileMode":{"type":{"k":"enum","n":"TileMode"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"center":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"startAngle":{"type":{"k":"double"},"nullable":true},"endAngle":{"type":{"k":"double"},"nullable":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "BadgePosition": {
+   "dart": "BadgePosition",
+   "doc": "Utility class. Don't try to use it!",
+   "variants": [
+    {"tag":"center","fields":{}},
+    {"tag":"topStart","fields":{"top":{"type":{"k":"double"}},"start":{"type":{"k":"double"}}}},
+    {"tag":"topEnd","fields":{"top":{"type":{"k":"double"}},"end":{"type":{"k":"double"}}}},
+    {"tag":"bottomEnd","fields":{"bottom":{"type":{"k":"double"}},"end":{"type":{"k":"double"}}}},
+    {"tag":"bottomStart","fields":{"bottom":{"type":{"k":"double"}},"start":{"type":{"k":"double"}}}},
+    {"tag":"custom","fields":{"start":{"type":{"k":"double"},"nullable":true},"end":{"type":{"k":"double"},"nullable":true},"top":{"type":{"k":"double"},"nullable":true},"bottom":{"type":{"k":"double"},"nullable":true},"isCenter":{"type":{"k":"bool"}}}},
+    {"tag":"centerStart","fields":{"start":{"type":{"k":"double"}}}},
+    {"tag":"centerEnd","fields":{"end":{"type":{"k":"double"}}}}
+   ]
+  },
+  "BadgeStyle": {
+   "dart": "BadgeStyle",
+   "variants": [
+    {"tag":null,"fields":{"shape":{"type":{"k":"enum","n":"BadgeShape"}},"borderRadius":{"type":{"k":"data","n":"BorderRadius"}},"borderSide":{"type":{"k":"data","n":"BorderSide"}},"elevation":{"type":{"k":"double"}},"badgeGradient":{"type":{"k":"data","n":"BadgeGradient"},"nullable":true},"borderGradient":{"type":{"k":"data","n":"BadgeGradient"},"nullable":true},"padding":{"type":{"k":"data","n":"EdgeInsetsGeometry"}}}}
+   ]
+  },
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "EdgeInsetsGeometry": {
+   "dart": "EdgeInsetsGeometry",
+   "doc": "Base class for [EdgeInsets] that allows for text-direction aware\nresolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","infinity","EdgeInsets.zero","EdgeInsetsDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.only","fields":{"start":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.symmetric","fields":{"horizontal":{"type":{"k":"double"}},"vertical":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.all","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "SlideTween": {
+   "dart": "SlideTween",
+   "variants": [
+    {"tag":null,"fields":{"begin":{"type":{"k":"data","n":"Offset"},"nullable":true},"end":{"type":{"k":"data","n":"Offset"},"nullable":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:badges/badges.dart"]
+}

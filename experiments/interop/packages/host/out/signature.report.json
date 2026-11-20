@@ -1,0 +1,184 @@
+{
+  "name": "signature",
+  "libs": [
+    "package:signature/signature.dart"
+  ],
+  "surface": {
+    "total": 48,
+    "bridged": 41,
+    "byKind": {
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 8,
+        "total": 10
+      },
+      "getter": {
+        "bridged": 24,
+        "total": 26
+      },
+      "setter": {
+        "bridged": 7,
+        "total": 10
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "SignatureController#toImage()",
+      "ok": false,
+      "why": "returns Image?, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "SignatureController#toSVG()",
+      "ok": false,
+      "why": "returns SvgPicture? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "SignatureController#onDrawEnd=",
+      "ok": false,
+      "why": "callback"
+    },
+    {
+      "kind": "setter",
+      "name": "SignatureController#onDrawMove=",
+      "ok": false,
+      "why": "callback"
+    },
+    {
+      "kind": "setter",
+      "name": "SignatureController#onDrawStart=",
+      "ok": false,
+      "why": "callback"
+    },
+    {
+      "kind": "getter",
+      "name": "SignatureState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "SignatureState#widget",
+      "ok": false,
+      "why": "Signature (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "SignatureController",
+      "tag": "signature_SignatureController",
+      "push": "valueListenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 11,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "addPoint",
+        "clear",
+        "pointsToStrokes",
+        "pushCurrentStateToUndoStack",
+        "redo",
+        "toPngBytes",
+        "toRawSVG",
+        "undo"
+      ],
+      "methodsTotal": 10,
+      "streams": [],
+      "readable": [
+        "canRedo",
+        "canUndo",
+        "defaultHeight",
+        "defaultWidth",
+        "disabled",
+        "exportBackgroundColor",
+        "exportPenColor",
+        "isEmpty",
+        "isNotEmpty",
+        "maxXValue",
+        "maxYValue",
+        "minXValue",
+        "minYValue",
+        "penColor",
+        "penStrokeWidth",
+        "points",
+        "strokeCap",
+        "strokeJoin",
+        "value"
+      ],
+      "gettersTotal": 19,
+      "objectGetters": [],
+      "setters": [
+        "disabled",
+        "points",
+        "value"
+      ],
+      "settersTotal": 6,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "toImage()": "returns Image?, not a generated object",
+        "toSVG()": "returns SvgPicture? (not encodable)",
+        "onDrawEnd=": "callback",
+        "onDrawMove=": "callback",
+        "onDrawStart=": "callback"
+      },
+      "dartLines": 149,
+      "tsLines": 196
+    },
+    {
+      "class": "SignatureState",
+      "tag": "signature_SignatureState",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "activePointerId",
+        "maxHeight",
+        "maxWidth",
+        "mounted",
+        "screenSize"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [
+        "activePointerId",
+        "maxHeight",
+        "maxWidth",
+        "screenSize"
+      ],
+      "settersTotal": 4,
+      "mirrored": [],
+      "dropped": {
+        "context": "BuildContext (not encodable)",
+        "widget": "Signature (not encodable)"
+      },
+      "dartLines": 84,
+      "tsLines": 54
+    }
+  ],
+  "notCallable": {
+    "Point": "record (by the data rules)",
+    "Signature": "widget (widget generator)",
+    "PointType": "enum (by the data rules)"
+  },
+  "dartLines": 487,
+  "tsLines": 351,
+  "warnings": []
+}

@@ -1,0 +1,128 @@
+{
+  "name": "video_player",
+  "libs": [
+    "package:video_player/video_player.dart"
+  ],
+  "surface": {
+    "total": 31,
+    "bridged": 30,
+    "byKind": {
+      "constructor": {
+        "bridged": 4,
+        "total": 4
+      },
+      "method": {
+        "bridged": 16,
+        "total": 16
+      },
+      "getter": {
+        "bridged": 9,
+        "total": 10
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "getter",
+      "name": "VideoPlayerController#closedCaptionFile",
+      "ok": false,
+      "why": "ClosedCaptionFile (no record shape)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "VideoPlayerController",
+      "tag": "video_player_VideoPlayerController",
+      "push": "valueListenable",
+      "ctors": [
+        "asset",
+        "networkUrl",
+        "file",
+        "contentUri"
+      ],
+      "ctorParamsKept": 16,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "asset.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
+        "networkUrl.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
+        "file.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
+        "contentUri.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)"
+      },
+      "methods": [
+        "getAudioTracks",
+        "getVideoTracks",
+        "initialize",
+        "isAudioTrackSupportAvailable",
+        "isVideoTrackSupportAvailable",
+        "pause",
+        "play",
+        "seekTo",
+        "selectAudioTrack",
+        "selectVideoTrack",
+        "setCaptionOffset",
+        "setClosedCaptionFile",
+        "setLooping",
+        "setPlaybackSpeed",
+        "setPreventsDisplaySleepDuringVideoPlayback",
+        "setVolume"
+      ],
+      "methodsTotal": 16,
+      "streams": [],
+      "readable": [
+        "dataSource",
+        "dataSourceType",
+        "formatHint",
+        "httpHeaders",
+        "package",
+        "position",
+        "value",
+        "videoPlayerOptions",
+        "viewType"
+      ],
+      "gettersTotal": 10,
+      "objectGetters": [],
+      "setters": [
+        "value"
+      ],
+      "settersTotal": 1,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "setClosedCaptionFile(closedCaptionFile)": "unbridgeable (unbridgeable/future/stream)",
+        "closedCaptionFile": "ClosedCaptionFile (no record shape)"
+      },
+      "dartLines": 146,
+      "tsLines": 226
+    }
+  ],
+  "notCallable": {
+    "Caption": "record (by the data rules)",
+    "ClosedCaption": "widget (widget generator)",
+    "ClosedCaptionFile": "record (by the data rules)",
+    "DurationRange": "record (by the data rules)",
+    "SubRipCaptionFile": "record (by the data rules)",
+    "VideoAudioTrack": "record (by the data rules)",
+    "VideoPlayer": "widget (widget generator)",
+    "VideoPlayerOptions": "record (by the data rules)",
+    "VideoPlayerValue": "record (by the data rules)",
+    "VideoPlayerWebOptions": "record (by the data rules)",
+    "VideoPlayerWebOptionsControls": "record (by the data rules)",
+    "VideoProgressColors": "record (by the data rules)",
+    "VideoProgressIndicator": "widget (widget generator)",
+    "VideoScrubber": "widget (widget generator)",
+    "VideoTrack": "record (by the data rules)",
+    "WebVTTCaptionFile": "record (by the data rules)",
+    "DataSourceType": "enum (by the data rules)",
+    "VideoFormat": "enum (by the data rules)",
+    "VideoViewType": "enum (by the data rules)"
+  },
+  "dartLines": 440,
+  "tsLines": 436,
+  "warnings": []
+}

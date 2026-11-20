@@ -1,0 +1,44 @@
+{
+ "appRoot": "/home/claude/solid-fuse/experiments/interop/packages/host",
+ "outDart": "/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated",
+ "outManifest": "/home/claude/solid-fuse/experiments/interop/packages/manifests",
+ "docs": "first",
+ "units": [
+  {
+   "name": "app",
+   "version": "src",
+   "libs": [
+    [
+     "package:fuse_pub_sample/fuse/type_ahead.dart",
+     "app_type_ahead"
+    ],
+    [
+     "package:fuse_pub_sample/fuse/rive_asset.dart",
+     "app_rive_asset"
+    ],
+    [
+     "package:fuse_pub_sample/fuse/modal_sheet.dart",
+     "app_modal_sheet"
+    ],
+    [
+     "package:fuse_pub_sample/fuse/selectable_calendar.dart",
+     "app_selectable_calendar"
+    ],
+    [
+     "package:table_calendar/table_calendar.dart",
+     "table_calendar"
+    ],
+    [
+     "package:rive/rive.dart",
+     "rive"
+    ]
+   ],
+   "include": [
+    "TypeAhead",
+    "RiveAsset",
+    "ModalSheet",
+    "SelectableCalendar"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "url_launcher",
+  "libs": [
+    "package:url_launcher/url_launcher.dart",
+    "package:url_launcher/url_launcher_string.dart"
+  ],
+  "surface": {
+    "total": 7,
+    "bridged": 7,
+    "byKind": {
+      "function": {
+        "bridged": 7,
+        "total": 7
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "BrowserConfiguration": "record (by the data rules)",
+    "WebViewConfiguration": "record (by the data rules)",
+    "LaunchMode": "enum (by the data rules)"
+  },
+  "dartLines": 78,
+  "tsLines": 79,
+  "warnings": []
+}

@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"flutter_map","version":"8.3.2","libs":[["package:flutter_map/flutter_map.dart","flutter_map_flutter_map"]],"include":null}]}

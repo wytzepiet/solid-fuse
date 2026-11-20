@@ -1,0 +1,144 @@
+{
+  "name": "device_info_plus",
+  "libs": [
+    "package:device_info_plus/device_info_plus.dart"
+  ],
+  "surface": {
+    "total": 20,
+    "bridged": 19,
+    "byKind": {
+      "static method": {
+        "bridged": 6,
+        "total": 6
+      },
+      "constructor": {
+        "bridged": 3,
+        "total": 3
+      },
+      "getter": {
+        "bridged": 7,
+        "total": 7
+      },
+      "method": {
+        "bridged": 3,
+        "total": 3
+      },
+      "setter": {
+        "bridged": 0,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "setter",
+      "name": "DeviceInfoPlusWindowsPlugin#RtlGetVersion=",
+      "ok": false,
+      "why": "unbridgeable callback void(unencodable args)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "DeviceInfoPlugin",
+      "tag": "device_info_plus_DeviceInfoPlugin",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "androidInfo",
+        "deviceInfo",
+        "iosInfo",
+        "linuxInfo",
+        "macOsInfo",
+        "webBrowserInfo",
+        "windowsInfo"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 74,
+      "tsLines": 50
+    },
+    {
+      "class": "DeviceInfoPlusLinuxPlugin",
+      "tag": "device_info_plus_DeviceInfoPlusLinuxPlugin",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "fileSystem": "unbridgeable (unbridgeable/private/unexported-type)"
+      },
+      "methods": [
+        "deviceInfo",
+        "linuxInfo"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 58,
+      "tsLines": 30
+    },
+    {
+      "class": "DeviceInfoPlusWindowsPlugin",
+      "tag": "device_info_plus_DeviceInfoPlusWindowsPlugin",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "deviceInfo"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "RtlGetVersion=": "unbridgeable callback void(unencodable args)"
+      },
+      "dartLines": 55,
+      "tsLines": 33
+    }
+  ],
+  "notCallable": {
+    "AndroidBuildVersion": "record (by the data rules)",
+    "AndroidDeviceInfo": "record (by the data rules)",
+    "BaseDeviceInfo": "record (by the data rules)",
+    "IosDeviceInfo": "record (by the data rules)",
+    "IosUtsname": "record (by the data rules)",
+    "LinuxDeviceInfo": "record (by the data rules)",
+    "MacOsDeviceInfo": "record (by the data rules)",
+    "WebBrowserInfo": "record (by the data rules)",
+    "WindowsDeviceInfo": "record (by the data rules)",
+    "BrowserName": "enum (by the data rules)"
+  },
+  "dartLines": 416,
+  "tsLines": 317,
+  "warnings": []
+}

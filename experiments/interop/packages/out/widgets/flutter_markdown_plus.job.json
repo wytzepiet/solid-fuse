@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"flutter_markdown_plus","version":"1.0.12","libs":[["package:flutter_markdown_plus/flutter_markdown_plus.dart","flutter_markdown_plus_flutter_markdown_plus"]],"include":null}]}

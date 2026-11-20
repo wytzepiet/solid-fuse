@@ -1,0 +1,331 @@
+{
+  "name": "just_audio",
+  "libs": [
+    "package:just_audio/just_audio.dart"
+  ],
+  "surface": {
+    "total": 116,
+    "bridged": 114,
+    "byKind": {
+      "static method": {
+        "bridged": 4,
+        "total": 4
+      },
+      "constructor": {
+        "bridged": 3,
+        "total": 3
+      },
+      "method": {
+        "bridged": 42,
+        "total": 43
+      },
+      "stream": {
+        "bridged": 27,
+        "total": 27
+      },
+      "getter": {
+        "bridged": 38,
+        "total": 39
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "AudioPlayer#setAndroidAudioAttributes()",
+      "ok": false,
+      "why": "audioAttributes: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "getter",
+      "name": "AudioPlayer#audioSource",
+      "ok": false,
+      "why": "AudioSource? (no record shape)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "AndroidEqualizer",
+      "tag": "just_audio_AndroidEqualizer",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "setEnabled"
+      ],
+      "methodsTotal": 1,
+      "streams": [
+        "enabledStream"
+      ],
+      "readable": [
+        "enabled",
+        "parameters"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 70,
+      "tsLines": 52
+    },
+    {
+      "class": "AndroidLoudnessEnhancer",
+      "tag": "just_audio_AndroidLoudnessEnhancer",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "setEnabled",
+        "setTargetGain"
+      ],
+      "methodsTotal": 2,
+      "streams": [
+        "enabledStream",
+        "targetGainStream"
+      ],
+      "readable": [
+        "enabled",
+        "targetGain"
+      ],
+      "gettersTotal": 4,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 76,
+      "tsLines": 58
+    },
+    {
+      "class": "AudioEffect",
+      "tag": "just_audio_AudioEffect",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "setEnabled"
+      ],
+      "methodsTotal": 1,
+      "streams": [
+        "enabledStream"
+      ],
+      "readable": [
+        "enabled"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 61,
+      "tsLines": 41
+    },
+    {
+      "class": "AudioPlayer",
+      "tag": "just_audio_AudioPlayer",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 11,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "androidOffloadSchedulingEnabled": "deprecated"
+      },
+      "methods": [
+        "addAudioSource",
+        "addAudioSources",
+        "clearAudioSources",
+        "insertAudioSource",
+        "insertAudioSources",
+        "load",
+        "moveAudioSource",
+        "pause",
+        "play",
+        "removeAudioSourceAt",
+        "removeAudioSourceRange",
+        "seek",
+        "seekToNext",
+        "seekToPrevious",
+        "setAllowsExternalPlayback",
+        "setAsset",
+        "setAudioSource",
+        "setAudioSources",
+        "setAutomaticallyWaitsToMinimizeStalling",
+        "setCanUseNetworkResourcesForLiveStreamingWhilePaused",
+        "setClip",
+        "setFilePath",
+        "setLoopMode",
+        "setPitch",
+        "setPreferredPeakBitRate",
+        "setShuffleModeEnabled",
+        "setSkipSilenceEnabled",
+        "setSpeed",
+        "setUrl",
+        "setVolume",
+        "setWebCrossOrigin",
+        "setWebSinkId",
+        "shuffle",
+        "stop"
+      ],
+      "methodsTotal": 36,
+      "streams": [
+        "androidAudioSessionIdStream",
+        "bufferedPositionStream",
+        "currentIndexStream",
+        "durationStream",
+        "errorStream",
+        "icyMetadataStream",
+        "loopModeStream",
+        "pitchStream",
+        "playbackEventStream",
+        "playerEventStream",
+        "playerStateStream",
+        "playingStream",
+        "positionDiscontinuityStream",
+        "positionStream",
+        "processingStateStream",
+        "sequenceStateStream",
+        "sequenceStream",
+        "shuffleIndicesStream",
+        "shuffleModeEnabledStream",
+        "skipSilenceEnabledStream",
+        "speedStream",
+        "volumeStream",
+        "createPositionStream"
+      ],
+      "readable": [
+        "allowsExternalPlayback",
+        "androidAudioSessionId",
+        "audioSources",
+        "automaticallyWaitsToMinimizeStalling",
+        "bufferedPosition",
+        "canUseNetworkResourcesForLiveStreamingWhilePaused",
+        "currentIndex",
+        "duration",
+        "effectiveIndices",
+        "hasNext",
+        "hasPrevious",
+        "icyMetadata",
+        "loopMode",
+        "nextIndex",
+        "pitch",
+        "playbackEvent",
+        "playerEvent",
+        "playerState",
+        "playing",
+        "position",
+        "preferredPeakBitRate",
+        "previousIndex",
+        "processingState",
+        "sequence",
+        "sequenceState",
+        "shuffleIndices",
+        "shuffleModeEnabled",
+        "skipSilenceEnabled",
+        "speed",
+        "volume",
+        "webCrossOrigin",
+        "webSinkId"
+      ],
+      "gettersTotal": 55,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "setAndroidAudioAttributes()": "audioAttributes: unbridgeable (unbridgeable/private/unexported-type)",
+        "audioSource": "AudioSource? (no record shape)"
+      },
+      "dartLines": 316,
+      "tsLines": 399
+    },
+    {
+      "class": "ShuffleOrder",
+      "tag": "just_audio_ShuffleOrder",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clear",
+        "insert",
+        "removeRange",
+        "shuffle"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "indices"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 62,
+      "tsLines": 50
+    }
+  ],
+  "notCallable": {
+    "AndroidAudioOffloadPreferences": "record (by the data rules)",
+    "AndroidEqualizerBand": "record (by the data rules)",
+    "AndroidEqualizerParameters": "record (by the data rules)",
+    "AndroidExtractorOptions": "record (by the data rules)",
+    "AndroidLivePlaybackSpeedControl": "record (by the data rules)",
+    "AndroidLoadControl": "record (by the data rules)",
+    "AudioLoadConfiguration": "record (by the data rules)",
+    "AudioPipeline": "record (by the data rules)",
+    "AudioSource": "record (by the data rules)",
+    "ClippingAudioSource": "record (by the data rules)",
+    "DarwinAssetOptions": "record (by the data rules)",
+    "DarwinLoadControl": "record (by the data rules)",
+    "DashAudioSource": "record (by the data rules)",
+    "DefaultShuffleOrder": "record (by the data rules)",
+    "HlsAudioSource": "record (by the data rules)",
+    "IcyHeaders": "record (by the data rules)",
+    "IcyInfo": "record (by the data rules)",
+    "IcyMetadata": "record (by the data rules)",
+    "IndexedAudioSource": "record (by the data rules)",
+    "LockCachingAudioSource": "record (by the data rules)",
+    "PlaybackEvent": "record (by the data rules)",
+    "PlayerEvent": "record (by the data rules)",
+    "PlayerException": "record (by the data rules)",
+    "PlayerInterruptedException": "record (by the data rules)",
+    "PlayerState": "record (by the data rules)",
+    "PositionDiscontinuity": "record (by the data rules)",
+    "ProgressiveAudioSource": "record (by the data rules)",
+    "ProgressiveAudioSourceOptions": "record (by the data rules)",
+    "SequenceState": "record (by the data rules)",
+    "SilenceAudioSource": "record (by the data rules)",
+    "StreamAudioResponse": "record (by the data rules)",
+    "StreamAudioSource": "record (by the data rules)",
+    "UriAudioSource": "record (by the data rules)",
+    "AndroidAudioEffect": "mixin",
+    "AndroidAudioOffloadMode": "enum (by the data rules)",
+    "DarwinAudioEffect": "mixin",
+    "LoopMode": "enum (by the data rules)",
+    "PositionDiscontinuityReason": "enum (by the data rules)",
+    "ProcessingState": "enum (by the data rules)",
+    "WebCrossOrigin": "enum (by the data rules)"
+  },
+  "dartLines": 950,
+  "tsLines": 876,
+  "warnings": []
+}

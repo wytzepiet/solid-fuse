@@ -1,0 +1,704 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "pinput",
+ "version": "7.0.0",
+ "register": "registerPinputWidgets",
+ "widgets": {
+  "Pinput": {
+   "tag": "pinput.Pinput",
+   "dart": "Pinput",
+   "library": "package:pinput/src/pinput.dart",
+   "doc": "Flutter package to create easily customizable Pin code input field.",
+   "props": {
+    "length": {"type":{"k":"int"},"dart":"int","default":"4","doc":"Displayed fields count. PIN code length."},
+    "defaultPinTheme": {"type":{"k":"data","n":"PinTheme"},"dart":"PinTheme?","doc":"Theme of the pin in default state"},
+    "focusedPinTheme": {"type":{"k":"data","n":"PinTheme"},"dart":"PinTheme?","doc":"Theme of the pin in focused state"},
+    "submittedPinTheme": {"type":{"k":"data","n":"PinTheme"},"dart":"PinTheme?","doc":"Theme of the pin in submitted state"},
+    "followingPinTheme": {"type":{"k":"data","n":"PinTheme"},"dart":"PinTheme?","doc":"Theme of the pin in following state"},
+    "disabledPinTheme": {"type":{"k":"data","n":"PinTheme"},"dart":"PinTheme?","doc":"Theme of the pin in disabled state"},
+    "errorPinTheme": {"type":{"k":"data","n":"PinTheme"},"dart":"PinTheme?","doc":"Theme of the pin in error state"},
+    "onChanged": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called every time input value changes."},
+    "onCompleted": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Fires when user completes pin input"},
+    "onSubmitted": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"See [EditableText.onSubmitted]"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when user clicks on PinPut"},
+    "onLongPress": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Triggered when a pointer has remained in contact with the Pinput at the\nsame location for a long period of time."},
+    "onTapOutside": {"type":{"k":"callback","args":[{"name":"event","type":{"k":"payload","n":"PointerDownEvent"}}]},"dart":"void Function(PointerDownEvent)?","doc":"A callback to be invoked when a tap is detected outside of this [TapRegion]\nThe [PointerDownEvent] passed to the function is the event that caused the\nnotification. If this region is part of a group\nthen it's possible that the event may be outside of this immediate region,\nalthough it will be within the region of one of the group members.\nThis is useful if you want to un-focus the [Pinput] when user taps outside of it"},
+    "onTapUpOutside": {"type":{"k":"callback","args":[{"name":"event","type":{"k":"payload","n":"PointerUpEvent"}}]},"dart":"void Function(PointerUpEvent)?","doc":"Called for each tap up that occurs outside of the [TextFieldTapRegion]\ngroup when the text field is focused."},
+    "controller": {"type":{"k":"handle","n":"TextEditingController"},"dart":"TextEditingController?","doc":"Used to get, modify PinPut value and more.\nDon't forget to dispose controller\n``` dart\n  @override\n  void dispose() {\n    controller.dispose();\n    super.dispose();\n  }\n```"},
+    "focusNode": {"type":{"k":"handle","n":"FocusNode"},"dart":"FocusNode?","doc":"Defines the keyboard focus for this\nTo give the keyboard focus to this widget, provide a [focusNode] and then\nuse the current [FocusScope] to request the focus:\nDon't forget to dispose focusNode\n``` dart\n  @override\n  void dispose() {\n    focusNode.dispose();\n    super.dispose();\n  }\n```"},
+    "preFilledWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Widget that is displayed before field submitted."},
+    "mainAxisAlignment": {"type":{"k":"enum","n":"MainAxisAlignment"},"dart":"MainAxisAlignment","default":"\"center\"","doc":"Defines how [Pinput] fields are being placed inside [Row]"},
+    "crossAxisAlignment": {"type":{"k":"enum","n":"CrossAxisAlignment"},"dart":"CrossAxisAlignment","default":"\"start\"","doc":"Defines how [Pinput] and ([errorText] or [errorBuilder]) are being placed inside [Column]"},
+    "pinContentAlignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry","default":"Dart `Alignment.center`","doc":"Defines how each [Pinput] field are being placed within the container"},
+    "animationCurve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.easeIn`","doc":"curve of every [Pinput] Animation"},
+    "animationDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `PinputConstants._animationDuration`","doc":"Duration of every [Pinput] Animation"},
+    "pinAnimationType": {"type":{"k":"enum","n":"PinAnimationType"},"dart":"PinAnimationType","default":"\"scale\"","doc":"Animation Type of each [Pinput] field\noptions:\nnone, scale, fade, slide, rotation"},
+    "enabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Defines [Pinput] state"},
+    "readOnly": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"See [EditableText.readOnly]"},
+    "useNativeKeyboard": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to use Native keyboard or custom one\nwhen flag is set to false [Pinput] wont be focusable anymore\nso you should set value of [Pinput]'s [TextEditingController] programmatically"},
+    "toolbarEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If true, paste button will appear on longPress event"},
+    "autofocus": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"See [EditableText.autofocus]"},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether hide typed pin or not"},
+    "showCursor": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether show cursor or not\nDefault cursor '|' or [cursor]"},
+    "isCursorAnimationEnabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to enable cursor animation"},
+    "enableIMEPersonalizedLearning": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to enable that the IME update personalized data such as typing history and user dictionary data."},
+    "enableInteractiveSelection": {"type":{"k":"bool"},"dart":"bool?","doc":"Whether to enable text selection and interactive features like copy/paste.\nWhen enabled, users can select text, use Ctrl+V to paste, and access context menus."},
+    "enableSuggestions": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"See [EditableText.enableSuggestions]"},
+    "hapticFeedbackType": {"type":{"k":"enum","n":"HapticFeedbackType"},"dart":"HapticFeedbackType","default":"\"disabled\"","doc":"Use haptic feedback everytime user types on keyboard\nSee more details in [HapticFeedback]"},
+    "closeKeyboardWhenCompleted": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If true keyboard will be closed"},
+    "keyboardType": {"type":{"k":"data","n":"TextInputType"},"dart":"TextInputType","default":"Dart `TextInputType.number`","doc":"See [EditableText.keyboardType]"},
+    "textCapitalization": {"type":{"k":"enum","n":"TextCapitalization"},"dart":"TextCapitalization","default":"\"none\"","doc":"See [EditableText.textCapitalization]"},
+    "slideTransitionBeginOffset": {"type":{"k":"data","n":"Offset"},"dart":"Offset?","doc":"Begin Offset of ever [Pinput] field when [pinAnimationType] is slide"},
+    "cursor": {"type":{"k":"widget"},"dart":"Widget?","doc":"If [showCursor] true the focused field will show passed Widget"},
+    "keyboardAppearance": {"type":{"k":"enum","n":"Brightness"},"dart":"Brightness?","doc":"The appearance of the keyboard.\nThis setting is only honored on iOS devices.\nIf unset, defaults to [ThemeData.brightness]."},
+    "inputFormatters": {"type":{"k":"list","e":{"k":"data","n":"TextInputFormatter"}},"dart":"List<TextInputFormatter>","default":"Dart `const []`","doc":"See [EditableText.inputFormatters]"},
+    "textInputAction": {"type":{"k":"enum","n":"TextInputAction"},"dart":"TextInputAction?","doc":"The type of action button to use for the keyboard."},
+    "autofillHints": {"type":{"k":"list","e":{"k":"string"}},"dart":"Iterable<String>?","default":"Dart `const [AutofillHints.oneTimeCode]`","doc":"See [EditableText.autofillHints]"},
+    "obscuringCharacter": {"type":{"k":"string"},"dart":"String","default":"\"•\"","doc":"Provide any symbol to obscure each [Pinput] pin\nRecommended ●"},
+    "obscuringWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"IF [obscureText] is true typed text will be replaced with passed Widget"},
+    "selectionControls": {"type":{"k":"data","n":"TextSelectionControls"},"dart":"TextSelectionControls?","doc":"See [EditableText.selectionControls]"},
+    "restorationId": {"type":{"k":"string"},"dart":"String?","doc":"See [TextField.restorationId]"},
+    "onClipboardFound": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Fires when clipboard has text of Pinput's length"},
+    "mouseCursor": {"type":{"k":"data","n":"MouseCursor"},"dart":"MouseCursor?","doc":"See [EditableText.mouseCursor]"},
+    "forceErrorState": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true [errorPinTheme] will be applied and [errorText] will be displayed under the Pinput"},
+    "showErrorWhenFocused": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, the error will also be displayed in the focused state. Otherwise the error is not displayed in the focused state."},
+    "errorText": {"type":{"k":"string"},"dart":"String?","doc":"Text displayed under the Pinput if Pinput is invalid"},
+    "errorTextStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style of error text"},
+    "pinputAutovalidateMode": {"type":{"k":"enum","n":"PinputAutovalidateMode"},"dart":"PinputAutovalidateMode","default":"\"onSubmit\"","doc":"Return null if pin is valid or any String otherwise"},
+    "scrollPadding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.all(20)`","doc":"When this widget receives focus and is not completely visible (for example scrolled partially\noff the screen or overlapped by the keyboard)\nthen it will attempt to make itself visible by scrolling a surrounding [Scrollable], if one is present.\nThis value controls how far from the edges of a [Scrollable] the TextField will be positioned after the scroll."}
+   },
+   "omitted": {
+    "smsRetriever": "unbridgeable/abstract-no-impl",
+    "separatorBuilder": "builder/encodable args",
+    "onAppPrivateCommand": "callback/void(unencodable args)",
+    "validator": "callback/sync-return",
+    "errorBuilder": "builder/encodable args",
+    "contextMenuBuilder": "builder/unencodable args"
+   }
+  }
+ },
+ "skipped": {
+  "PinputBuilder": "required param `builder` (Widget Function(BuildContext, PinItemState)) is not bridgeable: builder/encodable args"
+ },
+ "enums": {
+  "BlendMode": {
+   "values": ["clear","src","dst","srcOver","dstOver","srcIn","dstIn","srcOut","dstOut","srcATop","dstATop","xor","plus","modulate","screen","overlay","darken","lighten","colorDodge","colorBurn","hardLight","softLight","difference","exclusion","multiply","hue","saturation","color","luminosity"],
+   "doc": "Algorithms to use when painting on the canvas."
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "BoxFit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown"],
+   "doc": "How a box should be inscribed into another box."
+  },
+  "BoxShape": {
+   "values": ["rectangle","circle"],
+   "doc": "The shape to use when rendering a [Border] or [BoxDecoration]."
+  },
+  "Brightness": {
+   "values": ["dark","light"],
+   "doc": "Describes the contrast of a theme or color palette."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "CrossAxisAlignment": {
+   "values": ["start","end","center","stretch","baseline"],
+   "doc": "How the children should be placed along the cross axis in a flex layout."
+  },
+  "FilterQuality": {
+   "values": ["none","low","medium","high"],
+   "doc": "Quality levels for image sampling in [ImageFilter] and [Shader] objects that sample\nimages and for [Canvas] operations that render images."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "HapticFeedbackType": {
+   "values": ["disabled","lightImpact","mediumImpact","heavyImpact","selectionClick","vibrate"],
+   "doc": "The vibration type when user types"
+  },
+  "ImageRepeat": {
+   "values": ["repeat","repeatX","repeatY","noRepeat"],
+   "doc": "How to paint any portions of a box not covered by an image."
+  },
+  "MainAxisAlignment": {
+   "values": ["start","end","center","spaceBetween","spaceAround","spaceEvenly"],
+   "doc": "How the children should be placed along the main axis in a flex layout."
+  },
+  "MaxLengthEnforcement": {
+   "values": ["none","enforced","truncateAfterCompositionEnds"],
+   "doc": "Mechanisms for enforcing maximum length limits."
+  },
+  "PinAnimationType": {
+   "values": ["none","scale","fade","slide","rotation"],
+   "doc": "The animation type if Pin item"
+  },
+  "PinputAutovalidateMode": {
+   "values": ["disabled","onSubmit"],
+   "doc": "The mode which determines the Pinput validation method"
+  },
+  "PointerDeviceKind": {
+   "values": ["touch","mouse","stylus","invertedStylus","trackpad","unknown"],
+   "doc": "The kind of pointer device."
+  },
+  "ResizeImagePolicy": {
+   "values": ["exact","fit"],
+   "doc": "Configures the behavior for [ResizeImage]."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextCapitalization": {
+   "values": ["words","sentences","characters","none"],
+   "doc": "Configures how the platform keyboard will select an uppercase or\nlowercase keyboard."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextInputAction": {
+   "values": ["none","unspecified","done","go","search","send","next","previous","continueAction","join","route","emergencyCall","newline"],
+   "doc": "An action the user has requested the text input control to perform."
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  },
+  "WebHtmlElementStrategy": {
+   "values": ["never","fallback","prefer"],
+   "doc": "The strategy for [Image.network] and [NetworkImage] to decide whether to\ndisplay images in HTML elements contained in a platform view instead of\nfetching bytes."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "BorderRadiusGeometry": {
+   "dart": "BorderRadiusGeometry",
+   "doc": "Base class for [BorderRadius] that allows for text-direction aware resolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","BorderRadius.zero","BorderRadiusDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"},"nullable":true},"right":{"type":{"k":"data","n":"Radius"},"nullable":true},"start":{"type":{"k":"data","n":"Radius"},"nullable":true},"end":{"type":{"k":"data","n":"Radius"},"nullable":true}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"directional","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadius.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadius.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.horizontal","fields":{"start":{"type":{"k":"data","n":"Radius"}},"end":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.only","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "BoxBorder": {
+   "dart": "BoxBorder",
+   "doc": "Base class for box borders that can paint as rectangles, circles, or rounded\nrectangles.",
+   "variants": [
+    {"tag":"fromLTRB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"fromSTEB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"Border.symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"BorderDirectional","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}}
+   ]
+  },
+  "BoxConstraints": {
+   "dart": "BoxConstraints",
+   "doc": "Immutable layout constraints for [RenderBox] layout.",
+   "variants": [
+    {"tag":null,"fields":{"minWidth":{"type":{"k":"double"}},"maxWidth":{"type":{"k":"double"}},"minHeight":{"type":{"k":"double"}},"maxHeight":{"type":{"k":"double"}}}},
+    {"tag":"tight","fields":{"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"tightFor","fields":{"width":{"type":{"k":"double"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true}}},
+    {"tag":"tightForFinite","fields":{"width":{"type":{"k":"double"}},"height":{"type":{"k":"double"}}}},
+    {"tag":"loose","fields":{"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"expand","fields":{"width":{"type":{"k":"double"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true}}},
+    {"tag":"fromViewConstraints","fields":{"constraints":{"type":{"k":"data","n":"ViewConstraints"},"required":true}}}
+   ]
+  },
+  "BoxDecoration": {
+   "dart": "BoxDecoration",
+   "doc": "An immutable description of how to paint a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"},"nullable":true},"image":{"type":{"k":"data","n":"DecorationImage"},"nullable":true},"border":{"type":{"k":"data","n":"BoxBorder"},"nullable":true},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"},"nullable":true},"boxShadow":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"backgroundBlendMode":{"type":{"k":"enum","n":"BlendMode"},"nullable":true},"shape":{"type":{"k":"enum","n":"BoxShape"}}}}
+   ]
+  },
+  "BoxShadow": {
+   "dart": "BoxShadow",
+   "doc": "A shadow cast by a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "ColorFilter": {
+   "dart": "ColorFilter",
+   "doc": "A description of a color filter to apply when drawing a shape or compositing\na layer with a particular [Paint]. A color filter is a function that takes\ntwo colors, and outputs one color. When applied during compositing, it is\nindependently applied to each pixel of the layer being drawn before the\nentire layer is merged with the destination.",
+   "variants": [
+    {"tag":"mode","fields":{"color":{"type":{"k":"data","n":"Color"},"required":true},"blendMode":{"type":{"k":"enum","n":"BlendMode"},"required":true}}},
+    {"tag":"matrix","fields":{"matrix":{"type":{"k":"list","e":{"k":"double"}},"required":true}}},
+    {"tag":"linearToSrgbGamma","fields":{}},
+    {"tag":"srgbToLinearGamma","fields":{}},
+    {"tag":"saturation","fields":{"saturation":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "DecorationImage": {
+   "dart": "DecorationImage",
+   "doc": "An image for a box decoration.",
+   "variants": [
+    {"tag":null,"fields":{"image":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"placeholder":{"type":{"k":"data","n":"ImageProviderOfObject"},"nullable":true},"colorFilter":{"type":{"k":"data","n":"ColorFilter"},"nullable":true},"fit":{"type":{"k":"enum","n":"BoxFit"},"nullable":true},"alignment":{"type":{"k":"data","n":"AlignmentGeometry"}},"centerSlice":{"type":{"k":"data","n":"Rect"},"nullable":true},"repeat":{"type":{"k":"enum","n":"ImageRepeat"}},"matchTextDirection":{"type":{"k":"bool"}},"scale":{"type":{"k":"double"}},"opacity":{"type":{"k":"double"}},"filterQuality":{"type":{"k":"enum","n":"FilterQuality"}},"invertColors":{"type":{"k":"bool"}},"isAntiAlias":{"type":{"k":"bool"}}},"omitted":{"onError":"nested:callback/void(unencodable args)"}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "EdgeInsetsGeometry": {
+   "dart": "EdgeInsetsGeometry",
+   "doc": "Base class for [EdgeInsets] that allows for text-direction aware\nresolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","infinity","EdgeInsets.zero","EdgeInsetsDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.only","fields":{"start":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.symmetric","fields":{"horizontal":{"type":{"k":"double"}},"vertical":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.all","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "Gradient": {
+   "dart": "Gradient",
+   "doc": "A 2D gradient.",
+   "variants": [
+    {"tag":"LinearGradient","fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"}},"end":{"type":{"k":"data","n":"AlignmentGeometry"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"RadialGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"radius":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"focal":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"focalRadius":{"type":{"k":"double"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"SweepGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"startAngle":{"type":{"k":"double"}},"endAngle":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ImageProviderOfObject": {
+   "dart": "ImageProvider<Object>",
+   "doc": "Identifies an image without committing to the precise final asset. This\nallows a set of images to be identified and for the precise image to later\nbe resolved based on the environment, e.g. the device pixel ratio.",
+   "variants": [
+    {"tag":"ResizeImage","fields":{"imageProvider":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"width":{"type":{"k":"int"},"nullable":true},"height":{"type":{"k":"int"},"nullable":true},"policy":{"type":{"k":"enum","n":"ResizeImagePolicy"}},"allowUpscaling":{"type":{"k":"bool"}},"useLogicalSize":{"type":{"k":"bool"}}}},
+    {"tag":"NetworkImage","fields":{"url":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"webHtmlElementStrategy":{"type":{"k":"enum","n":"WebHtmlElementStrategy"}}}},
+    {"tag":"ExactAssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"AssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "MouseCursor": {
+   "dart": "MouseCursor",
+   "doc": "An interface for mouse cursor definitions.",
+   "consts": ["defer","uncontrolled","SystemMouseCursors.none","SystemMouseCursors.basic","SystemMouseCursors.click","SystemMouseCursors.forbidden","SystemMouseCursors.wait","SystemMouseCursors.progress","SystemMouseCursors.contextMenu","SystemMouseCursors.help","SystemMouseCursors.text","SystemMouseCursors.verticalText","SystemMouseCursors.cell","SystemMouseCursors.precise","SystemMouseCursors.move","SystemMouseCursors.grab","SystemMouseCursors.grabbing","SystemMouseCursors.noDrop","SystemMouseCursors.alias","SystemMouseCursors.copy","SystemMouseCursors.disappearing","SystemMouseCursors.allScroll","SystemMouseCursors.resizeLeftRight","SystemMouseCursors.resizeUpDown","SystemMouseCursors.resizeUpLeftDownRight","SystemMouseCursors.resizeUpRightDownLeft","SystemMouseCursors.resizeUp","SystemMouseCursors.resizeDown","SystemMouseCursors.resizeLeft","SystemMouseCursors.resizeRight","SystemMouseCursors.resizeUpLeft","SystemMouseCursors.resizeUpRight","SystemMouseCursors.resizeDownLeft","SystemMouseCursors.resizeDownRight","SystemMouseCursors.resizeColumn","SystemMouseCursors.resizeRow","SystemMouseCursors.zoomIn","SystemMouseCursors.zoomOut","WidgetStateMouseCursor.clickable","WidgetStateMouseCursor.adaptiveClickable","WidgetStateMouseCursor.textable"]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Pattern": {
+   "dart": "Pattern",
+   "doc": "An interface for basic searches within strings.",
+   "consts": ["AutofillHints.addressCity","AutofillHints.addressCityAndState","AutofillHints.addressState","AutofillHints.birthday","AutofillHints.birthdayDay","AutofillHints.birthdayMonth","AutofillHints.birthdayYear","AutofillHints.countryCode","AutofillHints.countryName","AutofillHints.creditCardExpirationDate","AutofillHints.creditCardExpirationDay","AutofillHints.creditCardExpirationMonth","AutofillHints.creditCardExpirationYear","AutofillHints.creditCardFamilyName","AutofillHints.creditCardGivenName","AutofillHints.creditCardMiddleName","AutofillHints.creditCardName","AutofillHints.creditCardNumber","AutofillHints.creditCardSecurityCode","AutofillHints.creditCardType","AutofillHints.email","AutofillHints.familyName","AutofillHints.fullStreetAddress","AutofillHints.gender","AutofillHints.givenName","AutofillHints.impp","AutofillHints.jobTitle","AutofillHints.language","AutofillHints.location","AutofillHints.middleInitial","AutofillHints.middleName","AutofillHints.name","AutofillHints.namePrefix","AutofillHints.nameSuffix","AutofillHints.newPassword","AutofillHints.newUsername","AutofillHints.nickname","AutofillHints.oneTimeCode","AutofillHints.emailOTPCode","AutofillHints.organizationName","AutofillHints.password","AutofillHints.photo","AutofillHints.postalAddress","AutofillHints.postalAddressExtended","AutofillHints.postalAddressExtendedPostalCode","AutofillHints.postalCode","AutofillHints.streetAddressLevel1","AutofillHints.streetAddressLevel2","AutofillHints.streetAddressLevel3","AutofillHints.streetAddressLevel4","AutofillHints.streetAddressLine1","AutofillHints.streetAddressLine2","AutofillHints.streetAddressLine3","AutofillHints.sublocality","AutofillHints.telephoneNumber","AutofillHints.telephoneNumberAreaCode","AutofillHints.telephoneNumberCountryCode","AutofillHints.telephoneNumberDevice","AutofillHints.telephoneNumberExtension","AutofillHints.telephoneNumberLocal","AutofillHints.telephoneNumberLocalPrefix","AutofillHints.telephoneNumberLocalSuffix","AutofillHints.telephoneNumberNational","AutofillHints.transactionAmount","AutofillHints.transactionCurrency","AutofillHints.url","AutofillHints.username","CupertinoIcons.iconFont","CupertinoIcons.iconFontPackage","Clipboard.kTextPlain","Unicode.LRE","Unicode.RLE","Unicode.PDF","Unicode.LRO","Unicode.RLO","Unicode.LRI","Unicode.RLI","Unicode.FSI","Unicode.PDI","Unicode.LRM","Unicode.RLM","Unicode.ALM"],
+   "variants": [
+    {"tag":"String.fromCharCodes","fields":{"charCodes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"start":{"type":{"k":"int"}},"end":{"type":{"k":"int"},"nullable":true}}},
+    {"tag":"String.fromCharCode","fields":{"charCode":{"type":{"k":"int"},"required":true}}},
+    {"tag":"String.fromEnvironment","fields":{"name":{"type":{"k":"string"},"required":true},"defaultValue":{"type":{"k":"string"}}}}
+   ]
+  },
+  "PinTheme": {
+   "dart": "PinTheme",
+   "doc": "Theme of the individual pin items for following states:\ndefault, focused pin, submitted pin, following pin, disabled pin and error pin",
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"margin":{"type":{"k":"data","n":"EdgeInsetsGeometry"},"nullable":true},"padding":{"type":{"k":"data","n":"EdgeInsetsGeometry"},"nullable":true},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"decoration":{"type":{"k":"data","n":"BoxDecoration"},"nullable":true},"constraints":{"type":{"k":"data","n":"BoxConstraints"},"nullable":true}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextInputFormatter": {
+   "dart": "TextInputFormatter",
+   "doc": "A [TextInputFormatter] can be optionally injected into an [EditableText]\nto provide as-you-type validation and formatting of the text being edited.",
+   "variants": [
+    {"tag":"FilteringTextInputFormatter","fields":{"filterPattern":{"type":{"k":"data","n":"Pattern"},"required":true},"allow":{"type":{"k":"bool"},"required":true},"replacementString":{"type":{"k":"string"}}}},
+    {"tag":"FilteringTextInputFormatter.allow","fields":{"filterPattern":{"type":{"k":"data","n":"Pattern"},"required":true},"replacementString":{"type":{"k":"string"}}}},
+    {"tag":"FilteringTextInputFormatter.deny","fields":{"filterPattern":{"type":{"k":"data","n":"Pattern"},"required":true},"replacementString":{"type":{"k":"string"}}}},
+    {"tag":"LengthLimitingTextInputFormatter","fields":{"maxLength":{"type":{"k":"int"},"nullable":true},"maxLengthEnforcement":{"type":{"k":"enum","n":"MaxLengthEnforcement"},"nullable":true}}}
+   ]
+  },
+  "TextInputType": {
+   "dart": "TextInputType",
+   "doc": "The type of information for which to optimize the text input control.",
+   "consts": ["text","multiline","number","phone","datetime","emailAddress","url","visiblePassword","name","streetAddress","none","webSearch","twitter"],
+   "variants": [
+    {"tag":"numberWithOptions","fields":{"signed":{"type":{"k":"bool"},"nullable":true},"decimal":{"type":{"k":"bool"},"nullable":true},"password":{"type":{"k":"bool"},"nullable":true}}}
+   ]
+  },
+  "TextSelectionControls": {
+   "dart": "TextSelectionControls",
+   "doc": "An interface for building the selection UI, to be provided by the\nimplementer of the toolbar widget.",
+   "variants": [
+    {"tag":"DesktopTextSelectionControls","fields":{}},
+    {"tag":"MaterialTextSelectionControls","fields":{}},
+    {"tag":"EmptyTextSelectionControls","fields":{}},
+    {"tag":"CupertinoDesktopTextSelectionControls","fields":{}},
+    {"tag":"CupertinoTextSelectionControls","fields":{}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "ViewConstraints": {
+   "dart": "ViewConstraints",
+   "doc": "Immutable layout constraints for [FlutterView]s.",
+   "variants": [
+    {"tag":null,"fields":{"minWidth":{"type":{"k":"double"}},"maxWidth":{"type":{"k":"double"}},"minHeight":{"type":{"k":"double"}},"maxHeight":{"type":{"k":"double"}}}},
+    {"tag":"tight","fields":{"size":{"type":{"k":"data","n":"Size"},"required":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {
+  "Offset": {
+   "dart": "Offset",
+   "fields": {
+    "dx": {"k":"double"},
+    "dy": {"k":"double"}
+   }
+  },
+  "PointerDownEvent": {
+   "dart": "PointerDownEvent",
+   "fields": {
+    "viewId": {"k":"int"},
+    "timeStamp": {"k":"num"},
+    "pointer": {"k":"int"},
+    "kind": {"k":"enum","n":"PointerDeviceKind"},
+    "device": {"k":"int"},
+    "position": {"k":"payload","n":"Offset"},
+    "buttons": {"k":"int"},
+    "obscured": {"k":"bool"},
+    "pressure": {"k":"double"},
+    "pressureMin": {"k":"double"},
+    "pressureMax": {"k":"double"},
+    "distanceMax": {"k":"double"},
+    "size": {"k":"double"},
+    "radiusMajor": {"k":"double"},
+    "radiusMinor": {"k":"double"},
+    "radiusMin": {"k":"double"},
+    "radiusMax": {"k":"double"},
+    "orientation": {"k":"double"},
+    "tilt": {"k":"double"},
+    "embedderId": {"k":"int"}
+   }
+  },
+  "PointerUpEvent": {
+   "dart": "PointerUpEvent",
+   "fields": {
+    "viewId": {"k":"int"},
+    "timeStamp": {"k":"num"},
+    "pointer": {"k":"int"},
+    "kind": {"k":"enum","n":"PointerDeviceKind"},
+    "device": {"k":"int"},
+    "position": {"k":"payload","n":"Offset"},
+    "buttons": {"k":"int"},
+    "obscured": {"k":"bool"},
+    "pressure": {"k":"double"},
+    "pressureMin": {"k":"double"},
+    "pressureMax": {"k":"double"},
+    "distance": {"k":"double"},
+    "distanceMax": {"k":"double"},
+    "size": {"k":"double"},
+    "radiusMajor": {"k":"double"},
+    "radiusMinor": {"k":"double"},
+    "radiusMin": {"k":"double"},
+    "radiusMax": {"k":"double"},
+    "orientation": {"k":"double"},
+    "tilt": {"k":"double"},
+    "embedderId": {"k":"int"}
+   }
+  }
+ },
+ "libraries": ["package:pinput/pinput.dart"]
+}

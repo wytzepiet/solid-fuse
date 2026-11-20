@@ -1,0 +1,243 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "modal_bottom_sheet",
+ "version": "3.0.0",
+ "register": "registerModalBottomSheetWidgets",
+ "widgets": {
+  "BarBottomSheet": {
+   "tag": "modal_bottom_sheet.BarBottomSheet",
+   "dart": "BarBottomSheet",
+   "library": "package:modal_bottom_sheet/src/bottom_sheets/bar_bottom_sheet.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "control": {"type":{"k":"widget"},"dart":"Widget?"},
+    "clipBehavior": {"type":{"k":"enum","n":"Clip"},"dart":"Clip?"},
+    "shape": {"type":{"k":"data","n":"ShapeBorder"},"dart":"ShapeBorder?"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "elevation": {"type":{"k":"double"},"dart":"double?"},
+    "overlayStyle": {"type":{"k":"data","n":"SystemUiOverlayStyle"},"dart":"SystemUiOverlayStyle?"}
+   }
+  },
+  "CupertinoScaffold": {
+   "tag": "modal_bottom_sheet.CupertinoScaffold",
+   "dart": "CupertinoScaffold",
+   "library": "package:modal_bottom_sheet/src/bottom_sheets/cupertino_bottom_sheet.dart",
+   "props": {
+    "body": {"type":{"k":"widget"},"dart":"Widget","required":true},
+    "topRadius": {"type":{"k":"data","n":"Radius"},"dart":"Radius","default":"Dart `_kDefaultTopRadius`"},
+    "transitionBackgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.black`"},
+    "overlayStyle": {"type":{"k":"data","n":"SystemUiOverlayStyle"},"dart":"SystemUiOverlayStyle?"}
+   }
+  },
+  "CupertinoScaffoldInheirted": {
+   "tag": "modal_bottom_sheet.CupertinoScaffoldInheirted",
+   "dart": "CupertinoScaffoldInheirted",
+   "library": "package:modal_bottom_sheet/src/bottom_sheets/cupertino_bottom_sheet.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "animation": {"type":{"k":"handle","n":"AnimationController"},"dart":"AnimationController?"},
+    "topRadius": {"type":{"k":"data","n":"Radius"},"dart":"Radius?"},
+    "transitionBackgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true}
+   }
+  },
+  "ModalScrollController": {
+   "tag": "modal_bottom_sheet.ModalScrollController",
+   "dart": "ModalScrollController",
+   "library": "package:modal_bottom_sheet/src/utils/modal_scroll_controller.dart",
+   "doc": "Associates a [ScrollController] with a subtree.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"ScrollController"},"dart":"ScrollController","required":true,"doc":"The [ScrollController] associated with the subtree."}
+   }
+  }
+ },
+ "skipped": {
+  "ModalBottomSheet": "required param `onClosing` (dynamic Function()) is not bridgeable: callback/sync-return"
+ },
+ "enums": {
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "Brightness": {
+   "values": ["dark","light"],
+   "doc": "Describes the contrast of a theme or color palette."
+  },
+  "Clip": {
+   "values": ["none","hardEdge","antiAlias","antiAliasWithSaveLayer"],
+   "doc": "Different ways to clip content."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  }
+ },
+ "types": {
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderRadiusGeometry": {
+   "dart": "BorderRadiusGeometry",
+   "doc": "Base class for [BorderRadius] that allows for text-direction aware resolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","BorderRadius.zero","BorderRadiusDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"},"nullable":true},"right":{"type":{"k":"data","n":"Radius"},"nullable":true},"start":{"type":{"k":"data","n":"Radius"},"nullable":true},"end":{"type":{"k":"data","n":"Radius"},"nullable":true}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"directional","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadius.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadius.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.horizontal","fields":{"start":{"type":{"k":"data","n":"Radius"}},"end":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.only","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "LinearBorderEdge": {
+   "dart": "LinearBorderEdge",
+   "doc": "Defines the relative size and alignment of one [LinearBorder] edge.",
+   "variants": [
+    {"tag":null,"fields":{"size":{"type":{"k":"double"}},"alignment":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ShapeBorder": {
+   "dart": "ShapeBorder",
+   "doc": "Base class for shape outlines.",
+   "consts": ["InputBorder.none","LinearBorder.none"],
+   "variants": [
+    {"tag":"UnderlineInputBorder","fields":{"borderSide":{"type":{"k":"data","n":"BorderSide"}},"borderRadius":{"type":{"k":"data","n":"BorderRadius"}}}},
+    {"tag":"OutlineInputBorder","fields":{"borderSide":{"type":{"k":"data","n":"BorderSide"}},"borderRadius":{"type":{"k":"data","n":"BorderRadius"}},"gapPadding":{"type":{"k":"double"}}}},
+    {"tag":"ShapedInputBorder","fields":{"borderSide":{"type":{"k":"data","n":"BorderSide"}},"shape":{"type":{"k":"data","n":"ShapeBorder"},"required":true},"gapPadding":{"type":{"k":"double"}}}},
+    {"tag":"BeveledRectangleBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"}}}},
+    {"tag":"BoxBorder.fromLTRB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"BoxBorder.all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"BoxBorder.fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"BoxBorder.symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"BoxBorder.fromSTEB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"Border.symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"BorderDirectional","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"CircleBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"eccentricity":{"type":{"k":"double"}}}},
+    {"tag":"ContinuousRectangleBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"}}}},
+    {"tag":"LinearBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"LinearBorderEdge"},"nullable":true},"end":{"type":{"k":"data","n":"LinearBorderEdge"},"nullable":true},"top":{"type":{"k":"data","n":"LinearBorderEdge"},"nullable":true},"bottom":{"type":{"k":"data","n":"LinearBorderEdge"},"nullable":true}}},
+    {"tag":"LinearBorder.start","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"alignment":{"type":{"k":"double"}},"size":{"type":{"k":"double"}}}},
+    {"tag":"LinearBorder.end","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"alignment":{"type":{"k":"double"}},"size":{"type":{"k":"double"}}}},
+    {"tag":"LinearBorder.top","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"alignment":{"type":{"k":"double"}},"size":{"type":{"k":"double"}}}},
+    {"tag":"LinearBorder.bottom","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"alignment":{"type":{"k":"double"}},"size":{"type":{"k":"double"}}}},
+    {"tag":"OvalBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"eccentricity":{"type":{"k":"double"}}}},
+    {"tag":"RoundedRectangleBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"}}}},
+    {"tag":"RoundedSuperellipseBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"},"nullable":true}}},
+    {"tag":"StadiumBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"StarBorder","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"points":{"type":{"k":"double"}},"innerRadiusRatio":{"type":{"k":"double"}},"pointRounding":{"type":{"k":"double"}},"valleyRounding":{"type":{"k":"double"}},"rotation":{"type":{"k":"double"}},"squash":{"type":{"k":"double"}}}},
+    {"tag":"StarBorder.polygon","fields":{"side":{"type":{"k":"data","n":"BorderSide"}},"sides":{"type":{"k":"double"}},"pointRounding":{"type":{"k":"double"}},"rotation":{"type":{"k":"double"}},"squash":{"type":{"k":"double"}}}}
+   ]
+  },
+  "SystemUiOverlayStyle": {
+   "dart": "SystemUiOverlayStyle",
+   "doc": "Specifies a preference for the style of the system overlays.",
+   "consts": ["light","dark"],
+   "variants": [
+    {"tag":null,"fields":{"systemNavigationBarColor":{"type":{"k":"data","n":"Color"},"nullable":true},"systemNavigationBarDividerColor":{"type":{"k":"data","n":"Color"},"nullable":true},"systemNavigationBarIconBrightness":{"type":{"k":"enum","n":"Brightness"},"nullable":true},"systemNavigationBarContrastEnforced":{"type":{"k":"bool"},"nullable":true},"statusBarColor":{"type":{"k":"data","n":"Color"},"nullable":true},"statusBarBrightness":{"type":{"k":"enum","n":"Brightness"},"nullable":true},"statusBarIconBrightness":{"type":{"k":"enum","n":"Brightness"},"nullable":true},"systemStatusBarContrastEnforced":{"type":{"k":"bool"},"nullable":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:modal_bottom_sheet/modal_bottom_sheet.dart"]
+}

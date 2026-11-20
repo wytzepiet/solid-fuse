@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"flutter_rating_bar","version":"4.0.1","libs":[["package:flutter_rating_bar/flutter_rating_bar.dart","flutter_rating_bar_flutter_rating_bar"]],"include":null}]}

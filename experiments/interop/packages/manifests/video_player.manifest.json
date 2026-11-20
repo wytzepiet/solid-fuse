@@ -1,0 +1,236 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "video_player",
+ "version": "2.14.1",
+ "register": "registerVideoPlayerWidgets",
+ "widgets": {
+  "ClosedCaption": {
+   "tag": "video_player.ClosedCaption",
+   "dart": "ClosedCaption",
+   "library": "package:video_player/video_player.dart",
+   "doc": "Widget for displaying closed captions on top of a video.",
+   "props": {
+    "text": {"type":{"k":"string"},"dart":"String?","doc":"The text that will be shown in the closed caption, or null if no caption\nshould be shown.\nIf the text is empty the caption will not be shown."},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Specifies how the text in the closed caption should look."}
+   }
+  },
+  "VideoPlayer": {
+   "tag": "video_player.VideoPlayer",
+   "dart": "VideoPlayer",
+   "library": "package:video_player/video_player.dart",
+   "doc": "Widget that displays the video controlled by [controller].",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"VideoPlayerController"},"dart":"VideoPlayerController","required":true,"doc":"The [VideoPlayerController] responsible for the video being rendered in\nthis widget."}
+   }
+  },
+  "VideoProgressIndicator": {
+   "tag": "video_player.VideoProgressIndicator",
+   "dart": "VideoProgressIndicator",
+   "library": "package:video_player/video_player.dart",
+   "doc": "Displays the play/buffering status of the video controlled by [controller].",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"VideoPlayerController"},"dart":"VideoPlayerController","required":true,"doc":"The [VideoPlayerController] that actually associates a video with this\nwidget."},
+    "colors": {"type":{"k":"data","n":"VideoProgressColors"},"dart":"VideoProgressColors","default":"Dart `const VideoProgressColors()`","doc":"The default colors used throughout the indicator."},
+    "allowScrubbing": {"type":{"k":"bool"},"dart":"bool","required":true,"doc":"When true, the widget will detect touch input and try to seek the video\naccordingly. The widget ignores such input when false."},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.only(top: 5.0)`","doc":"This allows for visual padding around the progress indicator that can\nstill detect gestures via [allowScrubbing]."}
+   }
+  },
+  "VideoScrubber": {
+   "tag": "video_player.VideoScrubber",
+   "dart": "VideoScrubber",
+   "library": "package:video_player/video_player.dart",
+   "doc": "A scrubber to control [VideoPlayerController]s",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"VideoPlayerController"},"dart":"VideoPlayerController","required":true,"doc":"The [VideoPlayerController] that will be controlled by this scrubber."}
+   }
+  }
+ },
+ "enums": {
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  }
+ },
+ "types": {
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "VideoProgressColors": {
+   "dart": "VideoProgressColors",
+   "doc": "Used to configure the [VideoProgressIndicator] widget's colors for how it\ndescribes the video's status.",
+   "variants": [
+    {"tag":null,"fields":{"playedColor":{"type":{"k":"data","n":"Color"}},"bufferedColor":{"type":{"k":"data","n":"Color"}},"backgroundColor":{"type":{"k":"data","n":"Color"}}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:video_player/video_player.dart"]
+}

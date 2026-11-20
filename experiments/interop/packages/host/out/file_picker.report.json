@@ -1,0 +1,159 @@
+{
+  "name": "file_picker",
+  "libs": [
+    "package:file_picker/file_picker.dart"
+  ],
+  "surface": {
+    "total": 26,
+    "bridged": 22,
+    "byKind": {
+      "static method": {
+        "bridged": 6,
+        "total": 8
+      },
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 10,
+        "total": 11
+      },
+      "stream": {
+        "bridged": 1,
+        "total": 1
+      },
+      "getter": {
+        "bridged": 4,
+        "total": 5
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "FilePicker.saveFile",
+      "ok": false,
+      "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+      "kind": "static method",
+      "name": "FilePickerSaveUtils.saveBytesToFile",
+      "ok": false,
+      "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+      "kind": "method",
+      "name": "FilePickerPlatform#saveFile()",
+      "ok": false,
+      "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+      "kind": "getter",
+      "name": "PlatformFile#xFile",
+      "ok": false,
+      "why": "XFile (not encodable)"
+    }
+  ],
+  "partial": [
+    {
+      "kind": "static method",
+      "name": "FilePicker.pickFiles",
+      "ok": true,
+      "why": "dropped optional: onFileLoading"
+    },
+    {
+      "kind": "static method",
+      "name": "FilePicker.pickFile",
+      "ok": true,
+      "why": "dropped optional: onFileLoading"
+    }
+  ],
+  "objects": [
+    {
+      "class": "FilePickerPlatform",
+      "tag": "file_picker_FilePickerPlatform",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clearTemporaryFiles",
+        "getDirectoryPath",
+        "pickDirectory",
+        "pickFile",
+        "pickFileAndDirectoryPaths",
+        "pickFiles",
+        "skipEntitlementsChecks"
+      ],
+      "methodsTotal": 8,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "pickFile(onFileLoading)": "unbridgeable (callback sync-return)",
+        "pickFiles(onFileLoading)": "unbridgeable (callback sync-return)",
+        "saveFile()": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+      },
+      "dartLines": 65,
+      "tsLines": 45
+    },
+    {
+      "class": "PlatformFile",
+      "tag": "file_picker_PlatformFile",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "length",
+        "lengthSync",
+        "readAsBytes"
+      ],
+      "methodsTotal": 4,
+      "streams": [
+        "readAsByteStream"
+      ],
+      "readable": [
+        "extension",
+        "name",
+        "path",
+        "uri"
+      ],
+      "gettersTotal": 5,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "xFile": "XFile (not encodable)"
+      },
+      "dartLines": 74,
+      "tsLines": 56
+    }
+  ],
+  "notCallable": {
+    "AndroidOptions": "no members",
+    "DarwinOptions": "record (by the data rules)",
+    "DesktopWindowOptions": "record (by the data rules)",
+    "FilePicker": "no members",
+    "FilePickerSaveUtils": "no members",
+    "IllegalCharacterInFileNameException": "record (by the data rules)",
+    "LinuxOptions": "record (by the data rules)",
+    "MethodChannelFilePicker": "record (by the data rules)",
+    "WebOptions": "no members",
+    "WindowsOptions": "record (by the data rules)",
+    "DarwinAssetRepresentationMode": "enum (by the data rules)",
+    "FilePickerStatus": "enum (by the data rules)",
+    "FileType": "enum (by the data rules)"
+  },
+  "dartLines": 256,
+  "tsLines": 194,
+  "warnings": []
+}

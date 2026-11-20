@@ -1,0 +1,23 @@
+   Woah! You appear to be trying to run flutter as root.
+   We strongly recommend running the flutter tool without superuser privileges.
+  /
+📎
+Analyzing 2 items...                                            
+
+  error • The class 'flutter_map_flutter_map.FadeInTileDisplay' doesn't have a constant constructor 'fadeIn'. Try calling a different constructor • lib/_generated/flutter_map.fuse.g.dart:202:106 • const_with_undefined_constructor
+  error • The class 'flutter_map_flutter_map.UnconstrainedCamera' doesn't have a constant constructor 'unconstrained'. Try calling a different constructor • lib/_generated/flutter_map.fuse.g.dart:814:392 • const_with_undefined_constructor
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • lib/_generated/flutter_rating_bar.fuse.g.dart:3:8 • unused_import
+warning • Unused import: 'package:solid_fuse/gen_support.dart'. Try removing the import directive • lib/_generated/flutter_rating_bar.fuse.g.dart:4:8 • unused_import
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • lib/_generated/fluttertoast.fuse.g.dart:3:8 • unused_import
+warning • Unused import: 'package:solid_fuse/gen_support.dart'. Try removing the import directive • lib/_generated/fluttertoast.fuse.g.dart:4:8 • unused_import
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • lib/_generated/google_fonts.fuse.g.dart:3:8 • unused_import
+warning • Unused import: 'package:solid_fuse/gen_support.dart'. Try removing the import directive • lib/_generated/google_fonts.fuse.g.dart:4:8 • unused_import
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • lib/_generated/infinite_scroll_pagination.fuse.g.dart:3:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/fuse/modal_sheet.dart:5:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/fuse/type_ahead.dart:8:1 • deprecated_member_use
+
+11 issues found. (ran in 14.6s)
+
+real	0m15.289s
+user	0m0.573s
+sys	0m0.137s

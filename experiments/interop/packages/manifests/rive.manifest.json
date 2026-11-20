@@ -1,0 +1,205 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "rive",
+ "version": "0.14.11",
+ "register": "registerRiveWidgets",
+ "widgets": {
+  "ArtboardWidgetRiveRenderer": {
+   "tag": "rive.ArtboardWidgetRiveRenderer",
+   "dart": "ArtboardWidgetRiveRenderer",
+   "library": "package:rive_native/src/rive_widget.dart",
+   "props": {
+    "painter": {"type":{"k":"handle","n":"ProceduralPainter"},"dart":"ProceduralPainter?"},
+    "renderResolution": {"type":{"k":"data","n":"RenderResolution"},"dart":"RenderResolution","default":"Dart `RenderResolution.defaultValue`","doc":"How the backing texture is sized. See [RenderResolution]."}
+   }
+  },
+  "FlutterRiveRendererWidget": {
+   "tag": "rive.FlutterRiveRendererWidget",
+   "dart": "FlutterRiveRendererWidget",
+   "library": "package:rive_native/src/rive_widget.dart",
+   "props": {
+    "painter": {"type":{"k":"handle","n":"ProceduralPainter"},"dart":"ProceduralPainter?","nullable":true}
+   }
+  },
+  "RivePanel": {
+   "tag": "rive.RivePanel",
+   "dart": "RivePanel",
+   "library": "package:rive/src/widgets/rive_panel.dart",
+   "doc": "A widget that creates a shared texture to paint multiple [RiveWidget]s to.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.transparent`"},
+    "renderResolution": {"type":{"k":"data","n":"RenderResolution"},"dart":"RenderResolution","default":"Dart `RenderResolution.defaultValue`","doc":"How the panel's shared texture is sized. See [RenderResolution].\nForwarded to the panel's internal [RiveSurface]."}
+   }
+  },
+  "RiveSharedTexture": {
+   "tag": "rive.RiveSharedTexture",
+   "dart": "RiveSharedTexture",
+   "library": "package:rive/src/widgets/inherited_widgets.dart",
+   "doc": "Inherited widget that will pass the background render texture down the tree",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "texture": {"type":{"k":"data","n":"SharedRenderTexture"},"dart":"SharedRenderTexture?","nullable":true}
+   }
+  },
+  "RiveSurface": {
+   "tag": "rive.RiveSurface",
+   "dart": "RiveSurface",
+   "library": "package:rive/src/widgets/rive_panel.dart",
+   "doc": "Renders the native surface of a [SharedRenderTexture] into the widget tree.",
+   "props": {
+    "sharedTexture": {"type":{"k":"data","n":"SharedRenderTexture"},"dart":"SharedRenderTexture","required":true},
+    "ignorePointer": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "renderResolution": {"type":{"k":"data","n":"RenderResolution"},"dart":"RenderResolution","default":"Dart `RenderResolution.defaultValue`","doc":"How the surface's texture is sized. See [RenderResolution]. The painters\ndrawing into the surface adapt to whatever backing this allocates."}
+   }
+  },
+  "RiveWidget": {
+   "tag": "rive.RiveWidget",
+   "dart": "RiveWidget",
+   "library": "package:rive/src/widgets/rive_widget.dart",
+   "doc": "A widget that displays a Rive artboard.",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"RiveWidgetController"},"dart":"RiveWidgetController","required":true,"doc":"The controller of the graphic. Manages the artboard, state machine and data binding."},
+    "fit": {"type":{"k":"enum","n":"Fit"},"dart":"Fit","default":"\"contain\"","doc":"The fit of the artboard."},
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment","default":"Dart `RiveDefaults.alignment`","doc":"The alignment of the artboard."},
+    "hitTestBehavior": {"type":{"k":"enum","n":"RiveHitTestBehavior"},"dart":"RiveHitTestBehavior","default":"\"opaque\"","doc":"The hit test behavior of the artboard."},
+    "cursor": {"type":{"k":"data","n":"MouseCursor"},"dart":"MouseCursor","default":"Dart `RiveDefaults.mouseCursor`","doc":"The cursor of the artboard."},
+    "layoutScaleFactor": {"type":{"k":"double"},"dart":"double","default":"1","doc":"The layout scale factor of the artboard."},
+    "useSharedTexture": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to use a shared texture [(RivePanel]) to draw the artboard to."},
+    "sharedTexture": {"type":{"k":"data","n":"SharedRenderTexture"},"dart":"SharedRenderTexture?","doc":"Explicit [SharedRenderTexture] to draw into, bypassing the\nancestor-based [RivePanel] lookup. Use this together with\n[SharedRenderTexture.create] and [RiveSurface] to share a texture across\narbitrary parts of the widget tree (siblings, separate subtrees, across\nroutes, etc.)."},
+    "drawOrder": {"type":{"k":"int"},"dart":"int","default":"1","doc":"The draw order of the artboard. This is only used when drawing to a\nshared texture (either via [useSharedTexture] + [RivePanel] or an\nexplicit [sharedTexture]), and using [Factory.rive]."},
+    "renderResolution": {"type":{"k":"data","n":"RenderResolution"},"dart":"RenderResolution?","doc":"How this widget's backing texture is sized when rendering with\n[Factory.rive]. Defaults to [RenderResolution.display]."}
+   }
+  },
+  "SharedTextureViewRenderer": {
+   "tag": "rive.SharedTextureViewRenderer",
+   "dart": "SharedTextureViewRenderer",
+   "library": "package:rive/src/widgets/shared_texture_view.dart",
+   "props": {
+    "renderTexturePainter": {"type":{"k":"handle","n":"RenderTexturePainter"},"dart":"RenderTexturePainter","required":true},
+    "sharedTexture": {"type":{"k":"data","n":"SharedRenderTexture"},"dart":"SharedRenderTexture","required":true},
+    "devicePixelRatio": {"type":{"k":"double"},"dart":"double","required":true},
+    "drawOrder": {"type":{"k":"int"},"dart":"int","required":true}
+   }
+  }
+ },
+ "skipped": {
+  "RiveArtboardWidget": "required param `artboard` (Artboard) is not bridgeable: unbridgeable/abstract-no-impl",
+  "RiveFileWidget": "required param `file` (File) is not bridgeable: unbridgeable/abstract-no-impl",
+  "RiveProceduralRenderingWidget": "required param `riveFactory` (Factory) is not bridgeable: unbridgeable/abstract-no-impl",
+  "RiveSemanticsWidget": "required param `artboard` (Artboard) is not bridgeable: unbridgeable/abstract-no-impl",
+  "RiveWidgetBuilder": "required param `fileLoader` (FileLoader) is not bridgeable: unbridgeable/no-usable-constructor",
+  "SharedTextureView": "required param `artboard` (Artboard) is not bridgeable: unbridgeable/abstract-no-impl"
+ },
+ "enums": {
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "Fit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown","layout"]
+  },
+  "RiveHitTestBehavior": {
+   "values": ["none","opaque","translucent","transparent"],
+   "doc": "How to behave during hit tests on Rive Listeners (hit targets)."
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight","RiveDefaults.alignment"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "MouseCursor": {
+   "dart": "MouseCursor",
+   "doc": "An interface for mouse cursor definitions.",
+   "consts": ["defer","uncontrolled","SystemMouseCursors.none","SystemMouseCursors.basic","SystemMouseCursors.click","SystemMouseCursors.forbidden","SystemMouseCursors.wait","SystemMouseCursors.progress","SystemMouseCursors.contextMenu","SystemMouseCursors.help","SystemMouseCursors.text","SystemMouseCursors.verticalText","SystemMouseCursors.cell","SystemMouseCursors.precise","SystemMouseCursors.move","SystemMouseCursors.grab","SystemMouseCursors.grabbing","SystemMouseCursors.noDrop","SystemMouseCursors.alias","SystemMouseCursors.copy","SystemMouseCursors.disappearing","SystemMouseCursors.allScroll","SystemMouseCursors.resizeLeftRight","SystemMouseCursors.resizeUpDown","SystemMouseCursors.resizeUpLeftDownRight","SystemMouseCursors.resizeUpRightDownLeft","SystemMouseCursors.resizeUp","SystemMouseCursors.resizeDown","SystemMouseCursors.resizeLeft","SystemMouseCursors.resizeRight","SystemMouseCursors.resizeUpLeft","SystemMouseCursors.resizeUpRight","SystemMouseCursors.resizeDownLeft","SystemMouseCursors.resizeDownRight","SystemMouseCursors.resizeColumn","SystemMouseCursors.resizeRow","SystemMouseCursors.zoomIn","SystemMouseCursors.zoomOut","WidgetStateMouseCursor.clickable","WidgetStateMouseCursor.adaptiveClickable","WidgetStateMouseCursor.textable","RiveDefaults.mouseCursor"]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "RenderResolution": {
+   "dart": "RenderResolution",
+   "doc": "Controls how a Rive [RenderTexture] sizes its backing store relative to\nthe widget's layout.",
+   "consts": ["RiveDefaults.renderResolution","defaultValue"],
+   "variants": [
+    {"tag":"display","fields":{}},
+    {"tag":"layout","fields":{"scale":{"type":{"k":"double"}}}},
+    {"tag":"fixed","fields":{"width":{"type":{"k":"int"},"required":true},"height":{"type":{"k":"int"},"required":true}}},
+    {"tag":"DisplayRenderResolution","fields":{}},
+    {"tag":"LayoutRenderResolution","fields":{"scale":{"type":{"k":"double"}}}},
+    {"tag":"FixedRenderResolution","fields":{"width":{"type":{"k":"int"},"required":true},"height":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "SharedRenderTexture": {
+   "dart": "SharedRenderTexture",
+   "doc": "A shared render texture that multiple Rive painters can draw into.",
+   "variants": [
+    {"tag":"create","fields":{"backgroundColor":{"type":{"k":"data","n":"Color"}},"devicePixelRatio":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:rive/rive.dart"]
+}

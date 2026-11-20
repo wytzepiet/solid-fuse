@@ -1,0 +1,226 @@
+{
+  "name": "photo_view",
+  "libs": [
+    "package:photo_view/photo_view.dart"
+  ],
+  "surface": {
+    "total": 52,
+    "bridged": 46,
+    "byKind": {
+      "function": {
+        "bridged": 1,
+        "total": 1
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 8,
+        "total": 14
+      },
+      "stream": {
+        "bridged": 3,
+        "total": 3
+      },
+      "getter": {
+        "bridged": 17,
+        "total": 17
+      },
+      "setter": {
+        "bridged": 15,
+        "total": 15
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "PhotoViewController#addIgnorableListener()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "PhotoViewController#removeIgnorableListener()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "PhotoViewControllerBase#addIgnorableListener()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "PhotoViewControllerBase#removeIgnorableListener()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "PhotoViewScaleStateController#addIgnorableListener()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "PhotoViewScaleStateController#removeIgnorableListener()",
+      "ok": false,
+      "why": "callback: callback"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "PhotoViewController",
+      "tag": "photo_view_PhotoViewController",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 3,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "reset",
+        "setScaleInvisibly",
+        "updateMultiple"
+      ],
+      "methodsTotal": 5,
+      "streams": [
+        "outputStateStream"
+      ],
+      "readable": [
+        "initial",
+        "position",
+        "prevValue",
+        "rotation",
+        "rotationFocusPoint",
+        "scale",
+        "value"
+      ],
+      "gettersTotal": 8,
+      "objectGetters": [],
+      "setters": [
+        "initial",
+        "position",
+        "prevValue",
+        "rotation",
+        "rotationFocusPoint",
+        "scale",
+        "value"
+      ],
+      "settersTotal": 7,
+      "mirrored": [],
+      "dropped": {
+        "addIgnorableListener()": "callback: callback",
+        "removeIgnorableListener()": "callback: callback"
+      },
+      "dartLines": 119,
+      "tsLines": 69
+    },
+    {
+      "class": "PhotoViewControllerBase",
+      "tag": "photo_view_PhotoViewControllerBase",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "reset",
+        "setScaleInvisibly",
+        "updateMultiple"
+      ],
+      "methodsTotal": 5,
+      "streams": [
+        "outputStateStream"
+      ],
+      "readable": [
+        "position",
+        "prevValue",
+        "rotation",
+        "rotationFocusPoint",
+        "scale",
+        "value"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [
+        "position",
+        "prevValue",
+        "rotation",
+        "rotationFocusPoint",
+        "scale",
+        "value"
+      ],
+      "settersTotal": 6,
+      "mirrored": [],
+      "dropped": {
+        "addIgnorableListener()": "callback: callback",
+        "removeIgnorableListener()": "callback: callback"
+      },
+      "dartLines": 107,
+      "tsLines": 61
+    },
+    {
+      "class": "PhotoViewScaleStateController",
+      "tag": "photo_view_PhotoViewScaleStateController",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "reset",
+        "setInvisibly"
+      ],
+      "methodsTotal": 4,
+      "streams": [
+        "outputScaleStateStream"
+      ],
+      "readable": [
+        "hasChanged",
+        "isZooming",
+        "prevScaleState",
+        "scaleState"
+      ],
+      "gettersTotal": 5,
+      "objectGetters": [],
+      "setters": [
+        "prevScaleState",
+        "scaleState"
+      ],
+      "settersTotal": 2,
+      "mirrored": [],
+      "dropped": {
+        "addIgnorableListener()": "callback: callback",
+        "removeIgnorableListener()": "callback: callback"
+      },
+      "dartLines": 90,
+      "tsLines": 62
+    }
+  ],
+  "notCallable": {
+    "PhotoView": "widget (widget generator)",
+    "PhotoViewComputedScale": "record (by the data rules)",
+    "PhotoViewControllerValue": "record (by the data rules)",
+    "PhotoViewGestureDetectorScope": "widget (widget generator)",
+    "PhotoViewHeroAttributes": "record (by the data rules)",
+    "LoadingBuilder": "typedef",
+    "PhotoViewImageScaleEndCallback": "typedef",
+    "PhotoViewImageTapDownCallback": "typedef",
+    "PhotoViewImageTapUpCallback": "typedef",
+    "PhotoViewScaleState": "enum (by the data rules)",
+    "PhotoViewScaleStateIZoomingExtension": "extension",
+    "ScaleStateCycle": "typedef",
+    "ScaleStateListener": "typedef"
+  },
+  "dartLines": 407,
+  "tsLines": 241,
+  "warnings": []
+}

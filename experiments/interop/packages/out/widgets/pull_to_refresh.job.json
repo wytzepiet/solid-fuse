@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"pull_to_refresh","version":"2.0.0","libs":[["package:pull_to_refresh/pull_to_refresh.dart","pull_to_refresh_pull_to_refresh"]],"include":null}]}

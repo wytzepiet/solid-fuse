@@ -1,0 +1,713 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "pull_to_refresh",
+ "version": "2.0.0",
+ "register": "registerPullToRefreshWidgets",
+ "widgets": {
+  "BezierCircleHeader": {
+   "tag": "pull_to_refresh.BezierCircleHeader",
+   "dart": "BezierCircleHeader",
+   "library": "package:pull_to_refresh/src/indicator/bezier_indicator.dart",
+   "doc": "bezier + circle indicator,you can use this directly",
+   "props": {
+    "bezierColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "rectHeight": {"type":{"k":"double"},"dart":"double","default":"70"},
+    "circleColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.white`"},
+    "enableChildOverflow": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "dismissType": {"type":{"k":"enum","n":"BezierDismissType"},"dart":"BezierDismissType","default":"\"RectSpread\""},
+    "circleType": {"type":{"k":"enum","n":"BezierCircleType"},"dart":"BezierCircleType","default":"\"Progress\""},
+    "circleRadius": {"type":{"k":"double"},"dart":"double","default":"12"}
+   }
+  },
+  "BezierHeader": {
+   "tag": "pull_to_refresh.BezierHeader",
+   "dart": "BezierHeader",
+   "library": "package:pull_to_refresh/src/indicator/bezier_indicator.dart",
+   "doc": "bezier container,if you need to implements indicator with bezier ,you can use consider about use this\nthis will add the bezier container effect",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "onOffsetChange": {"type":{"k":"callback","args":[{"name":"offset","type":{"k":"double"}}]},"dart":"void Function(double)?"},
+    "onModeChange": {"type":{"k":"callback","args":[{"name":"mode","type":{"k":"unknown"}}]},"dart":"void Function(dynamic)?"},
+    "enableChildOverflow": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "onResetValue": {"type":{"k":"callback","args":[]},"dart":"void Function()?"},
+    "dismissType": {"type":{"k":"enum","n":"BezierDismissType"},"dart":"BezierDismissType","default":"\"RectSpread\""},
+    "rectHeight": {"type":{"k":"double"},"dart":"double","default":"70"},
+    "bezierColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"}
+   },
+   "omitted": {
+    "readyRefresh": "callback/Future<void>",
+    "endRefresh": "callback/Future<void>"
+   }
+  },
+  "ClassicFooter": {
+   "tag": "pull_to_refresh.ClassicFooter",
+   "dart": "ClassicFooter",
+   "library": "package:pull_to_refresh/src/indicator/classic_indicator.dart",
+   "doc": "the most common indicator,combine with a text and a icon",
+   "props": {
+    "onClick": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"callback when user click footer"},
+    "loadStyle": {"type":{"k":"enum","n":"LoadStyle"},"dart":"LoadStyle","default":"\"ShowAlways\"","doc":"load more display style"},
+    "height": {"type":{"k":"double"},"dart":"double","default":"60","doc":"the visual extent indicator"},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle","default":"Dart `const TextStyle(color: Colors.grey)`"},
+    "loadingText": {"type":{"k":"string"},"dart":"String?"},
+    "noDataText": {"type":{"k":"string"},"dart":"String?"},
+    "noMoreIcon": {"type":{"k":"widget"},"dart":"Widget?"},
+    "idleText": {"type":{"k":"string"},"dart":"String?"},
+    "failedText": {"type":{"k":"string"},"dart":"String?"},
+    "canLoadingText": {"type":{"k":"string"},"dart":"String?"},
+    "failedIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.error, color: Colors.grey)`"},
+    "iconPos": {"type":{"k":"enum","n":"IconPosition"},"dart":"IconPosition","default":"\"left\""},
+    "spacing": {"type":{"k":"double"},"dart":"double","default":"15","doc":"icon and text middle margin"},
+    "completeDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 300)`","doc":"notice that ,this attrs only works for LoadStyle.ShowWhenLoading"},
+    "loadingIcon": {"type":{"k":"widget"},"dart":"Widget?"},
+    "canLoadingIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.autorenew, color: Colors.grey)`"},
+    "idleIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.arrow_upward, color: Colors.grey)`"}
+   },
+   "omitted": {
+    "outerBuilder": "builder/unencodable args"
+   }
+  },
+  "ClassicHeader": {
+   "tag": "pull_to_refresh.ClassicHeader",
+   "dart": "ClassicHeader",
+   "library": "package:pull_to_refresh/src/indicator/classic_indicator.dart",
+   "doc": "the most common indicator,combine with a text and a icon",
+   "props": {
+    "refreshStyle": {"type":{"k":"enum","n":"RefreshStyle"},"dart":"RefreshStyle","default":"\"Follow\"","doc":"refresh display style"},
+    "height": {"type":{"k":"double"},"dart":"double","default":"60","doc":"the visual extent indicator"},
+    "completeDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 600)`","doc":"the stopped time when refresh complete or fail"},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle","default":"Dart `const TextStyle(color: Colors.grey)`"},
+    "releaseText": {"type":{"k":"string"},"dart":"String?"},
+    "refreshingText": {"type":{"k":"string"},"dart":"String?"},
+    "canTwoLevelIcon": {"type":{"k":"widget"},"dart":"Widget?"},
+    "twoLevelView": {"type":{"k":"widget"},"dart":"Widget?"},
+    "canTwoLevelText": {"type":{"k":"string"},"dart":"String?"},
+    "completeText": {"type":{"k":"string"},"dart":"String?"},
+    "failedText": {"type":{"k":"string"},"dart":"String?"},
+    "idleText": {"type":{"k":"string"},"dart":"String?"},
+    "iconPos": {"type":{"k":"enum","n":"IconPosition"},"dart":"IconPosition","default":"\"left\""},
+    "spacing": {"type":{"k":"double"},"dart":"double","default":"15","doc":"icon and text middle margin"},
+    "refreshingIcon": {"type":{"k":"widget"},"dart":"Widget?"},
+    "failedIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.error, color: Colors.grey)`"},
+    "completeIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.done, color: Colors.grey)`"},
+    "idleIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.arrow_downward, color: Colors.grey)`"},
+    "releaseIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.refresh, color: Colors.grey)`"}
+   },
+   "omitted": {
+    "outerBuilder": "builder/unencodable args"
+   }
+  },
+  "MaterialClassicHeader": {
+   "tag": "pull_to_refresh.MaterialClassicHeader",
+   "dart": "MaterialClassicHeader",
+   "library": "package:pull_to_refresh/src/indicator/material_indicator.dart",
+   "doc": "mostly use flutter inner's RefreshIndicator",
+   "props": {
+    "height": {"type":{"k":"double"},"dart":"double","default":"80","doc":"the visual extent indicator"},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"see flutter RefreshIndicator documents,the meaning same with that"},
+    "semanticsValue": {"type":{"k":"string"},"dart":"String?","doc":"see flutter RefreshIndicator documents,the meaning same with that"},
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"see flutter RefreshIndicator documents,the meaning same with that"},
+    "offset": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "distance": {"type":{"k":"double"},"dart":"double","default":"50","doc":"Distance from the top when refreshing"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"see flutter RefreshIndicator documents,the meaning same with that"}
+   }
+  },
+  "RefreshConfiguration": {
+   "tag": "pull_to_refresh.RefreshConfiguration",
+   "dart": "RefreshConfiguration",
+   "library": "package:pull_to_refresh/src/smart_refresher.dart",
+   "doc": "Controls how SmartRefresher widgets behave in a subtree.the usage just like [ScrollConfiguration]",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "dragSpeedRatio": {"type":{"k":"double"},"dart":"double","default":"1","doc":"the speed ratio when dragging overscroll ,compute=origin physics dragging speed *dragSpeedRatio"},
+    "enableScrollWhenTwoLevel": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"whether user can drag viewport when twoLeveling"},
+    "enableLoadingWhenNoData": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"whether footer can trigger load by reaching footerDistance when inNoMore state"},
+    "enableBallisticRefresh": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"whether trigger refresh by  BallisticScrollActivity"},
+    "springDescription": {"type":{"k":"data","n":"SpringDescription"},"dart":"SpringDescription","default":"Dart `const SpringDescription(mass: 2.2, stiffness: 150, damping: 16)`","doc":"custom spring animate"},
+    "enableScrollWhenRefreshCompleted": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"whether user can drag viewport when refresh complete and spring back"},
+    "enableLoadingWhenFailed": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"whether footer can trigger load by reaching footerDistance when failed state"},
+    "twiceTriggerDistance": {"type":{"k":"double"},"dart":"double","default":"150","doc":"the overScroll distance of trigger twoLevel"},
+    "closeTwoLevelDistance": {"type":{"k":"double"},"dart":"double","default":"80","doc":"Close the bottom crossing distance on the second floor, premise:enableScrollWhenTwoLevel is true"},
+    "skipCanRefresh": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If need to refreshing now when reaching triggerDistance"},
+    "maxOverScrollExtent": {"type":{"k":"double"},"dart":"double?","doc":"max overScroll distance when out of edge"},
+    "enableBallisticLoad": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"whether trigger loading by  BallisticScrollActivity"},
+    "maxUnderScrollExtent": {"type":{"k":"double"},"dart":"double?","doc":"max underScroll distance when out of edge"},
+    "headerTriggerDistance": {"type":{"k":"double"},"dart":"double","default":"80","doc":"overScroll distance of trigger refresh"},
+    "footerTriggerDistance": {"type":{"k":"double"},"dart":"double","default":"15","doc":"the extentAfter distance of trigger loading"},
+    "hideFooterWhenNotFull": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"when listView data small(not enough one page) , it should be hide"},
+    "enableRefreshVibrate": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"toggle of  refresh vibrate"},
+    "enableLoadMoreVibrate": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"toggle of  loadmore vibrate"},
+    "topHitBoundary": {"type":{"k":"double"},"dart":"double?","doc":"The boundary is located at the top edge and stops when inertia rolls over the boundary distance"},
+    "bottomHitBoundary": {"type":{"k":"double"},"dart":"double?","doc":"The boundary is located at the bottom edge and stops when inertia rolls under the boundary distance"}
+   },
+   "omitted": {
+    "headerBuilder": "builder/context-only",
+    "footerBuilder": "builder/context-only",
+    "shouldFooterFollowWhenNotFull": "callback/sync-return"
+   }
+  },
+  "SmartRefresher": {
+   "tag": "pull_to_refresh.SmartRefresher",
+   "dart": "SmartRefresher",
+   "library": "package:pull_to_refresh/src/smart_refresher.dart",
+   "doc": "This is the most important component that provides drop-down refresh and up loading.\n[RefreshController] must not be null,Only one controller to one SmartRefresher",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"RefreshController"},"dart":"RefreshController","required":true,"doc":"Controll inner state"},
+    "header": {"type":{"k":"widget"},"dart":"Widget?","doc":"header indicator displace before content"},
+    "footer": {"type":{"k":"widget"},"dart":"Widget?","doc":"footer indicator display after content"},
+    "enablePullDown": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"This bool will affect whether or not to have the function of drop-down refresh."},
+    "enablePullUp": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "enableTwoLevel": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"controll whether open the second floor function"},
+    "onRefresh": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"callback when header refresh"},
+    "onLoading": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"callback when footer loading more data"},
+    "onTwoLevel": {"type":{"k":"callback","args":[{"name":"isOpen","type":{"k":"bool"}}]},"dart":"void Function(bool)?","doc":"callback when header ready to twoLevel"},
+    "dragStartBehavior": {"type":{"k":"enum","n":"DragStartBehavior"},"dart":"DragStartBehavior?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "primary": {"type":{"k":"bool"},"dart":"bool?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "cacheExtent": {"type":{"k":"double"},"dart":"double?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "semanticChildCount": {"type":{"k":"int"},"dart":"int?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "reverse": {"type":{"k":"bool"},"dart":"bool?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "physics": {"type":{"k":"data","n":"ScrollPhysics"},"dart":"ScrollPhysics?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "scrollDirection": {"type":{"k":"enum","n":"Axis"},"dart":"Axis?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"},
+    "scrollController": {"type":{"k":"handle","n":"ScrollController"},"dart":"ScrollController?","doc":"copy from ScrollView,for setting in SingleChildView,not ScrollView"}
+   },
+   "notes": ["physics: data type ScrollPhysics has dropped optional ctor params"]
+  },
+  "SmartRefresherBuilder": {
+   "tag": "pull_to_refresh.SmartRefresherBuilder",
+   "dart": "SmartRefresher",
+   "ctor": "builder",
+   "library": "package:pull_to_refresh/src/smart_refresher.dart",
+   "doc": "This is the most important component that provides drop-down refresh and up loading.\n[RefreshController] must not be null,Only one controller to one SmartRefresher",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"RefreshController"},"dart":"RefreshController","required":true,"doc":"Controll inner state"},
+    "enablePullDown": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"This bool will affect whether or not to have the function of drop-down refresh."},
+    "enablePullUp": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "enableTwoLevel": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"controll whether open the second floor function"},
+    "onRefresh": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"callback when header refresh"},
+    "onLoading": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"callback when footer loading more data"},
+    "onTwoLevel": {"type":{"k":"callback","args":[{"name":"isOpen","type":{"k":"bool"}}]},"dart":"void Function(bool)?","doc":"callback when header ready to twoLevel"}
+   },
+   "omitted": {
+    "builder": "builder/encodable args"
+   }
+  },
+  "TwoLevelHeader": {
+   "tag": "pull_to_refresh.TwoLevelHeader",
+   "dart": "TwoLevelHeader",
+   "library": "package:pull_to_refresh/src/indicator/twolevel_indicator.dart",
+   "doc": "this header help you implements twoLevel function easyily,\nthe behaviour just like TaoBao,XieCheng(携程) App TwoLevel",
+   "props": {
+    "height": {"type":{"k":"double"},"dart":"double","default":"80"},
+    "decoration": {"type":{"k":"data","n":"BoxDecoration"},"dart":"BoxDecoration?","doc":"this  attr mostly put image or color"},
+    "displayAlignment": {"type":{"k":"enum","n":"TwoLevelDisplayAlignment"},"dart":"TwoLevelDisplayAlignment","default":"\"fromBottom\"","doc":"fromTop use with RefreshStyle.Behind,from bottom use with Follow Style"},
+    "completeDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 600)`"},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle","default":"Dart `const TextStyle(color: const Color(0xff555555))`"},
+    "releaseText": {"type":{"k":"string"},"dart":"String?"},
+    "refreshingText": {"type":{"k":"string"},"dart":"String?"},
+    "canTwoLevelIcon": {"type":{"k":"widget"},"dart":"Widget?"},
+    "canTwoLevelText": {"type":{"k":"string"},"dart":"String?"},
+    "completeText": {"type":{"k":"string"},"dart":"String?"},
+    "failedText": {"type":{"k":"string"},"dart":"String?"},
+    "idleText": {"type":{"k":"string"},"dart":"String?"},
+    "iconPos": {"type":{"k":"enum","n":"IconPosition"},"dart":"IconPosition","default":"\"left\""},
+    "spacing": {"type":{"k":"double"},"dart":"double","default":"15","doc":"icon and text middle margin"},
+    "refreshingIcon": {"type":{"k":"widget"},"dart":"Widget?"},
+    "failedIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.error, color: Colors.grey)`"},
+    "completeIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.done, color: Colors.grey)`"},
+    "idleIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.arrow_downward, color: Colors.grey)`"},
+    "releaseIcon": {"type":{"k":"widget"},"dart":"Widget?","default":"Dart `const Icon(Icons.refresh, color: Colors.grey)`"},
+    "twoLevelWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"the content in TwoLevel,display in (twoLevelOpening,closing,TwoLeveling state)"}
+   }
+  },
+  "WaterDropHeader": {
+   "tag": "pull_to_refresh.WaterDropHeader",
+   "dart": "WaterDropHeader",
+   "library": "package:pull_to_refresh/src/indicator/waterdrop_header.dart",
+   "doc": "QQ ios refresh  header effect",
+   "props": {
+    "refresh": {"type":{"k":"widget"},"dart":"Widget?","doc":"refreshing content"},
+    "complete": {"type":{"k":"widget"},"dart":"Widget?","doc":"complete content"},
+    "completeDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 600)`","doc":"the stopped time when refresh complete or fail"},
+    "failed": {"type":{"k":"widget"},"dart":"Widget?","doc":"failed content"},
+    "waterDropColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.grey`","doc":"waterDrop color,default grey"},
+    "idleIcon": {"type":{"k":"widget"},"dart":"Widget","default":"Dart `const Icon(Icons.autorenew, size: 15, color: Colors.white)`","doc":"idle Icon center in waterCircle"}
+   }
+  },
+  "WaterDropMaterialHeader": {
+   "tag": "pull_to_refresh.WaterDropMaterialHeader",
+   "dart": "WaterDropMaterialHeader",
+   "library": "package:pull_to_refresh/src/indicator/material_indicator.dart",
+   "doc": "attach the waterdrop effect to [MaterialClassicHeader]",
+   "props": {
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"see flutter RefreshIndicator documents,the meaning same with that"},
+    "distance": {"type":{"k":"double"},"dart":"double","default":"60","doc":"Distance from the top when refreshing"},
+    "offset": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "semanticsValue": {"type":{"k":"string"},"dart":"String?","doc":"see flutter RefreshIndicator documents,the meaning same with that"},
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.white`","doc":"see flutter RefreshIndicator documents,the meaning same with that"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"see flutter RefreshIndicator documents,the meaning same with that"}
+   }
+  }
+ },
+ "skipped": {
+  "CustomFooter": "required param `builder` (Widget Function(BuildContext, LoadStatus?)) is not bridgeable: builder/encodable args",
+  "CustomHeader": "required param `builder` (Widget Function(BuildContext, RefreshStatus?)) is not bridgeable: builder/encodable args",
+  "LinkFooter": "required param `linkKey` (Key) is not bridgeable: key",
+  "LinkHeader": "required param `linkKey` (Key) is not bridgeable: key",
+  "RefreshConfigurationCopyAncestor": "required param `context` (BuildContext) is not bridgeable: unbridgeable/framework-object"
+ },
+ "enums": {
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "BezierCircleType": {
+   "values": ["Raidal","Progress"]
+  },
+  "BezierDismissType": {
+   "values": ["None","RectSpread","ScaleToCenter"]
+  },
+  "BlendMode": {
+   "values": ["clear","src","dst","srcOver","dstOver","srcIn","dstIn","srcOut","dstOut","srcATop","dstATop","xor","plus","modulate","screen","overlay","darken","lighten","colorDodge","colorBurn","hardLight","softLight","difference","exclusion","multiply","hue","saturation","color","luminosity"],
+   "doc": "Algorithms to use when painting on the canvas."
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "BoxFit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown"],
+   "doc": "How a box should be inscribed into another box."
+  },
+  "BoxShape": {
+   "values": ["rectangle","circle"],
+   "doc": "The shape to use when rendering a [Border] or [BoxDecoration]."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "DragStartBehavior": {
+   "values": ["down","start"],
+   "doc": "Configuration of offset passed to [DragStartDetails]."
+  },
+  "FilterQuality": {
+   "values": ["none","low","medium","high"],
+   "doc": "Quality levels for image sampling in [ImageFilter] and [Shader] objects that sample\nimages and for [Canvas] operations that render images."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "IconPosition": {
+   "values": ["left","right","top","bottom"],
+   "doc": "direction that icon should place to the text"
+  },
+  "ImageRepeat": {
+   "values": ["repeat","repeatX","repeatY","noRepeat"],
+   "doc": "How to paint any portions of a box not covered by an image."
+  },
+  "LoadStyle": {
+   "values": ["ShowAlways","HideAlways","ShowWhenLoading"],
+   "doc": "footer indicator display style"
+  },
+  "RefreshStyle": {
+   "values": ["Follow","UnFollow","Behind","Front"],
+   "doc": "header indicator display style"
+  },
+  "ResizeImagePolicy": {
+   "values": ["exact","fit"],
+   "doc": "Configures the behavior for [ResizeImage]."
+  },
+  "ScrollDecelerationRate": {
+   "values": ["normal","fast"],
+   "doc": "The rate at which scroll momentum will be decelerated."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  },
+  "TwoLevelDisplayAlignment": {
+   "values": ["fromTop","fromCenter","fromBottom"]
+  },
+  "WebHtmlElementStrategy": {
+   "values": ["never","fallback","prefer"],
+   "doc": "The strategy for [Image.network] and [NetworkImage] to decide whether to\ndisplay images in HTML elements contained in a platform view instead of\nfetching bytes."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "BorderRadiusGeometry": {
+   "dart": "BorderRadiusGeometry",
+   "doc": "Base class for [BorderRadius] that allows for text-direction aware resolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","BorderRadius.zero","BorderRadiusDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"},"nullable":true},"right":{"type":{"k":"data","n":"Radius"},"nullable":true},"start":{"type":{"k":"data","n":"Radius"},"nullable":true},"end":{"type":{"k":"data","n":"Radius"},"nullable":true}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"directional","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadius.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadius.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.horizontal","fields":{"start":{"type":{"k":"data","n":"Radius"}},"end":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.only","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "BoxBorder": {
+   "dart": "BoxBorder",
+   "doc": "Base class for box borders that can paint as rectangles, circles, or rounded\nrectangles.",
+   "variants": [
+    {"tag":"fromLTRB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"fromSTEB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"Border.symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"BorderDirectional","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}}
+   ]
+  },
+  "BoxDecoration": {
+   "dart": "BoxDecoration",
+   "doc": "An immutable description of how to paint a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"},"nullable":true},"image":{"type":{"k":"data","n":"DecorationImage"},"nullable":true},"border":{"type":{"k":"data","n":"BoxBorder"},"nullable":true},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"},"nullable":true},"boxShadow":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"backgroundBlendMode":{"type":{"k":"enum","n":"BlendMode"},"nullable":true},"shape":{"type":{"k":"enum","n":"BoxShape"}}}}
+   ]
+  },
+  "BoxShadow": {
+   "dart": "BoxShadow",
+   "doc": "A shadow cast by a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "ColorFilter": {
+   "dart": "ColorFilter",
+   "doc": "A description of a color filter to apply when drawing a shape or compositing\na layer with a particular [Paint]. A color filter is a function that takes\ntwo colors, and outputs one color. When applied during compositing, it is\nindependently applied to each pixel of the layer being drawn before the\nentire layer is merged with the destination.",
+   "variants": [
+    {"tag":"mode","fields":{"color":{"type":{"k":"data","n":"Color"},"required":true},"blendMode":{"type":{"k":"enum","n":"BlendMode"},"required":true}}},
+    {"tag":"matrix","fields":{"matrix":{"type":{"k":"list","e":{"k":"double"}},"required":true}}},
+    {"tag":"linearToSrgbGamma","fields":{}},
+    {"tag":"srgbToLinearGamma","fields":{}},
+    {"tag":"saturation","fields":{"saturation":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "DecorationImage": {
+   "dart": "DecorationImage",
+   "doc": "An image for a box decoration.",
+   "variants": [
+    {"tag":null,"fields":{"image":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"placeholder":{"type":{"k":"data","n":"ImageProviderOfObject"},"nullable":true},"colorFilter":{"type":{"k":"data","n":"ColorFilter"},"nullable":true},"fit":{"type":{"k":"enum","n":"BoxFit"},"nullable":true},"alignment":{"type":{"k":"data","n":"AlignmentGeometry"}},"centerSlice":{"type":{"k":"data","n":"Rect"},"nullable":true},"repeat":{"type":{"k":"enum","n":"ImageRepeat"}},"matchTextDirection":{"type":{"k":"bool"}},"scale":{"type":{"k":"double"}},"opacity":{"type":{"k":"double"}},"filterQuality":{"type":{"k":"enum","n":"FilterQuality"}},"invertColors":{"type":{"k":"bool"}},"isAntiAlias":{"type":{"k":"bool"}}},"omitted":{"onError":"nested:callback/void(unencodable args)"}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "Gradient": {
+   "dart": "Gradient",
+   "doc": "A 2D gradient.",
+   "variants": [
+    {"tag":"LinearGradient","fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"}},"end":{"type":{"k":"data","n":"AlignmentGeometry"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"RadialGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"radius":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"focal":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"focalRadius":{"type":{"k":"double"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"SweepGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"startAngle":{"type":{"k":"double"}},"endAngle":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ImageProviderOfObject": {
+   "dart": "ImageProvider<Object>",
+   "doc": "Identifies an image without committing to the precise final asset. This\nallows a set of images to be identified and for the precise image to later\nbe resolved based on the environment, e.g. the device pixel ratio.",
+   "variants": [
+    {"tag":"ResizeImage","fields":{"imageProvider":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"width":{"type":{"k":"int"},"nullable":true},"height":{"type":{"k":"int"},"nullable":true},"policy":{"type":{"k":"enum","n":"ResizeImagePolicy"}},"allowUpscaling":{"type":{"k":"bool"}},"useLogicalSize":{"type":{"k":"bool"}}}},
+    {"tag":"NetworkImage","fields":{"url":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"webHtmlElementStrategy":{"type":{"k":"enum","n":"WebHtmlElementStrategy"}}}},
+    {"tag":"ExactAssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"AssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "ScrollPhysics": {
+   "dart": "ScrollPhysics",
+   "doc": "Determines the physics of a [Scrollable] widget.",
+   "variants": [
+    {"tag":null,"fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"alwaysScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"bouncing","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true},"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}}}},
+    {"tag":"clamping","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"neverScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"rangeMaintaining","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"CarouselScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"FixedExtentScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"PageScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"RangeMaintainingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"BouncingScrollPhysics","fields":{"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}},"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"ClampingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"AlwaysScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"NeverScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"RefreshPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true},"updateFlag":{"type":{"k":"int"},"nullable":true},"maxUnderScrollExtent":{"type":{"k":"double"},"nullable":true},"springDescription":{"type":{"k":"data","n":"SpringDescription"},"nullable":true},"dragSpeedRatio":{"type":{"k":"double"},"nullable":true},"topHitBoundary":{"type":{"k":"double"},"nullable":true},"bottomHitBoundary":{"type":{"k":"double"},"nullable":true},"enableScrollWhenRefreshCompleted":{"type":{"k":"bool"},"nullable":true},"enableScrollWhenTwoLevel":{"type":{"k":"bool"},"nullable":true},"maxOverScrollExtent":{"type":{"k":"double"},"nullable":true}},"omitted":{"controller":"nested:handle/controller"}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "SpringDescription": {
+   "dart": "SpringDescription",
+   "doc": "Structure that describes a spring's constants.",
+   "variants": [
+    {"tag":null,"fields":{"mass":{"type":{"k":"double"},"required":true},"stiffness":{"type":{"k":"double"},"required":true},"damping":{"type":{"k":"double"},"required":true}}},
+    {"tag":"withDampingRatio","fields":{"mass":{"type":{"k":"double"},"required":true},"stiffness":{"type":{"k":"double"},"required":true},"ratio":{"type":{"k":"double"}}}},
+    {"tag":"withDurationAndBounce","fields":{"duration":{"type":{"k":"data","n":"Duration"}},"bounce":{"type":{"k":"double"}}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:pull_to_refresh/pull_to_refresh.dart"]
+}

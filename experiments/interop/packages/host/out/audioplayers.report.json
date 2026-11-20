@@ -1,0 +1,380 @@
+{
+  "name": "audioplayers",
+  "libs": [
+    "package:audioplayers/audioplayers.dart"
+  ],
+  "surface": {
+    "total": 91,
+    "bridged": 83,
+    "byKind": {
+      "static getter": {
+        "bridged": 5,
+        "total": 6
+      },
+      "static method": {
+        "bridged": 5,
+        "total": 5
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 4
+      },
+      "method": {
+        "bridged": 34,
+        "total": 36
+      },
+      "stream": {
+        "bridged": 12,
+        "total": 12
+      },
+      "getter": {
+        "bridged": 21,
+        "total": 22
+      },
+      "setter": {
+        "bridged": 4,
+        "total": 6
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static getter",
+      "name": "AudioCache.fileSystem",
+      "ok": false,
+      "why": "returns FileSystem (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AudioPlayer#setSourceBytes()",
+      "ok": false,
+      "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+      "kind": "getter",
+      "name": "AudioPlayer#creatingCompleter",
+      "ok": false,
+      "why": "Completer<void> (no record shape)"
+    },
+    {
+      "kind": "setter",
+      "name": "AudioPlayer#positionUpdater=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "method",
+      "name": "AudioPool#start()",
+      "ok": false,
+      "why": "returns Future<void> Function() (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "FramePositionUpdater#constructor FramePositionUpdater",
+      "ok": false,
+      "why": "getPosition: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "setter",
+      "name": "GlobalAudioScope#eventStream=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/future/stream"
+    },
+    {
+      "kind": "constructor",
+      "name": "TimerPositionUpdater#constructor TimerPositionUpdater",
+      "ok": false,
+      "why": "getPosition: callback-async (needs _functionCallAsync)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "AudioPlayer",
+      "tag": "audioplayers_AudioPlayer",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getCurrentPosition",
+        "getDuration",
+        "pause",
+        "play",
+        "release",
+        "resume",
+        "seek",
+        "setAudioContext",
+        "setBalance",
+        "setPlaybackRate",
+        "setPlayerMode",
+        "setReleaseMode",
+        "setSource",
+        "setSourceAsset",
+        "setSourceDeviceFile",
+        "setSourceUrl",
+        "setVolume",
+        "stop"
+      ],
+      "methodsTotal": 19,
+      "streams": [
+        "eventStream",
+        "onDurationChanged",
+        "onLog",
+        "onPlayerComplete",
+        "onPlayerStateChanged",
+        "onPositionChanged",
+        "onSeekComplete"
+      ],
+      "readable": [
+        "audioCache",
+        "balance",
+        "desiredState",
+        "mode",
+        "playbackRate",
+        "playerId",
+        "releaseMode",
+        "state",
+        "volume"
+      ],
+      "gettersTotal": 18,
+      "objectGetters": [
+        "source"
+      ],
+      "setters": [
+        "audioCache",
+        "desiredState",
+        "state"
+      ],
+      "settersTotal": 4,
+      "mirrored": [],
+      "dropped": {
+        "setSourceBytes()": "bytes: unbridgeable (unbridgeable/binary/typed-data)",
+        "creatingCompleter": "Completer<void> (no record shape)",
+        "positionUpdater=": "object"
+      },
+      "dartLines": 177,
+      "tsLines": 148
+    },
+    {
+      "class": "AudioPool",
+      "tag": "audioplayers_AudioPool",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getDuration"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "audioCache",
+        "audioContext",
+        "availablePlayers",
+        "currentPlayers",
+        "duration",
+        "maxPlayers",
+        "minPlayers",
+        "playerMode"
+      ],
+      "gettersTotal": 9,
+      "objectGetters": [
+        "source"
+      ],
+      "setters": [
+        "duration"
+      ],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "start()": "returns Future<void> Function() (not encodable)"
+      },
+      "dartLines": 83,
+      "tsLines": 59
+    },
+    {
+      "class": "FramePositionUpdater",
+      "tag": "audioplayers_FramePositionUpdater",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "start",
+        "stop",
+        "stopAndUpdate",
+        "update"
+      ],
+      "methodsTotal": 4,
+      "streams": [
+        "positionStream"
+      ],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor FramePositionUpdater": "getPosition: callback-async (needs _functionCallAsync)"
+      },
+      "dartLines": 68,
+      "tsLines": 27
+    },
+    {
+      "class": "GlobalAudioScope",
+      "tag": "audioplayers_GlobalAudioScope",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "ensureInitialized",
+        "setAudioContext"
+      ],
+      "methodsTotal": 2,
+      "streams": [
+        "eventStream",
+        "onLog"
+      ],
+      "readable": [],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "eventStream=": "unbridgeable unbridgeable/future/stream"
+      },
+      "dartLines": 70,
+      "tsLines": 41
+    },
+    {
+      "class": "PositionUpdater",
+      "tag": "audioplayers_PositionUpdater",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "start",
+        "stop",
+        "stopAndUpdate",
+        "update"
+      ],
+      "methodsTotal": 4,
+      "streams": [
+        "positionStream"
+      ],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 66,
+      "tsLines": 27
+    },
+    {
+      "class": "Source",
+      "tag": "audioplayers_Source",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "setOnPlayer"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "mimeType"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 52,
+      "tsLines": 29
+    },
+    {
+      "class": "TimerPositionUpdater",
+      "tag": "audioplayers_TimerPositionUpdater",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "start",
+        "stop",
+        "stopAndUpdate",
+        "update"
+      ],
+      "methodsTotal": 4,
+      "streams": [
+        "positionStream"
+      ],
+      "readable": [
+        "interval"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor TimerPositionUpdater": "getPosition: callback-async (needs _functionCallAsync)"
+      },
+      "dartLines": 74,
+      "tsLines": 33
+    }
+  ],
+  "notCallable": {
+    "AssetSource": "record (by the data rules)",
+    "AudioCache": "record (by the data rules)",
+    "AudioContext": "record (by the data rules)",
+    "AudioContextAndroid": "record (by the data rules)",
+    "AudioContextConfig": "record (by the data rules)",
+    "AudioContextIOS": "record (by the data rules)",
+    "AudioEvent": "record (by the data rules)",
+    "AudioLogger": "no members",
+    "AudioPlayerException": "record (by the data rules)",
+    "BytesSource": "record (by the data rules)",
+    "DeviceFileSource": "record (by the data rules)",
+    "GlobalAudioEvent": "record (by the data rules)",
+    "UrlSource": "record (by the data rules)",
+    "AVAudioSessionCategory": "enum (by the data rules)",
+    "AVAudioSessionOptions": "enum (by the data rules)",
+    "AndroidAudioFocus": "enum (by the data rules)",
+    "AndroidAudioMode": "enum (by the data rules)",
+    "AndroidContentType": "enum (by the data rules)",
+    "AndroidUsageType": "enum (by the data rules)",
+    "AudioContextConfigFocus": "enum (by the data rules)",
+    "AudioContextConfigRoute": "enum (by the data rules)",
+    "AudioEventType": "enum (by the data rules)",
+    "AudioLogLevel": "enum (by the data rules)",
+    "GlobalAudioEventType": "enum (by the data rules)",
+    "PlayerMode": "enum (by the data rules)",
+    "PlayerState": "enum (by the data rules)",
+    "ReleaseMode": "enum (by the data rules)",
+    "StopFunction": "typedef"
+  },
+  "dartLines": 812,
+  "tsLines": 563,
+  "warnings": []
+}

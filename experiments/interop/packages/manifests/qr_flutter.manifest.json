@@ -1,0 +1,199 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "qr_flutter",
+ "version": "4.1.0",
+ "register": "registerQrFlutterWidgets",
+ "widgets": {
+  "QrImageView": {
+   "tag": "qr_flutter.QrImageView",
+   "dart": "QrImageView",
+   "library": "package:qr_flutter/src/qr_image_view.dart",
+   "doc": "A widget that shows a QR code.",
+   "props": {
+    "data": {"type":{"k":"string"},"dart":"String","required":true},
+    "size": {"type":{"k":"double"},"dart":"double?","doc":"The intended size of the widget."},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.all(10.0)`","doc":"The external padding between the edge of the widget and the content."},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.transparent`","doc":"The background color of the final QR code widget."},
+    "version": {"type":{"k":"int"},"dart":"int","default":"-1","doc":"The QR code version to use."},
+    "errorCorrectionLevel": {"type":{"k":"int"},"dart":"int","default":"1","doc":"The QR code error correction level to use."},
+    "constrainErrorBounds": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If `true` then the error widget will be constrained to the boundary of the\nQR widget if it had been valid. If `false` the error widget will grow to\nthe size it needs. If the error widget is allowed to grow, your layout may\njump around (depending on specifics)."},
+    "gapless": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If set to false, each of the squares in the QR code will have a small\ngap. Default is true."},
+    "embeddedImage": {"type":{"k":"data","n":"ImageProviderOfObject"},"dart":"ImageProvider<Object>?","doc":"The image data to embed (as an overlay) in the QR code. The image will\nbe added to the center of the QR code."},
+    "embeddedImageStyle": {"type":{"k":"data","n":"QrEmbeddedImageStyle"},"dart":"QrEmbeddedImageStyle?","doc":"Styling options for the image overlay."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String","default":"\"qr code\"","doc":"[semanticsLabel] will be used by screen readers to describe the content of\nthe qr code.\nDefault is 'qr code'."},
+    "eyeStyle": {"type":{"k":"data","n":"QrEyeStyle"},"dart":"QrEyeStyle","default":"Dart `const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black)`","doc":"Styling option for QR Eye ball and frame."},
+    "dataModuleStyle": {"type":{"k":"data","n":"QrDataModuleStyle"},"dart":"QrDataModuleStyle","default":"Dart `const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black)`","doc":"Styling option for QR data module."},
+    "embeddedImageEmitsError": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If set to true and there is an error loading the embedded image, the\n[errorStateBuilder] callback will be called (if it is defined). If false,\nthe widget will ignore the embedded image and just display the QR code.\nThe default is false."}
+   },
+   "omitted": {
+    "errorStateBuilder": "builder/encodable args",
+    "foregroundColor": "deprecated"
+   }
+  },
+  "QrImageViewWithQr": {
+   "tag": "qr_flutter.QrImageViewWithQr",
+   "dart": "QrImageView",
+   "ctor": "withQr",
+   "library": "package:qr_flutter/src/qr_image_view.dart",
+   "doc": "A widget that shows a QR code.",
+   "props": {
+    "qr": {"type":{"k":"data","n":"QrCode"},"dart":"QrCode","required":true},
+    "size": {"type":{"k":"double"},"dart":"double?","doc":"The intended size of the widget."},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.all(10.0)`","doc":"The external padding between the edge of the widget and the content."},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.transparent`","doc":"The background color of the final QR code widget."},
+    "version": {"type":{"k":"int"},"dart":"int","default":"-1","doc":"The QR code version to use."},
+    "errorCorrectionLevel": {"type":{"k":"int"},"dart":"int","default":"1","doc":"The QR code error correction level to use."},
+    "constrainErrorBounds": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If `true` then the error widget will be constrained to the boundary of the\nQR widget if it had been valid. If `false` the error widget will grow to\nthe size it needs. If the error widget is allowed to grow, your layout may\njump around (depending on specifics)."},
+    "gapless": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If set to false, each of the squares in the QR code will have a small\ngap. Default is true."},
+    "embeddedImage": {"type":{"k":"data","n":"ImageProviderOfObject"},"dart":"ImageProvider<Object>?","doc":"The image data to embed (as an overlay) in the QR code. The image will\nbe added to the center of the QR code."},
+    "embeddedImageStyle": {"type":{"k":"data","n":"QrEmbeddedImageStyle"},"dart":"QrEmbeddedImageStyle?","doc":"Styling options for the image overlay."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String","default":"\"qr code\"","doc":"[semanticsLabel] will be used by screen readers to describe the content of\nthe qr code.\nDefault is 'qr code'."},
+    "eyeStyle": {"type":{"k":"data","n":"QrEyeStyle"},"dart":"QrEyeStyle","default":"Dart `const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black)`","doc":"Styling option for QR Eye ball and frame."},
+    "dataModuleStyle": {"type":{"k":"data","n":"QrDataModuleStyle"},"dart":"QrDataModuleStyle","default":"Dart `const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black)`","doc":"Styling option for QR data module."},
+    "embeddedImageEmitsError": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If set to true and there is an error loading the embedded image, the\n[errorStateBuilder] callback will be called (if it is defined). If false,\nthe widget will ignore the embedded image and just display the QR code.\nThe default is false."}
+   },
+   "omitted": {
+    "errorStateBuilder": "builder/encodable args",
+    "foregroundColor": "deprecated"
+   }
+  }
+ },
+ "enums": {
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "QrDataModuleShape": {
+   "values": ["square","circle"],
+   "doc": "Enumeration representing the shape of Data modules inside QR."
+  },
+  "QrEyeShape": {
+   "values": ["square","circle"],
+   "doc": "Enumeration representing the finder pattern eye's shape."
+  },
+  "ResizeImagePolicy": {
+   "values": ["exact","fit"],
+   "doc": "Configures the behavior for [ResizeImage]."
+  },
+  "WebHtmlElementStrategy": {
+   "values": ["never","fallback","prefer"],
+   "doc": "The strategy for [Image.network] and [NetworkImage] to decide whether to\ndisplay images in HTML elements contained in a platform view instead of\nfetching bytes."
+  }
+ },
+ "types": {
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ImageProviderOfObject": {
+   "dart": "ImageProvider<Object>",
+   "doc": "Identifies an image without committing to the precise final asset. This\nallows a set of images to be identified and for the precise image to later\nbe resolved based on the environment, e.g. the device pixel ratio.",
+   "variants": [
+    {"tag":"ResizeImage","fields":{"imageProvider":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"width":{"type":{"k":"int"},"nullable":true},"height":{"type":{"k":"int"},"nullable":true},"policy":{"type":{"k":"enum","n":"ResizeImagePolicy"}},"allowUpscaling":{"type":{"k":"bool"}},"useLogicalSize":{"type":{"k":"bool"}}}},
+    {"tag":"NetworkImage","fields":{"url":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"webHtmlElementStrategy":{"type":{"k":"enum","n":"WebHtmlElementStrategy"}}}},
+    {"tag":"ExactAssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"AssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "QrCode": {
+   "dart": "QrCode",
+   "variants": [
+    {"tag":null,"fields":{"typeNumber":{"type":{"k":"int"},"required":true},"errorCorrectLevel":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromData","fields":{"data":{"type":{"k":"string"},"required":true},"errorCorrectLevel":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "QrDataModuleStyle": {
+   "dart": "QrDataModuleStyle",
+   "doc": "Styling options for data module.",
+   "variants": [
+    {"tag":null,"fields":{"dataModuleShape":{"type":{"k":"enum","n":"QrDataModuleShape"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true}}}
+   ]
+  },
+  "QrEmbeddedImageStyle": {
+   "dart": "QrEmbeddedImageStyle",
+   "doc": "Styling options for any embedded image overlay",
+   "variants": [
+    {"tag":null,"fields":{"size":{"type":{"k":"data","n":"Size"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true}}}
+   ]
+  },
+  "QrEyeStyle": {
+   "dart": "QrEyeStyle",
+   "doc": "Styling options for finder pattern eye.",
+   "variants": [
+    {"tag":null,"fields":{"eyeShape":{"type":{"k":"enum","n":"QrEyeShape"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:qr_flutter/qr_flutter.dart"]
+}

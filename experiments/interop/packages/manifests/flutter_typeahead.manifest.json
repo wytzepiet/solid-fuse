@@ -1,0 +1,47 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_typeahead",
+ "version": "7.0.0",
+ "register": "registerFlutterTypeaheadWidgets",
+ "widgets": {
+  "SuggestionsControllerProvider": {
+   "tag": "flutter_typeahead.SuggestionsControllerProvider",
+   "dart": "SuggestionsControllerProvider",
+   "library": "package:flutter_typeahead/src/common/base/suggestions_controller.dart",
+   "doc": "Injects a SuggestionsController into the widget tree.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"SuggestionsController<dynamic>"},"dart":"SuggestionsController<dynamic>","required":true}
+   },
+   "notes": ["generic class instantiated to bounds: SuggestionsControllerProvider<dynamic>"]
+  }
+ },
+ "skipped": {
+  "CupertinoTypeAheadField": "required param `itemBuilder` (Widget Function(BuildContext, dynamic)) is not bridgeable: builder/encodable args",
+  "TypeAheadField": "required param `itemBuilder` (Widget Function(BuildContext, dynamic)) is not bridgeable: builder/encodable args"
+ },
+ "enums": {
+  "VerticalDirection": {
+   "values": ["up","down"],
+   "doc": "A direction in which boxes flow vertically."
+  }
+ },
+ "types": {
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:flutter_typeahead/flutter_typeahead.dart"]
+}

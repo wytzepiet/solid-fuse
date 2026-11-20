@@ -1,0 +1,36 @@
+{
+  "name": "permission_handler",
+  "libs": [
+    "package:permission_handler/permission_handler.dart"
+  ],
+  "surface": {
+    "total": 1,
+    "bridged": 1,
+    "byKind": {
+      "function": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "Permission": "record (by the data rules)",
+    "PermissionWithService": "record (by the data rules)",
+    "FuturePermissionStatusGetters": "extension",
+    "FutureServiceStatusGetters": "extension",
+    "PermissionActions": "extension",
+    "PermissionCheckShortcuts": "extension",
+    "PermissionListActions": "extension",
+    "PermissionStatus": "enum (by the data rules)",
+    "PermissionStatusGetters": "extension",
+    "ServicePermissionActions": "extension",
+    "ServiceStatus": "enum (by the data rules)",
+    "ServiceStatusGetters": "extension"
+  },
+  "dartLines": 37,
+  "tsLines": 14,
+  "warnings": []
+}

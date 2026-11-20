@@ -1,0 +1,68 @@
+{
+  "name": "google_fonts",
+  "libs": [
+    "package:google_fonts/google_fonts.dart"
+  ],
+  "surface": {
+    "total": 10,
+    "bridged": 4,
+    "byKind": {
+      "static method": {
+        "bridged": 2,
+        "total": 7
+      },
+      "static getter": {
+        "bridged": 2,
+        "total": 3
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "GoogleFonts.pendingFonts",
+      "ok": false,
+      "why": "returns List<void> (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "GoogleFonts.asMap",
+      "ok": false,
+      "why": "returns Map<String, TextStyle Function({Paint? background, Color? backgroundColor, Color? color, TextDecoration? decoration, Color? decorationColor, TextDecorationStyle? decorationStyle, double? decorationThickness, List<FontFeature>? fontFeatures, double? fontSize, FontStyle? fontStyle, FontWeight? fontWeight, Paint? foreground, double? height, double? letterSpacing, Locale? locale, List<Shadow>? shadows, TextBaseline? textBaseline, TextStyle? textStyle, double? wordSpacing})> (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "GoogleFonts.getTextTheme",
+      "ok": false,
+      "why": "returns TextTheme (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "GoogleFontsLite.pendingFonts",
+      "ok": false,
+      "why": "returns List<void> (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "GoogleFontsLite.getTextTheme",
+      "ok": false,
+      "why": "returns TextTheme (not encodable)"
+    },
+    {
+      "kind": "static getter",
+      "name": "GoogleFontsLite.fontsMap",
+      "ok": false,
+      "why": "returns Map<String, Map<GoogleFontsVariant, GoogleFontsFile>> (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "GoogleFonts": "no members",
+    "GoogleFontsConfig": "record (by the data rules)",
+    "GoogleFontsLite": "no members"
+  },
+  "dartLines": 497,
+  "tsLines": 301,
+  "warnings": []
+}

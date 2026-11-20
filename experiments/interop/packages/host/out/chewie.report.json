@@ -1,0 +1,523 @@
+{
+  "name": "chewie",
+  "libs": [
+    "package:chewie/chewie.dart"
+  ],
+  "surface": {
+    "total": 158,
+    "bridged": 137,
+    "byKind": {
+      "static method": {
+        "bridged": 0,
+        "total": 1
+      },
+      "function": {
+        "bridged": 1,
+        "total": 1
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 4
+      },
+      "method": {
+        "bridged": 45,
+        "total": 46
+      },
+      "getter": {
+        "bridged": 80,
+        "total": 95
+      },
+      "setter": {
+        "bridged": 9,
+        "total": 11
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "ChewieController.of",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "getter",
+      "name": "CastPlaybackTarget#value",
+      "ok": false,
+      "why": "VideoPlayerValue (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieCastController#value",
+      "ok": false,
+      "why": "VideoPlayerValue (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "ChewieController#constructor ChewieController",
+      "ok": false,
+      "why": "videoPlayerController: object type VideoPlayerController is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "ChewieController#swapVideoSource()",
+      "ok": false,
+      "why": "newController: object type VideoPlayerController is not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#customControls",
+      "ok": false,
+      "why": "Widget? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#externalPlayback",
+      "ok": false,
+      "why": "returns ValueListenable<bool>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#liveSubtitle",
+      "ok": false,
+      "why": "returns ValueNotifier<String?>, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#overlay",
+      "ok": false,
+      "why": "Widget? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#placeholder",
+      "ok": false,
+      "why": "Widget? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#transformationController",
+      "ok": false,
+      "why": "returns TransformationController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieController#videoPlayerController",
+      "ok": false,
+      "why": "returns VideoPlayerController, not a generated object"
+    },
+    {
+      "kind": "setter",
+      "name": "ChewieController#subtitleBuilder=",
+      "ok": false,
+      "why": "unbridgeable builder"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewiePlaybackTarget#value",
+      "ok": false,
+      "why": "VideoPlayerValue (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieState#notifier",
+      "ok": false,
+      "why": "returns PlayerNotifier, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ChewieState#widget",
+      "ok": false,
+      "why": "Chewie (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "ChewieState#notifier=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "constructor",
+      "name": "LocalPlaybackTarget#constructor LocalPlaybackTarget",
+      "ok": false,
+      "why": "controller: object type VideoPlayerController is not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "LocalPlaybackTarget#controller",
+      "ok": false,
+      "why": "returns VideoPlayerController, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "LocalPlaybackTarget#value",
+      "ok": false,
+      "why": "VideoPlayerValue (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "CastPlaybackTarget",
+      "tag": "chewie_CastPlaybackTarget",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "pause",
+        "play",
+        "seekTo",
+        "setPlaybackSpeed",
+        "setVolume"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [
+        "isRemote"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [
+        "castController"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "value": "VideoPlayerValue (not encodable)"
+      },
+      "dartLines": 74,
+      "tsLines": 49
+    },
+    {
+      "class": "ChewieCastController",
+      "tag": "chewie_ChewieCastController",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "connect",
+        "disconnect",
+        "load",
+        "pause",
+        "play",
+        "seekTo",
+        "setPlaybackSpeed",
+        "setVolume",
+        "startDiscovery",
+        "stopDiscovery"
+      ],
+      "methodsTotal": 10,
+      "streams": [],
+      "readable": [
+        "connectedDevice",
+        "connectionState",
+        "currentMedia",
+        "devices",
+        "errorDescription",
+        "isConnected",
+        "isDiscovering"
+      ],
+      "gettersTotal": 8,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "value": "VideoPlayerValue (not encodable)"
+      },
+      "dartLines": 98,
+      "tsLines": 76
+    },
+    {
+      "class": "ChewieController",
+      "tag": "chewie_ChewieController",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "copyWith",
+        "enterFullScreen",
+        "exitFullScreen",
+        "pause",
+        "play",
+        "seekTo",
+        "selectAudioTrack",
+        "selectSubtitleTrack",
+        "selectVideoQuality",
+        "setAudioTracks",
+        "setLiveSubtitle",
+        "setLooping",
+        "setSubtitle",
+        "setSubtitleTracks",
+        "setVideoQualities",
+        "setVolume",
+        "toggleFullScreen",
+        "togglePause"
+      ],
+      "methodsTotal": 19,
+      "streams": [],
+      "readable": [
+        "activeAudioTrackId",
+        "activeSubtitleTrackId",
+        "activeVideoQualityId",
+        "allowCasting",
+        "allowDoubleTapSeek",
+        "allowDoubleTapToggleFullScreen",
+        "allowFullScreen",
+        "allowMuting",
+        "allowPlaybackSpeedChanging",
+        "allowedScreenSleep",
+        "aspectRatio",
+        "audioTracks",
+        "autoInitialize",
+        "autoPlay",
+        "castConnectionState",
+        "castDevice",
+        "castMedia",
+        "castTranslations",
+        "chapters",
+        "controlsSafeAreaMinimum",
+        "cupertinoProgressColors",
+        "deviceOrientationsAfterFullScreen",
+        "deviceOrientationsOnEnterFullScreen",
+        "disableFullScreenRoute",
+        "doubleTapSeekDuration",
+        "draggableProgressBar",
+        "fullScreenByDefault",
+        "hasAudioTracks",
+        "hasSubtitleTracks",
+        "hasVideoQualities",
+        "hideControlsTimer",
+        "hideCursorInFullScreen",
+        "isCasting",
+        "isFullScreen",
+        "isLive",
+        "isPlaybackRemote",
+        "isPlaying",
+        "keyboardSeekDuration",
+        "looping",
+        "materialProgressColors",
+        "materialSeekButtonFadeDuration",
+        "materialSeekButtonSize",
+        "maxScale",
+        "optionsTranslation",
+        "pauseOnBackgroundTap",
+        "playbackSpeeds",
+        "progressIndicatorDelay",
+        "showControls",
+        "showControlsOnInitialize",
+        "showOptions",
+        "showPlayButton",
+        "showSeekIndicator",
+        "showSubtitles",
+        "startAt",
+        "subtitle",
+        "subtitleStyle",
+        "subtitleTracks",
+        "swipeThreshold",
+        "swipeToExitFullscreen",
+        "systemOverlaysAfterFullScreen",
+        "systemOverlaysOnEnterFullScreen",
+        "useNativeFullScreenOnWeb",
+        "useRootNavigator",
+        "videoQualities",
+        "zoomAndPan"
+      ],
+      "gettersTotal": 74,
+      "objectGetters": [
+        "castController",
+        "playback"
+      ],
+      "setters": [
+        "activeAudioTrackId",
+        "activeSubtitleTrackId",
+        "activeVideoQualityId",
+        "audioTracks",
+        "showSubtitles",
+        "subtitle",
+        "subtitleStyle",
+        "subtitleTracks",
+        "videoQualities"
+      ],
+      "settersTotal": 10,
+      "mirrored": [],
+      "dropped": {
+        "constructor ChewieController": "videoPlayerController: object type VideoPlayerController is not a generated object",
+        "copyWith(videoPlayerController)": "object type VideoPlayerController? is not a generated object",
+        "copyWith(placeholder)": "unbridgeable (widget/slot)",
+        "copyWith(overlay)": "unbridgeable (widget/slot)",
+        "copyWith(optionsBuilder)": "callback-async (needs _functionCallAsync)",
+        "copyWith(additionalOptions)": "unbridgeable (callback sync-return)",
+        "copyWith(transformationController)": "object type TransformationController? is not a generated object",
+        "copyWith(subtitleBuilder)": "unbridgeable (builder)",
+        "copyWith(onAudioTrackChanged)": "callback",
+        "copyWith(onSubtitleTrackChanged)": "callback",
+        "copyWith(customControls)": "unbridgeable (widget/slot)",
+        "copyWith(bufferingBuilder)": "unbridgeable (builder)",
+        "copyWith(errorBuilder)": "unbridgeable (builder)",
+        "copyWith(routePageBuilder)": "unbridgeable (builder)",
+        "copyWith(externalPlayback)": "object type ValueListenable<bool>? is not a generated object",
+        "copyWith(castOverlayBuilder)": "unbridgeable (builder)",
+        "copyWith(additionalControls)": "unbridgeable (builder)",
+        "copyWith(onVideoQualityChanged)": "callback",
+        "swapVideoSource()": "newController: object type VideoPlayerController is not a generated object",
+        "customControls": "Widget? (not encodable)",
+        "externalPlayback": "returns ValueListenable<bool>?, not a generated object",
+        "liveSubtitle": "returns ValueNotifier<String?>, not a generated object",
+        "overlay": "Widget? (not encodable)",
+        "placeholder": "Widget? (not encodable)",
+        "transformationController": "returns TransformationController?, not a generated object",
+        "videoPlayerController": "returns VideoPlayerController, not a generated object",
+        "subtitleBuilder=": "unbridgeable builder"
+      },
+      "dartLines": 296,
+      "tsLines": 331
+    },
+    {
+      "class": "ChewiePlaybackTarget",
+      "tag": "chewie_ChewiePlaybackTarget",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "pause",
+        "play",
+        "seekTo",
+        "setPlaybackSpeed",
+        "setVolume"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [
+        "isRemote"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "value": "VideoPlayerValue (not encodable)"
+      },
+      "dartLines": 66,
+      "tsLines": 39
+    },
+    {
+      "class": "ChewieState",
+      "tag": "chewie_ChewieState",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "listener",
+        "onEnterFullScreen"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "isControllerFullScreen",
+        "mounted"
+      ],
+      "gettersTotal": 5,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "context": "BuildContext (not encodable)",
+        "notifier": "returns PlayerNotifier, not a generated object",
+        "widget": "Chewie (not encodable)",
+        "notifier=": "object"
+      },
+      "dartLines": 66,
+      "tsLines": 34
+    },
+    {
+      "class": "LocalPlaybackTarget",
+      "tag": "chewie_LocalPlaybackTarget",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "pause",
+        "play",
+        "seekTo",
+        "setPlaybackSpeed",
+        "setVolume"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [
+        "isRemote"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor LocalPlaybackTarget": "controller: object type VideoPlayerController is not a generated object",
+        "controller": "returns VideoPlayerController, not a generated object",
+        "value": "VideoPlayerValue (not encodable)"
+      },
+      "dartLines": 66,
+      "tsLines": 37
+    }
+  ],
+  "notCallable": {
+    "AudioTrack": "record (by the data rules)",
+    "CastButton": "widget (widget generator)",
+    "CastDevice": "record (by the data rules)",
+    "CastDevicesDialog": "widget (widget generator)",
+    "CastMedia": "record (by the data rules)",
+    "CastOverlay": "widget (widget generator)",
+    "CastTranslations": "record (by the data rules)",
+    "Chewie": "widget (widget generator)",
+    "ChewieChapter": "record (by the data rules)",
+    "ChewieControlStyle": "widget (widget generator)",
+    "ChewieControllerProvider": "widget (widget generator)",
+    "ChewieProgressColors": "record (by the data rules)",
+    "CupertinoCastButton": "widget (widget generator)",
+    "CupertinoCastDevicesSheet": "widget (widget generator)",
+    "CupertinoControls": "widget (widget generator)",
+    "MaterialControls": "widget (widget generator)",
+    "MaterialDesktopControls": "widget (widget generator)",
+    "MaterialVideoProgressBar": "widget (widget generator)",
+    "OptionItem": "record (by the data rules)",
+    "OptionsTranslation": "record (by the data rules)",
+    "Subtitle": "record (by the data rules)",
+    "SubtitleStyle": "record (by the data rules)",
+    "SubtitleTrack": "record (by the data rules)",
+    "Subtitles": "record (by the data rules)",
+    "VideoQuality": "record (by the data rules)",
+    "CastConnectionState": "enum (by the data rules)",
+    "CastConnectionStateX": "extension",
+    "CastPickerStyle": "enum (by the data rules)",
+    "ChewieRoutePageBuilder": "typedef"
+  },
+  "dartLines": 2036,
+  "tsLines": 1447,
+  "warnings": []
+}

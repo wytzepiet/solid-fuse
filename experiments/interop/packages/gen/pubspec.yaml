@@ -1,0 +1,15 @@
+name: fuse_gen
+description: >
+  Analyzer-driven generator behind `fuse gen` / `fuse add`. Reads resolved Dart
+  widget constructors (Flutter SDK, pub packages, the app's own widgets) from
+  the app's package_config and emits a JSON manifest plus Dart adapters.
+  Standalone on purpose: apps never depend on package:analyzer.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  # Pinned: the generator uses two src-level accessors of the element model.
+  analyzer: 14.7.0

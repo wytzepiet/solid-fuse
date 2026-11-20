@@ -1,0 +1,43 @@
+{
+  "name": "table_calendar",
+  "libs": [
+    "package:table_calendar/table_calendar.dart"
+  ],
+  "surface": {
+    "total": 3,
+    "bridged": 3,
+    "byKind": {
+      "function": {
+        "bridged": 3,
+        "total": 3
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "CalendarBuilders": "no members",
+    "CalendarStyle": "record (by the data rules)",
+    "DaysOfWeekStyle": "record (by the data rules)",
+    "HeaderStyle": "record (by the data rules)",
+    "PositionedOffset": "record (by the data rules)",
+    "TableCalendar": "widget (widget generator)",
+    "TableCalendarBase": "widget (widget generator)",
+    "AvailableGestures": "enum (by the data rules)",
+    "CalendarFormat": "enum (by the data rules)",
+    "DayBuilder": "typedef",
+    "FocusedDayBuilder": "typedef",
+    "HighlightBuilder": "typedef",
+    "MarkerBuilder": "typedef",
+    "OnDaySelected": "typedef",
+    "OnRangeSelected": "typedef",
+    "RangeSelectionMode": "enum (by the data rules)",
+    "SingleMarkerBuilder": "typedef",
+    "StartingDayOfWeek": "enum (by the data rules)",
+    "TextFormatter": "typedef"
+  },
+  "dartLines": 49,
+  "tsLines": 37,
+  "warnings": []
+}

@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"flutter_staggered_grid_view","version":"0.7.0","libs":[["package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart","flutter_staggered_grid_view_flutter_staggered_grid_view"]],"include":null}]}

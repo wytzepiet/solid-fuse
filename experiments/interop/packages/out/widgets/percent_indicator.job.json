@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"percent_indicator","version":"4.2.5","libs":[["package:percent_indicator/percent_indicator.dart","percent_indicator_percent_indicator"]],"include":null}]}

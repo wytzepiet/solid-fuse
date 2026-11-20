@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"dropdown_button2","version":"4.0.0","libs":[["package:dropdown_button2/dropdown_button2.dart","dropdown_button2_dropdown_button2"]],"include":null}]}

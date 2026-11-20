@@ -1,0 +1,542 @@
+{
+  "name": "firebase_auth",
+  "libs": [
+    "package:firebase_auth/firebase_auth.dart"
+  ],
+  "surface": {
+    "total": 147,
+    "bridged": 131,
+    "byKind": {
+      "static method": {
+        "bridged": 14,
+        "total": 17
+      },
+      "static getter": {
+        "bridged": 24,
+        "total": 24
+      },
+      "method": {
+        "bridged": 50,
+        "total": 58
+      },
+      "getter": {
+        "bridged": 38,
+        "total": 40
+      },
+      "stream": {
+        "bridged": 3,
+        "total": 3
+      },
+      "setter": {
+        "bridged": 2,
+        "total": 3
+      },
+      "constructor": {
+        "bridged": 0,
+        "total": 2
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "PhoneMultiFactorGenerator.getAssertion",
+      "ok": false,
+      "why": "returns MultiFactorAssertion (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TotpMultiFactorGenerator.getAssertionForEnrollment",
+      "ok": false,
+      "why": "returns MultiFactorAssertion (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TotpMultiFactorGenerator.getAssertionForSignIn",
+      "ok": false,
+      "why": "returns MultiFactorAssertion (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "FirebaseAuth#constructor FirebaseAuth.instanceFor",
+      "ok": false,
+      "why": "app: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "FirebaseAuth#sendSignInLinkToEmail()",
+      "ok": false,
+      "why": "actionCodeSettings: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "FirebaseAuth#signInWithCredential()",
+      "ok": false,
+      "why": "credential: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "FirebaseAuth#verifyPhoneNumber()",
+      "ok": false,
+      "why": "verificationCompleted: callback"
+    },
+    {
+      "kind": "getter",
+      "name": "FirebaseAuth#app",
+      "ok": false,
+      "why": "FirebaseApp (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "FirebaseAuth#pluginConstants",
+      "ok": false,
+      "why": "Map<dynamic, dynamic> (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "FirebaseAuth#app=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+      "kind": "method",
+      "name": "MultiFactor#enroll()",
+      "ok": false,
+      "why": "assertion: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "MultiFactorResolver#resolveSignIn()",
+      "ok": false,
+      "why": "assertion: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "constructor",
+      "name": "RecaptchaVerifier#constructor RecaptchaVerifier",
+      "ok": false,
+      "why": "auth: object type FirebaseAuthPlatform is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "User#linkWithCredential()",
+      "ok": false,
+      "why": "credential: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "User#reauthenticateWithCredential()",
+      "ok": false,
+      "why": "credential: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "User#updatePhoneNumber()",
+      "ok": false,
+      "why": "phoneCredential: unbridgeable (unbridgeable/no-usable-constructor)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "ConfirmationResult",
+      "tag": "firebase_auth_ConfirmationResult",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "confirm"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "verificationId"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 51,
+      "tsLines": 34
+    },
+    {
+      "class": "FirebaseAuth",
+      "tag": "firebase_auth_FirebaseAuth",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "applyActionCode",
+        "checkActionCode",
+        "confirmPasswordReset",
+        "createUserWithEmailAndPassword",
+        "getRedirectResult",
+        "initializeRecaptchaConfig",
+        "isSignInWithEmailLink",
+        "revokeAccessToken",
+        "revokeTokenWithAuthorizationCode",
+        "sendPasswordResetEmail",
+        "setLanguageCode",
+        "setPersistence",
+        "setSettings",
+        "signInAnonymously",
+        "signInWithCustomToken",
+        "signInWithEmailAndPassword",
+        "signInWithEmailLink",
+        "signInWithPhoneNumber",
+        "signInWithPopup",
+        "signInWithProvider",
+        "signInWithRedirect",
+        "signOut",
+        "useAuthEmulator",
+        "validatePassword",
+        "verifyPasswordResetCode"
+      ],
+      "methodsTotal": 31,
+      "streams": [
+        "authStateChanges",
+        "idTokenChanges",
+        "userChanges"
+      ],
+      "readable": [
+        "customAuthDomain",
+        "languageCode",
+        "tenantId"
+      ],
+      "gettersTotal": 6,
+      "objectGetters": [
+        "currentUser"
+      ],
+      "setters": [
+        "customAuthDomain",
+        "tenantId"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "constructor FirebaseAuth.instanceFor": "app: unbridgeable (unbridgeable/private/unexported-type)",
+        "sendPasswordResetEmail(actionCodeSettings)": "unbridgeable (unbridgeable/no-usable-constructor)",
+        "sendSignInLinkToEmail()": "actionCodeSettings: unbridgeable (unbridgeable/no-usable-constructor)",
+        "signInWithCredential()": "credential: unbridgeable (unbridgeable/no-usable-constructor)",
+        "verifyPhoneNumber()": "verificationCompleted: callback",
+        "app": "FirebaseApp (not encodable)",
+        "pluginConstants": "Map<dynamic, dynamic> (not encodable)",
+        "app=": "unbridgeable unbridgeable/private/unexported-type"
+      },
+      "dartLines": 145,
+      "tsLines": 170
+    },
+    {
+      "class": "IdTokenResult",
+      "tag": "firebase_auth_IdTokenResult",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "authTime",
+        "claims",
+        "expirationTime",
+        "issuedAtTime",
+        "signInProvider",
+        "signInSecondFactor",
+        "token"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 65,
+      "tsLines": 55
+    },
+    {
+      "class": "MultiFactor",
+      "tag": "firebase_auth_MultiFactor",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getEnrolledFactors",
+        "getSession",
+        "unenroll"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "enroll()": "assertion: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 55,
+      "tsLines": 32
+    },
+    {
+      "class": "MultiFactorResolver",
+      "tag": "firebase_auth_MultiFactorResolver",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "hints",
+        "session"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "resolveSignIn()": "assertion: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 55,
+      "tsLines": 34
+    },
+    {
+      "class": "RecaptchaVerifier",
+      "tag": "firebase_auth_RecaptchaVerifier",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clear",
+        "render",
+        "verify"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "type"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor RecaptchaVerifier": "auth: object type FirebaseAuthPlatform is not a generated object"
+      },
+      "dartLines": 58,
+      "tsLines": 47
+    },
+    {
+      "class": "User",
+      "tag": "firebase_auth_User",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "delete",
+        "getIdToken",
+        "getIdTokenResult",
+        "linkWithPhoneNumber",
+        "linkWithPopup",
+        "linkWithProvider",
+        "linkWithRedirect",
+        "reauthenticateWithPopup",
+        "reauthenticateWithProvider",
+        "reauthenticateWithRedirect",
+        "reload",
+        "sendEmailVerification",
+        "unlink",
+        "updateDisplayName",
+        "updatePassword",
+        "updatePhotoURL",
+        "updateProfile",
+        "verifyBeforeUpdateEmail"
+      ],
+      "methodsTotal": 21,
+      "streams": [],
+      "readable": [
+        "displayName",
+        "email",
+        "emailVerified",
+        "isAnonymous",
+        "phoneNumber",
+        "photoURL",
+        "providerData",
+        "refreshToken",
+        "tenantId",
+        "uid"
+      ],
+      "gettersTotal": 12,
+      "objectGetters": [
+        "metadata",
+        "multiFactor"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "linkWithCredential()": "credential: unbridgeable (unbridgeable/no-usable-constructor)",
+        "reauthenticateWithCredential()": "credential: unbridgeable (unbridgeable/no-usable-constructor)",
+        "sendEmailVerification(actionCodeSettings)": "unbridgeable (unbridgeable/no-usable-constructor)",
+        "updatePhoneNumber()": "phoneCredential: unbridgeable (unbridgeable/no-usable-constructor)",
+        "verifyBeforeUpdateEmail(actionCodeSettings)": "unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 120,
+      "tsLines": 122
+    },
+    {
+      "class": "UserCredential",
+      "tag": "firebase_auth_UserCredential",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "additionalUserInfo",
+        "credential"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [
+        "user"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 55,
+      "tsLines": 42
+    },
+    {
+      "class": "UserInfo",
+      "tag": "firebase_auth_UserInfo",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "displayName",
+        "email",
+        "phoneNumber",
+        "photoURL",
+        "providerId",
+        "uid"
+      ],
+      "gettersTotal": 6,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 59,
+      "tsLines": 38
+    },
+    {
+      "class": "UserMetadata",
+      "tag": "firebase_auth_UserMetadata",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "creationTime",
+        "lastSignInTime"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 53,
+      "tsLines": 30
+    }
+  ],
+  "notCallable": {
+    "ActionCodeInfo": "record (by the data rules)",
+    "ActionCodeSettings": "record (by the data rules)",
+    "AdditionalUserInfo": "record (by the data rules)",
+    "AppleAuthCredential": "record (by the data rules)",
+    "AppleAuthProvider": "record (by the data rules)",
+    "AppleFullPersonName": "record (by the data rules)",
+    "AuthCredential": "record (by the data rules)",
+    "AuthProvider": "record (by the data rules)",
+    "EmailAuthCredential": "record (by the data rules)",
+    "EmailAuthProvider": "record (by the data rules)",
+    "FacebookAuthCredential": "record (by the data rules)",
+    "FacebookAuthProvider": "record (by the data rules)",
+    "FirebaseAuthException": "record (by the data rules)",
+    "FirebaseAuthMultiFactorException": "record (by the data rules)",
+    "FirebaseException": "record (by the data rules)",
+    "GameCenterAuthCredential": "record (by the data rules)",
+    "GameCenterAuthProvider": "record (by the data rules)",
+    "GithubAuthCredential": "record (by the data rules)",
+    "GithubAuthProvider": "record (by the data rules)",
+    "GoogleAuthCredential": "record (by the data rules)",
+    "GoogleAuthProvider": "record (by the data rules)",
+    "MicrosoftAuthProvider": "record (by the data rules)",
+    "MultiFactorAssertion": "no members",
+    "MultiFactorInfo": "record (by the data rules)",
+    "MultiFactorSession": "record (by the data rules)",
+    "OAuthCredential": "record (by the data rules)",
+    "OAuthProvider": "record (by the data rules)",
+    "PasswordValidationStatus": "record (by the data rules)",
+    "PhoneAuthCredential": "record (by the data rules)",
+    "PhoneAuthProvider": "record (by the data rules)",
+    "PhoneMultiFactorGenerator": "no members",
+    "PhoneMultiFactorInfo": "record (by the data rules)",
+    "PlayGamesAuthCredential": "record (by the data rules)",
+    "PlayGamesAuthProvider": "record (by the data rules)",
+    "SAMLAuthProvider": "record (by the data rules)",
+    "TotpMultiFactorGenerator": "no members",
+    "TotpMultiFactorInfo": "record (by the data rules)",
+    "TotpSecret": "record (by the data rules)",
+    "TwitterAuthCredential": "record (by the data rules)",
+    "TwitterAuthProvider": "record (by the data rules)",
+    "YahooAuthCredential": "record (by the data rules)",
+    "YahooAuthProvider": "record (by the data rules)",
+    "ActionCodeInfoOperation": "enum (by the data rules)",
+    "Persistence": "enum (by the data rules)",
+    "PhoneCodeAutoRetrievalTimeout": "typedef",
+    "PhoneCodeSent": "typedef",
+    "PhoneVerificationCompleted": "typedef",
+    "PhoneVerificationFailed": "typedef",
+    "RecaptchaVerifierOnError": "typedef",
+    "RecaptchaVerifierOnExpired": "typedef",
+    "RecaptchaVerifierOnSuccess": "typedef",
+    "RecaptchaVerifierSize": "enum (by the data rules)",
+    "RecaptchaVerifierTheme": "enum (by the data rules)"
+  },
+  "dartLines": 1053,
+  "tsLines": 912,
+  "warnings": []
+}

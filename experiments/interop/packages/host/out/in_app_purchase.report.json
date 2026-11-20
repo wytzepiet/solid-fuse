@@ -1,0 +1,81 @@
+{
+  "name": "in_app_purchase",
+  "libs": [
+    "package:in_app_purchase/in_app_purchase.dart"
+  ],
+  "surface": {
+    "total": 10,
+    "bridged": 9,
+    "byKind": {
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 7,
+        "total": 8
+      },
+      "stream": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "InAppPurchase#getPlatformAddition()",
+      "ok": false,
+      "why": "generic method"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "InAppPurchase",
+      "tag": "in_app_purchase_InAppPurchase",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "buyConsumable",
+        "buyNonConsumable",
+        "completePurchase",
+        "countryCode",
+        "isAvailable",
+        "queryProductDetails",
+        "restorePurchases"
+      ],
+      "methodsTotal": 8,
+      "streams": [
+        "purchaseStream"
+      ],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getPlatformAddition()": "generic method"
+      },
+      "dartLines": 72,
+      "tsLines": 45
+    }
+  ],
+  "notCallable": {
+    "IAPError": "record (by the data rules)",
+    "InAppPurchaseException": "record (by the data rules)",
+    "ProductDetails": "record (by the data rules)",
+    "ProductDetailsResponse": "record (by the data rules)",
+    "PurchaseDetails": "record (by the data rules)",
+    "PurchaseParam": "record (by the data rules)",
+    "PurchaseVerificationData": "record (by the data rules)",
+    "PurchaseStatus": "enum (by the data rules)"
+  },
+  "dartLines": 198,
+  "tsLines": 140,
+  "warnings": []
+}

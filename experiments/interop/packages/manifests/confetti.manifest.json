@@ -1,0 +1,86 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "confetti",
+ "version": "0.8.0",
+ "register": "registerConfettiWidgets",
+ "widgets": {
+  "ConfettiWidget": {
+   "tag": "confetti.ConfettiWidget",
+   "dart": "ConfettiWidget",
+   "library": "package:confetti/src/confetti.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "confettiController": {"type":{"k":"handle","n":"ConfettiController"},"dart":"ConfettiController","required":true,"doc":"Controls the animation."},
+    "emissionFrequency": {"type":{"k":"double"},"dart":"double","default":"0.02","doc":"The [emissionFrequency] should be a value between 0 and 1.\nThe higher the value the higher the likelihood that particles will be\nemitted on a single frame."},
+    "numberOfParticles": {"type":{"k":"int"},"dart":"int","default":"10","doc":"The [numberOfParticles] to be emitted per emission."},
+    "maxBlastForce": {"type":{"k":"double"},"dart":"double","default":"20","doc":"The [maxBlastForce] and [minBlastForce] will determine the maximum and\nminimum blast force applied to  a particle within it's first 5 frames of\nlife. The default [maxBlastForce] is set to `20`"},
+    "minBlastForce": {"type":{"k":"double"},"dart":"double","default":"5","doc":"The [maxBlastForce] and [minBlastForce] will determine the maximum and\nminimum blast force applied to a particle within it's first 5 frames of\nlife. The default [minBlastForce] is set to `5`"},
+    "blastDirectionality": {"type":{"k":"enum","n":"BlastDirectionality"},"dart":"BlastDirectionality","default":"\"directional\"","doc":"The default value is [BlastDirectionality.directional], the direction\ncan be set with [blastDirection]."},
+    "blastDirection": {"type":{"k":"double"},"dart":"double","default":"3.141592653589793","doc":"The [blastDirection] is a radial value to determine the direction of the\nparticle emission."},
+    "gravity": {"type":{"k":"double"},"dart":"double","default":"0.2","doc":"The [gravity] is the speed at which the confetti will fall.\nThe higher the [gravity] the faster it will fall."},
+    "shouldLoop": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"The [shouldLoop] attribute determines if the animation will\nreset once it completes, resulting in a continuous particle emission."},
+    "displayTarget": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"The [displayTarget] attribute determines if a crosshair will be displayed\nto show the location of the particle emitter."},
+    "colors": {"type":{"k":"list","e":{"k":"data","n":"Color"}},"dart":"List<Color>?","doc":"List of Colors to iterate over - if null then random values will be chosen"},
+    "strokeColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.black`","doc":"Stroke color of the confetti (black by default, requires a strokeWidth > 0)"},
+    "strokeWidth": {"type":{"k":"double"},"dart":"double","default":"0","doc":"Stroke width of the confetti (0.0 by default, no stroke)"},
+    "minimumSize": {"type":{"k":"data","n":"Size"},"dart":"Size","default":"Dart `const Size(20, 10)`","doc":"An optional parameter to set the minimum size potential size for\nthe confetti."},
+    "maximumSize": {"type":{"k":"data","n":"Size"},"dart":"Size","default":"Dart `const Size(30, 15)`","doc":"An optional parameter to set the maximum potential size for the confetti.\nMust be bigger than the [minimumSize] attribute."},
+    "particleDrag": {"type":{"k":"double"},"dart":"double","default":"0.05","doc":"An optional parameter to specify drag force, effecting the movement\nof the confetti."},
+    "canvas": {"type":{"k":"data","n":"Size"},"dart":"Size?","doc":"An optional parameter to specify the area size where the confetti will\nbe thrown."},
+    "pauseEmissionOnLowFrameRate": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"If `true` new particles will not be created if the FPS is lower\nthan 60. Default is `true`, set to `false` to ensure particles are always\ncreated, regardless of frame rate."}
+   },
+   "omitted": {
+    "createParticlePath": "callback/sync-return"
+   }
+  }
+ },
+ "enums": {
+  "BlastDirectionality": {
+   "values": ["directional","explosive"],
+   "doc": "Specifies the directionality of the blast for the particles."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  }
+ },
+ "types": {
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:confetti/confetti.dart"]
+}

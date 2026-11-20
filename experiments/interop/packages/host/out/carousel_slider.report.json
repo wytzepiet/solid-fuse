@@ -1,0 +1,261 @@
+{
+  "name": "carousel_slider",
+  "libs": [
+    "package:carousel_slider/carousel_slider.dart"
+  ],
+  "surface": {
+    "total": 45,
+    "bridged": 29,
+    "byKind": {
+      "constructor": {
+        "bridged": 3,
+        "total": 3
+      },
+      "method": {
+        "bridged": 19,
+        "total": 24
+      },
+      "getter": {
+        "bridged": 6,
+        "total": 13
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 5
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "getter",
+      "name": "CarouselSliderController#onReady",
+      "ok": false,
+      "why": "Null (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CarouselSliderControllerImpl#onReady",
+      "ok": false,
+      "why": "Null (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "CarouselSliderControllerImpl#state=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+      "kind": "method",
+      "name": "CarouselSliderState#createTicker()",
+      "ok": false,
+      "why": "onTick: callback"
+    },
+    {
+      "kind": "method",
+      "name": "CarouselSliderState#getCenterWrapper()",
+      "ok": false,
+      "why": "child: unbridgeable (widget/slot)"
+    },
+    {
+      "kind": "method",
+      "name": "CarouselSliderState#getEnlargeWrapper()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "CarouselSliderState#getGestureWrapper()",
+      "ok": false,
+      "why": "child: unbridgeable (widget/slot)"
+    },
+    {
+      "kind": "method",
+      "name": "CarouselSliderState#getTimer()",
+      "ok": false,
+      "why": "returns Timer? (no record shape)"
+    },
+    {
+      "kind": "getter",
+      "name": "CarouselSliderState#carouselState",
+      "ok": false,
+      "why": "CarouselState? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CarouselSliderState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CarouselSliderState#pageController",
+      "ok": false,
+      "why": "returns PageController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "CarouselSliderState#timer",
+      "ok": false,
+      "why": "Timer? (no record shape)"
+    },
+    {
+      "kind": "getter",
+      "name": "CarouselSliderState#widget",
+      "ok": false,
+      "why": "CarouselSlider (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "CarouselSliderState#carouselState=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+      "kind": "setter",
+      "name": "CarouselSliderState#pageController=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "setter",
+      "name": "CarouselSliderState#timer=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/needs-nested-widget/callback"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "CarouselSliderController",
+      "tag": "carousel_slider_CarouselSliderController",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "animateToPage",
+        "jumpToPage",
+        "nextPage",
+        "previousPage",
+        "startAutoPlay",
+        "stopAutoPlay"
+      ],
+      "methodsTotal": 6,
+      "streams": [],
+      "readable": [
+        "ready"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "onReady": "Null (not encodable)"
+      },
+      "dartLines": 75,
+      "tsLines": 40
+    },
+    {
+      "class": "CarouselSliderControllerImpl",
+      "tag": "carousel_slider_CarouselSliderControllerImpl",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "animateToPage",
+        "jumpToPage",
+        "nextPage",
+        "previousPage",
+        "startAutoPlay",
+        "stopAutoPlay"
+      ],
+      "methodsTotal": 6,
+      "streams": [],
+      "readable": [
+        "ready"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "onReady": "Null (not encodable)",
+        "state=": "unbridgeable unbridgeable/private/unexported-type"
+      },
+      "dartLines": 75,
+      "tsLines": 46
+    },
+    {
+      "class": "CarouselSliderState",
+      "tag": "carousel_slider_CarouselSliderState",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "changeMode",
+        "clearTimer",
+        "handleAutoPlay",
+        "onPanDown",
+        "onPanUp",
+        "onStart",
+        "resumeTimer"
+      ],
+      "methodsTotal": 12,
+      "streams": [],
+      "readable": [
+        "mode",
+        "mounted",
+        "options"
+      ],
+      "gettersTotal": 9,
+      "objectGetters": [
+        "carouselController"
+      ],
+      "setters": [
+        "mode"
+      ],
+      "settersTotal": 4,
+      "mirrored": [],
+      "dropped": {
+        "createTicker()": "onTick: callback",
+        "getCenterWrapper()": "child: unbridgeable (widget/slot)",
+        "getEnlargeWrapper()": "returns Widget (not encodable)",
+        "getGestureWrapper()": "child: unbridgeable (widget/slot)",
+        "getTimer()": "returns Timer? (no record shape)",
+        "carouselState": "CarouselState? (not encodable)",
+        "context": "BuildContext (not encodable)",
+        "pageController": "returns PageController?, not a generated object",
+        "timer": "Timer? (no record shape)",
+        "widget": "CarouselSlider (not encodable)",
+        "carouselState=": "unbridgeable unbridgeable/private/unexported-type",
+        "pageController=": "object",
+        "timer=": "unbridgeable unbridgeable/needs-nested-widget/callback"
+      },
+      "dartLines": 93,
+      "tsLines": 55
+    }
+  ],
+  "notCallable": {
+    "CarouselOptions": "record (by the data rules)",
+    "CarouselSlider": "widget (widget generator)",
+    "CarouselPageChangedReason": "enum (by the data rules)",
+    "CenterPageEnlargeStrategy": "enum (by the data rules)",
+    "ExtendedIndexedWidgetBuilder": "typedef"
+  },
+  "dartLines": 477,
+  "tsLines": 251,
+  "warnings": []
+}

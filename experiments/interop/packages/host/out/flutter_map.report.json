@@ -1,0 +1,1523 @@
+{
+  "name": "flutter_map",
+  "libs": [
+    "package:flutter_map/flutter_map.dart"
+  ],
+  "surface": {
+    "total": 262,
+    "bridged": 166,
+    "byKind": {
+      "static method": {
+        "bridged": 21,
+        "total": 30
+      },
+      "static getter": {
+        "bridged": 2,
+        "total": 4
+      },
+      "function": {
+        "bridged": 0,
+        "total": 4
+      },
+      "constructor": {
+        "bridged": 22,
+        "total": 25
+      },
+      "getter": {
+        "bridged": 41,
+        "total": 55
+      },
+      "method": {
+        "bridged": 71,
+        "total": 128
+      },
+      "setter": {
+        "bridged": 7,
+        "total": 14
+      },
+      "stream": {
+        "bridged": 2,
+        "total": 2
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "MapCamera.maybeOf",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "static method",
+      "name": "MapCamera.of",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "static method",
+      "name": "MapController.maybeOf",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "static method",
+      "name": "MapController.of",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "static method",
+      "name": "MapOptions.maybeOf",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "static method",
+      "name": "MapOptions.of",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "static method",
+      "name": "Polygon.isClockwise",
+      "ok": false,
+      "why": "points: unbridgeable (unbridgeable/private/unexported-type[list])"
+    },
+    {
+      "kind": "static getter",
+      "name": "TileProvider.templatePlaceholderElement",
+      "ok": false,
+      "why": "returns RegExp (no record shape)"
+    },
+    {
+      "kind": "static method",
+      "name": "TileUpdateTransformers.throttle",
+      "ok": false,
+      "why": "returns StreamTransformer<TileUpdateEvent, TileUpdateEvent> (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TileUpdateTransformers.debounce",
+      "ok": false,
+      "why": "returns StreamTransformer<TileUpdateEvent, TileUpdateEvent> (not encodable)"
+    },
+    {
+      "kind": "static getter",
+      "name": "TileUpdateTransformers.ignoreTapEvents",
+      "ok": false,
+      "why": "returns StreamTransformer<TileUpdateEvent, TileUpdateEvent> (not encodable)"
+    },
+    {
+      "kind": "function",
+      "name": "coordinateDebugTileBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "function",
+      "name": "darkModeTileBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "function",
+      "name": "darkModeTilesContainerBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "function",
+      "name": "loadingTimeDebugTileBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "AssetTileProvider#getImage()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "AssetTileProvider#getImageWithCancelLoadingSupport()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "AssetTileProvider#getTileFallbackUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "AssetTileProvider#getTileUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "BuiltInMapCachingProvider#getTile()",
+      "ok": false,
+      "why": "returns ({Uint8List bytes, CachedMapTileMetadata metadata})? (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "CameraFit#constructor CameraFit.coordinates",
+      "ok": false,
+      "why": "coordinates: unbridgeable (unbridgeable/private/unexported-type[list])"
+    },
+    {
+      "kind": "method",
+      "name": "CentroidCalculator#call()",
+      "ok": false,
+      "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "constructor",
+      "name": "CirclePainter#constructor CirclePainter",
+      "ok": false,
+      "why": "circles: unbridgeable (unbridgeable/no-usable-constructor[list])"
+    },
+    {
+      "kind": "method",
+      "name": "CirclePainter#elementHitTest()",
+      "ok": false,
+      "why": "element: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "CirclePainter#metersToScreenPixels()",
+      "ok": false,
+      "why": "point: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "CirclePainter#workAcrossWorlds()",
+      "ok": false,
+      "why": "work: unbridgeable (callback sync-return)"
+    },
+    {
+      "kind": "getter",
+      "name": "CirclePainter#hitNotifier",
+      "ok": false,
+      "why": "returns ValueNotifier<LayerHitResult<Object>?>?, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "FileTileProvider#getImage()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "FileTileProvider#getImageWithCancelLoadingSupport()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "FileTileProvider#getTileFallbackUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "FileTileProvider#getTileUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "constructor",
+      "name": "LatLngTween#constructor LatLngTween",
+      "ok": false,
+      "why": "begin: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "LatLngTween#animate()",
+      "ok": false,
+      "why": "returns Animation<LatLng>, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "LatLngTween#chain()",
+      "ok": false,
+      "why": "returns Animatable<LatLng> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "LatLngTween#evaluate()",
+      "ok": false,
+      "why": "returns LatLng (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "LatLngTween#transform()",
+      "ok": false,
+      "why": "returns LatLng (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "LatLngTween#begin",
+      "ok": false,
+      "why": "LatLng? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "LatLngTween#end",
+      "ok": false,
+      "why": "LatLng? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "LatLngTween#begin=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+      "kind": "setter",
+      "name": "LatLngTween#end=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/private/unexported-type"
+    },
+    {
+      "kind": "method",
+      "name": "MapCachingProvider#getTile()",
+      "ok": false,
+      "why": "returns ({Uint8List bytes, CachedMapTileMetadata metadata})? (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MapController#move()",
+      "ok": false,
+      "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapController#moveAndRotate()",
+      "ok": false,
+      "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapController#rotateAroundPoint()",
+      "ok": false,
+      "why": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#longPressed()",
+      "ok": false,
+      "why": "position: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#move()",
+      "ok": false,
+      "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#moveAndRotate()",
+      "ok": false,
+      "why": "center: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#moveAndRotateAnimatedRaw()",
+      "ok": false,
+      "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#moveAndRotateRaw()",
+      "ok": false,
+      "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#moveAnimatedRaw()",
+      "ok": false,
+      "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#moveRaw()",
+      "ok": false,
+      "why": "newCenter: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#rotateAroundPoint()",
+      "ok": false,
+      "why": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#rotateAroundPointRaw()",
+      "ok": false,
+      "why": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#secondaryTapped()",
+      "ok": false,
+      "why": "position: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "method",
+      "name": "MapControllerImpl#tapped()",
+      "ok": false,
+      "why": "position: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "getter",
+      "name": "MapControllerImpl#value",
+      "ok": false,
+      "why": "_MapControllerState (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "MapControllerImpl#interactiveViewerState=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+      "kind": "setter",
+      "name": "MapControllerImpl#vsync=",
+      "ok": false,
+      "why": "env-vsync"
+    },
+    {
+      "kind": "method",
+      "name": "NetworkTileProvider#getImage()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "NetworkTileProvider#getImageWithCancelLoadingSupport()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "NetworkTileProvider#getTileFallbackUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "NetworkTileProvider#getTileUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "PolygonLabelPlacementCalculator#call()",
+      "ok": false,
+      "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#applyPaintTransform()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#attach()",
+      "ok": false,
+      "why": "owner: object type PipelineOwner is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#describeApproximatePaintClip()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#getTransformTo()",
+      "ok": false,
+      "why": "returns Matrix4 (no record shape)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#handleEvent()",
+      "ok": false,
+      "why": "entry: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#paint()",
+      "ok": false,
+      "why": "context: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#paintsChild()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#replaceRootLayer()",
+      "ok": false,
+      "why": "rootLayer: object type OffsetLayer is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#scheduleInitialPaint()",
+      "ok": false,
+      "why": "rootLayer: object type ContainerLayer is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#setupParentData()",
+      "ok": false,
+      "why": "child: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#updateCompositedLayer()",
+      "ok": false,
+      "why": "returns OffsetLayer, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#visitChildren()",
+      "ok": false,
+      "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+      "kind": "method",
+      "name": "RenderTranslucentPointer#visitChildrenForSemantics()",
+      "ok": false,
+      "why": "visitor: unbridgeable (callback void(unencodable args))"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderTranslucentPointer#child",
+      "ok": false,
+      "why": "RenderBox? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderTranslucentPointer#owner",
+      "ok": false,
+      "why": "returns PipelineOwner?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderTranslucentPointer#parent",
+      "ok": false,
+      "why": "RenderObject? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RenderTranslucentPointer#parentData",
+      "ok": false,
+      "why": "ParentData? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "RenderTranslucentPointer#child=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+      "kind": "method",
+      "name": "SimpleCentroidCalculator#call()",
+      "ok": false,
+      "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "SimpleMultiWorldCentroidCalculator#call()",
+      "ok": false,
+      "why": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+    },
+    {
+      "kind": "method",
+      "name": "TileDisplay#when()",
+      "ok": false,
+      "why": "generic method"
+    },
+    {
+      "kind": "getter",
+      "name": "TileImage#animation",
+      "ok": false,
+      "why": "returns AnimationController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "TileImage#cancelLoading",
+      "ok": false,
+      "why": "Completer<void> (no record shape)"
+    },
+    {
+      "kind": "getter",
+      "name": "TileImage#errorImage",
+      "ok": false,
+      "why": "ImageProvider<Object>? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "TileImage#imageInfo",
+      "ok": false,
+      "why": "returns ImageInfo?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "TileImage#imageProvider",
+      "ok": false,
+      "why": "ImageProvider<Object> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "TileImage#vsync",
+      "ok": false,
+      "why": "TickerProvider (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "TileImage#imageInfo=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "setter",
+      "name": "TileImage#tileDisplay=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "method",
+      "name": "TileProvider#getImage()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "TileProvider#getImageWithCancelLoadingSupport()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "TileProvider#getTileFallbackUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    },
+    {
+      "kind": "method",
+      "name": "TileProvider#getTileUrl()",
+      "ok": false,
+      "why": "options: unbridgeable (widget/subtype)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "AssetTileProvider",
+      "tag": "flutter_map_AssetTileProvider",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "headers",
+        "supportsCancelLoading"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getImage()": "options: unbridgeable (widget/subtype)",
+        "getImageWithCancelLoadingSupport()": "options: unbridgeable (widget/subtype)",
+        "getTileFallbackUrl()": "options: unbridgeable (widget/subtype)",
+        "getTileUrl()": "options: unbridgeable (widget/subtype)"
+      },
+      "dartLines": 61,
+      "tsLines": 44
+    },
+    {
+      "class": "BuiltInMapCachingProvider",
+      "tag": "flutter_map_BuiltInMapCachingProvider",
+      "push": "none",
+      "ctors": [
+        "getOrCreateInstance"
+      ],
+      "ctorParamsKept": 4,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "getOrCreateInstance.tileKeyGenerator": "unbridgeable (callback sync-return)"
+      },
+      "methods": [
+        "destroy",
+        "putTile"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "isSupported"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getTile()": "returns ({Uint8List bytes, CachedMapTileMetadata metadata})? (not encodable)",
+        "putTile(bytes)": "unbridgeable (unbridgeable/binary/typed-data)"
+      },
+      "dartLines": 63,
+      "tsLines": 56
+    },
+    {
+      "class": "CameraConstraint",
+      "tag": "flutter_map_CameraConstraint",
+      "push": "none",
+      "ctors": [
+        "unconstrained",
+        "containCenter",
+        "contain",
+        "containLatitude"
+      ],
+      "ctorParamsKept": 4,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "constrain"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 58,
+      "tsLines": 66
+    },
+    {
+      "class": "CameraFit",
+      "tag": "flutter_map_CameraFit",
+      "push": "none",
+      "ctors": [
+        "bounds",
+        "insideBounds"
+      ],
+      "ctorParamsKept": 10,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "fit"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor CameraFit.coordinates": "coordinates: unbridgeable (unbridgeable/private/unexported-type[list])"
+      },
+      "dartLines": 58,
+      "tsLines": 56
+    },
+    {
+      "class": "CentroidCalculator",
+      "tag": "flutter_map_CentroidCalculator",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "call()": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 46,
+      "tsLines": 22
+    },
+    {
+      "class": "CirclePainter",
+      "tag": "flutter_map_CirclePainter",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "areOffsetsVisible",
+        "hitTest",
+        "paint",
+        "shouldRebuildSemantics",
+        "shouldRepaint"
+      ],
+      "methodsTotal": 8,
+      "streams": [],
+      "readable": [
+        "camera",
+        "circles",
+        "elements",
+        "optimizeRadiusInMeters",
+        "viewportRect",
+        "worldWidth"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor CirclePainter": "circles: unbridgeable (unbridgeable/no-usable-constructor[list])",
+        "elementHitTest()": "element: unbridgeable (unbridgeable/no-usable-constructor)",
+        "metersToScreenPixels()": "point: unbridgeable (unbridgeable/private/unexported-type)",
+        "workAcrossWorlds()": "work: unbridgeable (callback sync-return)",
+        "hitNotifier": "returns ValueNotifier<LayerHitResult<Object>?>?, not a generated object"
+      },
+      "dartLines": 77,
+      "tsLines": 54
+    },
+    {
+      "class": "DisabledMapCachingProvider",
+      "tag": "flutter_map_DisabledMapCachingProvider",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getTile",
+        "putTile"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "isSupported"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "putTile(bytes)": "unbridgeable (unbridgeable/binary/typed-data)"
+      },
+      "dartLines": 63,
+      "tsLines": 40
+    },
+    {
+      "class": "FileTileProvider",
+      "tag": "flutter_map_FileTileProvider",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "headers",
+        "supportsCancelLoading"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getImage()": "options: unbridgeable (widget/subtype)",
+        "getImageWithCancelLoadingSupport()": "options: unbridgeable (widget/subtype)",
+        "getTileFallbackUrl()": "options: unbridgeable (widget/subtype)",
+        "getTileUrl()": "options: unbridgeable (widget/subtype)"
+      },
+      "dartLines": 61,
+      "tsLines": 44
+    },
+    {
+      "class": "LatLngTween",
+      "tag": "flutter_map_LatLngTween",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 2,
+      "mirrored": [],
+      "dropped": {
+        "constructor LatLngTween": "begin: unbridgeable (unbridgeable/private/unexported-type)",
+        "animate()": "returns Animation<LatLng>, not a generated object",
+        "chain()": "returns Animatable<LatLng> (not encodable)",
+        "evaluate()": "returns LatLng (not encodable)",
+        "transform()": "returns LatLng (not encodable)",
+        "begin": "LatLng? (not encodable)",
+        "end": "LatLng? (not encodable)",
+        "begin=": "unbridgeable unbridgeable/private/unexported-type",
+        "end=": "unbridgeable unbridgeable/private/unexported-type"
+      },
+      "dartLines": 46,
+      "tsLines": 22
+    },
+    {
+      "class": "MapCachingProvider",
+      "tag": "flutter_map_MapCachingProvider",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "putTile"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "isSupported"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getTile()": "returns ({Uint8List bytes, CachedMapTileMetadata metadata})? (not encodable)",
+        "putTile(bytes)": "unbridgeable (unbridgeable/binary/typed-data)"
+      },
+      "dartLines": 54,
+      "tsLines": 35
+    },
+    {
+      "class": "MapController",
+      "tag": "flutter_map_MapController",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "fitCamera",
+        "rotate"
+      ],
+      "methodsTotal": 5,
+      "streams": [
+        "mapEventStream"
+      ],
+      "readable": [
+        "camera"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "move()": "center: unbridgeable (unbridgeable/private/unexported-type)",
+        "moveAndRotate()": "center: unbridgeable (unbridgeable/private/unexported-type)",
+        "rotateAroundPoint()": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)"
+      },
+      "dartLines": 72,
+      "tsLines": 49
+    },
+    {
+      "class": "MapControllerImpl",
+      "tag": "flutter_map_MapControllerImpl",
+      "push": "valueListenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 1,
+      "ctorDropped": {},
+      "methods": [
+        "doubleTapZoomEnded",
+        "doubleTapZoomStarted",
+        "dragUpdated",
+        "fitCamera",
+        "fitCameraRaw",
+        "flingAnimatedRaw",
+        "flingEnded",
+        "flingNotStarted",
+        "flingStarted",
+        "moveEnded",
+        "moveStarted",
+        "nonRotatedSizeChange",
+        "rotate",
+        "rotateAnimatedRaw",
+        "rotateEnded",
+        "rotateRaw",
+        "rotateStarted",
+        "setNonRotatedSizeWithoutEmittingEvent",
+        "stopAnimationRaw"
+      ],
+      "methodsTotal": 30,
+      "streams": [
+        "mapEventStream"
+      ],
+      "readable": [
+        "camera",
+        "isAnimating",
+        "options"
+      ],
+      "gettersTotal": 5,
+      "objectGetters": [],
+      "setters": [
+        "options"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "longPressed()": "position: unbridgeable (unbridgeable/private/unexported-type)",
+        "move()": "center: unbridgeable (unbridgeable/private/unexported-type)",
+        "moveAndRotate()": "center: unbridgeable (unbridgeable/private/unexported-type)",
+        "moveAndRotateAnimatedRaw()": "newCenter: unbridgeable (unbridgeable/private/unexported-type)",
+        "moveAndRotateRaw()": "newCenter: unbridgeable (unbridgeable/private/unexported-type)",
+        "moveAnimatedRaw()": "newCenter: unbridgeable (unbridgeable/private/unexported-type)",
+        "moveRaw()": "newCenter: unbridgeable (unbridgeable/private/unexported-type)",
+        "rotateAroundPoint()": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)",
+        "rotateAroundPointRaw()": "returns ({bool moveSuccess, bool rotateSuccess}) (not encodable)",
+        "secondaryTapped()": "position: unbridgeable (unbridgeable/private/unexported-type)",
+        "tapped()": "position: unbridgeable (unbridgeable/private/unexported-type)",
+        "value": "_MapControllerState (not encodable)",
+        "interactiveViewerState=": "unbridgeable unbridgeable/framework-object",
+        "vsync=": "env-vsync"
+      },
+      "dartLines": 132,
+      "tsLines": 126
+    },
+    {
+      "class": "NetworkTileProvider",
+      "tag": "flutter_map_NetworkTileProvider",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 5,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "httpClient": "unbridgeable (unbridgeable/private/unexported-type)"
+      },
+      "methods": [],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "abortObsoleteRequests",
+        "attemptDecodeOfHttpErrorResponses",
+        "headers",
+        "silenceExceptions",
+        "supportsCancelLoading"
+      ],
+      "gettersTotal": 6,
+      "objectGetters": [
+        "cachingProvider"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getImage()": "options: unbridgeable (widget/subtype)",
+        "getImageWithCancelLoadingSupport()": "options: unbridgeable (widget/subtype)",
+        "getTileFallbackUrl()": "options: unbridgeable (widget/subtype)",
+        "getTileUrl()": "options: unbridgeable (widget/subtype)"
+      },
+      "dartLines": 69,
+      "tsLines": 83
+    },
+    {
+      "class": "PolygonLabelPlacementCalculator",
+      "tag": "flutter_map_PolygonLabelPlacementCalculator",
+      "push": "none",
+      "ctors": [
+        "simpleCentroid",
+        "simpleMultiWorldCentroid",
+        "centroid",
+        "polylabel"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "call()": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 57,
+      "tsLines": 51
+    },
+    {
+      "class": "PositionedTapController",
+      "tag": "flutter_map_PositionedTapController",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "onLongPress",
+        "onSecondaryTap",
+        "onTap",
+        "onTapDown"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 62,
+      "tsLines": 30
+    },
+    {
+      "class": "RenderTranslucentPointer",
+      "tag": "flutter_map_RenderTranslucentPointer",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {
+        "child": "unbridgeable (unbridgeable/framework-object)"
+      },
+      "methods": [
+        "assembleSemanticsNode",
+        "clearSemantics",
+        "computeSizeForNoChild",
+        "describeForError",
+        "describeSemanticsClip",
+        "detach",
+        "getDistanceToBaseline",
+        "getDryBaseline",
+        "getDryLayout",
+        "getMaxIntrinsicHeight",
+        "getMaxIntrinsicWidth",
+        "getMinIntrinsicHeight",
+        "getMinIntrinsicWidth",
+        "globalToLocal",
+        "hitTest",
+        "layout",
+        "localToGlobal",
+        "markNeedsCompositedLayerUpdate",
+        "markNeedsCompositingBitsUpdate",
+        "markNeedsLayout",
+        "markNeedsLayoutForSizedByParentChange",
+        "markNeedsPaint",
+        "markNeedsSemanticsUpdate",
+        "reassemble",
+        "scheduleInitialLayout",
+        "scheduleInitialSemantics",
+        "sendSemanticsEvent",
+        "showOnScreen"
+      ],
+      "methodsTotal": 41,
+      "streams": [],
+      "readable": [
+        "attached",
+        "depth",
+        "hasSize",
+        "isRepaintBoundary",
+        "needsCompositing",
+        "paintBounds",
+        "semanticBounds",
+        "size",
+        "translucent"
+      ],
+      "gettersTotal": 13,
+      "objectGetters": [],
+      "setters": [
+        "parentData",
+        "translucent"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "applyPaintTransform()": "child: unbridgeable (unbridgeable/framework-object)",
+        "attach()": "owner: object type PipelineOwner is not a generated object",
+        "describeApproximatePaintClip()": "child: unbridgeable (unbridgeable/framework-object)",
+        "describeSemanticsClip(child)": "unbridgeable (unbridgeable/framework-object)",
+        "getTransformTo()": "returns Matrix4 (no record shape)",
+        "globalToLocal(ancestor)": "unbridgeable (unbridgeable/framework-object)",
+        "handleEvent()": "entry: unbridgeable (unbridgeable/no-usable-constructor)",
+        "localToGlobal(ancestor)": "unbridgeable (unbridgeable/framework-object)",
+        "paint()": "context: unbridgeable (unbridgeable/no-usable-constructor)",
+        "paintsChild()": "child: unbridgeable (unbridgeable/framework-object)",
+        "replaceRootLayer()": "rootLayer: object type OffsetLayer is not a generated object",
+        "scheduleInitialPaint()": "rootLayer: object type ContainerLayer is not a generated object",
+        "setupParentData()": "child: unbridgeable (unbridgeable/framework-object)",
+        "showOnScreen(descendant)": "unbridgeable (unbridgeable/framework-object)",
+        "updateCompositedLayer()": "returns OffsetLayer, not a generated object",
+        "visitChildren()": "visitor: unbridgeable (callback void(unencodable args))",
+        "visitChildrenForSemantics()": "visitor: unbridgeable (callback void(unencodable args))",
+        "child": "RenderBox? (not encodable)",
+        "owner": "returns PipelineOwner?, not a generated object",
+        "parent": "RenderObject? (not encodable)",
+        "parentData": "ParentData? (not encodable)",
+        "child=": "unbridgeable unbridgeable/framework-object"
+      },
+      "dartLines": 169,
+      "tsLines": 211
+    },
+    {
+      "class": "ScalebarPainter",
+      "tag": "flutter_map_ScalebarPainter",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "hitTest",
+        "paint",
+        "shouldRebuildSemantics",
+        "shouldRepaint"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "widgetSize"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 59,
+      "tsLines": 61
+    },
+    {
+      "class": "SimpleCentroidCalculator",
+      "tag": "flutter_map_SimpleCentroidCalculator",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "call()": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 46,
+      "tsLines": 22
+    },
+    {
+      "class": "SimpleMultiWorldCentroidCalculator",
+      "tag": "flutter_map_SimpleMultiWorldCentroidCalculator",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "call()": "polygon: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 46,
+      "tsLines": 22
+    },
+    {
+      "class": "TileDisplay",
+      "tag": "flutter_map_TileDisplay",
+      "push": "none",
+      "ctors": [
+        "instantaneous",
+        "fadeIn"
+      ],
+      "ctorParamsKept": 4,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "when()": "generic method"
+      },
+      "dartLines": 55,
+      "tsLines": 58
+    },
+    {
+      "class": "TileImage",
+      "tag": "flutter_map_TileImage",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 6,
+      "ctorParamsEnv": 1,
+      "ctorDropped": {
+        "onLoadError": "not exposed to JS (callback void(unencodable args)); wired to a state refresh"
+      },
+      "methods": [
+        "load"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "coordinates",
+        "loadError",
+        "loadFinishedAt",
+        "loadStarted",
+        "opacity",
+        "readyToDisplay"
+      ],
+      "gettersTotal": 12,
+      "objectGetters": [],
+      "setters": [
+        "imageProvider",
+        "loadError",
+        "loadFinishedAt",
+        "loadStarted"
+      ],
+      "settersTotal": 6,
+      "mirrored": [],
+      "dropped": {
+        "animation": "returns AnimationController?, not a generated object",
+        "cancelLoading": "Completer<void> (no record shape)",
+        "errorImage": "ImageProvider<Object>? (not encodable)",
+        "imageInfo": "returns ImageInfo?, not a generated object",
+        "imageProvider": "ImageProvider<Object> (not encodable)",
+        "vsync": "TickerProvider (not encodable)",
+        "imageInfo=": "object",
+        "tileDisplay=": "object"
+      },
+      "dartLines": 90,
+      "tsLines": 86
+    },
+    {
+      "class": "TileProvider",
+      "tag": "flutter_map_TileProvider",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "headers",
+        "supportsCancelLoading"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getImage()": "options: unbridgeable (widget/subtype)",
+        "getImageWithCancelLoadingSupport()": "options: unbridgeable (widget/subtype)",
+        "getTileFallbackUrl()": "options: unbridgeable (widget/subtype)",
+        "getTileUrl()": "options: unbridgeable (widget/subtype)"
+      },
+      "dartLines": 55,
+      "tsLines": 34
+    },
+    {
+      "class": "UnconstrainedCamera",
+      "tag": "flutter_map_UnconstrainedCamera",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "constrain"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 47,
+      "tsLines": 23
+    }
+  ],
+  "notCallable": {
+    "BaseOverlayImage": "widget (widget generator)",
+    "CachedMapTileMetadata": "record (by the data rules)",
+    "CachedMapTileReadFailure": "record (by the data rules)",
+    "CircleLayer": "widget (widget generator)",
+    "CircleMarker": "record (by the data rules)",
+    "ContainCamera": "record (by the data rules)",
+    "ContainCameraCenter": "record (by the data rules)",
+    "ContainCameraLatitude": "record (by the data rules)",
+    "Crs": "record (by the data rules)",
+    "CrsSimple": "record (by the data rules)",
+    "CursorKeyboardRotationOptions": "record (by the data rules)",
+    "Epsg3857": "record (by the data rules)",
+    "Epsg4326": "record (by the data rules)",
+    "FadeInTileDisplay": "record (by the data rules)",
+    "FadeRAWA": "record (by the data rules)",
+    "FitBounds": "record (by the data rules)",
+    "FitCoordinates": "record (by the data rules)",
+    "FitInsideBounds": "record (by the data rules)",
+    "FlutterMap": "widget (widget generator)",
+    "InstantaneousTileDisplay": "record (by the data rules)",
+    "InteractionOptions": "record (by the data rules)",
+    "InteractiveFlag": "no members",
+    "KeyboardOptions": "record (by the data rules)",
+    "LatLngBounds": "record (by the data rules)",
+    "LayerHitResult": "record (by the data rules)",
+    "LogoSourceAttribution": "widget (widget generator)",
+    "MapCamera": "record (by the data rules)",
+    "MapEvent": "record (by the data rules)",
+    "MapEventDoubleTapZoom": "record (by the data rules)",
+    "MapEventDoubleTapZoomEnd": "record (by the data rules)",
+    "MapEventDoubleTapZoomStart": "record (by the data rules)",
+    "MapEventFlingAnimation": "record (by the data rules)",
+    "MapEventFlingAnimationEnd": "record (by the data rules)",
+    "MapEventFlingAnimationNotStarted": "record (by the data rules)",
+    "MapEventFlingAnimationStart": "record (by the data rules)",
+    "MapEventLongPress": "record (by the data rules)",
+    "MapEventMove": "record (by the data rules)",
+    "MapEventMoveEnd": "record (by the data rules)",
+    "MapEventMoveStart": "record (by the data rules)",
+    "MapEventNonRotatedSizeChange": "record (by the data rules)",
+    "MapEventRotate": "record (by the data rules)",
+    "MapEventRotateEnd": "record (by the data rules)",
+    "MapEventRotateStart": "record (by the data rules)",
+    "MapEventScrollWheelZoom": "record (by the data rules)",
+    "MapEventSecondaryTap": "record (by the data rules)",
+    "MapEventTap": "record (by the data rules)",
+    "MapEventWithMove": "record (by the data rules)",
+    "MapOptions": "record (by the data rules)",
+    "Marker": "record (by the data rules)",
+    "MarkerLayer": "widget (widget generator)",
+    "MobileLayerTransformer": "widget (widget generator)",
+    "MultiFingerGesture": "no members",
+    "OverlayImage": "widget (widget generator)",
+    "OverlayImageLayer": "widget (widget generator)",
+    "Polygon": "record (by the data rules)",
+    "PolygonLayer": "widget (widget generator)",
+    "PolylabelCalculator": "record (by the data rules)",
+    "Polyline": "record (by the data rules)",
+    "PolylineLayer": "widget (widget generator)",
+    "PositionedTapDetector2": "widget (widget generator)",
+    "Proj4Crs": "record (by the data rules)",
+    "Projection": "record (by the data rules)",
+    "RichAttributionWidget": "widget (widget generator)",
+    "RichAttributionWidgetAnimation": "record (by the data rules)",
+    "RotatedOverlayImage": "widget (widget generator)",
+    "ScaleRAWA": "record (by the data rules)",
+    "Scalebar": "widget (widget generator)",
+    "SimpleAttributionWidget": "widget (widget generator)",
+    "SourceAttribution": "widget (widget generator)",
+    "SphericalMercator": "record (by the data rules)",
+    "StrokePattern": "record (by the data rules)",
+    "TapPosition": "record (by the data rules)",
+    "TextSourceAttribution": "widget (widget generator)",
+    "TileCoordinates": "record (by the data rules)",
+    "TileCoordinatesResolver": "record (by the data rules)",
+    "TileLayer": "widget (widget generator)",
+    "TileUpdateEvent": "record (by the data rules)",
+    "TileUpdateTransformers": "no members",
+    "TranslucentPointer": "widget (widget generator)",
+    "WMSTileLayerOptions": "record (by the data rules)",
+    "AttributionAlignment": "enum (by the data rules)",
+    "CachedMapTile": "typedef",
+    "CursorRotationBehaviour": "enum (by the data rules)",
+    "ErrorTileCallBack": "typedef",
+    "EvictErrorTileStrategy": "enum (by the data rules)",
+    "IsKeyCursorRotationTrigger": "typedef",
+    "LayerHitNotifier": "typedef",
+    "LongPressCallback": "typedef",
+    "MapEventCallback": "typedef",
+    "MapEventSource": "enum (by the data rules)",
+    "PatternFit": "enum (by the data rules)",
+    "PointerCancelCallback": "typedef",
+    "PointerDownCallback": "typedef",
+    "PointerHoverCallback": "typedef",
+    "PointerMoveCallback": "typedef",
+    "PointerUpCallback": "typedef",
+    "PolygonPainterFillMethod": "enum (by the data rules)",
+    "PositionCallback": "typedef",
+    "RetinaMode": "enum (by the data rules)",
+    "ScalebarLength": "enum (by the data rules)",
+    "TapCallback": "typedef",
+    "TapPositionCallback": "typedef",
+    "TileBuilder": "typedef",
+    "TileUpdateTransformer": "typedef"
+  },
+  "dartLines": 2626,
+  "tsLines": 2038,
+  "warnings": [
+    "MapControllerImpl: cannot mirror \"value\" (not a synchronous value getter)"
+  ]
+}

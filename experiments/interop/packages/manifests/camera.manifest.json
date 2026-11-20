@@ -1,0 +1,25 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "camera",
+ "version": "0.12.2",
+ "register": "registerCameraWidgets",
+ "widgets": {
+  "CameraPreview": {
+   "tag": "camera.CameraPreview",
+   "dart": "CameraPreview",
+   "library": "package:camera/src/camera_preview.dart",
+   "doc": "A widget showing a live camera preview.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"CameraController"},"dart":"CameraController","required":true,"doc":"The controller for the camera that the preview is shown for."}
+   }
+  }
+ },
+ "enums": {},
+ "types": {},
+ "payloads": {},
+ "libraries": ["package:camera/camera.dart"]
+}

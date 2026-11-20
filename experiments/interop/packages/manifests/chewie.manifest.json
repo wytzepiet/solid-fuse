@@ -1,0 +1,117 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "chewie",
+ "version": "1.18.1",
+ "register": "registerChewieWidgets",
+ "widgets": {
+  "CastOverlay": {
+   "tag": "chewie.CastOverlay",
+   "dart": "CastOverlay",
+   "library": "package:chewie/src/cast/widgets/cast_overlay.dart",
+   "doc": "What Chewie shows in place of the video surface while a session is live.",
+   "props": {
+    "device": {"type":{"k":"data","n":"CastDevice"},"dart":"CastDevice?","nullable":true},
+    "translations": {"type":{"k":"data","n":"CastTranslations"},"dart":"CastTranslations","required":true},
+    "connecting": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether the session is still being set up."}
+   }
+  },
+  "Chewie": {
+   "tag": "chewie.Chewie",
+   "dart": "Chewie",
+   "library": "package:chewie/src/chewie_player.dart",
+   "doc": "A Video Player with Material and Cupertino skins.",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"ChewieController"},"dart":"ChewieController","required":true,"doc":"The [ChewieController]"}
+   }
+  },
+  "ChewieControllerProvider": {
+   "tag": "chewie.ChewieControllerProvider",
+   "dart": "ChewieControllerProvider",
+   "library": "package:chewie/src/chewie_player.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"ChewieController"},"dart":"ChewieController","required":true}
+   }
+  },
+  "CupertinoControls": {
+   "tag": "chewie.CupertinoControls",
+   "dart": "CupertinoControls",
+   "library": "package:chewie/src/cupertino/cupertino_controls.dart",
+   "props": {
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "iconColor": {"type":{"k":"data","n":"Color"},"dart":"Color","required":true},
+    "showPlayButton": {"type":{"k":"bool"},"dart":"bool","default":"true"}
+   }
+  },
+  "MaterialControls": {
+   "tag": "chewie.MaterialControls",
+   "dart": "MaterialControls",
+   "library": "package:chewie/src/material/material_controls.dart",
+   "props": {
+    "showPlayButton": {"type":{"k":"bool"},"dart":"bool","default":"true"}
+   }
+  },
+  "MaterialDesktopControls": {
+   "tag": "chewie.MaterialDesktopControls",
+   "dart": "MaterialDesktopControls",
+   "library": "package:chewie/src/material/material_desktop_controls.dart",
+   "props": {
+    "showPlayButton": {"type":{"k":"bool"},"dart":"bool","default":"true"}
+   }
+  }
+ },
+ "skipped": {
+  "CastButton": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+  "CastDevicesDialog": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+  "ChewieControlStyle": "required param `decorate` (Widget Function(Widget)) is not bridgeable: builder/unencodable args",
+  "CupertinoCastButton": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+  "CupertinoCastDevicesSheet": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+  "MaterialVideoProgressBar": "required param `controller` (VideoPlayerController) is not bridgeable: unbridgeable/private/unexported-type"
+ },
+ "enums": {
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  }
+ },
+ "types": {
+  "CastDevice": {
+   "dart": "CastDevice",
+   "doc": "A playback target Chewie can hand the video off to — a Chromecast, an\nAndroid TV, a smart TV speaker group.",
+   "variants": [
+    {"tag":null,"fields":{"id":{"type":{"k":"string"},"required":true},"name":{"type":{"k":"string"},"required":true},"modelName":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "CastTranslations": {
+   "dart": "CastTranslations",
+   "doc": "Strings shown by Chewie's casting UI.",
+   "variants": [
+    {"tag":null,"fields":{"castButtonTooltip":{"type":{"k":"string"}},"devicesTitle":{"type":{"k":"string"}},"searchingText":{"type":{"k":"string"}},"noDevicesText":{"type":{"k":"string"}},"connectingText":{"type":{"k":"string"}},"castingToText":{"type":{"k":"string"}},"stopCastingText":{"type":{"k":"string"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:chewie/chewie.dart"]
+}

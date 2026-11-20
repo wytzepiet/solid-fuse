@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"smooth_page_indicator","version":"3.0.0","libs":[["package:smooth_page_indicator/smooth_page_indicator.dart","smooth_page_indicator_smooth_page_indicator"]],"include":null}]}

@@ -1,0 +1,23 @@
+{
+  "name": "font_awesome_flutter",
+  "libs": [
+    "package:font_awesome_flutter/font_awesome_flutter.dart"
+  ],
+  "surface": {
+    "total": 0,
+    "bridged": 0,
+    "byKind": {}
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "FaDuotoneIconData": "record (by the data rules)",
+    "FaIcon": "widget (widget generator)",
+    "FaIconData": "record (by the data rules)",
+    "FontAwesomeIcons": "no members"
+  },
+  "dartLines": 34,
+  "tsLines": 9,
+  "warnings": []
+}

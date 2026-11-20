@@ -1,0 +1,260 @@
+{
+ "animated_text_kit": {
+  "tsBytes": 38308,
+  "tsLines": 979,
+  "sharedBytes": 15512,
+  "widgets": 12
+ },
+ "app": {
+  "tsBytes": 10133,
+  "tsLines": 193,
+  "sharedBytes": 6741,
+  "widgets": 4
+ },
+ "auto_size_text": {
+  "tsBytes": 20302,
+  "tsLines": 411,
+  "sharedBytes": 15077,
+  "widgets": 2
+ },
+ "badges": {
+  "tsBytes": 18465,
+  "tsLines": 336,
+  "sharedBytes": 16083,
+  "widgets": 2
+ },
+ "cached_network_image": {
+  "tsBytes": 12972,
+  "tsLines": 239,
+  "sharedBytes": 9557,
+  "widgets": 1
+ },
+ "camera": {
+  "tsBytes": 985,
+  "tsLines": 25,
+  "sharedBytes": 113,
+  "widgets": 1
+ },
+ "carousel_slider": {
+  "tsBytes": 6761,
+  "tsLines": 114,
+  "sharedBytes": 5259,
+  "widgets": 2
+ },
+ "chewie": {
+  "tsBytes": 7652,
+  "tsLines": 125,
+  "sharedBytes": 4629,
+  "widgets": 6
+ },
+ "confetti": {
+  "tsBytes": 8535,
+  "tsLines": 182,
+  "sharedBytes": 4564,
+  "widgets": 1
+ },
+ "dropdown_button2": {
+  "tsBytes": 37880,
+  "tsLines": 824,
+  "sharedBytes": 28733,
+  "widgets": 4
+ },
+ "fl_chart": {
+  "tsBytes": 52991,
+  "tsLines": 1227,
+  "sharedBytes": 46187,
+  "widgets": 8
+ },
+ "flutter_animate": {
+  "tsBytes": 17597,
+  "tsLines": 297,
+  "sharedBytes": 15175,
+  "widgets": 1
+ },
+ "flutter_html": {
+  "tsBytes": 29695,
+  "tsLines": 562,
+  "sharedBytes": 23958,
+  "widgets": 5
+ },
+ "flutter_map": {
+  "tsBytes": 32715,
+  "tsLines": 806,
+  "sharedBytes": 21768,
+  "widgets": 9
+ },
+ "flutter_markdown_plus": {
+  "tsBytes": 103184,
+  "tsLines": 1697,
+  "sharedBytes": 98321,
+  "widgets": 2
+ },
+ "flutter_rating_bar": {
+  "tsBytes": 327,
+  "tsLines": 10,
+  "sharedBytes": 113,
+  "widgets": 0
+ },
+ "flutter_slidable": {
+  "tsBytes": 25204,
+  "tsLines": 644,
+  "sharedBytes": 12854,
+  "widgets": 14
+ },
+ "flutter_spinkit": {
+  "tsBytes": 27759,
+  "tsLines": 563,
+  "sharedBytes": 8926,
+  "widgets": 32
+ },
+ "flutter_staggered_grid_view": {
+  "tsBytes": 10726,
+  "tsLines": 263,
+  "sharedBytes": 4169,
+  "widgets": 6
+ },
+ "flutter_svg": {
+  "tsBytes": 18128,
+  "tsLines": 443,
+  "sharedBytes": 9883,
+  "widgets": 5
+ },
+ "flutter_typeahead": {
+  "tsBytes": 1806,
+  "tsLines": 38,
+  "sharedBytes": 805,
+  "widgets": 1
+ },
+ "fluttertoast": {
+  "tsBytes": 316,
+  "tsLines": 10,
+  "sharedBytes": 113,
+  "widgets": 0
+ },
+ "font_awesome_flutter": {
+  "tsBytes": 7540,
+  "tsLines": 131,
+  "sharedBytes": 5866,
+  "widgets": 1
+ },
+ "google_fonts": {
+  "tsBytes": 315,
+  "tsLines": 10,
+  "sharedBytes": 113,
+  "widgets": 0
+ },
+ "google_maps_flutter": {
+  "tsBytes": 20159,
+  "tsLines": 581,
+  "sharedBytes": 13857,
+  "widgets": 1
+ },
+ "infinite_scroll_pagination": {
+  "tsBytes": 683,
+  "tsLines": 19,
+  "sharedBytes": 453,
+  "widgets": 0
+ },
+ "lottie": {
+  "tsBytes": 25125,
+  "tsLines": 617,
+  "sharedBytes": 5213,
+  "widgets": 6
+ },
+ "mobile_scanner": {
+  "tsBytes": 13002,
+  "tsLines": 328,
+  "sharedBytes": 8831,
+  "widgets": 3
+ },
+ "modal_bottom_sheet": {
+  "tsBytes": 15286,
+  "tsLines": 250,
+  "sharedBytes": 12430,
+  "widgets": 4
+ },
+ "percent_indicator": {
+  "tsBytes": 19046,
+  "tsLines": 450,
+  "sharedBytes": 11390,
+  "widgets": 2
+ },
+ "photo_view": {
+  "tsBytes": 32250,
+  "tsLines": 671,
+  "sharedBytes": 19705,
+  "widgets": 5
+ },
+ "pin_code_fields": {
+  "tsBytes": 44798,
+  "tsLines": 1050,
+  "sharedBytes": 28579,
+  "widgets": 8
+ },
+ "pinput": {
+  "tsBytes": 43374,
+  "tsLines": 954,
+  "sharedBytes": 34802,
+  "widgets": 1
+ },
+ "pull_to_refresh": {
+  "tsBytes": 39848,
+  "tsLines": 965,
+  "sharedBytes": 23216,
+  "widgets": 11
+ },
+ "qr_flutter": {
+  "tsBytes": 14080,
+  "tsLines": 337,
+  "sharedBytes": 8576,
+  "widgets": 2
+ },
+ "rive": {
+  "tsBytes": 14319,
+  "tsLines": 288,
+  "sharedBytes": 8386,
+  "widgets": 7
+ },
+ "shimmer": {
+  "tsBytes": 10303,
+  "tsLines": 181,
+  "sharedBytes": 8532,
+  "widgets": 2
+ },
+ "signature": {
+  "tsBytes": 5379,
+  "tsLines": 74,
+  "sharedBytes": 4099,
+  "widgets": 1
+ },
+ "skeletonizer": {
+  "tsBytes": 43614,
+  "tsLines": 1003,
+  "sharedBytes": 25791,
+  "widgets": 23
+ },
+ "smooth_page_indicator": {
+  "tsBytes": 16549,
+  "tsLines": 315,
+  "sharedBytes": 11675,
+  "widgets": 4
+ },
+ "table_calendar": {
+  "tsBytes": 40323,
+  "tsLines": 845,
+  "sharedBytes": 33693,
+  "widgets": 1
+ },
+ "video_player": {
+  "tsBytes": 12938,
+  "tsLines": 282,
+  "sharedBytes": 9648,
+  "widgets": 4
+ },
+ "webview_flutter": {
+  "tsBytes": 1014,
+  "tsLines": 29,
+  "sharedBytes": 196,
+  "widgets": 1
+ }
+}

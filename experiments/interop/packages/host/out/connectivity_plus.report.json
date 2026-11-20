@@ -1,0 +1,106 @@
+{
+  "name": "connectivity_plus",
+  "libs": [
+    "package:connectivity_plus/connectivity_plus.dart"
+  ],
+  "surface": {
+    "total": 8,
+    "bridged": 7,
+    "byKind": {
+      "static method": {
+        "bridged": 1,
+        "total": 1
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 2,
+        "total": 2
+      },
+      "stream": {
+        "bridged": 2,
+        "total": 2
+      },
+      "setter": {
+        "bridged": 0,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "setter",
+      "name": "ConnectivityPlusLinuxPlugin#createClient=",
+      "ok": false,
+      "why": "unbridgeable callback sync-return"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "Connectivity",
+      "tag": "connectivity_plus_Connectivity",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "checkConnectivity"
+      ],
+      "methodsTotal": 1,
+      "streams": [
+        "onConnectivityChanged"
+      ],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 62,
+      "tsLines": 36
+    },
+    {
+      "class": "ConnectivityPlusLinuxPlugin",
+      "tag": "connectivity_plus_ConnectivityPlusLinuxPlugin",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "checkConnectivity"
+      ],
+      "methodsTotal": 1,
+      "streams": [
+        "onConnectivityChanged"
+      ],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "createClient=": "unbridgeable callback sync-return"
+      },
+      "dartLines": 64,
+      "tsLines": 36
+    }
+  ],
+  "notCallable": {
+    "ConnectivityResult": "enum (by the data rules)",
+    "ConnectivityResultListX": "extension"
+  },
+  "dartLines": 170,
+  "tsLines": 90,
+  "warnings": []
+}

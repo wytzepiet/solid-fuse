@@ -1,0 +1,117 @@
+{
+  "name": "confetti",
+  "libs": [
+    "package:confetti/confetti.dart"
+  ],
+  "surface": {
+    "total": 13,
+    "bridged": 11,
+    "byKind": {
+      "constructor": {
+        "bridged": 1,
+        "total": 2
+      },
+      "method": {
+        "bridged": 6,
+        "total": 6
+      },
+      "getter": {
+        "bridged": 3,
+        "total": 4
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "constructor",
+      "name": "ParticlePainter#constructor ParticlePainter",
+      "ok": false,
+      "why": "particles: unbridgeable (unbridgeable/private/unexported-type[list])"
+    },
+    {
+      "kind": "getter",
+      "name": "ParticlePainter#particles",
+      "ok": false,
+      "why": "List<Particle> (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "ConfettiController",
+      "tag": "confetti_ConfettiController",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 2,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "play",
+        "stop"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "duration",
+        "state"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [
+        "duration"
+      ],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 72,
+      "tsLines": 44
+    },
+    {
+      "class": "ParticlePainter",
+      "tag": "confetti_ParticlePainter",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "hitTest",
+        "paint",
+        "shouldRebuildSemantics",
+        "shouldRepaint"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "strokeWidth"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor ParticlePainter": "particles: unbridgeable (unbridgeable/private/unexported-type[list])",
+        "particles": "List<Particle> (not encodable)"
+      },
+      "dartLines": 61,
+      "tsLines": 42
+    }
+  ],
+  "notCallable": {
+    "ConfettiWidget": "widget (widget generator)",
+    "ParticleStats": "record (by the data rules)",
+    "BlastDirectionality": "enum (by the data rules)",
+    "ConfettiControllerState": "enum (by the data rules)",
+    "ParticleStatsCallback": "typedef"
+  },
+  "dartLines": 306,
+  "tsLines": 170,
+  "warnings": []
+}

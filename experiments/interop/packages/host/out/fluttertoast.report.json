@@ -1,0 +1,166 @@
+{
+  "name": "fluttertoast",
+  "libs": [
+    "package:fluttertoast/fluttertoast.dart"
+  ],
+  "surface": {
+    "total": 18,
+    "bridged": 10,
+    "byKind": {
+      "function": {
+        "bridged": 0,
+        "total": 1
+      },
+      "static method": {
+        "bridged": 2,
+        "total": 2
+      },
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 4,
+        "total": 7
+      },
+      "getter": {
+        "bridged": 1,
+        "total": 4
+      },
+      "setter": {
+        "bridged": 0,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "function",
+      "name": "FToastBuilder",
+      "ok": false,
+      "why": "returns Widget Function(BuildContext, Widget?) (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "FToast#init()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "FToast#showToast()",
+      "ok": false,
+      "why": "child: unbridgeable (widget/slot)"
+    },
+    {
+      "kind": "getter",
+      "name": "FToast#context",
+      "ok": false,
+      "why": "BuildContext? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "FToast#context=",
+      "ok": false,
+      "why": "env-context"
+    },
+    {
+      "kind": "method",
+      "name": "ToastStateFulState#createTicker()",
+      "ok": false,
+      "why": "onTick: callback"
+    },
+    {
+      "kind": "getter",
+      "name": "ToastStateFulState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ToastStateFulState#widget",
+      "ok": false,
+      "why": "_ToastStateFul (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "FToast",
+      "tag": "fluttertoast_FToast",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "removeCustomToast",
+        "removeQueuedCustomToasts"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "init()": "context: env-context",
+        "showToast()": "child: unbridgeable (widget/slot)",
+        "context": "BuildContext? (not encodable)",
+        "context=": "env-context"
+      },
+      "dartLines": 56,
+      "tsLines": 46
+    },
+    {
+      "class": "ToastStateFulState",
+      "tag": "fluttertoast_ToastStateFulState",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "hideIt",
+        "showIt"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "mounted"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "createTicker()": "onTick: callback",
+        "context": "BuildContext (not encodable)",
+        "widget": "_ToastStateFul (not encodable)"
+      },
+      "dartLines": 62,
+      "tsLines": 43
+    }
+  ],
+  "notCallable": {
+    "Fluttertoast": "no members",
+    "PositionedToastBuilder": "typedef",
+    "Toast": "enum (by the data rules)",
+    "ToastGravity": "enum (by the data rules)",
+    "ToastPositionMapping": "typedef"
+  },
+  "dartLines": 300,
+  "tsLines": 155,
+  "warnings": []
+}

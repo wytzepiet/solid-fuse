@@ -1,0 +1,471 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_slidable",
+ "version": "5.2.0",
+ "register": "registerFlutterSlidableWidgets",
+ "widgets": {
+  "ActionPane": {
+   "tag": "flutter_slidable.ActionPane",
+   "dart": "ActionPane",
+   "library": "package:flutter_slidable/src/slidable.dart",
+   "doc": "An action pane.",
+   "children": "children",
+   "childrenParam": "children",
+   "props": {
+    "extentRatio": {"type":{"k":"double"},"dart":"double","default":"0.5","doc":"The total extent of this [ActionPane] relatively to the enclosing\n[Slidable] widget."},
+    "motion": {"type":{"k":"widget"},"dart":"Widget","required":true,"doc":"A widget which animates when the [Slidable] moves."},
+    "dismissible": {"type":{"k":"widget"},"dart":"Widget?","doc":"A widget which controls how the [Slidable] dismisses."},
+    "dragDismissible": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Indicates whether the [Slidable] can be dismissed by dragging."},
+    "openThreshold": {"type":{"k":"double"},"dart":"double?","doc":"The fraction of the total extent from where the [Slidable] will\nautomatically open when the drag end."},
+    "closeThreshold": {"type":{"k":"double"},"dart":"double?","doc":"The fraction of the total extent from where the [Slidable] will\nautomatically close when the drag end."}
+   }
+  },
+  "BehindMotion": {
+   "tag": "flutter_slidable.BehindMotion",
+   "dart": "BehindMotion",
+   "library": "package:flutter_slidable/src/action_pane_motions.dart",
+   "doc": "An [ActionPane] motion which reveals actions as if they were behind the\n[Slidable].",
+   "props": {}
+  },
+  "CustomSlidableAction": {
+   "tag": "flutter_slidable.CustomSlidableAction",
+   "dart": "CustomSlidableAction",
+   "library": "package:flutter_slidable/src/actions.dart",
+   "doc": "Represents an action of an [ActionPane].",
+   "children": "child",
+   "childrenParam": "child",
+   "props": {
+    "flex": {"type":{"k":"int"},"dart":"int","default":"1","doc":"The flex factor to use for this child."},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `_kBackgroundColor`","doc":"The background color of this action."},
+    "foregroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"The foreground color of this action."},
+    "autoClose": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether the enclosing [Slidable] will be closed after [onPressed]\noccurred."},
+    "borderRadius": {"type":{"k":"data","n":"BorderRadius"},"dart":"BorderRadius","default":"Dart `BorderRadius.zero`","doc":"The borderRadius of this action"},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets?","doc":"The padding of the OutlinedButton"},
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment?","doc":"The alignment of the child within the button."},
+    "onPressed": {"type":{"k":"callback","args":[]},"dart":"void Function(BuildContext)?","nullable":true,"doc":"Called when the action is tapped or otherwise activated."}
+   },
+   "notes": ["flex: collides with solid-fuse's `flex` layout prop; the Flutter parameter wins"]
+  },
+  "DismissiblePane": {
+   "tag": "flutter_slidable.DismissiblePane",
+   "dart": "DismissiblePane",
+   "library": "package:flutter_slidable/src/dismissible_pane.dart",
+   "doc": "A widget wich controls how a [Slidable] dismisses.",
+   "props": {
+    "onDismissed": {"type":{"k":"callback","args":[]},"dart":"void Function()","doc":"Called when the widget has been dismissed, after finishing resizing."},
+    "dismissThreshold": {"type":{"k":"double"},"dart":"double","default":"0.75","doc":"The threshold from which a dismiss will be triggered if the user stops\nto drag the [Slidable]."},
+    "dismissalDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `_kDismissalDuration`","doc":"The amount of time the widget will spend to complete the dissmiss\nanimation."},
+    "resizeDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `_kResizeDuration`","doc":"The amount of time the widget will spend contracting before [onDismissed]\nis called."},
+    "closeOnCancel": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether closing the [Slidable] if the app cancels the dismiss."},
+    "motion": {"type":{"k":"widget"},"dart":"Widget","default":"Dart `const InversedDrawerMotion()`","doc":"The widget which animates while the [Slidable] is currently dismissing."}
+   },
+   "omitted": {
+    "confirmDismiss": "callback/Future<value>"
+   }
+  },
+  "DrawerMotion": {
+   "tag": "flutter_slidable.DrawerMotion",
+   "dart": "DrawerMotion",
+   "library": "package:flutter_slidable/src/action_pane_motions.dart",
+   "doc": "An [ActionPane] motion which reveals actions as if they were drawers.",
+   "props": {}
+  },
+  "InversedDrawerMotion": {
+   "tag": "flutter_slidable.InversedDrawerMotion",
+   "dart": "InversedDrawerMotion",
+   "library": "package:flutter_slidable/src/dismissible_pane_motions.dart",
+   "doc": "A [DismissiblePane] motion which will make the furthest action grows faster\nas the [Slidable] dismisses.",
+   "props": {}
+  },
+  "ScrollMotion": {
+   "tag": "flutter_slidable.ScrollMotion",
+   "dart": "ScrollMotion",
+   "library": "package:flutter_slidable/src/action_pane_motions.dart",
+   "doc": "An [ActionPane] motion which reveals actions as if they were scrolling\nfrom the outside.",
+   "props": {}
+  },
+  "Slidable": {
+   "tag": "flutter_slidable.Slidable",
+   "dart": "Slidable",
+   "library": "package:flutter_slidable/src/slidable.dart",
+   "doc": "A widget which can be dragged to reveal contextual actions.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "controller": {"type":{"k":"handle","n":"SlidableController"},"dart":"SlidableController?","doc":"The Slidable widget controller."},
+    "groupTag": {"type":{"k":"unknown"},"dart":"Object?","doc":"The tag shared by all the [Slidable]s of the same group."},
+    "enabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether this slidable is interactive."},
+    "closeOnScroll": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Specifies to close this [Slidable] after the closest [Scrollable]'s\nposition changed."},
+    "direction": {"type":{"k":"enum","n":"Axis"},"dart":"Axis","default":"\"horizontal\"","doc":"The direction in which this [Slidable] can be dragged."},
+    "dragStartBehavior": {"type":{"k":"enum","n":"DragStartBehavior"},"dart":"DragStartBehavior","default":"\"down\"","doc":"Determines the way that drag start behavior is handled."},
+    "useTextDirection": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether the ambient [TextDirection] should be used to determine how\n[startActionPane] and [endActionPane] should be revealed."},
+    "onActionPaneChanged": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"enum","n":"ActionPaneType"}}]},"dart":"void Function(ActionPaneType)?","doc":"Called when this [Slidable] comes to rest with a different action pane\nshown."}
+   },
+   "omitted": {
+    "startActionPane": "widget/subtype",
+    "endActionPane": "widget/subtype"
+   }
+  },
+  "SlidableAction": {
+   "tag": "flutter_slidable.SlidableAction",
+   "dart": "SlidableAction",
+   "library": "package:flutter_slidable/src/actions.dart",
+   "doc": "An action for [Slidable] which can show an icon, a label, or both.",
+   "props": {
+    "flex": {"type":{"k":"int"},"dart":"int","default":"1"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `_kBackgroundColor`"},
+    "foregroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "autoClose": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "onPressed": {"type":{"k":"callback","args":[]},"dart":"void Function(BuildContext)?","nullable":true},
+    "icon": {"type":{"k":"data","n":"IconData"},"dart":"IconData?","doc":"An icon to display above the [label]."},
+    "spacing": {"type":{"k":"double"},"dart":"double","default":"4","doc":"The space between [icon] and [label] if both set."},
+    "iconSize": {"type":{"k":"double"},"dart":"double?","doc":"The size of the [icon]."},
+    "label": {"type":{"k":"string"},"dart":"String?","doc":"A label to display below the [icon]."},
+    "labelStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"The text style of the [label]."},
+    "borderRadius": {"type":{"k":"data","n":"BorderRadius"},"dart":"BorderRadius","default":"Dart `BorderRadius.zero`"},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets?","doc":"Padding of the OutlinedButton"},
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment?"}
+   }
+  },
+  "SlidableAutoCloseBehavior": {
+   "tag": "flutter_slidable.SlidableAutoCloseBehavior",
+   "dart": "SlidableAutoCloseBehavior",
+   "library": "package:flutter_slidable/src/auto_close_behavior.dart",
+   "doc": "A widget that forces the [Slidable] widgets below it to close when another\n[Slidable] widget with the same [groupTag] opens.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "closeWhenOpened": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Indicates whether all the [Slidable] within the same group should be\nclosed when one of the group is opened."},
+    "closeWhenTapped": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Indicates whether all the [Slidable] within the same group should be\nclosed when one of the group is tapped while one is opened."}
+   }
+  },
+  "SlidableGroupBehavior": {
+   "tag": "flutter_slidable.SlidableGroupBehavior",
+   "dart": "SlidableGroupBehavior",
+   "library": "package:flutter_slidable/src/notifications.dart",
+   "doc": "A widget which can dispatch notifications to a group of [Slidable] below it.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {},
+   "omitted": {
+    "onNotification": "callback/sync-return"
+   },
+   "notes": ["generic class instantiated to bounds: SlidableGroupBehavior<dynamic>"]
+  },
+  "SlidableGroupBehaviorListener": {
+   "tag": "flutter_slidable.SlidableGroupBehaviorListener",
+   "dart": "SlidableGroupBehaviorListener",
+   "library": "package:flutter_slidable/src/notifications.dart",
+   "doc": "A widget which listens to notifications dispatched by a\n[SlidableGroupBehavior] of the same type.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "onNotification": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"unknown"}}]},"dart":"void Function(dynamic)","doc":"The callback to invoke when a notification is dispatched."}
+   },
+   "notes": ["generic class instantiated to bounds: SlidableGroupBehaviorListener<dynamic>"]
+  },
+  "SlidableNotificationListener": {
+   "tag": "flutter_slidable.SlidableNotificationListener",
+   "dart": "SlidableNotificationListener",
+   "library": "package:flutter_slidable/src/notifications_old.dart",
+   "doc": "A widget that listens for [SlidableNotification]s bubbling up the tree.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "onNotification": {"type":{"k":"callback","args":[{"name":"notification","type":{"k":"payload","n":"SlidableNotification"}}]},"dart":"void Function(SlidableNotification)?","doc":"Called when a notification of the appropriate arrives at this location in\nthe tree."},
+    "autoClose": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to automatically close any [Slidable] with a given tag when\nanother [Slidable] with the same tag opens."}
+   }
+  },
+  "StretchMotion": {
+   "tag": "flutter_slidable.StretchMotion",
+   "dart": "StretchMotion",
+   "library": "package:flutter_slidable/src/action_pane_motions.dart",
+   "doc": "An [ActionPane] motion which reveals actions by stretching their extent\nwhile sliding the [Slidable].",
+   "props": {}
+  }
+ },
+ "enums": {
+  "ActionPaneType": {
+   "values": ["end","none","start"],
+   "doc": "The different kinds of action panes."
+  },
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "DragStartBehavior": {
+   "values": ["down","start"],
+   "doc": "Configuration of offset passed to [DragStartDetails]."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "IconData": {
+   "dart": "IconData",
+   "doc": "A description of an icon fulfilled by a font glyph.",
+   "nice": [
+    {"ts":"{ codePoint: number; fontFamily?: string; fontPackage?: string; matchTextDirection?: boolean }","accepts":["object"]}
+   ],
+   "replace": true
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {
+  "SlidableNotification": {
+   "dart": "SlidableNotification",
+   "fields": {
+    "tag": {"k":"unknown"}
+   }
+  }
+ },
+ "libraries": ["package:flutter_slidable/flutter_slidable.dart"]
+}

@@ -1,0 +1,291 @@
+{
+  "name": "google_maps_flutter",
+  "libs": [
+    "package:google_maps_flutter/google_maps_flutter.dart"
+  ],
+  "surface": {
+    "total": 45,
+    "bridged": 39,
+    "byKind": {
+      "static method": {
+        "bridged": 18,
+        "total": 20
+      },
+      "method": {
+        "bridged": 15,
+        "total": 19
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "getter": {
+        "bridged": 4,
+        "total": 4
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "BitmapDescriptor.bytes",
+      "ok": false,
+      "why": "byteData: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+      "kind": "static method",
+      "name": "GoogleMapController.init",
+      "ok": false,
+      "why": "googleMapState: unbridgeable (unbridgeable/framework-object)"
+    },
+    {
+      "kind": "method",
+      "name": "ArgumentCallbacks#add()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "ArgumentCallbacks#remove()",
+      "ok": false,
+      "why": "callback: callback"
+    },
+    {
+      "kind": "method",
+      "name": "GoogleMapController#animateCamera()",
+      "ok": false,
+      "why": "cameraUpdate: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "method",
+      "name": "GoogleMapController#moveCamera()",
+      "ok": false,
+      "why": "cameraUpdate: unbridgeable (unbridgeable/abstract-no-impl)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "AdvancedMarkerGlyph",
+      "tag": "google_maps_flutter_AdvancedMarkerGlyph",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "toJson"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 46,
+      "tsLines": 24
+    },
+    {
+      "class": "ArgumentCallbacks",
+      "tag": "google_maps_flutter_ArgumentCallbacks",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "call"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "isEmpty",
+        "isNotEmpty"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "add()": "callback: callback",
+        "remove()": "callback: callback"
+      },
+      "dartLines": 62,
+      "tsLines": 45
+    },
+    {
+      "class": "BitmapDescriptor",
+      "tag": "google_maps_flutter_BitmapDescriptor",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "toJson"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 46,
+      "tsLines": 26
+    },
+    {
+      "class": "BitmapGlyph",
+      "tag": "google_maps_flutter_BitmapGlyph",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "toJson"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [
+        "bitmap"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 57,
+      "tsLines": 43
+    },
+    {
+      "class": "GoogleMapController",
+      "tag": "google_maps_flutter_GoogleMapController",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clearTileCache",
+        "getLatLng",
+        "getScreenCoordinate",
+        "getStyleError",
+        "getVisibleRegion",
+        "getZoomLevel",
+        "hideMarkerInfoWindow",
+        "isMarkerInfoWindowShown",
+        "showMarkerInfoWindow",
+        "takeSnapshot"
+      ],
+      "methodsTotal": 12,
+      "streams": [],
+      "readable": [
+        "mapId"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "animateCamera()": "cameraUpdate: unbridgeable (unbridgeable/abstract-no-impl)",
+        "moveCamera()": "cameraUpdate: unbridgeable (unbridgeable/abstract-no-impl)"
+      },
+      "dartLines": 80,
+      "tsLines": 61
+    },
+    {
+      "class": "TileProvider",
+      "tag": "google_maps_flutter_TileProvider",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getTile"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 47,
+      "tsLines": 24
+    }
+  ],
+  "notCallable": {
+    "AdvancedMarker": "record (by the data rules)",
+    "AssetMapBitmap": "record (by the data rules)",
+    "BytesMapBitmap": "record (by the data rules)",
+    "CameraPosition": "record (by the data rules)",
+    "CameraTargetBounds": "record (by the data rules)",
+    "CameraUpdate": "record (by the data rules)",
+    "Cap": "record (by the data rules)",
+    "Circle": "record (by the data rules)",
+    "CircleGlyph": "record (by the data rules)",
+    "CircleId": "record (by the data rules)",
+    "Cluster": "record (by the data rules)",
+    "ClusterManager": "record (by the data rules)",
+    "ClusterManagerId": "record (by the data rules)",
+    "GoogleMap": "widget (widget generator)",
+    "GroundOverlay": "record (by the data rules)",
+    "GroundOverlayId": "record (by the data rules)",
+    "Heatmap": "record (by the data rules)",
+    "HeatmapGradient": "record (by the data rules)",
+    "HeatmapGradientColor": "record (by the data rules)",
+    "HeatmapId": "record (by the data rules)",
+    "HeatmapRadius": "record (by the data rules)",
+    "InfoWindow": "record (by the data rules)",
+    "LatLng": "record (by the data rules)",
+    "LatLngBounds": "record (by the data rules)",
+    "MapStyleException": "record (by the data rules)",
+    "Marker": "record (by the data rules)",
+    "MarkerId": "record (by the data rules)",
+    "MinMaxZoomPreference": "record (by the data rules)",
+    "PatternItem": "record (by the data rules)",
+    "PinConfig": "record (by the data rules)",
+    "PointOfInterestId": "record (by the data rules)",
+    "Polygon": "record (by the data rules)",
+    "PolygonId": "record (by the data rules)",
+    "Polyline": "record (by the data rules)",
+    "PolylineId": "record (by the data rules)",
+    "ScreenCoordinate": "record (by the data rules)",
+    "TextGlyph": "record (by the data rules)",
+    "Tile": "record (by the data rules)",
+    "TileOverlay": "record (by the data rules)",
+    "TileOverlayId": "record (by the data rules)",
+    "UnknownMapObjectIdError": "record (by the data rules)",
+    "WeightedLatLng": "record (by the data rules)",
+    "ArgumentCallback": "typedef",
+    "CameraPositionCallback": "typedef",
+    "GoogleMapMarkerType": "enum (by the data rules)",
+    "JointType": "enum (by the data rules)",
+    "MapBitmapScaling": "enum (by the data rules)",
+    "MapColorScheme": "enum (by the data rules)",
+    "MapCreatedCallback": "typedef",
+    "MapType": "enum (by the data rules)",
+    "MarkerCollisionBehavior": "enum (by the data rules)",
+    "WebCameraControlPosition": "enum (by the data rules)",
+    "WebGestureHandling": "enum (by the data rules)"
+  },
+  "dartLines": 795,
+  "tsLines": 548,
+  "warnings": []
+}

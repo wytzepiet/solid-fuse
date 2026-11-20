@@ -1,0 +1,477 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "photo_view",
+ "version": "0.15.0",
+ "register": "registerPhotoViewWidgets",
+ "widgets": {
+  "PhotoView": {
+   "tag": "photo_view.PhotoView",
+   "dart": "PhotoView",
+   "library": "package:photo_view/photo_view.dart",
+   "doc": "A [StatefulWidget] that contains all the photo view rendering elements.",
+   "props": {
+    "imageProvider": {"type":{"k":"data","n":"ImageProviderOfObject"},"dart":"ImageProvider<Object>?","nullable":true,"doc":"Given a [imageProvider] it resolves into an zoomable image widget using. It\nis required"},
+    "backgroundDecoration": {"type":{"k":"data","n":"BoxDecoration"},"dart":"BoxDecoration?","doc":"Changes the background behind image, defaults to `Colors.black`."},
+    "wantKeepAlive": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"This is used to keep the state of an image in the gallery (e.g. scale state).\n`false` -> resets the state (default)\n`true`  -> keeps the state"},
+    "semanticLabel": {"type":{"k":"string"},"dart":"String?","doc":"A Semantic description of the image."},
+    "gaplessPlayback": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"This is used to continue showing the old image (`true`), or briefly show\nnothing (`false`), when the `imageProvider` changes. By default it's set\nto `false`."},
+    "heroAttributes": {"type":{"k":"data","n":"PhotoViewHeroAttributes"},"dart":"PhotoViewHeroAttributes?","doc":"Attributes that are going to be passed to [PhotoViewCore]'s\n[Hero]. Leave this property undefined if you don't want a hero animation."},
+    "scaleStateChangedCallback": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"enum","n":"PhotoViewScaleState"}}]},"dart":"void Function(PhotoViewScaleState)?","doc":"A [Function] to be called whenever the scaleState changes, this happens when the user double taps the content ou start to pinch-in."},
+    "enableRotation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"A flag that enables the rotation gesture support"},
+    "controller": {"type":{"k":"data","n":"PhotoViewControllerBaseOfPhotoViewControllerValue"},"dart":"PhotoViewControllerBase<PhotoViewControllerValue>?","doc":"A way to control PhotoView transformation factors externally and listen to its updates"},
+    "scaleStateController": {"type":{"k":"handle","n":"PhotoViewScaleStateController"},"dart":"PhotoViewScaleStateController?","doc":"A way to control PhotoViewScaleState value externally and listen to its updates"},
+    "maxScale": {"type":{"k":"unknown"},"dart":"dynamic","doc":"Defines the maximum size in which the image will be allowed to assume, it\nis proportional to the original image size. Can be either a double (absolute value) or a\n[PhotoViewComputedScale], that can be multiplied by a double"},
+    "minScale": {"type":{"k":"unknown"},"dart":"dynamic","doc":"Defines the minimum size in which the image will be allowed to assume, it\nis proportional to the original image size. Can be either a double (absolute value) or a\n[PhotoViewComputedScale], that can be multiplied by a double"},
+    "initialScale": {"type":{"k":"unknown"},"dart":"dynamic","doc":"Defines the initial size in which the image will be assume in the mounting of the component, it\nis proportional to the original image size. Can be either a double (absolute value) or a\n[PhotoViewComputedScale], that can be multiplied by a double"},
+    "basePosition": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment?","doc":"The alignment of the scale origin in relation to the widget size. Default is [Alignment.center]"},
+    "customSize": {"type":{"k":"data","n":"Size"},"dart":"Size?","doc":"Defines the size of the scaling base of the image inside [PhotoView],\nby default it is `MediaQuery.of(context).size`."},
+    "gestureDetectorBehavior": {"type":{"k":"enum","n":"HitTestBehavior"},"dart":"HitTestBehavior?","doc":"[HitTestBehavior] to be passed to the internal gesture detector."},
+    "tightMode": {"type":{"k":"bool"},"dart":"bool?","doc":"Enables tight mode, making background container assume the size of the image/child.\nUseful when inside a [Dialog]"},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"Quality levels for image filters."},
+    "disableGestures": {"type":{"k":"bool"},"dart":"bool?"},
+    "enablePanAlways": {"type":{"k":"bool"},"dart":"bool?","doc":"Enable pan the widget even if it's smaller than the hole parent widget.\nUseful when you want to drag a widget without restrictions."},
+    "strictScale": {"type":{"k":"bool"},"dart":"bool?","doc":"Enable strictScale will restrict user scale gesture to the maxScale and minScale values."}
+   },
+   "omitted": {
+    "loadingBuilder": "builder/encodable args",
+    "scaleStateCycle": "callback/sync-return",
+    "onTapUp": "callback/sync-return",
+    "onTapDown": "callback/sync-return",
+    "onScaleEnd": "callback/sync-return",
+    "errorBuilder": "builder/unencodable args"
+   },
+   "notes": ["heroAttributes: data type PhotoViewHeroAttributes has dropped optional ctor params"]
+  },
+  "PhotoViewCustomChild": {
+   "tag": "photo_view.PhotoViewCustomChild",
+   "dart": "PhotoView",
+   "ctor": "customChild",
+   "library": "package:photo_view/photo_view.dart",
+   "doc": "A [StatefulWidget] that contains all the photo view rendering elements.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "childSize": {"type":{"k":"data","n":"Size"},"dart":"Size?","doc":"The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value."},
+    "backgroundDecoration": {"type":{"k":"data","n":"BoxDecoration"},"dart":"BoxDecoration?","doc":"Changes the background behind image, defaults to `Colors.black`."},
+    "wantKeepAlive": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"This is used to keep the state of an image in the gallery (e.g. scale state).\n`false` -> resets the state (default)\n`true`  -> keeps the state"},
+    "heroAttributes": {"type":{"k":"data","n":"PhotoViewHeroAttributes"},"dart":"PhotoViewHeroAttributes?","doc":"Attributes that are going to be passed to [PhotoViewCore]'s\n[Hero]. Leave this property undefined if you don't want a hero animation."},
+    "scaleStateChangedCallback": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"enum","n":"PhotoViewScaleState"}}]},"dart":"void Function(PhotoViewScaleState)?","doc":"A [Function] to be called whenever the scaleState changes, this happens when the user double taps the content ou start to pinch-in."},
+    "enableRotation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"A flag that enables the rotation gesture support"},
+    "controller": {"type":{"k":"data","n":"PhotoViewControllerBaseOfPhotoViewControllerValue"},"dart":"PhotoViewControllerBase<PhotoViewControllerValue>?","doc":"A way to control PhotoView transformation factors externally and listen to its updates"},
+    "scaleStateController": {"type":{"k":"handle","n":"PhotoViewScaleStateController"},"dart":"PhotoViewScaleStateController?","doc":"A way to control PhotoViewScaleState value externally and listen to its updates"},
+    "maxScale": {"type":{"k":"unknown"},"dart":"dynamic","doc":"Defines the maximum size in which the image will be allowed to assume, it\nis proportional to the original image size. Can be either a double (absolute value) or a\n[PhotoViewComputedScale], that can be multiplied by a double"},
+    "minScale": {"type":{"k":"unknown"},"dart":"dynamic","doc":"Defines the minimum size in which the image will be allowed to assume, it\nis proportional to the original image size. Can be either a double (absolute value) or a\n[PhotoViewComputedScale], that can be multiplied by a double"},
+    "initialScale": {"type":{"k":"unknown"},"dart":"dynamic","doc":"Defines the initial size in which the image will be assume in the mounting of the component, it\nis proportional to the original image size. Can be either a double (absolute value) or a\n[PhotoViewComputedScale], that can be multiplied by a double"},
+    "basePosition": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment?","doc":"The alignment of the scale origin in relation to the widget size. Default is [Alignment.center]"},
+    "customSize": {"type":{"k":"data","n":"Size"},"dart":"Size?","doc":"Defines the size of the scaling base of the image inside [PhotoView],\nby default it is `MediaQuery.of(context).size`."},
+    "gestureDetectorBehavior": {"type":{"k":"enum","n":"HitTestBehavior"},"dart":"HitTestBehavior?","doc":"[HitTestBehavior] to be passed to the internal gesture detector."},
+    "tightMode": {"type":{"k":"bool"},"dart":"bool?","doc":"Enables tight mode, making background container assume the size of the image/child.\nUseful when inside a [Dialog]"},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"Quality levels for image filters."},
+    "disableGestures": {"type":{"k":"bool"},"dart":"bool?"},
+    "enablePanAlways": {"type":{"k":"bool"},"dart":"bool?","doc":"Enable pan the widget even if it's smaller than the hole parent widget.\nUseful when you want to drag a widget without restrictions."},
+    "strictScale": {"type":{"k":"bool"},"dart":"bool?","doc":"Enable strictScale will restrict user scale gesture to the maxScale and minScale values."}
+   },
+   "omitted": {
+    "scaleStateCycle": "callback/sync-return",
+    "onTapUp": "callback/sync-return",
+    "onTapDown": "callback/sync-return",
+    "onScaleEnd": "callback/sync-return"
+   },
+   "notes": ["heroAttributes: data type PhotoViewHeroAttributes has dropped optional ctor params"]
+  },
+  "PhotoViewGestureDetectorScope": {
+   "tag": "photo_view.PhotoViewGestureDetectorScope",
+   "dart": "PhotoViewGestureDetectorScope",
+   "library": "package:photo_view/src/core/photo_view_gesture_detector.dart",
+   "doc": "An [InheritedWidget] responsible to give a axis aware scope to [PhotoViewGestureRecognizer].",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "axis": {"type":{"k":"enum","n":"Axis"},"dart":"Axis?"}
+   }
+  },
+  "PhotoViewGallery": {
+   "tag": "photo_view.PhotoViewGallery",
+   "dart": "PhotoViewGallery",
+   "library": "package:photo_view/photo_view_gallery.dart",
+   "doc": "A [StatefulWidget] that shows multiple [PhotoView] widgets in a [PageView]",
+   "props": {
+    "pageOptions": {"type":{"k":"list","e":{"k":"data","n":"PhotoViewGalleryPageOptions"}},"dart":"List<PhotoViewGalleryPageOptions>?","nullable":true,"doc":"A list of options to describe the items in the gallery"},
+    "backgroundDecoration": {"type":{"k":"data","n":"BoxDecoration"},"dart":"BoxDecoration?","doc":"Mirror to [PhotoView.backgroundDecoration]"},
+    "wantKeepAlive": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PhotoView.wantKeepAlive]"},
+    "gaplessPlayback": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PhotoView.gaplessPlayback]"},
+    "reverse": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PageView.reverse]"},
+    "pageController": {"type":{"k":"handle","n":"PageController"},"dart":"PageController?","doc":"An object that controls the [PageView] inside [PhotoViewGallery]"},
+    "onPageChanged": {"type":{"k":"callback","args":[{"name":"index","type":{"k":"int"}}]},"dart":"void Function(int)?","doc":"An callback to be called on a page change"},
+    "scaleStateChangedCallback": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"enum","n":"PhotoViewScaleState"}}]},"dart":"void Function(PhotoViewScaleState)?","doc":"Mirror to [PhotoView.scaleStateChangedCallback]"},
+    "enableRotation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PhotoView.enableRotation]"},
+    "scrollPhysics": {"type":{"k":"data","n":"ScrollPhysics"},"dart":"ScrollPhysics?","doc":"[ScrollPhysics] for the internal [PageView]"},
+    "scrollDirection": {"type":{"k":"enum","n":"Axis"},"dart":"Axis","default":"\"horizontal\"","doc":"The axis along which the [PageView] scrolls. Mirror to [PageView.scrollDirection]"},
+    "customSize": {"type":{"k":"data","n":"Size"},"dart":"Size?","doc":"Mirror to [PhotoView.customSize]"},
+    "allowImplicitScrolling": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"When user attempts to move it to the next element, focus will traverse to the next page in the page view."},
+    "pageSnapping": {"type":{"k":"bool"},"dart":"bool","default":"true"}
+   },
+   "omitted": {
+    "loadingBuilder": "builder/encodable args"
+   },
+   "notes": ["pageOptions: data type List<PhotoViewGalleryPageOptions> has dropped optional ctor params"]
+  },
+  "PhotoViewGalleryBuilderCtor": {
+   "tag": "photo_view.PhotoViewGalleryBuilderCtor",
+   "dart": "PhotoViewGallery",
+   "ctor": "builder",
+   "library": "package:photo_view/photo_view_gallery.dart",
+   "doc": "A [StatefulWidget] that shows multiple [PhotoView] widgets in a [PageView]",
+   "props": {
+    "itemCount": {"type":{"k":"int"},"dart":"int?","nullable":true,"doc":"The count of items in the gallery, only used when constructed via [PhotoViewGallery.builder]"},
+    "backgroundDecoration": {"type":{"k":"data","n":"BoxDecoration"},"dart":"BoxDecoration?","doc":"Mirror to [PhotoView.backgroundDecoration]"},
+    "wantKeepAlive": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PhotoView.wantKeepAlive]"},
+    "gaplessPlayback": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PhotoView.gaplessPlayback]"},
+    "reverse": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PageView.reverse]"},
+    "pageController": {"type":{"k":"handle","n":"PageController"},"dart":"PageController?","doc":"An object that controls the [PageView] inside [PhotoViewGallery]"},
+    "onPageChanged": {"type":{"k":"callback","args":[{"name":"index","type":{"k":"int"}}]},"dart":"void Function(int)?","doc":"An callback to be called on a page change"},
+    "scaleStateChangedCallback": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"enum","n":"PhotoViewScaleState"}}]},"dart":"void Function(PhotoViewScaleState)?","doc":"Mirror to [PhotoView.scaleStateChangedCallback]"},
+    "enableRotation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Mirror to [PhotoView.enableRotation]"},
+    "scrollPhysics": {"type":{"k":"data","n":"ScrollPhysics"},"dart":"ScrollPhysics?","doc":"[ScrollPhysics] for the internal [PageView]"},
+    "scrollDirection": {"type":{"k":"enum","n":"Axis"},"dart":"Axis","default":"\"horizontal\"","doc":"The axis along which the [PageView] scrolls. Mirror to [PageView.scrollDirection]"},
+    "customSize": {"type":{"k":"data","n":"Size"},"dart":"Size?","doc":"Mirror to [PhotoView.customSize]"},
+    "allowImplicitScrolling": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"When user attempts to move it to the next element, focus will traverse to the next page in the page view."},
+    "pageSnapping": {"type":{"k":"bool"},"dart":"bool","default":"true"}
+   },
+   "omitted": {
+    "builder": "callback/sync-return",
+    "loadingBuilder": "builder/encodable args"
+   }
+  }
+ },
+ "enums": {
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "BlendMode": {
+   "values": ["clear","src","dst","srcOver","dstOver","srcIn","dstIn","srcOut","dstOut","srcATop","dstATop","xor","plus","modulate","screen","overlay","darken","lighten","colorDodge","colorBurn","hardLight","softLight","difference","exclusion","multiply","hue","saturation","color","luminosity"],
+   "doc": "Algorithms to use when painting on the canvas."
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "BoxFit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown"],
+   "doc": "How a box should be inscribed into another box."
+  },
+  "BoxShape": {
+   "values": ["rectangle","circle"],
+   "doc": "The shape to use when rendering a [Border] or [BoxDecoration]."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "FilterQuality": {
+   "values": ["none","low","medium","high"],
+   "doc": "Quality levels for image sampling in [ImageFilter] and [Shader] objects that sample\nimages and for [Canvas] operations that render images."
+  },
+  "HitTestBehavior": {
+   "values": ["deferToChild","opaque","translucent"],
+   "doc": "How to behave during hit tests."
+  },
+  "ImageRepeat": {
+   "values": ["repeat","repeatX","repeatY","noRepeat"],
+   "doc": "How to paint any portions of a box not covered by an image."
+  },
+  "PhotoViewScaleState": {
+   "values": ["initial","covering","originalSize","zoomedIn","zoomedOut"],
+   "doc": "A way to represent the step of the \"doubletap gesture cycle\" in which PhotoView is."
+  },
+  "ResizeImagePolicy": {
+   "values": ["exact","fit"],
+   "doc": "Configures the behavior for [ResizeImage]."
+  },
+  "ScrollDecelerationRate": {
+   "values": ["normal","fast"],
+   "doc": "The rate at which scroll momentum will be decelerated."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  },
+  "WebHtmlElementStrategy": {
+   "values": ["never","fallback","prefer"],
+   "doc": "The strategy for [Image.network] and [NetworkImage] to decide whether to\ndisplay images in HTML elements contained in a platform view instead of\nfetching bytes."
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "BorderRadiusGeometry": {
+   "dart": "BorderRadiusGeometry",
+   "doc": "Base class for [BorderRadius] that allows for text-direction aware resolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","BorderRadius.zero","BorderRadiusDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"},"nullable":true},"right":{"type":{"k":"data","n":"Radius"},"nullable":true},"start":{"type":{"k":"data","n":"Radius"},"nullable":true},"end":{"type":{"k":"data","n":"Radius"},"nullable":true}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"directional","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadius.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadius.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadius.only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"BorderRadiusDirectional.vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.horizontal","fields":{"start":{"type":{"k":"data","n":"Radius"}},"end":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"BorderRadiusDirectional.only","fields":{"topStart":{"type":{"k":"data","n":"Radius"}},"topEnd":{"type":{"k":"data","n":"Radius"}},"bottomStart":{"type":{"k":"data","n":"Radius"}},"bottomEnd":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "BoxBorder": {
+   "dart": "BoxBorder",
+   "doc": "Base class for box borders that can paint as rectangles, circles, or rounded\nrectangles.",
+   "variants": [
+    {"tag":"fromLTRB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"fromSTEB","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"Border.symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"Border.all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}},
+    {"tag":"BorderDirectional","fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"start":{"type":{"k":"data","n":"BorderSide"}},"end":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}}}}
+   ]
+  },
+  "BoxDecoration": {
+   "dart": "BoxDecoration",
+   "doc": "An immutable description of how to paint a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"},"nullable":true},"image":{"type":{"k":"data","n":"DecorationImage"},"nullable":true},"border":{"type":{"k":"data","n":"BoxBorder"},"nullable":true},"borderRadius":{"type":{"k":"data","n":"BorderRadiusGeometry"},"nullable":true},"boxShadow":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"gradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"backgroundBlendMode":{"type":{"k":"enum","n":"BlendMode"},"nullable":true},"shape":{"type":{"k":"enum","n":"BoxShape"}}}}
+   ]
+  },
+  "BoxShadow": {
+   "dart": "BoxShadow",
+   "doc": "A shadow cast by a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "ColorFilter": {
+   "dart": "ColorFilter",
+   "doc": "A description of a color filter to apply when drawing a shape or compositing\na layer with a particular [Paint]. A color filter is a function that takes\ntwo colors, and outputs one color. When applied during compositing, it is\nindependently applied to each pixel of the layer being drawn before the\nentire layer is merged with the destination.",
+   "variants": [
+    {"tag":"mode","fields":{"color":{"type":{"k":"data","n":"Color"},"required":true},"blendMode":{"type":{"k":"enum","n":"BlendMode"},"required":true}}},
+    {"tag":"matrix","fields":{"matrix":{"type":{"k":"list","e":{"k":"double"}},"required":true}}},
+    {"tag":"linearToSrgbGamma","fields":{}},
+    {"tag":"srgbToLinearGamma","fields":{}},
+    {"tag":"saturation","fields":{"saturation":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "DecorationImage": {
+   "dart": "DecorationImage",
+   "doc": "An image for a box decoration.",
+   "variants": [
+    {"tag":null,"fields":{"image":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"placeholder":{"type":{"k":"data","n":"ImageProviderOfObject"},"nullable":true},"colorFilter":{"type":{"k":"data","n":"ColorFilter"},"nullable":true},"fit":{"type":{"k":"enum","n":"BoxFit"},"nullable":true},"alignment":{"type":{"k":"data","n":"AlignmentGeometry"}},"centerSlice":{"type":{"k":"data","n":"Rect"},"nullable":true},"repeat":{"type":{"k":"enum","n":"ImageRepeat"}},"matchTextDirection":{"type":{"k":"bool"}},"scale":{"type":{"k":"double"}},"opacity":{"type":{"k":"double"}},"filterQuality":{"type":{"k":"enum","n":"FilterQuality"}},"invertColors":{"type":{"k":"bool"}},"isAntiAlias":{"type":{"k":"bool"}}},"omitted":{"onError":"nested:callback/void(unencodable args)"}}
+   ]
+  },
+  "Gradient": {
+   "dart": "Gradient",
+   "doc": "A 2D gradient.",
+   "variants": [
+    {"tag":"LinearGradient","fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"}},"end":{"type":{"k":"data","n":"AlignmentGeometry"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"RadialGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"radius":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"focal":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"focalRadius":{"type":{"k":"double"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"SweepGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"startAngle":{"type":{"k":"double"}},"endAngle":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ImageProviderOfObject": {
+   "dart": "ImageProvider<Object>",
+   "doc": "Identifies an image without committing to the precise final asset. This\nallows a set of images to be identified and for the precise image to later\nbe resolved based on the environment, e.g. the device pixel ratio.",
+   "variants": [
+    {"tag":"ResizeImage","fields":{"imageProvider":{"type":{"k":"data","n":"ImageProviderOfObject"},"required":true},"width":{"type":{"k":"int"},"nullable":true},"height":{"type":{"k":"int"},"nullable":true},"policy":{"type":{"k":"enum","n":"ResizeImagePolicy"}},"allowUpscaling":{"type":{"k":"bool"}},"useLogicalSize":{"type":{"k":"bool"}}}},
+    {"tag":"NetworkImage","fields":{"url":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"webHtmlElementStrategy":{"type":{"k":"enum","n":"WebHtmlElementStrategy"}}}},
+    {"tag":"ExactAssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"scale":{"type":{"k":"double"}},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"AssetImage","fields":{"assetName":{"type":{"k":"string"},"required":true},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "PhotoViewControllerBaseOfPhotoViewControllerValue": {
+   "dart": "PhotoViewControllerBase<PhotoViewControllerValue>",
+   "doc": "The interface in which controllers will be implemented.",
+   "variants": [
+    {"tag":"PhotoViewController","fields":{"initialPosition":{"type":{"k":"data","n":"Offset"}},"initialRotation":{"type":{"k":"double"}},"initialScale":{"type":{"k":"double"},"nullable":true}}}
+   ]
+  },
+  "PhotoViewGalleryPageOptions": {
+   "dart": "PhotoViewGalleryPageOptions",
+   "doc": "A helper class that wraps individual options of a page in [PhotoViewGallery]",
+   "variants": [
+    {"tag":null,"fields":{"imageProvider":{"type":{"k":"data","n":"ImageProviderOfObject"},"nullable":true},"heroAttributes":{"type":{"k":"data","n":"PhotoViewHeroAttributes"},"nullable":true},"semanticLabel":{"type":{"k":"string"},"nullable":true},"minScale":{"type":{"k":"unknown"}},"maxScale":{"type":{"k":"unknown"}},"initialScale":{"type":{"k":"unknown"}},"basePosition":{"type":{"k":"data","n":"Alignment"},"nullable":true},"gestureDetectorBehavior":{"type":{"k":"enum","n":"HitTestBehavior"},"nullable":true},"tightMode":{"type":{"k":"bool"},"nullable":true},"filterQuality":{"type":{"k":"enum","n":"FilterQuality"},"nullable":true},"disableGestures":{"type":{"k":"bool"},"nullable":true}},"omitted":{"key":"key/key","controller":"nested:handle/controller","scaleStateController":"nested:handle/controller","scaleStateCycle":"nested:callback/sync-return","onTapUp":"nested:callback/sync-return","onTapDown":"nested:callback/sync-return","onScaleEnd":"nested:callback/sync-return","errorBuilder":"nested:builder/unencodable args"}},
+    {"tag":"customChild","fields":{"semanticLabel":{"type":{"k":"string"},"nullable":true},"childSize":{"type":{"k":"data","n":"Size"},"nullable":true},"heroAttributes":{"type":{"k":"data","n":"PhotoViewHeroAttributes"},"nullable":true},"minScale":{"type":{"k":"unknown"}},"maxScale":{"type":{"k":"unknown"}},"initialScale":{"type":{"k":"unknown"}},"basePosition":{"type":{"k":"data","n":"Alignment"},"nullable":true},"gestureDetectorBehavior":{"type":{"k":"enum","n":"HitTestBehavior"},"nullable":true},"tightMode":{"type":{"k":"bool"},"nullable":true},"filterQuality":{"type":{"k":"enum","n":"FilterQuality"},"nullable":true},"disableGestures":{"type":{"k":"bool"},"nullable":true}},"omitted":{"child":"nested:widget/slot","controller":"nested:handle/controller","scaleStateController":"nested:handle/controller","scaleStateCycle":"nested:callback/sync-return","onTapUp":"nested:callback/sync-return","onTapDown":"nested:callback/sync-return","onScaleEnd":"nested:callback/sync-return"}}
+   ]
+  },
+  "PhotoViewHeroAttributes": {
+   "dart": "PhotoViewHeroAttributes",
+   "doc": "Data class that holds the attributes that are going to be passed to\n[PhotoViewImageWrapper]'s [Hero].",
+   "variants": [
+    {"tag":null,"fields":{"tag":{"type":{"k":"unknown"}},"transitionOnUserGestures":{"type":{"k":"bool"}}},"omitted":{"createRectTween":"nested:callback/sync-return","flightShuttleBuilder":"nested:builder/unencodable args","placeholderBuilder":"nested:builder/unencodable args"}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "ScrollPhysics": {
+   "dart": "ScrollPhysics",
+   "doc": "Determines the physics of a [Scrollable] widget.",
+   "variants": [
+    {"tag":null,"fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"alwaysScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"bouncing","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true},"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}}}},
+    {"tag":"clamping","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"neverScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"rangeMaintaining","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"CarouselScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"FixedExtentScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"PageScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"RangeMaintainingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"BouncingScrollPhysics","fields":{"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}},"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"ClampingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"AlwaysScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"NeverScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:photo_view/photo_view.dart","package:photo_view/photo_view_gallery.dart"]
+}

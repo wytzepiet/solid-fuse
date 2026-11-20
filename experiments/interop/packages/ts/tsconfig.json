@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "types": [],
+    "paths": {
+      "solid-fuse": ["/home/claude/wt/e2e/packages/solid-fuse/src/index.ts"],
+      "solid-fuse/*": ["/home/claude/wt/e2e/packages/solid-fuse/src/*"],
+      "~/_generated/*": ["./generated/*"],
+      "~/modules/*": ["../host/ts/generated/*"],
+      "~/*": ["/home/claude/wt/e2e/packages/solid-fuse/src/*"],
+      "solid-js": ["/home/claude/wt/e2e/packages/solid-fuse/node_modules/solid-js"],
+      "solid-js/*": ["/home/claude/wt/e2e/packages/solid-fuse/node_modules/solid-js/*"],
+      "@solidjs/universal": ["/home/claude/wt/e2e/packages/solid-fuse/node_modules/@solidjs/universal"]
+    }
+  },
+  "include": ["generated/*.ts", "examples/**/*", "wrappers/**/*", "../host/ts/generated/*.ts", "../host/ts/fuse-objects.ts", "/home/claude/wt/e2e/packages/solid-fuse/src/global.d.ts", "/home/claude/wt/e2e/packages/solid-fuse/src/jsx.d.ts"]
+}

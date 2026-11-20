@@ -1,0 +1,35 @@
+{
+  "name": "dropdown_button2",
+  "libs": [
+    "package:dropdown_button2/dropdown_button2.dart"
+  ],
+  "surface": {
+    "total": 0,
+    "bridged": 0,
+    "byKind": {}
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "ButtonStyleData": "record (by the data rules)",
+    "DropdownButton2": "widget (widget generator)",
+    "DropdownButtonFormField2": "widget (widget generator)",
+    "DropdownItem": "widget (widget generator)",
+    "DropdownSearchData": "record (by the data rules)",
+    "DropdownSeparator": "widget (widget generator)",
+    "DropdownStyleData": "record (by the data rules)",
+    "FormFieldButtonStyleData": "record (by the data rules)",
+    "IconStyleData": "record (by the data rules)",
+    "MenuItemStyleData": "record (by the data rules)",
+    "DropdownBuilder": "typedef",
+    "DropdownButton2Builder": "typedef",
+    "DropdownDirection": "enum (by the data rules)",
+    "OnMenuStateChangeFn": "typedef",
+    "SearchMatchFn": "typedef",
+    "SelectedMenuItemBuilder": "typedef"
+  },
+  "dartLines": 34,
+  "tsLines": 9,
+  "warnings": []
+}

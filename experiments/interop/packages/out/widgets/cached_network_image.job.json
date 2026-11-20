@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"cached_network_image","version":"4.0.7","libs":[["package:cached_network_image/cached_network_image.dart","cached_network_image_cached_network_image"]],"include":null}]}

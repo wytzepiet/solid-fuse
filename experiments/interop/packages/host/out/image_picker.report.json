@@ -1,0 +1,70 @@
+{
+  "name": "image_picker",
+  "libs": [
+    "package:image_picker/image_picker.dart"
+  ],
+  "surface": {
+    "total": 9,
+    "bridged": 9,
+    "byKind": {
+      "constructor": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 8,
+        "total": 8
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [
+    {
+      "class": "ImagePicker",
+      "tag": "image_picker_ImagePicker",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "pickImage",
+        "pickMedia",
+        "pickMultiImage",
+        "pickMultiVideo",
+        "pickMultipleMedia",
+        "pickVideo",
+        "retrieveLostData",
+        "supportsImageSource"
+      ],
+      "methodsTotal": 8,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 73,
+      "tsLines": 59
+    }
+  ],
+  "notCallable": {
+    "LostData": "record (by the data rules)",
+    "LostDataResponse": "record (by the data rules)",
+    "PickedFile": "record (by the data rules)",
+    "XFile": "record (by the data rules)",
+    "CameraDevice": "enum (by the data rules)",
+    "ImageSource": "enum (by the data rules)",
+    "RetrieveType": "enum (by the data rules)",
+    "kTypeImage": "constant",
+    "kTypeVideo": "constant"
+  },
+  "dartLines": 172,
+  "tsLines": 110,
+  "warnings": []
+}

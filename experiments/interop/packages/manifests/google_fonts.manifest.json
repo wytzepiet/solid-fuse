@@ -1,0 +1,12 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "google_fonts",
+ "version": "9.0.0",
+ "register": "registerGoogleFontsWidgets",
+ "widgets": {},
+ "enums": {},
+ "types": {},
+ "payloads": {},
+ "libraries": ["package:google_fonts/google_fonts.dart"]
+}

@@ -1,0 +1,17 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_rating_bar",
+ "version": "4.0.1",
+ "register": "registerFlutterRatingBarWidgets",
+ "widgets": {},
+ "skipped": {
+  "RatingBar": "required param `ratingWidget` (RatingWidget) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "RatingBarBuilder": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "RatingBarIndicator": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args"
+ },
+ "enums": {},
+ "types": {},
+ "payloads": {},
+ "libraries": ["package:flutter_rating_bar/flutter_rating_bar.dart"]
+}

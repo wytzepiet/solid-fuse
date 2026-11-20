@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"animated_text_kit","version":"4.3.0","libs":[["package:animated_text_kit/animated_text_kit.dart","animated_text_kit_animated_text_kit"]],"include":null}]}

@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"pin_code_fields","version":"10.1.2","libs":[["package:pin_code_fields/pin_code_fields.dart","pin_code_fields_pin_code_fields"]],"include":null}]}

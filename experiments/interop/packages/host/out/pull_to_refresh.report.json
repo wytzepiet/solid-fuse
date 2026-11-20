@@ -1,0 +1,576 @@
+{
+  "name": "pull_to_refresh",
+  "libs": [
+    "package:pull_to_refresh/pull_to_refresh.dart"
+  ],
+  "surface": {
+    "total": 101,
+    "bridged": 70,
+    "byKind": {
+      "static method": {
+        "bridged": 0,
+        "total": 1
+      },
+      "method": {
+        "bridged": 43,
+        "total": 46
+      },
+      "getter": {
+        "bridged": 17,
+        "total": 35
+      },
+      "setter": {
+        "bridged": 6,
+        "total": 15
+      },
+      "constructor": {
+        "bridged": 4,
+        "total": 4
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "RefreshLocalizations.of",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "LoadIndicatorState#buildContent()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "getter",
+      "name": "LoadIndicatorState#activity",
+      "ok": false,
+      "why": "returns ScrollActivity?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "LoadIndicatorState#configuration",
+      "ok": false,
+      "why": "RefreshConfiguration? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "LoadIndicatorState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "LoadIndicatorState#refresher",
+      "ok": false,
+      "why": "SmartRefresher? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "LoadIndicatorState#refresherState",
+      "ok": false,
+      "why": "SmartRefresherState? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "LoadIndicatorState#widget",
+      "ok": false,
+      "why": "LoadIndicator (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "LoadIndicatorState#configuration=",
+      "ok": false,
+      "why": "unbridgeable widget/subtype"
+    },
+    {
+      "kind": "setter",
+      "name": "LoadIndicatorState#refresher=",
+      "ok": false,
+      "why": "unbridgeable widget/subtype"
+    },
+    {
+      "kind": "setter",
+      "name": "LoadIndicatorState#refresherState=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+      "kind": "method",
+      "name": "RefreshController#onPositionUpdated()",
+      "ok": false,
+      "why": "newPosition: object type ScrollPosition is not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshController#position",
+      "ok": false,
+      "why": "returns ScrollPosition?, not a generated object"
+    },
+    {
+      "kind": "setter",
+      "name": "RefreshController#footerMode=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "setter",
+      "name": "RefreshController#headerMode=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "setter",
+      "name": "RefreshController#position=",
+      "ok": false,
+      "why": "object"
+    },
+    {
+      "kind": "method",
+      "name": "RefreshIndicatorState#buildContent()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshIndicatorState#activity",
+      "ok": false,
+      "why": "returns ScrollActivity?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshIndicatorState#configuration",
+      "ok": false,
+      "why": "RefreshConfiguration? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshIndicatorState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshIndicatorState#refresher",
+      "ok": false,
+      "why": "SmartRefresher? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshIndicatorState#refresherState",
+      "ok": false,
+      "why": "SmartRefresherState? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshIndicatorState#widget",
+      "ok": false,
+      "why": "RefreshIndicator (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "RefreshIndicatorState#configuration=",
+      "ok": false,
+      "why": "unbridgeable widget/subtype"
+    },
+    {
+      "kind": "setter",
+      "name": "RefreshIndicatorState#refresher=",
+      "ok": false,
+      "why": "unbridgeable widget/subtype"
+    },
+    {
+      "kind": "setter",
+      "name": "RefreshIndicatorState#refresherState=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/framework-object"
+    },
+    {
+      "kind": "getter",
+      "name": "RefreshLocalizationsDelegate#type",
+      "ok": false,
+      "why": "Type (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "SmartRefresherState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "SmartRefresherState#defaultFooter",
+      "ok": false,
+      "why": "LoadIndicator (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "SmartRefresherState#defaultHeader",
+      "ok": false,
+      "why": "RefreshIndicator (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "SmartRefresherState#widget",
+      "ok": false,
+      "why": "SmartRefresher (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "LoadIndicatorState",
+      "tag": "pull_to_refresh_LoadIndicatorState",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "disposeListener",
+        "endLoading",
+        "enterLoading",
+        "finishLoading",
+        "onModeChange",
+        "onOffsetChange",
+        "readyToLoad",
+        "resetValue",
+        "update"
+      ],
+      "methodsTotal": 10,
+      "streams": [],
+      "readable": [
+        "floating",
+        "mode",
+        "mounted"
+      ],
+      "gettersTotal": 9,
+      "objectGetters": [],
+      "setters": [
+        "floating",
+        "mode"
+      ],
+      "settersTotal": 5,
+      "mirrored": [],
+      "dropped": {
+        "buildContent()": "context: env-context",
+        "activity": "returns ScrollActivity?, not a generated object",
+        "configuration": "RefreshConfiguration? (not encodable)",
+        "context": "BuildContext (not encodable)",
+        "refresher": "SmartRefresher? (not encodable)",
+        "refresherState": "SmartRefresherState? (not encodable)",
+        "widget": "LoadIndicator (not encodable)",
+        "configuration=": "unbridgeable widget/subtype",
+        "refresher=": "unbridgeable widget/subtype",
+        "refresherState=": "unbridgeable unbridgeable/framework-object"
+      },
+      "dartLines": 90,
+      "tsLines": 52
+    },
+    {
+      "class": "LoadingProcessor",
+      "tag": "pull_to_refresh_LoadingProcessor",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "endLoading",
+        "onModeChange",
+        "onOffsetChange",
+        "readyToLoad",
+        "resetValue"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 57,
+      "tsLines": 32
+    },
+    {
+      "class": "RefreshController",
+      "tag": "pull_to_refresh_RefreshController",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 3,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "loadComplete",
+        "loadFailed",
+        "loadNoData",
+        "refreshCompleted",
+        "refreshFailed",
+        "refreshToIdle",
+        "requestLoading",
+        "requestRefresh",
+        "requestTwoLevel",
+        "resetNoData",
+        "twoLevelComplete"
+      ],
+      "methodsTotal": 12,
+      "streams": [],
+      "readable": [
+        "footerStatus",
+        "headerStatus",
+        "initialRefresh",
+        "isLoading",
+        "isRefresh",
+        "isTwoLevel"
+      ],
+      "gettersTotal": 9,
+      "objectGetters": [
+        "footerMode",
+        "headerMode"
+      ],
+      "setters": [],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "onPositionUpdated()": "newPosition: object type ScrollPosition is not a generated object",
+        "position": "returns ScrollPosition?, not a generated object",
+        "footerMode=": "object",
+        "headerMode=": "object",
+        "position=": "object"
+      },
+      "dartLines": 107,
+      "tsLines": 95
+    },
+    {
+      "class": "RefreshIndicatorState",
+      "tag": "pull_to_refresh_RefreshIndicatorState",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "disposeListener",
+        "endRefresh",
+        "needReverseAll",
+        "onModeChange",
+        "onOffsetChange",
+        "readyToRefresh",
+        "resetValue",
+        "update"
+      ],
+      "methodsTotal": 9,
+      "streams": [],
+      "readable": [
+        "floating",
+        "mode",
+        "mounted"
+      ],
+      "gettersTotal": 9,
+      "objectGetters": [],
+      "setters": [
+        "floating",
+        "mode"
+      ],
+      "settersTotal": 5,
+      "mirrored": [],
+      "dropped": {
+        "buildContent()": "context: env-context",
+        "activity": "returns ScrollActivity?, not a generated object",
+        "configuration": "RefreshConfiguration? (not encodable)",
+        "context": "BuildContext (not encodable)",
+        "refresher": "SmartRefresher? (not encodable)",
+        "refresherState": "SmartRefresherState? (not encodable)",
+        "widget": "RefreshIndicator (not encodable)",
+        "configuration=": "unbridgeable widget/subtype",
+        "refresher=": "unbridgeable widget/subtype",
+        "refresherState=": "unbridgeable unbridgeable/framework-object"
+      },
+      "dartLines": 88,
+      "tsLines": 55
+    },
+    {
+      "class": "RefreshLocalizationsDelegate",
+      "tag": "pull_to_refresh_RefreshLocalizationsDelegate",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "isSupported",
+        "load",
+        "shouldReload"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "type": "Type (not encodable)"
+      },
+      "dartLines": 59,
+      "tsLines": 28
+    },
+    {
+      "class": "RefreshNotifier",
+      "tag": "pull_to_refresh_RefreshNotifier",
+      "push": "valueListenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "setValueWithNoNotify"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "value"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [
+        "value"
+      ],
+      "settersTotal": 1,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {},
+      "dartLines": 73,
+      "tsLines": 45
+    },
+    {
+      "class": "RefreshProcessor",
+      "tag": "pull_to_refresh_RefreshProcessor",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "endRefresh",
+        "onModeChange",
+        "onOffsetChange",
+        "readyToRefresh",
+        "resetValue"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 57,
+      "tsLines": 34
+    },
+    {
+      "class": "SmartRefresherState",
+      "tag": "pull_to_refresh_SmartRefresherState",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "setCanDrag"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "mounted",
+        "viewportExtent"
+      ],
+      "gettersTotal": 6,
+      "objectGetters": [],
+      "setters": [
+        "viewportExtent"
+      ],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "context": "BuildContext (not encodable)",
+        "defaultFooter": "LoadIndicator (not encodable)",
+        "defaultHeader": "RefreshIndicator (not encodable)",
+        "widget": "SmartRefresher (not encodable)"
+      },
+      "dartLines": 70,
+      "tsLines": 38
+    }
+  ],
+  "notCallable": {
+    "BezierCircleHeader": "widget (widget generator)",
+    "BezierHeader": "widget (widget generator)",
+    "ChRefreshString": "record (by the data rules)",
+    "ClassicFooter": "widget (widget generator)",
+    "ClassicHeader": "widget (widget generator)",
+    "CustomFooter": "widget (widget generator)",
+    "CustomHeader": "widget (widget generator)",
+    "DeRefreshString": "record (by the data rules)",
+    "EnRefreshString": "record (by the data rules)",
+    "EsRefreshString": "record (by the data rules)",
+    "FrRefreshString": "record (by the data rules)",
+    "ItRefreshString": "record (by the data rules)",
+    "JpRefreshString": "record (by the data rules)",
+    "KrRefreshString": "record (by the data rules)",
+    "LinkFooter": "widget (widget generator)",
+    "LinkHeader": "widget (widget generator)",
+    "LoadIndicator": "widget (widget generator)",
+    "MaterialClassicHeader": "widget (widget generator)",
+    "NlRefreshString": "record (by the data rules)",
+    "PtRefreshString": "record (by the data rules)",
+    "RefreshConfiguration": "widget (widget generator)",
+    "RefreshIndicator": "widget (widget generator)",
+    "RefreshLocalizations": "record (by the data rules)",
+    "RefreshPhysics": "record (by the data rules)",
+    "RefreshString": "record (by the data rules)",
+    "RuRefreshString": "record (by the data rules)",
+    "SmartRefresher": "widget (widget generator)",
+    "SvRefreshString": "record (by the data rules)",
+    "TwoLevelHeader": "widget (widget generator)",
+    "UkRefreshString": "record (by the data rules)",
+    "WaterDropHeader": "widget (widget generator)",
+    "WaterDropMaterialHeader": "widget (widget generator)",
+    "BezierCircleType": "enum (by the data rules)",
+    "BezierDismissType": "enum (by the data rules)",
+    "FooterBuilder": "typedef",
+    "HeaderBuilder": "typedef",
+    "IconPosition": "enum (by the data rules)",
+    "IndicatorBuilder": "typedef",
+    "IndicatorStateMixin": "mixin",
+    "LoadStatus": "enum (by the data rules)",
+    "LoadStyle": "enum (by the data rules)",
+    "ModeChangeCallBack": "typedef",
+    "OffsetCallBack": "typedef",
+    "OnTwoLevel": "typedef",
+    "OuterBuilder": "typedef",
+    "RefreshStatus": "enum (by the data rules)",
+    "RefreshStyle": "enum (by the data rules)",
+    "RefresherBuilder": "typedef",
+    "ShouldFollowContent": "typedef",
+    "TwoLevelDisplayAlignment": "enum (by the data rules)",
+    "VoidFutureCallBack": "typedef"
+  },
+  "dartLines": 832,
+  "tsLines": 471,
+  "warnings": []
+}

@@ -1,0 +1,685 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "pin_code_fields",
+ "version": "10.1.2",
+ "register": "registerPinCodeFieldsWidgets",
+ "widgets": {
+  "CursorBlink": {
+   "tag": "pin_code_fields.CursorBlink",
+   "dart": "CursorBlink",
+   "library": "package:pin_code_fields/src/material/animations/cursor_blink.dart",
+   "doc": "A widget that displays a blinking cursor.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"The color of the cursor (used when [child] is null)."},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"The width of the cursor (used when [child] is null)."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"The height of the cursor (used when [child] is null)."},
+    "animate": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to animate the cursor."},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Duration of one blink cycle."}
+   }
+  },
+  "ErrorShake": {
+   "tag": "pin_code_fields.ErrorShake",
+   "dart": "ErrorShake",
+   "library": "package:pin_code_fields/src/material/animations/error_shake.dart",
+   "doc": "A widget that shakes its child when triggered.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Duration of the shake animation."},
+    "enabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether shake animation is enabled."}
+   },
+   "omitted": {
+    "trigger": "unbridgeable/future/stream"
+   }
+  },
+  "MaterialCellContent": {
+   "tag": "pin_code_fields.MaterialCellContent",
+   "dart": "MaterialCellContent",
+   "library": "package:pin_code_fields/src/material/cells/material_cell_content.dart",
+   "doc": "Widget that renders the content inside a PIN cell.",
+   "props": {
+    "data": {"type":{"k":"data","n":"PinCellData"},"dart":"PinCellData","required":true,"doc":"The cell data containing state information."},
+    "theme": {"type":{"k":"data","n":"MaterialPinThemeData"},"dart":"MaterialPinThemeData","required":true,"doc":"The resolved Material theme."},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to obscure the text."},
+    "obscuringWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show when obscuring text."},
+    "hintCharacter": {"type":{"k":"string"},"dart":"String?","doc":"Hint character to show in empty cells."},
+    "hintWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show in empty cells."},
+    "hintStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style for hint character."}
+   },
+   "notes": ["theme: data type MaterialPinThemeData has dropped optional ctor params"]
+  },
+  "MaterialPinCell": {
+   "tag": "pin_code_fields.MaterialPinCell",
+   "dart": "MaterialPinCell",
+   "library": "package:pin_code_fields/src/material/cells/material_pin_cell.dart",
+   "doc": "A Material Design PIN cell widget.",
+   "props": {
+    "data": {"type":{"k":"data","n":"PinCellData"},"dart":"PinCellData","required":true,"doc":"The cell data containing state information."},
+    "theme": {"type":{"k":"data","n":"MaterialPinThemeData"},"dart":"MaterialPinThemeData","required":true,"doc":"The resolved Material theme."},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to obscure the text."},
+    "obscuringWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show when obscuring text."},
+    "hintCharacter": {"type":{"k":"string"},"dart":"String?","doc":"Hint character to show in empty cells."},
+    "hintWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show in empty cells."},
+    "hintStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style for hint character."}
+   },
+   "notes": ["theme: data type MaterialPinThemeData has dropped optional ctor params"]
+  },
+  "MaterialPinField": {
+   "tag": "pin_code_fields.MaterialPinField",
+   "dart": "MaterialPinField",
+   "library": "package:pin_code_fields/src/material/material_pin_field.dart",
+   "doc": "A ready-to-use Material Design PIN field.",
+   "props": {
+    "length": {"type":{"k":"int"},"dart":"int","required":true,"doc":"Number of PIN cells."},
+    "theme": {"type":{"k":"data","n":"MaterialPinTheme"},"dart":"MaterialPinTheme?","doc":"Theme configuration for the PIN field."},
+    "pinController": {"type":{"k":"handle","n":"PinInputController"},"dart":"PinInputController?","doc":"Controller for the PIN input."},
+    "initialValue": {"type":{"k":"string"},"dart":"String?","doc":"Initial value for the PIN input."},
+    "keyboardType": {"type":{"k":"data","n":"TextInputType"},"dart":"TextInputType","default":"Dart `TextInputType.number`","doc":"The type of keyboard to display."},
+    "textInputAction": {"type":{"k":"enum","n":"TextInputAction"},"dart":"TextInputAction","default":"\"done\"","doc":"The action button to display on the keyboard."},
+    "inputFormatters": {"type":{"k":"list","e":{"k":"data","n":"TextInputFormatter"}},"dart":"List<TextInputFormatter>?","doc":"Additional input formatters to apply."},
+    "textCapitalization": {"type":{"k":"enum","n":"TextCapitalization"},"dart":"TextCapitalization","default":"\"none\"","doc":"How to capitalize text input."},
+    "autofillHints": {"type":{"k":"list","e":{"k":"string"}},"dart":"Iterable<String>?","doc":"Autofill hints for the text field."},
+    "autocorrect": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to enable autocorrection on the underlying text input."},
+    "enableAutofill": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to enable autofill functionality."},
+    "autofillContextAction": {"type":{"k":"enum","n":"AutofillContextAction"},"dart":"AutofillContextAction","default":"\"commit\"","doc":"The action to take when the autofill context is disposed."},
+    "enabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether the field is enabled."},
+    "autoFocus": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to auto-focus on mount."},
+    "readOnly": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether the field is read-only."},
+    "autoDismissKeyboard": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to dismiss the keyboard when PIN is complete."},
+    "clearErrorOnInput": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to automatically clear error state when user types."},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to obscure the entered text."},
+    "obscuringWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show when obscuring text."},
+    "blinkWhenObscuring": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to briefly show the character before obscuring."},
+    "blinkDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Duration to show the character before obscuring."},
+    "enableHapticFeedback": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to trigger haptic feedback on input."},
+    "hapticFeedbackType": {"type":{"k":"enum","n":"HapticFeedbackType"},"dart":"HapticFeedbackType","default":"\"light\"","doc":"Type of haptic feedback to trigger."},
+    "enablePaste": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to enable paste functionality."},
+    "onClipboardFound": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the clipboard contains valid PIN-like content on focus."},
+    "onChanged": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the text changes."},
+    "onCompleted": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the PIN is complete."},
+    "onSubmitted": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the user submits."},
+    "onEditingComplete": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when editing is complete."},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when the widget is tapped."},
+    "onLongPress": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when the widget is long pressed."},
+    "onTapOutside": {"type":{"k":"callback","args":[{"name":"event","type":{"k":"payload","n":"PointerDownEvent"}}]},"dart":"void Function(PointerDownEvent)?","doc":"Called when user taps outside the field."},
+    "hintCharacter": {"type":{"k":"string"},"dart":"String?","doc":"Hint character to show in empty cells."},
+    "hintWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show in empty cells."},
+    "hintStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style for hint character."},
+    "mainAxisAlignment": {"type":{"k":"enum","n":"MainAxisAlignment"},"dart":"MainAxisAlignment","default":"\"center\"","doc":"How the cells should be aligned horizontally."},
+    "crossAxisAlignment": {"type":{"k":"enum","n":"CrossAxisAlignment"},"dart":"CrossAxisAlignment","default":"\"center\"","doc":"How the cells should be aligned vertically."},
+    "mainAxisSize": {"type":{"k":"enum","n":"MainAxisSize"},"dart":"MainAxisSize","default":"\"min\"","doc":"How much horizontal space the row of cells should occupy."},
+    "mouseCursor": {"type":{"k":"data","n":"MouseCursor"},"dart":"MouseCursor?","doc":"The mouse cursor to show when hovering over the widget."},
+    "keyboardAppearance": {"type":{"k":"enum","n":"Brightness"},"dart":"Brightness?","doc":"The brightness of the keyboard."},
+    "scrollPadding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.all(20)`","doc":"Padding when scrolling the field into view."},
+    "errorText": {"type":{"k":"string"},"dart":"String?","doc":"Error text to display below the PIN field."},
+    "errorTextStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Text style for the default error text display."},
+    "semanticLabel": {"type":{"k":"string"},"dart":"String?","doc":"Semantic label for accessibility."}
+   },
+   "omitted": {
+    "clipboardValidator": "callback/sync-return",
+    "separatorBuilder": "builder/encodable args",
+    "errorBuilder": "builder/encodable args",
+    "semanticHintBuilder": "callback/sync-return"
+   },
+   "notes": ["theme: data type MaterialPinTheme has dropped optional ctor params"]
+  },
+  "MaterialPinFormField": {
+   "tag": "pin_code_fields.MaterialPinFormField",
+   "dart": "MaterialPinFormField",
+   "library": "package:pin_code_fields/src/material/form/material_pin_form_field.dart",
+   "doc": "A Material Design PIN field with [Form] integration.",
+   "props": {
+    "length": {"type":{"k":"int"},"dart":"int","required":true,"doc":"Number of PIN cells."},
+    "theme": {"type":{"k":"data","n":"MaterialPinTheme"},"dart":"MaterialPinTheme?","doc":"Theme configuration for the PIN field."},
+    "pinController": {"type":{"k":"handle","n":"PinInputController"},"dart":"PinInputController?","doc":"Controller for the PIN input."},
+    "initialValue": {"type":{"k":"string"},"dart":"String?","doc":"An optional value to initialize the form field to, or null otherwise."},
+    "keyboardType": {"type":{"k":"data","n":"TextInputType"},"dart":"TextInputType","default":"Dart `TextInputType.number`","doc":"The type of keyboard to display."},
+    "textInputAction": {"type":{"k":"enum","n":"TextInputAction"},"dart":"TextInputAction","default":"\"done\"","doc":"The action button to display on the keyboard."},
+    "inputFormatters": {"type":{"k":"list","e":{"k":"data","n":"TextInputFormatter"}},"dart":"List<TextInputFormatter>?","doc":"Additional input formatters to apply."},
+    "textCapitalization": {"type":{"k":"enum","n":"TextCapitalization"},"dart":"TextCapitalization","default":"\"none\"","doc":"How to capitalize text input."},
+    "autofillHints": {"type":{"k":"list","e":{"k":"string"}},"dart":"Iterable<String>?","doc":"Autofill hints for the text field."},
+    "autocorrect": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to enable autocorrection on the underlying text input."},
+    "enableAutofill": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to enable autofill functionality."},
+    "autofillContextAction": {"type":{"k":"enum","n":"AutofillContextAction"},"dart":"AutofillContextAction","default":"\"commit\"","doc":"The action to take when the autofill context is disposed."},
+    "enabled": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether the form is able to receive user input."},
+    "autoFocus": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to auto-focus on mount."},
+    "readOnly": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether the field is read-only."},
+    "autoDismissKeyboard": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to dismiss the keyboard when PIN is complete."},
+    "clearErrorOnInput": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to automatically clear error state when user types."},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to obscure the entered text."},
+    "obscuringWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show when obscuring text."},
+    "blinkWhenObscuring": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to briefly show the character before obscuring."},
+    "blinkDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Duration to show the character before obscuring."},
+    "enableHapticFeedback": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to trigger haptic feedback on input."},
+    "hapticFeedbackType": {"type":{"k":"enum","n":"HapticFeedbackType"},"dart":"HapticFeedbackType","default":"\"light\"","doc":"Type of haptic feedback to trigger."},
+    "enablePaste": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether to enable paste functionality."},
+    "onClipboardFound": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the clipboard contains valid PIN-like content on focus."},
+    "onChanged": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the text changes."},
+    "onCompleted": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the PIN is complete."},
+    "onSubmitted": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"Called when the user submits."},
+    "onEditingComplete": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when editing is complete."},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when the widget is tapped."},
+    "onLongPress": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when the widget is long pressed."},
+    "onTapOutside": {"type":{"k":"callback","args":[{"name":"event","type":{"k":"payload","n":"PointerDownEvent"}}]},"dart":"void Function(PointerDownEvent)?","doc":"Called when user taps outside the field."},
+    "hintCharacter": {"type":{"k":"string"},"dart":"String?","doc":"Hint character to show in empty cells."},
+    "hintWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show in empty cells."},
+    "hintStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style for hint character."},
+    "mainAxisAlignment": {"type":{"k":"enum","n":"MainAxisAlignment"},"dart":"MainAxisAlignment","default":"\"center\"","doc":"How the cells should be aligned horizontally."},
+    "crossAxisAlignment": {"type":{"k":"enum","n":"CrossAxisAlignment"},"dart":"CrossAxisAlignment","default":"\"center\"","doc":"How the cells should be aligned vertically."},
+    "mainAxisSize": {"type":{"k":"enum","n":"MainAxisSize"},"dart":"MainAxisSize","default":"\"min\"","doc":"How much horizontal space the row of cells should occupy."},
+    "mouseCursor": {"type":{"k":"data","n":"MouseCursor"},"dart":"MouseCursor?","doc":"The mouse cursor to show when hovering over the widget."},
+    "keyboardAppearance": {"type":{"k":"enum","n":"Brightness"},"dart":"Brightness?","doc":"The brightness of the keyboard."},
+    "scrollPadding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.all(20)`","doc":"Padding when scrolling the field into view."},
+    "semanticLabel": {"type":{"k":"string"},"dart":"String?","doc":"Semantic label for accessibility."},
+    "onSaved": {"type":{"k":"callback","args":[{"name":"newValue","type":{"k":"string"},"nullable":true}]},"dart":"void Function(String?)?","doc":"An optional method to call with the final value when the form is saved via\n[FormState.save]."},
+    "autovalidateMode": {"type":{"k":"enum","n":"AutovalidateMode"},"dart":"AutovalidateMode?","default":"\"disabled\"","doc":"Used to enable/disable this form field auto validation and update its\nerror text."},
+    "restorationId": {"type":{"k":"string"},"dart":"String?","doc":"Restoration ID to save and restore the state of the form field."},
+    "formErrorStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style for form validation error text displayed below the field."},
+    "formErrorSpace": {"type":{"k":"double"},"dart":"double","default":"8","doc":"Space between PIN field and form validation error text."}
+   },
+   "omitted": {
+    "clipboardValidator": "callback/sync-return",
+    "separatorBuilder": "builder/encodable args",
+    "validator": "callback/sync-return"
+   },
+   "notes": ["theme: data type MaterialPinTheme has dropped optional ctor params"]
+  },
+  "MaterialPinRow": {
+   "tag": "pin_code_fields.MaterialPinRow",
+   "dart": "MaterialPinRow",
+   "library": "package:pin_code_fields/src/material/layout/material_pin_row.dart",
+   "doc": "Row layout for Material PIN cells.",
+   "props": {
+    "cells": {"type":{"k":"list","e":{"k":"data","n":"PinCellData"}},"dart":"List<PinCellData>","required":true,"doc":"List of cell data for each PIN position."},
+    "theme": {"type":{"k":"data","n":"MaterialPinThemeData"},"dart":"MaterialPinThemeData","required":true,"doc":"The resolved Material theme."},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to obscure the text."},
+    "obscuringWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show when obscuring text."},
+    "hintCharacter": {"type":{"k":"string"},"dart":"String?","doc":"Hint character to show in empty cells."},
+    "hintWidget": {"type":{"k":"widget"},"dart":"Widget?","doc":"Custom widget to show in empty cells."},
+    "hintStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"Style for hint character."},
+    "mainAxisAlignment": {"type":{"k":"enum","n":"MainAxisAlignment"},"dart":"MainAxisAlignment","default":"\"center\"","doc":"How the cells should be aligned horizontally."},
+    "crossAxisAlignment": {"type":{"k":"enum","n":"CrossAxisAlignment"},"dart":"CrossAxisAlignment","default":"\"center\"","doc":"How the cells should be aligned vertically."},
+    "mainAxisSize": {"type":{"k":"enum","n":"MainAxisSize"},"dart":"MainAxisSize","default":"\"min\"","doc":"How much horizontal space the row should occupy."}
+   },
+   "omitted": {
+    "separatorBuilder": "builder/encodable args"
+   },
+   "notes": ["theme: data type MaterialPinThemeData has dropped optional ctor params"]
+  },
+  "PinInputScope": {
+   "tag": "pin_code_fields.PinInputScope",
+   "dart": "PinInputScope",
+   "library": "package:pin_code_fields/src/core/pin_input_scope.dart",
+   "doc": "InheritedWidget providing PIN state to descendant cells.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "cells": {"type":{"k":"list","e":{"k":"data","n":"PinCellData"}},"dart":"List<PinCellData>","required":true,"doc":"List of cell data for each PIN position."},
+    "obscureText": {"type":{"k":"bool"},"dart":"bool","required":true,"doc":"Whether text should be obscured."},
+    "obscuringCharacter": {"type":{"k":"string"},"dart":"String","required":true,"doc":"Character used to obscure text."},
+    "hasFocus": {"type":{"k":"bool"},"dart":"bool","required":true,"doc":"Whether the PIN field has focus."},
+    "requestFocus": {"type":{"k":"callback","args":[]},"dart":"void Function()","doc":"Callback to request focus on the PIN field."}
+   }
+  }
+ },
+ "skipped": {
+  "PinInput": "required param `builder` (Widget Function(BuildContext, List<PinCellData>)) is not bridgeable: builder/encodable args",
+  "PinInputFormField": "required param `pinBuilder` (Widget Function(BuildContext, List<PinCellData>)) is not bridgeable: builder/encodable args"
+ },
+ "enums": {
+  "AutofillContextAction": {
+   "values": ["commit","cancel"],
+   "doc": "Predefined autofill context clean up actions."
+  },
+  "AutovalidateMode": {
+   "values": ["disabled","always","onUserInteraction","onUnfocus","onUserInteractionIfError"],
+   "doc": "Used to configure the auto validation of [FormField] and [Form] widgets."
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "Brightness": {
+   "values": ["dark","light"],
+   "doc": "Describes the contrast of a theme or color palette."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "CrossAxisAlignment": {
+   "values": ["start","end","center","stretch","baseline"],
+   "doc": "How the children should be placed along the cross axis in a flex layout."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "HapticFeedbackType": {
+   "values": ["light","medium","heavy","selection","vibrate"],
+   "doc": "Types of haptic feedback that can be triggered."
+  },
+  "MainAxisAlignment": {
+   "values": ["start","end","center","spaceBetween","spaceAround","spaceEvenly"],
+   "doc": "How the children should be placed along the main axis in a flex layout."
+  },
+  "MainAxisSize": {
+   "values": ["min","max"],
+   "doc": "How much space should be occupied in the main axis."
+  },
+  "MaterialPinAnimation": {
+   "values": ["scale","fade","slide","none","custom"],
+   "doc": "Animation types for PIN cell entry."
+  },
+  "MaterialPinShape": {
+   "values": ["outlined","filled","underlined","circle"],
+   "doc": "Shape variants for Material PIN cells."
+  },
+  "MaxLengthEnforcement": {
+   "values": ["none","enforced","truncateAfterCompositionEnds"],
+   "doc": "Mechanisms for enforcing maximum length limits."
+  },
+  "PointerDeviceKind": {
+   "values": ["touch","mouse","stylus","invertedStylus","trackpad","unknown"],
+   "doc": "The kind of pointer device."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextCapitalization": {
+   "values": ["words","sentences","characters","none"],
+   "doc": "Configures how the platform keyboard will select an uppercase or\nlowercase keyboard."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextInputAction": {
+   "values": ["none","unspecified","done","go","search","send","next","previous","continueAction","join","route","emergencyCall","newline"],
+   "doc": "An action the user has requested the text input control to perform."
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "BoxShadow": {
+   "dart": "BoxShadow",
+   "doc": "A shadow cast by a box.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "Gradient": {
+   "dart": "Gradient",
+   "doc": "A 2D gradient.",
+   "variants": [
+    {"tag":"LinearGradient","fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"}},"end":{"type":{"k":"data","n":"AlignmentGeometry"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"RadialGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"radius":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"focal":{"type":{"k":"data","n":"AlignmentGeometry"},"nullable":true},"focalRadius":{"type":{"k":"double"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}},
+    {"tag":"SweepGradient","fields":{"center":{"type":{"k":"data","n":"AlignmentGeometry"}},"startAngle":{"type":{"k":"double"}},"endAngle":{"type":{"k":"double"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "MaterialPinTheme": {
+   "dart": "MaterialPinTheme",
+   "doc": "Theme configuration for Material Design PIN fields.",
+   "variants": [
+    {"tag":null,"fields":{"shape":{"type":{"k":"enum","n":"MaterialPinShape"}},"cellSize":{"type":{"k":"data","n":"Size"}},"spacing":{"type":{"k":"double"}},"borderRadius":{"type":{"k":"data","n":"BorderRadius"}},"borderWidth":{"type":{"k":"double"}},"focusedBorderWidth":{"type":{"k":"double"}},"fillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"focusedFillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"filledFillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"borderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"focusedBorderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"filledBorderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"followingFillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"followingBorderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"completeFillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"completeBorderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"completeTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"errorColor":{"type":{"k":"data","n":"Color"},"nullable":true},"errorFillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"errorBorderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"errorBorderWidth":{"type":{"k":"double"},"nullable":true},"errorTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"errorBoxShadows":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"disabledColor":{"type":{"k":"data","n":"Color"},"nullable":true},"disabledFillColor":{"type":{"k":"data","n":"Color"},"nullable":true},"disabledBorderColor":{"type":{"k":"data","n":"Color"},"nullable":true},"disabledTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"textGradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"obscuringCharacter":{"type":{"k":"string"}},"hintCharacter":{"type":{"k":"string"},"nullable":true},"hintStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"cursorColor":{"type":{"k":"data","n":"Color"},"nullable":true},"cursorWidth":{"type":{"k":"double"}},"cursorHeight":{"type":{"k":"double"},"nullable":true},"showCursor":{"type":{"k":"bool"}},"animateCursor":{"type":{"k":"bool"}},"cursorBlinkDuration":{"type":{"k":"data","n":"Duration"}},"cursorAlignment":{"type":{"k":"data","n":"Alignment"},"nullable":true},"elevation":{"type":{"k":"double"}},"focusedElevation":{"type":{"k":"double"}},"boxShadows":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"focusedBoxShadows":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"entryAnimation":{"type":{"k":"enum","n":"MaterialPinAnimation"}},"animationDuration":{"type":{"k":"data","n":"Duration"}},"animationCurve":{"type":{"k":"data","n":"Curve"}},"errorAnimationDuration":{"type":{"k":"data","n":"Duration"}},"enableErrorShake":{"type":{"k":"bool"}}},"omitted":{"cursorWidget":"nested:widget/slot","customEntryAnimationBuilder":"nested:builder/unencodable args"}}
+   ]
+  },
+  "MaterialPinThemeData": {
+   "dart": "MaterialPinThemeData",
+   "doc": "Resolved theme data with all colors filled in.",
+   "variants": [
+    {"tag":null,"fields":{"shape":{"type":{"k":"enum","n":"MaterialPinShape"},"required":true},"cellSize":{"type":{"k":"data","n":"Size"},"required":true},"spacing":{"type":{"k":"double"},"required":true},"borderRadius":{"type":{"k":"data","n":"BorderRadius"},"required":true},"borderWidth":{"type":{"k":"double"},"required":true},"focusedBorderWidth":{"type":{"k":"double"},"required":true},"fillColor":{"type":{"k":"data","n":"Color"},"required":true},"focusedFillColor":{"type":{"k":"data","n":"Color"},"required":true},"filledFillColor":{"type":{"k":"data","n":"Color"},"required":true},"borderColor":{"type":{"k":"data","n":"Color"},"required":true},"focusedBorderColor":{"type":{"k":"data","n":"Color"},"required":true},"filledBorderColor":{"type":{"k":"data","n":"Color"},"required":true},"followingFillColor":{"type":{"k":"data","n":"Color"},"required":true},"followingBorderColor":{"type":{"k":"data","n":"Color"},"required":true},"completeFillColor":{"type":{"k":"data","n":"Color"},"required":true},"completeBorderColor":{"type":{"k":"data","n":"Color"},"required":true},"completeTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"errorColor":{"type":{"k":"data","n":"Color"},"required":true},"errorFillColor":{"type":{"k":"data","n":"Color"},"required":true},"errorBorderColor":{"type":{"k":"data","n":"Color"},"required":true},"errorBorderWidth":{"type":{"k":"double"},"required":true},"errorTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"errorBoxShadows":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"disabledColor":{"type":{"k":"data","n":"Color"},"required":true},"disabledFillColor":{"type":{"k":"data","n":"Color"},"required":true},"disabledBorderColor":{"type":{"k":"data","n":"Color"},"required":true},"disabledTextStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"textGradient":{"type":{"k":"data","n":"Gradient"},"nullable":true},"obscuringCharacter":{"type":{"k":"string"},"required":true},"hintCharacter":{"type":{"k":"string"},"nullable":true},"hintStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"cursorColor":{"type":{"k":"data","n":"Color"},"required":true},"cursorWidth":{"type":{"k":"double"},"required":true},"cursorHeight":{"type":{"k":"double"},"nullable":true},"showCursor":{"type":{"k":"bool"},"required":true},"animateCursor":{"type":{"k":"bool"},"required":true},"cursorBlinkDuration":{"type":{"k":"data","n":"Duration"},"required":true},"cursorAlignment":{"type":{"k":"data","n":"Alignment"},"required":true},"elevation":{"type":{"k":"double"},"required":true},"focusedElevation":{"type":{"k":"double"},"required":true},"boxShadows":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"focusedBoxShadows":{"type":{"k":"list","e":{"k":"data","n":"BoxShadow"}}},"entryAnimation":{"type":{"k":"enum","n":"MaterialPinAnimation"},"required":true},"animationDuration":{"type":{"k":"data","n":"Duration"},"required":true},"animationCurve":{"type":{"k":"data","n":"Curve"},"required":true},"errorAnimationDuration":{"type":{"k":"data","n":"Duration"},"required":true},"enableErrorShake":{"type":{"k":"bool"},"required":true}},"omitted":{"cursorWidget":"nested:widget/slot","customEntryAnimationBuilder":"nested:builder/unencodable args"}}
+   ]
+  },
+  "MouseCursor": {
+   "dart": "MouseCursor",
+   "doc": "An interface for mouse cursor definitions.",
+   "consts": ["defer","uncontrolled","SystemMouseCursors.none","SystemMouseCursors.basic","SystemMouseCursors.click","SystemMouseCursors.forbidden","SystemMouseCursors.wait","SystemMouseCursors.progress","SystemMouseCursors.contextMenu","SystemMouseCursors.help","SystemMouseCursors.text","SystemMouseCursors.verticalText","SystemMouseCursors.cell","SystemMouseCursors.precise","SystemMouseCursors.move","SystemMouseCursors.grab","SystemMouseCursors.grabbing","SystemMouseCursors.noDrop","SystemMouseCursors.alias","SystemMouseCursors.copy","SystemMouseCursors.disappearing","SystemMouseCursors.allScroll","SystemMouseCursors.resizeLeftRight","SystemMouseCursors.resizeUpDown","SystemMouseCursors.resizeUpLeftDownRight","SystemMouseCursors.resizeUpRightDownLeft","SystemMouseCursors.resizeUp","SystemMouseCursors.resizeDown","SystemMouseCursors.resizeLeft","SystemMouseCursors.resizeRight","SystemMouseCursors.resizeUpLeft","SystemMouseCursors.resizeUpRight","SystemMouseCursors.resizeDownLeft","SystemMouseCursors.resizeDownRight","SystemMouseCursors.resizeColumn","SystemMouseCursors.resizeRow","SystemMouseCursors.zoomIn","SystemMouseCursors.zoomOut","WidgetStateMouseCursor.clickable","WidgetStateMouseCursor.adaptiveClickable","WidgetStateMouseCursor.textable"]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Pattern": {
+   "dart": "Pattern",
+   "doc": "An interface for basic searches within strings.",
+   "consts": ["AutofillHints.addressCity","AutofillHints.addressCityAndState","AutofillHints.addressState","AutofillHints.birthday","AutofillHints.birthdayDay","AutofillHints.birthdayMonth","AutofillHints.birthdayYear","AutofillHints.countryCode","AutofillHints.countryName","AutofillHints.creditCardExpirationDate","AutofillHints.creditCardExpirationDay","AutofillHints.creditCardExpirationMonth","AutofillHints.creditCardExpirationYear","AutofillHints.creditCardFamilyName","AutofillHints.creditCardGivenName","AutofillHints.creditCardMiddleName","AutofillHints.creditCardName","AutofillHints.creditCardNumber","AutofillHints.creditCardSecurityCode","AutofillHints.creditCardType","AutofillHints.email","AutofillHints.familyName","AutofillHints.fullStreetAddress","AutofillHints.gender","AutofillHints.givenName","AutofillHints.impp","AutofillHints.jobTitle","AutofillHints.language","AutofillHints.location","AutofillHints.middleInitial","AutofillHints.middleName","AutofillHints.name","AutofillHints.namePrefix","AutofillHints.nameSuffix","AutofillHints.newPassword","AutofillHints.newUsername","AutofillHints.nickname","AutofillHints.oneTimeCode","AutofillHints.emailOTPCode","AutofillHints.organizationName","AutofillHints.password","AutofillHints.photo","AutofillHints.postalAddress","AutofillHints.postalAddressExtended","AutofillHints.postalAddressExtendedPostalCode","AutofillHints.postalCode","AutofillHints.streetAddressLevel1","AutofillHints.streetAddressLevel2","AutofillHints.streetAddressLevel3","AutofillHints.streetAddressLevel4","AutofillHints.streetAddressLine1","AutofillHints.streetAddressLine2","AutofillHints.streetAddressLine3","AutofillHints.sublocality","AutofillHints.telephoneNumber","AutofillHints.telephoneNumberAreaCode","AutofillHints.telephoneNumberCountryCode","AutofillHints.telephoneNumberDevice","AutofillHints.telephoneNumberExtension","AutofillHints.telephoneNumberLocal","AutofillHints.telephoneNumberLocalPrefix","AutofillHints.telephoneNumberLocalSuffix","AutofillHints.telephoneNumberNational","AutofillHints.transactionAmount","AutofillHints.transactionCurrency","AutofillHints.url","AutofillHints.username","CupertinoIcons.iconFont","CupertinoIcons.iconFontPackage","Clipboard.kTextPlain","Unicode.LRE","Unicode.RLE","Unicode.PDF","Unicode.LRO","Unicode.RLO","Unicode.LRI","Unicode.RLI","Unicode.FSI","Unicode.PDI","Unicode.LRM","Unicode.RLM","Unicode.ALM"],
+   "variants": [
+    {"tag":"String.fromCharCodes","fields":{"charCodes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"start":{"type":{"k":"int"}},"end":{"type":{"k":"int"},"nullable":true}}},
+    {"tag":"String.fromCharCode","fields":{"charCode":{"type":{"k":"int"},"required":true}}},
+    {"tag":"String.fromEnvironment","fields":{"name":{"type":{"k":"string"},"required":true},"defaultValue":{"type":{"k":"string"}}}}
+   ]
+  },
+  "PinCellData": {
+   "dart": "PinCellData",
+   "doc": "Immutable data describing a single PIN cell's state.",
+   "variants": [
+    {"tag":null,"fields":{"index":{"type":{"k":"int"},"required":true},"character":{"type":{"k":"string"},"nullable":true},"isFocused":{"type":{"k":"bool"}},"isFilled":{"type":{"k":"bool"}},"isError":{"type":{"k":"bool"}},"isDisabled":{"type":{"k":"bool"}},"isFollowing":{"type":{"k":"bool"}},"isComplete":{"type":{"k":"bool"}},"wasJustEntered":{"type":{"k":"bool"}},"wasJustRemoved":{"type":{"k":"bool"}},"isBlinking":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextInputFormatter": {
+   "dart": "TextInputFormatter",
+   "doc": "A [TextInputFormatter] can be optionally injected into an [EditableText]\nto provide as-you-type validation and formatting of the text being edited.",
+   "variants": [
+    {"tag":"FilteringTextInputFormatter","fields":{"filterPattern":{"type":{"k":"data","n":"Pattern"},"required":true},"allow":{"type":{"k":"bool"},"required":true},"replacementString":{"type":{"k":"string"}}}},
+    {"tag":"FilteringTextInputFormatter.allow","fields":{"filterPattern":{"type":{"k":"data","n":"Pattern"},"required":true},"replacementString":{"type":{"k":"string"}}}},
+    {"tag":"FilteringTextInputFormatter.deny","fields":{"filterPattern":{"type":{"k":"data","n":"Pattern"},"required":true},"replacementString":{"type":{"k":"string"}}}},
+    {"tag":"LengthLimitingTextInputFormatter","fields":{"maxLength":{"type":{"k":"int"},"nullable":true},"maxLengthEnforcement":{"type":{"k":"enum","n":"MaxLengthEnforcement"},"nullable":true}}}
+   ]
+  },
+  "TextInputType": {
+   "dart": "TextInputType",
+   "doc": "The type of information for which to optimize the text input control.",
+   "consts": ["text","multiline","number","phone","datetime","emailAddress","url","visiblePassword","name","streetAddress","none","webSearch","twitter"],
+   "variants": [
+    {"tag":"numberWithOptions","fields":{"signed":{"type":{"k":"bool"},"nullable":true},"decimal":{"type":{"k":"bool"},"nullable":true},"password":{"type":{"k":"bool"},"nullable":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {
+  "Offset": {
+   "dart": "Offset",
+   "fields": {
+    "dx": {"k":"double"},
+    "dy": {"k":"double"}
+   }
+  },
+  "PointerDownEvent": {
+   "dart": "PointerDownEvent",
+   "fields": {
+    "viewId": {"k":"int"},
+    "timeStamp": {"k":"num"},
+    "pointer": {"k":"int"},
+    "kind": {"k":"enum","n":"PointerDeviceKind"},
+    "device": {"k":"int"},
+    "position": {"k":"payload","n":"Offset"},
+    "buttons": {"k":"int"},
+    "obscured": {"k":"bool"},
+    "pressure": {"k":"double"},
+    "pressureMin": {"k":"double"},
+    "pressureMax": {"k":"double"},
+    "distanceMax": {"k":"double"},
+    "size": {"k":"double"},
+    "radiusMajor": {"k":"double"},
+    "radiusMinor": {"k":"double"},
+    "radiusMin": {"k":"double"},
+    "radiusMax": {"k":"double"},
+    "orientation": {"k":"double"},
+    "tilt": {"k":"double"},
+    "embedderId": {"k":"int"}
+   }
+  }
+ },
+ "libraries": ["package:pin_code_fields/pin_code_fields.dart"]
+}

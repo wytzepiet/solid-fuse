@@ -1,0 +1,527 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "animated_text_kit",
+ "version": "4.3.0",
+ "register": "registerAnimatedTextKitWidgets",
+ "widgets": {
+  "AnimatedTextKit": {
+   "tag": "animated_text_kit.AnimatedTextKit",
+   "dart": "AnimatedTextKit",
+   "library": "package:animated_text_kit/src/animated_text.dart",
+   "doc": "Base class for Animated Text widgets.",
+   "props": {
+    "animatedTexts": {"type":{"k":"list","e":{"k":"data","n":"AnimatedText"}},"dart":"List<AnimatedText>","required":true,"doc":"List of [AnimatedText] to display subsequently in the animation."},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1000)`","doc":"Define the [Duration] of the pause between texts"},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "controller": {"type":{"k":"handle","n":"AnimatedTextController"},"dart":"AnimatedTextController?","doc":"A controller for managing the state of an animated text sequence."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "BounceAnimatedTextKit": {
+   "tag": "animated_text_kit.BounceAnimatedTextKit",
+   "dart": "BounceAnimatedTextKit",
+   "library": "package:animated_text_kit/src/bounce.dart",
+   "doc": "Animation that displays [text] elements with a bouncing effect, one at a time.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "bounceHeight": {"type":{"k":"double"},"dart":"double","default":"50"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1500)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1000)`","doc":"Define the [Duration] of the pause between texts"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.elasticOut`"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "ColorizeAnimatedTextKit": {
+   "tag": "animated_text_kit.ColorizeAnimatedTextKit",
+   "dart": "ColorizeAnimatedTextKit",
+   "library": "package:animated_text_kit/src/colorize.dart",
+   "doc": "Animation that displays [text] elements, shimmering transition between [colors].",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection","default":"\"ltr\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle","required":true},
+    "colors": {"type":{"k":"list","e":{"k":"data","n":"Color"}},"dart":"List<Color>","required":true},
+    "speed": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 200)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1000)`","doc":"Define the [Duration] of the pause between texts"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "FadeAnimatedTextKit": {
+   "tag": "animated_text_kit.FadeAnimatedTextKit",
+   "dart": "FadeAnimatedTextKit",
+   "library": "package:animated_text_kit/src/fade.dart",
+   "doc": "Animation that displays [text] elements, fading them in and then out.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2000)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Define the [Duration] of the pause between texts"},
+    "fadeInEnd": {"type":{"k":"double"},"dart":"double","default":"0.5"},
+    "fadeOutBegin": {"type":{"k":"double"},"dart":"double","default":"0.8"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "FlickerAnimatedTextKit": {
+   "tag": "animated_text_kit.FlickerAnimatedTextKit",
+   "dart": "FlickerAnimatedTextKit",
+   "library": "package:animated_text_kit/src/flicker.dart",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection","default":"\"ltr\""},
+    "speed": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1600)`"},
+    "entryEnd": {"type":{"k":"double"},"dart":"double","default":"0.5"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "RotateAnimatedTextKit": {
+   "tag": "animated_text_kit.RotateAnimatedTextKit",
+   "dart": "RotateAnimatedTextKit",
+   "library": "package:animated_text_kit/src/rotate.dart",
+   "doc": "Animation that displays [text] elements, rotating them in one at a time.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "transitionHeight": {"type":{"k":"double"},"dart":"double?"},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry","default":"Dart `Alignment.center`"},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection","default":"\"ltr\""},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2000)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Define the [Duration] of the pause between texts"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "ScaleAnimatedTextKit": {
+   "tag": "animated_text_kit.ScaleAnimatedTextKit",
+   "dart": "ScaleAnimatedTextKit",
+   "library": "package:animated_text_kit/src/scale.dart",
+   "doc": "Animation that displays [text] elements, scaling them up and then out, one at a time.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "scalingFactor": {"type":{"k":"double"},"dart":"double","default":"0.5"},
+    "duration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 2000)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 500)`","doc":"Define the [Duration] of the pause between texts"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "ScrambledChar": {
+   "tag": "animated_text_kit.ScrambledChar",
+   "dart": "ScrambledChar",
+   "library": "package:animated_text_kit/src/scramble.dart",
+   "props": {
+    "char": {"type":{"k":"string"},"dart":"String","required":true},
+    "style": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "scrambleDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","required":true}
+   }
+  },
+  "TextLiquidFill": {
+   "tag": "animated_text_kit.TextLiquidFill",
+   "dart": "TextLiquidFill",
+   "library": "package:animated_text_kit/src/text_liquid_fill.dart",
+   "doc": "Animation that displays a [text] element, coloring it to look like sloshing\nwater is filling it up.",
+   "props": {
+    "text": {"type":{"k":"string"},"dart":"String","required":true,"doc":"String which would be filled by liquid animation"},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle","default":"Dart `const TextStyle(fontSize: 140, fontWeight: FontWeight.bold)`","doc":"Gives [TextStyle] to the text string."},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"left\"","doc":"Gives [TextAlign] to the text string."},
+    "loadDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(seconds: 6)`","doc":"Specifies the duration the text should fill with liquid."},
+    "waveDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(seconds: 2)`","doc":"Specifies the duration that one wave takes to pass the screen."},
+    "boxHeight": {"type":{"k":"double"},"dart":"double","default":"250","doc":"Specifies the height of the box around text"},
+    "boxWidth": {"type":{"k":"double"},"dart":"double","default":"400","doc":"Specifies the width of the box around text"},
+    "boxBackgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.black`","doc":"Specifies the backgroundColor of the box"},
+    "waveColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.blueAccent`","doc":"Specifies the color of the wave"},
+    "loadUntil": {"type":{"k":"double"},"dart":"double","default":"1","doc":"Specifies the load limit: (0, 1.0].  This may be used to limit the liquid\nfill effect to less than 100%."}
+   }
+  },
+  "TyperAnimatedTextKit": {
+   "tag": "animated_text_kit.TyperAnimatedTextKit",
+   "dart": "TyperAnimatedTextKit",
+   "library": "package:animated_text_kit/src/typer.dart",
+   "doc": "Animation that displays [text] elements, as if they are being typed one\ncharacter at a time.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "speed": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 40)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1000)`","doc":"Define the [Duration] of the pause between texts"},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "TypewriterAnimatedTextKit": {
+   "tag": "animated_text_kit.TypewriterAnimatedTextKit",
+   "dart": "TypewriterAnimatedTextKit",
+   "library": "package:animated_text_kit/src/typewriter.dart",
+   "doc": "Animation that displays [text] elements, as if they are being typed one\ncharacter at a time. Similar to [TyperAnimatedTextKit], but shows a cursor.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle","required":true},
+    "speed": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 30)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1000)`","doc":"Define the [Duration] of the pause between texts"},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  },
+  "WavyAnimatedTextKit": {
+   "tag": "animated_text_kit.WavyAnimatedTextKit",
+   "dart": "WavyAnimatedTextKit",
+   "library": "package:animated_text_kit/src/wavy.dart",
+   "doc": "Animation that displays [text] elements, with each text animated with its\ncharacters popping like a stadium wave.",
+   "props": {
+    "text": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign","default":"\"start\""},
+    "textStyle": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?"},
+    "speed": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 300)`"},
+    "pause": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 1000)`","doc":"Define the [Duration] of the pause between texts"},
+    "onTap": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onTap [VoidCallback] to the animated widget."},
+    "onNext": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNext callback to the animated widget."},
+    "onNextBeforePause": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"int"}},{"name":"arg1","type":{"k":"bool"}}]},"dart":"void Function(int, bool)?","doc":"Adds the onNextBeforePause callback to the animated widget."},
+    "onFinished": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Adds the onFinished [VoidCallback] to the animated widget."},
+    "isRepeatingAnimation": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Set if the animation should not repeat by changing the value of it to false."},
+    "totalRepeatCount": {"type":{"k":"int"},"dart":"int","default":"3","doc":"Sets the number of times animation should repeat"},
+    "repeatForever": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Sets if the animation should repeat forever. [isRepeatingAnimation] also\nneeds to be set to true if you want to repeat forever."},
+    "displayFullTextOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Should the animation ends up early and display full text if you tap on it?"},
+    "stopPauseOnTap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If on pause, should a tap remove the remaining pause time ?"}
+   },
+   "notes": ["onNext: 2 callback args cross as one array payload","onNextBeforePause: 2 callback args cross as one array payload"]
+  }
+ },
+ "enums": {
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "TextAlign": {
+   "values": ["left","right","center","justify","start","end"],
+   "doc": "Whether and how to align text horizontally."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AnimatedText": {
+   "dart": "AnimatedText",
+   "doc": "Abstract base class for text animations.",
+   "variants": [
+    {"tag":"TyperAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"speed":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"RotateAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"duration":{"type":{"k":"data","n":"Duration"}},"transitionHeight":{"type":{"k":"double"},"nullable":true},"alignment":{"type":{"k":"data","n":"AlignmentGeometry"}},"textDirection":{"type":{"k":"enum","n":"TextDirection"}},"rotateOut":{"type":{"k":"bool"}}}},
+    {"tag":"TypewriterAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"speed":{"type":{"k":"data","n":"Duration"}},"curve":{"type":{"k":"data","n":"Curve"}},"cursor":{"type":{"k":"string"}}}},
+    {"tag":"FadeAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"duration":{"type":{"k":"data","n":"Duration"}},"fadeInEnd":{"type":{"k":"double"}},"fadeOutBegin":{"type":{"k":"double"}}}},
+    {"tag":"ColorizeAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"required":true},"speed":{"type":{"k":"data","n":"Duration"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"textDirection":{"type":{"k":"enum","n":"TextDirection"}}}},
+    {"tag":"ScaleAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"duration":{"type":{"k":"data","n":"Duration"}},"scalingFactor":{"type":{"k":"double"}}}},
+    {"tag":"WavyAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"speed":{"type":{"k":"data","n":"Duration"}}}},
+    {"tag":"FlickerAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"speed":{"type":{"k":"data","n":"Duration"}},"entryEnd":{"type":{"k":"double"}}}},
+    {"tag":"BounceAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"duration":{"type":{"k":"data","n":"Duration"}},"bounceHeight":{"type":{"k":"double"}},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"ScrambleAnimatedText","fields":{"text":{"type":{"k":"string"},"required":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"}},"textStyle":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"speed":{"type":{"k":"data","n":"Duration"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:animated_text_kit/animated_text_kit.dart"]
+}

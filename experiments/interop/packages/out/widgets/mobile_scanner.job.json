@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"mobile_scanner","version":"7.5.0","libs":[["package:mobile_scanner/mobile_scanner.dart","mobile_scanner_mobile_scanner"]],"include":null}]}

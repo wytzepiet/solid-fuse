@@ -1,0 +1,51 @@
+{
+  "name": "cached_network_image",
+  "libs": [
+    "package:cached_network_image/cached_network_image.dart"
+  ],
+  "surface": {
+    "total": 2,
+    "bridged": 0,
+    "byKind": {
+      "static getter": {
+        "bridged": 0,
+        "total": 1
+      },
+      "top-level variable": {
+        "bridged": 0,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static getter",
+      "name": "CachedNetworkImageProvider.defaultCacheManager",
+      "ok": false,
+      "why": "returns BaseCacheManager, not a generated object"
+    },
+    {
+      "kind": "top-level variable",
+      "name": "timeDilation",
+      "ok": false,
+      "why": "top-level variables are not bridged"
+    }
+  ],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "CachedNetworkImage": "widget (widget generator)",
+    "CachedNetworkImageProvider": "record (by the data rules)",
+    "DownloadProgress": "record (by the data rules)",
+    "MultiImageStreamCompleter": "record (by the data rules)",
+    "CacheManagerLogLevel": "enum (by the data rules)",
+    "ImageWidgetBuilder": "typedef",
+    "LoadingErrorWidgetBuilder": "typedef",
+    "PlaceholderWidgetBuilder": "typedef",
+    "ProgressIndicatorBuilder": "typedef",
+    "timeDilation": "top-level variable"
+  },
+  "dartLines": 35,
+  "tsLines": 9,
+  "warnings": []
+}

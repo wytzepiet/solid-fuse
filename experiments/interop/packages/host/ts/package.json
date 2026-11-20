@@ -1,0 +1,9 @@
+{
+  "name": "fuse-objects-spike-ts",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "solid-js": "2.0.0-beta.14",
+    "@solidjs/universal": "2.0.0-beta.14"
+  }
+}

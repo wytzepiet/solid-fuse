@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"modal_bottom_sheet","version":"3.0.0","libs":[["package:modal_bottom_sheet/modal_bottom_sheet.dart","modal_bottom_sheet_modal_bottom_sheet"]],"include":null}]}

@@ -1,0 +1,67 @@
+{
+  "name": "pinput",
+  "libs": [
+    "package:pinput/pinput.dart"
+  ],
+  "surface": {
+    "total": 2,
+    "bridged": 2,
+    "byKind": {
+      "method": {
+        "bridged": 1,
+        "total": 1
+      },
+      "getter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [
+    {
+      "class": "SmsRetriever",
+      "tag": "pinput_SmsRetriever",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getSmsCode"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "listenForMultipleSms"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 52,
+      "tsLines": 32
+    }
+  ],
+  "notCallable": {
+    "PinItemState": "record (by the data rules)",
+    "PinTheme": "record (by the data rules)",
+    "Pinput": "widget (widget generator)",
+    "PinputConstants": "no members",
+    "AndroidSmsAutofillMethod": "enum (by the data rules)",
+    "HapticFeedbackType": "enum (by the data rules)",
+    "JustIndexedWidgetBuilder": "typedef",
+    "PinAnimationType": "enum (by the data rules)",
+    "PinItemStateType": "enum (by the data rules)",
+    "PinItemWidgetBuilder": "typedef",
+    "PinputAutovalidateMode": "enum (by the data rules)",
+    "PinputControllerExt": "extension",
+    "PinputErrorBuilder": "typedef"
+  },
+  "dartLines": 89,
+  "tsLines": 42,
+  "warnings": []
+}

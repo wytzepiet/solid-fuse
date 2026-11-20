@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"infinite_scroll_pagination","version":"5.1.1","libs":[["package:infinite_scroll_pagination/infinite_scroll_pagination.dart","infinite_scroll_pagination_infinite_scroll_pagination"]],"include":null}]}

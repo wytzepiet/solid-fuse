@@ -1,0 +1,126 @@
+{
+  "name": "firebase_messaging",
+  "libs": [
+    "package:firebase_messaging/firebase_messaging.dart"
+  ],
+  "surface": {
+    "total": 22,
+    "bridged": 18,
+    "byKind": {
+      "static method": {
+        "bridged": 0,
+        "total": 1
+      },
+      "static getter": {
+        "bridged": 3,
+        "total": 3
+      },
+      "method": {
+        "bridged": 12,
+        "total": 12
+      },
+      "stream": {
+        "bridged": 2,
+        "total": 2
+      },
+      "getter": {
+        "bridged": 1,
+        "total": 3
+      },
+      "setter": {
+        "bridged": 0,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "FirebaseMessaging.onBackgroundMessage",
+      "ok": false,
+      "why": "handler: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "getter",
+      "name": "FirebaseMessaging#app",
+      "ok": false,
+      "why": "FirebaseApp (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "FirebaseMessaging#pluginConstants",
+      "ok": false,
+      "why": "Map<dynamic, dynamic> (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "FirebaseMessaging#app=",
+      "ok": false,
+      "why": "unbridgeable unbridgeable/private/unexported-type"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "FirebaseMessaging",
+      "tag": "firebase_messaging_FirebaseMessaging",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getAPNSToken",
+        "getInitialMessage",
+        "getNotificationSettings",
+        "isSupported",
+        "register",
+        "requestPermission",
+        "setAutoInitEnabled",
+        "setDeliveryMetricsExportToBigQuery",
+        "setForegroundNotificationPresentationOptions",
+        "subscribeToTopic",
+        "unregister",
+        "unsubscribeFromTopic"
+      ],
+      "methodsTotal": 12,
+      "streams": [
+        "onRegistered",
+        "onUnregistered"
+      ],
+      "readable": [
+        "isAutoInitEnabled"
+      ],
+      "gettersTotal": 5,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "app": "FirebaseApp (not encodable)",
+        "pluginConstants": "Map<dynamic, dynamic> (not encodable)",
+        "app=": "unbridgeable unbridgeable/private/unexported-type"
+      },
+      "dartLines": 97,
+      "tsLines": 75
+    }
+  ],
+  "notCallable": {
+    "AndroidNotification": "record (by the data rules)",
+    "AppleNotification": "record (by the data rules)",
+    "AppleNotificationSound": "record (by the data rules)",
+    "NotificationSettings": "record (by the data rules)",
+    "RemoteMessage": "record (by the data rules)",
+    "RemoteNotification": "record (by the data rules)",
+    "WebNotification": "record (by the data rules)",
+    "AndroidNotificationPriority": "enum (by the data rules)",
+    "AndroidNotificationVisibility": "enum (by the data rules)",
+    "AppleNotificationSetting": "enum (by the data rules)",
+    "AppleShowPreviewSetting": "enum (by the data rules)",
+    "AuthorizationStatus": "enum (by the data rules)",
+    "BackgroundMessageHandler": "typedef"
+  },
+  "dartLines": 243,
+  "tsLines": 198,
+  "warnings": []
+}

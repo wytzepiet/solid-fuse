@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"google_maps_flutter","version":"2.19.0","libs":[["package:google_maps_flutter/google_maps_flutter.dart","google_maps_flutter_google_maps_flutter"]],"include":null}]}

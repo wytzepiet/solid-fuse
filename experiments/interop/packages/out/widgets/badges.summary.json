@@ -1,0 +1,1 @@
+{"generator":"0.1.0","loadMs":24212,"units":{"badges":{"widgetsRequested":2,"widgetsEmitted":2,"paramsTotal":13,"paramsEmitted":10,"dartBytes":41093,"dartLines":670,"dartAdapterLines":44,"dartCodecLines":610,"decoders":18,"encoders":0,"enums":6,"skipped":{},"warnings":["BadgeStyle.badgeColor: default not reproducible, param dropped"],"ms":403}},"totalMs":24622}

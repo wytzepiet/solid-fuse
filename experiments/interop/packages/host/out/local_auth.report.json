@@ -1,0 +1,68 @@
+{
+  "name": "local_auth",
+  "libs": [
+    "package:local_auth/local_auth.dart"
+  ],
+  "surface": {
+    "total": 6,
+    "bridged": 6,
+    "byKind": {
+      "constructor": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 4,
+        "total": 4
+      },
+      "getter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [
+    {
+      "class": "LocalAuthentication",
+      "tag": "local_auth_LocalAuthentication",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "authenticate",
+        "getAvailableBiometrics",
+        "isDeviceSupported",
+        "stopAuthentication"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "canCheckBiometrics"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "authenticate(authMessages)": "unbridgeable (unbridgeable/private/unexported-type[iterable])"
+      },
+      "dartLines": 66,
+      "tsLines": 61
+    }
+  ],
+  "notCallable": {
+    "LocalAuthException": "record (by the data rules)",
+    "BiometricType": "enum (by the data rules)",
+    "LocalAuthExceptionCode": "enum (by the data rules)"
+  },
+  "dartLines": 104,
+  "tsLines": 80,
+  "warnings": []
+}

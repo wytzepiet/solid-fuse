@@ -1,0 +1,123 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "carousel_slider",
+ "version": "5.1.2",
+ "register": "registerCarouselSliderWidgets",
+ "widgets": {
+  "CarouselSlider": {
+   "tag": "carousel_slider.CarouselSlider",
+   "dart": "CarouselSlider",
+   "library": "package:carousel_slider/carousel_slider.dart",
+   "props": {
+    "items": {"type":{"k":"widgets"},"dart":"List<Widget>?","nullable":true,"doc":"The widgets to be shown in the carousel of default constructor"},
+    "options": {"type":{"k":"data","n":"CarouselOptions"},"dart":"CarouselOptions","required":true,"doc":"[CarouselOptions] to create a [CarouselState] with"},
+    "disableGesture": {"type":{"k":"bool"},"dart":"bool?"},
+    "carouselController": {"type":{"k":"handle","n":"CarouselSliderController"},"dart":"CarouselSliderController?"}
+   },
+   "notes": ["options: data type CarouselOptions has dropped optional ctor params"]
+  },
+  "CarouselSliderBuilder": {
+   "tag": "carousel_slider.CarouselSliderBuilder",
+   "dart": "CarouselSlider",
+   "ctor": "builder",
+   "library": "package:carousel_slider/carousel_slider.dart",
+   "props": {
+    "itemCount": {"type":{"k":"int"},"dart":"int?","nullable":true},
+    "options": {"type":{"k":"data","n":"CarouselOptions"},"dart":"CarouselOptions","required":true,"doc":"[CarouselOptions] to create a [CarouselState] with"},
+    "disableGesture": {"type":{"k":"bool"},"dart":"bool?"},
+    "carouselController": {"type":{"k":"handle","n":"CarouselSliderController"},"dart":"CarouselSliderController?"}
+   },
+   "omitted": {
+    "itemBuilder": "builder/encodable args"
+   },
+   "notes": ["options: data type CarouselOptions has dropped optional ctor params"]
+  }
+ },
+ "enums": {
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "CenterPageEnlargeStrategy": {
+   "values": ["scale","height","zoom"]
+  },
+  "Clip": {
+   "values": ["none","hardEdge","antiAlias","antiAliasWithSaveLayer"],
+   "doc": "Different ways to clip content."
+  },
+  "ScrollDecelerationRate": {
+   "values": ["normal","fast"],
+   "doc": "The rate at which scroll momentum will be decelerated."
+  }
+ },
+ "types": {
+  "CarouselOptions": {
+   "dart": "CarouselOptions",
+   "variants": [
+    {"tag":null,"fields":{"height":{"type":{"k":"double"},"nullable":true},"aspectRatio":{"type":{"k":"double"}},"viewportFraction":{"type":{"k":"double"}},"initialPage":{"type":{"k":"int"}},"enableInfiniteScroll":{"type":{"k":"bool"}},"animateToClosest":{"type":{"k":"bool"}},"reverse":{"type":{"k":"bool"}},"autoPlay":{"type":{"k":"bool"}},"autoPlayInterval":{"type":{"k":"data","n":"Duration"}},"autoPlayAnimationDuration":{"type":{"k":"data","n":"Duration"}},"autoPlayCurve":{"type":{"k":"data","n":"Curve"}},"enlargeCenterPage":{"type":{"k":"bool"},"nullable":true},"scrollPhysics":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true},"pageSnapping":{"type":{"k":"bool"}},"scrollDirection":{"type":{"k":"enum","n":"Axis"}},"pauseAutoPlayOnTouch":{"type":{"k":"bool"}},"pauseAutoPlayOnManualNavigate":{"type":{"k":"bool"}},"pauseAutoPlayInFiniteScroll":{"type":{"k":"bool"}},"enlargeStrategy":{"type":{"k":"enum","n":"CenterPageEnlargeStrategy"}},"enlargeFactor":{"type":{"k":"double"}},"disableCenter":{"type":{"k":"bool"}},"padEnds":{"type":{"k":"bool"}},"clipBehavior":{"type":{"k":"enum","n":"Clip"}}},"omitted":{"onPageChanged":"nested:callback/sync-return","onScrolled":"nested:callback/void(encodable args)","pageViewKey":"key/PageStorageKey"}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "ScrollPhysics": {
+   "dart": "ScrollPhysics",
+   "doc": "Determines the physics of a [Scrollable] widget.",
+   "variants": [
+    {"tag":null,"fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"alwaysScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"bouncing","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true},"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}}}},
+    {"tag":"clamping","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"neverScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"rangeMaintaining","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"CarouselScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"FixedExtentScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"PageScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"RangeMaintainingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"BouncingScrollPhysics","fields":{"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}},"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"ClampingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"AlwaysScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"NeverScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:carousel_slider/carousel_slider.dart"]
+}

@@ -1,0 +1,216 @@
+{
+  "name": "flutter_typeahead",
+  "libs": [
+    "package:flutter_typeahead/flutter_typeahead.dart"
+  ],
+  "surface": {
+    "total": 49,
+    "bridged": 33,
+    "byKind": {
+      "static method": {
+        "bridged": 0,
+        "total": 16
+      },
+      "constructor": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 12,
+        "total": 12
+      },
+      "stream": {
+        "bridged": 1,
+        "total": 1
+      },
+      "getter": {
+        "bridged": 12,
+        "total": 12
+      },
+      "setter": {
+        "bridged": 7,
+        "total": 7
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "SuggestionsController.maybeOf",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "static method",
+      "name": "SuggestionsController.of",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.loadingBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.errorBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.emptyBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.itemBuilder",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.wrapperBuilder",
+      "ok": false,
+      "why": "returns Widget Function(BuildContext, Widget) (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.decorationBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadCupertinoDefaults.builder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.loadingBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.errorBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.emptyBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.itemBuilder",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.wrapperBuilder",
+      "ok": false,
+      "why": "returns Widget Function(BuildContext, Widget) (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.decorationBuilder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "static method",
+      "name": "TypeAheadMaterialDefaults.builder",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "SuggestionsController",
+      "tag": "flutter_typeahead_SuggestionsController",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "close",
+        "focusBox",
+        "focusField",
+        "highlightNext",
+        "highlightPrevious",
+        "open",
+        "refresh",
+        "resize",
+        "select",
+        "toggle",
+        "unfocus",
+        "unhighlight"
+      ],
+      "methodsTotal": 12,
+      "streams": [
+        "selections"
+      ],
+      "readable": [
+        "direction",
+        "effectiveDirection",
+        "error",
+        "focusState",
+        "gainFocus",
+        "hasError",
+        "highlighted",
+        "highlightedSuggestion",
+        "isLoading",
+        "isOpen",
+        "retainFocus",
+        "suggestions"
+      ],
+      "gettersTotal": 13,
+      "objectGetters": [],
+      "setters": [
+        "direction",
+        "effectiveDirection",
+        "error",
+        "highlighted",
+        "highlightedSuggestion",
+        "isLoading",
+        "suggestions"
+      ],
+      "settersTotal": 7,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 151,
+      "tsLines": 114
+    }
+  ],
+  "notCallable": {
+    "CupertinoTypeAheadField": "widget (widget generator)",
+    "RawTypeAheadField": "widget (widget generator)",
+    "SuggestionsControllerProvider": "widget (widget generator)",
+    "TypeAheadCupertinoDefaults": "no members",
+    "TypeAheadField": "widget (widget generator)",
+    "TypeAheadMaterialDefaults": "no members",
+    "SuggestionSelectionCallback": "typedef",
+    "SuggestionsAnimationBuilder": "typedef",
+    "SuggestionsCallback": "typedef",
+    "SuggestionsDecorationBuilder": "typedef",
+    "SuggestionsErrorBuilder": "typedef",
+    "SuggestionsFieldBuilder": "typedef",
+    "SuggestionsFocusState": "enum (by the data rules)",
+    "SuggestionsItemBuilder": "typedef",
+    "SuggestionsListBuilder": "typedef"
+  },
+  "dartLines": 189,
+  "tsLines": 128,
+  "warnings": []
+}

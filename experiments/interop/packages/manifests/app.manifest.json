@@ -1,0 +1,167 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "app",
+ "version": "src",
+ "register": "registerAppWidgets",
+ "widgets": {
+  "TypeAhead": {
+   "tag": "app.TypeAhead",
+   "dart": "TypeAhead",
+   "library": "package:fuse_pub_sample/fuse/type_ahead.dart",
+   "props": {
+    "suggestions": {"type":{"k":"list","e":{"k":"string"}},"dart":"List<String>","required":true,"doc":"Suggestions for [query]. Set it in response to [onSearch]."},
+    "query": {"type":{"k":"string"},"dart":"String?","doc":"The search text [suggestions] answers. When null, any update is taken as the answer."},
+    "onSearch": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?"},
+    "onSelected": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"int"}}]},"dart":"void Function(int)?","doc":"Called with the index of the chosen suggestion in [suggestions]."},
+    "labelText": {"type":{"k":"string"},"dart":"String?"},
+    "hintText": {"type":{"k":"string"},"dart":"String?"},
+    "autofocus": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "debounceDuration": {"type":{"k":"data","n":"Duration"},"dart":"Duration","default":"Dart `const Duration(milliseconds: 300)`"},
+    "emptyText": {"type":{"k":"string"},"dart":"String","default":"\"No items found\""}
+   }
+  },
+  "RiveAsset": {
+   "tag": "app.RiveAsset",
+   "dart": "RiveAsset",
+   "library": "package:fuse_pub_sample/fuse/rive_asset.dart",
+   "props": {
+    "src": {"type":{"k":"string"},"dart":"String","required":true,"doc":"An asset path or an http(s) URL of a .riv file."},
+    "artboard": {"type":{"k":"string"},"dart":"String?"},
+    "stateMachine": {"type":{"k":"string"},"dart":"String?"},
+    "fit": {"type":{"k":"enum","n":"Fit"},"dart":"Fit","default":"\"contain\""},
+    "alignment": {"type":{"k":"data","n":"Alignment"},"dart":"Alignment","default":"Dart `Alignment.center`"},
+    "useFlutterRenderer": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "placeholder": {"type":{"k":"widget"},"dart":"Widget?","doc":"Shown while loading and when loading fails."},
+    "onLoaded": {"type":{"k":"callback","args":[]},"dart":"void Function()?"},
+    "onFailed": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"string"}}]},"dart":"void Function(String)?"}
+   }
+  },
+  "ModalSheet": {
+   "tag": "app.ModalSheet",
+   "dart": "ModalSheet",
+   "library": "package:fuse_pub_sample/fuse/modal_sheet.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "open": {"type":{"k":"bool"},"dart":"bool","required":true},
+    "sheet": {"type":{"k":"widget"},"dart":"Widget","required":true},
+    "onClosed": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Called when the sheet is dismissed by the user. Set `open` to false in response."},
+    "expand": {"type":{"k":"bool"},"dart":"bool","default":"false"},
+    "enableDrag": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "isDismissible": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "barrierColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"}
+   }
+  },
+  "SelectableCalendar": {
+   "tag": "app.SelectableCalendar",
+   "dart": "SelectableCalendar",
+   "library": "package:fuse_pub_sample/fuse/selectable_calendar.dart",
+   "props": {
+    "firstDayMs": {"type":{"k":"int"},"dart":"int","required":true,"doc":"Milliseconds since epoch, UTC (what `Date.getTime()` returns)."},
+    "lastDayMs": {"type":{"k":"int"},"dart":"int","required":true},
+    "focusedDayMs": {"type":{"k":"int"},"dart":"int","required":true},
+    "selectedDayMs": {"type":{"k":"int"},"dart":"int?"},
+    "eventDaysMs": {"type":{"k":"list","e":{"k":"int"}},"dart":"List<int>","default":"Dart `const []`","doc":"Days that show an event marker."},
+    "calendarFormat": {"type":{"k":"enum","n":"CalendarFormat"},"dart":"CalendarFormat","default":"\"month\""},
+    "onDaySelected": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"int"}}]},"dart":"void Function(int)?"},
+    "onPageChanged": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"int"}}]},"dart":"void Function(int)?"},
+    "onFormatChanged": {"type":{"k":"callback","args":[{"name":"value","type":{"k":"enum","n":"CalendarFormat"}}]},"dart":"void Function(CalendarFormat)?"}
+   }
+  }
+ },
+ "enums": {
+  "CalendarFormat": {
+   "values": ["month","twoWeeks","week"],
+   "doc": "Formats that the calendar can display."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "Fit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown","layout"]
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight","RiveDefaults.alignment"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:fuse_pub_sample/fuse/type_ahead.dart","package:fuse_pub_sample/fuse/rive_asset.dart","package:fuse_pub_sample/fuse/modal_sheet.dart","package:fuse_pub_sample/fuse/selectable_calendar.dart","package:table_calendar/table_calendar.dart","package:rive/rive.dart"]
+}

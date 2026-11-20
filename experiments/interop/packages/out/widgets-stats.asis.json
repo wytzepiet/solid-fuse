@@ -1,0 +1,1591 @@
+{
+ "packages": {
+  "animated_text_kit": {
+   "wallS": 32.0,
+   "loadMs": 19113,
+   "unitMs": 201,
+   "version": "4.3.0",
+   "requested": 12,
+   "emitted": 12,
+   "paramsTotal": 175,
+   "paramsEmitted": 164,
+   "props": 164,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 997,
+   "adapterLines": 356,
+   "warnings": []
+  },
+  "auto_size_text": {
+   "wallS": 33.8,
+   "loadMs": 19882,
+   "unitMs": 198,
+   "version": "3.0.0",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 40,
+   "paramsEmitted": 36,
+   "props": 36,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {
+    "sync-return callback": 16,
+    "nested widget/void callback/handle (bridge 05)": 4
+   },
+   "dataOmitted": {
+    "GestureRecognizer.EagerGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.ForcePressGestureRecognizer.interpolation": "nested:callback/sync-return",
+    "GestureRecognizer.ForcePressGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.LongPressGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.VerticalDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.HorizontalDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.PanGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.ImmediateMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.HorizontalMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.VerticalMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.DelayedMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.DoubleTapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.MultiTapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.SerialTapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.ScaleGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.TapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "InlineSpan.TextSpan.onEnter": "nested:callback/void(encodable args)",
+    "InlineSpan.TextSpan.onExit": "nested:callback/void(encodable args)",
+    "TextSpan.onEnter": "nested:callback/void(encodable args)",
+    "TextSpan.onExit": "nested:callback/void(encodable args)"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 597,
+   "adapterLines": 72,
+   "warnings": []
+  },
+  "badges": {
+   "wallS": 38.7,
+   "loadMs": 24212,
+   "unitMs": 403,
+   "version": "4.0.1",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 13,
+   "paramsEmitted": 10,
+   "props": 8,
+   "omittedByCat": {
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "Badge.onTap": "callback/sync-return"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 670,
+   "adapterLines": 44,
+   "warnings": [
+    "BadgeStyle.badgeColor: default not reproducible, param dropped"
+   ]
+  },
+  "cached_network_image": {
+   "wallS": 56.4,
+   "loadMs": 33578,
+   "unitMs": 211,
+   "crash": "Bad state: not importable: ImageRenderMethodForWeb"
+  },
+  "camera": {
+   "wallS": 25.1,
+   "loadMs": 13955,
+   "unitMs": 19,
+   "version": "0.12.2",
+   "requested": 1,
+   "emitted": 1,
+   "paramsTotal": 3,
+   "paramsEmitted": 2,
+   "props": 1,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 33,
+   "adapterLines": 17,
+   "warnings": []
+  },
+  "carousel_slider": {
+   "wallS": 61.1,
+   "loadMs": 32383,
+   "unitMs": 317,
+   "version": "5.1.2",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 11,
+   "paramsEmitted": 8,
+   "props": 8,
+   "omittedByCat": {
+    "builder": 1
+   },
+   "omitted": {
+    "CarouselSliderBuilder.itemBuilder": "builder/encodable args"
+   },
+   "dataOmittedByCat": {
+    "sync-return callback": 1,
+    "nested widget/void callback/handle (bridge 05)": 1
+   },
+   "dataOmitted": {
+    "CarouselOptions.onPageChanged": "nested:callback/sync-return",
+    "CarouselOptions.onScrolled": "nested:callback/void(encodable args)"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 249,
+   "adapterLines": 43,
+   "warnings": []
+  },
+  "chewie": {
+   "wallS": 46.1,
+   "loadMs": 32750,
+   "unitMs": 115,
+   "version": "1.18.1",
+   "requested": 12,
+   "emitted": 6,
+   "paramsTotal": 17,
+   "paramsEmitted": 11,
+   "props": 10,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "CastButton": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+    "CastDevicesDialog": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+    "ChewieControlStyle": "required param `decorate` (Widget Function(Widget)) is not bridgeable: builder/unencodable args",
+    "CupertinoCastButton": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+    "CupertinoCastDevicesSheet": "required param `castController` (ChewieCastController) is not bridgeable: unbridgeable/abstract-user-subclass",
+    "MaterialVideoProgressBar": "required param `controller` (VideoPlayerController) is not bridgeable: unbridgeable/private/unexported-type"
+   },
+   "skippedByCat": {
+    "abstract delegate/subclass": 4,
+    "builder": 1,
+    "unexported type": 1
+   },
+   "dartLines": 286,
+   "adapterLines": 105,
+   "warnings": []
+  },
+  "confetti": {
+   "wallS": 33.1,
+   "loadMs": 19716,
+   "unitMs": 175,
+   "version": "0.8.0",
+   "requested": 1,
+   "emitted": 1,
+   "paramsTotal": 21,
+   "paramsEmitted": 19,
+   "props": 18,
+   "omittedByCat": {
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "ConfettiWidget.createParticlePath": "callback/sync-return"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 215,
+   "adapterLines": 37,
+   "warnings": []
+  },
+  "dropdown_button2": {
+   "wallS": 38.8,
+   "loadMs": 25251,
+   "unitMs": 573,
+   "version": "4.0.0",
+   "requested": 4,
+   "emitted": 4,
+   "paramsTotal": 82,
+   "paramsEmitted": 69,
+   "props": 67,
+   "omittedByCat": {
+    "specific widget subtype": 4,
+    "builder": 3,
+    "unexported type": 1,
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "DropdownButton2.items": "widget/subtype[list]",
+    "DropdownButton2.selectedItemBuilder": "builder/context-only",
+    "DropdownButton2.dropdownSeparator": "widget/subtype",
+    "DropdownButtonFormField2.items": "widget/subtype[list]",
+    "DropdownButtonFormField2.selectedItemBuilder": "builder/context-only",
+    "DropdownButtonFormField2.decoration": "unbridgeable/private/unexported-type",
+    "DropdownButtonFormField2.validator": "callback/sync-return",
+    "DropdownButtonFormField2.errorBuilder": "builder/encodable args",
+    "DropdownButtonFormField2.dropdownSeparator": "widget/subtype"
+   },
+   "dataOmittedByCat": {
+    "nested widget/void callback/handle (bridge 05)": 5,
+    "sync-return callback": 1,
+    "unexported type": 1,
+    "builder": 2
+   },
+   "dataOmitted": {
+    "DropdownSearchDataOfdynamic.searchController": "nested:handle/controller",
+    "DropdownSearchDataOfdynamic.searchBarWidget": "nested:widget/slot",
+    "DropdownSearchDataOfdynamic.noResultsWidget": "nested:widget/slot",
+    "DropdownSearchDataOfdynamic.searchMatchFn": "nested:callback/sync-return",
+    "DropdownStyleData.scrollbarTheme": "unbridgeable/private/unexported-type",
+    "DropdownStyleData.dropdownBuilder": "nested:builder/unencodable args",
+    "IconStyleData.icon": "nested:widget/slot",
+    "IconStyleData.openMenuIcon": "nested:widget/slot",
+    "MenuItemStyleData.selectedMenuItemBuilder": "nested:builder/unencodable args"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 1165,
+   "adapterLines": 139,
+   "warnings": []
+  },
+  "fl_chart": {
+   "wallS": 59.5,
+   "loadMs": 34855,
+   "unitMs": 859,
+   "version": "1.3.1",
+   "requested": 8,
+   "emitted": 8,
+   "paramsTotal": 53,
+   "paramsEmitted": 30,
+   "props": 29,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {
+    "sync-return callback": 39,
+    "nested widget/void callback/handle (bridge 05)": 10,
+    "opaque class (no usable constructor)": 8,
+    "builder": 1
+   },
+   "dataOmitted": {
+    "AxisSpotIndicatorPainter.AxisLinesIndicatorPainter.verticalLineProvider": "nested:callback/sync-return",
+    "AxisSpotIndicatorPainter.AxisLinesIndicatorPainter.horizontalLineProvider": "nested:callback/sync-return",
+    "AxisTitles.axisNameWidget": "nested:widget/slot",
+    "BarAreaSpotsLine.checkToShowSpotLine": "nested:callback/sync-return",
+    "BarTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "BarTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "BarTouchTooltipData.getTooltipItem": "nested:callback/sync-return",
+    "BarTouchTooltipData.getTooltipColor": "nested:callback/sync-return",
+    "CandlestickTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "CandlestickTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "CandlestickTouchTooltipData.getTooltipItems": "nested:callback/sync-return",
+    "CandlestickTouchTooltipData.getTooltipColor": "nested:callback/sync-return",
+    "FlCandlestickPainter.DefaultCandlestickPainter.candlestickStyleProvider": "nested:callback/sync-return",
+    "FlDotData.checkToShowDot": "nested:callback/sync-return",
+    "FlDotData.getDotPainter": "nested:callback/sync-return",
+    "FlErrorIndicatorDataOfBarChartSpotErrorRangeCallbackInput.painter": "nested:callback/sync-return",
+    "FlErrorIndicatorDataOfLineChartSpotErrorRangeCallbackInput.painter": "nested:callback/sync-return",
+    "FlErrorIndicatorDataOfScatterChartSpotErrorRangeCallbackInput.painter": "nested:callback/sync-return",
+    "FlGridData.getDrawingHorizontalLine": "nested:callback/sync-return",
+    "FlGridData.checkToShowHorizontalLine": "nested:callback/sync-return",
+    "FlGridData.getDrawingVerticalLine": "nested:callback/sync-return",
+    "FlGridData.checkToShowVerticalLine": "nested:callback/sync-return",
+    "FlLine.HorizontalLine.image": "unbridgeable/no-usable-constructor",
+    "FlLine.HorizontalLine.sizedPicture": "unbridgeable/no-usable-constructor",
+    "FlLine.VerticalLine.image": "unbridgeable/no-usable-constructor",
+    "FlLine.VerticalLine.sizedPicture": "unbridgeable/no-usable-constructor",
+    "FlTransformationConfig.transformationController": "nested:handle/controller",
+    "GaugeTicks.checkToShowTick": "nested:callback/sync-return",
+    "GaugeTicks.labelBuilder": "nested:callback/sync-return",
+    "GaugeTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "GaugeTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "HorizontalLine.image": "unbridgeable/no-usable-constructor",
+    "HorizontalLine.sizedPicture": "unbridgeable/no-usable-constructor",
+    "HorizontalLineLabel.labelResolver": "nested:callback/sync-return",
+    "LineTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "LineTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "LineTouchData.getTouchedSpotIndicator": "nested:callback/sync-return",
+    "LineTouchData.distanceCalculator": "nested:callback/sync-return",
+    "LineTouchData.getTouchLineStart": "nested:callback/sync-return",
+    "LineTouchData.getTouchLineEnd": "nested:callback/sync-return",
+    "LineTouchTooltipData.getTooltipItems": "nested:callback/sync-return",
+    "LineTouchTooltipData.getTooltipColor": "nested:callback/sync-return",
+    "PieChartSectionData.badgeWidget": "nested:widget/slot",
+    "PieTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "PieTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "RadarChartData.getTitle": "nested:callback/sync-return",
+    "RadarTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "RadarTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "ScatterLabelSettings.getLabelTextStyleFunction": "nested:callback/sync-return",
+    "ScatterLabelSettings.getLabelFunction": "nested:callback/sync-return",
+    "ScatterTouchData.touchCallback": "nested:callback/void(encodable args)",
+    "ScatterTouchData.mouseCursorResolver": "nested:callback/sync-return",
+    "ScatterTouchTooltipData.getTooltipItems": "nested:callback/sync-return",
+    "ScatterTouchTooltipData.getTooltipColor": "nested:callback/sync-return",
+    "SideTitles.getTitlesWidget": "nested:builder/encodable args",
+    "VerticalLine.image": "unbridgeable/no-usable-constructor",
+    "VerticalLine.sizedPicture": "unbridgeable/no-usable-constructor",
+    "VerticalLineLabel.labelResolver": "nested:callback/sync-return"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 1783,
+   "adapterLines": 172,
+   "warnings": []
+  },
+  "flutter_animate": {
+   "wallS": 33.4,
+   "loadMs": 19205,
+   "unitMs": 586,
+   "version": "4.5.2",
+   "requested": 1,
+   "emitted": 1,
+   "paramsTotal": 12,
+   "paramsEmitted": 8,
+   "props": 7,
+   "omittedByCat": {
+    "callback, unencodable args": 3
+   },
+   "omitted": {
+    "Animate.onInit": "callback/void(unencodable args)",
+    "Animate.onPlay": "callback/void(unencodable args)",
+    "Animate.onComplete": "callback/void(unencodable args)"
+   },
+   "dataOmittedByCat": {
+    "opaque class (no usable constructor)": 1,
+    "sync-return callback": 1
+   },
+   "dataOmitted": {
+    "EffectOfdynamic.ShaderEffect.shader": "unbridgeable/no-usable-constructor",
+    "EffectOfdynamic.ShaderEffect.update": "nested:callback/sync-return"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 573,
+   "adapterLines": 26,
+   "warnings": []
+  },
+  "flutter_html": {
+   "wallS": 33.5,
+   "loadMs": 20058,
+   "unitMs": 359,
+   "version": "3.0.0",
+   "requested": 6,
+   "emitted": 5,
+   "paramsTotal": 47,
+   "paramsEmitted": 25,
+   "props": 24,
+   "omittedByCat": {
+    "callback, unencodable args": 6,
+    "sync-return callback": 3,
+    "default not reproducible": 3,
+    "unexported type": 2
+   },
+   "omitted": {
+    "Html.onLinkTap": "callback/void(unencodable args)",
+    "Html.onAnchorTap": "callback/void(unencodable args)",
+    "Html.onCssParseError": "callback/sync-return",
+    "Html.style": "default value not reproducible (const {})",
+    "HtmlFromDom.document": "unbridgeable/private/unexported-type",
+    "HtmlFromDom.onLinkTap": "callback/void(unencodable args)",
+    "HtmlFromDom.onAnchorTap": "callback/void(unencodable args)",
+    "HtmlFromDom.onCssParseError": "callback/sync-return",
+    "HtmlFromDom.style": "default value not reproducible (const {})",
+    "HtmlFromElement.documentElement": "unbridgeable/private/unexported-type",
+    "HtmlFromElement.onLinkTap": "callback/void(unencodable args)",
+    "HtmlFromElement.onAnchorTap": "callback/void(unencodable args)",
+    "HtmlFromElement.onCssParseError": "callback/sync-return",
+    "HtmlFromElement.style": "default value not reproducible (const {})"
+   },
+   "dataOmittedByCat": {
+    "sync-return callback": 18,
+    "nested widget/void callback/handle (bridge 05)": 4,
+    "builder": 2
+   },
+   "dataOmitted": {
+    "GestureRecognizer.EagerGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.ForcePressGestureRecognizer.interpolation": "nested:callback/sync-return",
+    "GestureRecognizer.ForcePressGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.LongPressGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.VerticalDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.HorizontalDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.PanGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.ImmediateMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.HorizontalMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.VerticalMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.DelayedMultiDragGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.DoubleTapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.MultiTapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.SerialTapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.ScaleGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "GestureRecognizer.TapGestureRecognizer.allowedButtonsFilter": "nested:callback/sync-return",
+    "HtmlExtension.ImageExtension.child": "nested:widget/slot",
+    "HtmlExtension.ImageExtension.builder": "nested:builder/encodable args",
+    "HtmlExtension.ImageExtension.inline.builder": "nested:callback/sync-return",
+    "HtmlExtension.TagExtension.child": "nested:widget/slot",
+    "HtmlExtension.TagExtension.builder": "nested:builder/encodable args",
+    "HtmlExtension.TagExtension.inline.builder": "nested:callback/sync-return",
+    "InlineSpan.TextSpan.onEnter": "nested:callback/void(encodable args)",
+    "InlineSpan.TextSpan.onExit": "nested:callback/void(encodable args)"
+   },
+   "skipped": {
+    "HtmlParser": "required param `htmlData` (Element) is not bridgeable: unbridgeable/private/unexported-type"
+   },
+   "skippedByCat": {
+    "unexported type": 1
+   },
+   "dartLines": 945,
+   "adapterLines": 113,
+   "warnings": []
+  },
+  "flutter_map": {
+   "wallS": 40.6,
+   "loadMs": 23664,
+   "unitMs": 442,
+   "version": "8.3.2",
+   "requested": 17,
+   "emitted": 9,
+   "paramsTotal": 70,
+   "paramsEmitted": 56,
+   "props": 52,
+   "omittedByCat": {
+    "default not reproducible": 1,
+    "callback, unencodable args": 1,
+    "builder": 1,
+    "streams": 1
+   },
+   "omitted": {
+    "TileLayer.additionalOptions": "default value not reproducible (const {})",
+    "TileLayer.errorTileCallback": "callback/void(unencodable args)",
+    "TileLayer.tileBuilder": "builder/unencodable args",
+    "TileLayer.reset": "unbridgeable/future/stream"
+   },
+   "dataOmittedByCat": {
+    "sync-return callback": 4,
+    "nested widget/void callback/handle (bridge 05)": 4,
+    "unexported type": 2,
+    "callback, unencodable args": 11
+   },
+   "dataOmitted": {
+    "CursorKeyboardRotationOptions.isKeyTrigger": "nested:callback/sync-return",
+    "InteractionOptions.doubleTapDragZoomChangeCalculator": "nested:callback/sync-return",
+    "KeyboardOptions.maxPanVelocity": "nested:callback/sync-return",
+    "KeyboardOptions.focusNode": "nested:handle/focus",
+    "MapCachingProvider.BuiltInMapCachingProvider.getOrCreateInstance.tileKeyGenerator": "nested:callback/sync-return",
+    "MapOptions.initialCenter": "unbridgeable/private/unexported-type",
+    "MapOptions.onTap": "nested:callback/void(unencodable args)",
+    "MapOptions.onSecondaryTap": "nested:callback/void(unencodable args)",
+    "MapOptions.onLongPress": "nested:callback/void(unencodable args)",
+    "MapOptions.onPointerDown": "nested:callback/void(unencodable args)",
+    "MapOptions.onPointerUp": "nested:callback/void(unencodable args)",
+    "MapOptions.onPointerCancel": "nested:callback/void(unencodable args)",
+    "MapOptions.onPointerHover": "nested:callback/void(unencodable args)",
+    "MapOptions.onPointerMove": "nested:callback/void(unencodable args)",
+    "MapOptions.onPositionChanged": "nested:callback/void(encodable args)",
+    "MapOptions.onMapEvent": "nested:callback/void(encodable args)",
+    "MapOptions.onMapReady": "nested:callback/void()",
+    "StreamTransformerOfTileUpdateEventAndTileUpdateEvent.fromHandlers.handleData": "nested:callback/void(unencodable args)",
+    "StreamTransformerOfTileUpdateEventAndTileUpdateEvent.fromHandlers.handleError": "nested:callback/void(unencodable args)",
+    "StreamTransformerOfTileUpdateEventAndTileUpdateEvent.fromHandlers.handleDone": "nested:callback/void(unencodable args)",
+    "TileProvider.NetworkTileProvider.httpClient": "unbridgeable/private/unexported-type"
+   },
+   "skipped": {
+    "CircleLayer": "required param `circles` (List<CircleMarker<Object>>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+    "MarkerLayer": "required param `markers` (List<Marker>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+    "OverlayImageLayer": "required param `overlayImages` (List<BaseOverlayImage>) is not bridgeable: widget/subtype[list]",
+    "PolygonLayer": "required param `polygons` (List<Polygon<Object>>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+    "PolylineLayer": "required param `polylines` (List<Polyline<Object>>) is not bridgeable: unbridgeable/no-usable-constructor[list]",
+    "RichAttributionWidget": "required param `attributions` (List<SourceAttribution>) is not bridgeable: widget/subtype[list]",
+    "RotatedOverlayImage": "required param `topLeftCorner` (LatLng) is not bridgeable: unbridgeable/private/unexported-type",
+    "SimpleAttributionWidget": "required param `source` (Text) is not bridgeable: widget/subtype"
+   },
+   "skippedByCat": {
+    "opaque class (no usable constructor)": 4,
+    "specific widget subtype": 3,
+    "unexported type": 1
+   },
+   "dartLines": 1037,
+   "adapterLines": 201,
+   "warnings": [
+    "WMSTileLayerOptions.otherParameters: default not reproducible, param dropped"
+   ]
+  },
+  "flutter_markdown_plus": {
+   "wallS": 33.2,
+   "loadMs": 19170,
+   "unitMs": 981,
+   "version": "1.0.12",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 49,
+   "paramsEmitted": 27,
+   "props": 27,
+   "omittedByCat": {
+    "abstract delegate/subclass": 6,
+    "builder": 8,
+    "unexported type": 6
+   },
+   "omitted": {
+    "Markdown.syntaxHighlighter": "unbridgeable/abstract-no-impl",
+    "Markdown.contextMenuBuilder": "builder/unencodable args",
+    "Markdown.blockSyntaxes": "unbridgeable/private/unexported-type[list]",
+    "Markdown.inlineSyntaxes": "unbridgeable/private/unexported-type[list]",
+    "Markdown.extensionSet": "unbridgeable/private/unexported-type",
+    "Markdown.imageBuilder": "builder/encodable args",
+    "Markdown.checkboxBuilder": "builder/encodable args",
+    "Markdown.bulletBuilder": "builder/encodable args",
+    "Markdown.builders": "unbridgeable/abstract-no-impl[map]",
+    "Markdown.paddingBuilders": "unbridgeable/abstract-no-impl[map]",
+    "MarkdownBody.syntaxHighlighter": "unbridgeable/abstract-no-impl",
+    "MarkdownBody.contextMenuBuilder": "builder/unencodable args",
+    "MarkdownBody.blockSyntaxes": "unbridgeable/private/unexported-type[list]",
+    "MarkdownBody.inlineSyntaxes": "unbridgeable/private/unexported-type[list]",
+    "MarkdownBody.extensionSet": "unbridgeable/private/unexported-type",
+    "MarkdownBody.imageBuilder": "builder/encodable args",
+    "MarkdownBody.checkboxBuilder": "builder/encodable args",
+    "MarkdownBody.bulletBuilder": "builder/encodable args",
+    "MarkdownBody.builders": "unbridgeable/abstract-no-impl[map]",
+    "MarkdownBody.paddingBuilders": "unbridgeable/abstract-no-impl[map]"
+   },
+   "dataOmittedByCat": {
+    "builder": 6,
+    "abstract delegate/subclass": 4,
+    "nested widget/void callback/handle (bridge 05)": 3,
+    "sync-return callback": 1,
+    "specific widget subtype": 1
+   },
+   "dataOmitted": {
+    "ActionIconThemeData.backButtonIconBuilder": "nested:builder/context-only",
+    "ActionIconThemeData.closeButtonIconBuilder": "nested:builder/context-only",
+    "ActionIconThemeData.drawerButtonIconBuilder": "nested:builder/context-only",
+    "ActionIconThemeData.endDrawerButtonIconBuilder": "nested:builder/context-only",
+    "ButtonStyle.splashFactory": "unbridgeable/abstract-no-impl",
+    "ButtonStyle.backgroundBuilder": "nested:builder/unencodable args",
+    "ButtonStyle.foregroundBuilder": "nested:builder/unencodable args",
+    "ProgressIndicatorThemeData.controller": "nested:handle/controller",
+    "SegmentedButtonThemeData.selectedIcon": "nested:widget/slot",
+    "SliderThemeData.thumbSelector": "nested:callback/sync-return",
+    "TabBarThemeData.splashFactory": "unbridgeable/abstract-no-impl",
+    "ThemeData.extensions": "unbridgeable/abstract-no-impl[iterable]",
+    "ThemeData.splashFactory": "unbridgeable/abstract-no-impl",
+    "WidgetStatePropertyOfIconN.WidgetStatePropertyAll.value": "nested:widget/subtype",
+    "WidgetStatePropertyOfWidgetN.WidgetStatePropertyAll.value": "nested:widget/slot"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 2298,
+   "adapterLines": 63,
+   "warnings": [
+    "PageTransitionsTheme.builders: default not reproducible, param dropped"
+   ]
+  },
+  "flutter_rating_bar": {
+   "wallS": 33.9,
+   "loadMs": 20128,
+   "unitMs": 53,
+   "version": "4.0.1",
+   "requested": 3,
+   "emitted": 0,
+   "paramsTotal": 0,
+   "paramsEmitted": 0,
+   "props": 0,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "RatingBar": "required param `ratingWidget` (RatingWidget) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "RatingBarBuilder": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "RatingBarIndicator": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args"
+   },
+   "skippedByCat": {
+    "nested widget/callback": 1,
+    "builder": 2
+   },
+   "dartLines": 13,
+   "adapterLines": 0,
+   "warnings": []
+  },
+  "flutter_slidable": {
+   "wallS": 39.1,
+   "loadMs": 25489,
+   "unitMs": 217,
+   "version": "5.2.0",
+   "requested": 14,
+   "emitted": 14,
+   "paramsTotal": 71,
+   "paramsEmitted": 53,
+   "props": 46,
+   "omittedByCat": {
+    "future callback": 1,
+    "specific widget subtype": 2,
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "DismissiblePane.confirmDismiss": "callback/Future<value>",
+    "Slidable.startActionPane": "widget/subtype",
+    "Slidable.endActionPane": "widget/subtype",
+    "SlidableGroupBehavior.onNotification": "callback/sync-return"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 872,
+   "adapterLines": 277,
+   "warnings": []
+  },
+  "flutter_spinkit": {
+   "wallS": 32.2,
+   "loadMs": 19296,
+   "unitMs": 147,
+   "version": "5.2.2",
+   "requested": 32,
+   "emitted": 32,
+   "paramsTotal": 202,
+   "paramsEmitted": 147,
+   "props": 144,
+   "omittedByCat": {
+    "builder": 23
+   },
+   "omitted": {
+    "SpinKitChasingDots.itemBuilder": "builder/encodable args",
+    "SpinKitCircle.itemBuilder": "builder/encodable args",
+    "SpinKitCubeGrid.itemBuilder": "builder/encodable args",
+    "SpinKitDancingSquare.itemBuilder": "builder/encodable args",
+    "SpinKitDoubleBounce.itemBuilder": "builder/encodable args",
+    "SpinKitFadingCircle.itemBuilder": "builder/encodable args",
+    "SpinKitFadingCube.itemBuilder": "builder/encodable args",
+    "SpinKitFadingFour.itemBuilder": "builder/encodable args",
+    "SpinKitFadingGrid.itemBuilder": "builder/encodable args",
+    "SpinKitFoldingCube.itemBuilder": "builder/encodable args",
+    "SpinKitPianoWave.itemBuilder": "builder/encodable args",
+    "SpinKitPulse.itemBuilder": "builder/encodable args",
+    "SpinKitPulsingGrid.itemBuilder": "builder/encodable args",
+    "SpinKitPumpingHeart.itemBuilder": "builder/encodable args",
+    "SpinKitRipple.itemBuilder": "builder/encodable args",
+    "SpinKitRotatingCircle.itemBuilder": "builder/encodable args",
+    "SpinKitRotatingPlain.itemBuilder": "builder/encodable args",
+    "SpinKitSpinningCircle.itemBuilder": "builder/encodable args",
+    "SpinKitSquareCircle.itemBuilder": "builder/encodable args",
+    "SpinKitThreeBounce.itemBuilder": "builder/encodable args",
+    "SpinKitThreeInOut.itemBuilder": "builder/encodable args",
+    "SpinKitWanderingCubes.itemBuilder": "builder/encodable args",
+    "SpinKitWave.itemBuilder": "builder/encodable args"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 1155,
+   "adapterLines": 705,
+   "warnings": []
+  },
+  "flutter_staggered_grid_view": {
+   "wallS": 32.9,
+   "loadMs": 19274,
+   "unitMs": 135,
+   "version": "0.7.0",
+   "requested": 20,
+   "emitted": 6,
+   "paramsTotal": 44,
+   "paramsEmitted": 38,
+   "props": 32,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "AlignedGridViewCustom": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "AlignedGridViewCount": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "AlignedGridViewExtent": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "MasonryGridViewBuilder": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "MasonryGridViewCustom": "required param `childrenDelegate` (SliverChildDelegate) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "MasonryGridViewCount": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "MasonryGridViewExtent": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "SliverAlignedGrid": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "SliverAlignedGridCount": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "SliverAlignedGridExtent": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "SliverMasonryGrid": "required param `delegate` (SliverChildDelegate) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "SliverMasonryGridCount": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "SliverMasonryGridExtent": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "StaggeredGridCustom": "required param `delegate` (StaggeredGridDelegate) is not bridgeable: unbridgeable/private/unexported-type"
+   },
+   "skippedByCat": {
+    "builder": 11,
+    "nested widget/callback": 2,
+    "unexported type": 1
+   },
+   "dartLines": 272,
+   "adapterLines": 134,
+   "warnings": []
+  },
+  "flutter_svg": {
+   "wallS": 48.7,
+   "loadMs": 27041,
+   "unitMs": 230,
+   "crash": "Bad state: not importable: RenderingStrategy"
+  },
+  "flutter_typeahead": {
+   "wallS": 38.7,
+   "loadMs": 25589,
+   "unitMs": 105,
+   "version": "7.0.0",
+   "requested": 3,
+   "emitted": 1,
+   "paramsTotal": 3,
+   "paramsEmitted": 2,
+   "props": 1,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "CupertinoTypeAheadField": "required param `itemBuilder` (Widget Function(BuildContext, dynamic)) is not bridgeable: builder/encodable args",
+    "TypeAheadField": "required param `itemBuilder` (Widget Function(BuildContext, dynamic)) is not bridgeable: builder/encodable args"
+   },
+   "skippedByCat": {
+    "builder": 2
+   },
+   "dartLines": 67,
+   "adapterLines": 17,
+   "warnings": []
+  },
+  "fluttertoast": {
+   "wallS": 39.2,
+   "loadMs": 25766,
+   "unitMs": 15,
+   "version": "10.0.3",
+   "requested": 0,
+   "emitted": 0,
+   "paramsTotal": 0,
+   "paramsEmitted": 0,
+   "props": 0,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 13,
+   "adapterLines": 0,
+   "warnings": []
+  },
+  "font_awesome_flutter": {
+   "wallS": 32.7,
+   "loadMs": 18923,
+   "unitMs": 207,
+   "version": "11.0.0",
+   "requested": 1,
+   "emitted": 1,
+   "paramsTotal": 14,
+   "paramsEmitted": 13,
+   "props": 13,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 256,
+   "adapterLines": 29,
+   "warnings": []
+  },
+  "google_fonts": {
+   "wallS": 39.9,
+   "loadMs": 26108,
+   "unitMs": 10,
+   "version": "9.0.0",
+   "requested": 0,
+   "emitted": 0,
+   "paramsTotal": 0,
+   "paramsEmitted": 0,
+   "props": 0,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 13,
+   "adapterLines": 0,
+   "warnings": []
+  },
+  "google_maps_flutter": {
+   "wallS": 42.7,
+   "loadMs": 23484,
+   "unitMs": 563,
+   "version": "2.19.0",
+   "requested": 1,
+   "emitted": 1,
+   "paramsTotal": 48,
+   "paramsEmitted": 44,
+   "props": 44,
+   "omittedByCat": {
+    "nested widget/callback": 1,
+    "opaque class (no usable constructor)": 1
+   },
+   "omitted": {
+    "GoogleMap.gestureRecognizers": "unbridgeable/needs-nested-widget/callback[set]",
+    "GoogleMap.groundOverlays": "unbridgeable/no-usable-constructor[set]"
+   },
+   "dataOmittedByCat": {
+    "nested widget/void callback/handle (bridge 05)": 13,
+    "abstract delegate/subclass": 1
+   },
+   "dataOmitted": {
+    "Circle.onTap": "nested:callback/void()",
+    "ClusterManager.onClusterTap": "nested:callback/void(encodable args)",
+    "InfoWindow.onTap": "nested:callback/void()",
+    "Marker.onTap": "nested:callback/void()",
+    "Marker.onDrag": "nested:callback/void(encodable args)",
+    "Marker.onDragStart": "nested:callback/void(encodable args)",
+    "Marker.onDragEnd": "nested:callback/void(encodable args)",
+    "Marker.AdvancedMarker.onTap": "nested:callback/void()",
+    "Marker.AdvancedMarker.onDrag": "nested:callback/void(encodable args)",
+    "Marker.AdvancedMarker.onDragStart": "nested:callback/void(encodable args)",
+    "Marker.AdvancedMarker.onDragEnd": "nested:callback/void(encodable args)",
+    "Polygon.onTap": "nested:callback/void()",
+    "Polyline.onTap": "nested:callback/void()",
+    "TileOverlay.tileProvider": "unbridgeable/abstract-no-impl"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 619,
+   "adapterLines": 62,
+   "warnings": [
+    "AssetMapBitmap.AssetMapBitmap.bitmapScaling: default not reproducible, param dropped"
+   ]
+  },
+  "infinite_scroll_pagination": {
+   "wallS": 27.1,
+   "loadMs": 14512,
+   "unitMs": 62,
+   "version": "5.1.1",
+   "requested": 22,
+   "emitted": 0,
+   "paramsTotal": 0,
+   "paramsEmitted": 0,
+   "props": 0,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {
+    "nested widget/callback": 2
+   },
+   "dataOmitted": {
+    "PagingStateOfdynamicAnddynamic.pages": "unbridgeable/nested-collection",
+    "PagingStateOfdynamicAnddynamic.PagingStateBase.pages": "unbridgeable/nested-collection"
+   },
+   "skipped": {
+    "AppendedSliverGrid": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+    "PagedAlignedGridView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedAlignedGridViewCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedAlignedGridViewExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedGridView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedLayoutBuilder": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedListView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedListViewSeparated": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedMasonryGridView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedMasonryGridViewCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedMasonryGridViewExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedPageView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverAlignedGrid": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverAlignedGridCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverAlignedGridExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverGrid": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverList": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverListSeparated": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverMasonryGrid": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverMasonryGridCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagedSliverMasonryGridExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+    "PagingListener": "required param `builder` (Widget Function(BuildContext, PagingState<dynamic, dynamic>, void Function())) is not bridgeable: builder/unencodable args"
+   },
+   "skippedByCat": {
+    "builder": 2,
+    "nested widget/callback": 20
+   },
+   "dartLines": 26,
+   "adapterLines": 0,
+   "warnings": []
+  },
+  "lottie": {
+   "wallS": 44.6,
+   "loadMs": 26275,
+   "unitMs": 170,
+   "version": "3.8.2",
+   "requested": 7,
+   "emitted": 6,
+   "paramsTotal": 121,
+   "paramsEmitted": 98,
+   "props": 98,
+   "omittedByCat": {
+    "opaque class (no usable constructor)": 2,
+    "builder": 8,
+    "unexported type": 1,
+    "sync-return callback": 3,
+    "future callback": 3
+   },
+   "omitted": {
+    "Lottie.composition": "unbridgeable/no-usable-constructor",
+    "LottieBuilder.frameBuilder": "builder/unencodable args",
+    "LottieBuilder.errorBuilder": "builder/unencodable args",
+    "LottieBuilderNetwork.client": "unbridgeable/private/unexported-type",
+    "LottieBuilderNetwork.imageProviderFactory": "callback/sync-return",
+    "LottieBuilderNetwork.frameBuilder": "builder/unencodable args",
+    "LottieBuilderNetwork.errorBuilder": "builder/unencodable args",
+    "LottieBuilderNetwork.decoder": "callback/Future<value>",
+    "LottieBuilderFile.imageProviderFactory": "callback/sync-return",
+    "LottieBuilderFile.frameBuilder": "builder/unencodable args",
+    "LottieBuilderFile.errorBuilder": "builder/unencodable args",
+    "LottieBuilderFile.decoder": "callback/Future<value>",
+    "LottieBuilderAsset.imageProviderFactory": "callback/sync-return",
+    "LottieBuilderAsset.frameBuilder": "builder/unencodable args",
+    "LottieBuilderAsset.errorBuilder": "builder/unencodable args",
+    "LottieBuilderAsset.decoder": "callback/Future<value>",
+    "RawLottie.composition": "unbridgeable/no-usable-constructor"
+   },
+   "dataOmittedByCat": {
+    "sync-return callback": 6,
+    "opaque class (no usable constructor)": 1,
+    "future callback": 3,
+    "unexported type": 1
+   },
+   "dataOmitted": {
+    "LottieDelegates.text": "nested:callback/sync-return",
+    "LottieDelegates.textStyle": "nested:callback/sync-return",
+    "LottieDelegates.values": "unbridgeable/no-usable-constructor[list]",
+    "LottieDelegates.image": "nested:callback/sync-return",
+    "LottieProvider.AssetLottie.imageProviderFactory": "nested:callback/sync-return",
+    "LottieProvider.AssetLottie.decoder": "nested:callback/Future<value>",
+    "LottieProvider.NetworkLottie.client": "unbridgeable/private/unexported-type",
+    "LottieProvider.NetworkLottie.imageProviderFactory": "nested:callback/sync-return",
+    "LottieProvider.NetworkLottie.decoder": "nested:callback/Future<value>",
+    "LottieProvider.FileLottie.imageProviderFactory": "nested:callback/sync-return",
+    "LottieProvider.FileLottie.decoder": "nested:callback/Future<value>"
+   },
+   "skipped": {
+    "LottieBuilderMemory": "required param `bytes` (Uint8List) is not bridgeable: unbridgeable/binary/typed-data"
+   },
+   "skippedByCat": {
+    "binary data": 1
+   },
+   "dartLines": 477,
+   "adapterLines": 207,
+   "warnings": []
+  },
+  "mobile_scanner": {
+   "wallS": 34.1,
+   "loadMs": 19805,
+   "unitMs": 216,
+   "version": "7.5.0",
+   "requested": 3,
+   "emitted": 3,
+   "paramsTotal": 27,
+   "paramsEmitted": 20,
+   "props": 20,
+   "omittedByCat": {
+    "callback, unencodable args": 1,
+    "builder": 3
+   },
+   "omitted": {
+    "MobileScanner.onDetectError": "callback/void(unencodable args)",
+    "MobileScanner.errorBuilder": "builder/encodable args",
+    "MobileScanner.overlayBuilder": "builder/encodable args",
+    "MobileScanner.placeholderBuilder": "builder/context-only"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 415,
+   "adapterLines": 70,
+   "warnings": []
+  },
+  "modal_bottom_sheet": {
+   "wallS": 32.6,
+   "loadMs": 18564,
+   "unitMs": 211,
+   "version": "3.0.0",
+   "requested": 5,
+   "emitted": 4,
+   "paramsTotal": 20,
+   "paramsEmitted": 17,
+   "props": 14,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "ModalBottomSheet": "required param `onClosing` (dynamic Function()) is not bridgeable: callback/sync-return"
+   },
+   "skippedByCat": {
+    "sync-return callback": 1
+   },
+   "dartLines": 554,
+   "adapterLines": 80,
+   "warnings": []
+  },
+  "percent_indicator": {
+   "wallS": 32.9,
+   "loadMs": 19111,
+   "unitMs": 225,
+   "version": "4.2.5",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 61,
+   "paramsEmitted": 57,
+   "props": 57,
+   "omittedByCat": {
+    "sync-return callback": 2
+   },
+   "omitted": {
+    "CircularPercentIndicator.onPercentValue": "callback/sync-return",
+    "LinearPercentIndicator.onPercentValue": "callback/sync-return"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 562,
+   "adapterLines": 93,
+   "warnings": []
+  },
+  "photo_view": {
+   "wallS": 33.2,
+   "loadMs": 19318,
+   "unitMs": 421,
+   "version": "0.15.0",
+   "requested": 5,
+   "emitted": 5,
+   "paramsTotal": 88,
+   "paramsEmitted": 71,
+   "props": 69,
+   "omittedByCat": {
+    "builder": 4,
+    "sync-return callback": 9
+   },
+   "omitted": {
+    "PhotoView.loadingBuilder": "builder/encodable args",
+    "PhotoView.scaleStateCycle": "callback/sync-return",
+    "PhotoView.onTapUp": "callback/sync-return",
+    "PhotoView.onTapDown": "callback/sync-return",
+    "PhotoView.onScaleEnd": "callback/sync-return",
+    "PhotoView.errorBuilder": "builder/unencodable args",
+    "PhotoViewCustomChild.scaleStateCycle": "callback/sync-return",
+    "PhotoViewCustomChild.onTapUp": "callback/sync-return",
+    "PhotoViewCustomChild.onTapDown": "callback/sync-return",
+    "PhotoViewCustomChild.onScaleEnd": "callback/sync-return",
+    "PhotoViewGallery.loadingBuilder": "builder/encodable args",
+    "PhotoViewGalleryBuilderCtor.builder": "callback/sync-return",
+    "PhotoViewGalleryBuilderCtor.loadingBuilder": "builder/encodable args"
+   },
+   "dataOmittedByCat": {
+    "nested widget/void callback/handle (bridge 05)": 5,
+    "sync-return callback": 9,
+    "builder": 3
+   },
+   "dataOmitted": {
+    "PhotoViewGalleryPageOptions.controller": "nested:handle/controller",
+    "PhotoViewGalleryPageOptions.scaleStateController": "nested:handle/controller",
+    "PhotoViewGalleryPageOptions.scaleStateCycle": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.onTapUp": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.onTapDown": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.onScaleEnd": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.errorBuilder": "nested:builder/unencodable args",
+    "PhotoViewGalleryPageOptions.customChild.child": "nested:widget/slot",
+    "PhotoViewGalleryPageOptions.customChild.controller": "nested:handle/controller",
+    "PhotoViewGalleryPageOptions.customChild.scaleStateController": "nested:handle/controller",
+    "PhotoViewGalleryPageOptions.customChild.scaleStateCycle": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.customChild.onTapUp": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.customChild.onTapDown": "nested:callback/sync-return",
+    "PhotoViewGalleryPageOptions.customChild.onScaleEnd": "nested:callback/sync-return",
+    "PhotoViewHeroAttributes.createRectTween": "nested:callback/sync-return",
+    "PhotoViewHeroAttributes.flightShuttleBuilder": "nested:builder/unencodable args",
+    "PhotoViewHeroAttributes.placeholderBuilder": "nested:builder/unencodable args"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 804,
+   "adapterLines": 160,
+   "warnings": []
+  },
+  "pin_code_fields": {
+   "wallS": 39.6,
+   "loadMs": 25785,
+   "unitMs": 278,
+   "version": "10.1.2",
+   "requested": 10,
+   "emitted": 8,
+   "paramsTotal": 147,
+   "paramsEmitted": 130,
+   "props": 127,
+   "omittedByCat": {
+    "streams": 1,
+    "sync-return callback": 4,
+    "builder": 4
+   },
+   "omitted": {
+    "ErrorShake.trigger": "unbridgeable/future/stream",
+    "MaterialPinField.clipboardValidator": "callback/sync-return",
+    "MaterialPinField.separatorBuilder": "builder/encodable args",
+    "MaterialPinField.errorBuilder": "builder/encodable args",
+    "MaterialPinField.semanticHintBuilder": "callback/sync-return",
+    "MaterialPinFormField.clipboardValidator": "callback/sync-return",
+    "MaterialPinFormField.separatorBuilder": "builder/encodable args",
+    "MaterialPinFormField.validator": "callback/sync-return",
+    "MaterialPinRow.separatorBuilder": "builder/encodable args"
+   },
+   "dataOmittedByCat": {
+    "nested widget/void callback/handle (bridge 05)": 2,
+    "builder": 2
+   },
+   "dataOmitted": {
+    "MaterialPinTheme.cursorWidget": "nested:widget/slot",
+    "MaterialPinTheme.customEntryAnimationBuilder": "nested:builder/unencodable args",
+    "MaterialPinThemeData.cursorWidget": "nested:widget/slot",
+    "MaterialPinThemeData.customEntryAnimationBuilder": "nested:builder/unencodable args"
+   },
+   "skipped": {
+    "PinInput": "required param `builder` (Widget Function(BuildContext, List<PinCellData>)) is not bridgeable: builder/encodable args",
+    "PinInputFormField": "required param `pinBuilder` (Widget Function(BuildContext, List<PinCellData>)) is not bridgeable: builder/encodable args"
+   },
+   "skippedByCat": {
+    "builder": 2
+   },
+   "dartLines": 1287,
+   "adapterLines": 266,
+   "warnings": []
+  },
+  "pinput": {
+   "wallS": 39.7,
+   "loadMs": 25651,
+   "unitMs": 548,
+   "version": "7.0.0",
+   "requested": 2,
+   "emitted": 1,
+   "paramsTotal": 63,
+   "paramsEmitted": 56,
+   "props": 56,
+   "omittedByCat": {
+    "abstract delegate/subclass": 1,
+    "builder": 3,
+    "callback, unencodable args": 1,
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "Pinput.smsRetriever": "unbridgeable/abstract-no-impl",
+    "Pinput.separatorBuilder": "builder/encodable args",
+    "Pinput.onAppPrivateCommand": "callback/void(unencodable args)",
+    "Pinput.validator": "callback/sync-return",
+    "Pinput.errorBuilder": "builder/encodable args",
+    "Pinput.contextMenuBuilder": "builder/unencodable args"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "PinputBuilder": "required param `builder` (Widget Function(BuildContext, PinItemState)) is not bridgeable: builder/encodable args"
+   },
+   "skippedByCat": {
+    "builder": 1
+   },
+   "dartLines": 1307,
+   "adapterLines": 74,
+   "warnings": []
+  },
+  "pull_to_refresh": {
+   "wallS": 33.0,
+   "loadMs": 19413,
+   "unitMs": 494,
+   "version": "2.0.0",
+   "requested": 16,
+   "emitted": 11,
+   "paramsTotal": 153,
+   "paramsEmitted": 136,
+   "props": 133,
+   "omittedByCat": {
+    "future callback": 2,
+    "builder": 5,
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "BezierHeader.readyRefresh": "callback/Future<void>",
+    "BezierHeader.endRefresh": "callback/Future<void>",
+    "ClassicFooter.outerBuilder": "builder/unencodable args",
+    "ClassicHeader.outerBuilder": "builder/unencodable args",
+    "RefreshConfiguration.headerBuilder": "builder/context-only",
+    "RefreshConfiguration.footerBuilder": "builder/context-only",
+    "RefreshConfiguration.shouldFooterFollowWhenNotFull": "callback/sync-return",
+    "SmartRefresherBuilder.builder": "builder/encodable args"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "CustomFooter": "required param `builder` (Widget Function(BuildContext, LoadStatus?)) is not bridgeable: builder/encodable args",
+    "CustomHeader": "required param `builder` (Widget Function(BuildContext, RefreshStatus?)) is not bridgeable: builder/encodable args",
+    "LinkFooter": "required param `linkKey` (Key) is not bridgeable: key",
+    "LinkHeader": "required param `linkKey` (Key) is not bridgeable: key",
+    "RefreshConfigurationCopyAncestor": "required param `context` (BuildContext) is not bridgeable: unbridgeable/framework-object"
+   },
+   "skippedByCat": {
+    "builder": 2,
+    "other": 2,
+    "context": 1
+   },
+   "dartLines": 1135,
+   "adapterLines": 323,
+   "warnings": []
+  },
+  "qr_flutter": {
+   "wallS": 33.8,
+   "loadMs": 20224,
+   "unitMs": 271,
+   "version": "4.1.0",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 34,
+   "paramsEmitted": 28,
+   "props": 28,
+   "omittedByCat": {
+    "builder": 2
+   },
+   "omitted": {
+    "QrImageView.errorStateBuilder": "builder/encodable args",
+    "QrImageViewWithQr.errorStateBuilder": "builder/encodable args"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 374,
+   "adapterLines": 64,
+   "warnings": []
+  },
+  "rive": {
+   "wallS": 44.0,
+   "loadMs": 26044,
+   "unitMs": 271,
+   "version": "0.14.11",
+   "requested": 13,
+   "emitted": 7,
+   "paramsTotal": 32,
+   "paramsEmitted": 25,
+   "props": 23,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "RiveArtboardWidget": "required param `artboard` (Artboard) is not bridgeable: unbridgeable/abstract-no-impl",
+    "RiveFileWidget": "required param `file` (File) is not bridgeable: unbridgeable/abstract-no-impl",
+    "RiveProceduralRenderingWidget": "required param `riveFactory` (Factory) is not bridgeable: unbridgeable/abstract-no-impl",
+    "RiveSemanticsWidget": "required param `artboard` (Artboard) is not bridgeable: unbridgeable/abstract-no-impl",
+    "RiveWidgetBuilder": "required param `fileLoader` (FileLoader) is not bridgeable: unbridgeable/no-usable-constructor",
+    "SharedTextureView": "required param `artboard` (Artboard) is not bridgeable: unbridgeable/abstract-no-impl"
+   },
+   "skippedByCat": {
+    "abstract delegate/subclass": 5,
+    "opaque class (no usable constructor)": 1
+   },
+   "dartLines": 499,
+   "adapterLines": 136,
+   "warnings": []
+  },
+  "shimmer": {
+   "wallS": 39.9,
+   "loadMs": 25758,
+   "unitMs": 138,
+   "version": "4.0.0",
+   "requested": 2,
+   "emitted": 2,
+   "paramsTotal": 15,
+   "paramsEmitted": 13,
+   "props": 11,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 396,
+   "adapterLines": 45,
+   "warnings": []
+  },
+  "signature": {
+   "wallS": 35.7,
+   "loadMs": 21908,
+   "unitMs": 114,
+   "version": "6.4.0",
+   "requested": 1,
+   "emitted": 1,
+   "paramsTotal": 7,
+   "paramsEmitted": 6,
+   "props": 6,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 173,
+   "adapterLines": 22,
+   "warnings": []
+  },
+  "skeletonizer": {
+   "wallS": 46.0,
+   "loadMs": 24258,
+   "unitMs": 329,
+   "version": "3.0.0",
+   "requested": 5,
+   "emitted": 5,
+   "paramsTotal": 31,
+   "paramsEmitted": 26,
+   "props": 21,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {
+    "sync-return callback": 3,
+    "builder": 2
+   },
+   "dataOmitted": {
+    "BoneResolver.button": "nested:callback/sync-return",
+    "BoneResolver.iconButton": "nested:callback/sync-return",
+    "SkeletonizerConfigData.effectResolver": "nested:callback/sync-return",
+    "SwitchAnimationConfig.transitionBuilder": "nested:builder/unencodable args",
+    "SwitchAnimationConfig.layoutBuilder": "nested:builder/unencodable args"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 837,
+   "adapterLines": 106,
+   "warnings": []
+  },
+  "smooth_page_indicator": {
+   "wallS": 32.2,
+   "loadMs": 18864,
+   "unitMs": 262,
+   "version": "3.0.0",
+   "requested": 4,
+   "emitted": 4,
+   "paramsTotal": 28,
+   "paramsEmitted": 23,
+   "props": 22,
+   "omittedByCat": {
+    "sync-return callback": 1
+   },
+   "omitted": {
+    "AnimatedSmoothIndicator.onDotClicked": "callback/sync-return"
+   },
+   "dataOmittedByCat": {
+    "sync-return callback": 2
+   },
+   "dataOmitted": {
+    "IndicatorEffect.CustomizableEffect.activeColorOverride": "nested:callback/sync-return",
+    "IndicatorEffect.CustomizableEffect.inActiveColorOverride": "nested:callback/sync-return"
+   },
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 530,
+   "adapterLines": 89,
+   "warnings": []
+  },
+  "table_calendar": {
+   "wallS": 55.4,
+   "loadMs": 29563,
+   "unitMs": 959,
+   "version": "3.3.0",
+   "requested": 2,
+   "emitted": 1,
+   "paramsTotal": 48,
+   "paramsEmitted": 40,
+   "props": 40,
+   "omittedByCat": {
+    "default not reproducible": 1,
+    "unexported type": 1,
+    "sync-return callback": 4,
+    "callback, unencodable args": 1
+   },
+   "omitted": {
+    "TableCalendar.availableCalendarFormats": "default value not reproducible (const {CalendarFormat.month : 'Month', CalendarFormat.twoWeeks : '2 weeks', CalendarFormat.week : 'Week'})",
+    "TableCalendar.simpleSwipeConfig": "unbridgeable/private/unexported-type",
+    "TableCalendar.eventLoader": "callback/sync-return",
+    "TableCalendar.enabledDayPredicate": "callback/sync-return",
+    "TableCalendar.selectedDayPredicate": "callback/sync-return",
+    "TableCalendar.holidayPredicate": "callback/sync-return",
+    "TableCalendar.onCalendarCreated": "callback/void(unencodable args)"
+   },
+   "dataOmittedByCat": {
+    "builder": 16,
+    "sync-return callback": 3,
+    "nested widget/void callback/handle (bridge 05)": 2
+   },
+   "dataOmitted": {
+    "CalendarBuildersOfdynamic.prioritizedBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.todayBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.selectedBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.rangeStartBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.rangeEndBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.withinRangeBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.outsideBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.disabledBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.holidayBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.defaultBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.rangeHighlightBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.singleMarkerBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.markerBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.dowBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.headerTitleBuilder": "nested:builder/encodable args",
+    "CalendarBuildersOfdynamic.weekNumberBuilder": "nested:builder/encodable args",
+    "CalendarStyle.dayTextFormatter": "nested:callback/sync-return",
+    "DaysOfWeekStyle.dowTextFormatter": "nested:callback/sync-return",
+    "HeaderStyle.titleTextFormatter": "nested:callback/sync-return",
+    "HeaderStyle.leftChevronIcon": "nested:widget/slot",
+    "HeaderStyle.rightChevronIcon": "nested:widget/slot"
+   },
+   "skipped": {
+    "TableCalendarBase": "required param `dayBuilder` (Widget? Function(BuildContext, DateTime, DateTime)) is not bridgeable: builder/encodable args"
+   },
+   "skippedByCat": {
+    "builder": 1
+   },
+   "dartLines": 1194,
+   "adapterLines": 58,
+   "warnings": [
+    "DateTime.month: default not reproducible, param dropped",
+    "DateTime.day: default not reproducible, param dropped",
+    "DateTime.hour: default not reproducible, param dropped",
+    "DateTime.minute: default not reproducible, param dropped",
+    "DateTime.second: default not reproducible, param dropped",
+    "DateTime.millisecond: default not reproducible, param dropped",
+    "DateTime.microsecond: default not reproducible, param dropped",
+    "DateTime.utc.month: default not reproducible, param dropped",
+    "DateTime.utc.day: default not reproducible, param dropped",
+    "DateTime.utc.hour: default not reproducible, param dropped",
+    "DateTime.utc.minute: default not reproducible, param dropped",
+    "DateTime.utc.second: default not reproducible, param dropped",
+    "DateTime.utc.millisecond: default not reproducible, param dropped",
+    "DateTime.utc.microsecond: default not reproducible, param dropped"
+   ]
+  },
+  "video_player": {
+   "wallS": 39.7,
+   "loadMs": 22523,
+   "unitMs": 271,
+   "version": "2.14.1",
+   "requested": 4,
+   "emitted": 4,
+   "paramsTotal": 13,
+   "paramsEmitted": 9,
+   "props": 8,
+   "omittedByCat": {},
+   "omitted": {},
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {},
+   "skippedByCat": {},
+   "dartLines": 471,
+   "adapterLines": 71,
+   "warnings": []
+  },
+  "webview_flutter": {
+   "wallS": 38.0,
+   "loadMs": 21221,
+   "unitMs": 79,
+   "version": "4.14.1",
+   "requested": 3,
+   "emitted": 1,
+   "paramsTotal": 4,
+   "paramsEmitted": 2,
+   "props": 2,
+   "omittedByCat": {
+    "nested widget/callback": 1
+   },
+   "omitted": {
+    "WebViewWidget.gestureRecognizers": "unbridgeable/needs-nested-widget/callback[set]"
+   },
+   "dataOmittedByCat": {},
+   "dataOmitted": {},
+   "skipped": {
+    "WebViewWidgetFromPlatformCreationParams": "required param `params` (PlatformWebViewWidgetCreationParams) is not bridgeable: unbridgeable/no-usable-constructor",
+    "WebViewWidgetFromPlatform": "required param `platform` (PlatformWebViewWidget) is not bridgeable: unbridgeable/private/unexported-type"
+   },
+   "skippedByCat": {
+    "opaque class (no usable constructor)": 1,
+    "unexported type": 1
+   },
+   "dartLines": 36,
+   "adapterLines": 20,
+   "warnings": []
+  }
+ },
+ "omittedTotals": {
+  "sync-return callback": 32,
+  "builder": 65,
+  "specific widget subtype": 6,
+  "unexported type": 11,
+  "callback, unencodable args": 13,
+  "default not reproducible": 5,
+  "streams": 2,
+  "abstract delegate/subclass": 7,
+  "future callback": 6,
+  "nested widget/callback": 2,
+  "opaque class (no usable constructor)": 3
+ },
+ "dataOmittedTotals": {
+  "sync-return callback": 104,
+  "nested widget/void callback/handle (bridge 05)": 53,
+  "unexported type": 4,
+  "builder": 34,
+  "opaque class (no usable constructor)": 10,
+  "callback, unencodable args": 11,
+  "abstract delegate/subclass": 5,
+  "specific widget subtype": 1,
+  "nested widget/callback": 2,
+  "future callback": 3
+ },
+ "rawReasons": {
+  "key": 10,
+  "data:nested:callback/sync-return": 104,
+  "data:nested:callback/void(encodable args)": 23,
+  "callback/sync-return": 32,
+  "builder/encodable args": 45,
+  "data:key/PageStorageKey": 1,
+  "widget/subtype[list]": 2,
+  "builder/context-only": 5,
+  "widget/subtype": 4,
+  "unbridgeable/private/unexported-type": 7,
+  "data:nested:handle/controller": 7,
+  "data:nested:widget/slot": 15,
+  "data:deprecated": 29,
+  "data:unbridgeable/private/unexported-type": 4,
+  "data:nested:builder/unencodable args": 11,
+  "deprecated": 14,
+  "data:unbridgeable/no-usable-constructor": 9,
+  "data:nested:builder/encodable args": 19,
+  "callback/void(unencodable args)": 13,
+  "default value not reproducible (const {})": 4,
+  "builder/unencodable args": 15,
+  "unbridgeable/future/stream": 2,
+  "data:nested:handle/focus": 1,
+  "data:nested:callback/void(unencodable args)": 11,
+  "data:nested:callback/void()": 7,
+  "unbridgeable/abstract-no-impl": 3,
+  "unbridgeable/private/unexported-type[list]": 4,
+  "unbridgeable/abstract-no-impl[map]": 4,
+  "data:nested:builder/context-only": 4,
+  "data:unbridgeable/abstract-no-impl": 4,
+  "data:unbridgeable/abstract-no-impl[iterable]": 1,
+  "data:nested:widget/subtype": 1,
+  "callback/Future<value>": 4,
+  "unbridgeable/needs-nested-widget/callback[set]": 2,
+  "unbridgeable/no-usable-constructor[set]": 1,
+  "data:unbridgeable/nested-collection": 2,
+  "unbridgeable/no-usable-constructor": 2,
+  "data:unbridgeable/no-usable-constructor[list]": 1,
+  "data:nested:callback/Future<value>": 3,
+  "data:key/key": 1,
+  "callback/Future<void>": 2,
+  "default value not reproducible (const {CalendarFormat.month : 'Month', CalendarFormat.twoWeeks : '2 weeks', CalendarFormat.week : 'Week'})": 1
+ }
+}

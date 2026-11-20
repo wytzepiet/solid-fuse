@@ -1,0 +1,296 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_svg",
+ "version": "2.5.0",
+ "register": "registerFlutterSvgWidgets",
+ "widgets": {
+  "DefaultSvgTheme": {
+   "tag": "flutter_svg.DefaultSvgTheme",
+   "dart": "DefaultSvgTheme",
+   "library": "package:flutter_svg/src/default_theme.dart",
+   "doc": "The SVG theme to apply to descendant [SvgPicture] widgets\nwhich don't have explicit theme values.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "theme": {"type":{"k":"data","n":"SvgTheme"},"dart":"SvgTheme","required":true,"doc":"The SVG theme to apply."}
+   }
+  },
+  "SvgPicture": {
+   "tag": "flutter_svg.SvgPicture",
+   "dart": "SvgPicture",
+   "library": "package:flutter_svg/svg.dart",
+   "doc": "A widget that will parse SVG data for rendering on screen.",
+   "props": {
+    "bytesLoader": {"type":{"k":"data","n":"BytesLoader"},"dart":"BytesLoader","required":true,"doc":"The [BytesLoader] used to resolve the SVG."},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the width to use for the SVG.  If unspecified, the SVG\nwill take the width of its parent."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the height to use for the SVG.  If unspecified, the SVG\nwill take the height of its parent."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit","default":"\"contain\"","doc":"How to inscribe the picture into the space allocated during layout.\nThe default is [BoxFit.contain]."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry","default":"Dart `Alignment.center`","doc":"How to align the picture within its parent widget."},
+    "matchTextDirection": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will horizontally flip the picture in [TextDirection.rtl] contexts."},
+    "allowDrawingOutsideViewBox": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will allow the SVG to be drawn outside of the clip boundary of its\nviewBox."},
+    "colorFilter": {"type":{"k":"data","n":"ColorFilter"},"dart":"ColorFilter?","doc":"The color filter, if any, to apply to this widget."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"The [Semantics.label] for this picture."},
+    "excludeFromSemantics": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to exclude this picture from semantics."},
+    "clipBehavior": {"type":{"k":"enum","n":"Clip"},"dart":"Clip","default":"\"hardEdge\"","doc":"The content will be clipped (or not) according to this option."}
+   },
+   "omitted": {
+    "placeholderBuilder": "builder/context-only",
+    "errorBuilder": "builder/unencodable args",
+    "imageBuilder": "builder/unencodable args",
+    "theme": "deprecated",
+    "cacheColorFilter": "deprecated",
+    "renderingStrategy": "unbridgeable/private/unexported-type"
+   },
+   "notes": ["bytesLoader: data type BytesLoader has dropped optional ctor params"]
+  },
+  "SvgPictureAsset": {
+   "tag": "flutter_svg.SvgPictureAsset",
+   "dart": "SvgPicture",
+   "ctor": "asset",
+   "library": "package:flutter_svg/svg.dart",
+   "doc": "A widget that will parse SVG data for rendering on screen.",
+   "children": "text",
+   "childrenParam": "assetName",
+   "props": {
+    "assetName": {"type":{"k":"string"},"dart":"String"},
+    "matchTextDirection": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will horizontally flip the picture in [TextDirection.rtl] contexts."},
+    "bundle": {"type":{"k":"data","n":"AssetBundle"},"dart":"AssetBundle?"},
+    "package": {"type":{"k":"string"},"dart":"String?"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the width to use for the SVG.  If unspecified, the SVG\nwill take the width of its parent."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the height to use for the SVG.  If unspecified, the SVG\nwill take the height of its parent."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit","default":"\"contain\"","doc":"How to inscribe the picture into the space allocated during layout.\nThe default is [BoxFit.contain]."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry","default":"Dart `Alignment.center`","doc":"How to align the picture within its parent widget."},
+    "allowDrawingOutsideViewBox": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will allow the SVG to be drawn outside of the clip boundary of its\nviewBox."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"The [Semantics.label] for this picture."},
+    "excludeFromSemantics": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to exclude this picture from semantics."},
+    "clipBehavior": {"type":{"k":"enum","n":"Clip"},"dart":"Clip","default":"\"hardEdge\"","doc":"The content will be clipped (or not) according to this option."},
+    "theme": {"type":{"k":"data","n":"SvgTheme"},"dart":"SvgTheme?"},
+    "colorFilter": {"type":{"k":"data","n":"ColorFilter"},"dart":"ColorFilter?","doc":"The color filter, if any, to apply to this widget."}
+   },
+   "omitted": {
+    "placeholderBuilder": "builder/context-only",
+    "errorBuilder": "builder/unencodable args",
+    "imageBuilder": "builder/unencodable args",
+    "colorMapper": "unbridgeable/abstract-no-impl",
+    "color": "deprecated",
+    "colorBlendMode": "deprecated",
+    "cacheColorFilter": "deprecated",
+    "renderingStrategy": "unbridgeable/private/unexported-type"
+   },
+   "notes": ["assetName: positional String is filled from text children when the prop is absent"]
+  },
+  "SvgPictureNetwork": {
+   "tag": "flutter_svg.SvgPictureNetwork",
+   "dart": "SvgPicture",
+   "ctor": "network",
+   "library": "package:flutter_svg/svg.dart",
+   "doc": "A widget that will parse SVG data for rendering on screen.",
+   "children": "text",
+   "childrenParam": "url",
+   "props": {
+    "url": {"type":{"k":"string"},"dart":"String"},
+    "headers": {"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}},"dart":"Map<String, String>?"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the width to use for the SVG.  If unspecified, the SVG\nwill take the width of its parent."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the height to use for the SVG.  If unspecified, the SVG\nwill take the height of its parent."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit","default":"\"contain\"","doc":"How to inscribe the picture into the space allocated during layout.\nThe default is [BoxFit.contain]."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry","default":"Dart `Alignment.center`","doc":"How to align the picture within its parent widget."},
+    "matchTextDirection": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will horizontally flip the picture in [TextDirection.rtl] contexts."},
+    "allowDrawingOutsideViewBox": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will allow the SVG to be drawn outside of the clip boundary of its\nviewBox."},
+    "colorFilter": {"type":{"k":"data","n":"ColorFilter"},"dart":"ColorFilter?","doc":"The color filter, if any, to apply to this widget."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"The [Semantics.label] for this picture."},
+    "excludeFromSemantics": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to exclude this picture from semantics."},
+    "clipBehavior": {"type":{"k":"enum","n":"Clip"},"dart":"Clip","default":"\"hardEdge\"","doc":"The content will be clipped (or not) according to this option."},
+    "theme": {"type":{"k":"data","n":"SvgTheme"},"dart":"SvgTheme?"}
+   },
+   "omitted": {
+    "placeholderBuilder": "builder/context-only",
+    "color": "deprecated",
+    "colorBlendMode": "deprecated",
+    "errorBuilder": "builder/unencodable args",
+    "imageBuilder": "builder/unencodable args",
+    "cacheColorFilter": "deprecated",
+    "colorMapper": "unbridgeable/abstract-no-impl",
+    "httpClient": "unbridgeable/private/unexported-type",
+    "renderingStrategy": "unbridgeable/private/unexported-type"
+   },
+   "notes": ["url: positional String is filled from text children when the prop is absent"]
+  },
+  "SvgPictureString": {
+   "tag": "flutter_svg.SvgPictureString",
+   "dart": "SvgPicture",
+   "ctor": "string",
+   "library": "package:flutter_svg/svg.dart",
+   "doc": "A widget that will parse SVG data for rendering on screen.",
+   "children": "text",
+   "childrenParam": "string",
+   "props": {
+    "string": {"type":{"k":"string"},"dart":"String"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the width to use for the SVG.  If unspecified, the SVG\nwill take the width of its parent."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If specified, the height to use for the SVG.  If unspecified, the SVG\nwill take the height of its parent."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit","default":"\"contain\"","doc":"How to inscribe the picture into the space allocated during layout.\nThe default is [BoxFit.contain]."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry","default":"Dart `Alignment.center`","doc":"How to align the picture within its parent widget."},
+    "matchTextDirection": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will horizontally flip the picture in [TextDirection.rtl] contexts."},
+    "allowDrawingOutsideViewBox": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"If true, will allow the SVG to be drawn outside of the clip boundary of its\nviewBox."},
+    "colorFilter": {"type":{"k":"data","n":"ColorFilter"},"dart":"ColorFilter?","doc":"The color filter, if any, to apply to this widget."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"The [Semantics.label] for this picture."},
+    "excludeFromSemantics": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether to exclude this picture from semantics."},
+    "clipBehavior": {"type":{"k":"enum","n":"Clip"},"dart":"Clip","default":"\"hardEdge\"","doc":"The content will be clipped (or not) according to this option."},
+    "theme": {"type":{"k":"data","n":"SvgTheme"},"dart":"SvgTheme?"}
+   },
+   "omitted": {
+    "placeholderBuilder": "builder/context-only",
+    "color": "deprecated",
+    "colorBlendMode": "deprecated",
+    "errorBuilder": "builder/unencodable args",
+    "imageBuilder": "builder/unencodable args",
+    "colorMapper": "unbridgeable/abstract-no-impl",
+    "cacheColorFilter": "deprecated",
+    "renderingStrategy": "unbridgeable/private/unexported-type"
+   },
+   "notes": ["string: positional String is filled from text children when the prop is absent"]
+  }
+ },
+ "skipped": {
+  "SvgPictureFile": "required param `file` (File) is not bridgeable: unbridgeable/private/unexported-type",
+  "SvgPictureMemory": "required param `bytes` (Uint8List) is not bridgeable: unbridgeable/binary/typed-data"
+ },
+ "enums": {
+  "BlendMode": {
+   "values": ["clear","src","dst","srcOver","dstOver","srcIn","dstIn","srcOut","dstOut","srcATop","dstATop","xor","plus","modulate","screen","overlay","darken","lighten","colorDodge","colorBurn","hardLight","softLight","difference","exclusion","multiply","hue","saturation","color","luminosity"],
+   "doc": "Algorithms to use when painting on the canvas."
+  },
+  "BoxFit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown"],
+   "doc": "How a box should be inscribed into another box."
+  },
+  "Clip": {
+   "values": ["none","hardEdge","antiAlias","antiAliasWithSaveLayer"],
+   "doc": "Different ways to clip content."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "BytesLoader": {
+   "dart": "BytesLoader",
+   "doc": "An interface that can be implemented to support decoding vector graphic\nbinary assets from different byte sources.",
+   "variants": [
+    {"tag":"SvgStringLoader","fields":{"_svg":{"type":{"k":"string"},"required":true},"theme":{"type":{"k":"data","n":"SvgTheme"},"nullable":true}},"omitted":{"colorMapper":"unbridgeable/abstract-no-impl"}},
+    {"tag":"SvgAssetLoader","fields":{"assetName":{"type":{"k":"string"},"required":true},"packageName":{"type":{"k":"string"},"nullable":true},"assetBundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"theme":{"type":{"k":"data","n":"SvgTheme"},"nullable":true}},"omitted":{"colorMapper":"unbridgeable/abstract-no-impl"}},
+    {"tag":"SvgNetworkLoader","fields":{"url":{"type":{"k":"string"},"required":true},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"theme":{"type":{"k":"data","n":"SvgTheme"},"nullable":true}},"omitted":{"colorMapper":"unbridgeable/abstract-no-impl","httpClient":"unbridgeable/private/unexported-type"}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "ColorFilter": {
+   "dart": "ColorFilter",
+   "doc": "A description of a color filter to apply when drawing a shape or compositing\na layer with a particular [Paint]. A color filter is a function that takes\ntwo colors, and outputs one color. When applied during compositing, it is\nindependently applied to each pixel of the layer being drawn before the\nentire layer is merged with the destination.",
+   "variants": [
+    {"tag":"mode","fields":{"color":{"type":{"k":"data","n":"Color"},"required":true},"blendMode":{"type":{"k":"enum","n":"BlendMode"},"required":true}}},
+    {"tag":"matrix","fields":{"matrix":{"type":{"k":"list","e":{"k":"double"}},"required":true}}},
+    {"tag":"linearToSrgbGamma","fields":{}},
+    {"tag":"srgbToLinearGamma","fields":{}},
+    {"tag":"saturation","fields":{"saturation":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "SvgTheme": {
+   "dart": "SvgTheme",
+   "doc": "A theme used when decoding an SVG picture.",
+   "variants": [
+    {"tag":null,"fields":{"currentColor":{"type":{"k":"data","n":"Color"}},"fontSize":{"type":{"k":"double"}},"xHeight":{"type":{"k":"double"},"nullable":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:flutter_svg/flutter_svg.dart"]
+}

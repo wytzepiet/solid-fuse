@@ -1,0 +1,366 @@
+{
+  "name": "sqflite",
+  "libs": [
+    "package:sqflite/sqflite.dart"
+  ],
+  "surface": {
+    "total": 90,
+    "bridged": 83,
+    "byKind": {
+      "static method": {
+        "bridged": 4,
+        "total": 5
+      },
+      "function": {
+        "bridged": 6,
+        "total": 6
+      },
+      "top-level variable": {
+        "bridged": 0,
+        "total": 3
+      },
+      "method": {
+        "bridged": 65,
+        "total": 68
+      },
+      "getter": {
+        "bridged": 8,
+        "total": 8
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "Sqflite.firstIntValue",
+      "ok": false,
+      "why": "list: unbridgeable (unbridgeable/nested-collection)"
+    },
+    {
+      "kind": "top-level variable",
+      "name": "databaseFactory",
+      "ok": false,
+      "why": "top-level variables are not bridged"
+    },
+    {
+      "kind": "top-level variable",
+      "name": "databaseFactoryOrNull",
+      "ok": false,
+      "why": "top-level variables are not bridged"
+    },
+    {
+      "kind": "top-level variable",
+      "name": "databaseFactorySqflitePlugin",
+      "ok": false,
+      "why": "top-level variables are not bridged"
+    },
+    {
+      "kind": "method",
+      "name": "Database#readTransaction()",
+      "ok": false,
+      "why": "action: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "method",
+      "name": "Database#transaction()",
+      "ok": false,
+      "why": "action: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "method",
+      "name": "DatabaseFactory#writeDatabaseBytes()",
+      "ok": false,
+      "why": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+    }
+  ],
+  "partial": [
+    {
+      "kind": "static method",
+      "name": "Sqflite.setLockWarningInfo",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "function",
+      "name": "openDatabase",
+      "ok": true,
+      "why": "dropped optional: onConfigure, onCreate, onUpgrade, onDowngrade, onOpen"
+    }
+  ],
+  "objects": [
+    {
+      "class": "Batch",
+      "tag": "sqflite_Batch",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "apply",
+        "commit",
+        "delete",
+        "execute",
+        "insert",
+        "query",
+        "rawDelete",
+        "rawInsert",
+        "rawQuery",
+        "rawUpdate",
+        "update"
+      ],
+      "methodsTotal": 11,
+      "streams": [],
+      "readable": [
+        "length"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 82,
+      "tsLines": 69
+    },
+    {
+      "class": "Database",
+      "tag": "sqflite_Database",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "batch",
+        "close",
+        "delete",
+        "execute",
+        "insert",
+        "query",
+        "queryCursor",
+        "rawDelete",
+        "rawInsert",
+        "rawQuery",
+        "rawQueryCursor",
+        "rawUpdate",
+        "update"
+      ],
+      "methodsTotal": 15,
+      "streams": [],
+      "readable": [
+        "isOpen",
+        "path"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [
+        "database"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "readTransaction()": "action: callback-async (needs _functionCallAsync)",
+        "transaction()": "action: callback-async (needs _functionCallAsync)"
+      },
+      "dartLines": 85,
+      "tsLines": 102
+    },
+    {
+      "class": "DatabaseException",
+      "tag": "sqflite_DatabaseException",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "getResultCode",
+        "isDatabaseClosedError",
+        "isDuplicateColumnError",
+        "isNoSuchTableError",
+        "isNotNullConstraintError",
+        "isOpenFailedError",
+        "isReadOnlyError",
+        "isSyntaxError",
+        "isUniqueConstraintError"
+      ],
+      "methodsTotal": 9,
+      "streams": [],
+      "readable": [
+        "result"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 67,
+      "tsLines": 55
+    },
+    {
+      "class": "DatabaseExecutor",
+      "tag": "sqflite_DatabaseExecutor",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "batch",
+        "delete",
+        "execute",
+        "insert",
+        "query",
+        "queryCursor",
+        "rawDelete",
+        "rawInsert",
+        "rawQuery",
+        "rawQueryCursor",
+        "rawUpdate",
+        "update"
+      ],
+      "methodsTotal": 12,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [
+        "database"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 76,
+      "tsLines": 90
+    },
+    {
+      "class": "DatabaseFactory",
+      "tag": "sqflite_DatabaseFactory",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "databaseExists",
+        "deleteDatabase",
+        "getDatabasesPath",
+        "openDatabase",
+        "readDatabaseBytes",
+        "setDatabasesPath"
+      ],
+      "methodsTotal": 7,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "writeDatabaseBytes()": "bytes: unbridgeable (unbridgeable/binary/typed-data)"
+      },
+      "dartLines": 61,
+      "tsLines": 39
+    },
+    {
+      "class": "QueryCursor",
+      "tag": "sqflite_QueryCursor",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "close",
+        "moveNext"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "current"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 55,
+      "tsLines": 34
+    },
+    {
+      "class": "Transaction",
+      "tag": "sqflite_Transaction",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "batch",
+        "delete",
+        "execute",
+        "insert",
+        "query",
+        "queryCursor",
+        "rawDelete",
+        "rawInsert",
+        "rawQuery",
+        "rawQueryCursor",
+        "rawUpdate",
+        "update"
+      ],
+      "methodsTotal": 12,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [
+        "database"
+      ],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 76,
+      "tsLines": 90
+    }
+  ],
+  "notCallable": {
+    "OpenDatabaseOptions": "record (by the data rules)",
+    "Sqflite": "no members",
+    "SqfliteDarwin": "no members",
+    "SqflitePlugin": "no members",
+    "SqfliteSqlCommand": "record (by the data rules)",
+    "ConflictAlgorithm": "enum (by the data rules)",
+    "DatabaseFactoryLoggerDebugExt": "extension",
+    "OnDatabaseConfigureFn": "typedef",
+    "OnDatabaseCreateFn": "typedef",
+    "OnDatabaseOpenFn": "typedef",
+    "OnDatabaseVersionChangeFn": "typedef",
+    "SqfliteCursorRowCallback": "typedef",
+    "SqfliteDatabaseAndroidExt": "extension",
+    "SqfliteDatabaseExecutorExt": "extension",
+    "SqfliteDatabaseExecutorIterateExt": "extension",
+    "SqfliteDatabaseExt": "extension",
+    "SqfliteDatabaseFactoryDebug": "extension",
+    "SqfliteDatabaseFactorySandboxExtension": "extension",
+    "SqfliteSqlCommandExecutorExt": "extension",
+    "SqliteSqlCommandType": "enum (by the data rules)",
+    "databaseFactory": "top-level variable",
+    "databaseFactory=": "top-level variable",
+    "databaseFactoryOrNull": "top-level variable",
+    "databaseFactoryOrNull=": "top-level variable",
+    "databaseFactorySqflitePlugin": "top-level variable",
+    "inMemoryDatabasePath": "constant",
+    "onDatabaseDowngradeDelete": "constant",
+    "sqfliteLogLevelNone": "constant",
+    "sqfliteLogLevelSql": "constant",
+    "sqfliteLogLevelVerbose": "constant"
+  },
+  "dartLines": 621,
+  "tsLines": 574,
+  "warnings": []
+}

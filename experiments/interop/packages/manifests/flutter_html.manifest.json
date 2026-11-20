@@ -1,0 +1,527 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_html",
+ "version": "3.0.0",
+ "register": "registerFlutterHtmlWidgets",
+ "widgets": {
+  "CssBoxWidget": {
+   "tag": "flutter_html.CssBoxWidget",
+   "dart": "CssBoxWidget",
+   "library": "package:flutter_html/src/css_box_widget.dart",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "style": {"type":{"k":"data","n":"Style"},"dart":"Style","required":true,"doc":"The style to use to compute this box's margins/padding/box decoration/width/height/etc."},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"Sets the direction the text of this widget should flow. If unset or null,\nthe nearest Directionality ancestor is used as a default. If that cannot\nbe found, this Widget's renderer will raise an assertion."},
+    "childIsReplaced": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Indicates whether this child is a replaced element that manages its own width\n(e.g. img, video, iframe, audio, etc.)"},
+    "shrinkWrap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether or not the content should ignore auto horizontal margins and not\nnecessarily take up the full available width unless necessary"},
+    "top": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"For the root widget, so textScaleFactor, etc are only applied once"}
+   }
+  },
+  "CssBoxWidgetWithInlineSpanChildren": {
+   "tag": "flutter_html.CssBoxWidgetWithInlineSpanChildren",
+   "dart": "CssBoxWidget",
+   "ctor": "withInlineSpanChildren",
+   "library": "package:flutter_html/src/css_box_widget.dart",
+   "props": {
+    "children": {"type":{"k":"list","e":{"k":"data","n":"InlineSpan"}},"dart":"List<InlineSpan>","required":true},
+    "style": {"type":{"k":"data","n":"Style"},"dart":"Style","required":true,"doc":"The style to use to compute this box's margins/padding/box decoration/width/height/etc."},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"Sets the direction the text of this widget should flow. If unset or null,\nthe nearest Directionality ancestor is used as a default. If that cannot\nbe found, this Widget's renderer will raise an assertion."},
+    "childIsReplaced": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Indicates whether this child is a replaced element that manages its own width\n(e.g. img, video, iframe, audio, etc.)"},
+    "shrinkWrap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether or not the content should ignore auto horizontal margins and not\nnecessarily take up the full available width unless necessary"},
+    "top": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"For the root widget, so textScaleFactor, etc are only applied once"}
+   },
+   "notes": ["children: data type List<InlineSpan> has dropped optional ctor params"]
+  },
+  "Html": {
+   "tag": "flutter_html.Html",
+   "dart": "Html",
+   "library": "package:flutter_html/flutter_html.dart",
+   "props": {
+    "data": {"type":{"k":"string"},"dart":"String?","nullable":true,"doc":"The HTML data passed to the widget as a String"},
+    "extensions": {"type":{"k":"list","e":{"k":"data","n":"HtmlExtension"}},"dart":"List<HtmlExtension>","default":"Dart `const []`","doc":"A list of [HtmlExtension]s that add additional capabilities to flutter_html\nSee the [HtmlExtension] class for more details."},
+    "shrinkWrap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"A parameter that should be set when the HTML widget is expected to be\nflexible"},
+    "onlyRenderTheseTags": {"type":{"k":"list","e":{"k":"string"}},"dart":"Set<String>?","doc":"A set of the only HTML tags that should be rendered by this widget."},
+    "doNotRenderTheseTags": {"type":{"k":"list","e":{"k":"string"}},"dart":"Set<String>?","doc":"A set of HTML tags to completely ignore in the provided code."}
+   },
+   "omitted": {
+    "anchorKey": "key",
+    "onLinkTap": "callback/void(unencodable args)",
+    "onAnchorTap": "callback/void(unencodable args)",
+    "onCssParseError": "callback/sync-return",
+    "style": "default value not reproducible (const {})"
+   },
+   "notes": ["extensions: data type List<HtmlExtension> has dropped optional ctor params"]
+  },
+  "HtmlFromDom": {
+   "tag": "flutter_html.HtmlFromDom",
+   "dart": "Html",
+   "ctor": "fromDom",
+   "library": "package:flutter_html/flutter_html.dart",
+   "props": {
+    "extensions": {"type":{"k":"list","e":{"k":"data","n":"HtmlExtension"}},"dart":"List<HtmlExtension>","default":"Dart `const []`","doc":"A list of [HtmlExtension]s that add additional capabilities to flutter_html\nSee the [HtmlExtension] class for more details."},
+    "shrinkWrap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"A parameter that should be set when the HTML widget is expected to be\nflexible"},
+    "doNotRenderTheseTags": {"type":{"k":"list","e":{"k":"string"}},"dart":"Set<String>?","doc":"A set of HTML tags to completely ignore in the provided code."},
+    "onlyRenderTheseTags": {"type":{"k":"list","e":{"k":"string"}},"dart":"Set<String>?","doc":"A set of the only HTML tags that should be rendered by this widget."}
+   },
+   "omitted": {
+    "anchorKey": "key",
+    "document": "unbridgeable/private/unexported-type",
+    "onLinkTap": "callback/void(unencodable args)",
+    "onAnchorTap": "callback/void(unencodable args)",
+    "onCssParseError": "callback/sync-return",
+    "style": "default value not reproducible (const {})"
+   },
+   "notes": ["extensions: data type List<HtmlExtension> has dropped optional ctor params"]
+  },
+  "HtmlFromElement": {
+   "tag": "flutter_html.HtmlFromElement",
+   "dart": "Html",
+   "ctor": "fromElement",
+   "library": "package:flutter_html/flutter_html.dart",
+   "props": {
+    "extensions": {"type":{"k":"list","e":{"k":"data","n":"HtmlExtension"}},"dart":"List<HtmlExtension>","default":"Dart `const []`","doc":"A list of [HtmlExtension]s that add additional capabilities to flutter_html\nSee the [HtmlExtension] class for more details."},
+    "shrinkWrap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"A parameter that should be set when the HTML widget is expected to be\nflexible"},
+    "doNotRenderTheseTags": {"type":{"k":"list","e":{"k":"string"}},"dart":"Set<String>?","doc":"A set of HTML tags to completely ignore in the provided code."},
+    "onlyRenderTheseTags": {"type":{"k":"list","e":{"k":"string"}},"dart":"Set<String>?","doc":"A set of the only HTML tags that should be rendered by this widget."}
+   },
+   "omitted": {
+    "anchorKey": "key",
+    "documentElement": "unbridgeable/private/unexported-type",
+    "onLinkTap": "callback/void(unencodable args)",
+    "onAnchorTap": "callback/void(unencodable args)",
+    "onCssParseError": "callback/sync-return",
+    "style": "default value not reproducible (const {})"
+   },
+   "notes": ["extensions: data type List<HtmlExtension> has dropped optional ctor params"]
+  }
+ },
+ "skipped": {
+  "HtmlParser": "required param `htmlData` (Element) is not bridgeable: unbridgeable/private/unexported-type"
+ },
+ "enums": {
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "BorderStyle": {
+   "values": ["none","solid"],
+   "doc": "The style of line to draw for a [BorderSide] in a [Border]."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "Display": {
+   "values": ["none","contents","block","flowRoot","inline","inlineBlock","runIn","listItem","inlineListItem","flex","inlineFlex","grid","inlineGrid","ruby","blockRuby","table","inlineTable","tableRowGroup","tableHeaderGroup","tableFooterGroup","tableRow","tableCell","tableColumnGroup","tableColumn","tableCaption","rubyBase","rubyText","rubyBaseContainer","rubyTextContainer"],
+   "doc": "Equivalent to CSS `display`"
+  },
+  "DragStartBehavior": {
+   "values": ["down","start"],
+   "doc": "Configuration of offset passed to [DragStartDetails]."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "ListStylePosition": {
+   "values": ["outside","inside"]
+  },
+  "ListStyleType": {
+   "values": ["arabicIndic","armenian","lowerArmenian","upperArmenian","bengali","cambodian","khmer","circle","cjkDecimal","cjkEarthlyBranch","cjkHeavenlyStem","cjkIdeographic","decimal","decimalLeadingZero","devanagari","disc","disclosureClosed","disclosureOpen","ethiopicNumeric","georgian","gujarati","gurmukhi","hebrew","hiragana","hiraganaIroha","japaneseFormal","japaneseInformal","kannada","katakana","katakanaIroha","koreanHangulFormal","koreanHanjaInformal","koreanHanjaFormal","lao","lowerAlpha","lowerGreek","lowerLatin","lowerRoman","malayalam","mongolian","myanmar","none","oriya","persian","simpChineseFormal","simpChineseInformal","square","tamil","telugu","thai","tibetan","tradChineseFormal","tradChineseInformal","upperAlpha","upperLatin","upperRoman"]
+  },
+  "PointerDeviceKind": {
+   "values": ["touch","mouse","stylus","invertedStylus","trackpad","unknown"],
+   "doc": "The kind of pointer device."
+  },
+  "TextAlign": {
+   "values": ["left","right","center","justify","start","end"],
+   "doc": "Whether and how to align text horizontally."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  },
+  "TextTransform": {
+   "values": ["uppercase","lowercase","capitalize","none"]
+  },
+  "Unit": {
+   "values": ["em","percent","px","rem","auto"],
+   "doc": "A Unit represents a CSS unit"
+  },
+  "VerticalAlign": {
+   "values": ["baseline","sub","sup","top","bottom","middle"]
+  },
+  "WhiteSpace": {
+   "values": ["normal","pre"]
+  }
+ },
+ "types": {
+  "Alignment": {
+   "dart": "Alignment",
+   "doc": "A point within a rectangle.",
+   "consts": ["topLeft","topCenter","topRight","centerLeft","center","centerRight","bottomLeft","bottomCenter","bottomRight","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":null,"fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "Border": {
+   "dart": "Border",
+   "doc": "A border of a box, comprised of four sides: top, right, bottom, left.",
+   "variants": [
+    {"tag":null,"fields":{"top":{"type":{"k":"data","n":"BorderSide"}},"right":{"type":{"k":"data","n":"BorderSide"}},"bottom":{"type":{"k":"data","n":"BorderSide"}},"left":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"fromBorderSide","fields":{"side":{"type":{"k":"data","n":"BorderSide"},"required":true}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"data","n":"BorderSide"}},"horizontal":{"type":{"k":"data","n":"BorderSide"}}}},
+    {"tag":"all","fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "BorderSide": {
+   "dart": "BorderSide",
+   "doc": "A side of a border of a box.",
+   "consts": ["none"],
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"width":{"type":{"k":"double"}},"style":{"type":{"k":"enum","n":"BorderStyle"}},"strokeAlign":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Content": {
+   "dart": "Content",
+   "consts": ["none","normal"],
+   "variants": [
+    {"tag":null,"fields":{"replacementContent":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontSize": {
+   "dart": "FontSize",
+   "variants": [
+    {"tag":null,"fields":{"size":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"}}}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "GestureRecognizer": {
+   "dart": "GestureRecognizer",
+   "doc": "The base class that all gesture recognizers inherit from.",
+   "variants": [
+    {"tag":"EagerGestureRecognizer","fields":{"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"ForcePressGestureRecognizer","fields":{"startPressure":{"type":{"k":"double"}},"peakPressure":{"type":{"k":"double"}},"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"interpolation":"nested:callback/sync-return","allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"LongPressGestureRecognizer","fields":{"duration":{"type":{"k":"data","n":"Duration"},"nullable":true},"postAcceptSlopTolerance":{"type":{"k":"double"},"nullable":true},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}},"debugOwner":{"type":{"k":"unknown"}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"VerticalDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"HorizontalDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"PanGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"ImmediateMultiDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"HorizontalMultiDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"VerticalMultiDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"DelayedMultiDragGestureRecognizer","fields":{"delay":{"type":{"k":"data","n":"Duration"}},"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"DoubleTapGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"MultiTapGestureRecognizer","fields":{"longTapDelay":{"type":{"k":"data","n":"Duration"}},"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"SerialTapGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"ScaleGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}},"dragStartBehavior":{"type":{"k":"enum","n":"DragStartBehavior"}},"trackpadScrollCausesScale":{"type":{"k":"bool"}},"trackpadScrollToScaleFactor":{"type":{"k":"data","n":"Offset"}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"TapGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}},"preAcceptSlopTolerance":{"type":{"k":"double"},"nullable":true},"postAcceptSlopTolerance":{"type":{"k":"double"},"nullable":true}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"TapAndHorizontalDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}}},
+    {"tag":"TapAndPanGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}}}
+   ]
+  },
+  "Height": {
+   "dart": "Height",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"}}}},
+    {"tag":"auto","fields":{}}
+   ]
+  },
+  "HtmlExtension": {
+   "dart": "HtmlExtension",
+   "doc": "The [HtmlExtension] class allows you to customize the behavior of flutter_html\nor add additional functionality.",
+   "variants": [
+    {"tag":"ImageExtension","fields":{"assetBundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"assetPackage":{"type":{"k":"string"},"nullable":true},"assetSchema":{"type":{"k":"string"}},"dataEncoding":{"type":{"k":"string"},"nullable":true},"fileExtensions":{"type":{"k":"list","e":{"k":"string"}}},"mimeTypes":{"type":{"k":"list","e":{"k":"string"}}},"networkDomains":{"type":{"k":"list","e":{"k":"string"}}},"networkHeaders":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"networkSchemas":{"type":{"k":"list","e":{"k":"string"}}},"handleAssetImages":{"type":{"k":"bool"}},"handleDataImages":{"type":{"k":"bool"}},"handleNetworkImages":{"type":{"k":"bool"}}},"omitted":{"child":"nested:widget/slot","builder":"nested:builder/encodable args"}},
+    {"tag":"ImageExtension.inline","fields":{"assetBundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"assetPackage":{"type":{"k":"string"},"nullable":true},"assetSchema":{"type":{"k":"string"}},"dataEncoding":{"type":{"k":"string"},"nullable":true},"fileExtensions":{"type":{"k":"list","e":{"k":"string"}}},"mimeTypes":{"type":{"k":"list","e":{"k":"string"}}},"networkDomains":{"type":{"k":"list","e":{"k":"string"}}},"networkHeaders":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"networkSchemas":{"type":{"k":"list","e":{"k":"string"}}},"handleAssetImages":{"type":{"k":"bool"}},"handleDataImages":{"type":{"k":"bool"}},"handleNetworkImages":{"type":{"k":"bool"}},"child":{"type":{"k":"data","n":"InlineSpan"},"nullable":true}},"omitted":{"builder":"nested:callback/sync-return"}},
+    {"tag":"TagExtension","fields":{"tagsToExtend":{"type":{"k":"list","e":{"k":"string"}},"required":true}},"omitted":{"child":"nested:widget/slot","builder":"nested:builder/encodable args"}},
+    {"tag":"TagExtension.inline","fields":{"tagsToExtend":{"type":{"k":"list","e":{"k":"string"}},"required":true},"child":{"type":{"k":"data","n":"InlineSpan"},"nullable":true}},"omitted":{"builder":"nested:callback/sync-return"}}
+   ]
+  },
+  "HtmlPadding": {
+   "dart": "HtmlPadding",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}},
+    {"tag":"zero","fields":{}}
+   ]
+  },
+  "HtmlPaddings": {
+   "dart": "HtmlPaddings",
+   "variants": [
+    {"tag":null,"fields":{"left":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"right":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"inlineEnd":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"inlineStart":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"top":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"bottom":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"blockEnd":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true},"blockStart":{"type":{"k":"data","n":"HtmlPadding"},"nullable":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"},"nullable":true},"right":{"type":{"k":"double"},"nullable":true},"inlineEnd":{"type":{"k":"double"},"nullable":true},"inlineStart":{"type":{"k":"double"},"nullable":true},"top":{"type":{"k":"double"},"nullable":true},"bottom":{"type":{"k":"double"},"nullable":true},"blockEnd":{"type":{"k":"double"},"nullable":true},"blockStart":{"type":{"k":"double"},"nullable":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}},
+    {"tag":"symmetric","fields":{"horizontal":{"type":{"k":"double"},"nullable":true},"vertical":{"type":{"k":"double"},"nullable":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}}
+   ]
+  },
+  "InlineSpan": {
+   "dart": "InlineSpan",
+   "doc": "An immutable span of inline content which forms part of a paragraph.",
+   "variants": [
+    {"tag":"TextSpan","fields":{"text":{"type":{"k":"string"},"nullable":true},"children":{"type":{"k":"list","e":{"k":"data","n":"InlineSpan"}}},"style":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"recognizer":{"type":{"k":"data","n":"GestureRecognizer"},"nullable":true},"mouseCursor":{"type":{"k":"data","n":"MouseCursor"},"nullable":true},"semanticsLabel":{"type":{"k":"string"},"nullable":true},"semanticsIdentifier":{"type":{"k":"string"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"spellOut":{"type":{"k":"bool"},"nullable":true}},"omitted":{"onEnter":"nested:callback/void(encodable args)","onExit":"nested:callback/void(encodable args)"}}
+   ]
+  },
+  "LineHeight": {
+   "dart": "LineHeight",
+   "consts": ["normal"],
+   "variants": [
+    {"tag":null,"fields":{"size":{"type":{"k":"double"},"nullable":true},"units":{"type":{"k":"string"}}}},
+    {"tag":"percent","fields":{"percent":{"type":{"k":"double"},"required":true}}},
+    {"tag":"em","fields":{"em":{"type":{"k":"double"},"required":true}}},
+    {"tag":"rem","fields":{"rem":{"type":{"k":"double"},"required":true}}},
+    {"tag":"number","fields":{"num":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ListStyleImage": {
+   "dart": "ListStyleImage",
+   "variants": [
+    {"tag":null,"fields":{"uriText":{"type":{"k":"string"},"required":true}}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "Margin": {
+   "dart": "Margin",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}},
+    {"tag":"auto","fields":{}},
+    {"tag":"zero","fields":{}}
+   ]
+  },
+  "Margins": {
+   "dart": "Margins",
+   "variants": [
+    {"tag":null,"fields":{"left":{"type":{"k":"data","n":"Margin"},"nullable":true},"right":{"type":{"k":"data","n":"Margin"},"nullable":true},"inlineEnd":{"type":{"k":"data","n":"Margin"},"nullable":true},"inlineStart":{"type":{"k":"data","n":"Margin"},"nullable":true},"top":{"type":{"k":"data","n":"Margin"},"nullable":true},"bottom":{"type":{"k":"data","n":"Margin"},"nullable":true},"blockEnd":{"type":{"k":"data","n":"Margin"},"nullable":true},"blockStart":{"type":{"k":"data","n":"Margin"},"nullable":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"},"nullable":true},"right":{"type":{"k":"double"},"nullable":true},"inlineEnd":{"type":{"k":"double"},"nullable":true},"inlineStart":{"type":{"k":"double"},"nullable":true},"top":{"type":{"k":"double"},"nullable":true},"bottom":{"type":{"k":"double"},"nullable":true},"blockEnd":{"type":{"k":"double"},"nullable":true},"blockStart":{"type":{"k":"double"},"nullable":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}},
+    {"tag":"symmetric","fields":{"horizontal":{"type":{"k":"double"},"nullable":true},"vertical":{"type":{"k":"double"},"nullable":true},"unit":{"type":{"k":"enum","n":"Unit"},"nullable":true}}}
+   ]
+  },
+  "Marker": {
+   "dart": "Marker",
+   "variants": [
+    {"tag":null,"fields":{"content":{"type":{"k":"data","n":"Content"}},"style":{"type":{"k":"data","n":"Style"},"nullable":true}}}
+   ]
+  },
+  "MouseCursor": {
+   "dart": "MouseCursor",
+   "doc": "An interface for mouse cursor definitions.",
+   "consts": ["defer","uncontrolled","SystemMouseCursors.none","SystemMouseCursors.basic","SystemMouseCursors.click","SystemMouseCursors.forbidden","SystemMouseCursors.wait","SystemMouseCursors.progress","SystemMouseCursors.contextMenu","SystemMouseCursors.help","SystemMouseCursors.text","SystemMouseCursors.verticalText","SystemMouseCursors.cell","SystemMouseCursors.precise","SystemMouseCursors.move","SystemMouseCursors.grab","SystemMouseCursors.grabbing","SystemMouseCursors.noDrop","SystemMouseCursors.alias","SystemMouseCursors.copy","SystemMouseCursors.disappearing","SystemMouseCursors.allScroll","SystemMouseCursors.resizeLeftRight","SystemMouseCursors.resizeUpDown","SystemMouseCursors.resizeUpLeftDownRight","SystemMouseCursors.resizeUpRightDownLeft","SystemMouseCursors.resizeUp","SystemMouseCursors.resizeDown","SystemMouseCursors.resizeLeft","SystemMouseCursors.resizeRight","SystemMouseCursors.resizeUpLeft","SystemMouseCursors.resizeUpRight","SystemMouseCursors.resizeDownLeft","SystemMouseCursors.resizeDownRight","SystemMouseCursors.resizeColumn","SystemMouseCursors.resizeRow","SystemMouseCursors.zoomIn","SystemMouseCursors.zoomOut","WidgetStateMouseCursor.clickable","WidgetStateMouseCursor.adaptiveClickable","WidgetStateMouseCursor.textable"]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Style": {
+   "dart": "Style",
+   "doc": "This class represents all the available CSS attributes\nfor this package.",
+   "variants": [
+    {"tag":null,"fields":{"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"counterIncrement":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"int","nullable":true}}},"counterReset":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"int","nullable":true}}},"direction":{"type":{"k":"enum","n":"TextDirection"},"nullable":true},"display":{"type":{"k":"enum","n":"Display"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"fontFeatureSettings":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontSize":{"type":{"k":"data","n":"FontSize"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"height":{"type":{"k":"data","n":"Height"},"nullable":true},"lineHeight":{"type":{"k":"data","n":"LineHeight"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"listStyleImage":{"type":{"k":"data","n":"ListStyleImage"},"nullable":true},"listStyleType":{"type":{"k":"enum","n":"ListStyleType"},"nullable":true},"listStylePosition":{"type":{"k":"enum","n":"ListStylePosition"},"nullable":true},"padding":{"type":{"k":"data","n":"HtmlPaddings"},"nullable":true},"marker":{"type":{"k":"data","n":"Marker"},"nullable":true},"margin":{"type":{"k":"data","n":"Margins"},"nullable":true},"textAlign":{"type":{"k":"enum","n":"TextAlign"},"nullable":true},"textDecoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"textDecorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"textDecorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"textDecorationThickness":{"type":{"k":"double"},"nullable":true},"textShadow":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"verticalAlign":{"type":{"k":"enum","n":"VerticalAlign"}},"whiteSpace":{"type":{"k":"enum","n":"WhiteSpace"},"nullable":true},"width":{"type":{"k":"data","n":"Width"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"before":{"type":{"k":"string"},"nullable":true},"after":{"type":{"k":"string"},"nullable":true},"border":{"type":{"k":"data","n":"Border"},"nullable":true},"alignment":{"type":{"k":"data","n":"Alignment"},"nullable":true},"maxLines":{"type":{"k":"int"},"nullable":true},"textOverflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true},"textTransform":{"type":{"k":"enum","n":"TextTransform"},"nullable":true}}},
+    {"tag":"fromTextStyle","fields":{"textStyle":{"type":{"k":"data","n":"TextStyle"},"required":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "Width": {
+   "dart": "Width",
+   "doc": "The [Width] class takes in a value and units, and defaults to px if no\nunits are provided. A helper constructor, [Width.auto] constructor is\nprovided for convenience.",
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"double"},"required":true},"unit":{"type":{"k":"enum","n":"Unit"}}}},
+    {"tag":"auto","fields":{}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:flutter_html/flutter_html.dart"]
+}

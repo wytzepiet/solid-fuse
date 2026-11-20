@@ -1,0 +1,214 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "flutter_staggered_grid_view",
+ "version": "0.7.0",
+ "register": "registerFlutterStaggeredGridViewWidgets",
+ "widgets": {
+  "MasonryGridView": {
+   "tag": "flutter_staggered_grid_view.MasonryGridView",
+   "dart": "MasonryGridView",
+   "library": "package:flutter_staggered_grid_view/src/widgets/masonry_grid_view.dart",
+   "doc": "A scrollable, 2D array of widgets placed according to the masonry layout.",
+   "children": "children",
+   "childrenParam": "children",
+   "props": {
+    "scrollDirection": {"type":{"k":"enum","n":"Axis"},"dart":"Axis","default":"\"vertical\"","doc":"The [Axis] along which the scroll view's offset increases."},
+    "reverse": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether the scroll view scrolls in the reading direction."},
+    "controller": {"type":{"k":"handle","n":"ScrollController"},"dart":"ScrollController?","doc":"An object that can be used to control the position to which this scroll\nview is scrolled."},
+    "primary": {"type":{"k":"bool"},"dart":"bool?","doc":"Whether this is the primary scroll view associated with the parent\n[PrimaryScrollController]."},
+    "physics": {"type":{"k":"data","n":"ScrollPhysics"},"dart":"ScrollPhysics?","doc":"How the scroll view should respond to user input."},
+    "shrinkWrap": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Whether the extent of the scroll view in the [scrollDirection] should be\ndetermined by the contents being viewed."},
+    "padding": {"type":{"k":"data","n":"EdgeInsetsGeometry"},"dart":"EdgeInsetsGeometry?","doc":"The amount of space by which to inset the children."},
+    "gridDelegate": {"type":{"k":"data","n":"SliverSimpleGridDelegate"},"dart":"SliverSimpleGridDelegate","required":true,"doc":"A delegate that controls the layout of the children within the\n[MasonryGridView]."},
+    "mainAxisSpacing": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "crossAxisSpacing": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "addAutomaticKeepAlives": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "addRepaintBoundaries": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "addSemanticIndexes": {"type":{"k":"bool"},"dart":"bool","default":"true"},
+    "cacheExtent": {"type":{"k":"double"},"dart":"double?"},
+    "semanticChildCount": {"type":{"k":"int"},"dart":"int?","doc":"The number of children that will contribute semantic information."},
+    "dragStartBehavior": {"type":{"k":"enum","n":"DragStartBehavior"},"dart":"DragStartBehavior","default":"\"start\""},
+    "clipBehavior": {"type":{"k":"enum","n":"Clip"},"dart":"Clip","default":"\"hardEdge\"","doc":"Defaults to [Clip.hardEdge]."},
+    "keyboardDismissBehavior": {"type":{"k":"enum","n":"ScrollViewKeyboardDismissBehavior"},"dart":"ScrollViewKeyboardDismissBehavior","default":"\"manual\"","doc":"The [ScrollViewKeyboardDismissBehavior] defines how this [ScrollView] will\ndismiss the keyboard automatically."},
+    "restorationId": {"type":{"k":"string"},"dart":"String?"}
+   }
+  },
+  "StaggeredGridCount": {
+   "tag": "flutter_staggered_grid_view.StaggeredGridCount",
+   "dart": "StaggeredGrid",
+   "ctor": "count",
+   "library": "package:flutter_staggered_grid_view/src/widgets/staggered_grid.dart",
+   "doc": "A grid which lays out children in a staggered arrangement.\nEach child can have a different size.\nWrap your children with a [StaggeredGridTile] to specify their size if it's\ndifferent from a 1x1 tile.",
+   "children": "children",
+   "childrenParam": "children",
+   "props": {
+    "crossAxisCount": {"type":{"k":"int"},"dart":"int","required":true},
+    "mainAxisSpacing": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "crossAxisSpacing": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "axisDirection": {"type":{"k":"enum","n":"AxisDirection"},"dart":"AxisDirection?"}
+   }
+  },
+  "StaggeredGridExtent": {
+   "tag": "flutter_staggered_grid_view.StaggeredGridExtent",
+   "dart": "StaggeredGrid",
+   "ctor": "extent",
+   "library": "package:flutter_staggered_grid_view/src/widgets/staggered_grid.dart",
+   "doc": "A grid which lays out children in a staggered arrangement.\nEach child can have a different size.\nWrap your children with a [StaggeredGridTile] to specify their size if it's\ndifferent from a 1x1 tile.",
+   "children": "children",
+   "childrenParam": "children",
+   "props": {
+    "maxCrossAxisExtent": {"type":{"k":"double"},"dart":"double","required":true},
+    "mainAxisSpacing": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "crossAxisSpacing": {"type":{"k":"double"},"dart":"double","default":"0"},
+    "axisDirection": {"type":{"k":"enum","n":"AxisDirection"},"dart":"AxisDirection?"}
+   }
+  },
+  "StaggeredGridTileCount": {
+   "tag": "flutter_staggered_grid_view.StaggeredGridTileCount",
+   "dart": "StaggeredGridTile",
+   "ctor": "count",
+   "library": "package:flutter_staggered_grid_view/src/widgets/staggered_grid_tile.dart",
+   "doc": "Represents the size of a [StaggeredGrid]'s tile.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "crossAxisCellCount": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The number of cells that this tile takes along the cross axis."},
+    "mainAxisCellCount": {"type":{"k":"num"},"dart":"num","required":true,"doc":"The number of cells that this tile takes along the main axis."}
+   }
+  },
+  "StaggeredGridTileExtent": {
+   "tag": "flutter_staggered_grid_view.StaggeredGridTileExtent",
+   "dart": "StaggeredGridTile",
+   "ctor": "extent",
+   "library": "package:flutter_staggered_grid_view/src/widgets/staggered_grid_tile.dart",
+   "doc": "Represents the size of a [StaggeredGrid]'s tile.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "crossAxisCellCount": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The number of cells that this tile takes along the cross axis."},
+    "mainAxisExtent": {"type":{"k":"double"},"dart":"double","required":true,"doc":"The amount of space that this tile takes along the main axis."}
+   }
+  },
+  "StaggeredGridTileFit": {
+   "tag": "flutter_staggered_grid_view.StaggeredGridTileFit",
+   "dart": "StaggeredGridTile",
+   "ctor": "fit",
+   "library": "package:flutter_staggered_grid_view/src/widgets/staggered_grid_tile.dart",
+   "doc": "Represents the size of a [StaggeredGrid]'s tile.",
+   "children": "child",
+   "childrenParam": "child",
+   "flexProp": true,
+   "props": {
+    "crossAxisCellCount": {"type":{"k":"int"},"dart":"int","required":true,"doc":"The number of cells that this tile takes along the cross axis."}
+   }
+  }
+ },
+ "skipped": {
+  "AlignedGridViewCustom": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "AlignedGridViewCount": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "AlignedGridViewExtent": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "MasonryGridViewBuilder": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "MasonryGridViewCustom": "required param `childrenDelegate` (SliverChildDelegate) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "MasonryGridViewCount": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "MasonryGridViewExtent": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "SliverAlignedGrid": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "SliverAlignedGridCount": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "SliverAlignedGridExtent": "required param `itemBuilder` (Widget? Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "SliverMasonryGrid": "required param `delegate` (SliverChildDelegate) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "SliverMasonryGridCount": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "SliverMasonryGridExtent": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "StaggeredGridCustom": "required param `delegate` (StaggeredGridDelegate) is not bridgeable: unbridgeable/private/unexported-type"
+ },
+ "enums": {
+  "Axis": {
+   "values": ["horizontal","vertical"],
+   "doc": "The two cardinal directions in two dimensions."
+  },
+  "AxisDirection": {
+   "values": ["up","right","down","left"],
+   "doc": "A direction along either the horizontal or vertical [Axis] in which the\norigin, or zero position, is determined."
+  },
+  "Clip": {
+   "values": ["none","hardEdge","antiAlias","antiAliasWithSaveLayer"],
+   "doc": "Different ways to clip content."
+  },
+  "DragStartBehavior": {
+   "values": ["down","start"],
+   "doc": "Configuration of offset passed to [DragStartDetails]."
+  },
+  "ScrollDecelerationRate": {
+   "values": ["normal","fast"],
+   "doc": "The rate at which scroll momentum will be decelerated."
+  },
+  "ScrollViewKeyboardDismissBehavior": {
+   "values": ["manual","onDrag"],
+   "doc": "A representation of how a [ScrollView] should dismiss the on-screen\nkeyboard."
+  }
+ },
+ "types": {
+  "EdgeInsetsGeometry": {
+   "dart": "EdgeInsetsGeometry",
+   "doc": "Base class for [EdgeInsets] that allows for text-direction aware\nresolution.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero","infinity","EdgeInsets.zero","EdgeInsetsDirectional.zero"],
+   "variants": [
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsets.only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsets.fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.fromSTEB","fields":{"start":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"EdgeInsetsDirectional.only","fields":{"start":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"end":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.symmetric","fields":{"horizontal":{"type":{"k":"double"}},"vertical":{"type":{"k":"double"}}}},
+    {"tag":"EdgeInsetsDirectional.all","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ScrollPhysics": {
+   "dart": "ScrollPhysics",
+   "doc": "Determines the physics of a [Scrollable] widget.",
+   "variants": [
+    {"tag":null,"fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"alwaysScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"bouncing","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true},"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}}}},
+    {"tag":"clamping","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"neverScrollable","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"rangeMaintaining","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"CarouselScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"FixedExtentScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"PageScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"RangeMaintainingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"BouncingScrollPhysics","fields":{"decelerationRate":{"type":{"k":"enum","n":"ScrollDecelerationRate"}},"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"ClampingScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"AlwaysScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}},
+    {"tag":"NeverScrollableScrollPhysics","fields":{"parent":{"type":{"k":"data","n":"ScrollPhysics"},"nullable":true}}}
+   ]
+  },
+  "SliverSimpleGridDelegate": {
+   "dart": "SliverSimpleGridDelegate",
+   "doc": "Controls the layout of tiles in a some slivers.",
+   "variants": [
+    {"tag":"SliverSimpleGridDelegateWithFixedCrossAxisCount","fields":{"crossAxisCount":{"type":{"k":"int"},"required":true}}},
+    {"tag":"SliverSimpleGridDelegateWithMaxCrossAxisExtent","fields":{"maxCrossAxisExtent":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart"]
+}

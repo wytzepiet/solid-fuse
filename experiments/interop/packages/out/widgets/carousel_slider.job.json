@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"carousel_slider","version":"5.1.2","libs":[["package:carousel_slider/carousel_slider.dart","carousel_slider_carousel_slider"]],"include":null}]}

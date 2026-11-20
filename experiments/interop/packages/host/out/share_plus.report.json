@@ -1,0 +1,146 @@
+{
+  "name": "share_plus",
+  "libs": [
+    "package:share_plus/share_plus.dart"
+  ],
+  "surface": {
+    "total": 10,
+    "bridged": 6,
+    "byKind": {
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "static method": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 3,
+        "total": 3
+      },
+      "constructor": {
+        "bridged": 0,
+        "total": 2
+      },
+      "getter": {
+        "bridged": 0,
+        "total": 2
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "constructor",
+      "name": "SharePlusLinuxPlugin#constructor SharePlusLinuxPlugin",
+      "ok": false,
+      "why": "urlLauncher: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "getter",
+      "name": "SharePlusLinuxPlugin#urlLauncher",
+      "ok": false,
+      "why": "UrlLauncherPlatform (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "SharePlusWindowsPlugin#constructor SharePlusWindowsPlugin",
+      "ok": false,
+      "why": "urlLauncher: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "getter",
+      "name": "SharePlusWindowsPlugin#urlLauncher",
+      "ok": false,
+      "why": "UrlLauncherPlatform (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "SharePlus",
+      "tag": "share_plus_SharePlus",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "share"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 47,
+      "tsLines": 20
+    },
+    {
+      "class": "SharePlusLinuxPlugin",
+      "tag": "share_plus_SharePlusLinuxPlugin",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "share"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor SharePlusLinuxPlugin": "urlLauncher: unbridgeable (unbridgeable/private/unexported-type)",
+        "urlLauncher": "UrlLauncherPlatform (not encodable)"
+      },
+      "dartLines": 49,
+      "tsLines": 23
+    },
+    {
+      "class": "SharePlusWindowsPlugin",
+      "tag": "share_plus_SharePlusWindowsPlugin",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "share"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor SharePlusWindowsPlugin": "urlLauncher: unbridgeable (unbridgeable/private/unexported-type)",
+        "urlLauncher": "UrlLauncherPlatform (not encodable)"
+      },
+      "dartLines": 49,
+      "tsLines": 23
+    }
+  ],
+  "notCallable": {
+    "ShareParams": "record (by the data rules)",
+    "ShareResult": "record (by the data rules)",
+    "XFile": "record (by the data rules)",
+    "CupertinoActivityType": "enum (by the data rules)",
+    "ShareResultStatus": "enum (by the data rules)"
+  },
+  "dartLines": 279,
+  "tsLines": 159,
+  "warnings": []
+}

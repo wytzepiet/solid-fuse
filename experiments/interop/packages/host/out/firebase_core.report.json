@@ -1,0 +1,97 @@
+{
+  "name": "firebase_core",
+  "libs": [
+    "package:firebase_core/firebase_core.dart"
+  ],
+  "surface": {
+    "total": 13,
+    "bridged": 10,
+    "byKind": {
+      "static method": {
+        "bridged": 2,
+        "total": 2
+      },
+      "static getter": {
+        "bridged": 1,
+        "total": 2
+      },
+      "function": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 3,
+        "total": 5
+      },
+      "getter": {
+        "bridged": 3,
+        "total": 3
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static getter",
+      "name": "Firebase.delegatePackingProperty",
+      "ok": false,
+      "why": "returns FirebasePlatform? (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "FirebaseApp#getService()",
+      "ok": false,
+      "why": "generic method"
+    },
+    {
+      "kind": "method",
+      "name": "FirebaseApp#registerService()",
+      "ok": false,
+      "why": "generic method"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "FirebaseApp",
+      "tag": "firebase_core_FirebaseApp",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "delete",
+        "setAutomaticDataCollectionEnabled",
+        "setAutomaticResourceManagementEnabled"
+      ],
+      "methodsTotal": 5,
+      "streams": [],
+      "readable": [
+        "isAutomaticDataCollectionEnabled",
+        "name",
+        "options"
+      ],
+      "gettersTotal": 3,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getService()": "generic method",
+        "registerService()": "generic method"
+      },
+      "dartLines": 65,
+      "tsLines": 50
+    }
+  ],
+  "notCallable": {
+    "Firebase": "no members",
+    "FirebaseException": "record (by the data rules)",
+    "FirebaseOptions": "record (by the data rules)",
+    "FirebaseService": "no members",
+    "defaultFirebaseAppName": "constant"
+  },
+  "dartLines": 149,
+  "tsLines": 115,
+  "warnings": []
+}

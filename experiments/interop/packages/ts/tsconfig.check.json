@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["../host/ts/generated/sqflite.ts", "../host/ts/generated/flutter_map.ts", "../host/ts/generated/confetti.ts"]
+}

@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"font_awesome_flutter","version":"11.0.0","libs":[["package:font_awesome_flutter/font_awesome_flutter.dart","font_awesome_flutter_font_awesome_flutter"]],"include":null}]}

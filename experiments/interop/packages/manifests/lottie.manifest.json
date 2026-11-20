@@ -1,0 +1,321 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "lottie",
+ "version": "3.8.2",
+ "register": "registerLottieWidgets",
+ "widgets": {
+  "Lottie": {
+   "tag": "lottie.Lottie",
+   "dart": "Lottie",
+   "library": "package:lottie/src/lottie.dart",
+   "doc": "A widget to display a loaded [LottieComposition].\nThe [controller] property allows to specify a custom AnimationController that\nwill drive the animation. If [controller] is null, the animation will play\nautomatically and the behavior could be adjusted with the properties [animate],\n[repeat] and [reverse].",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>?","doc":"The animation controller to animate the Lottie animation.\nIf null, a controller is automatically created by this class and is configured\nwith the properties [animate], [reverse]"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, requires the composition to have this width."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the composition to have this height."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry?","doc":"How to align the composition within its bounds."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit?","doc":"How to inscribe the Lottie composition into the space allocated during layout."},
+    "animate": {"type":{"k":"bool"},"dart":"bool?","doc":"If no controller is specified, this value indicate whether or not the\nLottie animation should be played automatically (default to true).\nIf there is an animation controller specified, this property has no effect."},
+    "frameRate": {"type":{"k":"data","n":"FrameRate"},"dart":"FrameRate?","doc":"The number of frames per second to render.\nUse `FrameRate.composition` to use the original frame rate of the Lottie composition (default)\nUse `FrameRate.max` to advance the animation progression at every frame."},
+    "repeat": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop (default to true).\nThe property has no effect if [animate] is false or [controller] is not null."},
+    "reverse": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop in a \"reverse\"\nmode (go from start to end and then continuously from end to start).\nIt default to false.\nThe property has no effect if [animate] is false, [repeat] is false or [controller] is not null."},
+    "delegates": {"type":{"k":"data","n":"LottieDelegates"},"dart":"LottieDelegates?","doc":"A group of callbacks to further customize the lottie animation.\n- A [text] delegate to dynamically change some text displayed in the animation\n- A value callback to change the properties of the animation at runtime.\n- A text style factory to map between a font family specified in the animation\n  and the font family in your assets."},
+    "options": {"type":{"k":"data","n":"LottieOptions"},"dart":"LottieOptions?","doc":"Some options to enable/disable some feature of Lottie\n- enableMergePaths: Enable merge path support\n- enableApplyingOpacityToLayers: Enable layer-level opacity"},
+    "addRepaintBoundary": {"type":{"k":"bool"},"dart":"bool?","doc":"Indicate to automatically add a `RepaintBoundary` widget around the animation.\nThis allows to optimize the app performance by isolating the animation in its\nown `Layer`."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"The quality of the image layer. See [FilterQuality]\n[FilterQuality.high] is highest quality but slowest."},
+    "renderCache": {"type":{"k":"data","n":"RenderCache"},"dart":"RenderCache?","doc":"Opt-in to a special render mode where the frames of the animation are\nlazily rendered and kept in a cache.\nSubsequent runs of the animation will be cheaper to render."}
+   },
+   "omitted": {
+    "composition": "unbridgeable/no-usable-constructor"
+   },
+   "notes": ["delegates: data type LottieDelegates has dropped optional ctor params"]
+  },
+  "LottieBuilder": {
+   "tag": "lottie.LottieBuilder",
+   "dart": "LottieBuilder",
+   "library": "package:lottie/src/lottie_builder.dart",
+   "doc": "A widget that displays a Lottie animation.",
+   "props": {
+    "lottie": {"type":{"k":"data","n":"LottieProvider"},"dart":"LottieProvider","required":true,"doc":"The lottie animation to load.\nExample of providers: [AssetLottie], [NetworkLottie], [FileLottie], [MemoryLottie]"},
+    "controller": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>?","doc":"The animation controller of the Lottie animation.\nThe animated value will be mapped to the `progress` property of the\nLottie animation."},
+    "frameRate": {"type":{"k":"data","n":"FrameRate"},"dart":"FrameRate?","doc":"The number of frames per second to render.\nUse `FrameRate.composition` to use the original frame rate of the Lottie composition (default)\nUse `FrameRate.max` to advance the animation progression at every frame."},
+    "animate": {"type":{"k":"bool"},"dart":"bool?","doc":"If no controller is specified, this value indicate whether or not the\nLottie animation should be played automatically (default to true).\nIf there is an animation controller specified, this property has no effect."},
+    "reverse": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop in a \"reverse\"\nmode (go from start to end and then continuously from end to start).\nIt default to false.\nThe property has no effect if [animate] is false, [repeat] is false or [controller] is not null."},
+    "repeat": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop (default to true).\nThe property has no effect if [animate] is false or [controller] is not null."},
+    "delegates": {"type":{"k":"data","n":"LottieDelegates"},"dart":"LottieDelegates?","doc":"A group of options to further customize the lottie animation.\n- A [text] delegate to dynamically change some text displayed in the animation\n- A value callback to change the properties of the animation at runtime.\n- A text style factory to map between a font family specified in the animation\n  and the font family in your assets."},
+    "options": {"type":{"k":"data","n":"LottieOptions"},"dart":"LottieOptions?","doc":"Some options to enable/disable some feature of Lottie\n- enableMergePaths: Enable merge path support\n- enableApplyingOpacityToLayers: Enable layer-level opacity"},
+    "onLoaded": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"payload","n":"LottieComposition"}}]},"dart":"void Function(LottieComposition)?","doc":"A callback called when the LottieComposition has been loaded.\nYou can use this callback to set the correct duration on the AnimationController\nwith `composition.duration`"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this width."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this height."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit?","doc":"How to inscribe the animation into the space allocated during layout."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry?","doc":"How to align the animation within its bounds."},
+    "addRepaintBoundary": {"type":{"k":"bool"},"dart":"bool?","doc":"Indicate to automatically add a `RepaintBoundary` widget around the animation.\nThis allows to optimize the app performance by isolating the animation in its\nown `Layer`."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"The quality of the image layer. See [FilterQuality]\n[FilterQuality.high] is highest quality but slowest."},
+    "onWarning": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"A callback called when there is a warning during the loading or painting\nof the animation."},
+    "renderCache": {"type":{"k":"data","n":"RenderCache"},"dart":"RenderCache?","doc":"Opt-in to a special render mode where the frames of the animation are\nlazily rendered and kept in a cache.\nSubsequent runs of the animation will be cheaper to render."}
+   },
+   "omitted": {
+    "frameBuilder": "builder/unencodable args",
+    "errorBuilder": "builder/unencodable args"
+   },
+   "notes": ["lottie: data type LottieProvider has dropped optional ctor params","delegates: data type LottieDelegates has dropped optional ctor params"]
+  },
+  "LottieBuilderNetwork": {
+   "tag": "lottie.LottieBuilderNetwork",
+   "dart": "LottieBuilder",
+   "ctor": "network",
+   "library": "package:lottie/src/lottie_builder.dart",
+   "doc": "A widget that displays a Lottie animation.",
+   "children": "text",
+   "childrenParam": "src",
+   "props": {
+    "src": {"type":{"k":"string"},"dart":"String"},
+    "headers": {"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}},"dart":"Map<String, String>?"},
+    "controller": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>?","doc":"The animation controller of the Lottie animation.\nThe animated value will be mapped to the `progress` property of the\nLottie animation."},
+    "frameRate": {"type":{"k":"data","n":"FrameRate"},"dart":"FrameRate?","doc":"The number of frames per second to render.\nUse `FrameRate.composition` to use the original frame rate of the Lottie composition (default)\nUse `FrameRate.max` to advance the animation progression at every frame."},
+    "animate": {"type":{"k":"bool"},"dart":"bool?","doc":"If no controller is specified, this value indicate whether or not the\nLottie animation should be played automatically (default to true).\nIf there is an animation controller specified, this property has no effect."},
+    "reverse": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop in a \"reverse\"\nmode (go from start to end and then continuously from end to start).\nIt default to false.\nThe property has no effect if [animate] is false, [repeat] is false or [controller] is not null."},
+    "repeat": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop (default to true).\nThe property has no effect if [animate] is false or [controller] is not null."},
+    "delegates": {"type":{"k":"data","n":"LottieDelegates"},"dart":"LottieDelegates?","doc":"A group of options to further customize the lottie animation.\n- A [text] delegate to dynamically change some text displayed in the animation\n- A value callback to change the properties of the animation at runtime.\n- A text style factory to map between a font family specified in the animation\n  and the font family in your assets."},
+    "options": {"type":{"k":"data","n":"LottieOptions"},"dart":"LottieOptions?","doc":"Some options to enable/disable some feature of Lottie\n- enableMergePaths: Enable merge path support\n- enableApplyingOpacityToLayers: Enable layer-level opacity"},
+    "onLoaded": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"payload","n":"LottieComposition"}}]},"dart":"void Function(LottieComposition)?","doc":"A callback called when the LottieComposition has been loaded.\nYou can use this callback to set the correct duration on the AnimationController\nwith `composition.duration`"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this width."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this height."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit?","doc":"How to inscribe the animation into the space allocated during layout."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry?","doc":"How to align the animation within its bounds."},
+    "addRepaintBoundary": {"type":{"k":"bool"},"dart":"bool?","doc":"Indicate to automatically add a `RepaintBoundary` widget around the animation.\nThis allows to optimize the app performance by isolating the animation in its\nown `Layer`."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"The quality of the image layer. See [FilterQuality]\n[FilterQuality.high] is highest quality but slowest."},
+    "onWarning": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"A callback called when there is a warning during the loading or painting\nof the animation."},
+    "renderCache": {"type":{"k":"data","n":"RenderCache"},"dart":"RenderCache?","doc":"Opt-in to a special render mode where the frames of the animation are\nlazily rendered and kept in a cache.\nSubsequent runs of the animation will be cheaper to render."},
+    "backgroundLoading": {"type":{"k":"bool"},"dart":"bool?"}
+   },
+   "omitted": {
+    "client": "unbridgeable/private/unexported-type",
+    "imageProviderFactory": "callback/sync-return",
+    "frameBuilder": "builder/unencodable args",
+    "errorBuilder": "builder/unencodable args",
+    "decoder": "callback/Future<value>"
+   },
+   "notes": ["src: positional String is filled from text children when the prop is absent","delegates: data type LottieDelegates has dropped optional ctor params"]
+  },
+  "LottieBuilderFile": {
+   "tag": "lottie.LottieBuilderFile",
+   "dart": "LottieBuilder",
+   "ctor": "file",
+   "library": "package:lottie/src/lottie_builder.dart",
+   "doc": "A widget that displays a Lottie animation.",
+   "props": {
+    "file": {"type":{"k":"unknown"},"dart":"Object","required":true},
+    "controller": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>?","doc":"The animation controller of the Lottie animation.\nThe animated value will be mapped to the `progress` property of the\nLottie animation."},
+    "frameRate": {"type":{"k":"data","n":"FrameRate"},"dart":"FrameRate?","doc":"The number of frames per second to render.\nUse `FrameRate.composition` to use the original frame rate of the Lottie composition (default)\nUse `FrameRate.max` to advance the animation progression at every frame."},
+    "animate": {"type":{"k":"bool"},"dart":"bool?","doc":"If no controller is specified, this value indicate whether or not the\nLottie animation should be played automatically (default to true).\nIf there is an animation controller specified, this property has no effect."},
+    "reverse": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop in a \"reverse\"\nmode (go from start to end and then continuously from end to start).\nIt default to false.\nThe property has no effect if [animate] is false, [repeat] is false or [controller] is not null."},
+    "repeat": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop (default to true).\nThe property has no effect if [animate] is false or [controller] is not null."},
+    "delegates": {"type":{"k":"data","n":"LottieDelegates"},"dart":"LottieDelegates?","doc":"A group of options to further customize the lottie animation.\n- A [text] delegate to dynamically change some text displayed in the animation\n- A value callback to change the properties of the animation at runtime.\n- A text style factory to map between a font family specified in the animation\n  and the font family in your assets."},
+    "options": {"type":{"k":"data","n":"LottieOptions"},"dart":"LottieOptions?","doc":"Some options to enable/disable some feature of Lottie\n- enableMergePaths: Enable merge path support\n- enableApplyingOpacityToLayers: Enable layer-level opacity"},
+    "onLoaded": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"payload","n":"LottieComposition"}}]},"dart":"void Function(LottieComposition)?","doc":"A callback called when the LottieComposition has been loaded.\nYou can use this callback to set the correct duration on the AnimationController\nwith `composition.duration`"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this width."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this height."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit?","doc":"How to inscribe the animation into the space allocated during layout."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry?","doc":"How to align the animation within its bounds."},
+    "addRepaintBoundary": {"type":{"k":"bool"},"dart":"bool?","doc":"Indicate to automatically add a `RepaintBoundary` widget around the animation.\nThis allows to optimize the app performance by isolating the animation in its\nown `Layer`."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"The quality of the image layer. See [FilterQuality]\n[FilterQuality.high] is highest quality but slowest."},
+    "onWarning": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"A callback called when there is a warning during the loading or painting\nof the animation."},
+    "renderCache": {"type":{"k":"data","n":"RenderCache"},"dart":"RenderCache?","doc":"Opt-in to a special render mode where the frames of the animation are\nlazily rendered and kept in a cache.\nSubsequent runs of the animation will be cheaper to render."},
+    "backgroundLoading": {"type":{"k":"bool"},"dart":"bool?"}
+   },
+   "omitted": {
+    "imageProviderFactory": "callback/sync-return",
+    "frameBuilder": "builder/unencodable args",
+    "errorBuilder": "builder/unencodable args",
+    "decoder": "callback/Future<value>"
+   },
+   "notes": ["delegates: data type LottieDelegates has dropped optional ctor params"]
+  },
+  "LottieBuilderAsset": {
+   "tag": "lottie.LottieBuilderAsset",
+   "dart": "LottieBuilder",
+   "ctor": "asset",
+   "library": "package:lottie/src/lottie_builder.dart",
+   "doc": "A widget that displays a Lottie animation.",
+   "children": "text",
+   "childrenParam": "name",
+   "props": {
+    "name": {"type":{"k":"string"},"dart":"String"},
+    "controller": {"type":{"k":"handle","n":"Animation<double>"},"dart":"Animation<double>?","doc":"The animation controller of the Lottie animation.\nThe animated value will be mapped to the `progress` property of the\nLottie animation."},
+    "frameRate": {"type":{"k":"data","n":"FrameRate"},"dart":"FrameRate?","doc":"The number of frames per second to render.\nUse `FrameRate.composition` to use the original frame rate of the Lottie composition (default)\nUse `FrameRate.max` to advance the animation progression at every frame."},
+    "animate": {"type":{"k":"bool"},"dart":"bool?","doc":"If no controller is specified, this value indicate whether or not the\nLottie animation should be played automatically (default to true).\nIf there is an animation controller specified, this property has no effect."},
+    "reverse": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop in a \"reverse\"\nmode (go from start to end and then continuously from end to start).\nIt default to false.\nThe property has no effect if [animate] is false, [repeat] is false or [controller] is not null."},
+    "repeat": {"type":{"k":"bool"},"dart":"bool?","doc":"Specify that the automatic animation should repeat in a loop (default to true).\nThe property has no effect if [animate] is false or [controller] is not null."},
+    "delegates": {"type":{"k":"data","n":"LottieDelegates"},"dart":"LottieDelegates?","doc":"A group of options to further customize the lottie animation.\n- A [text] delegate to dynamically change some text displayed in the animation\n- A value callback to change the properties of the animation at runtime.\n- A text style factory to map between a font family specified in the animation\n  and the font family in your assets."},
+    "options": {"type":{"k":"data","n":"LottieOptions"},"dart":"LottieOptions?","doc":"Some options to enable/disable some feature of Lottie\n- enableMergePaths: Enable merge path support\n- enableApplyingOpacityToLayers: Enable layer-level opacity"},
+    "onLoaded": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"payload","n":"LottieComposition"}}]},"dart":"void Function(LottieComposition)?","doc":"A callback called when the LottieComposition has been loaded.\nYou can use this callback to set the correct duration on the AnimationController\nwith `composition.duration`"},
+    "bundle": {"type":{"k":"data","n":"AssetBundle"},"dart":"AssetBundle?"},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this width."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the lottie animation to have this height."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit?","doc":"How to inscribe the animation into the space allocated during layout."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry?","doc":"How to align the animation within its bounds."},
+    "package": {"type":{"k":"string"},"dart":"String?"},
+    "addRepaintBoundary": {"type":{"k":"bool"},"dart":"bool?","doc":"Indicate to automatically add a `RepaintBoundary` widget around the animation.\nThis allows to optimize the app performance by isolating the animation in its\nown `Layer`."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?","doc":"The quality of the image layer. See [FilterQuality]\n[FilterQuality.high] is highest quality but slowest."},
+    "onWarning": {"type":{"k":"callback","args":[{"name":"arg0","type":{"k":"string"}}]},"dart":"void Function(String)?","doc":"A callback called when there is a warning during the loading or painting\nof the animation."},
+    "renderCache": {"type":{"k":"data","n":"RenderCache"},"dart":"RenderCache?","doc":"Opt-in to a special render mode where the frames of the animation are\nlazily rendered and kept in a cache.\nSubsequent runs of the animation will be cheaper to render."},
+    "backgroundLoading": {"type":{"k":"bool"},"dart":"bool?"}
+   },
+   "omitted": {
+    "imageProviderFactory": "callback/sync-return",
+    "frameBuilder": "builder/unencodable args",
+    "errorBuilder": "builder/unencodable args",
+    "decoder": "callback/Future<value>"
+   },
+   "notes": ["name: positional String is filled from text children when the prop is absent","delegates: data type LottieDelegates has dropped optional ctor params"]
+  },
+  "RawLottie": {
+   "tag": "lottie.RawLottie",
+   "dart": "RawLottie",
+   "library": "package:lottie/src/raw_lottie.dart",
+   "doc": "A widget that displays a [LottieDrawable] directly.",
+   "props": {
+    "delegates": {"type":{"k":"data","n":"LottieDelegates"},"dart":"LottieDelegates?","doc":"Allows to modify the Lottie animation at runtime"},
+    "options": {"type":{"k":"data","n":"LottieOptions"},"dart":"LottieOptions?"},
+    "progress": {"type":{"k":"double"},"dart":"double?","doc":"The progress of the Lottie animation (between 0.0 and 1.0)."},
+    "frameRate": {"type":{"k":"data","n":"FrameRate"},"dart":"FrameRate?","doc":"The number of frames per second to render.\nUse `FrameRate.composition` to use the original frame rate of the Lottie composition (default)\nUse `FrameRate.max` to advance the animation progression at every frame."},
+    "width": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the Lottie composition to have this width."},
+    "height": {"type":{"k":"double"},"dart":"double?","doc":"If non-null, require the Lottie composition to have this height."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit?","doc":"How to inscribe the Lottie composition into the space allocated during layout."},
+    "alignment": {"type":{"k":"data","n":"AlignmentGeometry"},"dart":"AlignmentGeometry?","doc":"How to align the composition within its bounds."},
+    "filterQuality": {"type":{"k":"enum","n":"FilterQuality"},"dart":"FilterQuality?"},
+    "renderCache": {"type":{"k":"data","n":"RenderCache"},"dart":"RenderCache?"}
+   },
+   "omitted": {
+    "composition": "unbridgeable/no-usable-constructor"
+   },
+   "notes": ["delegates: data type LottieDelegates has dropped optional ctor params"]
+  }
+ },
+ "skipped": {
+  "LottieBuilderMemory": "required param `bytes` (Uint8List) is not bridgeable: unbridgeable/binary/typed-data"
+ },
+ "enums": {
+  "BoxFit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown"],
+   "doc": "How a box should be inscribed into another box."
+  },
+  "FilterQuality": {
+   "values": ["none","low","medium","high"],
+   "doc": "Quality levels for image sampling in [ImageFilter] and [Shader] objects that sample\nimages and for [Canvas] operations that render images."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "AssetBundle": {
+   "dart": "AssetBundle",
+   "doc": "A collection of resources used by the application.",
+   "variants": [
+    {"tag":"NetworkAssetBundle","fields":{"baseUrl":{"type":{"k":"data","n":"Uri"},"required":true}}},
+    {"tag":"PlatformAssetBundle","fields":{}}
+   ]
+  },
+  "FrameRate": {
+   "dart": "FrameRate",
+   "consts": ["max","composition"],
+   "variants": [
+    {"tag":null,"fields":{"framesPerSecond":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "LottieDelegates": {
+   "dart": "LottieDelegates",
+   "variants": [
+    {"tag":null,"fields":{},"omitted":{"text":"nested:callback/sync-return","textStyle":"nested:callback/sync-return","values":"unbridgeable/no-usable-constructor[list]","image":"nested:callback/sync-return"}}
+   ]
+  },
+  "LottieOptions": {
+   "dart": "LottieOptions",
+   "variants": [
+    {"tag":null,"fields":{"enableMergePaths":{"type":{"k":"bool"}},"enableApplyingOpacityToLayers":{"type":{"k":"bool"}}}}
+   ]
+  },
+  "LottieProvider": {
+   "dart": "LottieProvider",
+   "variants": [
+    {"tag":"AssetLottie","fields":{"assetName":{"type":{"k":"string"},"required":true},"bundle":{"type":{"k":"data","n":"AssetBundle"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true},"backgroundLoading":{"type":{"k":"bool"},"nullable":true}},"omitted":{"imageProviderFactory":"nested:callback/sync-return","decoder":"nested:callback/Future<value>"}},
+    {"tag":"NetworkLottie","fields":{"url":{"type":{"k":"string"},"required":true},"headers":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"backgroundLoading":{"type":{"k":"bool"},"nullable":true}},"omitted":{"client":"unbridgeable/private/unexported-type","imageProviderFactory":"nested:callback/sync-return","decoder":"nested:callback/Future<value>"}},
+    {"tag":"FileLottie","fields":{"file":{"type":{"k":"unknown"}},"backgroundLoading":{"type":{"k":"bool"},"nullable":true}},"omitted":{"imageProviderFactory":"nested:callback/sync-return","decoder":"nested:callback/Future<value>"}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "RenderCache": {
+   "dart": "RenderCache",
+   "consts": ["raster","drawingCommands"]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Uri": {
+   "dart": "Uri",
+   "doc": "A parsed URI, such as a URL.",
+   "variants": [
+    {"tag":null,"fields":{"scheme":{"type":{"k":"string"},"nullable":true},"userInfo":{"type":{"k":"string"},"nullable":true},"host":{"type":{"k":"string"},"nullable":true},"port":{"type":{"k":"int"},"nullable":true},"path":{"type":{"k":"string"},"nullable":true},"pathSegments":{"type":{"k":"list","e":{"k":"string"}}},"query":{"type":{"k":"string"},"nullable":true},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}},"fragment":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"http","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"https","fields":{"authority":{"type":{"k":"string"},"required":true},"unencodedPath":{"type":{"k":"string"}},"queryParameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"unknown"}}}}},
+    {"tag":"file","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"directory","fields":{"path":{"type":{"k":"string"},"required":true},"windows":{"type":{"k":"bool"},"nullable":true}}},
+    {"tag":"dataFromString","fields":{"content":{"type":{"k":"string"},"required":true},"mimeType":{"type":{"k":"string"},"nullable":true},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"base64":{"type":{"k":"bool"}}},"omitted":{"encoding":"unbridgeable/private/unexported-type"}},
+    {"tag":"dataFromBytes","fields":{"bytes":{"type":{"k":"list","e":{"k":"int"}},"required":true},"mimeType":{"type":{"k":"string"}},"parameters":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"string"}}},"percentEncoded":{"type":{"k":"bool"}}}}
+   ]
+  }
+ },
+ "payloads": {
+  "LottieComposition": {
+   "dart": "LottieComposition",
+   "fields": {
+    "hasDashPattern": {"k":"bool"}
+   }
+  }
+ },
+ "libraries": ["package:lottie/lottie.dart"]
+}

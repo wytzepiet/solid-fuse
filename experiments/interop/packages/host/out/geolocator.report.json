@@ -1,0 +1,103 @@
+{
+  "name": "geolocator",
+  "libs": [
+    "package:geolocator/geolocator.dart"
+  ],
+  "surface": {
+    "total": 29,
+    "bridged": 29,
+    "byKind": {
+      "static method": {
+        "bridged": 15,
+        "total": 15
+      },
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 11,
+        "total": 11
+      },
+      "stream": {
+        "bridged": 2,
+        "total": 2
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [
+    {
+      "kind": "static method",
+      "name": "Geolocator.getCurrentPosition",
+      "ok": true,
+      "why": "dropped optional: desiredAccuracy, forceAndroidLocationManager, timeLimit"
+    }
+  ],
+  "objects": [
+    {
+      "class": "GeolocatorPlatform",
+      "tag": "geolocator_GeolocatorPlatform",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "bearingBetween",
+        "checkPermission",
+        "distanceBetween",
+        "getCurrentPosition",
+        "getLastKnownPosition",
+        "getLocationAccuracy",
+        "isLocationServiceEnabled",
+        "openAppSettings",
+        "openLocationSettings",
+        "requestPermission",
+        "requestTemporaryFullAccuracy"
+      ],
+      "methodsTotal": 13,
+      "streams": [
+        "getPositionStream",
+        "getServiceStatusStream"
+      ],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 86,
+      "tsLines": 69
+    }
+  ],
+  "notCallable": {
+    "ActivityMissingException": "record (by the data rules)",
+    "AlreadySubscribedException": "no members",
+    "AndroidPosition": "record (by the data rules)",
+    "AndroidResource": "record (by the data rules)",
+    "AndroidSettings": "record (by the data rules)",
+    "AppleSettings": "record (by the data rules)",
+    "ForegroundNotificationConfig": "record (by the data rules)",
+    "Geolocator": "no members",
+    "InvalidPermissionException": "record (by the data rules)",
+    "LocationServiceDisabledException": "no members",
+    "LocationSettings": "record (by the data rules)",
+    "PermissionDefinitionsNotFoundException": "record (by the data rules)",
+    "PermissionDeniedException": "record (by the data rules)",
+    "PermissionRequestInProgressException": "record (by the data rules)",
+    "Position": "record (by the data rules)",
+    "PositionUpdateException": "record (by the data rules)",
+    "WebSettings": "record (by the data rules)",
+    "ActivityType": "enum (by the data rules)",
+    "IntergerExtensions": "extension",
+    "LocationAccuracy": "enum (by the data rules)",
+    "LocationAccuracyStatus": "enum (by the data rules)",
+    "LocationPermission": "enum (by the data rules)",
+    "ServiceStatus": "enum (by the data rules)"
+  },
+  "dartLines": 437,
+  "tsLines": 295,
+  "warnings": []
+}

@@ -1,0 +1,99 @@
+{
+  "name": "flutter_secure_storage",
+  "libs": [
+    "package:flutter_secure_storage/flutter_secure_storage.dart"
+  ],
+  "surface": {
+    "total": 5,
+    "bridged": 5,
+    "byKind": {
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "getter": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [
+    {
+      "class": "LinuxOptions",
+      "tag": "flutter_secure_storage_LinuxOptions",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 0,
+      "streams": [],
+      "readable": [
+        "params"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 56,
+      "tsLines": 38
+    },
+    {
+      "class": "WindowsOptions",
+      "tag": "flutter_secure_storage_WindowsOptions",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "copyWith"
+      ],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [
+        "params"
+      ],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 58,
+      "tsLines": 58
+    }
+  ],
+  "notCallable": {
+    "AndroidOptions": "record (by the data rules)",
+    "AppleOptions": "record (by the data rules)",
+    "FlutterSecureStorage": "record (by the data rules)",
+    "IOSOptions": "record (by the data rules)",
+    "MacOsOptions": "record (by the data rules)",
+    "SecureStorageUpgradeStatus": "record (by the data rules)",
+    "WebOptions": "record (by the data rules)",
+    "AccessControlFlag": "enum (by the data rules)",
+    "AndroidBiometricType": "enum (by the data rules)",
+    "KeyCipherAlgorithm": "enum (by the data rules)",
+    "KeychainAccessibility": "enum (by the data rules)",
+    "SecureStorageUpgradeReason": "enum (by the data rules)",
+    "SecureStorageUpgradeState": "enum (by the data rules)",
+    "StorageCipherAlgorithm": "enum (by the data rules)"
+  },
+  "dartLines": 155,
+  "tsLines": 106,
+  "warnings": []
+}

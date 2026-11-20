@@ -1,0 +1,314 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "auto_size_text",
+ "version": "3.0.0",
+ "register": "registerAutoSizeTextWidgets",
+ "widgets": {
+  "AutoSizeText": {
+   "tag": "auto_size_text.AutoSizeText",
+   "dart": "AutoSizeText",
+   "library": "package:auto_size_text/auto_size_text.dart",
+   "doc": "Flutter widget that automatically resizes text to fit perfectly within its\nbounds.",
+   "children": "text",
+   "childrenParam": "data",
+   "props": {
+    "data": {"type":{"k":"string"},"dart":"String","doc":"The text to display."},
+    "style": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"If non-null, the style to use for this text."},
+    "strutStyle": {"type":{"k":"data","n":"StrutStyle"},"dart":"StrutStyle?","doc":"The strut style to use. Strut style defines the strut, which sets minimum\nvertical layout metrics."},
+    "minFontSize": {"type":{"k":"double"},"dart":"double","default":"12","doc":"The minimum text size constraint to be used when auto-sizing text."},
+    "maxFontSize": {"type":{"k":"double"},"dart":"double","default":"Infinity","doc":"The maximum text size constraint to be used when auto-sizing text."},
+    "stepGranularity": {"type":{"k":"double"},"dart":"double","default":"1","doc":"The step size in which the font size is being adapted to constraints."},
+    "presetFontSizes": {"type":{"k":"list","e":{"k":"double"}},"dart":"List<double>?","doc":"Predefines all the possible font sizes."},
+    "group": {"type":{"k":"data","n":"AutoSizeGroup"},"dart":"AutoSizeGroup?","doc":"Synchronizes the size of multiple [AutoSizeText]s."},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign?","doc":"How the text should be aligned horizontally."},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"The directionality of the text."},
+    "locale": {"type":{"k":"data","n":"Locale"},"dart":"Locale?","doc":"Used to select a font when the same Unicode character can\nbe rendered differently, depending on the locale."},
+    "softWrap": {"type":{"k":"bool"},"dart":"bool?","doc":"Whether the text should break at soft line breaks."},
+    "wrapWords": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether words which don't fit in one line should be wrapped."},
+    "overflow": {"type":{"k":"enum","n":"TextOverflow"},"dart":"TextOverflow?","doc":"How visual overflow should be handled."},
+    "overflowReplacement": {"type":{"k":"widget"},"dart":"Widget?","doc":"If the text is overflowing and does not fit its bounds, this widget is\ndisplayed instead."},
+    "textScaleFactor": {"type":{"k":"double"},"dart":"double?","doc":"The number of font pixels for each logical pixel."},
+    "maxLines": {"type":{"k":"int"},"dart":"int?","doc":"An optional maximum number of lines for the text to span, wrapping if necessary.\nIf the text exceeds the given number of lines, it will be resized according\nto the specified bounds and if necessary truncated according to [overflow]."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"An alternative semantics label for this text."}
+   },
+   "omitted": {
+    "textKey": "key"
+   },
+   "notes": ["data: positional String is filled from text children when the prop is absent"]
+  },
+  "AutoSizeTextRich": {
+   "tag": "auto_size_text.AutoSizeTextRich",
+   "dart": "AutoSizeText",
+   "ctor": "rich",
+   "library": "package:auto_size_text/auto_size_text.dart",
+   "doc": "Flutter widget that automatically resizes text to fit perfectly within its\nbounds.",
+   "props": {
+    "textSpan": {"type":{"k":"data","n":"TextSpan"},"dart":"TextSpan","required":true,"doc":"The text to display as a [TextSpan]."},
+    "style": {"type":{"k":"data","n":"TextStyle"},"dart":"TextStyle?","doc":"If non-null, the style to use for this text."},
+    "strutStyle": {"type":{"k":"data","n":"StrutStyle"},"dart":"StrutStyle?","doc":"The strut style to use. Strut style defines the strut, which sets minimum\nvertical layout metrics."},
+    "minFontSize": {"type":{"k":"double"},"dart":"double","default":"12","doc":"The minimum text size constraint to be used when auto-sizing text."},
+    "maxFontSize": {"type":{"k":"double"},"dart":"double","default":"Infinity","doc":"The maximum text size constraint to be used when auto-sizing text."},
+    "stepGranularity": {"type":{"k":"double"},"dart":"double","default":"1","doc":"The step size in which the font size is being adapted to constraints."},
+    "presetFontSizes": {"type":{"k":"list","e":{"k":"double"}},"dart":"List<double>?","doc":"Predefines all the possible font sizes."},
+    "group": {"type":{"k":"data","n":"AutoSizeGroup"},"dart":"AutoSizeGroup?","doc":"Synchronizes the size of multiple [AutoSizeText]s."},
+    "textAlign": {"type":{"k":"enum","n":"TextAlign"},"dart":"TextAlign?","doc":"How the text should be aligned horizontally."},
+    "textDirection": {"type":{"k":"enum","n":"TextDirection"},"dart":"TextDirection?","doc":"The directionality of the text."},
+    "locale": {"type":{"k":"data","n":"Locale"},"dart":"Locale?","doc":"Used to select a font when the same Unicode character can\nbe rendered differently, depending on the locale."},
+    "softWrap": {"type":{"k":"bool"},"dart":"bool?","doc":"Whether the text should break at soft line breaks."},
+    "wrapWords": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether words which don't fit in one line should be wrapped."},
+    "overflow": {"type":{"k":"enum","n":"TextOverflow"},"dart":"TextOverflow?","doc":"How visual overflow should be handled."},
+    "overflowReplacement": {"type":{"k":"widget"},"dart":"Widget?","doc":"If the text is overflowing and does not fit its bounds, this widget is\ndisplayed instead."},
+    "textScaleFactor": {"type":{"k":"double"},"dart":"double?","doc":"The number of font pixels for each logical pixel."},
+    "maxLines": {"type":{"k":"int"},"dart":"int?","doc":"An optional maximum number of lines for the text to span, wrapping if necessary.\nIf the text exceeds the given number of lines, it will be resized according\nto the specified bounds and if necessary truncated according to [overflow]."},
+    "semanticsLabel": {"type":{"k":"string"},"dart":"String?","doc":"An alternative semantics label for this text."}
+   },
+   "omitted": {
+    "textKey": "key"
+   },
+   "notes": ["textSpan: data type TextSpan has dropped optional ctor params"]
+  }
+ },
+ "enums": {
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "DragStartBehavior": {
+   "values": ["down","start"],
+   "doc": "Configuration of offset passed to [DragStartDetails]."
+  },
+  "FontStyle": {
+   "values": ["normal","italic"],
+   "doc": "Whether to use the italic type variation of glyphs in the font."
+  },
+  "PointerDeviceKind": {
+   "values": ["touch","mouse","stylus","invertedStylus","trackpad","unknown"],
+   "doc": "The kind of pointer device."
+  },
+  "TextAlign": {
+   "values": ["left","right","center","justify","start","end"],
+   "doc": "Whether and how to align text horizontally."
+  },
+  "TextBaseline": {
+   "values": ["alphabetic","ideographic"],
+   "doc": "A horizontal line used for aligning text."
+  },
+  "TextDecorationStyle": {
+   "values": ["solid","double","dotted","dashed","wavy"],
+   "doc": "The style in which to draw a text decoration"
+  },
+  "TextDirection": {
+   "values": ["rtl","ltr"],
+   "doc": "A direction in which text flows."
+  },
+  "TextLeadingDistribution": {
+   "values": ["proportional","even"]
+  },
+  "TextOverflow": {
+   "values": ["clip","fade","ellipsis","visible"],
+   "doc": "How overflowing text should be handled."
+  }
+ },
+ "types": {
+  "AutoSizeGroup": {
+   "dart": "AutoSizeGroup",
+   "doc": "Controller to synchronize the fontSize of multiple AutoSizeTexts.",
+   "variants": [
+    {"tag":null,"fields":{}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Duration": {
+   "dart": "Duration",
+   "doc": "A difference between points in time.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["Durations.short1","Durations.short2","Durations.short3","Durations.short4","Durations.medium1","Durations.medium2","Durations.medium3","Durations.medium4","Durations.long1","Durations.long2","Durations.long3","Durations.long4","Durations.extralong1","Durations.extralong2","Durations.extralong3","Durations.extralong4","zero"],
+   "variants": [
+    {"tag":null,"fields":{"days":{"type":{"k":"int"}},"hours":{"type":{"k":"int"}},"minutes":{"type":{"k":"int"}},"seconds":{"type":{"k":"int"}},"milliseconds":{"type":{"k":"int"}},"microseconds":{"type":{"k":"int"}}}}
+   ]
+  },
+  "FontFeature": {
+   "dart": "FontFeature",
+   "doc": "A feature tag and value that affect the selection of glyphs in a font.",
+   "variants": [
+    {"tag":null,"fields":{"feature":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"int"}}}},
+    {"tag":"enable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"disable","fields":{"feature":{"type":{"k":"string"},"required":true}}},
+    {"tag":"alternative","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"alternativeFractions","fields":{}},
+    {"tag":"contextualAlternates","fields":{}},
+    {"tag":"caseSensitiveForms","fields":{}},
+    {"tag":"characterVariant","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"denominator","fields":{}},
+    {"tag":"fractions","fields":{}},
+    {"tag":"historicalForms","fields":{}},
+    {"tag":"historicalLigatures","fields":{}},
+    {"tag":"liningFigures","fields":{}},
+    {"tag":"localeAware","fields":{"enable":{"type":{"k":"bool"}}}},
+    {"tag":"notationalForms","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"numerators","fields":{}},
+    {"tag":"oldstyleFigures","fields":{}},
+    {"tag":"ordinalForms","fields":{}},
+    {"tag":"proportionalFigures","fields":{}},
+    {"tag":"randomize","fields":{}},
+    {"tag":"stylisticAlternates","fields":{}},
+    {"tag":"scientificInferiors","fields":{}},
+    {"tag":"stylisticSet","fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"subscripts","fields":{}},
+    {"tag":"superscripts","fields":{}},
+    {"tag":"swash","fields":{"value":{"type":{"k":"int"}}}},
+    {"tag":"tabularFigures","fields":{}},
+    {"tag":"slashedZero","fields":{}}
+   ]
+  },
+  "FontVariation": {
+   "dart": "FontVariation",
+   "doc": "An axis tag and value that can be used to customize variable fonts.",
+   "variants": [
+    {"tag":null,"fields":{"axis":{"type":{"k":"string"},"required":true},"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"italic","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"opticalSize","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"slant","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"width","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"weight","fields":{"value":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "FontWeight": {
+   "dart": "FontWeight",
+   "doc": "The thickness of the glyphs used to draw the text.",
+   "nice": [
+    {"ts":"100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900","accepts":["fontWeight"]}
+   ],
+   "consts": ["w100","w200","w300","w400","w500","w600","w700","w800","w900","normal","bold"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}}
+   ]
+  },
+  "GestureRecognizer": {
+   "dart": "GestureRecognizer",
+   "doc": "The base class that all gesture recognizers inherit from.",
+   "variants": [
+    {"tag":"EagerGestureRecognizer","fields":{"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"ForcePressGestureRecognizer","fields":{"startPressure":{"type":{"k":"double"}},"peakPressure":{"type":{"k":"double"}},"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"interpolation":"nested:callback/sync-return","allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"LongPressGestureRecognizer","fields":{"duration":{"type":{"k":"data","n":"Duration"},"nullable":true},"postAcceptSlopTolerance":{"type":{"k":"double"},"nullable":true},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}},"debugOwner":{"type":{"k":"unknown"}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"VerticalDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"HorizontalDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"PanGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"ImmediateMultiDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"HorizontalMultiDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"VerticalMultiDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"DelayedMultiDragGestureRecognizer","fields":{"delay":{"type":{"k":"data","n":"Duration"}},"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"DoubleTapGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"MultiTapGestureRecognizer","fields":{"longTapDelay":{"type":{"k":"data","n":"Duration"}},"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"SerialTapGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"ScaleGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}},"dragStartBehavior":{"type":{"k":"enum","n":"DragStartBehavior"}},"trackpadScrollCausesScale":{"type":{"k":"bool"}},"trackpadScrollToScaleFactor":{"type":{"k":"data","n":"Offset"}}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"TapGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}},"preAcceptSlopTolerance":{"type":{"k":"double"},"nullable":true},"postAcceptSlopTolerance":{"type":{"k":"double"},"nullable":true}},"omitted":{"allowedButtonsFilter":"nested:callback/sync-return"}},
+    {"tag":"TapAndHorizontalDragGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}}},
+    {"tag":"TapAndPanGestureRecognizer","fields":{"debugOwner":{"type":{"k":"unknown"}},"supportedDevices":{"type":{"k":"list","e":{"k":"enum","n":"PointerDeviceKind"}}}}}
+   ]
+  },
+  "InlineSpan": {
+   "dart": "InlineSpan",
+   "doc": "An immutable span of inline content which forms part of a paragraph.",
+   "variants": [
+    {"tag":"TextSpan","fields":{"text":{"type":{"k":"string"},"nullable":true},"children":{"type":{"k":"list","e":{"k":"data","n":"InlineSpan"}}},"style":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"recognizer":{"type":{"k":"data","n":"GestureRecognizer"},"nullable":true},"mouseCursor":{"type":{"k":"data","n":"MouseCursor"},"nullable":true},"semanticsLabel":{"type":{"k":"string"},"nullable":true},"semanticsIdentifier":{"type":{"k":"string"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"spellOut":{"type":{"k":"bool"},"nullable":true}},"omitted":{"onEnter":"nested:callback/void(encodable args)","onExit":"nested:callback/void(encodable args)"}}
+   ]
+  },
+  "Locale": {
+   "dart": "Locale",
+   "doc": "An identifier used to select a user's language and formatting preferences.",
+   "variants": [
+    {"tag":null,"fields":{"_languageCode":{"type":{"k":"string"},"required":true},"_countryCode":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromSubtags","fields":{"languageCode":{"type":{"k":"string"}},"scriptCode":{"type":{"k":"string"},"nullable":true},"countryCode":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "MouseCursor": {
+   "dart": "MouseCursor",
+   "doc": "An interface for mouse cursor definitions.",
+   "consts": ["defer","uncontrolled","SystemMouseCursors.none","SystemMouseCursors.basic","SystemMouseCursors.click","SystemMouseCursors.forbidden","SystemMouseCursors.wait","SystemMouseCursors.progress","SystemMouseCursors.contextMenu","SystemMouseCursors.help","SystemMouseCursors.text","SystemMouseCursors.verticalText","SystemMouseCursors.cell","SystemMouseCursors.precise","SystemMouseCursors.move","SystemMouseCursors.grab","SystemMouseCursors.grabbing","SystemMouseCursors.noDrop","SystemMouseCursors.alias","SystemMouseCursors.copy","SystemMouseCursors.disappearing","SystemMouseCursors.allScroll","SystemMouseCursors.resizeLeftRight","SystemMouseCursors.resizeUpDown","SystemMouseCursors.resizeUpLeftDownRight","SystemMouseCursors.resizeUpRightDownLeft","SystemMouseCursors.resizeUp","SystemMouseCursors.resizeDown","SystemMouseCursors.resizeLeft","SystemMouseCursors.resizeRight","SystemMouseCursors.resizeUpLeft","SystemMouseCursors.resizeUpRight","SystemMouseCursors.resizeDownLeft","SystemMouseCursors.resizeDownRight","SystemMouseCursors.resizeColumn","SystemMouseCursors.resizeRow","SystemMouseCursors.zoomIn","SystemMouseCursors.zoomOut","WidgetStateMouseCursor.clickable","WidgetStateMouseCursor.adaptiveClickable","WidgetStateMouseCursor.textable"]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Paint": {
+   "dart": "Paint",
+   "doc": "A description of the style to use when drawing on a [Canvas].",
+   "variants": [
+    {"tag":null,"fields":{}},
+    {"tag":"from","fields":{"other":{"type":{"k":"data","n":"Paint"},"required":true}}}
+   ]
+  },
+  "Shadow": {
+   "dart": "Shadow",
+   "doc": "A single shadow.",
+   "variants": [
+    {"tag":null,"fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}}}},
+    {"tag":"BoxShadow","fields":{"color":{"type":{"k":"data","n":"Color"}},"offset":{"type":{"k":"data","n":"Offset"}},"blurRadius":{"type":{"k":"double"}},"spreadRadius":{"type":{"k":"double"}},"blurStyle":{"type":{"k":"enum","n":"BlurStyle"}}}}
+   ]
+  },
+  "StrutStyle": {
+   "dart": "StrutStyle",
+   "doc": "Defines the strut, which sets the minimum height a line can be\nrelative to the baseline.",
+   "consts": ["disabled"],
+   "variants": [
+    {"tag":null,"fields":{"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"fontSize":{"type":{"k":"double"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"leading":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"forceStrutHeight":{"type":{"k":"bool"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}},
+    {"tag":"fromTextStyle","fields":{"textStyle":{"type":{"k":"data","n":"TextStyle"},"required":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"fontSize":{"type":{"k":"double"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"leading":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"forceStrutHeight":{"type":{"k":"bool"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"package":{"type":{"k":"string"},"nullable":true}}}
+   ]
+  },
+  "TextDecoration": {
+   "dart": "TextDecoration",
+   "doc": "A linear decoration to draw near the text.",
+   "consts": ["none","underline","overline","lineThrough"],
+   "variants": [
+    {"tag":"combine","fields":{"decorations":{"type":{"k":"list","e":{"k":"data","n":"TextDecoration"}},"required":true}}}
+   ]
+  },
+  "TextSpan": {
+   "dart": "TextSpan",
+   "doc": "An immutable span of text.",
+   "variants": [
+    {"tag":null,"fields":{"text":{"type":{"k":"string"},"nullable":true},"children":{"type":{"k":"list","e":{"k":"data","n":"InlineSpan"}}},"style":{"type":{"k":"data","n":"TextStyle"},"nullable":true},"recognizer":{"type":{"k":"data","n":"GestureRecognizer"},"nullable":true},"mouseCursor":{"type":{"k":"data","n":"MouseCursor"},"nullable":true},"semanticsLabel":{"type":{"k":"string"},"nullable":true},"semanticsIdentifier":{"type":{"k":"string"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"spellOut":{"type":{"k":"bool"},"nullable":true}},"omitted":{"onEnter":"nested:callback/void(encodable args)","onExit":"nested:callback/void(encodable args)"}}
+   ]
+  },
+  "TextStyle": {
+   "dart": "TextStyle",
+   "doc": "An immutable style describing how to format and paint text.",
+   "variants": [
+    {"tag":null,"fields":{"inherit":{"type":{"k":"bool"}},"color":{"type":{"k":"data","n":"Color"},"nullable":true},"backgroundColor":{"type":{"k":"data","n":"Color"},"nullable":true},"fontSize":{"type":{"k":"double"},"nullable":true},"fontWeight":{"type":{"k":"data","n":"FontWeight"},"nullable":true},"fontStyle":{"type":{"k":"enum","n":"FontStyle"},"nullable":true},"letterSpacing":{"type":{"k":"double"},"nullable":true},"wordSpacing":{"type":{"k":"double"},"nullable":true},"textBaseline":{"type":{"k":"enum","n":"TextBaseline"},"nullable":true},"height":{"type":{"k":"double"},"nullable":true},"leadingDistribution":{"type":{"k":"enum","n":"TextLeadingDistribution"},"nullable":true},"locale":{"type":{"k":"data","n":"Locale"},"nullable":true},"foreground":{"type":{"k":"data","n":"Paint"},"nullable":true},"background":{"type":{"k":"data","n":"Paint"},"nullable":true},"shadows":{"type":{"k":"list","e":{"k":"data","n":"Shadow"}}},"fontFeatures":{"type":{"k":"list","e":{"k":"data","n":"FontFeature"}}},"fontVariations":{"type":{"k":"list","e":{"k":"data","n":"FontVariation"}}},"decoration":{"type":{"k":"data","n":"TextDecoration"},"nullable":true},"decorationColor":{"type":{"k":"data","n":"Color"},"nullable":true},"decorationStyle":{"type":{"k":"enum","n":"TextDecorationStyle"},"nullable":true},"decorationThickness":{"type":{"k":"double"},"nullable":true},"debugLabel":{"type":{"k":"string"},"nullable":true},"fontFamily":{"type":{"k":"string"},"nullable":true},"fontFamilyFallback":{"type":{"k":"list","e":{"k":"string"}}},"package":{"type":{"k":"string"},"nullable":true},"overflow":{"type":{"k":"enum","n":"TextOverflow"},"nullable":true}}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:auto_size_text/auto_size_text.dart"]
+}

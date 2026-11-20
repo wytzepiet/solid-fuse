@@ -1,0 +1,99 @@
+{
+  "name": "sensors_plus",
+  "libs": [
+    "package:sensors_plus/sensors_plus.dart"
+  ],
+  "surface": {
+    "total": 17,
+    "bridged": 17,
+    "byKind": {
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "function": {
+        "bridged": 5,
+        "total": 5
+      },
+      "constructor": {
+        "bridged": 1,
+        "total": 1
+      },
+      "stream": {
+        "bridged": 10,
+        "total": 10
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [
+    {
+      "class": "Sensors",
+      "tag": "sensors_plus_Sensors",
+      "push": "stream",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 5,
+      "streams": [
+        "accelerometerEventStream",
+        "barometerEventStream",
+        "gyroscopeEventStream",
+        "magnetometerEventStream",
+        "userAccelerometerEventStream"
+      ],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 71,
+      "tsLines": 60
+    },
+    {
+      "class": "SensorsPlatform",
+      "tag": "sensors_plus_SensorsPlatform",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 5,
+      "streams": [
+        "accelerometerEventStream",
+        "barometerEventStream",
+        "gyroscopeEventStream",
+        "magnetometerEventStream",
+        "userAccelerometerEventStream"
+      ],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 65,
+      "tsLines": 51
+    }
+  ],
+  "notCallable": {
+    "AccelerometerEvent": "record (by the data rules)",
+    "BarometerEvent": "record (by the data rules)",
+    "GyroscopeEvent": "record (by the data rules)",
+    "MagnetometerEvent": "record (by the data rules)",
+    "SensorInterval": "no members",
+    "UserAccelerometerEvent": "record (by the data rules)"
+  },
+  "dartLines": 277,
+  "tsLines": 217,
+  "warnings": []
+}

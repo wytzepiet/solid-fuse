@@ -1,0 +1,308 @@
+{
+  "name": "webview_flutter",
+  "libs": [
+    "package:webview_flutter/webview_flutter.dart"
+  ],
+  "surface": {
+    "total": 55,
+    "bridged": 41,
+    "byKind": {
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 35,
+        "total": 44
+      },
+      "getter": {
+        "bridged": 1,
+        "total": 4
+      },
+      "constructor": {
+        "bridged": 4,
+        "total": 6
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "getter",
+      "name": "SslAuthError#platform",
+      "ok": false,
+      "why": "PlatformSslAuthError (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "WebViewController#constructor WebViewController.fromPlatform",
+      "ok": false,
+      "why": "platform: object type PlatformWebViewController is not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewController#addJavaScriptChannel()",
+      "ok": false,
+      "why": "onMessageReceived: callback"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewController#setOnConsoleMessage()",
+      "ok": false,
+      "why": "onConsoleMessage: callback"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewController#setOnJavaScriptAlertDialog()",
+      "ok": false,
+      "why": "onJavaScriptAlertDialog: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewController#setOnJavaScriptConfirmDialog()",
+      "ok": false,
+      "why": "onJavaScriptConfirmDialog: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewController#setOnJavaScriptTextInputDialog()",
+      "ok": false,
+      "why": "onJavaScriptTextInputDialog: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "getter",
+      "name": "WebViewController#platform",
+      "ok": false,
+      "why": "returns PlatformWebViewController, not a generated object"
+    },
+    {
+      "kind": "constructor",
+      "name": "WebViewCookieManager#constructor WebViewCookieManager.fromPlatform",
+      "ok": false,
+      "why": "platform: unbridgeable (unbridgeable/private/unexported-type)"
+    },
+    {
+      "kind": "getter",
+      "name": "WebViewCookieManager#platform",
+      "ok": false,
+      "why": "PlatformWebViewCookieManager (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewPlatform#createPlatformCookieManager()",
+      "ok": false,
+      "why": "returns PlatformWebViewCookieManager (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewPlatform#createPlatformNavigationDelegate()",
+      "ok": false,
+      "why": "returns PlatformNavigationDelegate (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewPlatform#createPlatformWebViewController()",
+      "ok": false,
+      "why": "returns PlatformWebViewController, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "WebViewPlatform#createPlatformWebViewWidget()",
+      "ok": false,
+      "why": "params: unbridgeable (unbridgeable/no-usable-constructor)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "SslAuthError",
+      "tag": "webview_flutter_SslAuthError",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "cancel",
+        "proceed"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "certificate"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "platform": "PlatformSslAuthError (not encodable)"
+      },
+      "dartLines": 58,
+      "tsLines": 40
+    },
+    {
+      "class": "WebViewController",
+      "tag": "webview_flutter_WebViewController",
+      "push": "none",
+      "ctors": [
+        "new",
+        "fromPlatformCreationParams"
+      ],
+      "ctorParamsKept": 3,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "canGoBack",
+        "canGoForward",
+        "clearCache",
+        "clearLocalStorage",
+        "currentUrl",
+        "enableZoom",
+        "getScrollPosition",
+        "getTitle",
+        "getUserAgent",
+        "goBack",
+        "goForward",
+        "loadFile",
+        "loadFlutterAsset",
+        "loadHtmlString",
+        "loadRequest",
+        "reload",
+        "removeJavaScriptChannel",
+        "runJavaScript",
+        "runJavaScriptReturningResult",
+        "scrollBy",
+        "scrollTo",
+        "setBackgroundColor",
+        "setHorizontalScrollBarEnabled",
+        "setJavaScriptMode",
+        "setNavigationDelegate",
+        "setOnScrollPositionChange",
+        "setOverScrollMode",
+        "setUserAgent",
+        "setVerticalScrollBarEnabled",
+        "supportsSetScrollBarsEnabled"
+      ],
+      "methodsTotal": 35,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor WebViewController.fromPlatform": "platform: object type PlatformWebViewController is not a generated object",
+        "addJavaScriptChannel()": "onMessageReceived: callback",
+        "loadRequest(body)": "unbridgeable (unbridgeable/binary/typed-data)",
+        "setOnConsoleMessage()": "onConsoleMessage: callback",
+        "setOnJavaScriptAlertDialog()": "onJavaScriptAlertDialog: callback-async (needs _functionCallAsync)",
+        "setOnJavaScriptConfirmDialog()": "onJavaScriptConfirmDialog: callback-async (needs _functionCallAsync)",
+        "setOnJavaScriptTextInputDialog()": "onJavaScriptTextInputDialog: callback-async (needs _functionCallAsync)",
+        "setOnScrollPositionChange(onScrollPositionChange)": "callback",
+        "platform": "returns PlatformWebViewController, not a generated object"
+      },
+      "dartLines": 138,
+      "tsLines": 148
+    },
+    {
+      "class": "WebViewCookieManager",
+      "tag": "webview_flutter_WebViewCookieManager",
+      "push": "none",
+      "ctors": [
+        "new",
+        "fromPlatformCreationParams"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clearCookies",
+        "getCookies",
+        "setCookie"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 1,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor WebViewCookieManager.fromPlatform": "platform: unbridgeable (unbridgeable/private/unexported-type)",
+        "platform": "PlatformWebViewCookieManager (not encodable)"
+      },
+      "dartLines": 63,
+      "tsLines": 52
+    },
+    {
+      "class": "WebViewPlatform",
+      "tag": "webview_flutter_WebViewPlatform",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "createPlatformCookieManager()": "returns PlatformWebViewCookieManager (not encodable)",
+        "createPlatformNavigationDelegate()": "returns PlatformNavigationDelegate (not encodable)",
+        "createPlatformWebViewController()": "returns PlatformWebViewController, not a generated object",
+        "createPlatformWebViewWidget()": "params: unbridgeable (unbridgeable/no-usable-constructor)"
+      },
+      "dartLines": 46,
+      "tsLines": 21
+    }
+  ],
+  "notCallable": {
+    "HttpAuthRequest": "record (by the data rules)",
+    "HttpResponseError": "record (by the data rules)",
+    "JavaScriptAlertDialogRequest": "record (by the data rules)",
+    "JavaScriptConfirmDialogRequest": "record (by the data rules)",
+    "JavaScriptConsoleMessage": "record (by the data rules)",
+    "JavaScriptMessage": "record (by the data rules)",
+    "JavaScriptTextInputDialogRequest": "record (by the data rules)",
+    "NavigationDelegate": "record (by the data rules)",
+    "NavigationRequest": "record (by the data rules)",
+    "PlatformNavigationDelegateCreationParams": "no members",
+    "PlatformWebViewControllerCreationParams": "no members",
+    "PlatformWebViewCookieManagerCreationParams": "no members",
+    "PlatformWebViewPermissionRequest": "record (by the data rules)",
+    "PlatformWebViewWidgetCreationParams": "record (by the data rules)",
+    "ScrollPositionChange": "record (by the data rules)",
+    "UrlChange": "record (by the data rules)",
+    "WebResourceError": "record (by the data rules)",
+    "WebResourceRequest": "record (by the data rules)",
+    "WebResourceResponse": "record (by the data rules)",
+    "WebViewCookie": "record (by the data rules)",
+    "WebViewCredential": "record (by the data rules)",
+    "WebViewPermissionRequest": "record (by the data rules)",
+    "WebViewPermissionResourceType": "record (by the data rules)",
+    "WebViewWidget": "widget (widget generator)",
+    "X509Certificate": "record (by the data rules)",
+    "HttpResponseErrorCallback": "typedef",
+    "JavaScriptLogLevel": "enum (by the data rules)",
+    "JavaScriptMode": "enum (by the data rules)",
+    "LoadRequestMethod": "enum (by the data rules)",
+    "NavigationDecision": "enum (by the data rules)",
+    "NavigationRequestCallback": "typedef",
+    "PageEventCallback": "typedef",
+    "ProgressCallback": "typedef",
+    "WebResourceErrorCallback": "typedef",
+    "WebResourceErrorType": "enum (by the data rules)",
+    "WebViewOverScrollMode": "enum (by the data rules)"
+  },
+  "dartLines": 587,
+  "tsLines": 401,
+  "warnings": []
+}

@@ -1,0 +1,2 @@
+{"appRoot":"/home/claude/solid-fuse/experiments/interop/packages/host","outDart":"/home/claude/solid-fuse/experiments/interop/packages/host/lib/_generated","outManifest":"/home/claude/solid-fuse/experiments/interop/packages/manifests","docs":"first",
+ "units":[{"name":"flutter_spinkit","version":"5.2.2","libs":[["package:flutter_spinkit/flutter_spinkit.dart","flutter_spinkit_flutter_spinkit"]],"include":null}]}

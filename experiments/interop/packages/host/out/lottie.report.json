@@ -1,0 +1,355 @@
+{
+  "name": "lottie",
+  "libs": [
+    "package:lottie/lottie.dart"
+  ],
+  "surface": {
+    "total": 48,
+    "bridged": 45,
+    "byKind": {
+      "static method": {
+        "bridged": 38,
+        "total": 39
+      },
+      "constructor": {
+        "bridged": 1,
+        "total": 1
+      },
+      "method": {
+        "bridged": 3,
+        "total": 5
+      },
+      "getter": {
+        "bridged": 2,
+        "total": 2
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "LottieComposition.fromByteData",
+      "ok": false,
+      "why": "data: unbridgeable (unbridgeable/binary/typed-data)"
+    },
+    {
+      "kind": "method",
+      "name": "LottieCache#putIfAbsent()",
+      "ok": false,
+      "why": "loader: callback-async (needs _functionCallAsync)"
+    },
+    {
+      "kind": "method",
+      "name": "RenderCache#acquire()",
+      "ok": false,
+      "why": "returns AnimationCache (not encodable)"
+    }
+  ],
+  "partial": [
+    {
+      "kind": "static method",
+      "name": "LottieComposition.fromBytes",
+      "ok": true,
+      "why": "dropped optional: decoder"
+    },
+    {
+      "kind": "static method",
+      "name": "LottieComposition.decodeZip",
+      "ok": true,
+      "why": "dropped optional: imageProviderFactory, filePicker"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.color",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.strokeColor",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformOpacity",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.opacity",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformAnchorPoint",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformPosition",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.ellipseSize",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.rectangleSize",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.cornerRadius",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.position",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformScale",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformRotation",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformSkew",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformSkewAngle",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.strokeWidth",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.textTracking",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.repeaterCopies",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.repeaterOffset",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.polystarPoints",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.polystarRotation",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.polystarInnerRadius",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.polystarOuterRadius",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.polystarInnerRoundedness",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.polystarOuterRoundedness",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformStartOpacity",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.transformEndOpacity",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.timeRemap",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.textSize",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.text",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.colorFilter",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.gradientColor",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.blurRadius",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.dropShadow",
+      "ok": true,
+      "why": "dropped optional: callback"
+    },
+    {
+      "kind": "static method",
+      "name": "ValueDelegate.path",
+      "ok": true,
+      "why": "dropped optional: callback"
+    }
+  ],
+  "objects": [
+    {
+      "class": "LottieCache",
+      "tag": "lottie_LottieCache",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clear",
+        "evict"
+      ],
+      "methodsTotal": 3,
+      "streams": [],
+      "readable": [
+        "count",
+        "maximumSize"
+      ],
+      "gettersTotal": 2,
+      "objectGetters": [],
+      "setters": [
+        "maximumSize"
+      ],
+      "settersTotal": 1,
+      "mirrored": [],
+      "dropped": {
+        "putIfAbsent()": "loader: callback-async (needs _functionCallAsync)"
+      },
+      "dartLines": 70,
+      "tsLines": 43
+    },
+    {
+      "class": "RenderCache",
+      "tag": "lottie_RenderCache",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "release"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "acquire()": "returns AnimationCache (not encodable)"
+      },
+      "dartLines": 49,
+      "tsLines": 19
+    }
+  ],
+  "notCallable": {
+    "AssetLottie": "record (by the data rules)",
+    "DropShadow": "record (by the data rules)",
+    "FileLottie": "record (by the data rules)",
+    "FrameRate": "record (by the data rules)",
+    "Lottie": "widget (widget generator)",
+    "LottieBuilder": "widget (widget generator)",
+    "LottieComposition": "record (by the data rules)",
+    "LottieDelegates": "record (by the data rules)",
+    "LottieDrawable": "record (by the data rules)",
+    "LottieFontStyle": "record (by the data rules)",
+    "LottieImageAsset": "record (by the data rules)",
+    "LottieOptions": "record (by the data rules)",
+    "LottieProvider": "record (by the data rules)",
+    "Marker": "record (by the data rules)",
+    "MemoryLottie": "record (by the data rules)",
+    "NetworkLottie": "record (by the data rules)",
+    "RawLottie": "widget (widget generator)",
+    "ValueDelegate": "record (by the data rules)",
+    "LottieDecoder": "typedef",
+    "LottieImageProviderFactory": "typedef"
+  },
+  "dartLines": 573,
+  "tsLines": 301,
+  "warnings": []
+}

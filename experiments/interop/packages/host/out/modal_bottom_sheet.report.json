@@ -1,0 +1,798 @@
+{
+  "name": "modal_bottom_sheet",
+  "libs": [
+    "package:modal_bottom_sheet/modal_bottom_sheet.dart"
+  ],
+  "surface": {
+    "total": 222,
+    "bridged": 150,
+    "byKind": {
+      "function": {
+        "bridged": 1,
+        "total": 6
+      },
+      "method": {
+        "bridged": 34,
+        "total": 61
+      },
+      "getter": {
+        "bridged": 106,
+        "total": 140
+      },
+      "setter": {
+        "bridged": 8,
+        "total": 11
+      },
+      "constructor": {
+        "bridged": 1,
+        "total": 4
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "function",
+      "name": "defaultPointerDeviceKind",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "function",
+      "name": "showBarModalBottomSheet",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "function",
+      "name": "showCupertinoModalBottomSheet",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "function",
+      "name": "showCustomModalBottomSheet",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "function",
+      "name": "showMaterialModalBottomSheet",
+      "ok": false,
+      "why": "generic function"
+    },
+    {
+      "kind": "constructor",
+      "name": "CupertinoModalBottomSheetRoute#constructor CupertinoModalBottomSheetRoute",
+      "ok": false,
+      "why": "builder: unbridgeable (builder)"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#buildModalBarrier()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#buildPage()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#buildTransitions()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#createAnimation()",
+      "ok": false,
+      "why": "returns Animation<double>, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#createAnimationController()",
+      "ok": false,
+      "why": "returns AnimationController, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#createOverlayEntries()",
+      "ok": false,
+      "why": "returns Iterable<OverlayEntry> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#getPreviousRouteTransition()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#registerPopEntry()",
+      "ok": false,
+      "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "method",
+      "name": "CupertinoModalBottomSheetRoute#unregisterPopEntry()",
+      "ok": false,
+      "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#animation",
+      "ok": false,
+      "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#animationCurve",
+      "ok": false,
+      "why": "Curve? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#barrierCurve",
+      "ok": false,
+      "why": "Curve (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#filter",
+      "ok": false,
+      "why": "ImageFilter? (no record shape)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#navigator",
+      "ok": false,
+      "why": "NavigatorState? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#overlayEntries",
+      "ok": false,
+      "why": "List<OverlayEntry> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#previousRouteAnimationCurve",
+      "ok": false,
+      "why": "Curve? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#restorationScopeId",
+      "ok": false,
+      "why": "returns ValueListenable<String?>, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#scrollController",
+      "ok": false,
+      "why": "returns ScrollController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#secondAnimationController",
+      "ok": false,
+      "why": "returns AnimationController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#secondaryAnimation",
+      "ok": false,
+      "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "CupertinoModalBottomSheetRoute#subtreeContext",
+      "ok": false,
+      "why": "BuildContext? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "CupertinoModalBottomSheetRoute#receivedTransition=",
+      "ok": false,
+      "why": "unbridgeable builder"
+    },
+    {
+      "kind": "constructor",
+      "name": "MaterialWithModalsPageRoute#constructor MaterialWithModalsPageRoute",
+      "ok": false,
+      "why": "builder: unbridgeable (builder)"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#buildModalBarrier()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#buildPage()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#buildTransitions()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#createAnimation()",
+      "ok": false,
+      "why": "returns Animation<double>, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#createAnimationController()",
+      "ok": false,
+      "why": "returns AnimationController, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#createOverlayEntries()",
+      "ok": false,
+      "why": "returns Iterable<OverlayEntry> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#registerPopEntry()",
+      "ok": false,
+      "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "method",
+      "name": "MaterialWithModalsPageRoute#unregisterPopEntry()",
+      "ok": false,
+      "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#animation",
+      "ok": false,
+      "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#barrierCurve",
+      "ok": false,
+      "why": "Curve (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#filter",
+      "ok": false,
+      "why": "ImageFilter? (no record shape)"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#navigator",
+      "ok": false,
+      "why": "NavigatorState? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#overlayEntries",
+      "ok": false,
+      "why": "List<OverlayEntry> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#restorationScopeId",
+      "ok": false,
+      "why": "returns ValueListenable<String?>, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#secondaryAnimation",
+      "ok": false,
+      "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "MaterialWithModalsPageRoute#subtreeContext",
+      "ok": false,
+      "why": "BuildContext? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "MaterialWithModalsPageRoute#receivedTransition=",
+      "ok": false,
+      "why": "unbridgeable builder"
+    },
+    {
+      "kind": "method",
+      "name": "ModalBottomSheetState#createTicker()",
+      "ok": false,
+      "why": "onTick: callback"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalBottomSheetState#animationCurve",
+      "ok": false,
+      "why": "ParametricCurve<double> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalBottomSheetState#context",
+      "ok": false,
+      "why": "BuildContext (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalBottomSheetState#widget",
+      "ok": false,
+      "why": "ModalBottomSheet (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "ModalSheetRoute#constructor ModalSheetRoute",
+      "ok": false,
+      "why": "builder: unbridgeable (builder)"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#buildModalBarrier()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#buildPage()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#buildTransitions()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#createAnimation()",
+      "ok": false,
+      "why": "returns Animation<double>, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#createAnimationController()",
+      "ok": false,
+      "why": "returns AnimationController, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#createOverlayEntries()",
+      "ok": false,
+      "why": "returns Iterable<OverlayEntry> (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#getPreviousRouteTransition()",
+      "ok": false,
+      "why": "context: env-context"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#registerPopEntry()",
+      "ok": false,
+      "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "method",
+      "name": "ModalSheetRoute#unregisterPopEntry()",
+      "ok": false,
+      "why": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#animation",
+      "ok": false,
+      "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#animationCurve",
+      "ok": false,
+      "why": "Curve? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#barrierCurve",
+      "ok": false,
+      "why": "Curve (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#filter",
+      "ok": false,
+      "why": "ImageFilter? (no record shape)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#navigator",
+      "ok": false,
+      "why": "NavigatorState? (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#overlayEntries",
+      "ok": false,
+      "why": "List<OverlayEntry> (not encodable)"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#restorationScopeId",
+      "ok": false,
+      "why": "returns ValueListenable<String?>, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#scrollController",
+      "ok": false,
+      "why": "returns ScrollController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#secondAnimationController",
+      "ok": false,
+      "why": "returns AnimationController?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#secondaryAnimation",
+      "ok": false,
+      "why": "returns Animation<double>?, not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "ModalSheetRoute#subtreeContext",
+      "ok": false,
+      "why": "BuildContext? (not encodable)"
+    },
+    {
+      "kind": "setter",
+      "name": "ModalSheetRoute#receivedTransition=",
+      "ok": false,
+      "why": "unbridgeable builder"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "CupertinoModalBottomSheetRoute",
+      "tag": "modal_bottom_sheet_CupertinoModalBottomSheetRoute",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "addLocalHistoryEntry",
+        "canTransitionFrom",
+        "canTransitionTo",
+        "createSimulation",
+        "didPop",
+        "handleCancelBackGesture",
+        "handleCommitBackGesture",
+        "handleStartBackGesture",
+        "handleUpdateBackGestureProgress",
+        "onPopInvokedWithResult",
+        "removeLocalHistoryEntry"
+      ],
+      "methodsTotal": 20,
+      "streams": [],
+      "readable": [
+        "allowSnapshotting",
+        "barrierColor",
+        "barrierDismissible",
+        "barrierLabel",
+        "bounce",
+        "boxShadow",
+        "canPop",
+        "closeProgressThreshold",
+        "completed",
+        "currentResult",
+        "directionalTraversalEdgeBehavior",
+        "duration",
+        "enableDrag",
+        "expanded",
+        "fullscreenDialog",
+        "impliesAppBarDismissal",
+        "isActive",
+        "isCurrent",
+        "isDismissible",
+        "isFirst",
+        "maintainState",
+        "modalBarrierColor",
+        "offstage",
+        "opaque",
+        "overlayStyle",
+        "popDisposition",
+        "popGestureEnabled",
+        "popGestureInProgress",
+        "popped",
+        "requestFocus",
+        "reverseTransitionDuration",
+        "semanticsDismissible",
+        "settings",
+        "topRadius",
+        "transitionBackgroundColor",
+        "transitionDuration",
+        "traversalEdgeBehavior",
+        "willDisposeAnimationController",
+        "willHandlePopInternally"
+      ],
+      "gettersTotal": 51,
+      "objectGetters": [],
+      "setters": [
+        "offstage",
+        "willDisposeAnimationController"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "constructor CupertinoModalBottomSheetRoute": "builder: unbridgeable (builder)",
+        "buildModalBarrier()": "returns Widget (not encodable)",
+        "buildPage()": "context: env-context",
+        "buildTransitions()": "context: env-context",
+        "createAnimation()": "returns Animation<double>, not a generated object",
+        "createAnimationController()": "returns AnimationController, not a generated object",
+        "createOverlayEntries()": "returns Iterable<OverlayEntry> (not encodable)",
+        "getPreviousRouteTransition()": "context: env-context",
+        "registerPopEntry()": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)",
+        "unregisterPopEntry()": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)",
+        "animation": "returns Animation<double>?, not a generated object",
+        "animationCurve": "Curve? (not encodable)",
+        "barrierCurve": "Curve (not encodable)",
+        "filter": "ImageFilter? (no record shape)",
+        "navigator": "NavigatorState? (not encodable)",
+        "overlayEntries": "List<OverlayEntry> (not encodable)",
+        "previousRouteAnimationCurve": "Curve? (not encodable)",
+        "restorationScopeId": "returns ValueListenable<String?>, not a generated object",
+        "scrollController": "returns ScrollController?, not a generated object",
+        "secondAnimationController": "returns AnimationController?, not a generated object",
+        "secondaryAnimation": "returns Animation<double>?, not a generated object",
+        "subtreeContext": "BuildContext? (not encodable)",
+        "receivedTransition=": "unbridgeable builder"
+      },
+      "dartLines": 181,
+      "tsLines": 137
+    },
+    {
+      "class": "MaterialWithModalsPageRoute",
+      "tag": "modal_bottom_sheet_MaterialWithModalsPageRoute",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "addLocalHistoryEntry",
+        "canTransitionFrom",
+        "canTransitionTo",
+        "createSimulation",
+        "didPop",
+        "handleCancelBackGesture",
+        "handleCommitBackGesture",
+        "handleStartBackGesture",
+        "handleUpdateBackGestureProgress",
+        "onPopInvokedWithResult",
+        "removeLocalHistoryEntry"
+      ],
+      "methodsTotal": 19,
+      "streams": [],
+      "readable": [
+        "allowSnapshotting",
+        "barrierColor",
+        "barrierDismissible",
+        "barrierLabel",
+        "canPop",
+        "completed",
+        "currentResult",
+        "directionalTraversalEdgeBehavior",
+        "fullscreenDialog",
+        "impliesAppBarDismissal",
+        "isActive",
+        "isCurrent",
+        "isFirst",
+        "maintainState",
+        "offstage",
+        "opaque",
+        "popDisposition",
+        "popGestureEnabled",
+        "popGestureInProgress",
+        "popped",
+        "requestFocus",
+        "reverseTransitionDuration",
+        "semanticsDismissible",
+        "settings",
+        "transitionDuration",
+        "traversalEdgeBehavior",
+        "willDisposeAnimationController",
+        "willHandlePopInternally"
+      ],
+      "gettersTotal": 36,
+      "objectGetters": [],
+      "setters": [
+        "offstage",
+        "willDisposeAnimationController"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "constructor MaterialWithModalsPageRoute": "builder: unbridgeable (builder)",
+        "buildModalBarrier()": "returns Widget (not encodable)",
+        "buildPage()": "context: env-context",
+        "buildTransitions()": "context: env-context",
+        "createAnimation()": "returns Animation<double>, not a generated object",
+        "createAnimationController()": "returns AnimationController, not a generated object",
+        "createOverlayEntries()": "returns Iterable<OverlayEntry> (not encodable)",
+        "registerPopEntry()": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)",
+        "unregisterPopEntry()": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)",
+        "animation": "returns Animation<double>?, not a generated object",
+        "barrierCurve": "Curve (not encodable)",
+        "filter": "ImageFilter? (no record shape)",
+        "navigator": "NavigatorState? (not encodable)",
+        "overlayEntries": "List<OverlayEntry> (not encodable)",
+        "restorationScopeId": "returns ValueListenable<String?>, not a generated object",
+        "secondaryAnimation": "returns Animation<double>?, not a generated object",
+        "subtreeContext": "BuildContext? (not encodable)",
+        "receivedTransition=": "unbridgeable builder"
+      },
+      "dartLines": 152,
+      "tsLines": 125
+    },
+    {
+      "class": "ModalBottomSheetState",
+      "tag": "modal_bottom_sheet_ModalBottomSheetState",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "shouldClose"
+      ],
+      "methodsTotal": 2,
+      "streams": [],
+      "readable": [
+        "hasReachedCloseThreshold",
+        "hasReachedWillPopThreshold",
+        "isDragging",
+        "mounted"
+      ],
+      "gettersTotal": 7,
+      "objectGetters": [],
+      "setters": [
+        "animationCurve",
+        "isDragging"
+      ],
+      "settersTotal": 2,
+      "mirrored": [],
+      "dropped": {
+        "createTicker()": "onTick: callback",
+        "animationCurve": "ParametricCurve<double> (not encodable)",
+        "context": "BuildContext (not encodable)",
+        "widget": "ModalBottomSheet (not encodable)"
+      },
+      "dartLines": 75,
+      "tsLines": 41
+    },
+    {
+      "class": "ModalSheetRoute",
+      "tag": "modal_bottom_sheet_ModalSheetRoute",
+      "push": "none",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "addLocalHistoryEntry",
+        "canTransitionFrom",
+        "canTransitionTo",
+        "createSimulation",
+        "didPop",
+        "handleCancelBackGesture",
+        "handleCommitBackGesture",
+        "handleStartBackGesture",
+        "handleUpdateBackGestureProgress",
+        "onPopInvokedWithResult",
+        "removeLocalHistoryEntry"
+      ],
+      "methodsTotal": 20,
+      "streams": [],
+      "readable": [
+        "allowSnapshotting",
+        "barrierColor",
+        "barrierDismissible",
+        "barrierLabel",
+        "bounce",
+        "canPop",
+        "closeProgressThreshold",
+        "completed",
+        "currentResult",
+        "directionalTraversalEdgeBehavior",
+        "duration",
+        "enableDrag",
+        "expanded",
+        "fullscreenDialog",
+        "impliesAppBarDismissal",
+        "isActive",
+        "isCurrent",
+        "isDismissible",
+        "isFirst",
+        "maintainState",
+        "modalBarrierColor",
+        "offstage",
+        "opaque",
+        "popDisposition",
+        "popGestureEnabled",
+        "popGestureInProgress",
+        "popped",
+        "requestFocus",
+        "reverseTransitionDuration",
+        "semanticsDismissible",
+        "settings",
+        "transitionDuration",
+        "traversalEdgeBehavior",
+        "willDisposeAnimationController",
+        "willHandlePopInternally"
+      ],
+      "gettersTotal": 46,
+      "objectGetters": [],
+      "setters": [
+        "offstage",
+        "willDisposeAnimationController"
+      ],
+      "settersTotal": 3,
+      "mirrored": [],
+      "dropped": {
+        "constructor ModalSheetRoute": "builder: unbridgeable (builder)",
+        "buildModalBarrier()": "returns Widget (not encodable)",
+        "buildPage()": "context: env-context",
+        "buildTransitions()": "context: env-context",
+        "createAnimation()": "returns Animation<double>, not a generated object",
+        "createAnimationController()": "returns AnimationController, not a generated object",
+        "createOverlayEntries()": "returns Iterable<OverlayEntry> (not encodable)",
+        "getPreviousRouteTransition()": "context: env-context",
+        "registerPopEntry()": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)",
+        "unregisterPopEntry()": "popEntry: unbridgeable (unbridgeable/abstract-no-impl)",
+        "animation": "returns Animation<double>?, not a generated object",
+        "animationCurve": "Curve? (not encodable)",
+        "barrierCurve": "Curve (not encodable)",
+        "filter": "ImageFilter? (no record shape)",
+        "navigator": "NavigatorState? (not encodable)",
+        "overlayEntries": "List<OverlayEntry> (not encodable)",
+        "restorationScopeId": "returns ValueListenable<String?>, not a generated object",
+        "scrollController": "returns ScrollController?, not a generated object",
+        "secondAnimationController": "returns AnimationController?, not a generated object",
+        "secondaryAnimation": "returns Animation<double>?, not a generated object",
+        "subtreeContext": "BuildContext? (not encodable)",
+        "receivedTransition=": "unbridgeable builder"
+      },
+      "dartLines": 169,
+      "tsLines": 133
+    }
+  ],
+  "notCallable": {
+    "BarBottomSheet": "widget (widget generator)",
+    "CupertinoScaffold": "widget (widget generator)",
+    "CupertinoScaffoldInheirted": "widget (widget generator)",
+    "ModalBottomSheet": "widget (widget generator)",
+    "ModalScrollController": "widget (widget generator)",
+    "WidgetWithChildBuilder": "typedef",
+    "kDefaultBarTopRadius": "constant"
+  },
+  "dartLines": 1025,
+  "tsLines": 621,
+  "warnings": []
+}

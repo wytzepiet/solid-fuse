@@ -1,0 +1,97 @@
+{
+  "name": "package_info_plus",
+  "libs": [
+    "package:package_info_plus/package_info_plus.dart"
+  ],
+  "surface": {
+    "total": 7,
+    "bridged": 5,
+    "byKind": {
+      "static method": {
+        "bridged": 3,
+        "total": 3
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 2
+      },
+      "method": {
+        "bridged": 0,
+        "total": 2
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "method",
+      "name": "PackageInfoPlusLinuxPlugin#getAll()",
+      "ok": false,
+      "why": "returns PackageInfoData (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "PackageInfoPlusWindowsPlugin#getAll()",
+      "ok": false,
+      "why": "returns PackageInfoData (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "PackageInfoPlusLinuxPlugin",
+      "tag": "package_info_plus_PackageInfoPlusLinuxPlugin",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getAll()": "returns PackageInfoData (not encodable)"
+      },
+      "dartLines": 52,
+      "tsLines": 30
+    },
+    {
+      "class": "PackageInfoPlusWindowsPlugin",
+      "tag": "package_info_plus_PackageInfoPlusWindowsPlugin",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [],
+      "methodsTotal": 1,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "getAll()": "returns PackageInfoData (not encodable)"
+      },
+      "dartLines": 52,
+      "tsLines": 30
+    }
+  ],
+  "notCallable": {
+    "PackageInfo": "record (by the data rules)"
+  },
+  "dartLines": 167,
+  "tsLines": 103,
+  "warnings": []
+}

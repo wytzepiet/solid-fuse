@@ -1,0 +1,45 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "infinite_scroll_pagination",
+ "version": "5.1.1",
+ "register": "registerInfiniteScrollPaginationWidgets",
+ "widgets": {},
+ "skipped": {
+  "AppendedSliverGrid": "required param `itemBuilder` (Widget Function(BuildContext, int)) is not bridgeable: builder/encodable args",
+  "PagedAlignedGridView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedAlignedGridViewCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedAlignedGridViewExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedGridView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedLayoutBuilder": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedListView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedListViewSeparated": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedMasonryGridView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedMasonryGridViewCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedMasonryGridViewExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedPageView": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverAlignedGrid": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverAlignedGridCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverAlignedGridExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverGrid": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverList": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverListSeparated": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverMasonryGrid": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverMasonryGridCount": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagedSliverMasonryGridExtent": "required param `builderDelegate` (PagedChildBuilderDelegate<dynamic>) is not bridgeable: unbridgeable/needs-nested-widget/callback",
+  "PagingListener": "required param `builder` (Widget Function(BuildContext, PagingState<dynamic, dynamic>, void Function())) is not bridgeable: builder/unencodable args"
+ },
+ "enums": {},
+ "types": {
+  "PagingStateOfdynamicAnddynamic": {
+   "dart": "PagingState<dynamic, dynamic>",
+   "doc": "Represents the state of a paginated layout.",
+   "variants": [
+    {"tag":null,"fields":{"keys":{"type":{"k":"list","e":{"k":"unknown"}}},"error":{"type":{"k":"unknown"}},"hasNextPage":{"type":{"k":"bool"}},"isLoading":{"type":{"k":"bool"}}},"omitted":{"pages":"unbridgeable/nested-collection"}},
+    {"tag":"PagingStateBase","fields":{"keys":{"type":{"k":"list","e":{"k":"unknown"}}},"error":{"type":{"k":"unknown"}},"hasNextPage":{"type":{"k":"bool"}},"isLoading":{"type":{"k":"bool"}}},"omitted":{"pages":"unbridgeable/nested-collection"}}
+   ]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:infinite_scroll_pagination/infinite_scroll_pagination.dart"]
+}

@@ -1,0 +1,256 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "percent_indicator",
+ "version": "4.2.5",
+ "register": "registerPercentIndicatorWidgets",
+ "widgets": {
+  "CircularPercentIndicator": {
+   "tag": "percent_indicator.CircularPercentIndicator",
+   "dart": "CircularPercentIndicator",
+   "library": "package:percent_indicator/circular_percent_indicator.dart",
+   "props": {
+    "percent": {"type":{"k":"double"},"dart":"double","default":"0","doc":"Percent value between 0.0 and 1.0"},
+    "lineWidth": {"type":{"k":"double"},"dart":"double","default":"5","doc":"Width of the progress bar of the circle"},
+    "startAngle": {"type":{"k":"double"},"dart":"double","default":"0","doc":"the angle which the circle will start the progress (in degrees, eg: 0.0, 45.0, 90.0)"},
+    "radius": {"type":{"k":"double"},"dart":"double","required":true},
+    "fillColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.transparent`","doc":"First color applied to the complete circle"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `const Color(0xFFB8C7CB)`","doc":"Color of the background of the circle , default = transparent"},
+    "progressColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "backgroundWidth": {"type":{"k":"double"},"dart":"double","default":"-1","doc":"Width of the unfilled background of the progress bar"},
+    "linearGradient": {"type":{"k":"data","n":"LinearGradient"},"dart":"LinearGradient?"},
+    "animation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"true if you want the circle to have animation"},
+    "animationDuration": {"type":{"k":"int"},"dart":"int","default":"500","doc":"duration of the animation in milliseconds, It only applies if animation attribute is true"},
+    "header": {"type":{"k":"widget"},"dart":"Widget?","doc":"widget at the top of the circle"},
+    "footer": {"type":{"k":"widget"},"dart":"Widget?","doc":"widget at the bottom of the circle"},
+    "center": {"type":{"k":"widget"},"dart":"Widget?","doc":"widget inside the circle"},
+    "addAutomaticKeepAlive": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"set false if you don't want to preserve the state of the widget"},
+    "circularStrokeCap": {"type":{"k":"enum","n":"CircularStrokeCap"},"dart":"CircularStrokeCap","default":"\"butt\"","doc":"The kind of finish to place on the end of lines drawn, values supported: butt, round, square"},
+    "arcBackgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"set a circular background color when use the arcType property"},
+    "arcType": {"type":{"k":"enum","n":"ArcType"},"dart":"ArcType?","doc":"set the arc type"},
+    "animateFromLastPercent": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"set true if you want to animate the linear from the last percent value you set"},
+    "animateToInitialPercent": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"set to false if you do not want the default behavior of initially animating up from 0%"},
+    "reverse": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"set true when you want to display the progress in reverse mode"},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"set a circular curve animation type"},
+    "maskFilter": {"type":{"k":"data","n":"MaskFilter"},"dart":"MaskFilter?","doc":"Creates a mask filter that takes the progress shape being drawn and blurs it."},
+    "restartAnimation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"set true when you want to restart the animation, it restarts only when reaches 1.0 as a value\ndefaults to false"},
+    "onAnimationEnd": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Callback called when the animation ends (only if `animation` is true)"},
+    "widgetIndicator": {"type":{"k":"widget"},"dart":"Widget?","doc":"Display a widget indicator at the end of the progress. It only works when `animation` is true"},
+    "rotateLinearGradient": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Set to true if you want to rotate linear gradient in accordance to the [startAngle]."},
+    "clipRotatedLinearGradient": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Set true if you want to display only part of [linearGradient] based on percent value.\nWorks only if [rotateLinearGradient] is true."},
+    "progressBorderColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"Color of the border of the progress bar , default = null"}
+   },
+   "omitted": {
+    "onPercentValue": "callback/sync-return"
+   }
+  },
+  "LinearPercentIndicator": {
+   "tag": "percent_indicator.LinearPercentIndicator",
+   "dart": "LinearPercentIndicator",
+   "library": "package:percent_indicator/linear_percent_indicator.dart",
+   "props": {
+    "fillColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.transparent`","doc":"Color of the background of the Line , default = transparent"},
+    "percent": {"type":{"k":"double"},"dart":"double","default":"0","doc":"Percent value between 0.0 and 1.0"},
+    "lineHeight": {"type":{"k":"double"},"dart":"double","default":"5","doc":"Height of the line"},
+    "width": {"type":{"k":"double"},"dart":"double?"},
+    "backgroundColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"First color applied to the complete line"},
+    "linearGradientBackgroundColor": {"type":{"k":"data","n":"LinearGradient"},"dart":"LinearGradient?","doc":"First color applied to the complete line"},
+    "linearGradient": {"type":{"k":"data","n":"LinearGradient"},"dart":"LinearGradient?","doc":"If present, this will make the progress bar colored by this gradient."},
+    "progressColor": {"type":{"k":"data","n":"Color"},"dart":"Color?"},
+    "animation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"true if you want the Line to have animation"},
+    "animationDuration": {"type":{"k":"int"},"dart":"int","default":"500","doc":"duration of the animation in milliseconds, It only applies if animation attribute is true"},
+    "animateFromLastPercent": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"set true if you want to animate the linear from the last percent value you set"},
+    "animateToInitialPercent": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"set to false if you do not want the default behavior of initially animating up from 0%"},
+    "isRTL": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"set true if you want to animate the linear from the right to left (RTL)"},
+    "leading": {"type":{"k":"widget"},"dart":"Widget?","doc":"widget at the left of the Line"},
+    "trailing": {"type":{"k":"widget"},"dart":"Widget?","doc":"widget at the right of the Line"},
+    "center": {"type":{"k":"widget"},"dart":"Widget?","doc":"widget inside the Line"},
+    "addAutomaticKeepAlive": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"set false if you don't want to preserve the state of the widget"},
+    "linearStrokeCap": {"type":{"k":"enum","n":"LinearStrokeCap"},"dart":"LinearStrokeCap?","doc":"The kind of finish to place on the end of lines drawn, values supported: butt, round, roundAll"},
+    "barRadius": {"type":{"k":"data","n":"Radius"},"dart":"Radius?","doc":"The border radius of the progress bar (Will replace linearStrokeCap)"},
+    "padding": {"type":{"k":"data","n":"EdgeInsets"},"dart":"EdgeInsets","default":"Dart `const EdgeInsets.symmetric(horizontal: 10.0)`","doc":"padding to the LinearPercentIndicator"},
+    "alignment": {"type":{"k":"enum","n":"MainAxisAlignment"},"dart":"MainAxisAlignment","default":"\"start\"","doc":"alignment of the Row (leading-widget-center-trailing)"},
+    "maskFilter": {"type":{"k":"data","n":"MaskFilter"},"dart":"MaskFilter?","doc":"Creates a mask filter that takes the progress shape being drawn and blurs it."},
+    "clipLinearGradient": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Set true if you want to display only part of [linearGradient] based on percent value\n(ie. create 'VU effect'). If no [linearGradient] is specified this option is ignored."},
+    "curve": {"type":{"k":"data","n":"Curve"},"dart":"Curve","default":"Dart `Curves.linear`","doc":"set a linear curve animation type"},
+    "restartAnimation": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"set true when you want to restart the animation, it restarts only when reaches 1.0 as a value\ndefaults to false"},
+    "onAnimationEnd": {"type":{"k":"callback","args":[]},"dart":"void Function()?","doc":"Callback called when the animation ends (only if `animation` is true)"},
+    "widgetIndicator": {"type":{"k":"widget"},"dart":"Widget?","doc":"Display a widget indicator at the end of the progress. It only works when `animation` is true"},
+    "progressBorderColor": {"type":{"k":"data","n":"Color"},"dart":"Color?","doc":"Color of the border of the progress bar , default = null"}
+   },
+   "omitted": {
+    "onPercentValue": "callback/sync-return"
+   }
+  }
+ },
+ "enums": {
+  "ArcType": {
+   "values": ["HALF","FULL","FULL_REVERSED"]
+  },
+  "BlurStyle": {
+   "values": ["normal","solid","outer","inner"],
+   "doc": "Styles to use for blurs in [MaskFilter] objects."
+  },
+  "CircularStrokeCap": {
+   "values": ["butt","round","square"]
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "LinearStrokeCap": {
+   "values": ["butt","round","roundAll"]
+  },
+  "MainAxisAlignment": {
+   "values": ["start","end","center","spaceBetween","spaceAround","spaceEvenly"],
+   "doc": "How the children should be placed along the main axis in a flex layout."
+  },
+  "TileMode": {
+   "values": ["clamp","repeated","mirror","decal"],
+   "doc": "Defines how to handle areas outside the defined bounds of a gradient or image filter."
+  }
+ },
+ "types": {
+  "AlignmentGeometry": {
+   "dart": "AlignmentGeometry",
+   "doc": "Base class for [Alignment] that allows for text-direction aware\nresolution.",
+   "consts": ["topLeft","topCenter","topRight","topStart","topEnd","centerLeft","center","centerRight","centerStart","centerEnd","bottomLeft","bottomCenter","bottomRight","bottomStart","bottomEnd","Alignment.topLeft","Alignment.topCenter","Alignment.topRight","Alignment.centerLeft","Alignment.center","Alignment.centerRight","Alignment.bottomLeft","Alignment.bottomCenter","Alignment.bottomRight","AlignmentDirectional.topStart","AlignmentDirectional.topCenter","AlignmentDirectional.topEnd","AlignmentDirectional.centerStart","AlignmentDirectional.center","AlignmentDirectional.centerEnd","AlignmentDirectional.bottomStart","AlignmentDirectional.bottomCenter","AlignmentDirectional.bottomEnd","FractionalOffset.topLeft","FractionalOffset.topCenter","FractionalOffset.topRight","FractionalOffset.centerLeft","FractionalOffset.center","FractionalOffset.centerRight","FractionalOffset.bottomLeft","FractionalOffset.bottomCenter","FractionalOffset.bottomRight"],
+   "variants": [
+    {"tag":"xy","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"directional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Alignment","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"AlignmentDirectional","fields":{"start":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset","fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndSize","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"size":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"FractionalOffset.fromOffsetAndRect","fields":{"offset":{"type":{"k":"data","n":"Offset"},"required":true},"rect":{"type":{"k":"data","n":"Rect"},"required":true}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Curve": {
+   "dart": "Curve",
+   "doc": "An parametric animation easing curve, i.e. a mapping of the unit interval to\nthe unit interval.",
+   "consts": ["Easing.emphasizedAccelerate","Easing.emphasizedDecelerate","Easing.linear","Easing.standard","Easing.standardAccelerate","Easing.standardDecelerate","Easing.legacyDecelerate","Easing.legacyAccelerate","Easing.legacy","Curves.linear","Curves.decelerate","Curves.fastLinearToSlowEaseIn","Curves.fastEaseInToSlowEaseOut","Curves.ease","Curves.easeIn","Curves.easeInToLinear","Curves.easeInSine","Curves.easeInQuad","Curves.easeInCubic","Curves.easeInQuart","Curves.easeInQuint","Curves.easeInExpo","Curves.easeInCirc","Curves.easeInBack","Curves.easeOut","Curves.linearToEaseOut","Curves.easeOutSine","Curves.easeOutQuad","Curves.easeOutCubic","Curves.easeOutQuart","Curves.easeOutQuint","Curves.easeOutExpo","Curves.easeOutCirc","Curves.easeOutBack","Curves.easeInOut","Curves.easeInOutSine","Curves.easeInOutQuad","Curves.easeInOutCubic","Curves.easeInOutCubicEmphasized","Curves.easeInOutQuart","Curves.easeInOutQuint","Curves.easeInOutExpo","Curves.easeInOutCirc","Curves.easeInOutBack","Curves.fastOutSlowIn","Curves.slowMiddle","Curves.bounceIn","Curves.bounceOut","Curves.bounceInOut","Curves.elasticIn","Curves.elasticOut","Curves.elasticInOut"],
+   "variants": [
+    {"tag":"SawTooth","fields":{"count":{"type":{"k":"int"},"required":true}}},
+    {"tag":"Interval","fields":{"begin":{"type":{"k":"double"},"required":true},"end":{"type":{"k":"double"},"required":true},"curve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Split","fields":{"split":{"type":{"k":"double"},"required":true},"beginCurve":{"type":{"k":"data","n":"Curve"}},"endCurve":{"type":{"k":"data","n":"Curve"}}}},
+    {"tag":"Threshold","fields":{"threshold":{"type":{"k":"double"},"required":true}}},
+    {"tag":"Cubic","fields":{"a":{"type":{"k":"double"},"required":true},"b":{"type":{"k":"double"},"required":true},"c":{"type":{"k":"double"},"required":true},"d":{"type":{"k":"double"},"required":true}}},
+    {"tag":"ThreePointCubic","fields":{"a1":{"type":{"k":"data","n":"Offset"},"required":true},"b1":{"type":{"k":"data","n":"Offset"},"required":true},"midpoint":{"type":{"k":"data","n":"Offset"},"required":true},"a2":{"type":{"k":"data","n":"Offset"},"required":true},"b2":{"type":{"k":"data","n":"Offset"},"required":true}}},
+    {"tag":"CatmullRomCurve","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"CatmullRomCurve.precompute","fields":{"controlPoints":{"type":{"k":"list","e":{"k":"data","n":"Offset"}},"required":true},"tension":{"type":{"k":"double"}}}},
+    {"tag":"FlippedCurve","fields":{"curve":{"type":{"k":"data","n":"Curve"},"required":true}}},
+    {"tag":"ElasticInCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticOutCurve","fields":{"period":{"type":{"k":"double"}}}},
+    {"tag":"ElasticInOutCurve","fields":{"period":{"type":{"k":"double"}}}}
+   ]
+  },
+  "EdgeInsets": {
+   "dart": "EdgeInsets",
+   "doc": "An immutable set of offsets in each of the four cardinal directions.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"all","fields":{"value":{"type":{"k":"double"},"required":true}}},
+    {"tag":"only","fields":{"left":{"type":{"k":"double"}},"top":{"type":{"k":"double"}},"right":{"type":{"k":"double"}},"bottom":{"type":{"k":"double"}}}},
+    {"tag":"symmetric","fields":{"vertical":{"type":{"k":"double"}},"horizontal":{"type":{"k":"double"}}}},
+    {"tag":"fromViewPadding","fields":{"padding":{"type":{"k":"data","n":"ViewPadding"},"required":true},"devicePixelRatio":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "GradientTransform": {
+   "dart": "GradientTransform",
+   "doc": "Base class for transforming gradient shaders without applying the same\ntransform to the entire canvas.",
+   "variants": [
+    {"tag":"GradientRotation","fields":{"radians":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "LinearGradient": {
+   "dart": "LinearGradient",
+   "doc": "A 2D linear gradient.",
+   "variants": [
+    {"tag":null,"fields":{"begin":{"type":{"k":"data","n":"AlignmentGeometry"}},"end":{"type":{"k":"data","n":"AlignmentGeometry"}},"colors":{"type":{"k":"list","e":{"k":"data","n":"Color"}},"required":true},"stops":{"type":{"k":"list","e":{"k":"double"}}},"tileMode":{"type":{"k":"enum","n":"TileMode"}},"transform":{"type":{"k":"data","n":"GradientTransform"},"nullable":true}}}
+   ]
+  },
+  "MaskFilter": {
+   "dart": "MaskFilter",
+   "doc": "A mask filter to apply to shapes as they are painted. A mask filter is a\nfunction that takes a bitmap of color pixels, and returns another bitmap of\ncolor pixels.",
+   "variants": [
+    {"tag":"blur","fields":{"_style":{"type":{"k":"enum","n":"BlurStyle"},"required":true},"_sigma":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  },
+  "Size": {
+   "dart": "Size",
+   "doc": "Holds a 2D floating-point size.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"copy","fields":{"source":{"type":{"k":"data","n":"Size"},"required":true}}},
+    {"tag":"square","fields":{"dimension":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromWidth","fields":{"width":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromHeight","fields":{"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromRadius","fields":{"radius":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "ViewPadding": {
+   "dart": "ViewPadding",
+   "doc": "A representation of distances for each of the four edges of a rectangle,\nused to encode the view insets and padding that applications should place\naround their user interface, as exposed by [FlutterView.viewInsets] and\n[FlutterView.padding]. View insets and padding are preferably read via\n[MediaQuery.of].",
+   "consts": ["zero"]
+  }
+ },
+ "payloads": {},
+ "libraries": ["package:percent_indicator/percent_indicator.dart"]
+}

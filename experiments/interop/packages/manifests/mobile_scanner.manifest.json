@@ -1,0 +1,265 @@
+{
+ "manifestVersion": 1,
+ "generator": "0.1.0",
+ "unit": "mobile_scanner",
+ "version": "7.5.0",
+ "register": "registerMobileScannerWidgets",
+ "widgets": {
+  "BarcodeOverlay": {
+   "tag": "mobile_scanner.BarcodeOverlay",
+   "dart": "BarcodeOverlay",
+   "library": "package:mobile_scanner/src/overlay/barcode_overlay.dart",
+   "doc": "This widget represents an overlay that paints the bounding boxes of detected\nbarcodes.",
+   "props": {
+    "boxFit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit","required":true,"doc":"The [BoxFit] to use when painting the barcode box."},
+    "controller": {"type":{"k":"handle","n":"MobileScannerController"},"dart":"MobileScannerController","required":true,"doc":"The controller that provides the barcodes to display."},
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `const Color(0x4DF44336)`","doc":"The color to use when painting the barcode box."},
+    "style": {"type":{"k":"enum","n":"PaintingStyle"},"dart":"PaintingStyle","default":"\"fill\"","doc":"The style to use when painting the barcode box."}
+   }
+  },
+  "MobileScanner": {
+   "tag": "mobile_scanner.MobileScanner",
+   "dart": "MobileScanner",
+   "library": "package:mobile_scanner/src/mobile_scanner.dart",
+   "doc": "This widget displays a live camera preview for the barcode scanner.",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"MobileScannerController"},"dart":"MobileScannerController?","doc":"The controller for the camera preview."},
+    "onDetect": {"type":{"k":"callback","args":[{"name":"barcodes","type":{"k":"payload","n":"BarcodeCapture"}}]},"dart":"void Function(BarcodeCapture)?","doc":"The function that signals when new codes were detected by the\n[controller]."},
+    "fit": {"type":{"k":"enum","n":"BoxFit"},"dart":"BoxFit","default":"\"cover\"","doc":"The [BoxFit] for the camera preview."},
+    "scanWindow": {"type":{"k":"data","n":"Rect"},"dart":"Rect?","doc":"The scan window rectangle for the barcode scanner.\nA scan window is not supported on the web because the scanner does not\nexpose size information for the barcodes."},
+    "scanWindowUpdateThreshold": {"type":{"k":"double"},"dart":"double","default":"0","doc":"The threshold for updates to the [scanWindow].\nA [scanWindow] is not supported on the web because the scanner does not\nexpose size information for the barcodes."},
+    "useAppLifecycleState": {"type":{"k":"bool"},"dart":"bool","default":"true","doc":"Whether the `MobileScanner` widget should automatically pause and resume\nwhen the application lifecycle state changes."},
+    "tapToFocus": {"type":{"k":"bool"},"dart":"bool","default":"false","doc":"Enables or disables tap-to-focus functionality on the camera preview."}
+   },
+   "omitted": {
+    "onDetectError": "callback/void(unencodable args)",
+    "errorBuilder": "builder/encodable args",
+    "overlayBuilder": "builder/encodable args",
+    "placeholderBuilder": "builder/context-only"
+   }
+  },
+  "ScanWindowOverlay": {
+   "tag": "mobile_scanner.ScanWindowOverlay",
+   "dart": "ScanWindowOverlay",
+   "library": "package:mobile_scanner/src/overlay/scan_window_overlay.dart",
+   "doc": "This widget represents an overlay that paints a scan window cutout.",
+   "props": {
+    "controller": {"type":{"k":"handle","n":"MobileScannerController"},"dart":"MobileScannerController","required":true,"doc":"The controller that manages the camera preview."},
+    "scanWindow": {"type":{"k":"data","n":"Rect"},"dart":"Rect","required":true,"doc":"The scan window for the overlay."},
+    "borderColor": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `Colors.white`","doc":"The color for the scan window border."},
+    "borderRadius": {"type":{"k":"data","n":"BorderRadius"},"dart":"BorderRadius","default":"Dart `BorderRadius.zero`","doc":"The border radius for the scan window and its border."},
+    "borderStrokeCap": {"type":{"k":"enum","n":"StrokeCap"},"dart":"StrokeCap","default":"\"butt\"","doc":"The stroke cap for the border around the scan window."},
+    "borderStrokeJoin": {"type":{"k":"enum","n":"StrokeJoin"},"dart":"StrokeJoin","default":"\"miter\"","doc":"The stroke join for the border around the scan window."},
+    "borderStyle": {"type":{"k":"enum","n":"PaintingStyle"},"dart":"PaintingStyle","default":"\"stroke\"","doc":"The style for the border around the scan window."},
+    "borderWidth": {"type":{"k":"double"},"dart":"double","default":"2","doc":"The width for the border around the scan window."},
+    "color": {"type":{"k":"data","n":"Color"},"dart":"Color","default":"Dart `const Color(0x80000000)`","doc":"The color for the scan window box."}
+   }
+  }
+ },
+ "enums": {
+  "BarcodeFormat": {
+   "values": ["unknown","all","code128","code39","code93","codabar","dataMatrix","ean13","ean8","itf2of5","itf2of5WithChecksum","itf","itf14","qrCode","upcA","upcE","pdf417","aztec","maxiCode","microQrCode","dataBar","dataBarExpanded","dataBarLimited"],
+   "doc": "This enum defines the different barcode formats."
+  },
+  "BarcodeType": {
+   "values": ["unknown","contactInfo","email","isbn","phone","product","sms","text","url","wifi","geo","calendarEvent","driverLicense"],
+   "doc": "Barcode value type constants."
+  },
+  "BoxFit": {
+   "values": ["fill","contain","cover","fitWidth","fitHeight","none","scaleDown"],
+   "doc": "How a box should be inscribed into another box."
+  },
+  "ColorSpace": {
+   "values": ["sRGB","extendedSRGB","displayP3"],
+   "doc": "The color space describes the colors that are available to an [Image]."
+  },
+  "EncryptionType": {
+   "values": ["unknown","open","wpa","wep"],
+   "doc": "Wifi encryption type constants."
+  },
+  "PaintingStyle": {
+   "values": ["fill","stroke"],
+   "doc": "Strategies for painting shapes and paths on a canvas."
+  },
+  "StrokeCap": {
+   "values": ["butt","round","square"],
+   "doc": "Styles to use for line endings."
+  },
+  "StrokeJoin": {
+   "values": ["miter","round","bevel"],
+   "doc": "Styles to use for line segment joins."
+  }
+ },
+ "types": {
+  "BorderRadius": {
+   "dart": "BorderRadius",
+   "doc": "An immutable set of radii for each corner of a rectangle.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"all","fields":{"radius":{"type":{"k":"data","n":"Radius"},"required":true}}},
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"vertical","fields":{"top":{"type":{"k":"data","n":"Radius"}},"bottom":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"horizontal","fields":{"left":{"type":{"k":"data","n":"Radius"}},"right":{"type":{"k":"data","n":"Radius"}}}},
+    {"tag":"only","fields":{"topLeft":{"type":{"k":"data","n":"Radius"}},"topRight":{"type":{"k":"data","n":"Radius"}},"bottomLeft":{"type":{"k":"data","n":"Radius"}},"bottomRight":{"type":{"k":"data","n":"Radius"}}}}
+   ]
+  },
+  "Color": {
+   "dart": "Color",
+   "doc": "An immutable color value in ARGB format.",
+   "nice": [
+    {"ts":"NativeColorInput","accepts":["hexColor","namedColor","colorObject"]}
+   ],
+   "consts": ["Colors.transparent","Colors.black","Colors.black87","Colors.black54","Colors.black45","Colors.black38","Colors.black26","Colors.black12","Colors.white","Colors.white70","Colors.white60","Colors.white54","Colors.white38","Colors.white30","Colors.white24","Colors.white12","Colors.white10","Colors.red","Colors.redAccent","Colors.pink","Colors.pinkAccent","Colors.purple","Colors.purpleAccent","Colors.deepPurple","Colors.deepPurpleAccent","Colors.indigo","Colors.indigoAccent","Colors.blue","Colors.blueAccent","Colors.lightBlue","Colors.lightBlueAccent","Colors.cyan","Colors.cyanAccent","Colors.teal","Colors.tealAccent","Colors.green","Colors.greenAccent","Colors.lightGreen","Colors.lightGreenAccent","Colors.lime","Colors.limeAccent","Colors.yellow","Colors.yellowAccent","Colors.amber","Colors.amberAccent","Colors.orange","Colors.orangeAccent","Colors.deepOrange","Colors.deepOrangeAccent","Colors.brown","Colors.grey","Colors.blueGrey","WidgetStateColor.transparent","CupertinoColors.activeBlue","CupertinoColors.activeGreen","CupertinoColors.activeOrange","CupertinoColors.white","CupertinoColors.black","CupertinoColors.transparent","CupertinoColors.lightBackgroundGray","CupertinoColors.extraLightBackgroundGray","CupertinoColors.darkBackgroundGray","CupertinoColors.inactiveGray","CupertinoColors.destructiveRed","CupertinoColors.systemBlue","CupertinoColors.systemGreen","CupertinoColors.systemMint","CupertinoColors.systemIndigo","CupertinoColors.systemOrange","CupertinoColors.systemPink","CupertinoColors.systemBrown","CupertinoColors.systemPurple","CupertinoColors.systemRed","CupertinoColors.systemTeal","CupertinoColors.systemCyan","CupertinoColors.systemYellow","CupertinoColors.systemGrey","CupertinoColors.systemGrey2","CupertinoColors.systemGrey3","CupertinoColors.systemGrey4","CupertinoColors.systemGrey5","CupertinoColors.systemGrey6","CupertinoColors.label","CupertinoColors.secondaryLabel","CupertinoColors.tertiaryLabel","CupertinoColors.quaternaryLabel","CupertinoColors.systemFill","CupertinoColors.secondarySystemFill","CupertinoColors.tertiarySystemFill","CupertinoColors.quaternarySystemFill","CupertinoColors.placeholderText","CupertinoColors.systemBackground","CupertinoColors.secondarySystemBackground","CupertinoColors.tertiarySystemBackground","CupertinoColors.systemGroupedBackground","CupertinoColors.secondarySystemGroupedBackground","CupertinoColors.tertiarySystemGroupedBackground","CupertinoColors.separator","CupertinoColors.opaqueSeparator","CupertinoColors.link"],
+   "variants": [
+    {"tag":null,"fields":{"value":{"type":{"k":"int"},"required":true}}},
+    {"tag":"from","fields":{"alpha":{"type":{"k":"double"},"required":true},"red":{"type":{"k":"double"},"required":true},"green":{"type":{"k":"double"},"required":true},"blue":{"type":{"k":"double"},"required":true},"colorSpace":{"type":{"k":"enum","n":"ColorSpace"}}}},
+    {"tag":"fromARGB","fields":{"a":{"type":{"k":"int"},"required":true},"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true}}},
+    {"tag":"fromRGBO","fields":{"r":{"type":{"k":"int"},"required":true},"g":{"type":{"k":"int"},"required":true},"b":{"type":{"k":"int"},"required":true},"opacity":{"type":{"k":"double"},"required":true}}},
+    {"tag":"MaterialColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"MaterialAccentColor","fields":{"primary":{"type":{"k":"int"},"required":true},"swatch":{"type":{"k":"map","key":{"k":"string"},"v":{"k":"data","n":"Color"}},"required":true}}},
+    {"tag":"CupertinoDynamicColor","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"elevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastElevatedColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightnessAndContrast","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true},"highContrastColor":{"type":{"k":"data","n":"Color"},"required":true},"darkHighContrastColor":{"type":{"k":"data","n":"Color"},"required":true}}},
+    {"tag":"CupertinoDynamicColor.withBrightness","fields":{"debugLabel":{"type":{"k":"string"},"nullable":true},"color":{"type":{"k":"data","n":"Color"},"required":true},"darkColor":{"type":{"k":"data","n":"Color"},"required":true}}}
+   ]
+  },
+  "Offset": {
+   "dart": "Offset",
+   "doc": "An immutable 2D floating-point offset.",
+   "consts": ["zero","infinite"],
+   "variants": [
+    {"tag":null,"fields":{"dx":{"type":{"k":"double"},"required":true},"dy":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromDirection","fields":{"direction":{"type":{"k":"double"},"required":true},"distance":{"type":{"k":"double"}}}}
+   ]
+  },
+  "Radius": {
+   "dart": "Radius",
+   "doc": "A radius for either circular or elliptical shapes.",
+   "nice": [
+    {"ts":"number","accepts":["number"]}
+   ],
+   "consts": ["zero"],
+   "variants": [
+    {"tag":"circular","fields":{"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"elliptical","fields":{"x":{"type":{"k":"double"},"required":true},"y":{"type":{"k":"double"},"required":true}}}
+   ]
+  },
+  "Rect": {
+   "dart": "Rect",
+   "doc": "An immutable, 2D, axis-aligned, floating-point rectangle whose coordinates\nare relative to a given origin.",
+   "consts": ["zero","largest"],
+   "variants": [
+    {"tag":"fromLTRB","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"right":{"type":{"k":"double"},"required":true},"bottom":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromLTWH","fields":{"left":{"type":{"k":"double"},"required":true},"top":{"type":{"k":"double"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCircle","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"radius":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromCenter","fields":{"center":{"type":{"k":"data","n":"Offset"},"required":true},"width":{"type":{"k":"double"},"required":true},"height":{"type":{"k":"double"},"required":true}}},
+    {"tag":"fromPoints","fields":{"a":{"type":{"k":"data","n":"Offset"},"required":true},"b":{"type":{"k":"data","n":"Offset"},"required":true}}}
+   ]
+  }
+ },
+ "payloads": {
+  "Barcode": {
+   "dart": "Barcode",
+   "fields": {
+    "calendarEvent": {"k":"payload","n":"CalendarEvent","nullable":true},
+    "contactInfo": {"k":"payload","n":"ContactInfo","nullable":true},
+    "displayValue": {"k":"string","nullable":true},
+    "driverLicense": {"k":"payload","n":"DriverLicense","nullable":true},
+    "format": {"k":"enum","n":"BarcodeFormat"},
+    "geoPoint": {"k":"payload","n":"GeoPoint","nullable":true},
+    "rawBytes": {"k":"list","e":{"k":"int"},"nullable":true},
+    "rawValue": {"k":"string","nullable":true},
+    "size": {"k":"payload","n":"Size"},
+    "sms": {"k":"payload","n":"SMS","nullable":true},
+    "type": {"k":"enum","n":"BarcodeType"},
+    "url": {"k":"payload","n":"UrlBookmark","nullable":true},
+    "wifi": {"k":"payload","n":"WiFi","nullable":true}
+   }
+  },
+  "BarcodeCapture": {
+   "dart": "BarcodeCapture",
+   "fields": {
+    "barcodes": {"k":"list","e":{"k":"payload","n":"Barcode"}},
+    "image": {"k":"list","e":{"k":"int"},"nullable":true},
+    "raw": {"k":"unknown"},
+    "size": {"k":"payload","n":"Size"}
+   }
+  },
+  "CalendarEvent": {
+   "dart": "CalendarEvent",
+   "fields": {
+    "description": {"k":"string","nullable":true},
+    "location": {"k":"string","nullable":true},
+    "organizer": {"k":"string","nullable":true},
+    "status": {"k":"string","nullable":true},
+    "summary": {"k":"string","nullable":true}
+   }
+  },
+  "ContactInfo": {
+   "dart": "ContactInfo",
+   "fields": {
+    "organization": {"k":"string","nullable":true},
+    "title": {"k":"string","nullable":true},
+    "urls": {"k":"list","e":{"k":"string"}}
+   }
+  },
+  "DriverLicense": {
+   "dart": "DriverLicense",
+   "fields": {
+    "addressCity": {"k":"string","nullable":true},
+    "addressState": {"k":"string","nullable":true},
+    "addressStreet": {"k":"string","nullable":true},
+    "addressZip": {"k":"string","nullable":true},
+    "birthDate": {"k":"string","nullable":true},
+    "documentType": {"k":"string","nullable":true},
+    "expiryDate": {"k":"string","nullable":true},
+    "firstName": {"k":"string","nullable":true},
+    "gender": {"k":"string","nullable":true},
+    "issueDate": {"k":"string","nullable":true},
+    "issuingCountry": {"k":"string","nullable":true},
+    "lastName": {"k":"string","nullable":true},
+    "licenseNumber": {"k":"string","nullable":true},
+    "middleName": {"k":"string","nullable":true}
+   }
+  },
+  "GeoPoint": {
+   "dart": "GeoPoint",
+   "fields": {
+    "latitude": {"k":"double"},
+    "longitude": {"k":"double"}
+   }
+  },
+  "SMS": {
+   "dart": "SMS",
+   "fields": {
+    "phoneNumber": {"k":"string"},
+    "message": {"k":"string","nullable":true}
+   }
+  },
+  "Size": {
+   "dart": "Size",
+   "fields": {
+    "width": {"k":"double"},
+    "height": {"k":"double"}
+   }
+  },
+  "UrlBookmark": {
+   "dart": "UrlBookmark",
+   "fields": {
+    "url": {"k":"string"},
+    "title": {"k":"string","nullable":true}
+   }
+  },
+  "WiFi": {
+   "dart": "WiFi",
+   "fields": {
+    "encryptionType": {"k":"enum","n":"EncryptionType"},
+    "ssid": {"k":"string","nullable":true},
+    "password": {"k":"string","nullable":true}
+   }
+  }
+ },
+ "libraries": ["package:mobile_scanner/mobile_scanner.dart"]
+}
