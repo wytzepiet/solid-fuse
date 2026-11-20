@@ -66,6 +66,7 @@ Future<void> main(List<String> args) async {
     oe.emit(t, ObjDecl.fromJson(n, (decls[n] as Map?)?.cast<String, dynamic>() ?? {}));
   }
   for (final l in entryLibs) {
+    me.collectErrors(l);
     me.addLibrary(l);
   }
   final out = g.finishObjects(name, objects: oe, module: me, package: 'fuse_objects_spike');

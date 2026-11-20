@@ -1,0 +1,35 @@
+{
+  "5-profile-header-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "partial", "why": "Circle (ClipRRect r=48) and 4 white ring are right, but the centering wrapper uses direction \"row\", which is not \"horizontal\" so it becomes a vertical Flex with cross-axis start: the avatar sits at the left edge, not centered.", "tags": ["invalid-direction"]},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "Stats container uses direction \"row\", which resolves to a vertical Flex, so the three stats are stacked on top of each other in a centered column instead of being spread across the width.", "tags": ["invalid-direction"]}
+    ],
+    "runtime": {"v": "ok", "why": "Loose Flexibles in a min-size vertical Flex under unbounded height do not assert; the justify:center Flex has no flex children so it shrink-wraps."},
+    "notes": "\"row\"/\"column\" are not valid directions (only \"horizontal\" switches the axis), so every intended row is laid out vertically: avatar left-aligned and stats stacked."
+  },
+  "5-profile-header-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "fail", "why": "No clipBehavior on the inner View and no borderRadius on the Image, so the avatar image is a 96 square whose corners cover the ring; also the \"row\" wrapper is a vertical Flex with cross start, leaving the avatar at the left edge.", "tags": ["invalid-direction", "no-clip"]},
+      {"n": 3, "v": "partial", "why": "Image centre sits on the banner edge, but the Stack is only 208 high while the ringed avatar ends at 212, so the Stack's default clip cuts off the bottom 4 of the ring.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "Stats container uses direction \"row\", which resolves to a vertical Flex, so the stats are stacked vertically at the left instead of distributed across the width.", "tags": ["invalid-direction"]}
+    ],
+    "runtime": {"v": "ok", "why": "Loose Flexibles in a min-size vertical Flex under unbounded height do not assert."},
+    "notes": "Relies on a rounded decoration to clip the image (it does not) and uses \"row\", which is laid out as vertical."
+  },
+  "5-profile-header-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "fail", "why": "The Image is never clipped (no borderRadius or clipBehavior), so it is a 96 square over a white circle, and the \"row\" wrapper is a vertical Flex with cross start so the avatar sits at the left edge.", "tags": ["invalid-direction", "no-clip"]},
+      {"n": 3, "v": "partial", "why": "Avatar centre sits on the banner edge, but the container is 208 high while the ringed avatar ends at 212, so the Stack clips the bottom 4 of the ring.", "tags": []},
+      {"n": 4, "v": "partial", "why": "Sizes, weight and colour are right, but the root has cross-axis start and the wrapper's \"row\" + justify:center becomes a shrink-wrapped vertical Flex, so name and handle sit at the left edge rather than centered.", "tags": ["invalid-direction"]},
+      {"n": 5, "v": "fail", "why": "Stats container uses direction \"row\", which resolves to a vertical Flex, so the stats are stacked vertically at the left instead of distributed across the width.", "tags": ["invalid-direction"]}
+    ],
+    "runtime": {"v": "ok", "why": "The max-size vertical Flexes under unbounded height have no flex children and shrink-wrap; loose Flexibles in the min-size stats Flex do not assert."},
+    "notes": "All horizontal centering and the stats row depend on direction \"row\", which the runtime treats as vertical, so avatar, name and stats all end up left-aligned and stacked."
+  }
+}

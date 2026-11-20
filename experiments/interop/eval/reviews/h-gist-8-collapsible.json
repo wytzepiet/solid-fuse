@@ -1,0 +1,38 @@
+{
+  "8-collapsible-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Header uses flex direction \"row\", which is not \"horizontal\", so it becomes a vertical Flex: title stacked above the chevron (centred), not title left / chevron right; the white header decoration does make the whole header tappable.", "tags": ["wrong-direction-value"]},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Height is timer-driven over 250 ms, but towards a width-agnostic estimate (42 chars/line x 20) and then snaps to the natural height at progress 1 (and snaps back to the estimate when closing starts).", "tags": ["estimated-height"]},
+      {"n": 4, "v": "fail", "why": "transform rotate = PI * eased() is correct and in sync, but the icon is imported as `expand_more`, which does not exist (the export is `expandMore`), so Icon data is undefined and no chevron is drawn.", "tags": ["bad-icon-name"]},
+      {"n": 5, "v": "partial", "why": "Border 1 #E0E0E0 and radius 12 are right, but `clip` is not a View prop (it is `clipBehavior`), so neither the panel nor the body wrapper clips; the body only stays inside because the Text clips its own overflow and is inset 16.", "tags": ["unknown-prop"]},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "`expand_more` is not exported from solid-fuse/icons/material, so Icon receives data=undefined (import error in a strict bundler, or a missing/failed icon at runtime); layout itself does not throw."},
+    "notes": "Uses CSS-style \"row\"/\"column\" directions, a non-existent `clip` prop and a snake_case icon name, so the header is vertical, nothing is clipped by the panel and the chevron is missing."
+  },
+  "8-collapsible-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Header flex direction \"row\" is not \"horizontal\", so title and icon are stacked vertically rather than title left / icon right; the header also has no painted background, so empty space in it is not tappable (deferToChild).", "tags": ["wrong-direction-value"]},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Height is timer-driven over 250 ms, but towards a width-agnostic estimate (40 chars/line x 20) and then swaps to the natural-height body at progress 1, giving a snap at the end of opening and the start of closing.", "tags": ["estimated-height"]},
+      {"n": 4, "v": "fail", "why": "No rotation at all: a south arrow is swapped for a north arrow instantly at the midpoint (transform.rotate was available), and the icons are arrows rather than a chevron.", "tags": ["no-rotation"]},
+      {"n": 5, "v": "pass", "why": "Border and radius are right; there is no rounded clip (only the ScrollView's rectangular viewport clip), but the body is text only, inset 16, so nothing paints outside the corners.", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Header is a vertical stack because \"row\" is not a valid direction, and the chevron flips instead of rotating."
+  },
+  "8-collapsible-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Header flex direction \"row\" is not \"horizontal\", so title and icon are stacked vertically rather than title left / icon right; the header also has no painted background, so empty space in it is not tappable (deferToChild).", "tags": ["wrong-direction-value"]},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Height is timer-driven over 250 ms, but towards a width-agnostic estimate (42 chars/line x 20) and then swaps to the natural-height body at progress 1, giving a snap at the end of opening and the start of closing.", "tags": ["estimated-height"]},
+      {"n": 4, "v": "fail", "why": "The rotation is spread onto the View as a top-level `rotate` prop, which View does not have (it must be transform={{ rotate }}), so the icon never rotates; it is also a south arrow rather than a chevron.", "tags": ["unknown-prop", "no-rotation"]},
+      {"n": 5, "v": "pass", "why": "Border (#d9d9d9, 1) and radius 12 are right; there is no rounded clip (only the ScrollView's rectangular viewport clip), but the body is text only, inset 16, so nothing paints outside the corners.", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Header is a vertical stack because \"row\" is not a valid direction, and the guessed top-level `rotate` prop is ignored so the icon never turns."
+  }
+}

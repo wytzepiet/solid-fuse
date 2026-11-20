@@ -254,10 +254,32 @@ class ModuleEmitter {
     return b.toString();
   }
 
+  /// Exception classes the package exports: Dart has no checked exceptions,
+  /// so this is the closest thing to a declared error set. `FuseError.type`
+  /// carries the Dart class name.
+  final errorTypes = <String>[];
+
+  void collectErrors(LibraryElement lib) {
+    final core = w.entries.firstWhere((e) => e.uri == 'dart:core').element;
+    final roots = [core.exportNamespace.get2('Exception'), core.exportNamespace.get2('Error')];
+    final names = lib.exportNamespace.definedNames2.keys.toList()..sort();
+    for (final n in names) {
+      final el = lib.exportNamespace.definedNames2[n];
+      if (el is ClassElement && el.isPublic && el.allSupertypes.any((s) => roots.contains(s.element)) && !errorTypes.contains(n)) {
+        errorTypes.add(n);
+      }
+    }
+  }
+
   String get tsBody {
     final b = StringBuffer();
     b.writeln('const m = createModule("$modName");');
     b.writeln();
+    if (errorTypes.isNotEmpty) {
+      b.writeln('/** `FuseError.type` values this package can produce itself (its exported exception classes). */');
+      b.writeln('export type ${_cap(_camel(modName))}ErrorType = ${errorTypes.map((e) => '"$e"').join(' | ')};');
+      b.writeln();
+    }
     b.write(_ts);
     for (final e in _tsStatics.entries) {
       b.writeln('/** Static members of Dart `${e.key}`. */');

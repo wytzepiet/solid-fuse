@@ -1,0 +1,38 @@
+{
+  "1-settings-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "Each toggle has its own signal, but direction \"row\" is not \"horizontal\" so every row is a vertical Flex: the toggle sits centred underneath its label, not at the right end of the row.", "tags": ["invalid-direction"]},
+      {"n": 4, "v": "partial", "why": "The Stack-based slider drags and maps to 12..24 correctly, but the label line is a vertical Flex (direction \"row\"), so the number is shown below 'Text size' rather than at the right end of that line.", "tags": ["invalid-direction"]},
+      {"n": 5, "v": "partial", "why": "Dark mode row exists and its state/colour flips on tap, but the toggle is stacked under the label and the knob never moves sideways (vertical Flex, knob always centred, 1px overflow).", "tags": ["invalid-direction"]},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "Root View has grow={1}, i.e. a Flexible, which throws 'Incorrect use of ParentDataWidget' unless the parent is a Flex; also the toggle's vertical Flex overflows its 22px inner height by 1px (overflow error reported, not fatal)."},
+    "notes": "Uses flex direction \"row\"/\"column\" instead of \"horizontal\"/\"vertical\"; the runtime treats \"row\" as vertical, so every intended row stacks vertically, and cards shrink-wrap to content width with invisible zero-width dividers."
+  },
+  "1-settings-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent, but direction \"row\" falls back to vertical: label and toggle are stacked and centred in the row, and the knob is pushed 22px down out of the track.", "tags": ["invalid-direction"]},
+      {"n": 4, "v": "fail", "why": "Dragging does change the value over 12..24, but the slider is a vertical Flex (fill bar above a thumb that stays centred, remaining track zero-width), so it does not look or track like a slider, and the number sits below the label instead of at the right end of its line.", "tags": ["invalid-direction"]},
+      {"n": 5, "v": "partial", "why": "Dark mode row exists and tapping it really switches the theme colours, but the toggle is stacked under the label and its knob overflows below the track instead of sliding.", "tags": ["invalid-direction"]},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "No layout exception, but every Toggle's vertical Flex overflows its 22px inner height by 22px (RenderFlex overflow error reported and striped in debug)."},
+    "notes": "Uses flex direction \"row\"/\"column\"; \"row\" is not recognised and lays out vertically, breaking all toggle rows, the toggle itself and the slider."
+  },
+  "1-settings-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent, but direction \"row\" falls back to vertical: the toggle is stacked centred under its label in a shrink-wrapped row, and the knob is pushed 22px down out of the track.", "tags": ["invalid-direction"]},
+      {"n": 4, "v": "fail", "why": "Dragging (must start on the bar or thumb) does change the value over 12..24, but the slider is a vertical Flex (fill bar above a thumb that stays centred, remaining track zero-width), and the number sits below the label instead of at the right end of its line.", "tags": ["invalid-direction"]},
+      {"n": 5, "v": "partial", "why": "Dark mode row exists and its state/colour flips on tap, but the toggle is stacked under the label and its white knob overflows below the track onto the white card instead of sliding.", "tags": ["invalid-direction"]},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "No layout exception, but every Toggle's vertical Flex overflows its 22px inner height by 22px (RenderFlex overflow error reported and striped in debug)."},
+    "notes": "Uses flex direction \"row\"/\"column\"; \"row\" is not recognised and lays out vertically, breaking all toggle rows, the toggle itself and the slider; cards also shrink-wrap to content width."
+  }
+}

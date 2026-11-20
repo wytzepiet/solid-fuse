@@ -1,0 +1,38 @@
+{
+  "7-draggable-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Correct: 300x300 SizedBox > Stack(expand) with a filled bordered background and a Positioned 80x80 square clamped to 0..220, keeping a raw unclamped position so the square re-syncs with the finger after hitting an edge."
+  },
+  "7-draggable-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Correct: the Stack is sized by its non-positioned 300x300 bordered View; calling begin from both onPanDown and onPanStart is redundant but harmless because both reset raw to the same clamped position."
+  },
+  "7-draggable-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Works, with two small quirks: clamping the accumulated position means the square keeps an offset from the finger after being pushed against an edge, and onPanCancel also calls onDrop, so a plain tap without a drag reports a drop at the unchanged position."
+  }
+}

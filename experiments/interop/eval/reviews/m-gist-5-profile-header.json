@@ -1,0 +1,35 @@
+{
+  "5-profile-header-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stack is sized to 160 + 52 so the 104 outer avatar (96 image + 4 ring) bottom-aligned is centred on the banner edge and space is reserved for the overhang; stats use Expanded thirds."
+  },
+  "5-profile-header-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Avatar Positioned at top 108 with height 104 inside a 212-high Stack, so it is centred on the banner edge and unclipped; stats use spaceEvenly on a full-width Row."
+  },
+  "5-profile-header-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Avatar centred via a full-width Row in a Positioned at top 108 inside a 212-high Stack, so the overhang is reserved and unclipped; stats use spaceEvenly."
+  }
+}

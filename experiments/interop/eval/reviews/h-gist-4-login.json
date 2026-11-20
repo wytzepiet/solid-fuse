@@ -1,0 +1,38 @@
+{
+  "4-login-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "Outer vertical Flex (justify center => max, align center) centers the inner maxWidth 320 column, whose stretch alignment makes it exactly 320 wide when the outer View gets the screen's constraints.", "tags": []},
+      {"n": 2, "v": "partial", "why": "keyboardType=\"emailAddress\" is not a valid value (the API uses \"email\"), so the email keyboard is not applied; heading, obscured password and the Text labels above the fields are fine.", "tags": ["invalid-prop-value"]},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "Root View has grow={1}, which wraps it in Flexible: incorrect ParentDataWidget use unless the parent is a flex; in a loose flex parent it also shrink-wraps its width, so horizontal centering depends on the parent."},
+    "notes": "Uses direction \"column\"/\"row\" (not valid; both fall back to vertical, which happens to still lay out correctly, including the button) and keyboardType \"emailAddress\" instead of \"email\"."
+  },
+  "4-login-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "Outer vertical Flex (justify center => max, align center) centers the inner maxWidth 320 stretch column when the outer View gets the screen's constraints.", "tags": []},
+      {"n": 2, "v": "partial", "why": "keyboardType=\"emailAddress\" is not a valid value (the API uses \"email\"), so the email keyboard is not applied; heading, obscured password and the Text labels above the fields are fine.", "tags": ["invalid-prop-value"]},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "Root View has grow={1}, which wraps it in Flexible: incorrect ParentDataWidget use unless the parent is a flex; in a loose flex parent it also shrink-wraps its width, so horizontal centering depends on the parent."},
+    "notes": "Uses direction \"column\"/\"row\" (not valid; both fall back to vertical, which happens to still lay out correctly) and keyboardType \"emailAddress\" instead of \"email\"."
+  },
+  "4-login-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "Outer vertical Flex (justify center => max, align center) centers the inner maxWidth 320 stretch column when the outer View gets the screen's constraints.", "tags": []},
+      {"n": 2, "v": "partial", "why": "keyboardType=\"emailAddress\" is not a valid value (the API uses \"email\"), so the email keyboard is not applied; heading, obscured password and the Text labels above the fields are fine.", "tags": ["invalid-prop-value"]},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "Root View has grow={1}, which wraps it in Flexible: incorrect ParentDataWidget use unless the parent is a flex; in a loose flex parent it also shrink-wraps its width, so horizontal centering depends on the parent."},
+    "notes": "Uses direction \"column\"/\"row\" (not valid; both fall back to vertical, which happens to still lay out correctly) and keyboardType \"emailAddress\" instead of \"email\"."
+  }
+}

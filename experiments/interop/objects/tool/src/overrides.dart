@@ -41,6 +41,9 @@ class CodecOverride {
 const defaultOverrides = <CodecOverride>[
   // objects spike: "https://x" -> Uri.parse (plugin APIs take Uri everywhere)
   CodecOverride(type: 'Uri', tsIn: 'string', decode: 'niceUri', replace: true, tsOut: 'string', encode: 'niceEncUri'),
+  // objects spike: dart:io file system entities cross as their path
+  CodecOverride(type: 'Directory', tsIn: 'string', decode: 'niceDirectory', replace: true, tsOut: 'string', encode: 'niceEncPath'),
+  CodecOverride(type: 'File', tsIn: 'string', decode: 'niceFile', replace: true, tsOut: 'string', encode: 'niceEncPath'),
   // objects spike: ISO-8601 string / epoch ms
   CodecOverride(type: 'DateTime', tsIn: 'string | number', decode: 'niceDateTime', replace: true, tsOut: 'string', encode: 'niceEncDateTime'),
   // "#rrggbb" / "#rrggbbaa" / "red" / {r,g,b,a} / {h,s,l,a}: reuses solid-fuse's parseColor.

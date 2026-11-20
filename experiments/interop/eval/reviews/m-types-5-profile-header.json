@@ -1,0 +1,35 @@
+{
+  "5-profile-header-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Only an unbounded-width parent would break the stretch Column, which the full-width brief rules out."},
+    "notes": "Stack is sized 160+52 by a SizedBox, so the 104 ringed avatar is centred on the banner's bottom edge and its lower half is reserved in the layout."
+  },
+  "5-profile-header-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Only an unbounded-width parent would break the stretch Column, which the full-width brief rules out."},
+    "notes": "Same structure as file 1, with a centred Row instead of Center to place the avatar; no visible defects."
+  },
+  "5-profile-header-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Only an unbounded-width parent would break the stretch Column, which the full-width brief rules out."},
+    "notes": "Avatar is a non-positioned Stack child aligned bottomCenter in a 212-high Stack, putting its top at 108 so it is centred on the banner's bottom edge."
+  }
+}

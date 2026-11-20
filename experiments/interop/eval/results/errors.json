@@ -3,6 +3,39 @@
   {
    "style": "h",
    "cond": "gist",
+   "file": "1-settings-1.tsx",
+   "task": "1-settings",
+   "errors": 12,
+   "cats": {
+    "enum-string": 12
+   },
+   "loc": 157
+  },
+  {
+   "style": "h",
+   "cond": "gist",
+   "file": "1-settings-2.tsx",
+   "task": "1-settings",
+   "errors": 9,
+   "cats": {
+    "enum-string": 9
+   },
+   "loc": 157
+  },
+  {
+   "style": "h",
+   "cond": "gist",
+   "file": "1-settings-3.tsx",
+   "task": "1-settings",
+   "errors": 8,
+   "cats": {
+    "enum-string": 8
+   },
+   "loc": 127
+  },
+  {
+   "style": "h",
+   "cond": "gist",
    "file": "2-product-card-1.tsx",
    "task": "2-product-card",
    "errors": 3,
@@ -10,6 +43,29 @@
     "enum-string": 3
    },
    "loc": 46
+  },
+  {
+   "style": "h",
+   "cond": "gist",
+   "file": "2-product-card-2.tsx",
+   "task": "2-product-card",
+   "errors": 6,
+   "cats": {
+    "value-shape": 1,
+    "enum-string": 5
+   },
+   "loc": 48
+  },
+  {
+   "style": "h",
+   "cond": "gist",
+   "file": "2-product-card-3.tsx",
+   "task": "2-product-card",
+   "errors": 4,
+   "cats": {
+    "enum-string": 4
+   },
+   "loc": 43
   },
   {
    "style": "h",
@@ -80,6 +136,17 @@
   {
    "style": "h",
    "cond": "gist",
+   "file": "5-profile-header-1.tsx",
+   "task": "5-profile-header",
+   "errors": 5,
+   "cats": {
+    "enum-string": 5
+   },
+   "loc": 85
+  },
+  {
+   "style": "h",
+   "cond": "gist",
    "file": "5-profile-header-2.tsx",
    "task": "5-profile-header",
    "errors": 5,
@@ -91,10 +158,45 @@
   {
    "style": "h",
    "cond": "gist",
+   "file": "5-profile-header-3.tsx",
+   "task": "5-profile-header",
+   "errors": 7,
+   "cats": {
+    "enum-string": 7
+   },
+   "loc": 78
+  },
+  {
+   "style": "h",
+   "cond": "gist",
+   "file": "6-tags-1.tsx",
+   "task": "6-tags",
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
+   "loc": 54
+  },
+  {
+   "style": "h",
+   "cond": "gist",
+   "file": "6-tags-2.tsx",
+   "task": "6-tags",
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
+   "loc": 51
+  },
+  {
+   "style": "h",
+   "cond": "gist",
    "file": "6-tags-3.tsx",
    "task": "6-tags",
-   "errors": 0,
-   "cats": {},
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
    "loc": 55
   },
   {
@@ -122,6 +224,17 @@
   {
    "style": "h",
    "cond": "gist",
+   "file": "7-draggable-3.tsx",
+   "task": "7-draggable",
+   "errors": 1,
+   "cats": {
+    "enum-string": 1
+   },
+   "loc": 65
+  },
+  {
+   "style": "h",
+   "cond": "gist",
    "file": "8-collapsible-1.tsx",
    "task": "8-collapsible",
    "errors": 4,
@@ -137,8 +250,10 @@
    "cond": "gist",
    "file": "8-collapsible-2.tsx",
    "task": "8-collapsible",
-   "errors": 0,
-   "cats": {},
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
    "loc": 103
   },
   {
@@ -146,8 +261,10 @@
    "cond": "gist",
    "file": "8-collapsible-3.tsx",
    "task": "8-collapsible",
-   "errors": 0,
-   "cats": {},
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
    "loc": 115
   },
   {
@@ -589,8 +706,10 @@
    "cond": "gist",
    "file": "1-settings-1.tsx",
    "task": "1-settings",
-   "errors": 0,
-   "cats": {},
+   "errors": 1,
+   "cats": {
+    "flex-children": 1
+   },
    "loc": 157
   },
   {
@@ -598,9 +717,22 @@
    "cond": "gist",
    "file": "1-settings-2.tsx",
    "task": "1-settings",
-   "errors": 0,
-   "cats": {},
+   "errors": 1,
+   "cats": {
+    "flex-children": 1
+   },
    "loc": 113
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "1-settings-3.tsx",
+   "task": "1-settings",
+   "errors": 1,
+   "cats": {
+    "flex-children": 1
+   },
+   "loc": 107
   },
   {
    "style": "m",
@@ -623,11 +755,38 @@
   {
    "style": "m",
    "cond": "gist",
+   "file": "2-product-card-3.tsx",
+   "task": "2-product-card",
+   "errors": 0,
+   "cats": {},
+   "loc": 37
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "3-chat-1.tsx",
+   "task": "3-chat",
+   "errors": 0,
+   "cats": {},
+   "loc": 55
+  },
+  {
+   "style": "m",
+   "cond": "gist",
    "file": "3-chat-2.tsx",
    "task": "3-chat",
    "errors": 0,
    "cats": {},
    "loc": 50
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "3-chat-3.tsx",
+   "task": "3-chat",
+   "errors": 0,
+   "cats": {},
+   "loc": 51
   },
   {
    "style": "m",
@@ -643,11 +802,47 @@
   {
    "style": "m",
    "cond": "gist",
+   "file": "4-login-2.tsx",
+   "task": "4-login",
+   "errors": 0,
+   "cats": {},
+   "loc": 64
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "4-login-3.tsx",
+   "task": "4-login",
+   "errors": 0,
+   "cats": {},
+   "loc": 70
+  },
+  {
+   "style": "m",
+   "cond": "gist",
    "file": "5-profile-header-1.tsx",
    "task": "5-profile-header",
    "errors": 0,
    "cats": {},
    "loc": 84
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "5-profile-header-2.tsx",
+   "task": "5-profile-header",
+   "errors": 0,
+   "cats": {},
+   "loc": 88
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "5-profile-header-3.tsx",
+   "task": "5-profile-header",
+   "errors": 0,
+   "cats": {},
+   "loc": 82
   },
   {
    "style": "m",
@@ -670,6 +865,33 @@
   {
    "style": "m",
    "cond": "gist",
+   "file": "6-tags-3.tsx",
+   "task": "6-tags",
+   "errors": 0,
+   "cats": {},
+   "loc": 71
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "7-draggable-1.tsx",
+   "task": "7-draggable",
+   "errors": 0,
+   "cats": {},
+   "loc": 78
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "7-draggable-2.tsx",
+   "task": "7-draggable",
+   "errors": 0,
+   "cats": {},
+   "loc": 78
+  },
+  {
+   "style": "m",
+   "cond": "gist",
    "file": "7-draggable-3.tsx",
    "task": "7-draggable",
    "errors": 0,
@@ -680,6 +902,26 @@
    "style": "m",
    "cond": "gist",
    "file": "8-collapsible-1.tsx",
+   "task": "8-collapsible",
+   "errors": 1,
+   "cats": {
+    "icon-name": 1
+   },
+   "loc": 61
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "8-collapsible-2.tsx",
+   "task": "8-collapsible",
+   "errors": 0,
+   "cats": {},
+   "loc": 58
+  },
+  {
+   "style": "m",
+   "cond": "gist",
+   "file": "8-collapsible-3.tsx",
    "task": "8-collapsible",
    "errors": 1,
    "cats": {
@@ -1128,6 +1370,28 @@
   {
    "style": "hs",
    "cond": "gist",
+   "file": "1-settings-1.tsx",
+   "task": "1-settings",
+   "errors": 12,
+   "cats": {
+    "enum-string": 12
+   },
+   "loc": 157
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
+   "file": "1-settings-2.tsx",
+   "task": "1-settings",
+   "errors": 11,
+   "cats": {
+    "enum-string": 11
+   },
+   "loc": 157
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
    "file": "1-settings-3.tsx",
    "task": "1-settings",
    "errors": 8,
@@ -1146,6 +1410,29 @@
     "enum-string": 3
    },
    "loc": 46
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
+   "file": "2-product-card-2.tsx",
+   "task": "2-product-card",
+   "errors": 6,
+   "cats": {
+    "value-shape": 1,
+    "enum-string": 5
+   },
+   "loc": 48
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
+   "file": "2-product-card-3.tsx",
+   "task": "2-product-card",
+   "errors": 4,
+   "cats": {
+    "enum-string": 4
+   },
+   "loc": 43
   },
   {
    "style": "hs",
@@ -1216,6 +1503,17 @@
   {
    "style": "hs",
    "cond": "gist",
+   "file": "5-profile-header-1.tsx",
+   "task": "5-profile-header",
+   "errors": 5,
+   "cats": {
+    "enum-string": 5
+   },
+   "loc": 85
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
    "file": "5-profile-header-2.tsx",
    "task": "5-profile-header",
    "errors": 5,
@@ -1227,11 +1525,44 @@
   {
    "style": "hs",
    "cond": "gist",
+   "file": "5-profile-header-3.tsx",
+   "task": "5-profile-header",
+   "errors": 7,
+   "cats": {
+    "enum-string": 7
+   },
+   "loc": 78
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
+   "file": "6-tags-1.tsx",
+   "task": "6-tags",
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
+   "loc": 54
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
+   "file": "6-tags-2.tsx",
+   "task": "6-tags",
+   "errors": 2,
+   "cats": {
+    "enum-string": 2
+   },
+   "loc": 51
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
    "file": "6-tags-3.tsx",
    "task": "6-tags",
    "errors": 2,
    "cats": {
-    "value-shape": 2
+    "enum-string": 2
    },
    "loc": 55
   },
@@ -1256,6 +1587,17 @@
     "enum-string": 1
    },
    "loc": 78
+  },
+  {
+   "style": "hs",
+   "cond": "gist",
+   "file": "7-draggable-3.tsx",
+   "task": "7-draggable",
+   "errors": 1,
+   "cats": {
+    "enum-string": 1
+   },
+   "loc": 65
   },
   {
    "style": "hs",
@@ -1733,6 +2075,383 @@
  ],
  "diags": [
   {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 18,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:18:17",
+   "src": "flex={{ direction: \"row\", align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 33,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:33:15",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 35,
+   "col": 30,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:35:30",
+   "src": "<View grow={1} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 55,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:55:19",
+   "src": "<View flex={{ direction: \"row\" }} padding={{ left: 16, top: 8, bottom: 6 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 74,
+   "col": 62,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:74:62",
+   "src": "<View padding={{ horizontal: 16, vertical: 12 }} flex={{ direction: \"column\", gap: 10 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 75,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:75:21",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 76,
+   "col": 32,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:76:32",
+   "src": "<View grow={1} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 85,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:85:21",
+   "src": "<View flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 125,
+   "col": 36,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:125:36",
+   "src": "<View padding={16} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 126,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:126:25",
+   "src": "<View flex={{ direction: \"row\" }} padding={{ top: 16, bottom: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 134,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:134:21",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 146,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-1.tsx:146:21",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 18,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:18:17",
+   "src": "flex={{ direction: \"row\", align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 37,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:37:15",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 64,
+   "col": 53,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:64:53",
+   "src": "<View width={TRACK_WIDTH} height={32} flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 107,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:107:17",
+   "src": "flex={{ direction: \"column\", align: \"stretch\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 118,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:118:19",
+   "src": "flex={{ direction: \"column\", align: \"stretch\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 130,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:130:19",
+   "src": "flex={{ direction: \"column\", align: \"stretch\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 135,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:135:21",
+   "src": "flex={{ direction: \"column\", align: \"stretch\", gap: 8 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 137,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:137:27",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 147,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-2.tsx:147:27",
+   "src": "<View flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 16,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:16:17",
+   "src": "flex={{ direction: \"row\", align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 30,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:30:15",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 51,
+   "col": 53,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:51:53",
+   "src": "<View width={TRACK_WIDTH} height={32} flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 91,
+   "col": 34,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:91:34",
+   "src": "<View padding={16} flex={{ direction: \"column\", gap: 8 }} decoration={{ color: \"#F2F2F7\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 99,
+   "col": 23,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:99:23",
+   "src": "<View flex={{ direction: \"column\" }} decoration={{ color: \"#FFFFFF\", borderRadius: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 108,
+   "col": 23,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:108:23",
+   "src": "<View flex={{ direction: \"column\" }} decoration={{ color: \"#FFFFFF\", borderRadius: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 109,
+   "col": 68,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:109:68",
+   "src": "<View padding={{ horizontal: 16, vertical: 12 }} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 110,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/1-settings-3.tsx:110:27",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
    "file": "attempts/gist/2-product-card-1.tsx",
    "line": 14,
    "col": 15,
@@ -1769,6 +2488,136 @@
    "cond": "gist",
    "key": "h/gist/2-product-card-1.tsx:32:23",
    "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 4 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 21,
+   "col": 55,
+   "code": "TS2353",
+   "msg": "Object literal may only specify known properties, and 'offset' does not exist in type 'ShadowInput | ShadowInput[]'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-2.tsx:21:55",
+   "src": "shadow: { color: \"#00000026\", blurRadius: 16, offset: { dx: 0, dy: 6 } },",
+   "cat": "value-shape"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 23,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-2.tsx:23:15",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 26,
+   "col": 58,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-2.tsx:26:58",
+   "src": "<View width={CARD_WIDTH} padding={PADDING} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 28,
+   "col": 31,
+   "code": "TS2322",
+   "msg": "Type '\"w600\"' is not assignable to type 'FontWeight | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-2.tsx:28:31",
+   "src": "<Text fontSize={16} fontWeight=\"w600\" color=\"#1A1A1A\" maxLines={2} overflow=\"ellipsis\">",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 32,
+   "col": 43,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-2.tsx:32:43",
+   "src": "<View width={INNER_WIDTH} flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 38,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-2.tsx:38:25",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 21,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-3.tsx:21:15",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 24,
+   "col": 34,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-3.tsx:24:34",
+   "src": "<View padding={12} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 28,
+   "col": 23,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-3.tsx:28:23",
+   "src": "<View flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 33,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/2-product-card-3.tsx:33:25",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 2 }}>",
    "cat": "enum-string"
   },
   {
@@ -2123,6 +2972,71 @@
    "cat": "enum-string"
   },
   {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 10,
+   "col": 28,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-1.tsx:10:28",
+   "src": "<View grow={1} flex={{ direction: \"column\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 31,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-1.tsx:31:19",
+   "src": "<View flex={{ direction: \"column\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 39,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-1.tsx:39:27",
+   "src": "<View flex={{ direction: \"row\", justify: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 68,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-1.tsx:68:17",
+   "src": "flex={{ direction: \"column\", align: \"center\", gap: 2 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 78,
+   "col": 48,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-1.tsx:78:48",
+   "src": "<View padding={{ vertical: 16 }} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
    "file": "attempts/gist/5-profile-header-2.tsx",
    "line": 10,
    "col": 28,
@@ -2188,6 +3102,181 @@
    "cat": "enum-string"
   },
   {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 10,
+   "col": 28,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:10:28",
+   "src": "<View grow={1} flex={{ direction: \"column\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 31,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:31:19",
+   "src": "<View flex={{ direction: \"column\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 39,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:39:27",
+   "src": "<View flex={{ direction: \"row\", justify: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 44,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:44:25",
+   "src": "flex={{ direction: \"column\", align: \"center\", justify: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 59,
+   "col": 43,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:59:43",
+   "src": "<View padding={{ top: 12 }} flex={{ direction: \"row\", justify: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 60,
+   "col": 23,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:60:23",
+   "src": "<View flex={{ direction: \"column\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 71,
+   "col": 48,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/5-profile-header-3.tsx:71:48",
+   "src": "<View padding={{ vertical: 16 }} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-1.tsx",
+   "line": 23,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/6-tags-1.tsx:23:19",
+   "src": "<View flex={{ direction: \"row\", wrap: true, gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-1.tsx",
+   "line": 35,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/6-tags-1.tsx:35:25",
+   "src": "flex={{ direction: \"row\", gap: 4, align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-2.tsx",
+   "line": 20,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/6-tags-2.tsx:20:19",
+   "src": "<View flex={{ direction: \"row\", wrap: true, gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-2.tsx",
+   "line": 32,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/6-tags-2.tsx:32:25",
+   "src": "flex={{ direction: \"row\", gap: 4, align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-3.tsx",
+   "line": 27,
+   "col": 11,
+   "code": "TS2322",
+   "msg": "Type '{ direction: \"row\"; gap: number; wrap: boolean; }' is not assignable to type 'FlexInput'.",
+   "more": [
+    "Types of property 'direction' are incompatible.",
+    "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'."
+   ],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/6-tags-3.tsx:27:11",
+   "src": "<View flex={cloudFlex}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-3.tsx",
+   "line": 32,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '{ direction: \"row\"; gap: number; align: \"center\"; }' is not assignable to type 'FlexInput'.",
+   "more": [
+    "Types of property 'direction' are incompatible.",
+    "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'."
+   ],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/6-tags-3.tsx:32:15",
+   "src": "flex={pillFlex}",
+   "cat": "enum-string"
+  },
+  {
    "file": "attempts/gist/7-draggable-1.tsx",
    "line": 29,
    "col": 19,
@@ -2211,6 +3300,19 @@
    "cond": "gist",
    "key": "h/gist/7-draggable-2.tsx:26:19",
    "src": "<View flex={{ direction: \"column\", gap: 8, align: \"start\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/7-draggable-3.tsx",
+   "line": 24,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/7-draggable-3.tsx:24:19",
+   "src": "<View flex={{ direction: \"column\", gap: 8 }}>",
    "cat": "enum-string"
   },
   {
@@ -2268,6 +3370,58 @@
    "cat": "unknown-prop"
   },
   {
+   "file": "attempts/gist/8-collapsible-2.tsx",
+   "line": 70,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/8-collapsible-2.tsx:70:15",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/8-collapsible-2.tsx",
+   "line": 75,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/8-collapsible-2.tsx:75:19",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/8-collapsible-3.tsx",
+   "line": 82,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/8-collapsible-3.tsx:82:15",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/8-collapsible-3.tsx",
+   "line": 91,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "h",
+   "cond": "gist",
+   "key": "h/gist/8-collapsible-3.tsx:91:19",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
    "file": "attempts/types/8-collapsible-3.tsx",
    "line": 113,
    "col": 13,
@@ -2281,6 +3435,51 @@
    "key": "h/types/8-collapsible-3.tsx:113:13",
    "src": "height={BODY_LINE_HEIGHT}",
    "cat": "unknown-prop"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 69,
+   "col": 7,
+   "code": "TS2322",
+   "msg": "Type '{ backgroundColor: \"#F2F2F7\"; body: FuseElement; }' is not assignable to type 'ScaffoldProps'.",
+   "more": [
+    "Property 'body' does not exist on type 'ScaffoldProps'."
+   ],
+   "style": "m",
+   "cond": "gist",
+   "key": "m/gist/1-settings-1.tsx:69:7",
+   "src": "body={",
+   "cat": "flex-children"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 68,
+   "col": 7,
+   "code": "TS2322",
+   "msg": "Type '{ backgroundColor: \"#F2F2F7\"; body: FuseElement; }' is not assignable to type 'ScaffoldProps'.",
+   "more": [
+    "Property 'body' does not exist on type 'ScaffoldProps'."
+   ],
+   "style": "m",
+   "cond": "gist",
+   "key": "m/gist/1-settings-2.tsx:68:7",
+   "src": "body={",
+   "cat": "flex-children"
+  },
+  {
+   "file": "attempts/gist/1-settings-3.tsx",
+   "line": 54,
+   "col": 7,
+   "code": "TS2322",
+   "msg": "Type '{ backgroundColor: \"#F2F2F7\"; body: FuseElement; }' is not assignable to type 'ScaffoldProps'.",
+   "more": [
+    "Property 'body' does not exist on type 'ScaffoldProps'."
+   ],
+   "style": "m",
+   "cond": "gist",
+   "key": "m/gist/1-settings-3.tsx:54:7",
+   "src": "body={",
+   "cat": "flex-children"
   },
   {
    "file": "attempts/gist/4-login-1.tsx",
@@ -2305,6 +3504,19 @@
    "style": "m",
    "cond": "gist",
    "key": "m/gist/8-collapsible-1.tsx:14:10",
+   "src": "import { expand_more } from \"solid-fuse/icons/material\";",
+   "cat": "icon-name"
+  },
+  {
+   "file": "attempts/gist/8-collapsible-3.tsx",
+   "line": 14,
+   "col": 10,
+   "code": "TS2724",
+   "msg": "'\"solid-fuse/icons/material\"' has no exported member named 'expand_more'. Did you mean 'expandMore'?",
+   "more": [],
+   "style": "m",
+   "cond": "gist",
+   "key": "m/gist/8-collapsible-3.tsx:14:10",
    "src": "import { expand_more } from \"solid-fuse/icons/material\";",
    "cat": "icon-name"
   },
@@ -2352,6 +3564,305 @@
    "key": "m/cold/4-login-3.tsx:27:7",
    "src": "body={",
    "cat": "flex-children"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 18,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:18:17",
+   "src": "flex={{ direction: \"row\", align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 33,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:33:15",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 35,
+   "col": 30,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:35:30",
+   "src": "<View grow={1} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 55,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:55:19",
+   "src": "<View flex={{ direction: \"row\" }} padding={{ left: 16, top: 8, bottom: 6 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 74,
+   "col": 62,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:74:62",
+   "src": "<View padding={{ horizontal: 16, vertical: 12 }} flex={{ direction: \"column\", gap: 10 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 75,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:75:21",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 76,
+   "col": 32,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:76:32",
+   "src": "<View grow={1} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 85,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:85:21",
+   "src": "<View flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 125,
+   "col": 36,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:125:36",
+   "src": "<View padding={16} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 126,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:126:25",
+   "src": "<View flex={{ direction: \"row\" }} padding={{ top: 16, bottom: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 134,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:134:21",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-1.tsx",
+   "line": 146,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-1.tsx:146:21",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 18,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:18:17",
+   "src": "flex={{ direction: \"row\", align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 37,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:37:15",
+   "src": "flex={{ direction: \"row\", align: \"center\", gap: 12 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 40,
+   "col": 29,
+   "code": "TS2322",
+   "msg": "Type 'string' is not assignable to type 'ColorInput | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:40:29",
+   "src": "<Text fontSize={16} color={props.color}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 50,
+   "col": 63,
+   "code": "TS2322",
+   "msg": "Type 'string' is not assignable to type 'ColorInput | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:50:63",
+   "src": "return <View height={1} margin={{ left: 16 }} decoration={{ color: props.color }} />;",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 64,
+   "col": 53,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:64:53",
+   "src": "<View width={TRACK_WIDTH} height={32} flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 107,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:107:17",
+   "src": "flex={{ direction: \"column\", align: \"stretch\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 118,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:118:19",
+   "src": "flex={{ direction: \"column\", align: \"stretch\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 130,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:130:19",
+   "src": "flex={{ direction: \"column\", align: \"stretch\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 135,
+   "col": 21,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:135:21",
+   "src": "flex={{ direction: \"column\", align: \"stretch\", gap: 8 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 137,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:137:27",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 12 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/1-settings-2.tsx",
+   "line": 147,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/1-settings-2.tsx:147:27",
+   "src": "<View flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
   },
   {
    "file": "attempts/gist/1-settings-3.tsx",
@@ -2494,6 +4005,136 @@
    "cond": "gist",
    "key": "hs/gist/2-product-card-1.tsx:32:23",
    "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 4 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 21,
+   "col": 55,
+   "code": "TS2353",
+   "msg": "Object literal may only specify known properties, and 'offset' does not exist in type 'ShadowInput | ShadowInput[]'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-2.tsx:21:55",
+   "src": "shadow: { color: \"#00000026\", blurRadius: 16, offset: { dx: 0, dy: 6 } },",
+   "cat": "value-shape"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 23,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-2.tsx:23:15",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 26,
+   "col": 58,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-2.tsx:26:58",
+   "src": "<View width={CARD_WIDTH} padding={PADDING} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 28,
+   "col": 31,
+   "code": "TS2322",
+   "msg": "Type '\"w600\"' is not assignable to type 'FontWeight | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-2.tsx:28:31",
+   "src": "<Text fontSize={16} fontWeight=\"w600\" color=\"#1A1A1A\" maxLines={2} overflow=\"ellipsis\">",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 32,
+   "col": 43,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-2.tsx:32:43",
+   "src": "<View width={INNER_WIDTH} flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-2.tsx",
+   "line": 38,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-2.tsx:38:25",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 21,
+   "col": 15,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-3.tsx:21:15",
+   "src": "flex={{ direction: \"column\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 24,
+   "col": 34,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-3.tsx:24:34",
+   "src": "<View padding={12} flex={{ direction: \"column\", gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 28,
+   "col": 23,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-3.tsx:28:23",
+   "src": "<View flex={{ direction: \"row\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/2-product-card-3.tsx",
+   "line": 33,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/2-product-card-3.tsx:33:25",
+   "src": "<View flex={{ direction: \"row\", align: \"center\", gap: 2 }}>",
    "cat": "enum-string"
   },
   {
@@ -2848,6 +4489,71 @@
    "cat": "enum-string"
   },
   {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 10,
+   "col": 28,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-1.tsx:10:28",
+   "src": "<View grow={1} flex={{ direction: \"column\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 31,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-1.tsx:31:19",
+   "src": "<View flex={{ direction: \"column\", align: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 39,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-1.tsx:39:27",
+   "src": "<View flex={{ direction: \"row\", justify: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 68,
+   "col": 17,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-1.tsx:68:17",
+   "src": "flex={{ direction: \"column\", align: \"center\", gap: 2 }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-1.tsx",
+   "line": 78,
+   "col": 48,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-1.tsx:78:48",
+   "src": "<View padding={{ vertical: 16 }} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
    "file": "attempts/gist/5-profile-header-2.tsx",
    "line": 10,
    "col": 28,
@@ -2913,6 +4619,149 @@
    "cat": "enum-string"
   },
   {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 10,
+   "col": 28,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:10:28",
+   "src": "<View grow={1} flex={{ direction: \"column\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 31,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:31:19",
+   "src": "<View flex={{ direction: \"column\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 39,
+   "col": 27,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:39:27",
+   "src": "<View flex={{ direction: \"row\", justify: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 44,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:44:25",
+   "src": "flex={{ direction: \"column\", align: \"center\", justify: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 59,
+   "col": 43,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:59:43",
+   "src": "<View padding={{ top: 12 }} flex={{ direction: \"row\", justify: \"center\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 60,
+   "col": 23,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:60:23",
+   "src": "<View flex={{ direction: \"column\", align: \"center\", gap: 2 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/5-profile-header-3.tsx",
+   "line": 71,
+   "col": 48,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/5-profile-header-3.tsx:71:48",
+   "src": "<View padding={{ vertical: 16 }} flex={{ direction: \"row\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-1.tsx",
+   "line": 23,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/6-tags-1.tsx:23:19",
+   "src": "<View flex={{ direction: \"row\", wrap: true, gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-1.tsx",
+   "line": 35,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/6-tags-1.tsx:35:25",
+   "src": "flex={{ direction: \"row\", gap: 4, align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-2.tsx",
+   "line": 20,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/6-tags-2.tsx:20:19",
+   "src": "<View flex={{ direction: \"row\", wrap: true, gap: 8 }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/6-tags-2.tsx",
+   "line": 32,
+   "col": 25,
+   "code": "TS2322",
+   "msg": "Type '\"row\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/6-tags-2.tsx:32:25",
+   "src": "flex={{ direction: \"row\", gap: 4, align: \"center\" }}",
+   "cat": "enum-string"
+  },
+  {
    "file": "attempts/gist/6-tags-3.tsx",
    "line": 27,
    "col": 11,
@@ -2926,7 +4775,7 @@
    "cond": "gist",
    "key": "hs/gist/6-tags-3.tsx:27:11",
    "src": "<View flex={cloudFlex}>",
-   "cat": "value-shape"
+   "cat": "enum-string"
   },
   {
    "file": "attempts/gist/6-tags-3.tsx",
@@ -2942,7 +4791,7 @@
    "cond": "gist",
    "key": "hs/gist/6-tags-3.tsx:32:15",
    "src": "flex={pillFlex}",
-   "cat": "value-shape"
+   "cat": "enum-string"
   },
   {
    "file": "attempts/gist/7-draggable-1.tsx",
@@ -2968,6 +4817,19 @@
    "cond": "gist",
    "key": "hs/gist/7-draggable-2.tsx:26:19",
    "src": "<View flex={{ direction: \"column\", gap: 8, align: \"start\" }}>",
+   "cat": "enum-string"
+  },
+  {
+   "file": "attempts/gist/7-draggable-3.tsx",
+   "line": 24,
+   "col": 19,
+   "code": "TS2322",
+   "msg": "Type '\"column\"' is not assignable to type '\"horizontal\" | \"vertical\" | undefined'.",
+   "more": [],
+   "style": "hs",
+   "cond": "gist",
+   "key": "hs/gist/7-draggable-3.tsx:24:19",
+   "src": "<View flex={{ direction: \"column\", gap: 8 }}>",
    "cat": "enum-string"
   },
   {

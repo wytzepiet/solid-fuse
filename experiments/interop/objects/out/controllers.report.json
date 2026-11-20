@@ -382,13 +382,15 @@
       "ctors": [
         "asset",
         "networkUrl",
+        "file",
         "contentUri"
       ],
-      "ctorParamsKept": 12,
+      "ctorParamsKept": 16,
       "ctorParamsEnv": 0,
       "ctorDropped": {
         "asset.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
         "networkUrl.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
+        "file.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)",
         "contentUri.closedCaptionFile": "unbridgeable (unbridgeable/future/stream)"
       },
       "methods": [
@@ -432,18 +434,17 @@
         "value"
       ],
       "dropped": {
-        "constructor VideoPlayerController.file": "file: unbridgeable (unbridgeable/private/unexported-type)",
         "setClosedCaptionFile(closedCaptionFile)": "unbridgeable (unbridgeable/future/stream)",
         "closedCaptionFile": "ClosedCaptionFile (no record shape)"
       },
-      "dartLines": 145,
-      "tsLines": 199
+      "dartLines": 146,
+      "tsLines": 226
     }
   ],
-  "dartLines": 1492,
-  "codecLines": 525,
-  "tsLines": 1447,
-  "decoders": 19,
+  "dartLines": 1501,
+  "codecLines": 532,
+  "tsLines": 1482,
+  "decoders": 20,
   "encoders": 14,
   "warnings": []
 }

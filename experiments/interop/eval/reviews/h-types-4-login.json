@@ -1,0 +1,38 @@
+{
+  "4-login-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Outer Align loosens constraints; inner ConstrainedBox(maxWidth 320) bounds the cross axis so the stretch Column is valid and min-height."},
+    "notes": "No mistakes found; Align(center) > Padding(24) > 320-wide stretch column, button is Opacity 0.4 + IgnorePointer while disabled and submit is also guarded."
+  },
+  "4-login-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Cross axis bounded by maxWidth 320 under the loosening Align; vertical Flex is min-size."},
+    "notes": "No mistakes found; same tree as file 1 with an opaque GestureDetector, disabled state is dimmed (0.4) and pointer-ignored."
+  },
+  "4-login-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Direction defaults to vertical; stretch cross axis is bounded by maxWidth 320, main axis is min-size."},
+    "notes": "No mistakes found; identical to file 2 apart from relying on the default vertical direction."
+  }
+}

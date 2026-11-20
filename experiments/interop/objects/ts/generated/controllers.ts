@@ -1041,6 +1041,33 @@ export function createVideoPlayerControllerNetworkUrl(url: Uri, opts?: VideoPlay
   return bindVideoPlayerController(createObject("gen_VideoPlayerController", { $ctor: "networkUrl", url, ...opts }), {  });
 }
 
+export interface VideoPlayerControllerFileOptions {
+  /** Provide additional configuration options (optional). Like setting the audio mode to mix */
+  videoPlayerOptions?: VideoPlayerOptions | null;
+  /**
+   * HTTP headers used for the request to the [dataSource].
+   * Only for [VideoPlayerController.network].
+   * Always empty for other video types.
+   *
+   * @default Dart `const <String, String>{}`
+   */
+  httpHeaders?: Partial<Record<string, string>>;
+  /**
+   * The requested display mode for the video.
+   *
+   * @default "textureView"
+   */
+  viewType?: VideoViewType;
+}
+/**
+ * Constructs a [VideoPlayerController] playing a video from a file.
+ *
+ * Creates a Dart `VideoPlayerController.file`. Disposed with the reactive owner it is created under, or by `dispose()`.
+ */
+export function createVideoPlayerControllerFile(file: File, opts?: VideoPlayerControllerFileOptions): VideoPlayerController {
+  return bindVideoPlayerController(createObject("gen_VideoPlayerController", { $ctor: "file", file, ...opts }), {  });
+}
+
 export interface VideoPlayerControllerContentUriOptions {
   /** Provide additional configuration options (optional). Like setting the audio mode to mix */
   videoPlayerOptions?: VideoPlayerOptions | null;
@@ -1163,6 +1190,14 @@ export type Duration =
  */
 export type DurationRange =
   | { start: Duration; end: Duration };
+
+/**
+ * A reference to a file on the file system.
+ *
+ * Dart: `File`
+ */
+export type File =
+  | string;
 
 /**
  * An immutable 2D floating-point offset.

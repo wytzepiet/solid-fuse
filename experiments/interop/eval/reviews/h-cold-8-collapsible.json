@@ -1,0 +1,38 @@
+{
+  "8-collapsible-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Header Flex has no justify/expand (mainAxisSize min) and sits in a start-aligned vertical Flex, so with the loose grow={1} title the row shrink-wraps: the chevron sits 12px after the title instead of at the panel's right edge, and the rest of the header strip is outside the GestureDetector.", "tags": ["grow-loose"]},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Timer-driven ~250 ms animation, but the height runs to a text-length estimate (40 chars/line, 22px) rather than the real height, so it either stops early or jumps when the cap is lifted at progress 1 and when closing starts.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Header row is not expanded and relies on grow={1} (loose) to push the chevron right, so the chevron hugs the title and only the shrink-wrapped header is tappable."
+  },
+  "8-collapsible-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Timer-driven ~250 ms animation, but the height targets a text-length estimate (42 chars/line, 20px), so it visibly jumps or stalls at the end of opening and the start of closing whenever the estimate differs from the real height.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Header Flex is max-size with a flexible child, so it would only throw under an unbounded-width parent."},
+    "notes": "Body height is animated towards a guessed height, not the measured one, so the end of the animation can jump."
+  },
+  "8-collapsible-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Timer-driven ~250 ms animation, but the height targets a text-length estimate (44 chars/line, 20px), so it visibly jumps or stalls at the end of opening and the start of closing whenever the estimate differs from the real height.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "The full-width header has an opaque white decoration painted on top of the outer DecoratedBox (no inset for the border), so it covers the grey border along the header; when collapsed the header covers the whole panel and no border is visible at all.", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Header Flex is max-size with a flexible child, so it would only throw under an unbounded-width parent."},
+    "notes": "The opaque white header background paints over the panel's 1px border, which is drawn beneath the children by the outer View's decoration."
+  }
+}

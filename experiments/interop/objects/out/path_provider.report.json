@@ -1,0 +1,26 @@
+{
+  "name": "path_provider",
+  "libs": [
+    "package:path_provider/path_provider.dart"
+  ],
+  "surface": {
+    "total": 9,
+    "bridged": 9,
+    "byKind": {
+      "function": {
+        "bridged": 9,
+        "total": 9
+      }
+    }
+  },
+  "notBridged": [],
+  "partial": [],
+  "objects": [],
+  "notCallable": {
+    "MissingPlatformDirectoryException": "record (by the data rules)",
+    "StorageDirectory": "enum (by the data rules)"
+  },
+  "dartLines": 62,
+  "tsLines": 77,
+  "warnings": []
+}

@@ -43,6 +43,7 @@ def categorise(style, d, src):
             return "unknown-prop"
         if "'children'" in full and ("FuseText" in full or "FuseElement" in full or "FuseChildren" in full or "children" in msg):
             return "flex-children"
+        if "Types of property 'direction' are incompatible" in full: return "enum-string"
         if "$" in src or "'$'" in full or '$:' in full.split("is not assignable to type")[0]:
             return "dollar-tag"
         if re.match(r"Type '\"[^\"]*\"' is not assignable", msg) or re.match(r"Type 'string' is not assignable", msg):

@@ -1,0 +1,301 @@
+{
+  "name": "mobile_scanner",
+  "libs": [
+    "package:mobile_scanner/mobile_scanner.dart"
+  ],
+  "surface": {
+    "total": 79,
+    "bridged": 74,
+    "byKind": {
+      "static getter": {
+        "bridged": 1,
+        "total": 1
+      },
+      "static method": {
+        "bridged": 1,
+        "total": 2
+      },
+      "method": {
+        "bridged": 33,
+        "total": 35
+      },
+      "getter": {
+        "bridged": 32,
+        "total": 33
+      },
+      "constructor": {
+        "bridged": 2,
+        "total": 3
+      },
+      "stream": {
+        "bridged": 4,
+        "total": 4
+      },
+      "setter": {
+        "bridged": 1,
+        "total": 1
+      }
+    }
+  },
+  "notBridged": [
+    {
+      "kind": "static method",
+      "name": "ScanWindowUtils.calculateBoxFitRatio",
+      "ok": false,
+      "why": "returns ({double heightRatio, double widthRatio}) (not encodable)"
+    },
+    {
+      "kind": "constructor",
+      "name": "BarcodePainter#constructor BarcodePainter",
+      "ok": false,
+      "why": "textPainter: object type TextPainter is not a generated object"
+    },
+    {
+      "kind": "getter",
+      "name": "BarcodePainter#textPainter",
+      "ok": false,
+      "why": "returns TextPainter, not a generated object"
+    },
+    {
+      "kind": "method",
+      "name": "MobileScannerController#buildCameraView()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    },
+    {
+      "kind": "method",
+      "name": "MobileScannerPlatform#buildCameraView()",
+      "ok": false,
+      "why": "returns Widget (not encodable)"
+    }
+  ],
+  "partial": [],
+  "objects": [
+    {
+      "class": "BarcodePainter",
+      "tag": "mobile_scanner_BarcodePainter",
+      "push": "listenable",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "hitTest",
+        "paint",
+        "shouldRebuildSemantics",
+        "shouldRepaint"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "barcodeCorners",
+        "barcodeSize",
+        "barcodeValue",
+        "boxFit",
+        "cameraPreviewSize",
+        "color",
+        "deviceOrientation",
+        "strokeWidth",
+        "style"
+      ],
+      "gettersTotal": 10,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "constructor BarcodePainter": "textPainter: object type TextPainter is not a generated object",
+        "textPainter": "returns TextPainter, not a generated object"
+      },
+      "dartLines": 84,
+      "tsLines": 64
+    },
+    {
+      "class": "MobileScannerController",
+      "tag": "mobile_scanner_MobileScannerController",
+      "push": "valueListenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 13,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "analyzeImage",
+        "getBestCloseRangeScanningLens",
+        "getSupportedLenses",
+        "pause",
+        "resetZoomScale",
+        "setFocusPoint",
+        "setZoomScale",
+        "start",
+        "stop",
+        "switchCamera",
+        "toggleTorch",
+        "updateScanWindow"
+      ],
+      "methodsTotal": 13,
+      "streams": [
+        "barcodes"
+      ],
+      "readable": [
+        "autoStart",
+        "autoTorch",
+        "autoZoom",
+        "cameraResolution",
+        "detectionSpeed",
+        "detectionTimeoutMs",
+        "facing",
+        "formats",
+        "initialZoom",
+        "invertImage",
+        "lensType",
+        "returnImage",
+        "torchEnabled",
+        "value"
+      ],
+      "gettersTotal": 15,
+      "objectGetters": [],
+      "setters": [
+        "value"
+      ],
+      "settersTotal": 1,
+      "mirrored": [
+        "value"
+      ],
+      "dropped": {
+        "buildCameraView()": "returns Widget (not encodable)"
+      },
+      "dartLines": 150,
+      "tsLines": 203
+    },
+    {
+      "class": "MobileScannerPlatform",
+      "tag": "mobile_scanner_MobileScannerPlatform",
+      "push": "stream",
+      "ctors": [],
+      "ctorParamsKept": 0,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "analyzeImage",
+        "getBestCloseRangeScanningLens",
+        "getSupportedLenses",
+        "pause",
+        "resetZoomScale",
+        "setBarcodeLibraryScriptUrl",
+        "setFocusPoint",
+        "setWebBarcodeReader",
+        "setZoomScale",
+        "start",
+        "stop",
+        "toggleTorch",
+        "updateScanWindow"
+      ],
+      "methodsTotal": 14,
+      "streams": [
+        "barcodesStream",
+        "torchStateStream",
+        "zoomScaleStateStream"
+      ],
+      "readable": [
+        "activeWebReader"
+      ],
+      "gettersTotal": 4,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {
+        "buildCameraView()": "returns Widget (not encodable)"
+      },
+      "dartLines": 107,
+      "tsLines": 79
+    },
+    {
+      "class": "ScanWindowPainter",
+      "tag": "mobile_scanner_ScanWindowPainter",
+      "push": "listenable",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 8,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "hitTest",
+        "paint",
+        "shouldRebuildSemantics",
+        "shouldRepaint"
+      ],
+      "methodsTotal": 4,
+      "streams": [],
+      "readable": [
+        "borderColor",
+        "borderRadius",
+        "borderStrokeCap",
+        "borderStrokeJoin",
+        "borderStyle",
+        "borderWidth",
+        "color",
+        "scanWindow"
+      ],
+      "gettersTotal": 8,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 86,
+      "tsLines": 88
+    }
+  ],
+  "notCallable": {
+    "Address": "record (by the data rules)",
+    "Barcode": "record (by the data rules)",
+    "BarcodeBytes": "no members",
+    "BarcodeCapture": "record (by the data rules)",
+    "BarcodeOverlay": "widget (widget generator)",
+    "CalendarEvent": "record (by the data rules)",
+    "ContactInfo": "record (by the data rules)",
+    "DecodedBarcodeBytes": "record (by the data rules)",
+    "DecodedVisionBarcodeBytes": "record (by the data rules)",
+    "DriverLicense": "record (by the data rules)",
+    "Email": "record (by the data rules)",
+    "GeoPoint": "record (by the data rules)",
+    "MobileScanner": "widget (widget generator)",
+    "MobileScannerBarcodeException": "record (by the data rules)",
+    "MobileScannerErrorDetails": "record (by the data rules)",
+    "MobileScannerException": "record (by the data rules)",
+    "MobileScannerState": "record (by the data rules)",
+    "MobileScannerViewAttributes": "record (by the data rules)",
+    "PersonName": "record (by the data rules)",
+    "Phone": "record (by the data rules)",
+    "SMS": "record (by the data rules)",
+    "ScanWindowOverlay": "widget (widget generator)",
+    "ScanWindowUtils": "no members",
+    "SelectCamera": "record (by the data rules)",
+    "StartOptions": "record (by the data rules)",
+    "SwitchCameraOption": "record (by the data rules)",
+    "ToggleDirection": "no members",
+    "ToggleLensType": "no members",
+    "UrlBookmark": "record (by the data rules)",
+    "WiFi": "record (by the data rules)",
+    "AddressType": "enum (by the data rules)",
+    "BarcodeFormat": "enum (by the data rules)",
+    "BarcodeType": "enum (by the data rules)",
+    "CameraFacing": "enum (by the data rules)",
+    "CameraLensType": "enum (by the data rules)",
+    "DetectionSpeed": "enum (by the data rules)",
+    "EmailType": "enum (by the data rules)",
+    "EncryptionType": "enum (by the data rules)",
+    "MobileScannerAuthorizationState": "enum (by the data rules)",
+    "MobileScannerErrorCode": "enum (by the data rules)",
+    "PhoneType": "enum (by the data rules)",
+    "TorchState": "enum (by the data rules)",
+    "WebBarcodeReader": "enum (by the data rules)"
+  },
+  "dartLines": 1026,
+  "tsLines": 844,
+  "warnings": []
+}

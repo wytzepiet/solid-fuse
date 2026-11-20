@@ -12,11 +12,13 @@ const _unset = Object();
 /// Handle factories for objects JS can construct. Call before `runtime.start()`.
 void registerSharedPreferencesObjects(FuseRuntime runtime) {
   registerSharedPreferencesWrappers();
+  runtime.registerHandle('shared_preferences_SharedPreferencesAsync', GenSharedPreferencesAsyncHandle.new);
 }
 
 /// Wrap factories for objects Dart creates and hands to JS.
 void registerSharedPreferencesWrappers() {
   fuseWrapFactories['shared_preferences_SharedPreferences'] = (node, object) => GenSharedPreferencesHandle.wrap(node, object as shared_preferences.SharedPreferences);
+  fuseWrapFactories['shared_preferences_SharedPreferencesAsync'] = (node, object) => GenSharedPreferencesAsyncHandle.wrap(node, object as shared_preferences.SharedPreferencesAsync);
   fuseWrapFactories['shared_preferences_SharedPreferencesWithCache'] = (node, object) => GenSharedPreferencesWithCacheHandle.wrap(node, object as shared_preferences.SharedPreferencesWithCache);
 }
 
@@ -108,6 +110,98 @@ class GenSharedPreferencesHandle extends FuseObjectHandle<shared_preferences.Sha
               return await fuseAwait(object.setStringList(fuseReq(decString(a['key']), 'SharedPreferences.setStringList', 'key'), fuseReq(fuseList<String>(a['value'], (e) => decString(e)!), 'SharedPreferences.setStringList', 'value')));
           }
           return fuseUnknown('SharedPreferences', a['name'] == null ? method : '$method ${a['name']}');
+        } finally {
+          // State may change without a notification (stop(), setters).
+          if (!isDisposed) refresh();
+        }
+      });
+
+  @override
+  void disposeObject() {
+  }
+}
+
+/// GENERATED handle for [shared_preferences.SharedPreferencesAsync].
+class GenSharedPreferencesAsyncHandle extends FuseObjectHandle<shared_preferences.SharedPreferencesAsync> {
+  GenSharedPreferencesAsyncHandle(super.node) {
+    final p = node.props;
+    object = shared_preferences.SharedPreferencesAsync(options: decSharedPreferencesOptions(p['options']) ?? const shared_preferences.SharedPreferencesOptions());
+    _init();
+  }
+
+  /// Wraps an object created on the Dart side (returned from a method or getter).
+  GenSharedPreferencesAsyncHandle.wrap(super.node, this.object) : super(borrowed: node.props[r'$borrowed'] == true) {
+    _init();
+  }
+
+  @override
+  late final shared_preferences.SharedPreferencesAsync object;
+
+  void _init() {
+  }
+
+  @override
+  void refresh() => pushState(_collect());
+
+  /// Reads the mirrored getters and returns the ones that changed since the last push.
+  Map<String, Object?> _collect() {
+    final patch = <String, Object?>{};
+    return patch;
+  }
+
+  @override
+  Map<String, Object?> snapshot() {
+    return _collect();
+  }
+
+  @override
+  Future<dynamic> call(String method, dynamic value) => fuseGuard(() async {
+        final a = fuseArgs(value);
+        try {
+          switch (method) {
+            case 'clear':
+              await fuseAwait(object.clear(allowList: fuseList<String>(a['allowList'], (e) => decString(e)!)?.toSet()));
+              return null;
+            case 'containsKey':
+              return await fuseAwait(object.containsKey(fuseReq(decString(a['key']), 'SharedPreferencesAsync.containsKey', 'key')));
+            case 'getAll':
+              final r = await fuseAwait(object.getAll(allowList: fuseList<String>(a['allowList'], (e) => decString(e)!)?.toSet()));
+              return r.map((k, e) => MapEntry(k, e));
+            case 'getBool':
+              return await fuseAwait(object.getBool(fuseReq(decString(a['key']), 'SharedPreferencesAsync.getBool', 'key')));
+            case 'getDouble':
+              final r = await fuseAwait(object.getDouble(fuseReq(decString(a['key']), 'SharedPreferencesAsync.getDouble', 'key')));
+              return fuseNum(r);
+            case 'getInt':
+              return await fuseAwait(object.getInt(fuseReq(decString(a['key']), 'SharedPreferencesAsync.getInt', 'key')));
+            case 'getKeys':
+              final r = await fuseAwait(object.getKeys(allowList: fuseList<String>(a['allowList'], (e) => decString(e)!)?.toSet()));
+              return r.map((e) => e).toList();
+            case 'getString':
+              return await fuseAwait(object.getString(fuseReq(decString(a['key']), 'SharedPreferencesAsync.getString', 'key')));
+            case 'getStringList':
+              final r = await fuseAwait(object.getStringList(fuseReq(decString(a['key']), 'SharedPreferencesAsync.getStringList', 'key')));
+              return r?.map((e) => e).toList();
+            case 'remove':
+              await fuseAwait(object.remove(fuseReq(decString(a['key']), 'SharedPreferencesAsync.remove', 'key')));
+              return null;
+            case 'setBool':
+              await fuseAwait(object.setBool(fuseReq(decString(a['key']), 'SharedPreferencesAsync.setBool', 'key'), fuseReq(decBool(a['value']), 'SharedPreferencesAsync.setBool', 'value')));
+              return null;
+            case 'setDouble':
+              await fuseAwait(object.setDouble(fuseReq(decString(a['key']), 'SharedPreferencesAsync.setDouble', 'key'), fuseReq(decDouble(a['value']), 'SharedPreferencesAsync.setDouble', 'value')));
+              return null;
+            case 'setInt':
+              await fuseAwait(object.setInt(fuseReq(decString(a['key']), 'SharedPreferencesAsync.setInt', 'key'), fuseReq(decInt(a['value']), 'SharedPreferencesAsync.setInt', 'value')));
+              return null;
+            case 'setString':
+              await fuseAwait(object.setString(fuseReq(decString(a['key']), 'SharedPreferencesAsync.setString', 'key'), fuseReq(decString(a['value']), 'SharedPreferencesAsync.setString', 'value')));
+              return null;
+            case 'setStringList':
+              await fuseAwait(object.setStringList(fuseReq(decString(a['key']), 'SharedPreferencesAsync.setStringList', 'key'), fuseReq(fuseList<String>(a['value'], (e) => decString(e)!), 'SharedPreferencesAsync.setStringList', 'value')));
+              return null;
+          }
+          return fuseUnknown('SharedPreferencesAsync', a['name'] == null ? method : '$method ${a['name']}');
         } finally {
           // State may change without a notification (stop(), setters).
           if (!isDisposed) refresh();

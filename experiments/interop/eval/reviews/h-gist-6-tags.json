@@ -1,0 +1,32 @@
+{
+  "6-tags-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "flex has no `wrap` option and direction \"row\" is not \"horizontal\", so the container is a vertical Flex: pills stack one per line in a column (8 gap vertically only), no left-to-right flow or wrapping.", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "partial", "why": "Background, white text and check icon are right, but the pill's flex direction \"row\" falls back to vertical so the check sits above the label (centered) rather than before it, making the pill taller.", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Uses non-existent flex `direction: \"row\"` and `wrap: true`, so everything lays out as vertical columns; selection keyed by tag string means duplicate tags toggle together."
+  },
+  "6-tags-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "flex has no `wrap` option and direction \"row\" is not \"horizontal\", so the container is a vertical Flex: pills stack one per line in a column, no left-to-right flow or wrapping.", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "partial", "why": "Background, white text and check icon are right, but the pill's flex direction \"row\" falls back to vertical so the check sits above the label rather than before it.", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Uses non-existent flex `direction: \"row\"` and `wrap: true`, so both the cloud and each pill's contents lay out vertically."
+  },
+  "6-tags-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "flex has no `wrap` option and direction \"row\" is not \"horizontal\", so the container is a vertical Flex: pills stack one per line in a column, no left-to-right flow or wrapping.", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "partial", "why": "Background, white text and check icon are right, but the pill's flex direction \"row\" falls back to vertical so the check sits above the label rather than before it.", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Uses non-existent flex `direction: \"row\"` and `wrap: true` (smuggled past the types via a pre-built object), so both the cloud and each pill's contents lay out vertically."
+  }
+}

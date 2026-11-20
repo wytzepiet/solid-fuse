@@ -37,6 +37,16 @@ export function supportsLaunchMode(mode: LaunchMode): Promise<boolean> {
   return m.invoke("supportsLaunchMode", { mode }, 0);
 }
 
+/** String version of [canLaunchUrl]. */
+export function canLaunchUrlString(urlString: string): Promise<boolean> {
+  return m.invoke("canLaunchUrlString", { urlString }, 0);
+}
+
+/** String version of [launchUrl]. */
+export function launchUrlString(urlString: string, opts?: { mode?: LaunchMode; webViewConfiguration?: WebViewConfiguration; browserConfiguration?: BrowserConfiguration; webOnlyWindowName?: string | null }): Promise<boolean> {
+  return m.invoke("launchUrlString", { urlString, ...opts }, 0);
+}
+
 // ── enums ──
 /** The desired mode to launch a URL. */
 export type LaunchMode = "platformDefault" | "inAppWebView" | "inAppBrowserView" | "externalApplication" | "externalNonBrowserApplication";

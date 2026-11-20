@@ -1,0 +1,38 @@
+{
+  "3-chat-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "direction \"row\" is not \"horizontal\", so the wrapper is a vertical Flex and justify \"end\" acts on the vertical axis; with cross-axis start every bubble, including mine, sits at the left edge (colours are correct).", "tags": ["invalid-direction"]},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "partial", "why": "The timestamp is end-aligned to the bubble's own right edge for mine, but the whole group is at the left edge of the list instead of the right.", "tags": ["invalid-direction"]},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "justify \"end\" gives a vertical Flex mainAxisSize max under the scroll view's unbounded height, but with no flex children Flutter shrink-wraps it rather than throwing."},
+    "notes": "Uses direction \"row\"/\"column\" instead of \"horizontal\"/\"vertical\", so the intended horizontal justify never happens and my messages stay on the left."
+  },
+  "3-chat-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "direction \"row\" falls back to a vertical Flex, so the grow spacers are stacked above/below the bubble at zero size and every bubble, including mine, sits at the left edge (colours are correct).", "tags": ["invalid-direction"]},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "The timestamp row is also a vertical Flex with a useless spacer, so the timestamp is left-aligned for my messages as well.", "tags": ["invalid-direction"]},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "The loose Flexible spacers sit in min-size vertical Flexes under unbounded height, which is allowed; they collapse to zero size."},
+    "notes": "Uses direction \"row\" (not \"horizontal\") so the spacer approach never pushes anything right; even with the right direction, grow={1} is loose and an empty spacer would not push."
+  },
+  "3-chat-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "align \"stretch\" only needs a bounded width, which a vertical scroll view passes down from any normal parent."},
+    "notes": "direction \"column\" is not a valid value but falls back to vertical, which is what was wanted; stretch on the list plus align end/start per message places everything correctly."
+  }
+}

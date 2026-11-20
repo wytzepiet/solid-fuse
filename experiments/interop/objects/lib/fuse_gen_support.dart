@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use
 // Hand-written runtime support for generated adapters. Everything the
 // generator emits calls into this file plus solid_fuse's FuseNode.
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 // parseColor is not exported from the solid_fuse barrel.
@@ -168,3 +170,7 @@ bool fuseSame(Object? a, Object? b) {
   }
   return a == b;
 }
+
+io.Directory? niceDirectory(Object? v) => v is String ? io.Directory(v) : null;
+io.File? niceFile(Object? v) => v is String ? io.File(v) : null;
+String? niceEncPath(io.FileSystemEntity? e) => e?.path;

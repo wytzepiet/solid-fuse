@@ -1,0 +1,38 @@
+{
+  "7-draggable-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "SizedBox 300x300 gives the Stack tight constraints; Positioned is inside Stack; outer vertical Flex is min-sized."},
+    "notes": "No onPanCancel, so a cancelled gesture would leave the square orange; otherwise correct (clamp 0..220, raw position tracked separately)."
+  },
+  "7-draggable-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Background View is stretched by a fill Positioned inside a 300x300 tight Stack; no unbounded constraints."},
+    "notes": "onPanCancel resets the colour but does not call onDrop, which is acceptable since the brief only asks for release."
+  },
+  "7-draggable-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Both Positioned children have explicit sizes inside a 300x300 tight Stack; outer vertical Flex is min-sized."},
+    "notes": "onDrop is also called on pan cancel (guarded by dragging()), a harmless extension of the brief."
+  }
+}

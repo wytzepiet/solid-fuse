@@ -1,0 +1,3099 @@
+[
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "1-settings",
+  "file": "1-settings-1.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 0,
+  "failed": 2,
+  "failed_grow": 2,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Relies on grow={1} to fill rows: the Notifications card hugs its widest row while the Display card is stretched by the justify:center slider row, and the dividers (height only, loose width) collapse to zero width.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent, but each row is a min-size horizontal Flex whose label is only loosely flexible, so the row shrink-wraps and the toggle sits 12px after the label text instead of at the right end (toggles do not line up between rows).",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider drags and taps correctly over 12..24 with a rounded value, but the label line shrink-wraps (loose grow, cross-axis start), so the number sits right after 'Text size' at the left, not at the right end of the line.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "1-settings",
+  "file": "1-settings-2.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Toggle rows rely on grow={1} to fill, so the Notifications card hugs its content and the Dark mode toggle sits next to its label inside a full-width card; the dividers collapse to zero width; the slider only responds on the thumb/track, not the empty area around them.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent, but each row is a min-size horizontal Flex whose label is only loosely flexible, so the row shrink-wraps and the toggle sits 12px after the label text instead of at the right end (toggles do not line up between rows).",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "1-settings",
+  "file": "1-settings-3.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 0,
+  "failed": 2,
+  "failed_grow": 2,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Relies on grow={1} to fill rows: the Notifications card hugs its widest row while the Display card is stretched by the alignment:center slider wrapper, and the dividers (height only, loose width) collapse to zero width.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent, but each row is a min-size horizontal Flex whose label is only loosely flexible, so the row shrink-wraps and the toggle sits 12px after the label text instead of at the right end (toggles do not line up between rows).",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider drags correctly over 12..24 and the value is shown rounded, but the label line shrink-wraps (loose grow, cross-axis start), so the number sits right after 'Text size' at the left, not at the right end of the line.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "2-product-card",
+  "file": "2-product-card-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Clip on the card View sits inside its DecoratedBox so the shadow stays visible; the 156-wide spaceBetween row puts the rating at the right edge; rating is forced to one decimal, which is acceptable.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "2-product-card",
+  "file": "2-product-card-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Shadow on the outer View and a ClipRRect(16) on the inner View; the stretch column gives the spaceBetween row the full 156 width.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "2-product-card",
+  "file": "2-product-card-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Card itself is unclipped, but the image wrapper clips its top corners to 16 and the spaceBetween row takes max main size (156), so layout is as asked.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "3-chat",
+  "file": "3-chat-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Align wrappers expand to the bounded list width inside the start-aligned column, so the bubble (ConstrainedBox max 260, loose) and timestamp sit on the correct edge; relies on the scroll view having a bounded width.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "3-chat",
+  "file": "3-chat-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "align: \"stretch\" on the scroll content only needs a bounded width, which a vertical scroll view passes through from any normal parent.",
+  "notes": "Stretch on the list makes each row full width and the per-row cross-axis end/start places bubble and timestamp; simplest correct tree of the three.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "3-chat",
+  "file": "3-chat-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "justify \"end\" makes the row main-axis max so mine reach the right edge, while justify \"start\" rows shrink but sit at the left of the start-aligned column; the 260 cap is on the bubble+timestamp column, which still bounds the bubble.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "4-login",
+  "file": "4-login-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Assumes the usual bounded (screen) parent; in an unbounded-width parent the TextFields would fail, but nothing in the component itself causes that.",
+  "notes": "No mistakes found; full-width button relies on Align expanding under loose width rather than align: \"stretch\", which works but is implicit.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "4-login",
+  "file": "4-login-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Stretch cross axis is bounded by the outer Align's loose constraints and maxWidth 320; assumes a bounded (screen) parent.",
+  "notes": "No mistakes found; explicit align: \"stretch\" makes the 320 width and full-width button robust.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "4-login",
+  "file": "4-login-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Assumes the usual bounded (screen) parent; in an unbounded-width parent the TextFields would fail, but nothing in the component itself causes that.",
+  "notes": "No mistakes found; full-width button relies on Align expanding under loose width rather than align: \"stretch\", which works but is implicit.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "5-profile-header",
+  "file": "5-profile-header-1.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stats rely on grow={1} to split the row into thirds, but loose fit leaves them clustered at the start.",
+  "fails": [
+   [
+    5,
+    "fail",
+    "Each Stat is Flexible(loose) so it shrinks to its text width; the three stats pack at the left of the full-width row instead of occupying equal thirds.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "5-profile-header",
+  "file": "5-profile-header-2.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stats rely on grow={1} to split the row into thirds, but loose fit leaves them clustered at the start.",
+  "fails": [
+   [
+    5,
+    "fail",
+    "The row expands to full width, but each Stat is Flexible(loose) and shrinks to its text width, so the stats pack at the left rather than being evenly distributed.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "5-profile-header",
+  "file": "5-profile-header-3.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stats rely on grow={1} to split the row into thirds, but loose fit leaves them clustered at the start.",
+  "fails": [
+   [
+    5,
+    "fail",
+    "The row is stretched to full width, but each Stat is Flexible(loose) and shrinks to its text width, so the stats pack at the left rather than being evenly distributed.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "6-tags",
+  "file": "6-tags-1.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Horizontal min-size Flex inside a WidgetSpan gets bounded loose constraints; only a single tag wider than the available line would overflow the pill's Row.",
+  "notes": "Gap is done with right/bottom margins, so the cloud carries 8 of extra trailing space on the right and bottom.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "6-tags",
+  "file": "6-tags-2.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Horizontal min-size Flex inside a WidgetSpan gets bounded loose constraints; only a single tag wider than the available line would overflow the pill's Row.",
+  "notes": "Identical to 6-tags-1.tsx apart from a comment; gap via margins leaves 8 of trailing space on the right and bottom.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "6-tags",
+  "file": "6-tags-3.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Single-child View with a wrapping Text inside a WidgetSpan; a long tag wraps inside the pill rather than overflowing.",
+  "notes": "Icon is placed inline in the label Text rather than in a centred row, so it may sit a pixel or two off the text's vertical centre; gap via margins leaves a trailing 8.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "7-draggable",
+  "file": "7-draggable-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "SizedBox 300x300 gives the Stack tight constraints; Positioned is inside Stack; outer vertical Flex is min-sized.",
+  "notes": "No onPanCancel, so a cancelled gesture would leave the square orange; otherwise correct (clamp 0..220, raw position tracked separately).",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "7-draggable",
+  "file": "7-draggable-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Background View is stretched by a fill Positioned inside a 300x300 tight Stack; no unbounded constraints.",
+  "notes": "onPanCancel resets the colour but does not call onDrop, which is acceptable since the brief only asks for release.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "7-draggable",
+  "file": "7-draggable-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Both Positioned children have explicit sizes inside a 300x300 tight Stack; outer vertical Flex is min-sized.",
+  "notes": "onDrop is also called on pan cancel (guarded by dragging()), a harmless extension of the brief.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "8-collapsible",
+  "file": "8-collapsible-1.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Header row is not expanded and relies on grow={1} (loose) to push the chevron right, so the chevron hugs the title and only the shrink-wrapped header is tappable.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Header Flex has no justify/expand (mainAxisSize min) and sits in a start-aligned vertical Flex, so with the loose grow={1} title the row shrink-wraps: the chevron sits 12px after the title instead of at the panel's right edge, and the rest of the header strip is outside the GestureDetector.",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Timer-driven ~250 ms animation, but the height runs to a text-length estimate (40 chars/line, 22px) rather than the real height, so it either stops early or jumps when the cap is lifted at progress 1 and when closing starts.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "8-collapsible",
+  "file": "8-collapsible-2.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Header Flex is max-size with a flexible child, so it would only throw under an unbounded-width parent.",
+  "notes": "Body height is animated towards a guessed height, not the measured one, so the end of the animation can jump.",
+  "fails": [
+   [
+    3,
+    "partial",
+    "Timer-driven ~250 ms animation, but the height targets a text-length estimate (42 chars/line, 20px), so it visibly jumps or stalls at the end of opening and the start of closing whenever the estimate differs from the real height.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "cold",
+  "task": "8-collapsible",
+  "file": "8-collapsible-3.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Header Flex is max-size with a flexible child, so it would only throw under an unbounded-width parent.",
+  "notes": "The opaque white header background paints over the panel's 1px border, which is drawn beneath the children by the outer View's decoration.",
+  "fails": [
+   [
+    3,
+    "partial",
+    "Timer-driven ~250 ms animation, but the height targets a text-length estimate (44 chars/line, 20px), so it visibly jumps or stalls at the end of opening and the start of closing whenever the estimate differs from the real height.",
+    []
+   ],
+   [
+    5,
+    "fail",
+    "The full-width header has an opaque white decoration painted on top of the outer DecoratedBox (no inset for the border), so it covers the grey border along the header; when collapsed the header covers the whole panel and no border is visible at all.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "1-settings",
+  "file": "1-settings-1.tsx",
+  "n": 6,
+  "passed": 3,
+  "partial": 2,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "Root View has grow={1}, i.e. a Flexible, which throws 'Incorrect use of ParentDataWidget' unless the parent is a Flex; also the toggle's vertical Flex overflows its 22px inner height by 1px (overflow error reported, not fatal).",
+  "notes": "Uses flex direction \"row\"/\"column\" instead of \"horizontal\"/\"vertical\"; the runtime treats \"row\" as vertical, so every intended row stacks vertically, and cards shrink-wrap to content width with invisible zero-width dividers.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "Each toggle has its own signal, but direction \"row\" is not \"horizontal\" so every row is a vertical Flex: the toggle sits centred underneath its label, not at the right end of the row.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    4,
+    "partial",
+    "The Stack-based slider drags and maps to 12..24 correctly, but the label line is a vertical Flex (direction \"row\"), so the number is shown below 'Text size' rather than at the right end of that line.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "partial",
+    "Dark mode row exists and its state/colour flips on tap, but the toggle is stacked under the label and the knob never moves sideways (vertical Flex, knob always centred, 1px overflow).",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "1-settings",
+  "file": "1-settings-2.tsx",
+  "n": 6,
+  "passed": 3,
+  "partial": 1,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No layout exception, but every Toggle's vertical Flex overflows its 22px inner height by 22px (RenderFlex overflow error reported and striped in debug).",
+  "notes": "Uses flex direction \"row\"/\"column\"; \"row\" is not recognised and lays out vertically, breaking all toggle rows, the toggle itself and the slider.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent, but direction \"row\" falls back to vertical: label and toggle are stacked and centred in the row, and the knob is pushed 22px down out of the track.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Dragging does change the value over 12..24, but the slider is a vertical Flex (fill bar above a thumb that stays centred, remaining track zero-width), so it does not look or track like a slider, and the number sits below the label instead of at the right end of its line.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "partial",
+    "Dark mode row exists and tapping it really switches the theme colours, but the toggle is stacked under the label and its knob overflows below the track instead of sliding.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "1-settings",
+  "file": "1-settings-3.tsx",
+  "n": 6,
+  "passed": 3,
+  "partial": 1,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No layout exception, but every Toggle's vertical Flex overflows its 22px inner height by 22px (RenderFlex overflow error reported and striped in debug).",
+  "notes": "Uses flex direction \"row\"/\"column\"; \"row\" is not recognised and lays out vertically, breaking all toggle rows, the toggle itself and the slider; cards also shrink-wrap to content width.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent, but direction \"row\" falls back to vertical: the toggle is stacked centred under its label in a shrink-wrapped row, and the knob is pushed 22px down out of the track.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Dragging (must start on the bar or thumb) does change the value over 12..24, but the slider is a vertical Flex (fill bar above a thumb that stays centred, remaining track zero-width), and the number sits below the label instead of at the right end of its line.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "partial",
+    "Dark mode row exists and its state/colour flips on tap, but the toggle is stacked under the label and its white knob overflows below the track onto the white card instead of sliding.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "2-product-card",
+  "file": "2-product-card-1.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Loose Flexible in a min-size vertical Flex under unbounded height does not assert.",
+  "notes": "Uses direction \"row\"/\"column\" instead of \"horizontal\"/\"vertical\", so the price/rating line renders as a vertical stack.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "flex direction \"row\" is not \"horizontal\", so the line is a vertical Flex: price, star and rating are stacked on three lines at the left; even if horizontal, loose grow={1} would not push the star/rating to the right end.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "2-product-card",
+  "file": "2-product-card-2.tsx",
+  "n": 5,
+  "passed": 3,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Loose Flexible in a min-size vertical Flex under unbounded height does not assert.",
+  "notes": "direction \"row\" falls back to vertical so the price/rating line is stacked; shadow offset given as {dx,dy} is ignored (shadow still visible) and \"w600\" is not a valid weight.",
+  "fails": [
+   [
+    2,
+    "partial",
+    "fontWeight=\"w600\" is not a valid value (100..900 or regular/medium/semiBold/bold), so the title is not semi-bold; size, two lines and ellipsis are right.",
+    []
+   ],
+   [
+    3,
+    "fail",
+    "direction \"row\" is not \"horizontal\", so price sits above the star/rating group, which is itself vertical (star above the number), all left-aligned; even if horizontal, loose grow={1} would not push the rating right.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "2-product-card",
+  "file": "2-product-card-3.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Empty loose Flexible in a min-size vertical Flex under unbounded height does not assert.",
+  "notes": "Uses direction \"row\" instead of \"horizontal\", so the price/rating line renders as a vertical stack, and the spacer relies on grow being tight.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "direction \"row\" is not \"horizontal\", so price, the empty spacer and the star/rating group stack vertically (star above the number) at the left; even if horizontal, the empty loose grow={1} spacer would be zero-width and not push the rating right.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "3-chat",
+  "file": "3-chat-1.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "justify \"end\" gives a vertical Flex mainAxisSize max under the scroll view's unbounded height, but with no flex children Flutter shrink-wraps it rather than throwing.",
+  "notes": "Uses direction \"row\"/\"column\" instead of \"horizontal\"/\"vertical\", so the intended horizontal justify never happens and my messages stay on the left.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "direction \"row\" is not \"horizontal\", so the wrapper is a vertical Flex and justify \"end\" acts on the vertical axis; with cross-axis start every bubble, including mine, sits at the left edge (colours are correct).",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "partial",
+    "The timestamp is end-aligned to the bubble's own right edge for mine, but the whole group is at the left edge of the list instead of the right.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "3-chat",
+  "file": "3-chat-2.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 0,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "The loose Flexible spacers sit in min-size vertical Flexes under unbounded height, which is allowed; they collapse to zero size.",
+  "notes": "Uses direction \"row\" (not \"horizontal\") so the spacer approach never pushes anything right; even with the right direction, grow={1} is loose and an empty spacer would not push.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "direction \"row\" falls back to a vertical Flex, so the grow spacers are stacked above/below the bubble at zero size and every bubble, including mine, sits at the left edge (colours are correct).",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "The timestamp row is also a vertical Flex with a useless spacer, so the timestamp is left-aligned for my messages as well.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "3-chat",
+  "file": "3-chat-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "align \"stretch\" only needs a bounded width, which a vertical scroll view passes down from any normal parent.",
+  "notes": "direction \"column\" is not a valid value but falls back to vertical, which is what was wanted; stretch on the list plus align end/start per message places everything correctly.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "4-login",
+  "file": "4-login-1.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "Root View has grow={1}, which wraps it in Flexible: incorrect ParentDataWidget use unless the parent is a flex; in a loose flex parent it also shrink-wraps its width, so horizontal centering depends on the parent.",
+  "notes": "Uses direction \"column\"/\"row\" (not valid; both fall back to vertical, which happens to still lay out correctly, including the button) and keyboardType \"emailAddress\" instead of \"email\".",
+  "fails": [
+   [
+    2,
+    "partial",
+    "keyboardType=\"emailAddress\" is not a valid value (the API uses \"email\"), so the email keyboard is not applied; heading, obscured password and the Text labels above the fields are fine.",
+    [
+     "invalid-prop-value"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "4-login",
+  "file": "4-login-2.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "Root View has grow={1}, which wraps it in Flexible: incorrect ParentDataWidget use unless the parent is a flex; in a loose flex parent it also shrink-wraps its width, so horizontal centering depends on the parent.",
+  "notes": "Uses direction \"column\"/\"row\" (not valid; both fall back to vertical, which happens to still lay out correctly) and keyboardType \"emailAddress\" instead of \"email\".",
+  "fails": [
+   [
+    2,
+    "partial",
+    "keyboardType=\"emailAddress\" is not a valid value (the API uses \"email\"), so the email keyboard is not applied; heading, obscured password and the Text labels above the fields are fine.",
+    [
+     "invalid-prop-value"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "4-login",
+  "file": "4-login-3.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "Root View has grow={1}, which wraps it in Flexible: incorrect ParentDataWidget use unless the parent is a flex; in a loose flex parent it also shrink-wraps its width, so horizontal centering depends on the parent.",
+  "notes": "Uses direction \"column\"/\"row\" (not valid; both fall back to vertical, which happens to still lay out correctly) and keyboardType \"emailAddress\" instead of \"email\".",
+  "fails": [
+   [
+    2,
+    "partial",
+    "keyboardType=\"emailAddress\" is not a valid value (the API uses \"email\"), so the email keyboard is not applied; heading, obscured password and the Text labels above the fields are fine.",
+    [
+     "invalid-prop-value"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "5-profile-header",
+  "file": "5-profile-header-1.tsx",
+  "n": 5,
+  "passed": 3,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Loose Flexibles in a min-size vertical Flex under unbounded height do not assert; the justify:center Flex has no flex children so it shrink-wraps.",
+  "notes": "\"row\"/\"column\" are not valid directions (only \"horizontal\" switches the axis), so every intended row is laid out vertically: avatar left-aligned and stats stacked.",
+  "fails": [
+   [
+    2,
+    "partial",
+    "Circle (ClipRRect r=48) and 4 white ring are right, but the centering wrapper uses direction \"row\", which is not \"horizontal\" so it becomes a vertical Flex with cross-axis start: the avatar sits at the left edge, not centered.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Stats container uses direction \"row\", which resolves to a vertical Flex, so the three stats are stacked on top of each other in a centered column instead of being spread across the width.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "5-profile-header",
+  "file": "5-profile-header-2.tsx",
+  "n": 5,
+  "passed": 2,
+  "partial": 1,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Loose Flexibles in a min-size vertical Flex under unbounded height do not assert.",
+  "notes": "Relies on a rounded decoration to clip the image (it does not) and uses \"row\", which is laid out as vertical.",
+  "fails": [
+   [
+    2,
+    "fail",
+    "No clipBehavior on the inner View and no borderRadius on the Image, so the avatar image is a 96 square whose corners cover the ring; also the \"row\" wrapper is a vertical Flex with cross start, leaving the avatar at the left edge.",
+    [
+     "invalid-direction",
+     "no-clip"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Image centre sits on the banner edge, but the Stack is only 208 high while the ringed avatar ends at 212, so the Stack's default clip cuts off the bottom 4 of the ring.",
+    []
+   ],
+   [
+    5,
+    "fail",
+    "Stats container uses direction \"row\", which resolves to a vertical Flex, so the stats are stacked vertically at the left instead of distributed across the width.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "5-profile-header",
+  "file": "5-profile-header-3.tsx",
+  "n": 5,
+  "passed": 1,
+  "partial": 2,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "The max-size vertical Flexes under unbounded height have no flex children and shrink-wrap; loose Flexibles in the min-size stats Flex do not assert.",
+  "notes": "All horizontal centering and the stats row depend on direction \"row\", which the runtime treats as vertical, so avatar, name and stats all end up left-aligned and stacked.",
+  "fails": [
+   [
+    2,
+    "fail",
+    "The Image is never clipped (no borderRadius or clipBehavior), so it is a 96 square over a white circle, and the \"row\" wrapper is a vertical Flex with cross start so the avatar sits at the left edge.",
+    [
+     "invalid-direction",
+     "no-clip"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Avatar centre sits on the banner edge, but the container is 208 high while the ringed avatar ends at 212, so the Stack clips the bottom 4 of the ring.",
+    []
+   ],
+   [
+    4,
+    "partial",
+    "Sizes, weight and colour are right, but the root has cross-axis start and the wrapper's \"row\" + justify:center becomes a shrink-wrapped vertical Flex, so name and handle sit at the left edge rather than centered.",
+    [
+     "invalid-direction"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Stats container uses direction \"row\", which resolves to a vertical Flex, so the stats are stacked vertically at the left instead of distributed across the width.",
+    [
+     "invalid-direction"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "6-tags",
+  "file": "6-tags-1.tsx",
+  "n": 4,
+  "passed": 2,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Uses non-existent flex `direction: \"row\"` and `wrap: true`, so everything lays out as vertical columns; selection keyed by tag string means duplicate tags toggle together.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "flex has no `wrap` option and direction \"row\" is not \"horizontal\", so the container is a vertical Flex: pills stack one per line in a column (8 gap vertically only), no left-to-right flow or wrapping.",
+    []
+   ],
+   [
+    4,
+    "partial",
+    "Background, white text and check icon are right, but the pill's flex direction \"row\" falls back to vertical so the check sits above the label (centered) rather than before it, making the pill taller.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "6-tags",
+  "file": "6-tags-2.tsx",
+  "n": 4,
+  "passed": 2,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Uses non-existent flex `direction: \"row\"` and `wrap: true`, so both the cloud and each pill's contents lay out vertically.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "flex has no `wrap` option and direction \"row\" is not \"horizontal\", so the container is a vertical Flex: pills stack one per line in a column, no left-to-right flow or wrapping.",
+    []
+   ],
+   [
+    4,
+    "partial",
+    "Background, white text and check icon are right, but the pill's flex direction \"row\" falls back to vertical so the check sits above the label rather than before it.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "6-tags",
+  "file": "6-tags-3.tsx",
+  "n": 4,
+  "passed": 2,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Uses non-existent flex `direction: \"row\"` and `wrap: true` (smuggled past the types via a pre-built object), so both the cloud and each pill's contents lay out vertically.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "flex has no `wrap` option and direction \"row\" is not \"horizontal\", so the container is a vertical Flex: pills stack one per line in a column, no left-to-right flow or wrapping.",
+    []
+   ],
+   [
+    4,
+    "partial",
+    "Background, white text and check icon are right, but the pill's flex direction \"row\" falls back to vertical so the check sits above the label rather than before it.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "7-draggable",
+  "file": "7-draggable-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Works as asked; flex direction \"column\" is not a valid value but falls back to vertical, which is what is wanted.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "7-draggable",
+  "file": "7-draggable-2.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Wrongly assumes the decoration border reduces the child area, making the clamp range 0..218 instead of 0..220 and the travel asymmetric.",
+  "fails": [
+   [
+    3,
+    "partial",
+    "DecoratedBox does not inset its child by the border, so the Stack is the full 300x300 and MAX=218 stops the square 2px short of the right/bottom edges while at 0,0 it covers the top/left border.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "7-draggable",
+  "file": "7-draggable-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Works as asked; no onPanCancel handler, so a cancelled gesture would leave the square orange (edge case only).",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "8-collapsible",
+  "file": "8-collapsible-1.tsx",
+  "n": 6,
+  "passed": 2,
+  "partial": 2,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "`expand_more` is not exported from solid-fuse/icons/material, so Icon receives data=undefined (import error in a strict bundler, or a missing/failed icon at runtime); layout itself does not throw.",
+  "notes": "Uses CSS-style \"row\"/\"column\" directions, a non-existent `clip` prop and a snake_case icon name, so the header is vertical, nothing is clipped by the panel and the chevron is missing.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Header uses flex direction \"row\", which is not \"horizontal\", so it becomes a vertical Flex: title stacked above the chevron (centred), not title left / chevron right; the white header decoration does make the whole header tappable.",
+    [
+     "wrong-direction-value"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Height is timer-driven over 250 ms, but towards a width-agnostic estimate (42 chars/line x 20) and then snaps to the natural height at progress 1 (and snaps back to the estimate when closing starts).",
+    [
+     "estimated-height"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "transform rotate = PI * eased() is correct and in sync, but the icon is imported as `expand_more`, which does not exist (the export is `expandMore`), so Icon data is undefined and no chevron is drawn.",
+    [
+     "bad-icon-name"
+    ]
+   ],
+   [
+    5,
+    "partial",
+    "Border 1 #E0E0E0 and radius 12 are right, but `clip` is not a View prop (it is `clipBehavior`), so neither the panel nor the body wrapper clips; the body only stays inside because the Text clips its own overflow and is inset 16.",
+    [
+     "unknown-prop"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "8-collapsible",
+  "file": "8-collapsible-2.tsx",
+  "n": 6,
+  "passed": 3,
+  "partial": 1,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Header is a vertical stack because \"row\" is not a valid direction, and the chevron flips instead of rotating.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Header flex direction \"row\" is not \"horizontal\", so title and icon are stacked vertically rather than title left / icon right; the header also has no painted background, so empty space in it is not tappable (deferToChild).",
+    [
+     "wrong-direction-value"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Height is timer-driven over 250 ms, but towards a width-agnostic estimate (40 chars/line x 20) and then swaps to the natural-height body at progress 1, giving a snap at the end of opening and the start of closing.",
+    [
+     "estimated-height"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "No rotation at all: a south arrow is swapped for a north arrow instantly at the midpoint (transform.rotate was available), and the icons are arrows rather than a chevron.",
+    [
+     "no-rotation"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "gist",
+  "task": "8-collapsible",
+  "file": "8-collapsible-3.tsx",
+  "n": 6,
+  "passed": 3,
+  "partial": 1,
+  "failed": 2,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Header is a vertical stack because \"row\" is not a valid direction, and the guessed top-level `rotate` prop is ignored so the icon never turns.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Header flex direction \"row\" is not \"horizontal\", so title and icon are stacked vertically rather than title left / icon right; the header also has no painted background, so empty space in it is not tappable (deferToChild).",
+    [
+     "wrong-direction-value"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Height is timer-driven over 250 ms, but towards a width-agnostic estimate (42 chars/line x 20) and then swaps to the natural-height body at progress 1, giving a snap at the end of opening and the start of closing.",
+    [
+     "estimated-height"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "The rotation is spread onto the View as a top-level `rotate` prop, which View does not have (it must be transform={{ rotate }}), so the icon never rotates; it is also a south arrow rather than a chevron.",
+    [
+     "unknown-prop",
+     "no-rotation"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "1-settings",
+  "file": "1-settings-1.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 0,
+  "failed": 2,
+  "failed_grow": 2,
+  "runtime": "ok",
+  "runtime_why": "Root is a vertical Flex with mainAxisSize max and a Flexible child, which is fine under a bounded screen parent (it would only throw if placed in an unbounded-height parent).",
+  "notes": "Relies on grow={1} to push the trailing toggle/value to the right edge, but grow is loose at runtime so they hug the label.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent and toggles work, but the row is a horizontal Flex with justify start and the label is only in a loose Flexible (grow={1}), so each toggle sits 12px after its label text instead of at the right end of the row.",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider works (tap/horizontal drag maps localX to a rounded 12..24 value), but the value Text follows a loose grow={1} label in a justify-start row, so it sits right after 'Text size' rather than at the right end of the line.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "1-settings",
+  "file": "1-settings-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Rows use justify spaceBetween with expand, so the loose grow does not matter; cards turn dark (#1C1C1E) once Dark mode is switched on, white by default.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "1-settings",
+  "file": "1-settings-3.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 0,
+  "failed": 2,
+  "failed_grow": 2,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Relies on grow={1} to push the trailing toggle/value to the right edge, but grow is loose at runtime so they hug the label.",
+  "fails": [
+   [
+    3,
+    "fail",
+    "State is independent and tapping the row toggles it, but the row is a justify-start horizontal Flex with the label in a loose Flexible (grow={1}), so each toggle sits 12px after its label text instead of at the right end.",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider works (tap/horizontal drag sets a 12..24 value, shown rounded), but the value Text follows a loose grow={1} label in a justify-start row, so it sits right after 'Text size' rather than at the right end of the line.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "2-product-card",
+  "file": "2-product-card-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Shadow sits on an outer unclipped View while an inner View clips content with ClipRRect(16); the spaceBetween row forces max width (156) so the rating reaches the right edge even though the parent column is start-aligned.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "2-product-card",
+  "file": "2-product-card-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No mistakes of note; image corners are rounded via Image borderRadius {topLeft, topRight: 16} and the price row is given an explicit 156 width with spaceBetween.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "2-product-card",
+  "file": "2-product-card-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No mistakes of note; stretch alignment under the 180 tight width gives the spaceBetween row a bounded 156 width, and the image clips its own top corners.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "3-chat",
+  "file": "3-chat-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Vertical scroll view with a min-size vertical Flex; stretch gets a bounded width from the viewport, and each row's column gives the bubble loose width so maxWidth 260 shrink-wraps.",
+  "notes": "No visible mistake: rows are stretched to full width and the inner column's align end/start places bubble and timestamp on the sender's side; relies on For passing the item as a plain value, as the sandbox typings declare.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "3-chat",
+  "file": "3-chat-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Vertical scroll view with a min-size vertical Flex; stretch gets a bounded width from the viewport, and each row's column gives the bubble loose width so maxWidth 260 shrink-wraps.",
+  "notes": "No visible mistake: same structure as file 1 (stretched rows, inner column aligned end/start); relies on For passing the item as a plain value, as the sandbox typings declare.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "3-chat",
+  "file": "3-chat-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Vertical scroll view with a min-size vertical Flex; stretch gets a bounded width from the viewport, and each row's column gives the bubble loose width so maxWidth 260 shrink-wraps.",
+  "notes": "No visible mistake: same structure as file 1 (stretched rows, inner column aligned end/start); relies on For passing the item as a plain value, as the sandbox typings declare.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "4-login",
+  "file": "4-login-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Outer Align loosens constraints; inner ConstrainedBox(maxWidth 320) bounds the cross axis so the stretch Column is valid and min-height.",
+  "notes": "No mistakes found; Align(center) > Padding(24) > 320-wide stretch column, button is Opacity 0.4 + IgnorePointer while disabled and submit is also guarded.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "4-login",
+  "file": "4-login-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Cross axis bounded by maxWidth 320 under the loosening Align; vertical Flex is min-size.",
+  "notes": "No mistakes found; same tree as file 1 with an opaque GestureDetector, disabled state is dimmed (0.4) and pointer-ignored.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "4-login",
+  "file": "4-login-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Direction defaults to vertical; stretch cross axis is bounded by maxWidth 320, main axis is min-size.",
+  "notes": "No mistakes found; identical to file 2 apart from relying on the default vertical direction.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "5-profile-header",
+  "file": "5-profile-header-1.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stats row relies on grow={1} filling space; with the loose default the stats bunch at the left edge.",
+  "fails": [
+   [
+    5,
+    "fail",
+    "Stats use grow={1} (loose Flexible) in a start-justified row, so each shrink-wraps its text and all three pack at the left instead of taking equal thirds.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "5-profile-header",
+  "file": "5-profile-header-2.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stats row relies on grow={1} filling space; with the loose default the stats bunch at the left edge.",
+  "fails": [
+   [
+    5,
+    "fail",
+    "Stats use grow={1} (loose Flexible) in a start-justified row, so each shrink-wraps its text and all three pack at the left instead of taking equal thirds.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "5-profile-header",
+  "file": "5-profile-header-3.tsx",
+  "n": 5,
+  "passed": 4,
+  "partial": 0,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stats row relies on grow={1} filling space; with the loose default the stats bunch at the left edge.",
+  "fails": [
+   [
+    5,
+    "fail",
+    "Stats use grow={1} (loose Flexible) in a start-justified row, so each shrink-wraps its text and all three pack at the left instead of taking equal thirds.",
+    [
+     "grow-loose"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "6-tags",
+  "file": "6-tags-1.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Pills are inline widgets in a Text with right/bottom margin 8, so wrapping and gaps work but there is 8 of trailing space after the last column/row; a tag wider than the line would overflow its horizontal Flex.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "6-tags",
+  "file": "6-tags-2.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Selection is keyed by the tag value rather than index, so duplicate tag strings could toggle together; same trailing 8 margin as the inline-Text wrap approach implies.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "6-tags",
+  "file": "6-tags-3.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "GestureDetector wraps the margin View, but with deferToChild the margin area is not hit-testable so only the pill itself toggles; trailing 8 margin after last column/row.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "7-draggable",
+  "file": "7-draggable-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct: 300x300 SizedBox > Stack(expand) with a filled bordered background and a Positioned 80x80 square clamped to 0..220, keeping a raw unclamped position so the square re-syncs with the finger after hitting an edge.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "7-draggable",
+  "file": "7-draggable-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct: the Stack is sized by its non-positioned 300x300 bordered View; calling begin from both onPanDown and onPanStart is redundant but harmless because both reset raw to the same clamped position.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "7-draggable",
+  "file": "7-draggable-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Works, with two small quirks: clamping the accumulated position means the square keeps an offset from the finger after being pushed against an edge, and onPanCancel also calls onDrop, so a plain tap without a drag reports a drop at the unchanged position.",
+  "fails": []
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "8-collapsible",
+  "file": "8-collapsible-1.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Needs a bounded width from the parent (stretch column and max-size header row), which is the normal case.",
+  "notes": "Animated height targets a text-length estimate rather than the real body height, so the end of opening and start of closing can jump or stall.",
+  "fails": [
+   [
+    3,
+    "partial",
+    "Height is tweened by a 16 ms timer over 250 ms, but towards a guessed height (36 chars per line, 21 px lines); when the real height differs the cap is lifted at progress 1 with a jump, or the motion finishes early and closing starts with a dead period or jump.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "8-collapsible",
+  "file": "8-collapsible-2.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "Needs a bounded width from the parent (stretch column), which is the normal case.",
+  "notes": "Chevron is not pushed to the right edge because grow={1} is loose and the row has no justify.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Header row has no justify/expand and the title is grow={1} with the default loose fit, so the chevron sits 12 px after the title text instead of at the right edge; the tap itself works across the full width (opaque).",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Height is tweened by a 16 ms timer over 250 ms, but towards a guessed height (40 chars per line); when the real height differs the cap is lifted at progress 1 with a jump, or the motion finishes early and closing starts with a dead period or jump.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "h",
+  "cond": "types",
+  "task": "8-collapsible",
+  "file": "8-collapsible-3.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 1,
+  "runtime": "ok",
+  "runtime_why": "Needs a bounded width from the parent (stretch column), which is the normal case.",
+  "notes": "Chevron is not pushed to the right edge because grow={1} is loose and the row has no justify.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Header row has no justify/expand and the title is grow={1} with the default loose fit, so the chevron sits 12 px after the title text instead of at the right edge; the tap itself works across the full width (opaque).",
+    [
+     "grow-loose"
+    ]
+   ],
+   [
+    3,
+    "partial",
+    "Height is tweened by a 16 ms timeout chain over 250 ms, but towards a guessed height (42 chars per line, and the Text `height` line-height prop is not a real prop so lines are shorter than assumed); the cap is lifted at progress 1 with a jump, or the motion finishes early and closing starts with a dead period or jump.",
+    []
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "1-settings",
+  "file": "1-settings-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Slider is continuous (no divisions) so the stored value is fractional, but the displayed value is rounded as asked.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "1-settings",
+  "file": "1-settings-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "1-settings",
+  "file": "1-settings-3.tsx",
+  "n": 6,
+  "passed": 0,
+  "partial": 0,
+  "failed": 6,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No exception; the Scaffold just renders an empty grey background.",
+  "notes": "Scaffold has no `body` prop (body must be JSX children), so the screen is blank; the tree itself would have been correct as children.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "All content is passed via a non-existent Scaffold `body` prop instead of JSX children, so the title is never rendered.",
+    [
+     "scaffold-body-prop"
+    ]
+   ],
+   [
+    2,
+    "fail",
+    "Group cards and headings live inside the ignored `body` prop, so nothing is shown.",
+    [
+     "scaffold-body-prop"
+    ]
+   ],
+   [
+    3,
+    "fail",
+    "Notification toggle rows are inside the ignored `body` prop and never appear.",
+    [
+     "scaffold-body-prop"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider and value label are inside the ignored `body` prop and never appear.",
+    [
+     "scaffold-body-prop"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Dark mode row is inside the ignored `body` prop and never appears.",
+    [
+     "scaffold-body-prop"
+    ]
+   ],
+   [
+    6,
+    "fail",
+    "The ListView is inside the ignored `body` prop, so there is no scrolling content at all.",
+    [
+     "scaffold-body-prop"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "2-product-card",
+  "file": "2-product-card-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Container width 180 gives the Column a tight width, the 180x180 cover image is clipped by a top-only ClipRRect, and the shadow is painted by the outer decoration so it is not clipped.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "2-product-card",
+  "file": "2-product-card-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "ClipRRect sits inside the decorated Container, so the image corners are clipped while the shadow stays visible.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "2-product-card",
+  "file": "2-product-card-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Image gets tight 180x180 constraints from the SizedBox with fit cover; the inner ClipRRect rounds it without clipping the outer shadow.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "3-chat",
+  "file": "3-chat-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "ListView gives each item a tight width, so the Column fills the row and crossAxisAlignment end/start places the loosely-constrained bubble (maxWidth 260, no alignment, shrink-wraps) and timestamp on the correct side.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "3-chat",
+  "file": "3-chat-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same structure as a correct solution: full-width Column per item with end/start cross alignment, shrink-wrapping Container capped at 260, top padding of 8 on all but the first item.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "3-chat",
+  "file": "3-chat-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No mistakes found; the 2px gap above the timestamp sits inside each message and does not change the 8 between messages.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "4-login",
+  "file": "4-login-1.tsx",
+  "n": 6,
+  "passed": 0,
+  "partial": 0,
+  "failed": 6,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No exception; it renders a blank Scaffold because the `body` prop is dropped.",
+  "notes": "Used `<Scaffold body={...} />` instead of JSX children, so the otherwise correct form is never displayed.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "The whole form is passed as Scaffold's `body` prop, which does not exist (body must be JSX children), so nothing is rendered: an empty Scaffold.",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    2,
+    "fail",
+    "Heading and both fields are inside the ignored `body` prop and never appear (the subtree itself would have been correct).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    3,
+    "fail",
+    "Button is inside the ignored `body` prop and never appears (stretch Column would have made it full-width).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Button is never rendered, so there is no disabled/enabled state to see (the onPressed null logic itself is right).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Helper text is inside the ignored `body` prop and never appears (the condition and placement are right).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    6,
+    "fail",
+    "No button on screen to tap, so onSubmit can never be called.",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "4-login",
+  "file": "4-login-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Material(transparency) > Center > ConstrainedBox(maxWidth 320) > Padding > Column(min, stretch) gets a bounded width, so stretch is safe; TextFields have a Material ancestor.",
+  "notes": "The 16 padding sits inside the 320 box so fields are 288 wide (still within 'at most 320'); no Scaffold, so the background is whatever the parent paints.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "4-login",
+  "file": "4-login-3.tsx",
+  "n": 6,
+  "passed": 0,
+  "partial": 0,
+  "failed": 6,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No exception; it renders a blank Scaffold because the `body` prop is dropped.",
+  "notes": "Used `<Scaffold body={...} />` instead of JSX children, so the otherwise correct form is never displayed.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "The whole form is passed as Scaffold's `body` prop, which does not exist (body must be JSX children), so nothing is rendered: an empty Scaffold.",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    2,
+    "fail",
+    "Heading and both fields are inside the ignored `body` prop and never appear (the subtree itself would have been correct).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    3,
+    "fail",
+    "Button is inside the ignored `body` prop and never appears (stretch Column would have made it full-width).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Button is never rendered, so there is no disabled/enabled state to see (the onPressed null logic itself is right).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Helper text is inside the ignored `body` prop and never appears (the condition and placement are right).",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ],
+   [
+    6,
+    "fail",
+    "No button on screen to tap, so onSubmit can never be called.",
+    [
+     "scaffold-body-prop",
+     "not-rendered"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "5-profile-header",
+  "file": "5-profile-header-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Stretch Column needs bounded width from the parent, which a full-width header implies; Stack is tightly sized by the 212-high SizedBox so all Positioned children are bounded.",
+  "notes": "No notable mistake: 104 white circle with 4 padding around a 96 ClipOval image, centred on the banner's bottom edge (top 108, centre at 160) inside a 212-high Stack so nothing is clipped.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "5-profile-header",
+  "file": "5-profile-header-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Stretch Column needs bounded width from the parent, which a full-width header implies; Stack is tightly sized by the 212-high SizedBox so all Positioned children are bounded.",
+  "notes": "No notable mistake: ClipRRect with radius 48 on a tight 96x96 child yields a true circle, inside a 104 white circular ring, centred on the banner's bottom edge.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "5-profile-header",
+  "file": "5-profile-header-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Stretch Column needs bounded width from the parent, which a full-width header implies; Stack is tightly sized by the 212-high SizedBox so all Positioned children are bounded.",
+  "notes": "No notable mistake: same structure as file 1 (104 white circle, 4 padding, 96 ClipOval image, centre on the banner's bottom edge, Stack tall enough to contain the overhang).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "6-tags",
+  "file": "6-tags-1.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Solid 2.0 For passes the item as an accessor, so `{tag}` hands Text a function rather than a string (should be `tag()`); renders correctly only if the renderer resolves function children.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "6-tags",
+  "file": "6-tags-2.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Solid 2.0 For passes the item as an accessor, so `{tag}` hands Text a function rather than a string (should be `tag()`); renders correctly only if the renderer resolves function children.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "6-tags",
+  "file": "6-tags-3.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Solid 2.0 For passes the item as an accessor, so the Set holds per-row accessor functions (toggle still works by identity, and duplicates toggle independently) and `{tag}` hands Text a function instead of a string.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "7-draggable",
+  "file": "7-draggable-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "SizedBox 300x300 > Stack with decorated Container and a Positioned GestureDetector square; position clamped to 0..220, orange only turns on at pan start (after touch slop), which is acceptable.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "7-draggable",
+  "file": "7-draggable-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same tree as file 1; correct clamping, colour toggle, delta/position text and onDrop on pan end.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "7-draggable",
+  "file": "7-draggable-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same tree as file 1; correct clamping, colour toggle, delta/position text and onDrop on pan end.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "8-collapsible",
+  "file": "8-collapsible-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "AnimatedAlign heightFactor 0<->1 inside ClipRect animates the body height; ClipRRect(11) inside the 1px border inset matches the inner radius.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "8-collapsible",
+  "file": "8-collapsible-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No ClipRect around the AnimatedAlign, so the overflowing body is clipped only by the Container's outer rounded rect and text can paint over the 1px bottom border mid-animation (barely visible).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "cold",
+  "task": "8-collapsible",
+  "file": "8-collapsible-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Body uses alignment topCenter, so a short body paragraph would sit horizontally centered rather than left-aligned (not required by the brief).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "1-settings",
+  "file": "1-settings-1.tsx",
+  "n": 6,
+  "passed": 0,
+  "partial": 0,
+  "failed": 6,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No exception: the Scaffold just renders an empty #F2F2F7 background because `body` is not a prop.",
+  "notes": "Content is given via `body={...}` instead of JSX children, so the screen is blank; the tree itself would have satisfied every criterion had it been passed as children.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Whole tree is passed as Scaffold's non-existent `body` prop, so the Scaffold has no body and the title never renders.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    2,
+    "fail",
+    "Group headings and white rounded cards live inside the ignored `body` prop, so nothing is shown.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    3,
+    "fail",
+    "Toggle rows (correctly built with Expanded label + Switch and separate signals) are inside the ignored `body` prop and never render.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider and rounded value label are inside the ignored `body` prop and never render.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Dark mode row is inside the ignored `body` prop and never renders.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    6,
+    "fail",
+    "The SingleChildScrollView is inside the ignored `body` prop, so there is no content and nothing scrolls.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "1-settings",
+  "file": "1-settings-2.tsx",
+  "n": 6,
+  "passed": 0,
+  "partial": 0,
+  "failed": 6,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No exception: the Scaffold just renders an empty #F2F2F7 background because `body` is not a prop.",
+  "notes": "Content is given via `body={...}` instead of JSX children, so the screen is blank; the tree itself would have satisfied every criterion had it been passed as children.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Whole tree is passed as Scaffold's non-existent `body` prop, so the Scaffold has no body and the title never renders.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    2,
+    "fail",
+    "Group headings and white rounded cards live inside the ignored `body` prop, so nothing is shown.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    3,
+    "fail",
+    "Toggle rows (each with its own local signal, label Expanded, Switch at right) are inside the ignored `body` prop and never render.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider and spaceBetween label/value row are inside the ignored `body` prop and never render.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Dark mode row is inside the ignored `body` prop and never renders.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    6,
+    "fail",
+    "The SingleChildScrollView is inside the ignored `body` prop, so there is no content and nothing scrolls.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "1-settings",
+  "file": "1-settings-3.tsx",
+  "n": 6,
+  "passed": 0,
+  "partial": 0,
+  "failed": 6,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "No exception: the Scaffold just renders an empty #F2F2F7 background because `body` is not a prop.",
+  "notes": "Content is given via `body={...}` instead of JSX children, so the screen is blank; the tree itself would have satisfied every criterion had it been passed as children.",
+  "fails": [
+   [
+    1,
+    "fail",
+    "Whole tree is passed as Scaffold's non-existent `body` prop, so the Scaffold has no body and the title never renders.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    2,
+    "fail",
+    "Group headings and white rounded cards live inside the ignored `body` prop, so nothing is shown.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    3,
+    "fail",
+    "Toggle rows (correctly built with Expanded label + Switch and separate signals) are inside the ignored `body` prop and never render.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "Slider and rounded value label are inside the ignored `body` prop and never render.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    5,
+    "fail",
+    "Dark mode row is inside the ignored `body` prop and never renders.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ],
+   [
+    6,
+    "fail",
+    "The SingleChildScrollView is inside the ignored `body` prop, so there is no content and nothing scrolls.",
+    [
+     "scaffold-body-prop",
+     "nothing-rendered"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "2-product-card",
+  "file": "2-product-card-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Container clipBehavior clips the child inside the DecoratedBox, so the image corners are rounded and the shadow stays visible; the price Row gets a bounded 156 width so spaceBetween works.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "2-product-card",
+  "file": "2-product-card-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same tree as file 1 (shadow blur 12); no mistakes found.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "2-product-card",
+  "file": "2-product-card-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same tree as file 1 with explicit font sizes on price and rating; no mistakes found.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "3-chat",
+  "file": "3-chat-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "ListView gives each Column a tight width, so crossAxisAlignment end/start places the loosely constrained bubble (maxWidth 260, no alignment, shrink-wraps) and timestamp on the correct edge; 2px gap above timestamp is a harmless addition.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "3-chat",
+  "file": "3-chat-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same structure as a correct solution: full-width Column per row with end/start cross alignment, shrink-wrapping Container capped at 260.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "3-chat",
+  "file": "3-chat-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "ConstrainedBox(maxWidth 260) around a shrink-wrapping Container inside a loosely constrained Column child works; Radius.circular objects are valid.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "4-login",
+  "file": "4-login-1.tsx",
+  "n": 6,
+  "passed": 5,
+  "partial": 1,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "The invalid keyboardType value \"TextInputType.emailAddress\" may be rejected when decoded; also TextField asserts a Material ancestor (\"No Material widget found\") and the component supplies no Scaffold/Material itself, so it depends on the parent.",
+  "notes": "keyboardType uses a namespace-qualified string for a constant that lives on the type itself; it should be \"emailAddress\".",
+  "fails": [
+   [
+    2,
+    "partial",
+    "Heading, labels and obscureText are right, but keyboardType is the qualified string \"TextInputType.emailAddress\"; TextInputType constants are bare on the type (\"emailAddress\"), so the email keyboard is not reliably selected.",
+    [
+     "wrong-constant-format",
+     "keyboardType"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "4-login",
+  "file": "4-login-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "TextField asserts a Material ancestor (\"No Material widget found\"); the component has no Scaffold/Material of its own, so it only works if the parent provides one.",
+  "notes": "Correct tree: Center > ConstrainedBox(maxWidth 320) > Padding > Column(min, stretch); the 16 padding makes the fields 288 wide inside the 320 box.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "4-login",
+  "file": "4-login-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "TextField asserts a Material ancestor (\"No Material widget found\"); the component has no Scaffold/Material of its own, so it only works if the parent provides one.",
+  "notes": "No outer padding, so on screens narrower than 320 the form touches the screen edges; otherwise correct.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "5-profile-header",
+  "file": "5-profile-header-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Stack is sized to 160 + 52 so the 104 outer avatar (96 image + 4 ring) bottom-aligned is centred on the banner edge and space is reserved for the overhang; stats use Expanded thirds.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "5-profile-header",
+  "file": "5-profile-header-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Avatar Positioned at top 108 with height 104 inside a 212-high Stack, so it is centred on the banner edge and unclipped; stats use spaceEvenly on a full-width Row.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "5-profile-header",
+  "file": "5-profile-header-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Avatar centred via a full-width Row in a Positioned at top 108 inside a 212-high Stack, so the overhang is reserved and unclipped; stats use spaceEvenly.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "6-tags",
+  "file": "6-tags-1.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct: Wrap spacing/runSpacing 8, stadium Container pills, a new Set per toggle keeps selection reactive, check icon + 4 gap shown before the label when selected.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "6-tags",
+  "file": "6-tags-2.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct; only edge case is that a single tag wider than the available width would overflow its min-size Row rather than ellipsize.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "6-tags",
+  "file": "6-tags-3.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct; functionally identical to file 2 (index-keyed selection set, Wrap of GestureDetector > decorated Container > min Row).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "7-draggable",
+  "file": "7-draggable-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Square is clamped to 0..220 of the outer 300 box, so at the edges it paints over the 1px border (still inside the area); Text uses the valid `data` prop.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "7-draggable",
+  "file": "7-draggable-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Container's border insets the Stack to 298x298 and MAX=218 accounts for it correctly; Stack with only a Positioned child fills the tight constraints.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "7-draggable",
+  "file": "7-draggable-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same structure as file 2 with the border inset handled (MAX=218); adds an 8px gap before the text lines, which is harmless.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "8-collapsible",
+  "file": "8-collapsible-1.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "No Flutter layout exception, but `expand_more` is not exported from solid-fuse/icons/material: strict ESM fails at module link, a lenient bundler passes undefined to Icon (blank 24x24 box).",
+  "notes": "Snake_case icon name `expand_more` instead of `expandMore` leaves the chevron missing; everything else is correct.",
+  "fails": [
+   [
+    1,
+    "partial",
+    "Title left and whole header tappable (opaque GestureDetector over padded Row), but the icon import `expand_more` does not exist (the export is `expandMore`), so the chevron is undefined and nothing is drawn on the right.",
+    [
+     "wrong-icon-name"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "AnimatedRotation 0 -> 0.5 turns over 250 ms is correct, but its child icon is undefined (`expand_more` is not an export), so no chevron is visible to rotate.",
+    [
+     "wrong-icon-name"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "8-collapsible",
+  "file": "8-collapsible-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct: ClipRect + AnimatedAlign heightFactor 0/1 and AnimatedRotation share the same 250 ms duration and default curve; Container antiAlias clips to the rounded border.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "gist",
+  "task": "8-collapsible",
+  "file": "8-collapsible-3.tsx",
+  "n": 6,
+  "passed": 4,
+  "partial": 1,
+  "failed": 1,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "No Flutter layout exception, but `expand_more` is not exported from solid-fuse/icons/material: strict ESM fails at module link, a lenient bundler passes undefined to Icon (blank 24x24 box).",
+  "notes": "Snake_case icon name `expand_more` instead of `expandMore` leaves the chevron missing; everything else is correct.",
+  "fails": [
+   [
+    1,
+    "partial",
+    "Title left and whole header tappable (opaque GestureDetector over padded Row), but the icon import `expand_more` does not exist (the export is `expandMore`), so the chevron is undefined and nothing is drawn on the right.",
+    [
+     "wrong-icon-name"
+    ]
+   ],
+   [
+    4,
+    "fail",
+    "AnimatedRotation 0 -> 0.5 turns over 250 ms is correct, but its child icon is undefined (`expand_more` is not an export), so no chevron is visible to rotate.",
+    [
+     "wrong-icon-name"
+    ]
+   ]
+  ]
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "1-settings",
+  "file": "1-settings-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No layout problems: shrink-wrapped Columns inside SingleChildScrollView, Expanded only inside Rows, Container has decoration alongside clipBehavior; the number is passed to Text as a numeric JSX child rather than a string.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "1-settings",
+  "file": "1-settings-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "State lives inside each ToggleRow/TextSizeRow instance, so toggles are independent; Columns with default mainAxisSize max in the unbounded scroll axis just shrink-wrap since they have no flex children.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "1-settings",
+  "file": "1-settings-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No layout problems; the number is passed to Text as a numeric JSX child rather than a string, and the slider is inset only 4px while the label row is inset 16px (cosmetic).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "2-product-card",
+  "file": "2-product-card-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Container width 180 with min-size stretch Column; image 180x180 cover inside ClipRRect with top radius 16; Expanded price pushes star+rating to the right; no clip on the shadowed Container.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "2-product-card",
+  "file": "2-product-card-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Row gets a tight 156 width from the stretch Column so spaceBetween places the rating group at the right end; nothing notable wrong.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "2-product-card",
+  "file": "2-product-card-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Same structure as file 2; shadow #0000001F blur 12 is soft but visible and not clipped.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "3-chat",
+  "file": "3-chat-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "ListView gives the Column a tight width, so crossAxisAlignment end/start places the loosely constrained (maxWidth 260) bubble and timestamp on the correct edge; no mistakes found.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "3-chat",
+  "file": "3-chat-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Uses props.messages.map inside JSX rather than <For>, which stays reactive but rebuilds every row on any change; layout is correct.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "3-chat",
+  "file": "3-chat-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No mistakes found; same structure as file 1 with a Padding instead of Column spacing for the timestamp gap.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "4-login",
+  "file": "4-login-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Scaffold > Center > ConstrainedBox(maxWidth 320) > Padding(16) > stretch Column: outer box is 320 wide, so fields and button are 288 wide, which is still within the brief.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "4-login",
+  "file": "4-login-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "risky",
+  "runtime_why": "No Scaffold/Material in the tree: TextField asserts 'No Material widget found' unless the parent supplies a Material ancestor, and centering on screen relies on the parent giving it the full screen.",
+  "notes": "Root is a bare Center with no Scaffold/Material, so it only works when the host wraps it in one (otherwise the TextField assertion fires and Text falls back to the unstyled default).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "4-login",
+  "file": "4-login-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Center > SingleChildScrollView > Padding > ConstrainedBox(maxWidth 320) > stretch Column lays out correctly (form 320 wide, scroll view shrink-wraps and is centered); helper sits in a nested Column directly under the password field.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "5-profile-header",
+  "file": "5-profile-header-1.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Only an unbounded-width parent would break the stretch Column, which the full-width brief rules out.",
+  "notes": "Stack is sized 160+52 by a SizedBox, so the 104 ringed avatar is centred on the banner's bottom edge and its lower half is reserved in the layout.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "5-profile-header",
+  "file": "5-profile-header-2.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Only an unbounded-width parent would break the stretch Column, which the full-width brief rules out.",
+  "notes": "Same structure as file 1, with a centred Row instead of Center to place the avatar; no visible defects.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "5-profile-header",
+  "file": "5-profile-header-3.tsx",
+  "n": 5,
+  "passed": 5,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "Only an unbounded-width parent would break the stretch Column, which the full-width brief rules out.",
+  "notes": "Avatar is a non-positioned Stack child aligned bottomCenter in a 212-high Stack, putting its top at 108 so it is centred on the banner's bottom edge.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "6-tags",
+  "file": "6-tags-1.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Selection is keyed by tag string, so duplicate tag strings would toggle together; otherwise correct (Wrap 8/8, decorated Container hit-tests its full area, Row min with 14px check).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "6-tags",
+  "file": "6-tags-2.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No visible mistakes; index-keyed Set with a new Set per toggle, and .map over props.tags rebuilds all pills if the tags array changes (selection indices would then be stale).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "6-tags",
+  "file": "6-tags-3.tsx",
+  "n": 4,
+  "passed": 4,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No visible mistakes; index-based selection array, so indices would go stale only if the tags array is reordered.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "7-draggable",
+  "file": "7-draggable-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct: tight 300x300 Container gives the Stack a fixed size, position is clamped to 0..220, and onDrop gets the clamped position from plain mirrors; orange only starts once the pan passes touch slop.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "7-draggable",
+  "file": "7-draggable-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct; onPanDown turns the square orange on touch and onPanCancel resets it if no drag follows.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "7-draggable",
+  "file": "7-draggable-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "Correct; same structure as file 1 with a redundant setDragging(true) in onPanUpdate.",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "8-collapsible",
+  "file": "8-collapsible-1.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "AnimatedAlign topCenter loosens the body's width, so a body shorter than one line is centred horizontally rather than left-aligned (minor).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "8-collapsible",
+  "file": "8-collapsible-2.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "AnimatedAlign topCenter loosens the body's width, so a body shorter than one line is centred horizontally rather than left-aligned (minor).",
+  "fails": []
+ },
+ {
+  "style": "m",
+  "cond": "types",
+  "task": "8-collapsible",
+  "file": "8-collapsible-3.tsx",
+  "n": 6,
+  "passed": 6,
+  "partial": 0,
+  "failed": 0,
+  "failed_grow": 0,
+  "runtime": "ok",
+  "runtime_why": "",
+  "notes": "No ClipRect around the AnimatedAlign, but its overflow only extends downward past the panel's bottom edge, where the Container's antiAlias rounded clip hides it; a short body is centred horizontally (minor).",
+  "fails": []
+ }
+]

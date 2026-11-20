@@ -1,0 +1,32 @@
+{
+  "6-tags-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Selection is keyed by tag string, so duplicate tag strings would toggle together; otherwise correct (Wrap 8/8, decorated Container hit-tests its full area, Row min with 14px check)."
+  },
+  "6-tags-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "No visible mistakes; index-keyed Set with a new Set per toggle, and .map over props.tags rebuilds all pills if the tags array changes (selection indices would then be stale)."
+  },
+  "6-tags-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "No visible mistakes; index-based selection array, so indices would go stale only if the tags array is reordered."
+  }
+}

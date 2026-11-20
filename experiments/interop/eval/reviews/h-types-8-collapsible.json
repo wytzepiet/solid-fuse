@@ -1,0 +1,38 @@
+{
+  "8-collapsible-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Height is tweened by a 16 ms timer over 250 ms, but towards a guessed height (36 chars per line, 21 px lines); when the real height differs the cap is lifted at progress 1 with a jump, or the motion finishes early and closing starts with a dead period or jump.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Needs a bounded width from the parent (stretch column and max-size header row), which is the normal case."},
+    "notes": "Animated height targets a text-length estimate rather than the real body height, so the end of opening and start of closing can jump or stall."
+  },
+  "8-collapsible-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Header row has no justify/expand and the title is grow={1} with the default loose fit, so the chevron sits 12 px after the title text instead of at the right edge; the tap itself works across the full width (opaque).", "tags": ["grow-loose"]},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Height is tweened by a 16 ms timer over 250 ms, but towards a guessed height (40 chars per line); when the real height differs the cap is lifted at progress 1 with a jump, or the motion finishes early and closing starts with a dead period or jump.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Needs a bounded width from the parent (stretch column), which is the normal case."},
+    "notes": "Chevron is not pushed to the right edge because grow={1} is loose and the row has no justify."
+  },
+  "8-collapsible-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Header row has no justify/expand and the title is grow={1} with the default loose fit, so the chevron sits 12 px after the title text instead of at the right edge; the tap itself works across the full width (opaque).", "tags": ["grow-loose"]},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "partial", "why": "Height is tweened by a 16 ms timeout chain over 250 ms, but towards a guessed height (42 chars per line, and the Text `height` line-height prop is not a real prop so lines are shorter than assumed); the cap is lifted at progress 1 with a jump, or the motion finishes early and closing starts with a dead period or jump.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Needs a bounded width from the parent (stretch column), which is the normal case."},
+    "notes": "Chevron is not pushed to the right edge because grow={1} is loose and the row has no justify."
+  }
+}

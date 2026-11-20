@@ -6,6 +6,7 @@ import 'package:fuse_objects_spike/fuse_gen_support.dart';
 import 'package:fuse_objects_spike/fuse_obj_support.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
+import 'package:url_launcher/url_launcher_string.dart' as url_launcher_string;
 
 const _unset = Object();
 
@@ -18,7 +19,7 @@ void registerUrlLauncherObjects(FuseRuntime runtime) {
 void registerUrlLauncherWrappers() {
 }
 
-/// GENERATED channel module `mod:url_launcher`: 5 functions, 0 streams.
+/// GENERATED channel module `mod:url_launcher`: 7 functions, 0 streams.
 void registerUrlLauncherModule(FuseBridge bridge) {
   registerUrlLauncherWrappers();
   bridge.on('mod:url_launcher', (data) => fuseGuard(() async {
@@ -35,6 +36,10 @@ void registerUrlLauncherModule(FuseBridge bridge) {
           return await fuseAwait(url_launcher.supportsCloseForLaunchMode(fuseReq(fuseEnum(url_launcher.LaunchMode.values, a['mode']), 'supportsCloseForLaunchMode', 'mode')));
         case 'supportsLaunchMode':
           return await fuseAwait(url_launcher.supportsLaunchMode(fuseReq(fuseEnum(url_launcher.LaunchMode.values, a['mode']), 'supportsLaunchMode', 'mode')));
+        case 'canLaunchUrlString':
+          return await fuseAwait(url_launcher_string.canLaunchUrlString(fuseReq(decString(a['urlString']), 'canLaunchUrlString', 'urlString')));
+        case 'launchUrlString':
+          return await fuseAwait(url_launcher_string.launchUrlString(fuseReq(decString(a['urlString']), 'launchUrlString', 'urlString'), mode: fuseEnum(url_launcher.LaunchMode.values, a['mode']) ?? url_launcher.LaunchMode.platformDefault, webViewConfiguration: decWebViewConfiguration(a['webViewConfiguration']) ?? const url_launcher.WebViewConfiguration(), browserConfiguration: decBrowserConfiguration(a['browserConfiguration']) ?? const url_launcher.BrowserConfiguration(), webOnlyWindowName: decString(a['webOnlyWindowName'])));
       }
       return fuseUnknown('url_launcher', a[r'$stream'] == null ? '${data['m']}' : '${data['m']} ${a[r'$stream']}');
     }));

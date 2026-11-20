@@ -1,0 +1,38 @@
+{
+  "4-login-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "partial", "why": "Heading, labels and obscureText are right, but keyboardType is the qualified string \"TextInputType.emailAddress\"; TextInputType constants are bare on the type (\"emailAddress\"), so the email keyboard is not reliably selected.", "tags": ["wrong-constant-format", "keyboardType"]},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "The invalid keyboardType value \"TextInputType.emailAddress\" may be rejected when decoded; also TextField asserts a Material ancestor (\"No Material widget found\") and the component supplies no Scaffold/Material itself, so it depends on the parent."},
+    "notes": "keyboardType uses a namespace-qualified string for a constant that lives on the type itself; it should be \"emailAddress\"."
+  },
+  "4-login-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "TextField asserts a Material ancestor (\"No Material widget found\"); the component has no Scaffold/Material of its own, so it only works if the parent provides one."},
+    "notes": "Correct tree: Center > ConstrainedBox(maxWidth 320) > Padding > Column(min, stretch); the 16 padding makes the fields 288 wide inside the 320 box."
+  },
+  "4-login-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "TextField asserts a Material ancestor (\"No Material widget found\"); the component has no Scaffold/Material of its own, so it only works if the parent provides one."},
+    "notes": "No outer padding, so on screens narrower than 320 the form touches the screen edges; otherwise correct."
+  }
+}

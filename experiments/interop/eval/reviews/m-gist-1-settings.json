@@ -1,0 +1,38 @@
+{
+  "1-settings-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Whole tree is passed as Scaffold's non-existent `body` prop, so the Scaffold has no body and the title never renders.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 2, "v": "fail", "why": "Group headings and white rounded cards live inside the ignored `body` prop, so nothing is shown.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 3, "v": "fail", "why": "Toggle rows (correctly built with Expanded label + Switch and separate signals) are inside the ignored `body` prop and never render.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 4, "v": "fail", "why": "Slider and rounded value label are inside the ignored `body` prop and never render.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 5, "v": "fail", "why": "Dark mode row is inside the ignored `body` prop and never renders.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 6, "v": "fail", "why": "The SingleChildScrollView is inside the ignored `body` prop, so there is no content and nothing scrolls.", "tags": ["scaffold-body-prop", "nothing-rendered"]}
+    ],
+    "runtime": {"v": "ok", "why": "No exception: the Scaffold just renders an empty #F2F2F7 background because `body` is not a prop."},
+    "notes": "Content is given via `body={...}` instead of JSX children, so the screen is blank; the tree itself would have satisfied every criterion had it been passed as children."
+  },
+  "1-settings-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Whole tree is passed as Scaffold's non-existent `body` prop, so the Scaffold has no body and the title never renders.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 2, "v": "fail", "why": "Group headings and white rounded cards live inside the ignored `body` prop, so nothing is shown.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 3, "v": "fail", "why": "Toggle rows (each with its own local signal, label Expanded, Switch at right) are inside the ignored `body` prop and never render.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 4, "v": "fail", "why": "Slider and spaceBetween label/value row are inside the ignored `body` prop and never render.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 5, "v": "fail", "why": "Dark mode row is inside the ignored `body` prop and never renders.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 6, "v": "fail", "why": "The SingleChildScrollView is inside the ignored `body` prop, so there is no content and nothing scrolls.", "tags": ["scaffold-body-prop", "nothing-rendered"]}
+    ],
+    "runtime": {"v": "ok", "why": "No exception: the Scaffold just renders an empty #F2F2F7 background because `body` is not a prop."},
+    "notes": "Content is given via `body={...}` instead of JSX children, so the screen is blank; the tree itself would have satisfied every criterion had it been passed as children."
+  },
+  "1-settings-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "fail", "why": "Whole tree is passed as Scaffold's non-existent `body` prop, so the Scaffold has no body and the title never renders.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 2, "v": "fail", "why": "Group headings and white rounded cards live inside the ignored `body` prop, so nothing is shown.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 3, "v": "fail", "why": "Toggle rows (correctly built with Expanded label + Switch and separate signals) are inside the ignored `body` prop and never render.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 4, "v": "fail", "why": "Slider and rounded value label are inside the ignored `body` prop and never render.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 5, "v": "fail", "why": "Dark mode row is inside the ignored `body` prop and never renders.", "tags": ["scaffold-body-prop", "nothing-rendered"]},
+      {"n": 6, "v": "fail", "why": "The SingleChildScrollView is inside the ignored `body` prop, so there is no content and nothing scrolls.", "tags": ["scaffold-body-prop", "nothing-rendered"]}
+    ],
+    "runtime": {"v": "ok", "why": "No exception: the Scaffold just renders an empty #F2F2F7 background because `body` is not a prop."},
+    "notes": "Content is given via `body={...}` instead of JSX children, so the screen is blank; the tree itself would have satisfied every criterion had it been passed as children."
+  }
+}

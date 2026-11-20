@@ -1,0 +1,32 @@
+{
+  "6-tags-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Pills are inline widgets in a Text with right/bottom margin 8, so wrapping and gaps work but there is 8 of trailing space after the last column/row; a tag wider than the line would overflow its horizontal Flex."
+  },
+  "6-tags-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Selection is keyed by the tag value rather than index, so duplicate tag strings could toggle together; same trailing 8 margin as the inline-Text wrap approach implies."
+  },
+  "6-tags-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "GestureDetector wraps the margin View, but with deferToChild the margin area is not hit-testable so only the pill itself toggles; trailing 8 margin after last column/row."
+  }
+}

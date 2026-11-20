@@ -1,0 +1,38 @@
+{
+  "1-settings-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent and toggles work, but the row is a horizontal Flex with justify start and the label is only in a loose Flexible (grow={1}), so each toggle sits 12px after its label text instead of at the right end of the row.", "tags": ["grow-loose"]},
+      {"n": 4, "v": "fail", "why": "Slider works (tap/horizontal drag maps localX to a rounded 12..24 value), but the value Text follows a loose grow={1} label in a justify-start row, so it sits right after 'Text size' rather than at the right end of the line.", "tags": ["grow-loose"]},
+      {"n": 5, "v": "pass", "why": "Row is present and toggles its own signal (toggle is mispositioned next to the label, same as criterion 3).", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Root is a vertical Flex with mainAxisSize max and a Flexible child, which is fine under a bounded screen parent (it would only throw if placed in an unbounded-height parent)."},
+    "notes": "Relies on grow={1} to push the trailing toggle/value to the right edge, but grow is loose at runtime so they hug the label."
+  },
+  "1-settings-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Rows use justify spaceBetween with expand, so the loose grow does not matter; cards turn dark (#1C1C1E) once Dark mode is switched on, white by default."
+  },
+  "1-settings-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "State is independent and tapping the row toggles it, but the row is a justify-start horizontal Flex with the label in a loose Flexible (grow={1}), so each toggle sits 12px after its label text instead of at the right end.", "tags": ["grow-loose"]},
+      {"n": 4, "v": "fail", "why": "Slider works (tap/horizontal drag sets a 12..24 value, shown rounded), but the value Text follows a loose grow={1} label in a justify-start row, so it sits right after 'Text size' rather than at the right end of the line.", "tags": ["grow-loose"]},
+      {"n": 5, "v": "pass", "why": "Row is present and toggles its own signal (toggle is mispositioned next to the label, same as criterion 3).", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Relies on grow={1} to push the trailing toggle/value to the right edge, but grow is loose at runtime so they hug the label."
+  }
+}

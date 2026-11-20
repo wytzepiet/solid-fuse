@@ -7,7 +7,7 @@
 import { getOwner, onCleanup } from "solid-js";
 import { createHandle, type Handle } from "solid-fuse/handle";
 import { channels } from "solid-fuse/channels";
-import { FuseNode, setProp as rawSetProp } from "solid-fuse/renderer";
+import { FuseNode, ops, scheduleFlush, setProp as rawSetProp } from "solid-fuse/renderer";
 
 // ── typed errors ────────────────────────────────────────────────────────────
 
@@ -166,7 +166,8 @@ export function adoptObject<K extends string>(type: K, ref: ObjectRef): ObjectRu
   const dispose = () => {
     if (disposed) return;
     disposed = true;
-    channels.send("_ops", { ops: [{ op: "dispose", id: node.id }] });
+    ops.push({ op: "dispose", id: node.id });
+    scheduleFlush();
   };
   if (getOwner()) onCleanup(dispose);
   const call = (method: string, value?: any, options?: { timeout?: number }) =>

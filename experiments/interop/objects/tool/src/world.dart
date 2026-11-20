@@ -41,6 +41,7 @@ const _flutterEntries = <(String, String?)>[
   ('dart:async', 'async'),
   ('dart:typed_data', 'typed_data'),
   ('dart:math', 'math'),
+  ('dart:io', 'io'), // objects spike: plugin APIs return File / Directory
 ];
 
 class StaticConst {

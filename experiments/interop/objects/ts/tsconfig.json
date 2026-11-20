@@ -19,6 +19,7 @@
   },
   "include": [
     "sample.ts",
+    "sample-modules.ts",
     "fuse-objects.ts",
     "generated/*.ts",
     "../../../../packages/solid-fuse/src/global.d.ts"

@@ -1,0 +1,35 @@
+{
+  "5-profile-header-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "Stats use grow={1} (loose Flexible) in a start-justified row, so each shrink-wraps its text and all three pack at the left instead of taking equal thirds.", "tags": ["grow-loose"]}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stats row relies on grow={1} filling space; with the loose default the stats bunch at the left edge."
+  },
+  "5-profile-header-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "Stats use grow={1} (loose Flexible) in a start-justified row, so each shrink-wraps its text and all three pack at the left instead of taking equal thirds.", "tags": ["grow-loose"]}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stats row relies on grow={1} filling space; with the loose default the stats bunch at the left edge."
+  },
+  "5-profile-header-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "fail", "why": "Stats use grow={1} (loose Flexible) in a start-justified row, so each shrink-wraps its text and all three pack at the left instead of taking equal thirds.", "tags": ["grow-loose"]}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Stats row relies on grow={1} filling space; with the loose default the stats bunch at the left edge."
+  }
+}

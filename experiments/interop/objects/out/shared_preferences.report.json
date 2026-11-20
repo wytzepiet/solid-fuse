@@ -4,16 +4,20 @@
     "package:shared_preferences/shared_preferences.dart"
   ],
   "surface": {
-    "total": 35,
-    "bridged": 35,
+    "total": 51,
+    "bridged": 51,
     "byKind": {
       "static method": {
         "bridged": 3,
         "total": 3
       },
       "method": {
-        "bridged": 31,
-        "total": 31
+        "bridged": 46,
+        "total": 46
+      },
+      "constructor": {
+        "bridged": 1,
+        "total": 1
       },
       "getter": {
         "bridged": 1,
@@ -63,6 +67,45 @@
       "tsLines": 85
     },
     {
+      "class": "SharedPreferencesAsync",
+      "tag": "shared_preferences_SharedPreferencesAsync",
+      "push": "none",
+      "ctors": [
+        "new"
+      ],
+      "ctorParamsKept": 1,
+      "ctorParamsEnv": 0,
+      "ctorDropped": {},
+      "methods": [
+        "clear",
+        "containsKey",
+        "getAll",
+        "getBool",
+        "getDouble",
+        "getInt",
+        "getKeys",
+        "getString",
+        "getStringList",
+        "remove",
+        "setBool",
+        "setDouble",
+        "setInt",
+        "setString",
+        "setStringList"
+      ],
+      "methodsTotal": 15,
+      "streams": [],
+      "readable": [],
+      "gettersTotal": 0,
+      "objectGetters": [],
+      "setters": [],
+      "settersTotal": 0,
+      "mirrored": [],
+      "dropped": {},
+      "dartLines": 91,
+      "tsLines": 94
+    },
+    {
       "class": "SharedPreferencesWithCache",
       "tag": "shared_preferences_SharedPreferencesWithCache",
       "push": "none",
@@ -103,11 +146,10 @@
     }
   ],
   "notCallable": {
-    "SharedPreferencesAsync": "record (by the data rules)",
     "SharedPreferencesOptions": "no members",
     "SharedPreferencesWithCacheOptions": "record (by the data rules)"
   },
-  "dartLines": 236,
-  "tsLines": 219,
+  "dartLines": 330,
+  "tsLines": 313,
   "warnings": []
 }

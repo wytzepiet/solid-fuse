@@ -1,0 +1,38 @@
+{
+  "4-login-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Scaffold > Center > ConstrainedBox(maxWidth 320) > Padding(16) > stretch Column: outer box is 320 wide, so fields and button are 288 wide, which is still within the brief."
+  },
+  "4-login-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "risky", "why": "No Scaffold/Material in the tree: TextField asserts 'No Material widget found' unless the parent supplies a Material ancestor, and centering on screen relies on the parent giving it the full screen."},
+    "notes": "Root is a bare Center with no Scaffold/Material, so it only works when the host wraps it in one (otherwise the TextField assertion fires and Text falls back to the unstyled default)."
+  },
+  "4-login-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "pass", "why": "", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []},
+      {"n": 6, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": ""},
+    "notes": "Center > SingleChildScrollView > Padding > ConstrainedBox(maxWidth 320) > stretch Column lays out correctly (form 320 wide, scroll view shrink-wraps and is centered); helper sits in a nested Column directly under the password field."
+  }
+}

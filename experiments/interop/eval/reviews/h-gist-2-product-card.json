@@ -1,0 +1,35 @@
+{
+  "2-product-card-1.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "flex direction \"row\" is not \"horizontal\", so the line is a vertical Flex: price, star and rating are stacked on three lines at the left; even if horizontal, loose grow={1} would not push the star/rating to the right end.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Loose Flexible in a min-size vertical Flex under unbounded height does not assert."},
+    "notes": "Uses direction \"row\"/\"column\" instead of \"horizontal\"/\"vertical\", so the price/rating line renders as a vertical stack."
+  },
+  "2-product-card-2.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "partial", "why": "fontWeight=\"w600\" is not a valid value (100..900 or regular/medium/semiBold/bold), so the title is not semi-bold; size, two lines and ellipsis are right.", "tags": []},
+      {"n": 3, "v": "fail", "why": "direction \"row\" is not \"horizontal\", so price sits above the star/rating group, which is itself vertical (star above the number), all left-aligned; even if horizontal, loose grow={1} would not push the rating right.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Loose Flexible in a min-size vertical Flex under unbounded height does not assert."},
+    "notes": "direction \"row\" falls back to vertical so the price/rating line is stacked; shadow offset given as {dx,dy} is ignored (shadow still visible) and \"w600\" is not a valid weight."
+  },
+  "2-product-card-3.tsx": {
+    "criteria": [
+      {"n": 1, "v": "pass", "why": "", "tags": []},
+      {"n": 2, "v": "pass", "why": "", "tags": []},
+      {"n": 3, "v": "fail", "why": "direction \"row\" is not \"horizontal\", so price, the empty spacer and the star/rating group stack vertically (star above the number) at the left; even if horizontal, the empty loose grow={1} spacer would be zero-width and not push the rating right.", "tags": []},
+      {"n": 4, "v": "pass", "why": "", "tags": []},
+      {"n": 5, "v": "pass", "why": "", "tags": []}
+    ],
+    "runtime": {"v": "ok", "why": "Empty loose Flexible in a min-size vertical Flex under unbounded height does not assert."},
+    "notes": "Uses direction \"row\" instead of \"horizontal\", so the price/rating line renders as a vertical stack, and the spacer relies on grow being tight."
+  }
+}
