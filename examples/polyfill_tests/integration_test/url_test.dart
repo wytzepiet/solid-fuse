@@ -11,22 +11,17 @@ import 'package:solid_fuse/src/engine.dart' show createTestEngine;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  late JsAsyncRuntime runtime;
   late JsEngine engine;
   late List<Map<String, dynamic>> testCases;
 
   setUpAll(() async {
     await initFjs();
 
-    runtime = await JsAsyncRuntime.withOptions(
-      builtin: JsBuiltinOptions.all(),
-    );
-    engine = await createTestEngine(runtime: runtime);
+    engine = await createTestEngine();
 
     // Load polyfills bundle.
     final polyfillsJs = await rootBundle.loadString('assets/polyfills.js');
     await engine.eval(source: JsCode.code(polyfillsJs));
-    await runtime.idle();
 
     // Load WPT test data.
     final testDataJson = await rootBundle.loadString('assets/urltestdata.json');
@@ -71,7 +66,6 @@ void main() {
       ''';
 
       final result = await engine.eval(source: JsCode.code(js));
-      await runtime.idle();
       final data = result.value as Map<String, dynamic>;
 
       if (isFailure) {

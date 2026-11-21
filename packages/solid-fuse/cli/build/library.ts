@@ -2,7 +2,7 @@ import { spawnSync } from "child_process";
 import { existsSync, readFileSync } from "fs";
 import { join, resolve } from "path";
 import { build as viteBuild, mergeConfig, type InlineConfig } from "vite";
-import solidPlugin from "vite-plugin-solid";
+import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
 import { detectPackageManager, pmExec } from "../utils";
 import type { FuseConfig } from "../../src/config";

@@ -32,7 +32,10 @@ mod memory_tests;
 mod llrt_module_tests;
 
 #[cfg(test)]
-mod stack_tests;
+mod runtime_architecture_tests;
+
+#[cfg(test)]
+mod api_surface_tests;
 
 /// Test helper utilities
 #[cfg(test)]

@@ -47,8 +47,8 @@ The Dart side no longer has any module-level singletons. Each engine owns its
 whole lifecycle:
 
 - **Job pump** — each engine drives itself via fjs's background driver
-  (`engine.startDrive()` / `stopDrive()`), so N engines pump independently.
-- **Teardown** — `retireEngine` does a real teardown (stop driver, remove
+  (internal to fjs 3.x: started by `init()`, stopped by `close()`), so N engines pump independently.
+- **Teardown** — `retireEngine` does a real teardown (remove
   brightness observer, dispose WebSockets, `close()` the runtime), so HMR no
   longer leaks — the old `retiredEngines` keep-alive list is gone, and fjs fixed
   the drop-without-close SIGABRT (#8) that forced it.
@@ -76,6 +76,6 @@ whole lifecycle:
 ## Until then
 
 Pole Goals runs a single engine. The async-driver fix is now fjs-side and
-per-engine (`engine.startDrive()`/`stopDrive()`; see the fjs `drive()` re-arm),
+per-engine (internal since fjs 3.x; started by `init()`),
 and `retireEngine` tears engines down for real. All Dart lifecycle is now
 engine-owned; the one piece left for true multi-engine is actually verifying N>1.

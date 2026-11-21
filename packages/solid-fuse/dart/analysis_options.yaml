@@ -5,6 +5,12 @@ analyzer:
     # Vendored fjs (git subtree mirror of wytzepiet/fjs). Treated as
     # third-party: built by cargokit, re-exported via lib/fjs.dart, not linted.
     - lib/src/fjs/**
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 linter:
   rules:

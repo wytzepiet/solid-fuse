@@ -13,6 +13,7 @@ import 'android_environment.dart';
 import 'build_cmake.dart';
 import 'build_gradle.dart';
 import 'build_pod.dart';
+import 'fetch_precompiled_artifacts.dart';
 import 'logging.dart';
 import 'options.dart';
 import 'precompile_binaries.dart';
@@ -204,6 +205,186 @@ class PrecompileBinariesCommand extends Command {
   }
 }
 
+class BuildPrecompiledGenerationCommand extends Command {
+  BuildPrecompiledGenerationCommand() {
+    argParser
+      ..addOption(
+        'manifest-dir',
+        mandatory: true,
+        help: 'Directory containing Cargo.toml and cargokit.yaml',
+      )
+      ..addOption(
+        'output-dir',
+        mandatory: true,
+        help: 'Directory to publish the unsigned local generation',
+      )
+      ..addOption(
+        'temp-dir',
+        mandatory: true,
+        help: 'Directory for Rust build intermediates',
+      )
+      ..addMultiOption(
+        'target',
+        help: 'Pinned Rust target triple. Repeat for each target.',
+      );
+  }
+
+  @override
+  final name = 'build-precompiled-generation';
+
+  @override
+  final description =
+      'Builds an unsigned local precompiled generation from the pinned recipe.';
+
+  @override
+  Future<void> run() async {
+    final generation = LocalPrecompiledGeneration(
+      manifestDir: argResults!['manifest-dir'] as String,
+      outputDir: argResults!['output-dir'] as String,
+      tempDir: argResults!['temp-dir'] as String,
+      targetTriples: argResults!['target'] as List<String>,
+    );
+    await generation.run();
+  }
+}
+
+class FinalizeLocalGenerationCommand extends Command {
+  FinalizeLocalGenerationCommand() {
+    argParser
+      ..addOption('manifest-dir', mandatory: true)
+      ..addOption('generation-dir', mandatory: true)
+      ..addOption(
+        'scope',
+        defaultsTo: 'full',
+        allowed: ['full', 'darwin-acceptance'],
+      )
+      ..addOption(
+        'private-key',
+        help: 'Ed25519 private key hex; defaults to PRIVATE_KEY.',
+      )
+      ..addOption('source-commit');
+  }
+
+  @override
+  final name = 'finalize-local-generation';
+
+  @override
+  final description =
+      'Signs and validates an unsigned local precompiled generation.';
+
+  @override
+  Future<void> run() async {
+    final encodedKey = argResults!['private-key'] as String? ??
+        Platform.environment['PRIVATE_KEY'];
+    if (encodedKey == null) {
+      throw ArgumentError('Missing --private-key or PRIVATE_KEY.');
+    }
+    final privateKey = HEX.decode(encodedKey);
+    if (privateKey.length != 64) {
+      throw ArgumentError('Private key must be 64 bytes long');
+    }
+    final scope = switch (argResults!['scope'] as String) {
+      'full' => LocalGenerationFinalizationScope.full,
+      'darwin-acceptance' => LocalGenerationFinalizationScope.darwinAcceptance,
+      _ => throw ArgumentError('Unsupported generation scope.'),
+    };
+    final finalized = await LocalGenerationFinalizer(
+      manifestDir: argResults!['manifest-dir'] as String,
+      generationDir: argResults!['generation-dir'] as String,
+      privateKey: PrivateKey(privateKey),
+      scope: scope,
+      sourceCommit: argResults!['source-commit'] as String?,
+    ).run();
+    stdout.writeln(finalized.manifest.generationHash);
+  }
+}
+
+class PublishPrecompiledGenerationCommand extends Command {
+  PublishPrecompiledGenerationCommand() {
+    argParser
+      ..addOption('manifest-dir', mandatory: true)
+      ..addOption('generation-dir', mandatory: true)
+      ..addOption('repository', mandatory: true)
+      ..addOption('private-key', help: 'Ed25519 private key hex.')
+      ..addOption('github-token',
+          help: 'GitHub token; defaults to GITHUB_TOKEN.')
+      ..addOption('source-commit');
+  }
+
+  @override
+  final name = 'publish-precompiled-generation';
+
+  @override
+  final description = 'Finalizes and publishes one complete v2 generation.';
+
+  @override
+  Future<void> run() async {
+    final encodedKey = argResults!['private-key'] as String? ??
+        Platform.environment['PRIVATE_KEY'];
+    final token = argResults!['github-token'] as String? ??
+        Platform.environment['GITHUB_TOKEN'];
+    if (encodedKey == null || token == null) {
+      throw ArgumentError('Missing private key or GitHub token.');
+    }
+    final privateKey = HEX.decode(encodedKey);
+    if (privateKey.length != 64) {
+      throw ArgumentError('Private key must be 64 bytes long');
+    }
+    final github = GitHub(auth: Authentication.withToken(token));
+    final finalized = await LocalGenerationFinalizer(
+      manifestDir: argResults!['manifest-dir'] as String,
+      generationDir: argResults!['generation-dir'] as String,
+      privateKey: PrivateKey(privateKey),
+      scope: LocalGenerationFinalizationScope.full,
+      sourceCommit: argResults!['source-commit'] as String?,
+    ).run();
+    await PrecompiledGenerationPublisher(
+      generation: finalized,
+      gateway: GitHubPrecompiledReleaseGateway(
+        repositories: github.repositories,
+        repository: RepositorySlug.full(argResults!['repository'] as String),
+      ),
+    ).publish();
+  }
+}
+
+class FetchPrecompiledArtifactsCommand extends Command {
+  FetchPrecompiledArtifactsCommand() {
+    argParser
+      ..addOption(
+        'manifest-dir',
+        mandatory: true,
+        help: 'Directory containing Cargo.toml and cargokit.yaml',
+      )
+      ..addOption(
+        'output-dir',
+        mandatory: true,
+        help: 'Directory that receives the fetched assets',
+      )
+      ..addMultiOption(
+        'asset',
+        help: 'Composite output name to fetch. Repeat for each asset.',
+      );
+  }
+
+  @override
+  final name = 'fetch-precompiled-artifacts';
+
+  @override
+  final description =
+      'Fetches verified composite assets from the published generation.';
+
+  @override
+  Future<void> run() async {
+    final fetch = FetchPrecompiledArtifacts(
+      manifestDir: argResults!['manifest-dir'] as String,
+      outputDir: argResults!['output-dir'] as String,
+      assetNames: argResults!['asset'] as List<String>,
+    );
+    await fetch.run();
+  }
+}
+
 class VerifyBinariesCommand extends Command {
   VerifyBinariesCommand() {
     argParser.addOption(
@@ -218,8 +399,7 @@ class VerifyBinariesCommand extends Command {
 
   @override
   final description = 'Verifies published binaries\n'
-      'Checks whether there is a binary published for each targets\n'
-      'and checks the signature.';
+      'Checks the complete v2 generation, assets, signatures, and checksums.';
 
   @override
   Future<void> run() async {
@@ -246,6 +426,10 @@ Future<void> runMain(List<String> args) async {
       ..addCommand(BuildCMakeCommand())
       ..addCommand(GenKeyCommand())
       ..addCommand(PrecompileBinariesCommand())
+      ..addCommand(BuildPrecompiledGenerationCommand())
+      ..addCommand(FinalizeLocalGenerationCommand())
+      ..addCommand(PublishPrecompiledGenerationCommand())
+      ..addCommand(FetchPrecompiledArtifactsCommand())
       ..addCommand(VerifyBinariesCommand());
 
     await runner.run(args);
