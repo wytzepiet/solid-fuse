@@ -11,3 +11,5 @@ Apply either one on a fresh branch from that commit:
 See `../reports/05-bridge.md` and `../reports/06-e2e-fuse-add.md` for what each contains.
 
 `spike-perf.patch` applies on top of `spike-e2e.patch` (benchmark app, keyed-reorder fix, perf hook); and the render-cost fixes; see `../reports/10-js-thread.md` and `../reports/11-render-cost.md`.
+
+`spike-coldstart.patch` applies on top of `spike-perf.patch` (startup marks, bytecode asset, prerendered first screen, baked subtrees); see `../reports/13-cold-start.md`.
