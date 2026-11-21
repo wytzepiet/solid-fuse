@@ -32,6 +32,16 @@ First landed change: `feat/job-pump-drive` → `JsEngine.startDrive()/stopDrive(
 an event-driven background driver replacing the old 33ms `_FuseJobPump` poll
 ([fluttercandies/fjs#12](https://github.com/fluttercandies/fjs/pull/12)).
 
+**Nov 2026 rebase onto upstream 3.3.2.** Upstream reimplemented the driver,
+big-stack JS thread, stack clamp, job error detail and drop safety in its own
+form (3.0–3.3; the driver is now internal, so `startDrive`/`stopDrive` are
+gone). The old `solid-fuse` branch was therefore rebuilt as upstream `main`
+(`dda7f8f`) plus one commit carrying the only two fork-only patches still
+needed: Apple QoS for the `fjs-js` workers (was `ad90eb8`) and the dev-profile
+`opt-level` for native deps (was `a4ad500`). The vendored copy was pulled from
+that rebuilt branch; push it to the fork as `solid-fuse` (force, since the
+history is new) so the next `make sync-fjs` lines up.
+
 ## How solid-fuse consumes it
 
 **solid-fuse no longer depends on fjs as a package — it vendors the
