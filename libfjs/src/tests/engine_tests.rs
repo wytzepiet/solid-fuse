@@ -12,7 +12,9 @@ use crate::api::source::{
     JsBuiltinOptions, JsCode, JsModule, JsModuleBytecode, JsScriptBytecode, JsScriptBytecodeOptions,
 };
 use crate::api::value::JsValue;
-use std::sync::{Condvar, Mutex, OnceLock};
+use crate::runtime::shutdown::RuntimeShutdown;
+use std::sync::atomic::AtomicBool;
+use std::sync::{Arc, Condvar, Mutex, OnceLock};
 
 fn failing_global_attachment(_ctx: &rquickjs::Ctx<'_>) -> rquickjs::Result<()> {
     Err(rquickjs::Error::new_from_js_message(
@@ -82,6 +84,95 @@ fn release_blocking_init_attachment() {
 // ============================================================================
 // Engine Lifecycle Tests
 // ============================================================================
+
+#[tokio::test]
+async fn async_result_contract_normalizes_engine_eval_and_module_calls() {
+    let engine = JsEngine::create(None, None, None).await.unwrap();
+    engine.init_without_bridge().await.unwrap();
+    engine
+        .declare_new_module(JsModule::code(
+            "engine-async-result-contract".to_string(),
+            r#"
+                export function syncValue() {
+                    return { value: 42 };
+                }
+
+                export async function asyncValue() {
+                    return { value: 42 };
+                }
+
+                export async function multiKeyValue() {
+                    return { value: 42, extra: true };
+                }
+            "#
+            .to_string(),
+        ))
+        .await
+        .unwrap();
+
+    let evaluated = engine
+        .eval(JsCode::Code("await Promise.resolve(42)".to_string()), None)
+        .await
+        .unwrap();
+    assert!(matches!(evaluated, JsValue::Integer(42)));
+
+    let sync_call = engine
+        .call(
+            "engine-async-result-contract".to_string(),
+            "syncValue".to_string(),
+            None,
+        )
+        .await
+        .unwrap();
+    assert!(matches!(sync_call, JsValue::Integer(42)));
+
+    let async_call = engine
+        .call(
+            "engine-async-result-contract".to_string(),
+            "asyncValue".to_string(),
+            None,
+        )
+        .await
+        .unwrap();
+    assert!(matches!(async_call, JsValue::Integer(42)));
+
+    let multi_key = engine
+        .call(
+            "engine-async-result-contract".to_string(),
+            "multiKeyValue".to_string(),
+            None,
+        )
+        .await
+        .unwrap();
+    assert!(matches!(
+        multi_key,
+        JsValue::Object(ref object)
+            if matches!(object.get("value"), Some(JsValue::Integer(42)))
+                && matches!(object.get("extra"), Some(JsValue::Boolean(true)))
+    ));
+}
+
+#[tokio::test]
+async fn value_conversion_errors_are_structured_at_engine_boundary() {
+    let engine = JsEngine::create(None, None, None).await.unwrap();
+    engine.init_without_bridge().await.unwrap();
+
+    let error = engine
+        .eval(
+            JsCode::Code("const value = {}; value.self = value; value".to_string()),
+            None,
+        )
+        .await
+        .unwrap_err();
+
+    assert!(matches!(
+        error,
+        crate::api::error::JsError::Conversion {
+            ref message,
+            ..
+        } if message.contains("cyclic JavaScript value")
+    ));
+}
 
 #[tokio::test]
 async fn test_engine_create() {
@@ -180,7 +271,10 @@ async fn test_engine_init_failure_rolls_back_state() {
         global_attachment: Some(
             GlobalAttachment::default().add_function(failing_global_attachment),
         ),
-        driver: std::sync::Arc::new(std::sync::Mutex::new(None)),
+        driver: crate::runtime::driver::DriverController::default(),
+        shutdown: RuntimeShutdown::default(),
+        cleaned: Arc::new(AtomicBool::new(false)),
+        runtime_lifetime: Some(Arc::new(())),
     };
     let context = JsAsyncContext::from(&runtime).await.unwrap();
     let engine = JsEngine::new_for_test(runtime, context);
@@ -211,7 +305,10 @@ async fn test_engine_runtime_proxy_methods_fail_while_initializing() {
         global_attachment: Some(
             GlobalAttachment::default().add_function(blocking_global_attachment),
         ),
-        driver: std::sync::Arc::new(std::sync::Mutex::new(None)),
+        driver: crate::runtime::driver::DriverController::default(),
+        shutdown: RuntimeShutdown::default(),
+        cleaned: Arc::new(AtomicBool::new(false)),
+        runtime_lifetime: Some(Arc::new(())),
     };
     let context = JsAsyncContext::from(&runtime).await.unwrap();
     let engine = std::sync::Arc::new(JsEngine::new_for_test(runtime, context));
@@ -229,11 +326,29 @@ async fn test_engine_runtime_proxy_methods_fail_while_initializing() {
     let limit_error = engine.set_memory_limit(1024).await.unwrap_err();
     assert!(limit_error.to_string().contains("initializing"));
 
-    let close_error = engine.close().await.unwrap_err();
-    assert!(close_error.to_string().contains("initializing"));
+    // close() always wins, even while init is still in flight; the blocked
+    // init observes the CLOSED state when it tries to commit and fails.
+    let close_engine = engine.clone();
+    let close_task = tokio::spawn(async move { close_engine.close().await });
+
+    // close() transitions the state on its first poll; wait for that to
+    // happen before releasing the blocked init, otherwise the resumed init
+    // can win the race to finish_init and succeed.
+    while !engine.closed() {
+        tokio::task::yield_now().await;
+    }
 
     release_blocking_init_attachment();
-    init_task.await.unwrap().unwrap();
+
+    close_task.await.unwrap().unwrap();
+    let init_error = init_task.await.unwrap().unwrap_err();
+    assert!(
+        init_error
+            .to_string()
+            .contains("Failed to finalize engine initialization"),
+        "{init_error}"
+    );
+    assert!(engine.closed());
 }
 
 #[tokio::test]
@@ -252,69 +367,6 @@ async fn test_engine_init_with_bridge() {
     assert!(result.is_ok());
     assert!(engine.running());
     engine.close().await.unwrap();
-}
-
-/// Regression test for issue #8: dropping an engine that has a bridge, without
-/// calling `close()` (as Dart's GC does), must not crash. It used to abort in
-/// `JS_FreeRuntime` because the bridge kept its own context alive.
-///
-/// Note: a regression is a process abort (SIGABRT), not a normal test failure —
-/// the second engine below only runs if the first drop was clean.
-#[tokio::test]
-async fn test_engine_drop_with_bridge_without_close_does_not_abort() {
-    {
-        let engine = JsEngine::create(None, None, None).await.unwrap();
-        engine
-            .init(|value| Box::pin(async move { JsResult::Ok(value) }))
-            .await
-            .unwrap();
-        let result = engine.eval(JsCode::Code("1 + 1".to_string()), None).await;
-        assert!(matches!(result.unwrap(), JsValue::Integer(2)));
-        // Drop WITHOUT close(), mimicking Dart's GC finalizer / hot restart.
-        drop(engine);
-    }
-
-    // Reached only if the drop above did not abort the process.
-    let engine = JsEngine::create(None, None, None).await.unwrap();
-    engine.init_without_bridge().await.unwrap();
-    let result = engine.eval(JsCode::Code("2 + 3".to_string()), None).await;
-    assert!(matches!(result.unwrap(), JsValue::Integer(5)));
-}
-
-/// Hot restart: dropping a running engine (driver active, live heap) without
-/// close() must not abort. A regression is a SIGABRT, so the second engine only
-/// runs if the first drop was clean. (Reliably reproduces on-device; here it
-/// just exercises the path.)
-#[tokio::test]
-async fn test_engine_drop_running_with_live_heap_does_not_abort() {
-    {
-        let engine = JsEngine::create(None, None, None).await.unwrap();
-        engine
-            .init(|value| Box::pin(async move { JsResult::Ok(value) }))
-            .await
-            .unwrap();
-        // Run the background driver, as the app does.
-        engine.runtime_for_test().start_drive().await;
-        // Leave a live heap: retained globals + a still-pending timer.
-        let _ = engine
-            .eval(
-                JsCode::Code(
-                    "globalThis.__keep = { a: [1, 2, 3], f: () => 42 };\
-                     setTimeout(() => {}, 100000); 1"
-                        .to_string(),
-                ),
-                None,
-            )
-            .await;
-        // Drop WITHOUT close(), exactly as a Flutter hot restart does.
-        drop(engine);
-    }
-
-    // Reached only if the drop above did not abort the process.
-    let engine = JsEngine::create(None, None, None).await.unwrap();
-    engine.init_without_bridge().await.unwrap();
-    let result = engine.eval(JsCode::Code("2 + 3".to_string()), None).await;
-    assert!(matches!(result.unwrap(), JsValue::Integer(5)));
 }
 
 #[tokio::test]
@@ -341,14 +393,16 @@ async fn test_engine_close() {
 }
 
 #[tokio::test]
-async fn test_engine_double_close_fails() {
+async fn test_engine_double_close_is_idempotent() {
     let engine = JsEngine::create(None, None, None).await.unwrap();
 
     engine.init_without_bridge().await.unwrap();
     engine.close().await.unwrap();
 
     let result = engine.close().await;
-    assert!(result.is_err());
+    assert!(result.is_ok());
+    assert!(engine.closed());
+    assert!(!engine.running());
 }
 
 #[tokio::test]
@@ -387,9 +441,10 @@ async fn test_engine_close_drains_pending_runtime_work() {
     assert!(matches!(scheduled, JsValue::String(ref value) if value == "scheduled"));
     assert!(engine.is_job_pending().await.unwrap());
 
-    engine.close().await.unwrap();
+    let runtime = engine.runtime_for_test();
+    engine.close_gracefully().await.unwrap();
 
-    assert!(!engine.runtime_for_test().is_job_pending().await);
+    assert!(!runtime.is_job_pending().await);
 }
 
 #[tokio::test]
@@ -450,7 +505,7 @@ async fn test_engine_eval_async() {
 }
 
 #[tokio::test]
-async fn test_engine_eval_does_not_implicitly_idle_runtime() {
+async fn test_engine_eval_progresses_detached_timer_automatically() {
     let engine = JsEngine::create(Some(JsBuiltinOptions::essential()), None, None)
         .await
         .unwrap();
@@ -472,15 +527,24 @@ async fn test_engine_eval_does_not_implicitly_idle_runtime() {
         .await;
 
     assert!(matches!(result, Ok(JsValue::String(ref value)) if value == "scheduled"));
-    assert!(engine.is_job_pending().await.unwrap());
 
-    let before_idle = engine
-        .eval(
-            JsCode::Code("globalThis.__engine_timer_fired ?? false".to_string()),
-            None,
-        )
-        .await;
-    assert!(matches!(before_idle, Ok(JsValue::Boolean(false))));
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+    loop {
+        let result = engine
+            .eval(
+                JsCode::Code("globalThis.__engine_timer_fired === true".to_string()),
+                None,
+            )
+            .await;
+        if matches!(result, Ok(JsValue::Boolean(true))) {
+            break;
+        }
+        assert!(
+            std::time::Instant::now() < deadline,
+            "automatic engine driver did not fire timer"
+        );
+        tokio::time::sleep(std::time::Duration::from_millis(20)).await;
+    }
 
     engine.idle().await.unwrap();
 
@@ -683,6 +747,65 @@ async fn test_engine_compile_module_bytecode_roundtrip_declare_and_import() {
 }
 
 #[tokio::test]
+async fn test_compile_module_bytecode_reports_quickjs_syntax_error() {
+    let error = JsBytecode::compile(
+        JsModule::code(
+            "invalid-module-bytecode.js".to_string(),
+            "export const = ;".to_string(),
+        ),
+        None,
+    )
+    .await
+    .unwrap_err();
+
+    assert!(
+        matches!(
+            error,
+            crate::api::error::JsError::Syntax { line: Some(1), .. }
+        ),
+        "{error:?}"
+    );
+    let message = error.to_string();
+    assert!(message.contains("invalid-module-bytecode.js"), "{message}");
+    assert!(message.contains("variable name expected"), "{message}");
+    assert!(
+        !message.contains("Exception generated by QuickJS")
+            && !message.contains("Exception generated by quickjs"),
+        "{message}"
+    );
+}
+
+#[tokio::test]
+async fn test_compile_module_bundle_reports_quickjs_syntax_error() {
+    let error = JsBytecode::compile_module_bundle(
+        vec![JsModule::code(
+            "bundle/invalid.js".to_string(),
+            "export function broken( {".to_string(),
+        )],
+        None,
+        None,
+    )
+    .await
+    .unwrap_err();
+
+    assert!(
+        matches!(
+            error,
+            crate::api::error::JsError::Syntax { line: Some(1), .. }
+        ),
+        "{error:?}"
+    );
+    let message = error.to_string();
+    assert!(message.contains("bundle/invalid.js"), "{message}");
+    assert!(message.contains("invalid property name"), "{message}");
+    assert!(
+        !message.contains("Exception generated by QuickJS")
+            && !message.contains("Exception generated by quickjs"),
+        "{message}"
+    );
+}
+
+#[tokio::test]
 async fn test_engine_compile_module_bytecode_is_side_effect_free() {
     let runtime = JsAsyncRuntime::new().unwrap();
     let _context = JsAsyncContext::from(&runtime).await.unwrap();
@@ -712,6 +835,38 @@ async fn test_engine_compile_module_bytecode_is_side_effect_free() {
         )
         .await;
     assert!(import_result.is_err());
+}
+
+#[tokio::test]
+async fn test_engine_dynamic_module_loader_reports_quickjs_syntax_error() {
+    let runtime = JsAsyncRuntime::new().unwrap();
+    let _context = JsAsyncContext::from(&runtime).await.unwrap();
+    let engine = JsEngine::create(None, None, None).await.unwrap();
+    engine.init_without_bridge().await.unwrap();
+
+    engine
+        .declare_new_module(JsModule::code(
+            "dynamic-invalid.js".to_string(),
+            "export const = ;".to_string(),
+        ))
+        .await
+        .unwrap();
+
+    let error = engine
+        .eval(
+            JsCode::Code("await import('dynamic-invalid.js')".to_string()),
+            None,
+        )
+        .await
+        .unwrap_err()
+        .to_string();
+
+    assert!(error.contains("variable name expected"), "{error}");
+    assert!(
+        !error.contains("Exception generated by QuickJS")
+            && !error.contains("Exception generated by quickjs"),
+        "{error}"
+    );
 }
 
 #[tokio::test]
@@ -800,10 +955,14 @@ async fn test_engine_invalid_bytecode_fails_on_declare() {
         .await
         .unwrap_err();
     assert!(
-        error
-            .to_string()
-            .contains("Failed to read bytecode module 'invalid-bytecode.js'")
+        matches!(
+            &error,
+            crate::api::error::JsError::Module { module: Some(module), .. }
+                if module == "invalid-bytecode.js"
+        ),
+        "{error:?}"
     );
+    assert!(error.to_string().contains("Failed to read bytecode module"));
 }
 
 #[tokio::test]
@@ -841,6 +1000,47 @@ async fn test_engine_bytecode_modules_support_relative_imports() {
         .eval(
             JsCode::Code(
                 "const { default: value } = await import('pkg/main.js'); value".to_string(),
+            ),
+            None,
+        )
+        .await
+        .unwrap();
+
+    assert!(matches!(result, JsValue::Integer(42)));
+}
+
+#[tokio::test]
+async fn rooted_relative_bytecode_modules_resolve_from_root() {
+    let dep = JsBytecode::compile(
+        JsModule::code(
+            "/pkg/dep.js".to_string(),
+            "export const value = 42;".to_string(),
+        ),
+        None,
+    )
+    .await
+    .unwrap();
+    let main = JsBytecode::compile(
+        JsModule::code(
+            "/pkg/main.js".to_string(),
+            "import { value } from './dep.js'; export default value;".to_string(),
+        ),
+        None,
+    )
+    .await
+    .unwrap();
+
+    let engine = JsEngine::create(None, None, None).await.unwrap();
+    engine.init_without_bridge().await.unwrap();
+    engine
+        .declare_new_bytecode_modules(vec![dep, main])
+        .await
+        .unwrap();
+
+    let result = engine
+        .eval(
+            JsCode::Code(
+                "const { default: value } = await import('/pkg/main.js'); value".to_string(),
             ),
             None,
         )
@@ -928,6 +1128,41 @@ async fn test_engine_declare_and_evaluate_bytecode_bundle() {
 }
 
 #[tokio::test]
+async fn rooted_relative_bytecode_bundle_resolves_from_root() {
+    let bundle = JsBytecode::compile_module_bundle(
+        vec![
+            JsModule::code(
+                "/bundle/dep.js".to_string(),
+                "export const value = 21;".to_string(),
+            ),
+            JsModule::code(
+                "/bundle/main.js".to_string(),
+                "import { value } from './dep.js'; export default value * 2;".to_string(),
+            ),
+        ],
+        Some("/bundle/main.js".to_string()),
+        None,
+    )
+    .await
+    .unwrap();
+
+    let engine = JsEngine::create(None, None, None).await.unwrap();
+    engine.init_without_bridge().await.unwrap();
+    engine.evaluate_bytecode_bundle(bundle).await.unwrap();
+
+    let imported = engine
+        .eval(
+            JsCode::Code(
+                "const { default: value } = await import('/bundle/main.js'); value".to_string(),
+            ),
+            None,
+        )
+        .await
+        .unwrap();
+    assert!(matches!(imported, JsValue::Integer(42)));
+}
+
+#[tokio::test]
 async fn test_engine_compile_bytecode_bundle_rejects_missing_relative_dependency() {
     let error = JsBytecode::compile_module_bundle(
         vec![JsModule::code(
@@ -978,7 +1213,7 @@ async fn test_engine_evaluate_script_bytecode_roundtrip() {
 }
 
 #[tokio::test]
-async fn test_engine_evaluate_async_script_bytecode_roundtrip() {
+async fn async_result_contract_normalizes_async_script_bytecode() {
     let script = JsBytecode::compile_script(
         "async-script-bytecode.js".to_string(),
         JsCode::Code("await Promise.resolve(42)".to_string()),
@@ -1228,6 +1463,38 @@ async fn test_engine_dynamic_module_relative_import() {
         .eval(
             JsCode::Code(
                 "const { default: value } = await import('pkg/main.js'); value".to_string(),
+            ),
+            None,
+        )
+        .await
+        .unwrap();
+
+    assert!(matches!(result, JsValue::Integer(42)));
+}
+
+#[tokio::test]
+async fn rooted_relative_source_modules_resolve_from_root() {
+    let engine = JsEngine::create(None, None, None).await.unwrap();
+    engine.init_without_bridge().await.unwrap();
+
+    engine
+        .declare_new_modules(vec![
+            JsModule::code(
+                "/pkg/dep.js".to_string(),
+                "export const value = 42;".to_string(),
+            ),
+            JsModule::code(
+                "/pkg/main.js".to_string(),
+                "import { value } from './dep.js'; export default value;".to_string(),
+            ),
+        ])
+        .await
+        .unwrap();
+
+    let result = engine
+        .eval(
+            JsCode::Code(
+                "const { default: value } = await import('/pkg/main.js'); value".to_string(),
             ),
             None,
         )

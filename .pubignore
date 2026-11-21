@@ -1,0 +1,34 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Flutter/Dart/Pub related
+/pubspec.lock
+**/doc/api/
+.dart_tool/
+build/
+android/bin/
+
+# Internal planning artifacts are useful in Git but not in the pub package.
+/docs/
+
+# Publish only the symlink-preserving SwiftPM archive, not its raw build tree.
+/darwin/fjs/Binaries/fjs.xcframework/
+/darwin/fjs/Binaries/fjs.xcframework.zip.checksum
+
+# Third-party dependencies (local clones)
+third/
