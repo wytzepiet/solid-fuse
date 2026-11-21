@@ -40,7 +40,6 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   late _TestWsServer server;
-  late JsAsyncRuntime runtime;
   late JsEngine engine;
 
   setUpAll(() async {
@@ -49,14 +48,10 @@ void main() {
     debugPrint('Test WS server on port ${server.port}');
 
     await initFjs();
-    runtime = await JsAsyncRuntime.withOptions(
-      builtin: JsBuiltinOptions.all(),
-    );
-    engine = await createTestEngine(runtime: runtime);
+    engine = await createTestEngine();
 
     final polyfillsJs = await rootBundle.loadString('assets/polyfills.js');
     await engine.eval(source: JsCode.code(polyfillsJs));
-    await runtime.idle();
   });
 
   tearDownAll(() async {
@@ -73,7 +68,6 @@ void main() {
       globalThis.__wsTestResult = undefined;
       (() => { $jsBody })();
     '''));
-    await runtime.idle();
 
     final deadline = DateTime.now().add(timeout);
     while (DateTime.now().isBefore(deadline)) {
@@ -83,7 +77,6 @@ void main() {
           'typeof __wsTestResult !== "undefined" && __wsTestResult !== undefined ? __wsTestResult : null',
         ),
       );
-      await runtime.idle();
       if (r.value != null) {
         return r.value as Map<String, dynamic>;
       }
@@ -101,7 +94,6 @@ void main() {
         CLOSED: WebSocket.CLOSED,
       })
     '''));
-    await runtime.idle();
     final data = r.value as Map<String, dynamic>;
     expect(data['type'], 'function');
     expect(data['CONNECTING'], 0);
@@ -204,7 +196,6 @@ void main() {
         catch(e) { return { threw: true }; }
       })()
     '''));
-    await runtime.idle();
     final data = r.value as Map<String, dynamic>;
     expect(data['threw'], true);
   });
