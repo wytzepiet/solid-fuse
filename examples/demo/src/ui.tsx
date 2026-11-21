@@ -1,4 +1,3 @@
-import type { JSX } from "solid-js";
 import { GestureDetector, Text, View } from "solid-fuse";
 
 export function Button(props: { onTap: () => void; children: JSX.Element }) {
