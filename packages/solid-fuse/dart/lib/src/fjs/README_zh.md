@@ -118,14 +118,104 @@ print(functionResult.ok.value); // 5
 final availableModules = await context.getAvailableModules();
 print(availableModules);
 
-// 在需要显式调度时，推进或彻底 drain runtime 中的异步工作。
-if (await runtime.isJobPending()) {
-  await runtime.executePendingJob();
-}
-await runtime.idle();
+// 游离 Promise、timer、fetch 和其他后台异步任务会自动推进。
+// 对预期内、由 JS 自己负责的失败，优先在 JavaScript 里使用 .catch()。
+await context.evalWithOptions(
+  code: '''
+    Promise.resolve()
+      .then(() => 'background result')
+      .catch((error) => console.log(String(error)));
+    undefined
+  ''',
+  options: JsEvalOptions.withPromise(),
+);
 ```
 
 底层 context API 返回的是 `JsResult`，适合你需要结构化成功/失败结果，而不是直接依赖异常的场景。
+后台 JavaScript 任务会自动调度。预期内的后台失败应优先用 JavaScript `.catch()`
+处理；未处理的后台错误会在后续 `eval()`、`call()`、底层 context 操作或 `close()`
+时自动暴露。如果你希望只做日志记录而不影响正常调用，可以主动调用
+`engine.drainUnhandledJobErrors()` 取走这些错误（任何引擎状态下都可用，包括
+`close()` 之后）。
+
+### 安全边界
+
+FJS 适用于应用自身拥有或其他可信来源的脚本。启用文件系统、网络或进程相关的
+builtin，会向脚本授予对应的原生能力。内存、栈和值转换限制可以减少意外的资源
+耗尽，但不会让 QuickJS/LLRT 成为敌对代码沙箱。需要执行不可信代码的使用方必须
+增加进程或操作系统级隔离，并遵循最小权限原则。
+
+### 异步任务与错误处理
+
+异步 runtime 会在内部管理后台 driver。正常业务代码不需要启动、停止、轮询或 drain
+这个 driver：
+
+```dart
+final engine = await JsEngine.create(
+  builtins: JsBuiltinOptions.web(),
+);
+await engine.initWithoutBridge();
+
+await engine.eval(source: const JsCode.code('''
+  setTimeout(() => {
+    globalThis.ready = true;
+  }, 10);
+  "scheduled";
+'''));
+
+// 上面的 timer 会由 FJS 自动推进。timer 触发后，后续任意 engine 操作都能观察到
+// 更新后的 JS 状态。
+await Future<void>.delayed(const Duration(milliseconds: 20));
+final ready = await engine.eval(
+  source: const JsCode.code('globalThis.ready === true'),
+);
+print(ready.value); // true
+
+await engine.close();
+```
+
+如果某个游离的 JavaScript 任务自己拥有失败路径，应在 JavaScript 里捕获：
+
+```dart
+await engine.eval(source: const JsCode.code('''
+  async function runOptionalBackgroundTask() {
+    throw new Error("optional task failed");
+  }
+
+  Promise.resolve()
+    .then(() => runOptionalBackgroundTask())
+    .catch((error) => console.log(String(error)));
+  undefined;
+'''));
+```
+
+如果游离任务失败但没有 JavaScript `.catch()`，FJS 会把格式化后的 QuickJS 错误放入
+runtime 的有界队列，并在后续 public 操作中自动暴露：
+
+```dart
+await engine.eval(source: const JsCode.code('''
+  setTimeout(() => {
+    throw new Error("background task failed");
+  }, 10);
+  "scheduled";
+'''));
+
+await Future<void>.delayed(const Duration(milliseconds: 20));
+try {
+  await engine.eval(source: const JsCode.code('1 + 1'));
+} catch (error) {
+  // 包含 "Unhandled JavaScript background error" 和原始 JS stack。
+  print(error);
+}
+```
+
+这样用户侧生命周期保持很小：创建 engine，执行 JavaScript，owner 结束时调用
+`close()`。从 `3.2.0` 开始，`close()` 是立即关闭：它会停止接受新工作，并让进行中的
+前台操作以 `JsError.cancelled` 失败，不再为了 timer、Promise callback、fetch、
+bridge call 或 runtime spawn 任务做完整 drain。只有在明确需要旧的等待语义、且愿意
+等待已经排队的 JavaScript 工作完成时，才使用 `closeGracefully()`。如果使用更底层的
+异步 runtime/context，也会得到相同的自动 driver 行为；Dart 应用代码不需要启动、停止、
+轮询或 drain 这个 driver。
 
 ### 同步 Runtime 与 Context
 
@@ -272,7 +362,8 @@ print('console: $hasConsole, llrt:xml: $hasXml');
 ## 🔄 Engine 生命周期说明
 
 - `JsEngine` 通过 `create()` 创建时会自己持有内部 runtime/context
-- `close()` 会先移除 `fjs` bridge、推进待处理的 runtime 工作，再执行 GC，之后 engine 不能再使用
+- `close()` 会立即把 engine 标记为关闭、请求 runtime shutdown、停止 driver、移除 `fjs` bridge，并让进行中的前台操作以 `JsError.cancelled` 失败
+- `closeGracefully()` 保留 3.2 之前的 drain 行为：等待已经排队的 timer、Promise callback、fetch、bridge call 和 runtime spawn 任务完成后再执行 GC
 - `clearPendingModules()` 只会清掉还没有被当前 context 真正加载过的动态模块
 - `declareNewModules()` 和 `declareNewBytecodeModules()` 会拒绝同一批请求里的重复模块名
 
@@ -419,15 +510,25 @@ const syntaxError = JsError.syntax(
 print(syntaxError.code());
 print(syntaxError.isRecoverable());
 
-// 高层执行 API 失败时仍然会抛 AnyhowException。
+// 高层执行 API 失败时抛出类型化的 JsError，会根据真实的 QuickJS 异常
+// 分类（SyntaxError、TypeError、ReferenceError、栈溢出、内存上限等），
+// 并携带行列号和调用栈文本。
 try {
   await engine.eval(source: JsCode.code('invalid.code()'));
-} on AnyhowException catch (e) {
-  print('执行失败: ${e.message}');
+} on JsError catch (e) {
+  print('执行失败 [${e.code()}]: $e');
+  switch (e) {
+    case JsError_Syntax(:final line, :final column):
+      print('语法错误位于 $line:$column');
+    case JsError_Reference():
+      print('引用错误');
+    default:
+      break;
+  }
 }
 ```
 
-`JsError` 主要出现在 `JsResult.err(...)`、bridge 返回值和底层 context 结果里。`eval()`、`call()` 这类公开执行 API 当前抛出的 Rust 侧失败会表现为 `AnyhowException`。
+`JsError` 贯穿所有 API：`JsEngine`/`JsBytecode` 的方法失败时直接抛出，底层 context API 和 bridge 则通过 `JsResult.err(...)` 返回。可以用 `code()` 做稳定的程序化匹配，也可以直接对 freezed 变体做模式匹配。
 
 ## 🌉 桥接通信
 
@@ -479,9 +580,6 @@ abstract class JsAsyncRuntime {
     List<JsModule>? modules,
   });
 
-  Future<bool> isJobPending();
-  Future<bool> executePendingJob();
-  Future<void> idle();
   Future<MemoryUsage> memoryUsage();
   Future<void> setMemoryLimit({required BigInt limit});
   Future<void> setGcThreshold({required BigInt threshold});
@@ -569,16 +667,15 @@ abstract class JsEngine {
   Future<JsValue> evaluateBytecodeModule({required JsModuleBytecode module});
   Future<JsValue> evaluateScriptBytecode({required JsScriptBytecode script});
 
-  Future<bool> executePendingJob();
-  Future<void> idle();
-  Future<bool> isJobPending();
   Future<MemoryUsage> memoryUsage();
   Future<void> runGc();
   Future<void> setGcThreshold({required BigInt threshold});
   Future<void> setInfo({required String info});
   Future<void> setMaxStackSize({required BigInt limit});
   Future<void> setMemoryLimit({required BigInt limit});
-  Future<void> close(); // 会推进待处理的 runtime 工作，然后执行 GC
+  List<String> drainUnhandledJobErrors(); // 后台 JS 错误；任何状态下都可调用
+  Future<void> close(); // 立即关闭；取消进行中的前台操作
+  Future<void> closeGracefully(); // 推进待处理的 runtime 工作，然后执行 GC
   bool get running;
   bool get closed;
 }
@@ -606,6 +703,8 @@ abstract class MemoryUsage {
   PlatformInt64 get mallocSize;
   PlatformInt64 get objCount;
   PlatformInt64 get strCount;
+  // ... 还有更细的计数器：atomCount/Size、shapeCount/Size、propCount/Size、
+  // jsFuncCount/Size、arrayCount、fastArrayCount、binaryObjectCount/Size 等
   String summary();
 }
 ```
@@ -630,6 +729,13 @@ sealed class JsValue {
   static JsValue from(Object? any);
   String typeName();
   dynamic get value;
+
+  // 变体判断与类型化访问器。
+  bool isNone() / isBoolean() / isNumber() / isString() / isBytes()
+       / isArray() / isObject() / isDate() / isPrimitive();
+  bool? get asBoolean; PlatformInt64? get asInteger; double? get asFloat;
+  String? get asBigint; String? get asString; Uint8List? get asBytes;
+  List<JsValue>? get asArray; Map<String, JsValue>? get asObject; num? get asNum;
 }
 ```
 
@@ -681,6 +787,8 @@ sealed class JsCode {
   const factory JsCode.code(String value);    // 内联代码
   const factory JsCode.path(String value);    // 文件路径
   const factory JsCode.bytes(Uint8List value); // UTF-8 源码字节
+
+  bool isCode() / isPath() / isBytes();
 }
 
 sealed class JsModule {
@@ -803,10 +911,7 @@ sealed class JsError {
     required String operation,
     required BigInt timeoutMs,
   });
-  const factory JsError.memoryLimit({
-    required BigInt current,
-    required BigInt limit,
-  });
+  const factory JsError.memoryLimit(String message);
   const factory JsError.stackOverflow(String message);
   const factory JsError.syntax({int? line, int? column, required String message});
   const factory JsError.reference(String message);
@@ -815,6 +920,7 @@ sealed class JsError {
 
   String code();
   bool isRecoverable();
+  String toString(); // 格式化消息，可用时包含调用栈文本
 }
 ```
 
@@ -885,6 +991,68 @@ JsBuiltinOptions(
 2. **设置内存限制** - 配置适当的限制
 3. **使用源码字节** - 当 JavaScript 源码本来就是 UTF-8 字节时，优先使用 `JsCode.bytes()` / `JsModule.bytes()`
 4. **批量操作** - 将相关操作分组执行
+
+## Darwin 打包与发布
+
+fjs 在 iOS 和 macOS 上同时支持 CocoaPods 与 Swift Package Manager。Flutter 会从
+`pubspec.yaml` 发现共享 Darwin 包；应用开发者通常只需要在 `pubspec.yaml` 加入
+`fjs`，然后使用常规 Flutter 构建流程。
+
+### CocoaPods
+
+CocoaPods 的共享 Darwin 构建使用 `darwin/fjs.podspec`，`ios/fjs.podspec` 和
+`macos/fjs.podspec` 保留给旧版 Flutter 目录布局。podspec 会执行：
+
+```sh
+sh "$PODS_TARGET_SRCROOT/../cargokit/build_pod.sh" ../libfjs fjs
+```
+
+该 Cargokit 脚本会为当前 Xcode 平台构建 `libfjs.a`，并通过 `-force_load` 链接。
+Rustup 可用时默认从本地 Rust 源码构建；Rustup 缺失，或应用通过
+`cargokit_options.yaml` 显式选择时，会从 `libfjs/cargokit.yaml` 配置的 GitHub
+Release 下载已签名预编译产物。
+
+```yaml
+use_precompiled_binaries: true
+verbose_logging: false
+```
+
+### Swift Package Manager
+
+SwiftPM 使用 `darwin/fjs/Package.swift`。该 package 暴露一个很小的 Swift target，
+并链接下面的 binary target：
+
+```text
+darwin/fjs/Binaries/fjs.xcframework.zip
+```
+
+XCFramework 是发布产物，不应手工编辑。如果你在源码仓库中需要本地刷新它，运行：
+
+```sh
+tool/build_fjs_xcframework.sh \
+  --configuration Release \
+  --zip-output darwin/fjs/Binaries/fjs.xcframework.zip
+```
+
+### 发布检查清单
+
+发布支持 Darwin 的版本前，运行：
+
+```sh
+tool/prepare_darwin_release.sh --configuration Release
+```
+
+该脚本会用 CocoaPods 相同的 Rust/Cargokit 输入构建 XCFramework，把原始 framework
+写入 `darwin/fjs/Binaries/fjs.xcframework`，生成 SwiftPM 实际消费的 package-local
+`darwin/fjs/Binaries/fjs.xcframework.zip`，再把验证过的 zip 和 checksum 复制到
+`build/darwin-release`，验证 Darwin 包元数据和 SwiftPM 可消费性，并运行
+`flutter pub publish --dry-run`。
+
+发布时将 `build/darwin-release/fjs.xcframework.zip` 上传到对应版本的 GitHub
+Release。checksum 建议和产物一起保留，用于校验，或未来切换到远程
+`binaryTarget(url:checksum:)` manifest。发布脚本会强制本地编译后再打包
+XCFramework，确保 CocoaPods、SwiftPM 和 Cargokit 预编译 release 都可以追溯到同一组
+Rust 输入。
 
 ## 📄 许可证
 

@@ -15,21 +15,27 @@
 
 use flutter_rust_bridge::frb;
 use rquickjs::function::Constructor;
+use rquickjs::object::Property;
 use rquickjs::{Ctx, FromAtom, FromJs, IntoJs, JsLifetime, Null, Type};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::marker::PhantomData;
 
 const JS_MAX_SAFE_INTEGER: i64 = 9_007_199_254_740_991;
 const JS_MIN_SAFE_INTEGER: i64 = -JS_MAX_SAFE_INTEGER;
+const MAX_CONVERSION_DEPTH: usize = 128;
+const MAX_CONVERSION_NODES: usize = 100_000;
 
 #[frb(ignore)]
 pub(crate) struct ValueIntrinsics<'js> {
     date_constructor: rquickjs::Object<'js>,
     date_get_time: rquickjs::Function<'js>,
+    array_buffer_constructor: rquickjs::Object<'js>,
     array_buffer_is_view: rquickjs::Function<'js>,
     _marker: PhantomData<&'js ()>,
 }
 
+// SAFETY: Every context-bound field (`Object` and `Function`) uses exactly the
+// same `'js` lifetime and `Changed` rebinds all of them uniformly to `'to`.
 unsafe impl<'js> JsLifetime<'js> for ValueIntrinsics<'js> {
     type Changed<'to> = ValueIntrinsics<'to>;
 }
@@ -47,20 +53,24 @@ impl<'js> ValueIntrinsics<'js> {
         Ok(Self {
             date_constructor,
             date_get_time,
+            array_buffer_constructor: array_buffer,
             array_buffer_is_view,
             _marker: PhantomData,
         })
     }
 }
 
-pub(crate) fn install_value_intrinsics<'js>(ctx: &Ctx<'js>) -> anyhow::Result<()> {
+pub(crate) fn install_value_intrinsics<'js>(
+    ctx: &Ctx<'js>,
+) -> Result<(), crate::api::error::JsError> {
     if ctx.userdata::<ValueIntrinsics<'js>>().is_some() {
         return Ok(());
     }
 
     let intrinsics = ValueIntrinsics::capture(ctx)?;
-    ctx.store_userdata(intrinsics)
-        .map_err(|e| anyhow::anyhow!("Failed to store value intrinsics: {:?}", e))?;
+    ctx.store_userdata(intrinsics).map_err(|e| {
+        crate::api::error::JsError::context(format!("Failed to store value intrinsics: {e:?}"))
+    })?;
     Ok(())
 }
 
@@ -68,71 +78,60 @@ fn is_safe_js_integer(value: i64) -> bool {
     (JS_MIN_SAFE_INTEGER..=JS_MAX_SAFE_INTEGER).contains(&value)
 }
 
+/// Clears an exception left pending by a probing QuickJS call (for example
+/// `JS_GetArrayBuffer` throws a `TypeError` for detached buffers) so it cannot
+/// be misattributed to a later, unrelated operation on the context.
+fn clear_residual_exception(ctx: &Ctx<'_>) {
+    if ctx.has_exception() {
+        let _ = ctx.catch();
+    }
+}
+
+fn detached_buffer_error(from: &'static str) -> rquickjs::Error {
+    rquickjs::Error::new_from_js_message(from, "Bytes", "buffer is detached")
+}
+
+/// Returns whether `obj` is an `ArrayBuffer` instance, without probing through
+/// `JS_GetArrayBuffer` (which throws and leaves a pending exception for every
+/// non-ArrayBuffer object).
+fn is_array_buffer_instance<'js>(
+    ctx: &Ctx<'js>,
+    obj: &rquickjs::Object<'js>,
+    intrinsics: Option<&ValueIntrinsics<'js>>,
+) -> bool {
+    let constructor = match intrinsics {
+        Some(intrinsics) => intrinsics.array_buffer_constructor.clone(),
+        None => match ctx.globals().get::<_, rquickjs::Object>("ArrayBuffer") {
+            Ok(constructor) => constructor,
+            Err(_) => return false,
+        },
+    };
+    obj.is_instance_of(&constructor)
+}
+
 fn dynamic_view_bytes<'js>(
     ctx: &Ctx<'js>,
     obj: &rquickjs::Object<'js>,
     intrinsics: Option<&ValueIntrinsics<'js>>,
 ) -> rquickjs::Result<Option<Vec<u8>>> {
-    if let Some(bytes) = obj
-        .as_typed_array::<i8>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
+    macro_rules! try_typed_array_bytes {
+        ($($ty:ty),+ $(,)?) => {
+            $(
+                if let Some(arr) = obj.as_typed_array::<$ty>() {
+                    // SAFETY: the slice is copied before any JavaScript can
+                    // detach or mutate the backing store.
+                    return match unsafe { arr.as_bytes() } {
+                        Some(bytes) => Ok(Some(bytes.to_vec())),
+                        None => {
+                            clear_residual_exception(ctx);
+                            Err(detached_buffer_error("TypedArray"))
+                        }
+                    };
+                }
+            )+
+        };
     }
-    if let Some(bytes) = obj
-        .as_typed_array::<u8>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<i16>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<u16>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<i32>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<u32>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<f32>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<f64>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<i64>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
-    if let Some(bytes) = obj
-        .as_typed_array::<u64>()
-        .and_then(|arr| arr.as_bytes().map(|bytes| bytes.to_vec()))
-    {
-        return Ok(Some(bytes));
-    }
+    try_typed_array_bytes!(i8, u8, i16, u16, i32, u32, f32, f64, i64, u64);
 
     let is_view = if let Some(intrinsics) = intrinsics {
         intrinsics
@@ -157,11 +156,17 @@ fn dynamic_view_bytes<'js>(
     let buffer = obj.get::<_, rquickjs::Object>("buffer")?;
     let byte_offset = obj.get::<_, usize>("byteOffset")?;
     let byte_length = obj.get::<_, usize>("byteLength")?;
-    let array_buffer = rquickjs::ArrayBuffer::from_object(buffer)
-        .ok_or_else(|| rquickjs::Error::new_from_js("value", "ArrayBuffer"))?;
-    let bytes = array_buffer
-        .as_bytes()
-        .ok_or_else(|| rquickjs::Error::new_from_js("value", "ArrayBuffer"))?;
+    let Some(array_buffer) = rquickjs::ArrayBuffer::from_object(buffer) else {
+        clear_residual_exception(ctx);
+        return Err(detached_buffer_error("DataView"));
+    };
+    // SAFETY: the slice is copied before any JavaScript can detach or mutate
+    // the backing store.
+    let bytes = unsafe { array_buffer.as_bytes() };
+    let Some(bytes) = bytes else {
+        clear_residual_exception(ctx);
+        return Err(detached_buffer_error("DataView"));
+    };
     let end = byte_offset.checked_add(byte_length).ok_or_else(|| {
         rquickjs::Error::new_from_js_message("value", "Bytes", "Binary view overflow")
     })?;
@@ -603,9 +608,85 @@ impl JsValue {
     }
 }
 
-impl<'js> FromJs<'js> for JsValue {
-    /// Converts a JavaScript value to a JsValue enum.
-    fn from_js(ctx: &Ctx<'js>, value: rquickjs::Value<'js>) -> rquickjs::Result<Self> {
+#[frb(ignore)]
+#[derive(Default)]
+struct ConversionState<'js> {
+    active_objects: HashSet<rquickjs::Object<'js>>,
+    depth: usize,
+    nodes: usize,
+}
+
+impl<'js> ConversionState<'js> {
+    fn node_limit_error() -> rquickjs::Error {
+        rquickjs::Error::new_from_js_message(
+            "JavaScript value",
+            "JsValue",
+            format!("maximum conversion node count of {MAX_CONVERSION_NODES} exceeded"),
+        )
+    }
+
+    fn depth_limit_error() -> rquickjs::Error {
+        rquickjs::Error::new_from_js_message(
+            "JavaScript value",
+            "JsValue",
+            format!("maximum conversion depth of {MAX_CONVERSION_DEPTH} exceeded"),
+        )
+    }
+
+    fn count_node(&mut self) -> rquickjs::Result<()> {
+        let next = self.nodes.checked_add(1).ok_or_else(|| {
+            rquickjs::Error::new_from_js_message(
+                "JavaScript value",
+                "JsValue",
+                "conversion node count overflowed",
+            )
+        })?;
+        if next > MAX_CONVERSION_NODES {
+            return Err(Self::node_limit_error());
+        }
+        self.nodes = next;
+        Ok(())
+    }
+
+    fn ensure_nodes_available(&self, additional: usize) -> rquickjs::Result<()> {
+        let remaining = MAX_CONVERSION_NODES.saturating_sub(self.nodes);
+        if additional > remaining {
+            return Err(Self::node_limit_error());
+        }
+        Ok(())
+    }
+
+    fn with_object<T>(
+        &mut self,
+        object: &rquickjs::Object<'js>,
+        convert: impl FnOnce(&mut Self) -> rquickjs::Result<T>,
+    ) -> rquickjs::Result<T> {
+        if self.depth >= MAX_CONVERSION_DEPTH {
+            return Err(Self::depth_limit_error());
+        }
+        if !self.active_objects.insert(object.clone()) {
+            return Err(rquickjs::Error::new_from_js_message(
+                "JavaScript value",
+                "JsValue",
+                "cyclic JavaScript value",
+            ));
+        }
+
+        self.depth += 1;
+        let result = convert(self);
+        self.depth -= 1;
+        self.active_objects.remove(object);
+        result
+    }
+}
+
+impl JsValue {
+    fn from_js_with_state<'js>(
+        ctx: &Ctx<'js>,
+        value: rquickjs::Value<'js>,
+        state: &mut ConversionState<'js>,
+    ) -> rquickjs::Result<Self> {
+        state.count_node()?;
         let v = match value.type_of() {
             Type::String => {
                 let s = value
@@ -617,12 +698,17 @@ impl<'js> FromJs<'js> for JsValue {
                 let arr = value
                     .as_array()
                     .ok_or_else(|| rquickjs::Error::new_from_js("value", "Array"))?;
-                let mut vec = Vec::with_capacity(arr.len());
-                for item in arr.iter() {
-                    let item = item?;
-                    let value = JsValue::from_js(ctx, item)?;
-                    vec.push(value);
-                }
+                state.ensure_nodes_available(arr.len())?;
+                let object = arr.as_object().clone();
+                let vec = state.with_object(&object, |state| {
+                    let mut vec = Vec::with_capacity(arr.len());
+                    for item in arr.iter() {
+                        let item = item?;
+                        let value = JsValue::from_js_with_state(ctx, item, state)?;
+                        vec.push(value);
+                    }
+                    Ok(vec)
+                })?;
                 JsValue::Array(vec)
             }
             Type::Object => {
@@ -631,10 +717,22 @@ impl<'js> FromJs<'js> for JsValue {
                     .ok_or_else(|| rquickjs::Error::new_from_js("value", "Object"))?;
                 let intrinsics = ctx.userdata::<ValueIntrinsics<'js>>();
 
-                // Check for ArrayBuffer
-                if let Some(ab) = rquickjs::ArrayBuffer::from_object(obj.clone()) {
-                    let bytes: Vec<u8> = ab.as_bytes().map(|b| b.to_vec()).unwrap_or_default();
-                    return Ok(JsValue::Bytes(bytes));
+                // Check for ArrayBuffer. The instanceof gate matters:
+                // `ArrayBuffer::from_object` probes via `JS_GetArrayBuffer`,
+                // which throws a TypeError for every non-ArrayBuffer object
+                // and would leave that exception pending on the context.
+                if is_array_buffer_instance(ctx, obj, intrinsics.as_deref()) {
+                    // SAFETY: the slice is copied before any JavaScript can
+                    // detach or mutate the backing store.
+                    let bytes = rquickjs::ArrayBuffer::from_object(obj.clone())
+                        .and_then(|ab| unsafe { ab.as_bytes() }.map(|bytes| bytes.to_vec()));
+                    return match bytes {
+                        Some(bytes) => Ok(JsValue::Bytes(bytes)),
+                        None => {
+                            clear_residual_exception(ctx);
+                            Err(detached_buffer_error("ArrayBuffer"))
+                        }
+                    };
                 }
 
                 if let Some(bytes) = dynamic_view_bytes(ctx, obj, intrinsics.as_deref())? {
@@ -646,12 +744,16 @@ impl<'js> FromJs<'js> for JsValue {
                 }
 
                 // Regular object
-                let mut map = HashMap::new();
-                for prop in obj.props() {
-                    let (k, v) = prop?;
-                    let value = JsValue::from_js(ctx, v)?;
-                    map.insert(String::from_atom(k)?, value);
-                }
+                let object = obj.clone();
+                let map = state.with_object(&object, |state| {
+                    let mut map = HashMap::new();
+                    for prop in obj.props() {
+                        let (k, v) = prop?;
+                        let value = JsValue::from_js_with_state(ctx, v, state)?;
+                        map.insert(String::from_atom(k)?, value);
+                    }
+                    Ok(map)
+                })?;
                 JsValue::Object(map)
             }
             Type::Int => {
@@ -726,6 +828,13 @@ impl<'js> FromJs<'js> for JsValue {
     }
 }
 
+impl<'js> FromJs<'js> for JsValue {
+    /// Converts a JavaScript value to a JsValue enum.
+    fn from_js(ctx: &Ctx<'js>, value: rquickjs::Value<'js>) -> rquickjs::Result<Self> {
+        JsValue::from_js_with_state(ctx, value, &mut ConversionState::default())
+    }
+}
+
 impl<'js> IntoJs<'js> for JsValue {
     /// Converts a JsValue to a JavaScript value.
     fn into_js(self, ctx: &Ctx<'js>) -> rquickjs::Result<rquickjs::Value<'js>> {
@@ -763,7 +872,10 @@ impl<'js> IntoJs<'js> for JsValue {
             JsValue::Object(v) => {
                 let obj = rquickjs::Object::new(ctx.clone())?;
                 for (k, val) in v.into_iter() {
-                    obj.set(k, val.into_js(ctx)?)?;
+                    obj.prop(
+                        k,
+                        Property::from(val).writable().enumerable().configurable(),
+                    )?;
                 }
                 obj.into_js(ctx)
             }
