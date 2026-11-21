@@ -1,5 +1,5 @@
 import type { UserConfig } from "vite";
-import type { Options as SolidOptions } from "vite-plugin-solid";
+import type { Options as SolidOptions } from "@solidjs/vite-plugin";
 
 export interface FuseConfig {
   /** Mark this package as a Fuse library. Enables `fuse build` library mode. */
@@ -8,7 +8,7 @@ export interface FuseConfig {
   register?: string;
   /** Path to Dart package directory, defaults to "dart" (for libraries) */
   dart?: string;
-  /** vite-plugin-solid options. Fuse sets generate: "universal" and moduleName: "solid-fuse" as defaults. */
+  /** @solidjs/vite-plugin options. Fuse sets generate: "universal" and moduleName: "solid-fuse" as defaults. */
   solid?: Partial<SolidOptions>;
   /** Vite config overrides, merged with Fuse defaults (for apps) */
   vite?: UserConfig;

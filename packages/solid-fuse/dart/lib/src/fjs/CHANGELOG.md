@@ -1,5 +1,73 @@
 # Changelog
 
+## Unreleased
+
+* **FIX**: The example's `FjsService.dispose()` now drains already-scheduled JavaScript work via `closeGracefully()` before teardown, so pending evaluations settle normally instead of surfacing as late cancelled errors after callers move on.
+* **INTERNAL**: Integration tests now run on every desktop platform in CI: all four example suites (`smoke`, `simple`, `runtime_driver`, `fjs_service`) execute sequentially on Linux, macOS, and Windows instead of the previous Linux-only smoke test.
+* **INTERNAL**: Added a full unit-test suite for the `fetch-precompiled-artifacts` publish-path command (signature verification, multi-asset fetch, composite-name validation, missing generation, wrong signing key) and a Rust regression test locking the async engine's memory-limit error contract.
+
+## 3.3.2
+
+* **BREAKING**: Raised the supported toolchain floor to Flutter 3.35.5 / Dart 3.9.2 (from 3.24.0 / 3.5.0), following `flutter_rust_bridge` 2.13.0 which requires Dart SDK >=3.9.2. Consumers on older Flutter must stay on fjs 3.3.1 (FRB 2.12) or upgrade Flutter.
+* **INTERNAL**: Upgraded `flutter_rust_bridge` to 2.13.0 — codegen, runtime dependency, and regenerated bindings. The bridge content hash is unchanged from 2.12.0, so the wire format stays compatible. CI installs codegen 2.13.0 and the root dependency pins the runtime with an exact bare-version constraint (`2.13.0`), matching the codegen like the Rust side does.
+
+## 3.3.1
+
+* **FIX**: Published pub packages now ship `darwin/fjs/Binaries/fjs.xcframework.zip` again. The tag-triggered publish workflow materializes the signed SwiftPM composite from the verified precompiled generation before `flutter pub publish` and hard-fails when the binary is absent, so Swift Package Manager resolution no longer fails with a missing `FjsBinary` archive.
+* **FIX**: Android Cargokit builds pin `CLANG_PATH` to the NDK clang and use the NDK LLVM triple directory (`arm-linux-androideabi`) for armv7 bindgen includes, fixing Windows Android builds where bindgen loaded a host LLVM installation and could not find `stdbool.h`.
+* **FIX**: `cargokit/run_build_tool.cmd` now propagates the Dart build tool's non-zero exit code (including after the snapshot-rebuild retry path), so Windows Gradle builds fail instead of silently producing an APK without `libfjs.so`.
+* **FIX**: Declared `PRECOMPILE_BINARIES_PRIVATE_KEY` on the reusable precompile workflow so the explicitly scoped callers resolve; CI had rejected every workflow startup since the secret passthrough was introduced.
+* **INTERNAL**: Updated `h2` to 0.4.19 (RUSTSEC-2026-0258) and `rustls` to 0.23.45 (RUSTSEC-2026-0285), clearing the RustSec audit gate that had not run since the CI startup regression.
+* **INTERNAL**: Upgraded `rquickjs` to 0.14.0 (master `3d5ecfc9`) and the `llrt` crates to main `89941ae1`; `ArrayBuffer`/`TypedArray` byte reads now record the copy-before-Java-runs safety invariant required by the new `as_bytes` contract.
+* **FIX**: Patched `dlopen2` to a git fix (upstream PR [OpenByteDev/dlopen2#29](https://github.com/OpenByteDev/dlopen2/pull/29)) because 0.9.0 removed its `once_cell` dependency while `raw/unix.rs` still imports it on every non-linux/non-macos target, so Android builds failed with E0433; the patch swaps in `std::sync::LazyLock` and drops out once upstream releases a fix.
+* **INTERNAL**: Pinned `cargo-expand` 1.0.126 for FRB regeneration and capped the root `flutter_rust_bridge` dependency to the codegen's minor line (`~2.12.0`). Release drift in cargo-expand re-prints expanded code differently, and an unconstrained caret let fresh resolutions pick newer FRB runtimes, tripping the generator's auto-upgrade into rewriting `pubspec.yaml` on CI; the codegen toolchain uses floating nightly as requested, and both pins are enforced by the regeneration check and installed by CI.
+
+## 3.3.0
+
+* **BREAKING**: Raised the supported toolchain floor to Flutter 3.24.0 and Dart 3.5.0, aligned Cargokit and precompiled generation with that minimum, and added a minimum-version public API compilation gate while keeping the example on the latest pinned Flutter release.
+* **FIX**: Fixed issue 19 by making the embedded CargoKit Gradle plugin compatible with Gradle 9 while retaining Gradle 8 support.
+* **FIX**: Preserved QuickJS async result normalization for the single-field `{ value: ... }` wrapper and added focused regression coverage for wrapper and multi-key object behavior.
+* **SECURITY**: Made JavaScript value conversion depth- and node-bounded, cycle-safe, and explicit about conversion failures.
+* **SECURITY**: Bounded synchronous and asynchronous file-backed source reads so oversized inputs are rejected before unbounded allocation.
+* **FIX**: Preserved rooted module specifiers during resolution and normalized rooted bytecode modules consistently.
+* **INTERNAL**: Updated dependencies for resolved security advisories and recorded the remaining reviewed exception.
+* **INTERNAL**: Documented Rust public APIs plus handwritten unsafe, lifetime, runtime-driver, and error-sink invariants.
+* **INTERNAL**: Made Darwin release artifacts reproducible and self-verifying with an atomic symlink-preserving SwiftPM zip, synchronized 3.3.0 metadata, FRB codegen/content-hash checks, exact architecture and framework-version validation, and a real SwiftPM fixture build.
+* **INTERNAL**: Added production CI gates for strict Rust and Dart quality, Gradle 8/9 Android compatibility, and clean-HEAD Darwin release packaging.
+* **DOCS**: Clarified the trusted-script security boundary, native builtin capabilities, and isolation requirements for untrusted code.
+
+## 3.2.0
+
+* **BREAKING**: `JsEngine.close()` is now immediate/non-draining. It marks the engine closed, requests runtime shutdown, stops the driver, detaches host globals, and causes in-flight foreground work to fail with `JsError.cancelled` instead of waiting for timers, Promise callbacks, bridge calls, fetches, or spawned work to complete.
+* **FEATURE**: Added `JsEngine.closeGracefully()` for the previous draining shutdown behavior. Use it when already-scheduled JavaScript work must be allowed to finish before teardown completes.
+* **FIX**: Runtime shutdown now installs a QuickJS interrupt handler at runtime creation, so CPU-bound JavaScript can be interrupted when the engine is closed.
+* **FIX**: Pending `fjs.bridge_call(...)` futures now observe engine shutdown and release their Dart-side callback future instead of keeping the runtime alive until the host future completes.
+* **INTERNAL**: Added shutdown lifecycle coverage for pending evals, module calls, bridge calls, CPU-bound JavaScript, closed-state API rejection, and mixed multi-API close integration.
+
+## 3.1.0
+
+* **FIX**: Normalized Android Cargokit bindgen sysroot/include paths to forward slashes and passed the Android clang target explicitly, fixing Windows Android builds that failed to find NDK headers such as `stdio.h`.
+* **FIX**: Pinned Cargokit cargo builds to the selected rustup toolchain's `rustc`, avoiding host `PATH` contamination from other Rust installations during cross-compilation.
+* **FIX**: Made `tool/build_fjs_xcframework.sh --zip-output` handle relative output paths correctly.
+* **INTERNAL**: Strengthened Darwin CocoaPods/SwiftPM release validation so local XCFramework artifacts must match the package version before release checks pass.
+
+## 3.0.0
+
+* **BREAKING**: `JsEngine`, `JsBytecode`, `JsRuntime`, `JsContext`, `JsAsyncRuntime`, and `JsAsyncContext` methods now throw a typed `JsError` instead of `AnyhowException`; catch with `on JsError` and match `code()` or the freezed variants
+* **BREAKING**: `JsError.memoryLimit` now carries a message string instead of `current`/`limit` byte counts (those fields were never populated)
+* **BREAKING**: `JsEngine.close()` now succeeds while `init()` is still in flight; the interrupted `init()` reports the failure instead
+* **FEATURE**: Real QuickJS exceptions are classified into structured `JsError` variants — `syntax` (with line/column), `type`, `reference`, `stackOverflow`, `memoryLimit` — with full message and stack text preserved
+* **FEATURE**: `rquickjs` error mapping now produces `conversion`, `module`, `io`, and `memoryLimit` variants instead of flattening everything into `runtime`
+* **FEATURE**: Added public `JsEngine.drainUnhandledJobErrors()` to observe background JavaScript failures without failing an unrelated engine call; works in every engine state, including after `close()`
+* **PERF**: Replaced the 5 ms background driver poll loop with an event-driven design (runtime schedular wakes + foreground notifications + 1 s defensive fallback); idle runtimes no longer consume CPU and detached timers fire on time
+* **PERF**: Bytecode bundle validation reuses a single scratch QuickJS runtime for all modules; engine bytecode evaluation/bundle paths no longer validate or decode payloads twice
+* **FIX**: Dropping `JsAsyncRuntime`/`JsAsyncContext` no longer blocks the calling thread (often the Dart main thread); cleanup now runs detached on the JS executor while `close()` stays deterministic
+* **FIX**: Lock poisoning in driver/module/engine state no longer panics across the FFI boundary; locks recover the inner state instead
+* **FIX**: Converting plain JavaScript objects no longer leaves a stale pending `TypeError` on the context (the previous `ArrayBuffer` probe threw internally for every non-ArrayBuffer object); detached `ArrayBuffer`/`TypedArray`/`DataView` values now raise a clear conversion error instead of silently producing empty bytes
+* **FIX**: Background error acknowledgements are bounded: a handled promise rejection only removes its own queued error, so a recycled promise address can no longer swallow an unrelated background failure
+* **INTERNAL**: Collapsed the six engine module declaration/evaluation methods into shared helpers; unified relative-specifier normalization; macro-ized typed-array byte extraction
+* **INTERNAL**: Regenerated Flutter Rust Bridge bindings with `flutter_rust_bridge_codegen 2.12.0`
+
 ## 2.2.0
 
 * **BREAKING**: Renamed runtime and engine factory APIs from `withOptions(...)` to `create(...)`

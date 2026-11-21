@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import solidPlugin from "vite-plugin-solid";
+import solidPlugin from "@solidjs/vite-plugin";
 import { resolve } from "path";
 
 export default defineConfig({
@@ -13,17 +13,17 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "~": resolve(__dirname, "src"),
+      "~": resolve(import.meta.dirname, "src"),
     },
   },
   build: {
     target: "es2020",
     lib: {
       entry: {
-        index: resolve(__dirname, "src/index.ts"),
-        config: resolve(__dirname, "src/config.ts"),
-        "icons/material": resolve(__dirname, "src/icons/material.ts"),
-        "icons/cupertino": resolve(__dirname, "src/icons/cupertino.ts"),
+        index: resolve(import.meta.dirname, "src/index.ts"),
+        config: resolve(import.meta.dirname, "src/config.ts"),
+        "icons/material": resolve(import.meta.dirname, "src/icons/material.ts"),
+        "icons/cupertino": resolve(import.meta.dirname, "src/icons/cupertino.ts"),
       },
       formats: ["es"],
       fileName: (_format, entryName) => `${entryName}.js`,
