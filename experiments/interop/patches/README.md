@@ -15,3 +15,5 @@ See `../reports/05-bridge.md` and `../reports/06-e2e-fuse-add.md` for what each 
 `spike-coldstart.patch` applies on top of `spike-perf.patch` (startup marks, bytecode asset, prerendered first screen, baked subtrees); see `../reports/13-cold-start.md`.
 
 `spike-templates.patch` applies on top of `spike-perf.patch` (compile-time templates: Babel plugin, runtime, Dart ops); see `../reports/12-bundle-time.md`.
+
+`spike-dartside.patch` applies on top of `spike-templates.patch` (lean render path: merged box for view, text leaf, block list editor, lazy ScrollView); see `../reports/14-dart-side.md`.
