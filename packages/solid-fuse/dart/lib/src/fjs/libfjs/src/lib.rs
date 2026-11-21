@@ -25,21 +25,31 @@
 //!
 //! ## Usage
 //!
-//! ```rust
-//! use libfjs::api::js::{JsRuntime, JsContext};
+//! ```rust,ignore
+//! use libfjs::api::{JsContext, JsRuntime};
 //!
 //! // Create a runtime and context
 //! let runtime = JsRuntime::new()?;
-//! let context = JsContext::new(&runtime)?;
+//! let context = JsContext::from(&runtime)?;
 //!
-//! // Execute JavaScript code
-//! let result = context.eval("console.log('Hello, World!'); 42;")?;
+//! // Execute JavaScript code (returns a JsResult)
+//! let result = context.eval("1 + 41".to_string());
+//! assert!(result.is_ok());
 //! ```
+
+#![deny(missing_docs)]
+#![deny(unsafe_op_in_unsafe_fn)]
+#![warn(clippy::undocumented_unsafe_blocks)]
 
 pub mod api;
 mod bytecode_support;
+#[allow(
+    missing_docs,
+    unsafe_op_in_unsafe_fn,
+    clippy::undocumented_unsafe_blocks
+)]
 mod frb_generated;
-mod js_executor;
+mod runtime;
 
 #[cfg(test)]
 mod tests;

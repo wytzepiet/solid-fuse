@@ -48,7 +48,11 @@ function flushOps() {
   flush();
   flushScheduled = false;
   if (ops.length === 0) return;
-  send("_ops", { ops: ops.slice() });
+  // One JSON string per batch, not an array of op objects: fjs (3.3+) bounds
+  // JS→Dart value conversion at 100,000 values, which an op array crosses at
+  // roughly 4,500 mounted elements. A string is a single value, and
+  // JSON.stringify + jsonDecode is also cheaper than walking the objects.
+  send("_ops", { json: JSON.stringify(ops) });
   ops.length = 0;
 }
 

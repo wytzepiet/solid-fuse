@@ -13,11 +13,7 @@ void main() {
   testWidgets('engine.call concurrency: short doesn\'t wait for long',
       (tester) async {
     await initFjs();
-    final runtime = await JsAsyncRuntime.withOptions(
-      builtin: JsBuiltinOptions.all(),
-    );
-    final context = await JsAsyncContext.from(runtime: runtime);
-    final engine = JsEngine(context: context);
+    final engine = await JsEngine.create(builtins: JsBuiltinOptions.all());
 
     await engine.init(
       bridge: (v) async {
@@ -45,10 +41,6 @@ void main() {
       ),
     );
 
-    final pump = Timer.periodic(const Duration(milliseconds: 10), (_) {
-      runtime.executePendingJob().catchError((_) => false);
-    });
-
     final sw = Stopwatch()..start();
     final longFuture = engine.call(
       module: 'probe',
@@ -65,7 +57,6 @@ void main() {
     );
     final shortElapsed = sw.elapsedMilliseconds - shortStart;
     await longFuture;
-    pump.cancel();
 
     expect(shortElapsed, lessThan(200),
         reason: 'engine.call should be concurrent, not serialized');

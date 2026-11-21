@@ -1,7 +1,7 @@
 import { existsSync } from "fs";
 import { join, resolve } from "path";
 import { mergeConfig, type InlineConfig } from "vite";
-import solidPlugin from "vite-plugin-solid";
+import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
 import type { FuseConfig } from "../src/config";
 import { fuseDevErrorPlugin } from "./dev-error-plugin";

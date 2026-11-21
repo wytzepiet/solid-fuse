@@ -1,57 +1,51 @@
 (function() {
-	//#region \0@oxc-project+runtime@0.124.0/helpers/typeof.js
-	function _typeof(o) {
-		"@babel/helpers - typeof";
-		return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-			return typeof o;
-		} : function(o) {
-			return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-		}, _typeof(o);
-	}
-	//#endregion
-	//#region \0@oxc-project+runtime@0.124.0/helpers/toPrimitive.js
-	function toPrimitive(t, r) {
-		if ("object" != _typeof(t) || !t) return t;
-		var e = t[Symbol.toPrimitive];
-		if (void 0 !== e) {
-			var i = e.call(t, r || "default");
-			if ("object" != _typeof(i)) return i;
-			throw new TypeError("@@toPrimitive must return a primitive value.");
-		}
-		return ("string" === r ? String : Number)(t);
-	}
-	//#endregion
-	//#region \0@oxc-project+runtime@0.124.0/helpers/toPropertyKey.js
-	function toPropertyKey(t) {
-		var i = toPrimitive(t, "string");
-		return "symbol" == _typeof(i) ? i : i + "";
-	}
-	//#endregion
-	//#region \0@oxc-project+runtime@0.124.0/helpers/defineProperty.js
-	function _defineProperty(e, r, t) {
-		return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
-			value: t,
-			enumerable: !0,
-			configurable: !0,
-			writable: !0
-		}) : e[r] = t, e;
-	}
-	//#endregion
-	//#region ../../node_modules/.bun/@solidjs+signals@2.0.0-beta.7/node_modules/@solidjs/signals/dist/prod.js
-	var NotReadyError$1 = class extends Error {
-		constructor(e) {
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/error.js
+	/**
+	* Thrown by a tracked read whose value is currently pending (an async memo /
+	* `createSignal(asyncFn)` / projection / store derivation that hasn't settled
+	* yet). Surfacing through the reactive graph is what suspends the consumer
+	* scope — the nearest enclosing `<Loading>` boundary catches the throw and
+	* renders its fallback until the source resolves.
+	*
+	* App code rarely catches this directly; `<Loading>` is the canonical
+	* handler. The error type is exposed for advanced cases — e.g. interop layers
+	* that bridge Solid's pending-throw protocol to a different async strategy,
+	* or tests that want to assert on the suspension shape.
+	*
+	* @example
+	* ```ts
+	* // Advanced: distinguish "not ready yet" from a real error in custom
+	* // boundary plumbing. App code should rely on `<Loading>` / `<Errored>`.
+	* try {
+	*   const value = readReactiveSource();
+	* } catch (err) {
+	*   if (err instanceof NotReadyError) throw err; // re-throw to suspend
+	*   reportError(err);
+	* }
+	* ```
+	*/
+	var NotReadyError = class extends Error {
+		constructor(r) {
+			const o = Error;
+			const t = o.stackTraceLimit;
+			if (t) o.stackTraceLimit = 0;
 			super();
-			_defineProperty(this, "source", void 0);
-			this.source = e;
+			if (t) o.stackTraceLimit = t;
+			this.source = r;
 		}
 	};
-	var StatusError$1 = class extends Error {
-		constructor(e, t) {
-			super(t instanceof Error ? t.message : String(t), { cause: t });
-			_defineProperty(this, "source", void 0);
-			this.source = e;
+	var StatusError = class extends Error {
+		constructor(r, o) {
+			try {
+				var t = String(o instanceof Error ? o.message : o);
+			} catch {}
+			super(t, { cause: o });
+			this.source = r;
 		}
 	};
+	/** Return the user's error from an internal status wrapper. */ function unwrapStatusError(r) {
+		return r instanceof StatusError ? r.cause : r;
+	}
 	var NoOwnerError = class extends Error {
 		constructor() {
 			super("");
@@ -62,1685 +56,3648 @@
 			super("");
 		}
 	};
-	var REACTIVE_NONE$1 = 0;
-	var REACTIVE_CHECK$1 = 1;
-	var REACTIVE_DIRTY$1 = 2;
-	var REACTIVE_RECOMPUTING_DEPS$1 = 4;
-	var REACTIVE_IN_HEAP$1 = 8;
-	var REACTIVE_IN_HEAP_HEIGHT$1 = 16;
-	var REACTIVE_ZOMBIE$1 = 32;
-	var REACTIVE_DISPOSED$1 = 64;
-	var REACTIVE_OPTIMISTIC_DIRTY$1 = 128;
-	var REACTIVE_SNAPSHOT_STALE$1 = 256;
-	var REACTIVE_LAZY$1 = 512;
-	var STATUS_PENDING$1 = 1;
-	var STATUS_ERROR$1 = 2;
-	var STATUS_UNINITIALIZED$1 = 4;
-	var EFFECT_RENDER$1 = 1;
-	var EFFECT_USER$1 = 2;
-	var EFFECT_TRACKED$1 = 3;
-	var NOT_PENDING$1 = {};
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/constants.js
+	var REACTIVE_MANUAL_WRITE = 1024;
+	/** L2, rule 3 — the node's LAST pass was a render effect's read of the
+	* future as committed (`frameRead`): the frame shows the committed world
+	* beside a future it also derives from, and re-derives at the landing.
+	* Survives its own pass's wipe; the next pass's wipe clears it (a pass that
+	* re-derived the frame — in the future, or without the held read — owes the
+	* landing nothing). The landing consumes it (the transaction's `_reruns`). */ var REACTIVE_FRAME_READ = 2048;
+	/**
+	* A dependency write landed while this subscriber was mid-recompute — a
+	* nested pull committed beneath one of its reads (#3037). The heap refuses
+	* RECOMPUTING nodes, so recompute's tail consumes this latch and reschedules:
+	* values the pass read before the nested commit are stale. Only set for
+	* links validated this pass (gen-current): a write to an untouched link is
+	* either re-read later in the pass (fresh) or trimmed with it (not a dep).
+	*/ var REACTIVE_MISSED_WAKE = 4096;
+	/** A `refresh()` asked this node to re-ask its question (F-9, D-23):
+	* consumed by the next pass, which — going pending — classifies its flight
+	* quiet (`_x._reask`). */ var REACTIVE_REASK = 8192;
+	/** The pass was served a node's ambient staging — written this flush, not
+	* held. If the flush parks, the pass is the frame's with it (the same sync
+	* frame as the async): a verdict read cannot break it out. Per pass. */ var REACTIVE_STAGED_READ = 16384;
+	/** The pass entered a verdict window (`isPending`/`latest`). Per pass: a
+	* pass that did not keeps CONFIG_VERDICT no longer — the frame-reader
+	* posture lasts exactly as long as the probing does. */ var REACTIVE_PROBED = 32768;
+	/** Lanes — the node (a lane's member) was dirtied by the lane's own
+	* re-staging (a re-guess, lane work re-derived): its next pass is the
+	* lane's from the start (`recompute`), not a stale reader's re-run by an
+	* unrelated write (#3460). Consumed by the pass. */ var REACTIVE_LANE_DIRTY = 65536;
+	/** Lanes — the pass read a lane's value as lane work (`enterLane`): a
+	* tracked derivation's read of displayed optimism, a verdict read routed
+	* into the holder's verdict lane. A pass in a lane's seat that read none of
+	* its world has left the lane (`recompute`'s tail). Per pass. */ var REACTIVE_LANE_READ = 1 << 17;
+	/** Lanes — a render effect in the frame's seat was served the screen
+	* for a lane's node (`laneRead`: a stale reader of a lane that has not
+	* shown). Its pass computing exactly what it last applied has nothing to
+	* run — an effect has no comparator, and the guess's notification is not a
+	* change it can see. Per pass. */ var REACTIVE_SCREEN_READ = 1 << 18;
+	/** A verdict reader whose probe was answered before the flush had a
+	* transaction (verdict.ts `watchVerdict`): the seam re-runs it even if a
+	* later read of the same pass routed it into a verdict lane — that was not
+	* the probe's answer (lanes.ts). Per pass. */ var REACTIVE_PROBE_UNANSWERED = 1 << 19;
+	/** The pass opened a verdict window of its own (`isPending`/`latest`) — not
+	* only read a verdict memo (F-6, core.ts `read`). An async memo whose pass
+	* did not is D-25's hold work while its flight is up (verdict.ts
+	* `holdWork`). Per pass. */ var REACTIVE_WINDOW = 1 << 21;
+	/** #4544: a render effect born into a hold read a settled verdict reader's
+	* value this pass (core.ts `read`). Per pass: `recompute`'s tail keeps it as
+	* CONFIG_AHEAD. */ var REACTIVE_AHEAD = 1 << 20;
+	/** An observation-lifecycle node found unobserved by a settle (#2934) while
+	* a pass of it was already queued — a source's landing re-enqueued the
+	* `_blocked` reader it walks (`settlePendingSource`). The release waits for
+	* that pass: a memo nobody read has still produced what the flushes it
+	* missed gave it (D-22, #4474), so the queued pass runs, then `recompute`'s
+	* tail releases the node. Survives the head wipe; the tail consumes it. */ var REACTIVE_RELEASE_AFTER = 1 << 22;
+	/** A computed its own owner reads (a memo reading the memo it created): the
+	* owner sits below it (heights put owners first), so a wake of it wakes the
+	* owner too — the owner's pass re-creates it and is what its readers see. */ var REACTIVE_OWNER_READS = 1 << 23;
+	/** A member of the uncommitted frame a held pass built (ruling A): set at
+	* the park seam on every computed under a staged node (`holdFrame`). Never
+	* shown, it has no screen: its reads are its transaction's, whichever flush
+	* runs it (`bornInto`, #4010). Cleared by its commit. */ var CONFIG_HELD_FRAME = 1 << 20;
+	/** F-1 (#3305): a commit published this flight's inputs
+	* beneath it — the node was pending, nothing staged, when it committed — so
+	* its committed value is torn against the visible frame. A render effect
+	* revealing it cannot be a stale reader: it observes the flight (pends,
+	* holds) instead of showing the pre-flight value. Outlives the flight that
+	* earned it for as long as the node stays pending, and no longer: the
+	* commit that lands a value clears it. */ var CONFIG_INPUTS_PUBLISHED = 1024;
+	/** D-41: the staged value in `_pendingValue` is an error — an
+	* answer of the held frame, published at its landing like a value. */ var CONFIG_STAGED_ERROR = 1 << 21;
+	/** The node's pass read a verdict (`isPending`/`latest`): a dependency going
+	* pending is a question for its next pass — the verdict changed — so the
+	* propagation re-derives it instead of marking it pending (as a kept-tail
+	* link does, D-10). Set at the window, never cleared: a reader that stopped
+	* asking re-derives once and goes pending through its own read. The same
+	* bit as REACTIVE_PROBED: a pass's probe (or a read of a verdict memo,
+	* core.ts `read`) carries into the config at its end without a shift. */ var CONFIG_VERDICT = 32768;
+	/** F-10: the node was written inside a recompute that ran OUTSIDE a flush
+	* (a creation-time compute — boundary machinery, a mapArray's first run). Such
+	* a write is promoted at that recompute's end: readers in the same block see
+	* it. Cleared when the next flush begins; set only on that rare path. */ var CONFIG_PROMOTED = 1 << 22;
+	/** A render effect created by a pass that probed (`isPending`/`latest`) —
+	* the mount a display-ahead `Show` opens (S-46, D-25). Stamped at its first
+	* pass; its first read of a hold's staging or flight is born held, not a
+	* D-3 leaf of the screen, and the verdict lane that opened it reveals with
+	* the landing (lanes.ts `mountPending`). */ var CONFIG_MOUNT_AHEAD = 1 << 24;
+	/** The node's last answering pass registered a flight: an async memo. Kept
+	* by the verdict engine alone (verdict.ts `holdWork`), which reads it. */ var CONFIG_ASYNC = 1 << 29;
+	var NOT_PENDING = {};
 	var NO_SNAPSHOT = {};
 	var SUPPORTS_PROXY = typeof Proxy === "function";
-	var defaultContext$1 = {};
-	function actualInsertIntoHeap$1(e, t) {
-		const n = (e.i?.t ? e.i.u?.o : e.i?.o) ?? -1;
-		if (n >= e.o) e.o = n + 1;
-		const i = e.o;
-		const r = t.l[i];
-		if (r === void 0) t.l[i] = e;
-		else {
-			const t = r.T;
-			t.S = e;
-			e.T = t;
-			r.T = e;
+	var defaultContext = {};
+	/**
+	* Brand symbol used by `Refreshable<T>` values (projection stores, async
+	* memos) to expose their underlying computation to `refresh()`. Not part of
+	* the user-facing API.
+	*
+	* @internal
+	*/ var $REFRESH = Symbol("refresh");
+	var NewSet = Set;
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/owner.js
+	function markDisposal(e) {
+		let n = e.pe;
+		while (n) {
+			n.R |= 32;
+			markDisposal(n);
+			n = n.Ge;
 		}
-		if (i > t.R) t.R = i;
 	}
-	function insertIntoHeap$1(e, t) {
-		let n = e.O;
-		if (n & (REACTIVE_IN_HEAP$1 | REACTIVE_RECOMPUTING_DEPS$1)) return;
-		if (n & REACTIVE_CHECK$1) e.O = n & -4 | 10;
-		else e.O = n | REACTIVE_IN_HEAP$1;
-		if (!(n & REACTIVE_IN_HEAP_HEIGHT$1)) actualInsertIntoHeap$1(e, t);
-	}
-	function insertIntoHeapHeight$1(e, t) {
-		let n = e.O;
-		if (n & (REACTIVE_RECOMPUTING_DEPS$1 | 24)) return;
-		e.O = n | REACTIVE_IN_HEAP_HEIGHT$1;
-		actualInsertIntoHeap$1(e, t);
-	}
-	function deleteFromHeap$1(e, t) {
-		const n = e.O;
-		if (!(n & (REACTIVE_IN_HEAP$1 | REACTIVE_IN_HEAP_HEIGHT$1))) return;
-		e.O = n & -25;
-		const i = e.o;
-		if (e.T === e) t.l[i] = void 0;
-		else {
-			const n = e.S;
-			const r = t.l[i];
-			const s = n ?? r;
-			if (e === r) t.l[i] = n;
-			else e.T.S = n;
-			s.T = e.T;
+	var cleanupError;
+	/** Runs a cleanup or `unobserved` hook; a throw is collected, not raised. @internal */ function runCleanup(e) {
+		try {
+			e();
+		} catch (e) {
+			cleanupError || (cleanupError = [e]);
+			schedule();
 		}
-		e.T = e;
-		e.S = void 0;
 	}
-	function markHeap$1(e) {
-		if (e._) return;
-		e._ = true;
-		for (let t = 0; t <= e.R; t++) for (let n = e.l[t]; n !== void 0; n = n.S) if (n.O & REACTIVE_IN_HEAP$1) markNode$1(n);
+	/** Rethrows the error `runCleanup` collected, once; `drop` discards it. @internal */ function rethrowCleanupError(e) {
+		const n = cleanupError;
+		cleanupError = void 0;
+		if (n && !e) throw n[0];
 	}
-	function markNode$1(e, t = REACTIVE_DIRTY$1) {
-		const n = e.O;
-		if ((n & (REACTIVE_CHECK$1 | REACTIVE_DIRTY$1)) >= t) return;
-		e.O = n & -4 | t;
-		for (let t = e.I; t !== null; t = t.h) markNode$1(t.p, REACTIVE_CHECK$1);
-		if (e.A !== null) for (let t = e.A; t !== null; t = t.N) for (let e = t.I; e !== null; e = e.h) markNode$1(e.p, REACTIVE_CHECK$1);
-	}
-	function runHeap$1(e, t) {
-		e._ = false;
-		for (e.P = 0; e.P <= e.R; e.P++) {
-			let n = e.l[e.P];
-			while (n !== void 0) {
-				if (n.O & REACTIVE_IN_HEAP$1) t(n);
-				else adjustHeight$1(n, e);
-				n = e.l[e.P];
+	function disposeChildren(e, n = false, r) {
+		const t = e.R;
+		if (t & 64) return;
+		if (n) {
+			if (!r && e.T !== null && (e.T.me !== null || e.T.Le !== null)) disposeChildren(e, false, true);
+			e.R = t | 64;
+			if (e.X) {
+				clearInFlight(e);
+				if (e.m & 1 && e.T?.Re != null || t & 2048 || pendingNodes.length) schedule();
 			}
 		}
-		e.R = 0;
-	}
-	function adjustHeight$1(e, t) {
-		deleteFromHeap$1(e, t);
-		let n = e.o;
-		for (let t = e.C; t; t = t.D) {
-			const e = t.m;
-			const i = e.V || e;
-			if (i.L && i.o >= n) n = i.o + 1;
+		let l = r ? e.T.me : e.pe;
+		if (r) e.T.me = null;
+		else e.pe = null;
+		while (l) {
+			l.l &= -33;
+			deleteFromHeap(l, dirtyQueue);
+			clearDeps(l);
+			l.Me = l;
+			disposeChildren(l, true);
+			l = l.Ge;
 		}
-		if (e.o !== n) {
-			e.o = n;
-			for (let n = e.I; n !== null; n = n.h) insertIntoHeapHeight$1(n.p, t);
+		if (!r) e.be = 0;
+		if (n && !r && !(t & 32) && e._parent !== null && !(e._parent.R & 64)) {
+			const n = e.Me;
+			const r = e.Ge;
+			if (n !== null) n.Ge = r;
+			else e._parent.pe = r;
+			if (r !== null) r.Me = n;
+			e.Me = null;
 		}
-	}
-	var transitions$1 = /* @__PURE__ */ new Set();
-	var dirtyQueue$1 = {
-		l: new Array(2e3).fill(void 0),
-		_: false,
-		P: 0,
-		R: 0
-	};
-	var zombieQueue$1 = {
-		l: new Array(2e3).fill(void 0),
-		_: false,
-		P: 0,
-		R: 0
-	};
-	var clock$1 = 0;
-	var activeTransition$1 = null;
-	var scheduled$1 = false;
-	var projectionWriteActive = false;
-	var stashedOptimisticReads$1 = null;
-	function shouldReadStashedOptimisticValue(e) {
-		return !!stashedOptimisticReads$1?.has(e);
-	}
-	function runLaneEffects$1(e) {
-		for (const t of activeLanes$1) {
-			if (t.U || t.k.size > 0) continue;
-			const n = t.G[e - 1];
-			if (n.length) {
-				t.G[e - 1] = [];
-				runQueue$1(n, e);
-			}
+		runDisposal(e, r);
+		if (n && e.ze) {
+			const n = e.ze;
+			e.ze = void 0;
+			runCleanup(n);
 		}
 	}
-	function queueStashedOptimisticEffects$1(e) {
-		for (let t = e.I; t !== null; t = t.h) {
-			const e = t.p;
-			if (!e.W) continue;
-			if (e.W === EFFECT_TRACKED$1) {
-				if (!e.H) {
-					e.H = true;
-					e.F.enqueue(EFFECT_USER$1, e.M);
-				}
+	function linkChild(e, n) {
+		const r = e.pe;
+		n.Me = null;
+		n.Ge = r;
+		if (r !== null) r.Me = n;
+		e.pe = n;
+	}
+	function runDisposal(e, n) {
+		const r = n ? e.T.Le : e.ke;
+		if (!r) return;
+		if (n) e.T.Le = null;
+		else e.ke = null;
+		if (Array.isArray(r)) for (let e = r.length - 1; e >= 0; e--) runCleanup(r[e]);
+		else runCleanup(r);
+	}
+	function childId(e, n) {
+		while (e.l & 4 && e._parent) e = e._parent;
+		if (e.id != null) return formatId(e.id, n ? e.be++ : e.be);
+		throw new Error();
+	}
+	/**
+	* Allocates and returns the next stable child id for `owner`. Used by
+	* hydration plumbing and `createUniqueId`. Not part of the user-facing API.
+	*
+	* @internal
+	*/ function getNextChildId(e) {
+		return childId(e, true);
+	}
+	/**
+	* The id a freshly-created node inherits: an explicit `options.id` wins;
+	* transparent nodes share their parent's id; otherwise the parent's next
+	* child id is consumed (or `undefined` outside an id-carrying tree).
+	*/ function inheritId(e, n, r) {
+		return e?.id ?? (n ? r?.id : r?.id != null ? getNextChildId(r) : void 0);
+	}
+	function formatId(e, n) {
+		const r = n.toString(36), t = r.length - 1;
+		return e + (t ? String.fromCharCode(64 + t) : "") + r;
+	}
+	/**
+	* Returns the current reactive **owner** — the lifecycle node that the next
+	* `cleanup()` / `onCleanup()` / `createSignal()` etc. will be attached to.
+	*
+	* Returns `null` if called outside any owner. Capture the owner with
+	* `getOwner()` and re-enter it later with `runWithOwner(owner, fn)` to attach
+	* disposables created from a callback (event handler, async resolution, etc.)
+	* back to a component's lifecycle.
+	*
+	* @example
+	* ```ts
+	* function defer<T>(fn: () => T) {
+	*   const owner = getOwner();
+	*   queueMicrotask(() => runWithOwner(owner, fn));
+	* }
+	* ```
+	*/ function getOwner() {
+		return context;
+	}
+	/**
+	* Low-level: registers `fn` as a disposal callback on the current owner.
+	* Most code should use `onCleanup()` from `solid-js`, which adds dev-mode
+	* checks. `cleanup()` is the unchecked primitive used by internals; `owner`
+	* (internal) targets a specific owner's disposal list instead of the ambient
+	* one.
+	*/ function cleanup(e, n = context) {
+		if (!n) return e;
+		if (!n.ke) n.ke = e;
+		else if (Array.isArray(n.ke)) n.ke.push(e);
+		else n.ke = [n.ke, e];
+		return e;
+	}
+	function disposeRootSelf(e = true) {
+		disposeChildren(this, e);
+		if (cleanupError && !globalQueue.Y) rethrowCleanupError();
+	}
+	/**
+	* Creates a fresh owner attached as a child of the current owner (or as a
+	* detached root if there is none). Used by framework internals to group
+	* cleanups; app code should use `createRoot()` (host a reactive scope outside
+	* a component) or `runWithOwner()` (re-enter a captured owner).
+	*
+	* @internal
+	*/ function createOwner(e) {
+		const n = context;
+		const r = e?.transparent ?? false;
+		const t = {
+			id: inheritId(e, r, n),
+			l: r ? 4 : 0,
+			R: 0,
+			Qe: true,
+			Ke: n?.Qe ? n.Ke : n,
+			pe: null,
+			Ge: null,
+			Me: null,
+			ke: null,
+			A: n?.A || defaultContext,
+			be: 0,
+			T: null,
+			_parent: n,
+			dispose: disposeRootSelf
+		};
+		if (n) linkChild(n, t);
+		return t;
+	}
+	/**
+	* Creates a reactive root — an owner scope with its own `dispose()`. A root
+	* created inside an existing owner is owned by it and is disposed when the
+	* parent is disposed; call `dispose()` to tear it down earlier. To create a
+	* root that outlives its creator, detach explicitly:
+	* `runWithOwner(null, () => createRoot(...))`. Pass `id` to seed hydration
+	* ids for the tree it owns.
+	*
+	* `dispose()` tears down every signal, memo, effect, and `onCleanup`
+	* registered inside the root.
+	*
+	* Use this to host long-lived reactive scopes outside of a component (custom
+	* controllers, app bootstrapping, tests). Inside a component, prefer
+	* letting Solid's component lifecycle own things.
+	*
+	* @example
+	* ```ts
+	* // At module level there is no owner, so this root lives until disposed.
+	* const dispose = createRoot(dispose => {
+	*   const [n, setN] = createSignal(0);
+	*   createEffect(() => n(), value => console.log(value));
+	*   setInterval(() => setN(x => x + 1), 1000);
+	*   return dispose;
+	* });
+	*
+	* // Later, to tear everything down:
+	* dispose();
+	*
+	* // Inside an owner (component, effect, another root), detach explicitly
+	* // if the root must outlive its creator:
+	* const detached = runWithOwner(null, () => createRoot(d => d));
+	* ```
+	*
+	* @description https://docs.solidjs.com/reference/solid-js/advanced/owner-introspection/create-root
+	*/ function createRoot$1(e, n) {
+		const r = createOwner(n);
+		return runWithOwner(r, () => e(disposeRootSelf.bind(r, true)));
+	}
+	// \0@oxc-project+runtime@0.156.0/helpers/esm/typeof.js
+	function _typeof(o) {
+		"@babel/helpers - typeof";
+		return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+			return typeof o;
+		} : function(o) {
+			return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+		}, _typeof(o);
+	}
+	// \0@oxc-project+runtime@0.156.0/helpers/esm/toPrimitive.js
+	function toPrimitive(t, r) {
+		if ("object" != _typeof(t) || !t) return t;
+		var e = t[Symbol.toPrimitive];
+		if (void 0 !== e) {
+			var i = e.call(t, r || "default");
+			if ("object" != _typeof(i)) return i;
+			throw new TypeError("@@toPrimitive must return a primitive value.");
+		}
+		return ("string" === r ? String : Number)(t);
+	}
+	// \0@oxc-project+runtime@0.156.0/helpers/esm/toPropertyKey.js
+	function toPropertyKey(t) {
+		var i = toPrimitive(t, "string");
+		return "symbol" == _typeof(i) ? i : i + "";
+	}
+	// \0@oxc-project+runtime@0.156.0/helpers/esm/defineProperty.js
+	function _defineProperty(e, r, t) {
+		return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+			value: t,
+			enumerable: !0,
+			configurable: !0,
+			writable: !0
+		}) : e[r] = t, e;
+	}
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/scheduler.js
+	var laneReadHook = null;
+	var laneStageHook = null;
+	var laneOutcomeHook = null;
+	var laneWriteHook = null;
+	var applyGuessesHook = null;
+	var laneSeamsHook = null;
+	var laneCorrectionsHook = null;
+	var endLanesHook = null;
+	var lanesBlockedHook = null;
+	/** R5 (verdict.ts: the seam parks a frame flight of a reader that reads
+	* ahead): the landing's re-derive of the reader adopts the flight instead
+	* (`adoptParked`; true: adopted, nothing to queue). */ var laneAdoptHook = null;
+	/** core.ts `frameRead` served lane work or a verdict reader a held node's
+	* committed value (lanes.ts `laneServed`). */ var laneServedHook = null;
+	/** A guess was written (guesses.ts `optimisticWrite`): the arms only a guess
+	* reaches (CONFIG_GUESS) — a build without `createOptimistic` or
+	* `createOptimisticStore` never sets it, and its bundler folds them. */ var guessing = false;
+	var catchHook = null;
+	var freshHook = null;
+	var hiddenHook = null;
+	var boundarySeamHook = null;
+	var heldRunHook = null;
+	/** Store (store/store.ts): `park` — the flush parked into `t`: the store
+	* materializes and holds the container node of every staging that had none
+	* (a staging needs the node as its home only when something can read the
+	* frame through it; a hold can); `commit` — fold the pending backings whose
+	* container nodes this flush committed (the owned-raw model's one mutation
+	* point). */ var storeParkHook = null;
+	var storeCommitHook = null;
+	/** `affects()` marks (affects.ts): the releases at a landing and at the seam
+	* (ambient marks). */ var releaseMarksHook = null;
+	var releaseAmbientMarksHook = null;
+	/** Verdicts (verdict.ts). */ var observeFlightHook = null;
+	/** D-25's hold work (verdict.ts `holdWork`): on `source` going pending,
+	* whether verdict reader `n` waits on it instead of re-deriving. */ var holdWorkHook = null;
+	/** D-41's staged-error mark (verdict.ts `stageMark`): the settle walk's
+	* reached node `n` carries staged error source `el`'s staging. */ var stageMarkHook = null;
+	/** #4417 (verdict.ts `keepReaders`); a landing's held re-derivation run (verdict.ts `attachWaits`). */ var keepReadersHook = null;
+	var attachHook = null;
+	/** #4544 (verdict.ts). Null without the verdict engine. */ var holdStagingHook = null;
+	/** D-8 (verdict engine), at the flush: the readers a tick netting to its
+	* starting value woke are let go (verdict.ts `revert`). */ var revertHook = null;
+	/** Verdict engine, a pass's head (D-22, D-41: the held error `latest` keeps
+	* showing) and, with `tail`, its end
+	* (A19 exc. 2: whether it asked the committed question again). */ var passHook = null;
+	/** External-source bridge (wired by enableExternalSource(); undefined while
+	* no config is active — including after _resetExternalSourceConfig()). */ var wireExternalSourceHook = void 0;
+	var externalUntrackHook = void 0;
+	/** Live transactions — opened, unmerged, not landed. Scanned at every seam
+	* while non-empty; nothing on the plain path. */ var transactions = [];
+	/** A transaction (listed here) or a lane (lanes.ts lists its own). */ function newTransaction(e, o = null) {
+		const n = {
+			ln: [],
+			rn: [[], []],
+			fn: [],
+			eo: null,
+			_parent: o,
+			P: e,
+			Pe: null,
+			tt: 0,
+			nt: false,
+			nn: null,
+			Ue: false,
+			un: false,
+			I: null
+		};
+		if (!e) transactions.push(n);
+		return n;
+	}
+	/** The lane the running pass is work of; set at `recompute`'s head from the
+	* node, moved by a derivation's lane read, saved and restored around the
+	* pass. */ var passLane = null;
+	function setPassLane(e) {
+		passLane = e;
+	}
+	/** The transaction this flush parks into: set by the first join, merged
+	* with every further one. Consumed at the seam. A join outside a flush (a
+	* mount's pending observer, a write to a held node, an action opening)
+	* schedules the seam that consumes it: membership is the tick's — the same
+	* synchronous frame — and the next tick's writes are not this one's. */ var flushTransaction = null;
+	/** The transaction the passes running OUTSIDE a flush this tick derive from
+	* (a mainline mount, a mainline re-pass): the passes' own (A29, creation-
+	* time form — "the entry is the pass's alone"): their results are staged
+	* into it, and nothing else in the tick is — a write made after the mount
+	* is a mainline write, a render effect mounted beside it a stale reader.
+	* Inside a flush, or in a tick that already has its transaction (an
+	* action's body), the frame joins instead (`flushTransaction`) — except a
+	* first pass a loading boundary that has not shown content catches (`own`,
+	* A29's boundary exemption, #3540): it is the boundary's, not the tick's,
+	* and a flush that has joined nothing keeps it pass-scoped as outside one.
+	* Cleared by the flush the join schedules, and at the end of a flush that
+	* set it. */ var passTx = null;
+	function joinPassTx(e, o) {
+		if (globalQueue.Y && !o || flushTransaction !== null) return joinFuture(e);
+		if (passTx === null) passTx = resolveTx(e);
+		else merge$1(resolveTx(e), passTx);
+		schedule();
+	}
+	/** The transaction holding a node (CONFIG_HELD set), resolved through
+	* merges; the path is compressed. */ function txOf(e) {
+		return e.T.Re = resolveTx(e.T.Re);
+	}
+	/** `t` resolved through merges while it is still parked or open; null once
+	* it has landed. */ function liveTx(e) {
+		e = resolveTx(e);
+		return transactions.indexOf(e) !== -1 ? e : null;
+	}
+	function resolveTx(e) {
+		while (e.eo !== null) e = e.eo;
+		return e;
+	}
+	function joinFuture(e) {
+		if (laneStageHook && e?.P) return;
+		const o = flushTransaction;
+		if (o === null) flushTransaction = e === null ? newTransaction(false) : resolveTx(e);
+		else if (e !== null) merge$1(resolveTx(e), o);
+		if (!globalQueue.Y) schedule();
+	}
+	/** `t` merges into `f`: the work that touched both entangles them (A15).
+	* A lane never merges: it is a sub-frame, not a peer — its work is routed
+	* per pass (`passLane`). */
+	/** #4777: the merges made since a pass adopted the flush's hold (core.ts
+	* `adopter`), as [t, f._acted before]: a restart gives them back too. */ var adopted = [];
+	function merge$1(e, o) {
+		var _o, _o2;
+		e = resolveTx(e);
+		o = resolveTx(o);
+		if (e === o || e.P || o.P) return;
+		if (observeFlightHook && adopter) adopted.push(e, o.nt);
+		e.eo = o;
+		o.tt += e.tt;
+		(_o = o).nt || (_o.nt = e.nt);
+		append(o.ln, e.ln);
+		append(o.rn[0], e.rn[0]);
+		append(o.rn[1], e.rn[1]);
+		append(o.fn, e.fn);
+		if (e.I !== null) append((_o2 = o).I ?? (_o2.I = []), e.I);
+		transactions.splice(transactions.indexOf(e), 1);
+	}
+	/** A15: a hold is a property of the async node — observed pending by a
+	* render reader. A transaction is blocked while a node it holds, in flight,
+	* has one: a pending render effect (the frame itself), or a pending held
+	* node a render effect reads. A stale reader served the committed value
+	* never went pending, but derives from the flight all the same (#3494) and
+	* is still linked to it; a memo between them is pending, and held, too — so
+	* one hop of `_subs` is the chain. Reads of the reader's LAST pass only (the
+	* link's generation is the pass's): a tail kept for A30 — the committed
+	* frame's dependency, awaiting the run that retires it — is not a read of
+	* the flight, and a reader that stopped reading releases it (O3, #3494).
+	* An errored pass (NotReady included) did not stop: it never got there, and
+	* its full list stands (A30) — the reads it did not reach still observe. A
+	* flight nobody renders holds nothing (A29). Only the nodes `t` still owns
+	* count: one a lane took over since is the lane's to wait on. A guess whose
+	* own truth is in flight blocks the lane's parent, not the lane — it stands
+	* in for the flight (A17: "visible until its own fetch settles"). */ function blocked(e) {
+		return e.tt !== 0 || blockedBy(e.ln, e) || !!lanesBlockedHook?.(e);
+	}
+	/** The transaction being judged — the outermost `blocked` of a nest (a lane
+	* consulted on its behalf judges for it): a zombie whose removal it stages
+	* is moot for it alone (`onScreen`). Set around the lanes' hook
+	* (`installLaneHooks`), the only path that nests; null otherwise, where the
+	* transaction judged is `blockedBy`'s own `owner`. */ var judge = null;
+	/** `own`: the pending node's filter (`ownFlights` passes `ownSource`) — a
+	* parameter, not a flag, so a build without lanes or guesses (the only
+	* callers of `ownFlights`) does not retain `ownSource`. */ function blockedBy(e, o, n) {
+		for (let t = 0; t < e.length; t++) {
+			const l = e[t];
+			if (!(l.m & 1) || l.R & 64 || l.l & 8192 || l.T.Re !== null && txOf(l) !== o || n && !n(l, o) || guessing && o.P && l.T.se && reasks(l)) continue;
+			if (l.i === 1) {
+				if (!(observeFlightHook && l.l & -2147483648 && !o.P) && onScreen(l, judge ?? o)) return true;
 				continue;
 			}
-			const n = e.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1;
-			if (n.P > e.o) n.P = e.o;
-			insertIntoHeap$1(e, n);
+			for (let e = l.o; e !== null; e = e.t) {
+				const n = e.u;
+				if ((n.i === 1 && n.m & 1 && !(observeFlightHook && n.l & -2147483648 && !o.P) || n.R & 2048 || n.l & 16384 && n.m === 1) && (e.Ne === n.de || n.T?.U != null) && !(n.R & 64) && onScreen(n, judge ?? o)) return true;
+			}
+		}
+		return false;
+	}
+	/** A frame reader whose say counts for `t`'s hold — `t` the transaction
+	* being judged: not a zombie whose removal `t` stages (A15 #3463: a re-ask
+	* in the unmount frame lands its pending on the zombie it unmounts — the
+	* compiled <Show> of #3372; a zombie blocks every other judgment while it
+	* is visible, a lane's reveal included: only the commit that disposes it
+	* makes its say moot), and not behind a fallback (A33: a boundary showing its fallback is the display of
+	* everything under it, so a reader there is not on screen and holds
+	* nothing — boundaries.ts). */ function onScreen(e, o) {
+		return !hiddenHook?.(e) && !(e.R & 32 && removalStagedBy(e, o));
+	}
+	/** A15 (#3463): a reader whose removal is staged — a zombie, parked by a
+	* pass awaiting its commit — is still on screen and live for every hold,
+	* except the transaction staging its removal: for that one its say is moot
+	* (done, and the commit disposes it; not done, and it stays parked). The
+	* staging transaction is the one holding the pass that parked the frame:
+	* the nearest non-zombie ancestor. */ function removalStagedBy(e, o) {
+		while (e?.R & 32) e = e._parent;
+		return e?.l & 256 && e.T?.Re != null && txOf(e) === resolveTx(o);
+	}
+	/** Unchanged passes this flush whose stale dependency tail awaits the
+	* flush's verdict (A30, #3469): trimmed when the flush commits, kept when
+	* it parks — the committed frame still derives from the previous pass's
+	* dependencies, and a write to one of them must reach the node until a
+	* committing pass replaces it. */ var heldTrims = [];
+	function heldTrim(e) {
+		heldTrims.push(e);
+	}
+	/** Zombies popped from the dirty heap this flush (`deferZombie`). The seam
+	* decides their fate: a park cancels them (the writes that dirtied them are
+	* held with it); a commit runs the survivors — the ones whose owner is still
+	* awaiting its commit — in height order, after the commits that would have
+	* disposed them (#3546). No second heap: the list is the deferral. */ var deferredZombies = [];
+	function deferZombie(e) {
+		deleteFromHeap(e, dirtyQueue);
+		e.R &= -4;
+		deferredZombies.push(e);
+	}
+	/** Put a staged node in a transaction: flagged, stamped, on its landing
+	* list. */ function holdNode(e, o) {
+		e.l |= 256;
+		list(e, o);
+	}
+	/** Put a node on a transaction's list, once: a node's `_transaction` is the
+	* transaction whose `_nodes` it is on (every site that sets one does the
+	* other), so a re-pass, a re-landing or a re-staging adds nothing. */ function list(e, o) {
+		const n = ext(e);
+		if (n.Re === o) return;
+		n.Re = o;
+		o.ln.push(e);
+	}
+	/** Hold the (uncommitted) frame under a held pass: every computed in the
+	* live child chain, recursively. Plain owners are walked through, not held
+	* — nothing reads or re-passes them. Once per park, over the parked frames
+	* only; recomputes pay nothing for it. A lane's node in the frame (listed on
+	* a lane: a verdict reader broken out of this very hold — display-ahead — or
+	* a derivation of a guess, CONFIG_OVERRIDE; a lane pass's effect) is the
+	* lane's, as the seam's own loop has it: "lane work never makes its node
+	* transaction work" (A15, #3698). Re-listed here it would carry the lane's
+	* value on the transaction's list, where the landing nulls its transaction
+	* and `dissolveLane` no longer finds it — a lane node with no lane, which the
+	* next read of it trips over (`laneRead` → `txOf`). Its frame is the lane's
+	* too (ruling A: a lane pass's children are the lane's), revealed and
+	* retired at the lane's seam. */ function holdFrame(e, o) {
+		for (let n = e.pe; n !== null; n = n.Ge) {
+			if (n.T?.Re?.P) continue;
+			if (n.X !== void 0) {
+				if (!(n.l & 256)) holdNode(n, o);
+				n.l |= CONFIG_HELD_FRAME;
+			}
+			holdFrame(n, o);
 		}
 	}
-	function mergeTransitionState$1(e, t) {
-		t.j = e;
-		e.$.push(...t.$);
-		for (const n of activeLanes$1) if (n.K === t) n.K = e;
-		e.Y.push(...t.Y);
-		for (const n of t.Z) e.Z.add(n);
-		for (const [n, i] of t.B) {
-			let t = e.B.get(n);
-			if (!t) e.B.set(n, t = /* @__PURE__ */ new Set());
-			for (const e of i) t.add(e);
-		}
+	/** `n` leaves the hold it was staged in: its next pass publishes mainline. */ function unhold(e) {
+		e.T.Re = null;
+		e.l &= -257;
 	}
-	function resolveOptimisticNodes$1(e) {
-		for (let t = 0; t < e.length; t++) {
-			const n = e[t];
-			n.q = void 0;
-			if (n.X !== NOT_PENDING$1) {
-				n.J = n.X;
-				n.X = NOT_PENDING$1;
-			}
-			const i = n.ee;
-			n.ee = NOT_PENDING$1;
-			if (i !== NOT_PENDING$1 && n.J !== i) insertSubs$1(n, true);
-			n.K = null;
-		}
-		e.length = 0;
-	}
-	function cleanupCompletedLanes$1(e) {
-		for (const t of activeLanes$1) {
-			if (!(e ? t.K === e : !t.K)) continue;
-			if (!t.U) {
-				if (t.G[0].length) runQueue$1(t.G[0], EFFECT_RENDER$1);
-				if (t.G[1].length) runQueue$1(t.G[1], EFFECT_USER$1);
-			}
-			if (t.te.q === t) t.te.q = void 0;
-			t.k.clear();
-			t.G[0].length = 0;
-			t.G[1].length = 0;
-			activeLanes$1.delete(t);
-			signalLanes$1.delete(t.te);
-		}
-	}
-	function schedule$1() {
-		if (scheduled$1) return;
-		scheduled$1 = true;
-		if (!globalQueue$1.ne && !projectionWriteActive) queueMicrotask(flush$1);
-	}
-	var Queue$1 = class {
-		constructor() {
-			_defineProperty(this, "i", null);
-			_defineProperty(this, "ie", [[], []]);
-			_defineProperty(this, "re", []);
-			_defineProperty(this, "created", clock$1);
-		}
-		addChild(e) {
-			this.re.push(e);
-			e.i = this;
-		}
-		removeChild(e) {
-			const t = this.re.indexOf(e);
-			if (t >= 0) {
-				this.re.splice(t, 1);
-				e.i = null;
-			}
-		}
-		notify(e, t, n, i) {
-			if (this.i) return this.i.notify(e, t, n, i);
-			return false;
-		}
-		run(e) {
-			if (this.ie[e - 1].length) {
-				const t = this.ie[e - 1];
-				this.ie[e - 1] = [];
-				runQueue$1(t, e);
-			}
-			for (let t = 0; t < this.re.length; t++) this.re[t].run?.(e);
-		}
-		enqueue(e, t) {
-			if (e) if (currentOptimisticLane$1) findLane$1(currentOptimisticLane$1).G[e - 1].push(t);
-			else this.ie[e - 1].push(t);
-			schedule$1();
-		}
-		stashQueues(e) {
-			e.ie[0].push(...this.ie[0]);
-			e.ie[1].push(...this.ie[1]);
-			this.ie = [[], []];
-			for (let t = 0; t < this.re.length; t++) {
-				let n = this.re[t];
-				let i = e.re[t];
-				if (!i) {
-					i = {
-						ie: [[], []],
-						re: []
-					};
-					e.re[t] = i;
-				}
-				n.stashQueues(i);
-			}
-		}
-		restoreQueues(e) {
-			this.ie[0].push(...e.ie[0]);
-			this.ie[1].push(...e.ie[1]);
-			for (let t = 0; t < e.re.length; t++) {
-				const n = e.re[t];
-				let i = this.re[t];
-				if (i) i.restoreQueues(n);
-			}
-		}
+	var dirtyQueue = {
+		et: new Array(2e3).fill(void 0),
+		p: false,
+		Fe: 0,
+		Et: 0
 	};
-	var GlobalQueue$1 = class GlobalQueue$1 extends Queue$1 {
-		constructor(..._args) {
-			super(..._args);
-			_defineProperty(this, "ne", false);
-			_defineProperty(this, "se", []);
-			_defineProperty(this, "Y", []);
-			_defineProperty(this, "Z", /* @__PURE__ */ new Set());
+	var clock = 0;
+	var scheduled = false;
+	var halted = false;
+	var haltNotified = false;
+	var syncDepth = 0;
+	/** @internal Action bodies on the stack (action.ts): `flush()` is refused
+	* inside one — the body's writes are its transaction's and commit when it
+	* settles; a drain mid-step cannot reveal them, and dev says so. Read live
+	* by `@solidjs/web`'s server function transport: a call made while it is
+	* nonzero is the action's mutation (#4913). */ var actionDepth = 0;
+	/** Provenance (A18, #3331): the question being asked — an action's
+	* sequence while a slice of its body and the flush that carries it run, 0
+	* otherwise. A guess is stamped with it (lanes.ts; a mainline guess takes a
+	* fresh sequence: the newest intent), a flight with the question that
+	* started it (async.ts; mainline is always the current question). An
+	* answer from an older question than the guess it lands on is stale: held
+	* silently, it does not move the graph. */ var question = 0;
+	function schedule() {
+		if (halted) {
+			notifyHalted();
+			return;
+		}
+		if (scheduled) return;
+		scheduled = true;
+		if (!syncDepth && !globalQueue.Y) queueMicrotask(flush);
+	}
+	var HALTED = "[REACTIVITY_HALTED]";
+	function haltReactivity(e) {
+		if (halted) return;
+		halted = true;
+		rethrowCleanupError(true);
+		let o = HALTED;
+		const n = e !== void 0 && globalThis.reportError;
+		n || e === void 0 ? console.error(o) : console.error(o, e);
+		n && n(e);
+	}
+	function notifyHalted() {
+		if (haltNotified) return;
+		haltNotified = true;
+		console.error(HALTED);
+	}
+	var GlobalQueue = class GlobalQueue {
+		constructor() {
+			_defineProperty(this, "rn", [[], []]);
+			_defineProperty(this, "Y", false);
 		}
 		flush() {
-			if (this.ne) return;
-			this.ne = true;
+			if (this.Y) return;
+			this.Y = true;
+			resyncUnflushedCompanions();
+			passLane = null;
+			passTx = null;
 			try {
-				runHeap$1(dirtyQueue$1, GlobalQueue$1.oe);
-				if (activeTransition$1) {
-					if (!transitionComplete$1(activeTransition$1)) {
-						const e = activeTransition$1;
-						runHeap$1(zombieQueue$1, GlobalQueue$1.oe);
-						this.se = [];
-						this.Y = [];
-						this.Z = /* @__PURE__ */ new Set();
-						runLaneEffects$1(EFFECT_RENDER$1);
-						runLaneEffects$1(EFFECT_USER$1);
-						this.stashQueues(e.ae);
-						clock$1++;
-						scheduled$1 = dirtyQueue$1.R >= dirtyQueue$1.P;
-						reassignPendingTransition$1(e.se);
-						activeTransition$1 = null;
-						if (!e.$.length && e.Y.length) {
-							stashedOptimisticReads$1 = /* @__PURE__ */ new Set();
-							for (let t = 0; t < e.Y.length; t++) {
-								const n = e.Y[t];
-								if (n.L || n.le) continue;
-								stashedOptimisticReads$1.add(n);
-								queueStashedOptimisticEffects$1(n);
-							}
-						}
-						try {
-							finalizePureQueue$1(null, true);
-						} finally {
-							stashedOptimisticReads$1 = null;
-						}
-						return;
-					}
-					this.se !== activeTransition$1.se && this.se.push(...activeTransition$1.se);
-					this.restoreQueues(activeTransition$1.ae);
-					transitions$1.delete(activeTransition$1);
-					const t = activeTransition$1;
-					activeTransition$1 = null;
-					reassignPendingTransition$1(this.se);
-					finalizePureQueue$1(t);
-				} else {
-					if (transitions$1.size) runHeap$1(zombieQueue$1, GlobalQueue$1.oe);
-					finalizePureQueue$1();
-				}
-				clock$1++;
-				scheduled$1 = dirtyQueue$1.R >= dirtyQueue$1.P;
-				runLaneEffects$1(EFFECT_RENDER$1);
-				this.run(EFFECT_RENDER$1);
-				runLaneEffects$1(EFFECT_USER$1);
-				this.run(EFFECT_USER$1);
+				sweepDormant();
+				if (revertHook) revertHook();
+				runHeap(dirtyQueue, GlobalQueue._e);
+				this.settle();
+				clock++;
+				scheduled = dirtyQueue.Et >= dirtyQueue.Fe || pendingNodes.length !== 0;
+				this.run(1);
+				this.run(2);
 			} finally {
-				this.ne = false;
+				this.Y = false;
+				passTx = null;
 			}
 		}
-		notify(e, t, n, i) {
-			if (t & STATUS_PENDING$1) {
-				if (n & STATUS_PENDING$1) {
-					const t = i !== void 0 ? i : e.fe;
-					if (activeTransition$1 && t) {
-						const n = t.source;
-						let i = activeTransition$1.B.get(n);
-						if (!i) activeTransition$1.B.set(n, i = /* @__PURE__ */ new Set());
-						const r = i.size;
-						i.add(e);
-						if (i.size !== r) schedule$1();
+		/** L2 — the seam: end of the pure phase. Commit this flush's staged nodes,
+		* or park them with the transaction the flush joined; then land every
+		* transaction no frame is waiting on. The landing flush is an ordinary
+		* flush: the settle walk (async.ts) re-ran the parked readers in its pure
+		* phase, and here no flight the transaction holds has a frame deriving
+		* from it (`blocked`). */ settle() {
+			if (laneCorrectionsHook?.()) runHeap(dirtyQueue, GlobalQueue._e);
+			const e = flushTransaction;
+			flushTransaction = null;
+			applyGuessesHook?.(e);
+			const o = e !== null && !e.P ? resolveTx(e) : null;
+			if (o !== null) {
+				const e = pendingNodes.length;
+				for (let n = 0; n < e; n++) {
+					const e = pendingNodes[n];
+					if (!(e.l & 2304) && (e.T === null || e.T.Re === null || !e.T.Re.P)) {
+						if (e.ue === NOT_PENDING && e.m & 4 && e.i !== 1) continue;
+						if (e.ue !== NOT_PENDING && !(e.m & 5) && e.T?.me == null && e.T?.Le == null && !e.T?.Te && isSame(e, e.le, e.ue)) {
+							e.ue = NOT_PENDING;
+							e.l &= -129;
+							continue;
+						}
+						holdNode(e, o);
 					}
+					if (e.l & 128) holdFrame(e, o);
+				}
+				pendingNodes.length = 0;
+				storeParkHook?.(o);
+				const n = deferredZombies.splice(0);
+				if (observeFlightHook) {
+					n.sort((e, o) => e.he - o.he);
+					for (let e = 0; e < n.length; e++) if ((n[e].R & 96) === 32 && n[e].l & 32768) recompute(n[e]);
+				}
+			} else {
+				commitPendingNodes();
+				for (let e = 0; e < heldTrims.length; e++) {
+					const o = heldTrims[e];
+					if (o.T?.U == null && !o.Ae) trimStaleDeps(o);
+				}
+			}
+			if (heldTrims.length) heldTrims.length = 0;
+			const n = this.rn;
+			let t = null;
+			if (laneSeamsHook) {
+				this.rn = t = [[], []];
+				laneSeamsHook(o);
+				if (stagedReaders.length) stagedReaders.length = 0;
+			}
+			this.rn = [[], []];
+			for (let e = transactions.length - 1; e >= 0; e--) {
+				const o = transactions[e];
+				if (blocked(o)) continue;
+				transactions.splice(e, 1);
+				endLanesHook?.(o);
+				land(o);
+				e = transactions.length;
+			}
+			storeCommitHook?.();
+			const l = o && liveTx(o);
+			releaseAmbientMarksHook?.(l);
+			const s = l !== null;
+			for (let e = 0; e < 2; e++) {
+				if (s) append(l.rn[e], n[e]);
+				this.rn[e] = s || t?.[e].length || this.rn[e].length ? (t ? t[e] : []).concat(s ? [] : n[e], this.rn[e]) : n[e];
+			}
+			if (deferredZombies.length !== 0) {
+				const e = deferredZombies.splice(0).sort((e, o) => e.he - o.he);
+				for (let o = 0; o < e.length; o++) if (!(e[o].R & 64)) recompute(e[o]);
+			}
+			boundarySeamHook?.();
+		}
+		run(e) {
+			const o = this.rn[e - 1];
+			if (o.length) {
+				this.rn[e - 1] = [];
+				runQueue(o, e);
+			}
+		}
+		enqueue(e, o, n = passLane) {
+			if (e) (n?.P ? n : this).rn[e - 1].push(o);
+			schedule();
+		}
+		/** Status reaching the root: pending is absorbed (the root mount defers —
+		* dev records it for the ASYNC_OUTSIDE_LOADING_BOUNDARY FYI); an error is
+		* unhandled (`false` → the caller halts).
+		*
+		* L2: this is where a transaction is registered. Pending that reaches an
+		* observer (a render effect: the frame) is a frame that cannot show — the
+		* flush parks, and the transaction waits on the flight while a frame
+		* derives from it (`blocked`). Pending nobody observes holds nothing: a
+		* memo in flight that no frame reads is not a frame waiting. (Base: the
+		* queue's `_asyncReporters`, INV-3's one registration site.)
+		*
+		* A boundary between the observer and the root (boundaries.ts) is asked
+		* first: a fallback catches what is not ready under it, and the root
+		* never hears of it. */ notify(e, o, n, t) {
+			if (catchHook?.(e, n & o, t)) return true;
+			if (o & 1) {
+				if (n & 1) {
+					if (passLane === null) joinFuture(null);
 				}
 				return true;
 			}
 			return false;
 		}
-		initTransition(e) {
-			if (e) e = currentTransition$1(e);
-			if (e && e === activeTransition$1) return;
-			if (!e && activeTransition$1 && activeTransition$1.Ee === clock$1) return;
-			if (!activeTransition$1) activeTransition$1 = e ?? {
-				Ee: clock$1,
-				se: [],
-				B: /* @__PURE__ */ new Map(),
-				Y: [],
-				Z: /* @__PURE__ */ new Set(),
-				$: [],
-				ae: {
-					ie: [[], []],
-					re: []
-				},
-				j: false
-			};
-			else if (e) {
-				const t = activeTransition$1;
-				mergeTransitionState$1(e, t);
-				transitions$1.delete(t);
-				activeTransition$1 = e;
-			}
-			transitions$1.add(activeTransition$1);
-			activeTransition$1.Ee = clock$1;
-			if (this.se !== activeTransition$1.se) {
-				for (let e = 0; e < this.se.length; e++) {
-					const t = this.se[e];
-					t.K = activeTransition$1;
-					activeTransition$1.se.push(t);
-				}
-				this.se = activeTransition$1.se;
-			}
-			if (this.Y !== activeTransition$1.Y) {
-				for (let e = 0; e < this.Y.length; e++) {
-					const t = this.Y[e];
-					t.K = activeTransition$1;
-					activeTransition$1.Y.push(t);
-				}
-				this.Y = activeTransition$1.Y;
-			}
-			for (const e of activeLanes$1) if (!e.K) e.K = activeTransition$1;
-			if (this.Z !== activeTransition$1.Z) {
-				for (const e of this.Z) activeTransition$1.Z.add(e);
-				this.Z = activeTransition$1.Z;
-			}
-		}
 	};
-	_defineProperty(GlobalQueue$1, "oe", void 0);
-	_defineProperty(GlobalQueue$1, "ue", void 0);
-	_defineProperty(GlobalQueue$1, "ce", null);
-	function insertSubs$1(e, t = false) {
-		const n = e.q || currentOptimisticLane$1;
-		const i = e.de !== void 0;
-		for (let r = e.I; r !== null; r = r.h) {
-			if (i && r.p.Te) {
-				r.p.O |= REACTIVE_SNAPSHOT_STALE$1;
-				continue;
+	/** A15's stale readers: a frame whose LAST pass read a held node as
+	* committed re-derives on the landed world — next round, after the commits.
+	* One re-derived since (any later pass cleared the bit: in the transaction,
+	* or without the held read) owes nothing. A run this transaction stashed
+	* for it is void (#3322: an effect has one value slot, and the stale pass
+	* overwrote the value that run was for) — the re-derivation's run replaces
+	* it. Truthy when an effect re-derives (`land`). */ function reruns(e) {
+		let o;
+		for (let n = 0; n < e.fn.length; n++) {
+			const t = e.fn[n];
+			const l = t.T?.U?.source;
+			if (t.R & 64 || t.m & 2 && (t.i || !(t.l & 8388608)) && l !== t && (l?.m ?? 2) & 2) continue;
+			if (t.R & 2048 || observeFlightHook && t.l & 32768) {
+				o = 1;
+				if (!e.P) t.R &= ~REACTIVE_FRAME_READ;
+				t.Ae = false;
+				for (let e = t.pe; e !== null; e = e.Ge) if (e.i) e.Ae = false;
+				laneAdoptHook?.(t);
+				enqueueSub(t);
 			}
-			if (t && n) {
-				r.p.O |= REACTIVE_OPTIMISTIC_DIRTY$1;
-				assignOrMergeLane$1(r.p, n);
-			} else if (t) {
-				r.p.O |= REACTIVE_OPTIMISTIC_DIRTY$1;
-				r.p.q = void 0;
-			}
-			const e = r.p;
-			if (e.W === EFFECT_TRACKED$1) {
-				if (!e.H) {
-					e.H = true;
-					e.F.enqueue(EFFECT_USER$1, e.M);
-				}
-				continue;
-			}
-			const s = r.p.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1;
-			if (s.P > r.p.o) s.P = r.p.o;
-			insertIntoHeap$1(r.p, s);
+		}
+		e.fn.length = 0;
+		return o;
+	}
+	/** The landing: the held frame becomes the frame. */ function land(e) {
+		const o = reruns(e);
+		if (releaseMarksHook && e.I !== null) releaseMarksHook(e.I);
+		for (let o = 0; o < e.ln.length; o++) {
+			const n = e.ln[o];
+			if (n.T.Re === null || txOf(n) !== e) continue;
+			n.T.Re = null;
+			commitPendingNode(n);
+		}
+		if (flushTransaction === e) flushTransaction = null;
+		if (o) globalQueue.rn[1].push(() => releaseQueues(e));
+		else releaseQueues(e);
+	}
+	/** The held runs join this flush's effect phase after its own runs (the
+	* landing's re-passes, in height order): the frame's effects run as one
+	* pass would have queued them — a shell re-derived at the landing before a
+	* boundary swap held since the write (#3540's log order). */ function releaseQueues(e) {
+		for (let o = 0; o < 2; o++) {
+			append(globalQueue.rn[o], e.rn[o]);
+			e.rn[o] = [];
 		}
 	}
-	function commitPendingNodes$1() {
-		const e = globalQueue$1.se;
-		for (let t = 0; t < e.length; t++) {
-			const n = e[t];
-			if (n.X !== NOT_PENDING$1) {
-				n.J = n.X;
-				n.X = NOT_PENDING$1;
-				if (n.W && n.W !== EFFECT_TRACKED$1) n.H = true;
-			}
-			if (!(n.Se & STATUS_PENDING$1)) n.Se &= ~STATUS_UNINITIALIZED$1;
-			if (n.L) GlobalQueue$1.ue(n, false, true);
-		}
-		e.length = 0;
+	/** `a.push(...b)` without the argument-count limit. */ function append(e, o) {
+		for (let n = 0; n < o.length; n++) e.push(o[n]);
 	}
-	function finalizePureQueue$1(e = null, t = false) {
-		const n = !t;
-		if (n) commitPendingNodes$1();
-		if (!t) checkBoundaryChildren$1(globalQueue$1);
-		if (dirtyQueue$1.R >= dirtyQueue$1.P) runHeap$1(dirtyQueue$1, GlobalQueue$1.oe);
+	/** Nodes staged this flush (`_pendingValue` set), committed at its end. */ var pendingNodes = [];
+	/** Held slots rewritten since the last flush, with the verdict engine (D-8: `revertHook`). */ var heldRewrites = [];
+	/** Passes that read a staging of this flush as the screen — lane work
+	* (core.ts `stagedRead`), a verdict reader before the frame's verdict
+	* (verdict.ts): if the frame parks they read a held write — re-derived next
+	* round (lanes.ts; a lane's runs wait that round). */ var stagedReaders = [];
+	/** A15's stale reader: `c` was served the committed value of a node `t`
+	* holds (a render effect, a verdict reader, lane work) and is re-derived
+	* after `t`'s landing (`_reruns`). Called per read of a held node, so `t`'s
+	* list holds one entry per such read, not one per pass: `reruns` re-runs the
+	* reader at its first entry and skips the rest by the cleared flag. (A dedupe
+	* here costs ~17-30 B minified in every client bundle, which the 10 KB
+	* compiled floor cannot take; the repeats are inert and short-lived — the
+	* list empties at the landing.) */ function staleReader(e, o) {
+		o.fn.push(e);
+		e.R |= REACTIVE_FRAME_READ;
+	}
+	function queuePendingNode(e) {
+		pendingNodes.push(e);
+		if (!globalQueue.Y) markUnflushedStaged();
+	}
+	/** §12d: bumped by every recompute and every new subscriber edge. A node's
+	* staged-rewrite skip is sound only while NOTHING recomputed or linked since
+	* its last notify — a mid-batch pull can clean a marked subscriber, and a
+	* skipped re-write would leave it stale. */ var notifyEpoch = 0;
+	function bumpNotifyEpoch() {
+		notifyEpoch++;
+	}
+	function insertSubs(e) {
+		e.we = notifyEpoch;
+		const n = (e.l & 512) !== 0 && e.T?.De !== void 0;
+		for (let o = e.o; o !== null; o = o.t) {
+			const t = o.u;
+			if (t.R & 4 && o.Ne === t.de && (o !== t._ || !e.X)) t.R |= REACTIVE_MISSED_WAKE;
+			if (n && t.l & 8) {
+				t.R |= 256;
+				continue;
+			}
+			enqueueSub(t);
+			if (t.R & 8388608) markNode(t._parent, 1);
+		}
+	}
+	/** Every flight `c` waits on is a `refresh()` re-ask (`_reask`): its own,
+	* with no sources, or each source's, through a source that waits on
+	* another's flight (a projection over the re-asked memo, #4824). The
+	* propagated copies can form a cycle: two keyed projections whose derives
+	* each read a row lent from the other's store are each pending on the
+	* other's derive (D-1, D-9: a read of a pending leaf is pending on it), and
+	* both on the real flight (#4969). A source already walked adds no flight of
+	* its own; the flights at the ends of the walk decide. */ function reasks(e, o = new NewSet()) {
+		return [...e.T.se ?? [e]].every((n) => n === e ? n.T.Ve : o.has(n) || (o.add(n), reasks(n, o)));
+	}
+	/** Lane work re-staged (lanes.ts; `recompute`): the node's subscribers are
+	* notified (`insertSubs`), and the lane's members among them re-derive as
+	* the lane's work (REACTIVE_LANE_DIRTY), their runs held with it — not as
+	* stale readers republishing the committed view (#3460). `l` is a lane, so
+	* it has a parent. A render effect on no lane is marked too: inert for its
+	* pass (`recompute` seats a lane only from its own `_x`), it is a live
+	* write if the effect becomes a zombie later this flush — an
+	* on-screen reader whose removal an adopted write stages follows the lane
+	* (the lane-membership ruling, 2026-10-05; `_update`).
+	*
+	* A render effect re-run by a verdict memo's change (`createMemo(() =>
+	* latest(x))`, CONFIG_VERDICT) is the verdict reader the same read inline
+	* makes it, for that pass (F-6; D-26 `[s(), L()]`, #4284): a frame reader
+	* of its other reads — a staging's screen, a flight's committed value. One
+	* an earlier propagation this flush seated in another lane leaves that
+	* seat: its pass starts from the frame's, as the inline effect's does, and
+	* `laneRead` re-derives it on the screen if that lane holds (`entered`). */ function laneDirty(e, o) {
+		insertSubs(e);
+		if (e.l & 4096) GlobalQueue.lo?.(e, o);
+		for (let n = e.o; n !== null; n = n.t) {
+			const t = n.u;
+			let l = t.T?.Re, s = t.i === 1, u;
+			if ((t.m & 5) === 1 && (l ? (t.l & 2304) === 256 : s) && (u = !!l && resolveTx(l) === resolveTx(o._parent), t.i ? s && !u && reasks(t) : u || reasks(t))) list(t, l = o);
+			if (s && e.l & 32768) t.l |= CONFIG_VERDICT, t.R &= ~REACTIVE_LANE_DIRTY;
+			if (l?.P ? sameLane(l, o) : t.i) t.R |= REACTIVE_LANE_DIRTY;
+		}
+	}
+	/** An effect owes a run: marked, and its bound runner queued in its phase. */ function queueEffectRun(e) {
+		e.Ae = true;
+		globalQueue.enqueue(e.i, e.W ?? (e.W = GlobalQueue.q.bind(null, e)));
+	}
+	/** One lane, or two of one link group (#3335): one reveal unit. */ function sameLane(e, o) {
+		return e === o || e.nn !== null && e.nn === o.nn;
+	}
+	/** A staged value becomes the node's value: truthy when one was staged. */ function applyStaged(e) {
+		return e.ue !== NOT_PENDING && (e.le = e.ue, e.ue = NOT_PENDING);
+	}
+	function superseded(e) {
+		return !(e.m & 4) && !!e.T?.Ee && !e.T.Ve && (e.ue = NOT_PENDING, true);
+	}
+	function commitPendingNode(e) {
+		if (!e.X) {
+			e.l &= -385;
+			applyStaged(e);
+			return;
+		}
+		const o = (e.m & 1) !== 0 && (e.ue === NOT_PENDING || superseded(e));
+		const n = e.l & CONFIG_STAGED_ERROR;
+		if (!o && e.T) e.T.Te = null;
+		e.l = o ? e.l & -1048833 | CONFIG_INPUTS_PUBLISHED : e.l & -3147137;
 		if (n) {
-			commitPendingNodes$1();
-			resolveOptimisticNodes$1(e ? e.Y : globalQueue$1.Y);
-			const t = e ? e.Z : globalQueue$1.Z;
-			if (GlobalQueue$1.ce && t.size) {
-				for (const e of t) GlobalQueue$1.ce(e);
-				t.clear();
-				schedule$1();
-			}
-			cleanupCompletedLanes$1(e);
+			const o = e.ue;
+			e.ue = NOT_PENDING;
+			e.ie = clock + 1;
+			notifyStatus(e, 2, o);
+		} else if (applyStaged(e)) {
+			e.m &= -5;
+			if (e.T != null) e.T.Ve = false, e.T.je = NOT_PENDING;
+			if (e.i && e.i !== 3) queueEffectRun(e);
 		}
+		e.Ie = false;
+		e.R &= ~REACTIVE_MANUAL_WRITE;
+		if (e.T?.U == null) trimStaleDeps(e);
+		if (!(e.m & 1)) e.m &= -5;
+		if (!o && e.T != null && (e.T.me !== null || e.T.Le !== null)) GlobalQueue.Ce(e, false, true);
 	}
-	function checkBoundaryChildren$1(e) {
-		for (const t of e.re) {
-			t.checkSources?.();
-			checkBoundaryChildren$1(t);
+	function commitPendingNodes() {
+		for (let e = 0; e < pendingNodes.length; e++) {
+			const o = pendingNodes[e];
+			if (!(o.l & 2304)) commitPendingNode(o);
 		}
+		pendingNodes.length = 0;
 	}
-	function reassignPendingTransition$1(e) {
-		for (let t = 0; t < e.length; t++) e[t].K = activeTransition$1;
-	}
-	var globalQueue$1 = new GlobalQueue$1();
-	function flush$1() {
-		if (globalQueue$1.ne) return;
-		while (scheduled$1 || activeTransition$1) globalQueue$1.flush();
-	}
-	function runQueue$1(e, t) {
-		for (let n = 0; n < e.length; n++) e[n](t);
-	}
-	function reporterBlocksSource$1(e, t) {
-		if (e.O & (REACTIVE_ZOMBIE$1 | REACTIVE_DISPOSED$1)) return false;
-		if (e.Re === t || e.Oe?.has(t)) return true;
-		for (let n = e.C; n; n = n.D) {
-			let e = n.m;
-			while (e) {
-				if (e === t || e.V === t) return true;
-				e = e._e;
-			}
-		}
-		return !!(e.Se & STATUS_PENDING$1 && e.fe instanceof NotReadyError$1 && e.fe.source === t);
-	}
-	function transitionComplete$1(e) {
-		if (e.j) return true;
-		if (e.$.length) return false;
-		let t = true;
-		for (const [n, i] of e.B) {
-			let r = false;
-			for (const e of i) {
-				if (reporterBlocksSource$1(e, n)) {
-					r = true;
-					break;
+	var globalQueue = new GlobalQueue();
+	function flush(e) {
+		if (actionDepth > 0) return e ? e() : void 0;
+		if (e) {
+			syncDepth++;
+			try {
+				return e();
+			} finally {
+				try {
+					flush();
+				} finally {
+					syncDepth--;
 				}
-				i.delete(e);
-			}
-			if (!r) e.B.delete(n);
-			else if (n.Se & STATUS_PENDING$1 && n.fe?.source === n) {
-				t = false;
-				break;
 			}
 		}
-		if (t) for (let n = 0; n < e.Y.length; n++) {
-			const i = e.Y[n];
-			if (hasActiveOverride$1(i) && "Se" in i && i.Se & STATUS_PENDING$1 && i.fe instanceof NotReadyError$1 && i.fe.source !== i) {
-				t = false;
-				break;
-			}
-		}
-		t && (e.j = true);
-		return t;
+		if (globalQueue.Y) return;
+		if (halted) return;
+		while (scheduled) globalQueue.flush();
+		rethrowCleanupError();
 	}
-	function currentTransition$1(e) {
-		while (e.j && typeof e.j === "object") e = e.j;
-		return e;
+	function runQueue(e, o) {
+		for (let n = 0; n < e.length; n++) e[n](o);
 	}
-	function runInTransition$1(e, t) {
-		const n = activeTransition$1;
-		try {
-			activeTransition$1 = currentTransition$1(e);
-			return t();
-		} finally {
-			activeTransition$1 = n;
-		}
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/heap.js
+	/**
+	* Schedule one subscriber to re-run on the next flush: inserted into the
+	* dirty heap with the `_min` cursor pulled down. Tracked effects ride the
+	* heap too — the heap visit is their (empty) compute phase, which hands the
+	* callback to the user queue once the pass has committed (see
+	* GlobalQueue._update, #3291).
+	*/ function enqueueSub(e) {
+		if (dirtyQueue.Fe > e.he) dirtyQueue.Fe = e.he;
+		insertIntoHeap(e, dirtyQueue);
 	}
-	var signalLanes$1 = /* @__PURE__ */ new WeakMap();
-	var activeLanes$1 = /* @__PURE__ */ new Set();
-	function getOrCreateLane$1(e) {
-		let t = signalLanes$1.get(e);
-		if (t) return findLane$1(t);
-		const n = e._e;
-		const i = n?.q ? findLane$1(n.q) : null;
-		t = {
-			te: e,
-			k: /* @__PURE__ */ new Set(),
-			G: [[], []],
-			U: null,
-			K: activeTransition$1,
-			Ie: i
-		};
-		signalLanes$1.set(e, t);
-		activeLanes$1.add(t);
-		e.he = false;
-		return t;
-	}
-	function findLane$1(e) {
-		while (e.U) e = e.U;
-		return e;
-	}
-	function mergeLanes$1(e, t) {
-		e = findLane$1(e);
-		t = findLane$1(t);
-		if (e === t) return e;
-		t.U = e;
-		for (const n of t.k) e.k.add(n);
-		e.G[0].push(...t.G[0]);
-		e.G[1].push(...t.G[1]);
-		return e;
-	}
-	function resolveLane$1(e) {
-		const t = e.q;
-		if (!t) return void 0;
-		const n = findLane$1(t);
-		if (activeLanes$1.has(n)) return n;
-		e.q = void 0;
-	}
-	function resolveTransition$1(e) {
-		return resolveLane$1(e)?.K ?? e.K;
-	}
-	function hasActiveOverride$1(e) {
-		return !!(e.ee !== void 0 && e.ee !== NOT_PENDING$1);
-	}
-	function assignOrMergeLane$1(e, t) {
-		const n = findLane$1(t);
-		const i = e.q;
-		if (i) {
-			if (i.U) {
-				e.q = t;
-				return;
-			}
-			const r = findLane$1(i);
-			if (activeLanes$1.has(r)) {
-				if (r !== n && !hasActiveOverride$1(e)) if (n.Ie && findLane$1(n.Ie) === r) e.q = t;
-				else if (r.Ie && findLane$1(r.Ie) === n);
-				else mergeLanes$1(n, r);
-				return;
-			}
-		}
-		e.q = t;
-	}
-	function unlinkSubs$1(e) {
-		const t = e.m;
-		const n = e.D;
-		const i = e.h;
-		const r = e.pe;
-		if (i !== null) i.pe = r;
-		else t.Ae = r;
-		if (r !== null) r.h = i;
+	function actualInsertIntoHeap(e, t) {
+		const E = (e._parent?.Qe ? e._parent.Ke?.he : e._parent?.he) ?? -1;
+		if (E >= e.he) e.he = E + 1;
+		const n = e.he;
+		const I = t.et[n];
+		if (I === void 0) t.et[n] = e;
 		else {
-			t.I = i;
-			if (i === null) {
-				t.Ne?.();
-				t.L && !t.Pe && !(t.O & REACTIVE_ZOMBIE$1) && unobserved$1(t);
+			const t = I.We;
+			t.ve = e;
+			e.We = t;
+			I.We = e;
+		}
+		if (n > t.Et) t.Et = n;
+	}
+	function insertIntoHeap(e, t) {
+		let E = e.R;
+		if (E & 12) return;
+		if (E & 1) e.R = E & -4 | 10;
+		else {
+			e.R = E | 8;
+			if (t.p) markNode(e);
+		}
+		if (!(E & 16)) actualInsertIntoHeap(e, t);
+	}
+	function insertIntoHeapHeight(e, t) {
+		let E = e.R;
+		if (E & 28) return;
+		e.R = E | 16;
+		actualInsertIntoHeap(e, t);
+	}
+	function deleteFromHeap(e, t) {
+		const E = e.R;
+		if (!(E & 24)) return;
+		e.R = E & -25;
+		const n = e.he;
+		if (e.We === e) t.et[n] = void 0;
+		else {
+			const E = e.ve;
+			const I = t.et[n];
+			const i = E ?? I;
+			if (e === I) t.et[n] = E;
+			else e.We.ve = E;
+			i.We = e.We;
+		}
+		e.We = e;
+		e.ve = void 0;
+	}
+	function markHeap(e) {
+		if (e.p) return;
+		e.p = true;
+		for (let t = 0; t <= e.Et; t++) for (let E = e.et[t]; E !== void 0; E = E.ve) if (E.R & 8) markNode(E);
+	}
+	function markNode(e, t = 2) {
+		const E = e.R;
+		if ((E & 3) >= t) return;
+		e.R = E & -4 | t;
+		for (let t = e.o; t !== null; t = t.t) markNode(t.u, 1);
+	}
+	function runHeap(e, t) {
+		e.p = false;
+		for (e.Fe = 0; e.Fe <= e.Et; e.Fe++) {
+			let E = e.et[e.Fe];
+			while (E !== void 0) {
+				if (E.R & 8) t(E);
+				else adjustHeight(E, e);
+				E = e.et[e.Fe];
 			}
 		}
-		return n;
+		e.Et = 0;
 	}
-	function unobserved$1(e) {
-		deleteFromHeap$1(e, e.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1);
-		let t = e.C;
-		while (t !== null) t = unlinkSubs$1(t);
-		e.C = null;
-		e.ge = null;
-		disposeChildren$1(e, true);
+	function adjustHeight(e, t) {
+		deleteFromHeap(e, t);
+		let E = e.he;
+		for (let t = e.C; t; t = t.G) {
+			const e = t.S;
+			if (e.X && e.he >= E) E = e.he + 1;
+		}
+		if (e.he !== E) {
+			e.he = E;
+			liftOwned(e, E);
+			for (let E = e.o; E !== null; E = E.t) if (E.u !== e._parent) insertIntoHeapHeight(E.u, t);
+		}
 	}
-	function link$1(e, t) {
-		const n = t.ge;
-		if (n !== null && n.m === e) return;
-		let i = null;
-		const r = t.O & REACTIVE_RECOMPUTING_DEPS$1;
-		if (r) {
-			i = n !== null ? n.D : t.C;
-			if (i !== null && i.m === e) {
-				t.ge = i;
-				return;
+	/**
+	* A raised node's owned computations (through roots) move above it (#4848).
+	* The heap places a node above its direct owner only, at insert, so an owner
+	* raised after its children's birth left a grandchild at or below it, to run
+	* before the owner whose run disposes it. Paid when a height changes, never
+	* per insert. A child waiting in the heap keeps its seat this pass (its next
+	* insert lifts it above its owner); what it owns moves either way.
+	*/ function liftOwned(e, t) {
+		for (let E = e.pe; E; E = E.Ge) if (E.Qe) liftOwned(E, t);
+		else if (E.he <= t) {
+			const e = E.R & 24;
+			deleteFromHeap(E, dirtyQueue);
+			E.he = t + 1;
+			if (e) (e & 8 ? insertIntoHeap : insertIntoHeapHeight)(E, dirtyQueue);
+			liftOwned(E, t + 1);
+		}
+	}
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/graph.js
+	/** The store's shared slot-node release handler (store/store.ts installs it
+	* once) — a live binding read directly by the sweep site: no wrapper frame,
+	* no null check (a CONFIG_SLOT_NODE node existing implies the store module
+	* loaded and registered it). */ var slotUnobservedHook;
+	function unlinkSubs(e) {
+		const n = e.S;
+		const l = e.G;
+		const o = e.t;
+		const s = e.en;
+		if (o !== null) o.en = s;
+		else n.Ze = s;
+		if (s !== null) s.t = o;
+		else {
+			n.o = o;
+			if (o === null) {
+				if (n.l & 4096) slotUnobservedHook(n);
+				else if (n.T?.Ye) runCleanup(n.T.Ye);
+				n.X && n.l & 32 && !(n.R & 32) && !(n.m & 1) && (deferredReleases ? deferredReleases.push(n) : unobserved(n));
 			}
 		}
-		const s = e.Ae;
-		if (s !== null && s.p === t && (!r || isValidLink$1(s, t))) return;
-		const o = t.ge = e.Ae = {
-			m: e,
-			p: t,
-			D: i,
-			pe: s,
-			h: null
+		return l;
+	}
+	function trimStaleDeps(e) {
+		const n = e._;
+		let l = n !== null ? n.G : e.C;
+		if (l !== null) {
+			do
+				l = unlinkSubs(l);
+			while (l !== null);
+			if (n !== null) n.G = null;
+			else e.C = null;
+		}
+	}
+	function clearDeps(e) {
+		if (e.C) {
+			e._ = null;
+			trimStaleDeps(e);
+		}
+	}
+	/**
+	* Last-one-out releases held back while a pass tears down the frame of an
+	* earlier pass that never committed (#4142). The pass is about to rebuild
+	* the same children, which read the same lazy nodes again. Released on the
+	* spot, a lazy async memo whose only reader was the old frame's child memo
+	* was torn down, re-ran on the new child's read, went pending, and the cycle
+	* repeated forever. `recompute` collects them around that teardown and
+	* releases what is still unobserved when the pass ends.
+	*/ var deferredReleases = null;
+	var deferReleases = (e) => deferredReleases = e;
+	function unobserved(e) {
+		deleteFromHeap(e, dirtyQueue);
+		clearDeps(e);
+		disposeChildren(e, true);
+	}
+	/**
+	* Deferred dormancy for never-observed auto-dispose computeds (#3078).
+	*
+	* An untracked top-level read of a subscriber-less observation-lifecycle memo
+	* used to call unobserved() inline at the end of read(). That kept the leak
+	* closed (the compute links the memo into its deps' sub lists — without a
+	* teardown point a never-observed memo is retained by its sources forever;
+	* upstream alien-signals has exactly this retention), but it made reads
+	* destructive: each read disposed the node, the next read revived it with a
+	* full recompute in whatever ambient transition/lane context happened to be
+	* current, so consecutive reads could return different answers with no write
+	* in between.
+	*
+	* Instead, reads queue the node here and the scheduler sweeps at the top of
+	* the next flush (before runHeap, so a same-tick dirtying is reclaimed
+	* instead of recomputed). Reads become idempotent within a tick (the node
+	* stays alive and serves its cache, uniform with observed memos) while
+	* reclamation still happens within one microtask — the enqueue site arms
+	* schedule(), so a flush is guaranteed even when no other work is queued.
+	*/ var dormantNodes = new NewSet();
+	function sweepDormant() {
+		if (dormantNodes.size === 0) return;
+		for (const e of dormantNodes) if (!e.o && e.l & 32 && !(e.m & 1) && !(e.R & 96)) unobserved(e);
+		dormantNodes.clear();
+	}
+	/** Truthy when it reuses the link `sub`'s last pass made: a re-read. */ function link(e, n) {
+		const l = n._;
+		if (l !== null && l.S === e) return;
+		let o = null;
+		const s = n.R & 4;
+		if (s) {
+			o = l !== null ? l.G : n.C;
+			if (o !== null && o.S === e) {
+				o.Ne = n.de;
+				return n._ = o;
+			}
+		}
+		const r = e.Ze;
+		if (r !== null && r.u === n && (!s || r.Ne === n.de)) return;
+		const t = n._ = e.Ze = {
+			S: e,
+			u: n,
+			G: o,
+			en: r,
+			t: null,
+			Ne: n.de
 		};
-		if (n !== null) n.D = o;
-		else t.C = o;
-		if (s !== null) s.h = o;
-		else e.I = o;
+		if (l !== null) l.G = t;
+		else n.C = t;
+		if (r !== null) r.t = t;
+		else e.o = t;
+		bumpNotifyEpoch();
 	}
-	function isValidLink$1(e, t) {
-		const n = t.ge;
-		if (n !== null) {
-			let i = t.C;
-			do {
-				if (i === e) return true;
-				if (i === n) break;
-				i = i.D;
-			} while (i !== null);
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/async.js
+	function addPendingSource(e, n) {
+		var _ext;
+		if (e.T?.se?.has(n)) return false;
+		((_ext = ext(e)).se ?? (_ext.se = new NewSet())).add(n);
+		return true;
+	}
+	function removePendingSource(e, n) {
+		const t = e.T?.se;
+		if (!t?.delete(n)) return false;
+		if (!t.size) e.T.se = void 0;
+		return true;
+	}
+	function clearInFlight(e) {
+		if (e.T !== null) e.T.Ee = null;
+	}
+	function clearPendingSources(e) {
+		if (e.T !== null) e.T.se = void 0;
+	}
+	function retryReaches(e, n) {
+		for (let t = e.C; t; t = t.G) {
+			const e = t.S;
+			if (!(e.R & 64) && (e === n ? e.m & 1 : e.T?.se?.has(n))) return true;
 		}
 		return false;
 	}
-	function markDisposal$1(e) {
-		let t = e.Ce;
-		while (t) {
-			t.O |= REACTIVE_ZOMBIE$1;
-			if (t.O & REACTIVE_IN_HEAP$1) {
-				deleteFromHeap$1(t, dirtyQueue$1);
-				insertIntoHeap$1(t, zombieQueue$1);
-			}
-			markDisposal$1(t);
-			t = t.De;
+	/** Park a loading-window node on an unready source: registered for the
+	* source's settle, with no visible pending and no propagation. */ function parkLoadingWindow(e, n) {
+		ext(e).fe = true;
+		if (n.source) addPendingSource(e, n.source);
+		if (!(e.m & 2)) setPendingError(e, n.source, n);
+	}
+	function setPendingError(e, n, t) {
+		if (!n) {
+			if (e.T !== null) e.T.U = null;
+			return;
 		}
+		const r = t instanceof NotReadyError && t.source === n ? t : e.T?.U;
+		ext(e).U = r instanceof NotReadyError && r.source === n ? r : new NotReadyError(n);
 	}
-	function disposeChildren$1(e, t = false, n) {
-		if (e.O & REACTIVE_DISPOSED$1) return;
-		if (t) e.O = REACTIVE_DISPOSED$1;
-		if (t && e.L) e.ye = null;
-		let i = n ? e.ve : e.Ce;
-		while (i) {
-			const e = i.De;
-			if (i.C) {
-				const e = i;
-				deleteFromHeap$1(e, e.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1);
-				let t = e.C;
-				do
-					t = unlinkSubs$1(t);
-				while (t !== null);
-				e.C = null;
-				e.ge = null;
-			}
-			disposeChildren$1(i, true);
-			i = e;
-		}
-		if (n) e.ve = null;
-		else {
-			e.Ce = null;
-			e.we = 0;
-		}
-		runDisposal$1(e, n);
+	function forEachDependent(e, n) {
+		for (let t = e.o; t !== null; t = t.t) n(t.u, t);
 	}
-	function runDisposal$1(e, t) {
-		let n = t ? e.me : e.Ve;
-		if (!n) return;
-		if (Array.isArray(n)) for (let e = 0; e < n.length; e++) {
-			const t = n[e];
-			t.call(t);
-		}
-		else n.call(n);
-		t ? e.me = null : e.Ve = null;
-	}
-	function childId(e, t) {
-		let n = e;
-		while (n.be && n.i) n = n.i;
-		if (n.id != null) return formatId(n.id, t ? n.we++ : n.we);
-		throw new Error("Cannot get child id from owner without an id");
-	}
-	function getNextChildId(e) {
-		return childId(e, true);
-	}
-	function formatId(e, t) {
-		const n = t.toString(36), i = n.length - 1;
-		return e + (i ? String.fromCharCode(64 + i) : "") + n;
-	}
-	function getOwner() {
-		return context$1;
-	}
-	function cleanup$1(e) {
-		if (!context$1) return e;
-		if (!context$1.Ve) context$1.Ve = e;
-		else if (Array.isArray(context$1.Ve)) context$1.Ve.push(e);
-		else context$1.Ve = [context$1.Ve, e];
-		return e;
-	}
-	function createOwner(e) {
-		const t = context$1;
-		const n = e?.transparent ?? false;
-		const i = {
-			id: e?.id ?? (n ? t?.id : t?.id != null ? getNextChildId(t) : void 0),
-			be: n || void 0,
-			t: true,
-			u: t?.t ? t.u : t,
-			Ce: null,
-			De: null,
-			Ve: null,
-			F: t?.F ?? globalQueue$1,
-			Le: t?.Le || defaultContext$1,
-			we: 0,
-			me: null,
-			ve: null,
-			i: t,
-			dispose(e = true) {
-				disposeChildren$1(i, e);
+	/** Depth first. `fn` sees every arrival (`seen` on a diamond's second);
+	* returning false leaves the node unmarked so a later branch may walk it. */ function walkDependents(e, n) {
+		const t = new NewSet();
+		const visit = (e) => {
+			const r = t.has(e);
+			if (n(e, r) !== false && !r) {
+				t.add(e);
+				forEachDependent(e, visit);
 			}
 		};
-		if (t) {
-			const e = t.Ce;
-			if (e === null) t.Ce = i;
-			else {
-				i.De = e;
-				t.Ce = i;
+		forEachDependent(e, visit);
+	}
+	function releaseIfSettledUnobserved(e) {
+		if (e.X && e.l & 32 && !e.o && !(e.R & 32) && !(e.m & 1)) e.R & 8 ? e.R |= REACTIVE_RELEASE_AFTER : unobserved(e);
+	}
+	function releaseSettledDependents(e) {
+		let n;
+		walkDependents(e, (e, t) => {
+			if (!t && !e.o && e.l & 32) (n ?? (n = [])).push(e);
+		});
+		if (n) for (const e of n) releaseIfSettledUnobserved(e);
+	}
+	/** An error a held node's pass found is an answer of that frame, staged like
+	* a value and published at the commit (D-41). Not for a lane pass, nor a
+	* node born held. Returns whether it was staged. */ function stageError(e, n, t) {
+		if (!(e.l & 256 || t && e.R & 16384 && globalQueue.Y && !e.rr) || passLane) return false;
+		clearPendingSources(e);
+		if (e.T) e.T.fe = false;
+		if (!((e.m &= 6) & 2)) setPendingError(e);
+		e.ue = n instanceof StatusError ? n : new StatusError(e, n);
+		e.l |= 128 | CONFIG_STAGED_ERROR;
+		settlePendingSource(e);
+		schedule();
+		return true;
+	}
+	function settleErroredDependents(e, n) {
+		let t = false;
+		walkDependents(e, (e, r) => {
+			if (!r && e.T?.U === n) {
+				enqueueSub(e);
+				t = true;
 			}
+		});
+		if (t) schedule();
+	}
+	function settlePendingSource(e, n = e) {
+		removePendingSource(e, n);
+		let t = false;
+		let r;
+		walkDependents(e, (o, s) => {
+			if (s || n !== e && retryReaches(o, n) || !removePendingSource(o, n)) return false;
+			o.ie = clock;
+			const i = o.T?.se?.values().next().value;
+			const f = o.m & 2;
+			if (i) {
+				if (!f) setPendingError(o, i);
+			} else {
+				o.m &= -2;
+				if (!f) setPendingError(o);
+				if (o.l & 256 && !(n.m & 1)) joinFuture(txOf(o));
+				if (o.T?.fe) {
+					enqueueSub(o);
+					t = true;
+				} else if (storeParkHook) o.rr?.st();
+				if (o.T !== null) o.T.fe = false;
+				if (!o.o && o.l & 32) (r ?? (r = [])).push(o);
+				stageMarkHook?.(o, e);
+			}
+		});
+		if (r) for (const e of r) releaseIfSettledUnobserved(e);
+		if (t) schedule();
+	}
+	function isThenable(e) {
+		return e != null && typeof e === "object" && typeof e.then === "function";
+	}
+	function releaseFlightTeardown(e) {
+		const n = e.T?.Se;
+		if (n != null) {
+			e.T.Se = null;
+			n();
+		}
+	}
+	function handleAsync(e, n, t, r) {
+		let o = false;
+		let s = false;
+		if (typeof n === "object" && n !== null) untrack(() => {
+			o = n[Symbol.asyncIterator];
+			s = !o && isThenable(n);
+		});
+		if (!s && !o) {
+			if (e.T !== null) {
+				e.T.Ee = null;
+				if (holdWorkHook) e.l &= ~CONFIG_ASYNC;
+			}
+			e.Ie = false;
+			return n;
+		}
+		ext(e).Ee = n;
+		if (holdWorkHook) e.l |= CONFIG_ASYNC;
+		e.T.ce = question || 2147483647;
+		e.T.se = void 0;
+		let i;
+		const handleError = (t) => {
+			if (e.T?.Ee !== n) return;
+			let o = t instanceof NotReadyError;
+			if (o && e.Ie) {
+				clearInFlight(e);
+				parkLoadingWindow(e, t);
+				e.ie = clock;
+				return;
+			}
+			if (o || !stageError(e, t)) {
+				notifyStatus(e, o ? 1 : 2, t);
+				if (!o) disposeChildren(e, false, true);
+			}
+			if (o) settlePendingSource(e);
+			e.ie = clock;
+			if (!o) releaseSettledDependents(e);
+			r?.(t, o);
+		};
+		const asyncWrite = (r, o) => {
+			if (e.T?.Ee !== n) return;
+			if (e.R & 2 && !(holdWorkHook && e.m & 4)) return;
+			const s = holdWorkHook && pendingNodes.some((e) => e.ue !== NOT_PENDING);
+			const i = e.m & 4;
+			landStatus(e);
+			if (t) {
+				if (!t(r, i, handleError)) return;
+			} else setSignal(e, () => r);
+			if (e.ue === NOT_PENDING) {
+				e.Ie = false;
+				trimStaleDeps(e);
+			}
+			settlePendingSource(e);
+			schedule();
+			if (o || !s) flush();
+			o?.();
+		};
+		const settleAutodispose = () => {
+			if (e.l & 32 && !e.o && !(e.m & 1)) {
+				unobserved(e);
+				return true;
+			}
+			return false;
+		};
+		const consumeIterator = (t, r) => {
+			const o = t[Symbol.asyncIterator]();
+			let s = false;
+			let f = false;
+			let u = !r;
+			const close = () => {
+				if (f) return;
+				f = true;
+				try {
+					const e = o.return?.();
+					if (isThenable(e)) e.then(void 0, () => {});
+				} catch {}
+			};
+			cleanup(close, r);
+			ext(e).Se = close;
+			const iterateOrRelease = () => {
+				try {
+					if (!settleAutodispose()) iterate();
+				} catch (e) {
+					handleError(e);
+				}
+			};
+			const iterate = () => {
+				let t, r, l = false, a = false, S = true;
+				const E = o.next();
+				(isThenable(E) ? E : { then: (e) => void e(E) }).then((r) => {
+					if (S && u) {
+						t = r;
+						l = true;
+						if (r.done) f = true;
+					} else if (e.T?.Ee !== n) return;
+					else if (!r.done) {
+						s = true;
+						asyncWrite(r.value, iterateOrRelease);
+					} else {
+						f = true;
+						if (s) {
+							schedule();
+							flush();
+						} else asyncWrite(void 0);
+						settleAutodispose();
+					}
+				}, (t) => {
+					if (S && u) {
+						r = t;
+						a = true;
+					} else if (e.T?.Ee === n) {
+						f = true;
+						handleError(t);
+						settleAutodispose();
+					}
+				});
+				S = false;
+				if (a) {
+					f = true;
+					handleError(r);
+					if (u) throw r;
+					return true;
+				}
+				if (l && !t.done) {
+					i = t.value;
+					s = true;
+					return iterate();
+				}
+				return l && t.done;
+			};
+			const l = iterate();
+			u = false;
+			return s || l;
+		};
+		let f = null;
+		const flattenIfIterable = (e, n) => {
+			let t = false;
+			if (typeof e === "object" && e !== null) untrack(() => {
+				t = e[Symbol.asyncIterator];
+			});
+			if (!t) return false;
+			i = void 0;
+			const r = consumeIterator(e, n);
+			if (!n) f = r;
+			return true;
+		};
+		if (s) {
+			let t = false, r = false, o, s = true;
+			n.then((r) => {
+				if (s) {
+					i = r;
+					t = true;
+				} else {
+					try {
+						if (e.T?.Ee === n && !(e.R & 64) && flattenIfIterable(r, e)) return;
+						asyncWrite(r);
+					} catch (e) {
+						handleError(e);
+					}
+					settleAutodispose();
+				}
+			}, (e) => {
+				if (s) {
+					o = e;
+					r = true;
+				} else {
+					handleError(e);
+					settleAutodispose();
+				}
+			});
+			s = false;
+			if (r) {
+				handleError(o);
+				throw o;
+			} else if (!t) f = false;
+			else if (!flattenIfIterable(i)) e.Ie = false;
+		}
+		if (o) flattenIfIterable(n);
+		if (f !== null) {
+			if (!f) {
+				if (e.Ie) return e.le;
+				throw new NotReadyError(context);
+			}
+			e.Ie = false;
 		}
 		return i;
 	}
-	function createRoot(e, t) {
-		const n = createOwner(t);
-		return runWithOwner(n, () => e(n.dispose));
+	function clearStatus(e, n = false) {
+		if (e.T?.se) clearPendingSources(e);
+		if (e.T?.fe) e.T.fe = false;
+		e.m = n ? 0 : e.m & 4;
+		if (e.T?.U) setPendingError(e);
+		const t = statusNotifierOf(e);
+		if (t) t.call(e);
 	}
-	function addPendingSource$1(e, t) {
-		if (e.Re === t || e.Oe?.has(t)) return false;
-		if (!e.Re) {
-			e.Re = t;
-			return true;
-		}
-		if (!e.Oe) e.Oe = new Set([e.Re, t]);
-		else e.Oe.add(t);
-		e.Re = void 0;
-		return true;
+	/** A landing answers the node's own question: it retires the self entry, not
+	* pending its sources propagated. With another source still pending the
+	* node stays pending on it (#3373, #3376). `_blocked` clears, so an input
+	* settling unchanged does not ask again; `_error` moves off self. */ function landStatus(e, n = false) {
+		const t = e.T?.se;
+		if (t && (t.delete(e), t.size)) {
+			e.T.fe = false;
+			if (n) e.m = 1;
+			setPendingError(e, t.values().next().value);
+		} else clearStatus(e, n);
 	}
-	function removePendingSource$1(e, t) {
-		if (e.Re) {
-			if (e.Re !== t) return false;
-			e.Re = void 0;
-			return true;
-		}
-		if (!e.Oe?.delete(t)) return false;
-		if (e.Oe.size === 1) {
-			e.Re = e.Oe.values().next().value;
-			e.Oe = void 0;
-		} else if (e.Oe.size === 0) e.Oe = void 0;
-		return true;
-	}
-	function clearPendingSources$1(e) {
-		e.Re = void 0;
-		e.Oe?.clear();
-		e.Oe = void 0;
-	}
-	function setPendingError$1(e, t, n) {
-		if (!t) {
-			e.fe = null;
-			return;
-		}
-		if (n instanceof NotReadyError$1 && n.source === t) {
-			e.fe = n;
-			return;
-		}
-		const i = e.fe;
-		if (!(i instanceof NotReadyError$1) || i.source !== t) e.fe = new NotReadyError$1(t);
-	}
-	function forEachDependent$1(e, t) {
-		for (let n = e.I; n !== null; n = n.h) t(n.p);
-		for (let n = e.A; n !== null; n = n.N) for (let e = n.I; e !== null; e = e.h) t(e.p);
-	}
-	function settlePendingSource$1(e) {
-		let t = false;
-		const n = /* @__PURE__ */ new Set();
-		const settle = (i) => {
-			if (n.has(i) || !removePendingSource$1(i, e)) return;
-			n.add(i);
-			i.Ee = clock$1;
-			const r = i.Re ?? i.Oe?.values().next().value;
-			if (r) {
-				setPendingError$1(i, r);
-				updatePendingSignal$1(i);
-			} else {
-				i.Se &= ~STATUS_PENDING$1;
-				setPendingError$1(i);
-				updatePendingSignal$1(i);
-				if (i.Ue) {
-					if (i.W === EFFECT_TRACKED$1) {
-						const e = i;
-						if (!e.H) {
-							e.H = true;
-							e.F.enqueue(EFFECT_USER$1, e.M);
-						}
-					} else {
-						const e = i.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1;
-						if (e.P > i.o) e.P = i.o;
-						insertIntoHeap$1(i, e);
-					}
-					t = true;
-				}
-				i.Ue = false;
-			}
-			forEachDependent$1(i, settle);
-		};
-		forEachDependent$1(e, settle);
-		if (t) schedule$1();
-	}
-	function handleAsync$1(e, t, n) {
-		const i = typeof t === "object" && t !== null;
-		const r = i && untrack$1(() => t[Symbol.asyncIterator]);
-		const s = !r && i && untrack$1(() => typeof t.then === "function");
-		if (!s && !r) {
-			e.ye = null;
-			return t;
-		}
-		e.ye = t;
-		let o;
-		const handleError = (n) => {
-			if (e.ye !== t) return;
-			globalQueue$1.initTransition(resolveTransition$1(e));
-			notifyStatus$1(e, n instanceof NotReadyError$1 ? STATUS_PENDING$1 : STATUS_ERROR$1, n);
-			e.Ee = clock$1;
-		};
-		const asyncWrite = (i, r) => {
-			if (e.ye !== t) return;
-			if (e.O & (REACTIVE_DIRTY$1 | REACTIVE_OPTIMISTIC_DIRTY$1)) return;
-			globalQueue$1.initTransition(resolveTransition$1(e));
-			const s = !!(e.Se & STATUS_UNINITIALIZED$1);
-			clearStatus$1(e);
-			const o = resolveLane$1(e);
-			if (o) o.k.delete(e);
-			if (n) n(i);
-			else if (e.ee !== void 0) {
-				if (e.ee !== void 0 && e.ee !== NOT_PENDING$1) e.X = i;
-				else {
-					e.J = i;
-					insertSubs$1(e);
-				}
-				e.Ee = clock$1;
-			} else if (o) {
-				const t = e.W;
-				const n = e.J;
-				const r = e.ke;
-				if (!t && s || !r || !r(i, n)) {
-					e.J = i;
-					e.Ee = clock$1;
-					if (e.xe) setSignal$1(e.xe, i);
-					insertSubs$1(e, true);
-				}
-			} else setSignal$1(e, () => i);
-			settlePendingSource$1(e);
-			schedule$1();
-			flush$1();
-			r?.();
-		};
-		if (s) {
-			let n = false, i = true;
-			t.then((e) => {
-				if (i) {
-					o = e;
-					n = true;
-				} else asyncWrite(e);
-			}, (e) => {
-				if (!i) handleError(e);
-			});
-			i = false;
-			if (!n) {
-				globalQueue$1.initTransition(resolveTransition$1(e));
-				throw new NotReadyError$1(context$1);
-			}
-		}
+	function notifyStatus(e, n, t) {
+		if (n === 2 && !(t instanceof StatusError) && !(t instanceof NotReadyError)) t = new StatusError(e, t);
+		const r = n === 1 && t instanceof NotReadyError && t.source;
 		if (r) {
-			const n = t[Symbol.asyncIterator]();
-			let i = false;
-			let r = false;
-			cleanup$1(() => {
-				if (r) return;
-				r = true;
-				try {
-					const e = n.return?.();
-					if (e && typeof e.then === "function") e.then(void 0, () => {});
-				} catch {}
-			});
-			const iterate = () => {
-				let s, u = false, c = true;
-				n.next().then((n) => {
-					if (c) {
-						s = n;
-						u = true;
-						if (n.done) r = true;
-					} else if (e.ye !== t) return;
-					else if (!n.done) asyncWrite(n.value, iterate);
-					else {
-						r = true;
-						schedule$1();
-						flush$1();
-					}
-				}, (n) => {
-					if (!c && e.ye === t) {
-						r = true;
-						handleError(n);
-					}
-				});
-				c = false;
-				if (u && !s.done) {
-					o = s.value;
-					i = true;
-					return iterate();
-				}
-				return u && s.done;
-			};
-			const s = iterate();
-			if (!i && !s) {
-				globalQueue$1.initTransition(resolveTransition$1(e));
-				throw new NotReadyError$1(context$1);
-			}
-		}
-		return o;
-	}
-	function clearStatus$1(e, t = false) {
-		clearPendingSources$1(e);
-		e.Ue = false;
-		e.Se = t ? 0 : e.Se & STATUS_UNINITIALIZED$1;
-		setPendingError$1(e);
-		updatePendingSignal$1(e);
-		e.Ge?.();
-	}
-	function notifyStatus$1(e, t, n, i, r) {
-		if (t === STATUS_ERROR$1 && !(n instanceof StatusError$1) && !(n instanceof NotReadyError$1)) n = new StatusError$1(e, n);
-		const s = t === STATUS_PENDING$1 && n instanceof NotReadyError$1 ? n.source : void 0;
-		const o = s === e;
-		const u = t === STATUS_PENDING$1 && e.ee !== void 0 && !o;
-		const c = u && hasActiveOverride$1(e);
-		if (!i) {
-			if (t === STATUS_PENDING$1 && s) {
-				addPendingSource$1(e, s);
-				e.Se = STATUS_PENDING$1 | e.Se & STATUS_UNINITIALIZED$1;
-				setPendingError$1(e, s, n);
-			} else {
-				clearPendingSources$1(e);
-				e.Se = t | (t !== STATUS_ERROR$1 ? e.Se & STATUS_UNINITIALIZED$1 : 0);
-				e.fe = n;
-			}
-			updatePendingSignal$1(e);
-		}
-		if (r && !i) assignOrMergeLane$1(e, r);
-		const a = i || c;
-		const l = i || u ? void 0 : r;
-		if (e.Ge) {
-			if (i && t === STATUS_PENDING$1) return;
-			if (a) e.Ge(t, n);
-			else e.Ge();
+			if (e.m & 2) e.T.Te = e.T.U;
+			addPendingSource(e, r);
+		} else clearPendingSources(e);
+		e.m = n | (n === 2 ? e.m & 12 ? 8 : 0 : n === 1 && e.m & 8 ? 4 : e.m & 4);
+		if (r) setPendingError(e, r, t);
+		else ext(e).U = t;
+		if (guessing && n === 1 && e.l & 8192) {
+			if (passLane === null) joinFuture(e.R & 8192 ? null : txOf(e)._parent);
 			return;
 		}
-		forEachDependent$1(e, (e) => {
-			e.Ee = clock$1;
-			if (t === STATUS_PENDING$1 && s && e.Re !== s && !e.Oe?.has(s) || t !== STATUS_PENDING$1 && (e.fe !== n || e.Re || e.Oe)) {
-				if (!a && !e.K) globalQueue$1.se.push(e);
-				notifyStatus$1(e, t, n, a, l);
+		const o = statusNotifierOf(e);
+		if (o) {
+			o.call(e);
+			return;
+		}
+		propagateStatus(e, n, t);
+	}
+	/** The dependents' half of `notifyStatus`. Also used alone for a store
+	* family's leaves, which are not the derive's dependents. */ function propagateStatus(e, n, t) {
+		const r = n === 1 && t instanceof NotReadyError && t.source;
+		forEachDependent(e, (o, s) => {
+			o.ie = clock;
+			if (o.l & 16384 || holdWorkHook && (o.l & 32768 || r && o.l & 2097152) && !(r && holdWorkHook(o, e)) || n === 1 && s.Ne !== o.de) {
+				if (n !== 1 && removePendingSource(o, e)) settlePendingSource(o, e);
+				enqueueSub(o);
+				schedule();
+				return;
+			}
+			if (r && o.T?.se?.has(r)) {
+				if (passLane === null && (o.l & 2304) === 256 && globalQueue.Y && !freshHook?.(o, r.ie === clock)) joinFuture(txOf(o));
+				return;
+			}
+			if (r || n !== 1 && (o.T?.U !== t || o.T?.se)) {
+				if (laneStageHook && passLane !== null) laneStageHook(o, passLane, true, e);
+				else {
+					queuePendingNode(o);
+					if (n === 1 && (o.l & 2304) === 256 && !o.i) if (guessing && o.m & 1 && reasks(o)) unhold(o);
+					else joinFuture(txOf(o));
+				}
+				notifyStatus(o, n, t);
+				o.rr?.st(n, t);
 			}
 		});
 	}
-	var externalSourceConfig = null;
-	GlobalQueue$1.oe = recompute$1;
-	GlobalQueue$1.ue = disposeChildren$1;
-	var tracking$1 = false;
-	var stale$1 = false;
-	var refreshing = false;
-	var pendingCheckActive = false;
-	var latestReadActive = false;
-	var context$1 = null;
-	var currentOptimisticLane$1 = null;
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/core.js
+	GlobalQueue._e = (e) => {
+		if (e.i === 3) {
+			deleteFromHeap(e, dirtyQueue);
+			e.Ae = true;
+			globalQueue.enqueue(2, e.Z);
+		} else if (e.R & 32 && !(e.R & 65536)) deferZombie(e);
+		else if (laneStageHook && e.R & 32 && laneFrameMember(e)) {
+			deleteFromHeap(e, dirtyQueue);
+			e.R &= -65540;
+		} else if (!(laneAdoptHook && e.T?.He && laneAdoptHook(e, 1))) recompute(e);
+	};
+	/** The nearest non-zombie owner carries a lane's value or, an effect, is
+	* listed in a lane. */ function laneFrameMember(e) {
+		let t = e._parent;
+		while (t.R & 32) t = t._parent;
+		return (t.l & 10240) === 2048 || t.i && t.T?.Re?.P;
+	}
+	GlobalQueue.Ce = disposeChildren;
+	var tracking = false;
+	var context = null;
 	var snapshotCaptureActive = false;
+	/** The lane at the root of the running chain of first passes, inherited by
+	* every first pass under it (#4166). */ var laneRoot;
 	var snapshotSources = null;
 	function ownerInSnapshotScope(e) {
 		while (e) {
-			if (e.We) return true;
-			e = e.i;
+			if (e.Oe) return true;
+			e = e._parent;
 		}
 		return false;
 	}
-	function recompute$1(e, t = false) {
-		const n = e.W;
+	function recompute(e, t = false) {
+		bumpNotifyEpoch();
+		const n = e.i;
+		let o;
+		let E = NOT_PENDING;
+		const s = passLane;
+		const l = laneRoot;
+		const r = laneStageHook && (laneRoot = t && (s || l));
+		if (laneAdoptHook && !t && e.T) {
+			const t = e.T.He;
+			if (t ? t !== e.T.Ee && (e.T.He = void 0, 1) : e.l & 2048 && !(e.R & 65536)) laneAdoptHook(e, 2);
+		}
+		if (laneStageHook) {
+			const n = t ? creatorPass(context) : null;
+			const o = n?.R | 0;
+			if (o & 32768 || n && (n.l & 16777216 && n.m & 4 || n.i === 1 && n._ && hasDep(n, (e) => e.l & 32768, n._))) e.l |= CONFIG_MOUNT_AHEAD;
+			setPassLane((e.R & 65536 || (e.l & 10240) === 2048) && e.T?.Re?.P ? e.T.Re : s?._parent.Pe != s && o & 4 ? s : null);
+		}
+		const a = e.l & CONFIG_STAGED_ERROR;
+		let i;
 		if (!t) {
-			if (e.K && (!n || activeTransition$1) && activeTransition$1 !== e.K) globalQueue$1.initTransition(e.K);
-			deleteFromHeap$1(e, e.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1);
-			e.ye = null;
-			if (e.K || n === EFFECT_TRACKED$1) disposeChildren$1(e);
-			else {
-				markDisposal$1(e);
-				e.me = e.Ve;
-				e.ve = e.Ce;
-				e.Ve = null;
-				e.Ce = null;
-				e.we = 0;
+			deleteFromHeap(e, dirtyQueue);
+			if (laneStageHook && !n && (e.m & 1 || (e.l & 1610612992) === 536871168)) e.l &= ~CONFIG_VERDICT;
+			if (e.T !== null) {
+				e.T.Ee = null;
+				releaseFlightTeardown(e);
 			}
-		}
-		const i = !!(e.O & REACTIVE_OPTIMISTIC_DIRTY$1);
-		const r = e.ee !== void 0 && e.ee !== NOT_PENDING$1;
-		const s = !!(e.Se & STATUS_PENDING$1);
-		const o = !!(e.Se & STATUS_UNINITIALIZED$1);
-		const u = context$1;
-		context$1 = e;
-		e.ge = null;
-		e.O = REACTIVE_RECOMPUTING_DEPS$1;
-		e.Ee = clock$1;
-		let c = e.X === NOT_PENDING$1 ? e.J : e.X;
-		let a = e.o;
-		let l = tracking$1;
-		let f = currentOptimisticLane$1;
-		tracking$1 = true;
-		if (i) {
-			const t = resolveLane$1(e);
-			if (t) currentOptimisticLane$1 = t;
-		}
-		try {
-			c = handleAsync$1(e, e.L(c));
-			clearStatus$1(e, t);
-			const n = resolveLane$1(e);
-			if (n) {
-				n.k.delete(e);
-				updatePendingSignal$1(n.te);
-			}
-		} catch (t) {
-			if (t instanceof NotReadyError$1 && currentOptimisticLane$1) {
-				const t = findLane$1(currentOptimisticLane$1);
-				if (t.te !== e) {
-					t.k.add(e);
-					e.q = t;
-					updatePendingSignal$1(t.te);
+			if (e.l & 256) {
+				const t = txOf(e);
+				if (t.P || e.l & 524288);
+				else if (!(e.l & 8421376) || observeFlightHook && !(e.l & 1 << 23) && bornInto(e, t)) joinPassTx(t, freshHook?.(e, e.m & 4));
+				else if (t !== flushTransaction && !(e.m & 4 || e.l & 1048576)) {
+					if ((E = e.ue) !== NOT_PENDING) insertSubs(e);
+					e.ue = NOT_PENDING;
+					e.l &= -257;
 				}
 			}
-			if (t instanceof NotReadyError$1) e.Ue = true;
-			notifyStatus$1(e, t instanceof NotReadyError$1 ? STATUS_PENDING$1 : STATUS_ERROR$1, t, void 0, t instanceof NotReadyError$1 ? e.q : void 0);
-		} finally {
-			tracking$1 = l;
-			e.O = REACTIVE_NONE$1 | (t ? e.O & REACTIVE_SNAPSHOT_STALE$1 : 0);
-			context$1 = u;
-		}
-		if (!e.fe) {
-			const u = e.ge;
-			let l = u !== null ? u.D : e.C;
-			if (l !== null) {
-				do
-					l = unlinkSubs$1(l);
-				while (l !== null);
-				if (u !== null) u.D = null;
-				else e.C = null;
+			if (n === 3 || e.l & 128) {
+				const t = deferredReleases;
+				deferReleases(o = []);
+				disposeChildren(e);
+				deferReleases(t);
+			} else if (e.pe !== null || e.ke !== null) parkChildren(e);
+			if (passHook) {
+				i = e.C !== null;
+				if (e.T !== null && (e.l & 2097152 || e.T.Ft !== void 0)) passHook(e);
 			}
-			const f = r ? e.ee : e.X === NOT_PENDING$1 ? e.J : e.X;
-			if (!n && o || !e.ke || !e.ke(f, c)) {
-				const o = r ? e.ee : void 0;
-				if (t || n && activeTransition$1 !== e.K || i) {
-					e.J = c;
-					if (r && i) {
-						e.ee = c;
-						e.X = c;
+			if (e.l & 2097152) {
+				e.ue = NOT_PENDING;
+				e.l ^= CONFIG_STAGED_ERROR;
+			}
+		}
+		const I = e.m & 4;
+		const _ = e.m & 2 && e.T?.U;
+		const u = (e.m & 1) !== 0 && e.T?.se;
+		const f = e.T?.se?.has(e);
+		let T = false;
+		let S = (e.R & 8192) !== 0 && !((e.m & 1 || e.ue !== NOT_PENDING && !(e.R & 1024)) && e.T !== null && !e.T.Ve);
+		const A = context;
+		context = e;
+		e._ = null;
+		e.de++;
+		const c = e.R & REACTIVE_RELEASE_AFTER;
+		e.R = 4 | e.R & (32 | REACTIVE_REASK);
+		e.ie = clock;
+		let R = e.ue !== NOT_PENDING ? e.ue : e.le;
+		let C = e.he;
+		let O = false;
+		let d = false;
+		let D = tracking;
+		tracking = true;
+		try {
+			if (e.l & 64) {
+				R = e.X(R);
+				if (e.T !== null) e.T.Ee = null;
+				e.Ie = false;
+			} else {
+				const t = e.T?.Ee;
+				const n = e.X(R);
+				const o = typeof n === "object" && n !== null;
+				const E = e.T?.Ee !== t;
+				R = E || !o ? n : handleAsync(e, n);
+				if (!E && !o) {
+					if (e.T !== null) {
+						e.T.Ee = null;
+						if (holdWorkHook) e.l &= ~CONFIG_ASYNC;
 					}
-				} else e.X = c;
-				if (r && !i && s && !e.he) e.ee = c;
-				if (!r || i || e.ee !== o) insertSubs$1(e, i || r);
-			} else if (r) e.X = c;
-			else if (e.o != a) for (let t = e.I; t !== null; t = t.h) insertIntoHeapHeight$1(t.p, t.p.O & REACTIVE_ZOMBIE$1 ? zombieQueue$1 : dirtyQueue$1);
-		}
-		currentOptimisticLane$1 = f;
-		(!t || e.Se & STATUS_PENDING$1) && !e.K && !(activeTransition$1 && r) && globalQueue$1.se.push(e);
-		e.K && n && activeTransition$1 !== e.K && runInTransition$1(e.K, () => recompute$1(e));
-	}
-	function updateIfNecessary$1(e) {
-		if (e.O & REACTIVE_CHECK$1) for (let t = e.C; t; t = t.D) {
-			const n = t.m;
-			const i = n.V || n;
-			if (i.L) updateIfNecessary$1(i);
-			if (e.O & REACTIVE_DIRTY$1) break;
-		}
-		if (e.O & (REACTIVE_DIRTY$1 | REACTIVE_OPTIMISTIC_DIRTY$1) || e.fe && e.Ee < clock$1 && !e.ye) recompute$1(e);
-		e.O = e.O & (REACTIVE_IN_HEAP$1 | 272);
-	}
-	function computed$1(e, t, n) {
-		const i = n?.transparent ?? false;
-		const r = {
-			id: n?.id ?? (i ? context$1?.id : context$1?.id != null ? getNextChildId(context$1) : void 0),
-			be: i || void 0,
-			ke: n?.equals != null ? n.equals : isEqual$1,
-			le: !!n?.ownedWrite,
-			Ne: n?.unobserved,
-			Ve: null,
-			F: context$1?.F ?? globalQueue$1,
-			Le: context$1?.Le ?? defaultContext$1,
-			we: 0,
-			L: e,
-			J: t,
-			o: 0,
-			A: null,
-			S: void 0,
-			T: null,
-			C: null,
-			ge: null,
-			I: null,
-			Ae: null,
-			i: context$1,
-			De: null,
-			Ce: null,
-			O: n?.lazy ? REACTIVE_LAZY$1 : REACTIVE_NONE$1,
-			Se: STATUS_UNINITIALIZED$1,
-			Ee: clock$1,
-			X: NOT_PENDING$1,
-			me: null,
-			ve: null,
-			ye: null,
-			K: null
-		};
-		r.T = r;
-		const s = context$1?.t ? context$1.u : context$1;
-		if (context$1) {
-			const e = context$1.Ce;
-			if (e === null) context$1.Ce = r;
+					e.Ie = false;
+				}
+			}
+			if ((e.m !== 0 || e.T !== null) && !(laneServedHook && e.m & 1 && laneServedHook(e, null, true))) clearStatus(e, t);
+		} catch (t) {
+			const n = t instanceof NotReadyError;
+			if (holdWorkHook && (!n || e.Ie)) e.l &= ~CONFIG_ASYNC;
+			if (n && e.Ie) parkLoadingWindow(e, t);
 			else {
-				r.De = e;
-				context$1.Ce = r;
+				if (n || !(T = stageError(e, t, true))) {
+					if (n) ext(e).fe = true;
+					notifyStatus(e, n ? 1 : 2, t);
+					if (n && f && !e.T?.Ee) settlePendingSource(e);
+				}
+				if ((n || T) && u) {
+					for (const t of u) if (t !== e && !(e.T?.se?.has(t) && (t.m & 1 || retryReaches(e, t)))) settlePendingSource(e, t);
+				}
 			}
+		} finally {
+			tracking = D;
+			if (laneStageHook) laneRoot = l;
+			O = (e.R & REACTIVE_MISSED_WAKE) !== 0;
+			d = !!(e.R & (r ? s || n || !(e.m & 1) ? 128 | REACTIVE_STAGED_READ : 0 : 128));
+			if (observeFlightHook) e.l = e.l & 1073709055 | e.R & REACTIVE_PROBED | (e.R & REACTIVE_WINDOW) << 9 | (e.R & REACTIVE_AHEAD) << 11;
+			e.R = e.R & (96 | REACTIVE_FRAME_READ | REACTIVE_STAGED_READ | REACTIVE_LANE_READ | REACTIVE_SCREEN_READ | REACTIVE_PROBE_UNANSWERED) | (t ? e.R & 256 : 0);
+			context = A;
+			if (o) for (const e of o) releaseIfSettledUnobserved(e);
+			if (i && !S && e.m & 1) S = !!passHook(e, 1);
+			if (e.T !== null) e.T.Ve = S && (e.m & 1) !== 0;
 		}
-		if (s) r.o = s.o + 1;
-		if (snapshotCaptureActive && ownerInSnapshotScope(context$1)) r.Te = true;
-		if (externalSourceConfig) {
-			const e = signal(void 0, {
-				equals: false,
-				ownedWrite: true
-			});
-			const t = externalSourceConfig.factory(r.L, () => {
-				setSignal$1(e, void 0);
-			});
-			cleanup$1(() => t.dispose());
-			r.L = (n) => {
-				read$1(e);
-				return t.track(n);
-			};
+		if (e.R & 64) {
+			clearDeps(e);
+			clearInFlight(e);
+			if (laneStageHook) setPassLane(s);
+			return;
 		}
-		!n?.lazy && recompute$1(r, true);
-		if (snapshotCaptureActive && !n?.lazy) {
-			if (!(r.Se & STATUS_PENDING$1)) {
-				r.de = r.J === void 0 ? NO_SNAPSHOT : r.J;
-				snapshotSources.add(r);
+		let p = !laneStageHook ? null : passLane;
+		const G = !!e.T?.U || T;
+		if (laneStageHook && p !== null) {
+			if (laneStageHook(e, p, t, G)) setPassLane(p);
+			else p = null;
+		}
+		if (!G) {
+			const o = e.ue === NOT_PENDING;
+			const E = !o ? e.ue : e.le;
+			const s = flushTransaction ?? passTx;
+			const l = o && I && !n || !!e.T?.Te || !!(_ && s) || !!a || p !== null && e._parent?.l & 256 || !isSame(e, E, R);
+			if (n && l && !(e.R & 262144 && !e.Ae && Object.is(e.ge, R)) && o) {
+				e.Ae = !e.T?.U;
+				if (!t) globalQueue.enqueue(n, e.W ?? (e.W = GlobalQueue.q.bind(null, e)), p);
 			}
+			if (laneOutcomeHook && !t && p === null && e.l & 8192 && laneOutcomeHook(e, R, G));
+			else if (G);
+			else if (l) {
+				if (p !== null) {
+					if (n && e.ue === NOT_PENDING) e.le = R;
+					else e.ue = R;
+					if (t && !n) e.m |= 4;
+				} else if (t ? !(s !== null && (d || creatorPass(A)?.R & 128)) : n && e.ue === NOT_PENDING) e.le = R;
+				else {
+					e.ue = R;
+					if (_) e.T.Te = _;
+					if (t) {
+						holdNode(e, s);
+						e.m |= 4;
+						freshHook?.(e, !r && flushTransaction);
+					}
+				}
+				if (e.o !== null) p !== null ? laneDirty(e, p) : insertSubs(e);
+			} else if (e.he != C) for (let t = e.o; t !== null; t = t.t) insertIntoHeapHeight(t.u, dirtyQueue);
+			if (!l && !e.T?.U) {
+				if (_) settleErroredDependents(e, _);
+				if (u) {
+					for (const t of u) if (t !== e) settlePendingSource(e, t);
+				}
+			}
+			if (f && !(e.m & 5)) settlePendingSource(e);
 		}
-		return r;
+		if (t && p === null && d && e.m & 1) {
+			const t = flushTransaction ?? passTx;
+			t && !t.P && (n && freshHook?.(e) === 2 || holdNode(e, t));
+		}
+		if (!e.T?.U && (p !== null || e.ue === NOT_PENDING) && !(n && e.Ae)) {
+			if (t || n === 3) trimStaleDeps(e);
+			else heldTrim(e);
+		}
+		if (e.ue !== NOT_PENDING || e.T !== null && (e.T.me !== null || e.T.Le !== null) || (e.m & 5) !== 0 && (!t || (e.m & 1) !== 0)) {
+			e.l |= 128;
+			if (p === null) queuePendingNode(e);
+		}
+		if (laneStageHook) setPassLane(s);
+		if (O) {
+			enqueueSub(e);
+			schedule();
+		}
+		if (keepReadersHook && E !== NOT_PENDING && Object.is(R, E)) keepReadersHook(e);
+		if (c) releaseIfSettledUnobserved(e);
 	}
-	function signal(e, t, n = null) {
-		const i = {
-			ke: t?.equals != null ? t.equals : isEqual$1,
-			le: !!t?.ownedWrite,
-			He: !!t?.He,
-			Ne: t?.unobserved,
-			J: e,
-			I: null,
-			Ae: null,
-			Ee: clock$1,
-			V: n,
-			N: n?.A || null,
-			X: NOT_PENDING$1
+	function updateIfNecessary(e) {
+		if (e.R & 68) return;
+		if (e.R & 1) for (let t = e.C; t; t = t.G) {
+			const n = t.S;
+			if (n.X) updateIfNecessary(n);
+			if (e.R & 2) break;
+		}
+		if (e.R & 2 || e.T?.U && e.ie < clock && !e.T?.Ee) recompute(e);
+		e.R = e.R & (376 | REACTIVE_MANUAL_WRITE | REACTIVE_FRAME_READ | REACTIVE_STAGED_READ | REACTIVE_LANE_READ | REACTIVE_SCREEN_READ | REACTIVE_PROBE_UNANSWERED);
+	}
+	function computed(e, t) {
+		const n = t?.transparent ?? false;
+		const o = t !== null && typeof t === "object" && "loadingValue" in t;
+		const E = {
+			id: inheritId(t, n, context),
+			l: (n ? 4 : 0) | (t?.ownedWrite ? 1 : 0) | (!context || t?.lazy ? 32 : 0) | (t?.sync ? 64 : 0) | (t?.ae ? 2 : 0) | (t?.xe ?? 0) | (snapshotCaptureActive && ownerInSnapshotScope(context) ? 8 : 0),
+			ye: t?.equals ?? isEqual,
+			ke: null,
+			A: context?.A ?? defaultContext,
+			be: 0,
+			X: e,
+			le: o ? t.loadingValue : void 0,
+			he: 0,
+			ve: void 0,
+			We: null,
+			C: null,
+			_: null,
+			de: 0,
+			o: null,
+			Ze: null,
+			_parent: context,
+			Ge: null,
+			Me: null,
+			pe: null,
+			R: t?.lazy ? 512 : 0,
+			m: o ? 0 : 4,
+			ie: clock,
+			ue: NOT_PENDING,
+			we: -1,
+			Ie: o,
+			T: null
 		};
-		n && (n.A = i);
-		if (snapshotCaptureActive && !i.He && !((n?.Se ?? 0) & STATUS_PENDING$1)) {
-			i.de = e === void 0 ? NO_SNAPSHOT : e;
-			snapshotSources.add(i);
-		}
-		return i;
+		if (t?.unobserved) ext(E).Ye = t.unobserved;
+		setupComputedNode(E, t);
+		return E;
 	}
-	function optimisticSignal(e, t) {
-		const n = signal(e, t);
-		n.ee = NOT_PENDING$1;
+	/** Lazily allocate the cold extension. Hot paths read `el._x?._field` behind
+	* `_config` bits; never call `ext()` just to store a default. */ function ext(e) {
+		return e.T ?? (e.T = {
+			Ee: null,
+			Se: null,
+			U: void 0,
+			fe: void 0,
+			se: void 0,
+			Ye: void 0,
+			De: void 0,
+			me: null,
+			Le: null,
+			Re: null,
+			Ve: false,
+			je: NOT_PENDING,
+			Be: -1,
+			ce: 0,
+			Ue: false,
+			I: 0,
+			Te: null
+		});
+	}
+	/** A tracked read of a held node joins the flush to its hold (D-1), unless the
+	* reader is a render effect: the frame reads the committed value outside its
+	* hold's flush (D-25, `frameRead`). A node born held has no committed value,
+	* so every reader joins. Under a boundary that has not shown content, a first
+	* pass is the boundary's (F-4, #3540). */
+	/** The pass whose plain read made this flush adopt a hold: a window it then
+	* opens can give the hold back (#4777). */ var adopter = null;
+	function joinPass(e, t) {
+		if (observeFlightHook && !flushTransaction) adopter = e, adopted.length = 0;
+		e.R |= 128;
+		if (t.m & 4 || e.i !== 1) joinPassTx(txOf(t), !e.i && e.m & 4 || freshHook?.(e));
+	}
+	/** A frame reader of a node another hold holds is served the committed value,
+	* publishes mainline and re-derives at that landing (D-25). Not one born
+	* into that hold (#4010), nor a flight whose inputs already show: that would
+	* tear (F-1, #3305). Lane work is a frame reader too: a lane sees the screen
+	* plus its own guesses (F-6). */ function frameRead(e, t) {
+		const n = observeFlightHook && e.l & 32768;
+		const o = laneStageHook && passLane !== null;
+		if (laneStageHook && e.l & 16777216 && e.m & 4 && (!o || t.m & 1)) {
+			joinPass(e, t);
+			return false;
+		}
+		if (!(n && holdStagingHook(e, t)) && !((!o || e.m & 4 && t.m & 1) && !n && (!(e.l & 1 << 23) || t.l & 1024))) {
+			const E = txOf(t);
+			if (o && passLane.over && resolveTx(passLane.over) === E && !n) return false;
+			if (!(!o && E === flushTransaction && !n || bornInto(e, E))) {
+				staleReader(e, E);
+				if (o || n) laneServedHook(e, t);
+				return true;
+			}
+		}
+		joinPass(e, t);
+		return false;
+	}
+	/** Born into `t`: held and never committed, or a member of a frame its held
+	* pass built. It reads `t`'s values in any flush and keeps staging (#4010). */ function bornInto(e, t) {
+		return (e.m & 4 || e.l & 1048576) && e.l & 256 && txOf(e) === t;
+	}
+	/** With `tail`, this pass's reads only. */ function hasDep(e, t, n) {
+		for (let o = e.C; o !== null; o = o === n ? null : o.G) if (t(o.S)) return 1;
+	}
+	/** A staging a verdict pass reads for the first time is content it opens,
+	* not a value it keeps (D-25, S-46, #4806). */ var fresh;
+	function readsFresh(e, t) {
+		return t.ue !== NOT_PENDING && e.l & 32768 && !hasDep(e, (e) => e === t);
+	}
+	/** The computed a creation under `owner` belongs to, or null. */ function creatorPass(e) {
+		return e !== null && e.Qe ? e.Ke : e;
+	}
+	/** Park the previous pass's children and disposal list until this node's
+	* commit replaces them. */ function parkChildren(e) {
+		markDisposal(e);
+		const t = ext(e);
+		t.Le = e.ke;
+		t.me = e.pe;
+		e.ke = null;
+		e.pe = null;
+		e.be = 0;
+	}
+	/** One literal with every effect field, so V8 sees the full shape at construction. */ function createEffectNode(e, t, n, o, E) {
+		const s = E?.transparent ?? false;
+		const l = {
+			id: inheritId(E, s, context),
+			l: o << 23 | (s ? 4 : 0) | (E?.ownedWrite ? 1 : 0) | (E?.sync ? 64 : 0) | (E?.xe ?? 0) | (snapshotCaptureActive && ownerInSnapshotScope(context) ? 8 : 0),
+			ye: false,
+			ke: null,
+			A: context?.A ?? defaultContext,
+			be: 0,
+			X: e,
+			le: void 0,
+			he: 0,
+			ve: void 0,
+			We: null,
+			C: null,
+			_: null,
+			de: 0,
+			o: null,
+			Ze: null,
+			_parent: context,
+			Ge: null,
+			Me: null,
+			pe: null,
+			R: 512,
+			m: 4,
+			ie: clock,
+			ue: NOT_PENDING,
+			we: -1,
+			Ie: false,
+			Ae: false,
+			ge: void 0,
+			qe: t,
+			Je: n,
+			ze: void 0,
+			i: o,
+			T: null
+		};
+		if (E?.unobserved) ext(l).Ye = E.unobserved;
+		setupComputedNode(l, lazyOptions);
+		return l;
+	}
+	/** The shared effect status notifier, installed by effect.ts. */ var effectStatusNotify = null;
+	function setEffectStatusNotify(e) {
+		effectStatusNotify = e;
+	}
+	/** Effect nodes get the shared notifier; presence also marks a display consumer. */ function statusNotifierOf(e) {
+		return e.i ? effectStatusNotify : null;
+	}
+	var lazyOptions = { lazy: true };
+	function setupComputedNode(e, t) {
+		e.We = e;
+		const n = context?.Qe ? context.Ke : context;
+		if (context) linkChild(context, e);
+		if (n) e.he = n.he + 1;
+		wireExternalSourceHook?.(e);
+		!t?.lazy && recompute(e, true);
+		if (snapshotCaptureActive && !t?.lazy) {
+			if (!(e.m & 1) && !(e.l & 2)) takeSnapshot(e, e.le);
+		}
+	}
+	function signal(e, t) {
+		const n = {
+			ye: t?.equals ?? isEqual,
+			l: (t?.ownedWrite ? 1 : 0) | (t?.ae ? 2 : 0),
+			le: e,
+			o: null,
+			Ze: null,
+			ie: clock,
+			ue: NOT_PENDING,
+			we: -1,
+			T: null
+		};
+		if (t?.unobserved) ext(n).Ye = t.unobserved;
+		if (snapshotCaptureActive && !(n.l & 2)) takeSnapshot(n, e);
 		return n;
 	}
-	function optimisticComputed(e, t, n) {
-		const i = computed$1(e, t, n);
-		i.ee = NOT_PENDING$1;
-		return i;
-	}
-	function isEqual$1(e, t) {
+	function isEqual(e, t) {
 		return e === t;
 	}
-	function untrack$1(e, t) {
-		if (!externalSourceConfig && !tracking$1 && true) return e();
-		const n = tracking$1;
-		tracking$1 = false;
+	/** Dev: when set to a component name, a reactive read outside a nested
+	* tracking scope warns. Managed by `untrack(fn, strictReadLabel)`. */
+	/** The verdict windows' read, set while a window is open. */ var verdict = null;
+	/**
+	* Runs `fn` outside of any reactive tracking — reads inside `fn` will not
+	* subscribe the current scope. Returns whatever `fn` returns.
+	*
+	* Use `untrack` inside a memo or effect when you need to read a signal once
+	* without making the surrounding computation depend on its future changes.
+	*
+	* In a component body, `untrack` marks a read as a deliberate one-time
+	* snapshot and silences `STRICT_READ_UNTRACKED`. Use it only when the value
+	* must never update and is never downstream of async: an async-derived value
+	* can still be pending (the read throws) or mid-transition (the snapshot is
+	* the old committed value). When it should follow its source, move the read
+	* to where the value is used (JSX, a memo, an effect's compute, the event
+	* handler, or an accessor passed to the hook that needs it) instead.
+	*
+	* `untrack` stops dependency tracking, not async settlement. Reading an
+	* uninitialized async source still suspends the owning computation; it runs
+	* again when that source first resolves. Afterward, the untracked read is a
+	* snapshot and does not subscribe the computation to later changes.
+	*
+	* If the first read must return immediately, give the async source a
+	* `loadingValue` before reading it with `untrack`. `isPending` and `latest`
+	* inspect updates to an existing value; neither supplies a missing initial
+	* value.
+	*
+	* Pass a `strictReadLabel` string to enable a dev-mode warning: any reactive
+	* read inside `fn` that isn't inside a nested tracking scope will log a
+	* warning naming the label.
+	*
+	* @example
+	* ```ts
+	* createEffect(
+	*   () => trigger(),                 // tracks `trigger` only
+	*   () => {
+	*     const snapshot = untrack(() => state); // read once, untracked
+	*     log(snapshot);
+	*   }
+	* );
+	*
+	* const color = createMemo<string>(() => fetchColor(), { loadingValue: "gray" });
+	* const initialColor = untrack(color); // "gray" while the fetch is unresolved
+	* ```
+	*/ function untrack(e, t) {
+		const n = tracking;
+		tracking = false;
 		try {
-			if (externalSourceConfig) return externalSourceConfig.untrack(e);
+			if (externalUntrackHook) return externalUntrackHook(e);
 			return e();
 		} finally {
-			tracking$1 = n;
+			tracking = n;
 		}
 	}
-	function read$1(e) {
-		if (latestReadActive) {
-			const t = getLatestValueComputed(e);
-			const n = latestReadActive;
-			latestReadActive = false;
-			const i = e.ee !== void 0 && e.ee !== NOT_PENDING$1 ? e.ee : e.J;
-			let r;
-			try {
-				r = read$1(t);
-			} catch (e) {
-				if (!context$1 && e instanceof NotReadyError$1) return i;
-				throw e;
-			} finally {
-				latestReadActive = n;
-			}
-			if (t.Se & STATUS_PENDING$1) return i;
-			if (stale$1 && currentOptimisticLane$1 && t.q) {
-				const e = findLane$1(t.q);
-				if (e !== findLane$1(currentOptimisticLane$1) && e.k.size > 0) return i;
-			}
-			return r;
+	/** > 0 while `runRefCallback` runs: a ref born into a held node's hold may
+	* read its staging (#4767, F-7). */ var refCallbackDepth = 0;
+	/** Runs a compiled `ref()` callback untracked in the creating pass's context
+	* (#4761); in dev, creating a primitive there is PRIMITIVE_IN_EFFECT_CALLBACK.
+	*
+	* @internal */ function runRefCallback(e) {
+		refCallbackDepth++;
+		try {
+			untrack(e);
+		} finally {
+			refCallbackDepth--;
 		}
-		if (pendingCheckActive) {
-			const t = e.V;
-			const n = pendingCheckActive;
-			pendingCheckActive = false;
-			if (t && e.ee !== void 0) {
-				if (e.ee !== NOT_PENDING$1 && (t.ye || !!(t.Se & STATUS_PENDING$1)));
-				let n = context$1;
-				if (n?.t) n = n.u;
-				if (n && tracking$1) link$1(e, n);
-				read$1(getPendingSignal(e));
-				read$1(getPendingSignal(t));
-			} else {
-				if (read$1(getPendingSignal(e)));
-				if (t && read$1(getPendingSignal(t)));
-			}
-			pendingCheckActive = n;
-			return e.J;
-		}
-		let t = context$1;
-		if (t?.t) t = t.u;
-		const n = e;
-		if (typeof n.L === "function") {
-			const t = e;
-			if (refreshing && !(t.O & REACTIVE_DISPOSED$1)) recompute$1(t);
-			if (t.O & REACTIVE_LAZY$1) {
-				t.O &= ~REACTIVE_LAZY$1;
-				recompute$1(t, true);
-			} else if (t.O & REACTIVE_DISPOSED$1) recompute$1(t, true);
-		}
-		const i = e.V || e;
-		if (t && tracking$1) {
-			link$1(e, t);
-			if (i.L) {
-				const n = e.O & REACTIVE_ZOMBIE$1;
-				if (i.o >= (n ? zombieQueue$1.P : dirtyQueue$1.P)) {
-					markNode$1(t);
-					markHeap$1(n ? zombieQueue$1 : dirtyQueue$1);
-					updateIfNecessary$1(i);
-				}
-				const r = i.o;
-				if (r >= t.o && e.i !== t) t.o = r + 1;
-			}
-		}
-		if (i.Se & STATUS_PENDING$1) {
-			if (t && !(stale$1 && i.K && activeTransition$1 !== i.K)) if (currentOptimisticLane$1) {
-				const n = i.q;
-				const r = findLane$1(currentOptimisticLane$1);
-				if (n && findLane$1(n) === r && !hasActiveOverride$1(i)) {
-					if (!tracking$1 && e !== t) link$1(e, t);
-					throw i.fe;
-				}
-			} else {
-				if (!tracking$1 && e !== t) link$1(e, t);
-				throw i.fe;
-			}
-			else if (t && i !== e && i.Se & STATUS_UNINITIALIZED$1) {
-				if (!tracking$1 && e !== t) link$1(e, t);
-				throw i.fe;
-			} else if (!t && i.Se & STATUS_UNINITIALIZED$1) throw i.fe;
-		}
-		if (e.L && e.Se & STATUS_ERROR$1) if (e.Ee < clock$1) {
-			recompute$1(e);
-			return read$1(e);
-		} else throw e.fe;
-		if (snapshotCaptureActive && t && t.Te) {
-			const n = e.de;
-			if (n !== void 0) {
-				const i = n === NO_SNAPSHOT ? void 0 : n;
-				if ((e.X !== NOT_PENDING$1 ? e.X : e.J) !== i) t.O |= REACTIVE_SNAPSHOT_STALE$1;
-				return i;
-			}
-		}
-		if (e.ee !== void 0 && e.ee !== NOT_PENDING$1) {
-			if (t && stale$1 && shouldReadStashedOptimisticValue(e)) return e.J;
-			return e.ee;
-		}
-		const r = !t || currentOptimisticLane$1 !== null && (e.ee !== void 0 || e.q || i === e && stale$1 || !!(i.Se & STATUS_PENDING$1)) || e.X === NOT_PENDING$1 || stale$1 && e.K && activeTransition$1 !== e.K ? e.J : e.X;
-		if (!t && i === e && typeof n.L === "function" && !n.Pe && !(i.Se & STATUS_PENDING$1) && !n.i && !e.I) unobserved$1(e);
-		return r;
 	}
-	function setSignal$1(e, t) {
-		if (e.K && activeTransition$1 !== e.K) globalQueue$1.initTransition(e.K);
-		const n = e.ee !== void 0 && !projectionWriteActive;
-		const i = e.ee !== void 0 && e.ee !== NOT_PENDING$1;
-		const r = n ? i ? e.ee : e.J : e.X === NOT_PENDING$1 ? e.J : e.X;
-		if (typeof t === "function") t = t(r);
-		if (!(!e.ke || !e.ke(r, t) || !!(e.Se & STATUS_UNINITIALIZED$1))) {
-			if (n && i && e.L) {
-				insertSubs$1(e, true);
-				schedule$1();
+	function prepareComputed(e, t) {
+		if (e.R & 512) {
+			e.R &= -513;
+			recompute(e, true);
+		} else if (e.R & 64) {
+			if (e.l & 32) {
+				const t = e._parent;
+				if (t !== null) {
+					if (t.R & 64) {
+						e.l &= -33;
+						return;
+					}
+					if (!(e.R & 32)) linkChild(t, e);
+				}
+				recompute(e, true);
 			}
-			return t;
 		}
-		if (n) {
-			const n = e.ee === NOT_PENDING$1;
-			if (!n) globalQueue$1.initTransition(resolveTransition$1(e));
-			if (n) {
-				e.X = e.J;
-				globalQueue$1.Y.push(e);
+	}
+	/** Does reader `c` see a staged node's committed value? Read's fast block
+	* carries the same test inline. An untracked read and a frame-only reader
+	* (createTrackedEffect / onSettled, D-29) see the committed frame. */ function readerSeesCommitted(e, t) {
+		return !t || e.ue === NOT_PENDING || t.l & 16;
+	}
+	/** Set when a node is staged outside a flush, cleared when a flush begins:
+	* one module boolean keeps the F-10 arm free inside a flush. */ var unflushedStaged = false;
+	function markUnflushedStaged() {
+		unflushedStaged = true;
+	}
+	/** A write is visible from the flush that carries it (F-10): outside a flush
+	* a staged node serves its committed value. Promoted writes are exempt. */ function unflushedValue(e) {
+		if (globalQueue.Y || e.ue === NOT_PENDING || e.l & 4194304) return NOT_PENDING;
+		if (e.l & 256) return e.T.Be === clock ? e.T.je : NOT_PENDING;
+		return e.le;
+	}
+	/** A held node rewritten outside a flush keeps the last flushed staging until
+	* the flush that carries the rewrite (F-10); the clock stamps the stash. */ function stashFlushed(e) {
+		const t = e.T;
+		if (t.Be !== clock) {
+			if (revertHook) heldRewrites.push(e);
+			t.je = e.ue;
+			t.Be = clock;
+			unflushedStaged = true;
+		}
+	}
+	var promotedWrites = [];
+	/** A derivation served the committed value because of an unflushed write runs
+	* again in the flush that carries it: it linked after the write walked (F-10, #3337). */ function markLateLinker(e) {
+		e.R |= REACTIVE_MISSED_WAKE;
+		return true;
+	}
+	function resyncUnflushedCompanions() {
+		unflushedStaged = false;
+		if (promotedWrites.length !== 0) {
+			for (const e of promotedWrites) e.l &= ~CONFIG_PROMOTED;
+			promotedWrites.length = 0;
+		}
+	}
+	function pullComputed(e, t) {
+		if (e.he >= dirtyQueue.Fe || e.R & 1) {
+			markNode(t);
+			markHeap(dirtyQueue);
+			updateIfNecessary(e);
+		} else if (t.l & 65536) updateIfNecessary(e);
+		const n = e.he;
+		if (e._parent === t) e.R |= REACTIVE_OWNER_READS;
+		else if (n >= t.he) liftOwned(t, t.he = n + 1);
+	}
+	/** A first answer staged this flush and re-asked in it (D-22, F-9): a memo
+	* with no value derives from that answer once, as a flush of the answer
+	* alone would have let it, then waits on the re-ask. One served pass a
+	* flush (`_served`), or a pass that throws anyway re-runs without end. Not a
+	* render effect, lane work, a verdict lane's pass (D-25) or a held node. */ function servesStaged(e, t, n) {
+		return passLane === null && e.m & n.m & 4 && t.ue !== NOT_PENDING && !(t.l & 2097408) && !e.i && (e.R & 4096 || e.ue === NOT_PENDING && e.T?.$e !== clock && (!(e.m & 1) || e.T?.se?.delete(n.T.U.source)) && (ext(e).$e = clock, e.R |= 4096));
+	}
+	function read(e) {
+		let t = context;
+		if (t?.Qe) t = t.Ke;
+		if (verdict !== null) return verdict(e, t);
+		if (typeof e.X === "function") prepareComputed(e);
+		if (!e.X && e.T?.De === void 0 && !snapshotCaptureActive && (!unflushedStaged || e.ue === NOT_PENDING) && !(e.l & 2048) && true) {
+			if (t) {
+				if (laneStageHook) fresh = tracking && readsFresh(t, e);
+				if (tracking) link(e, t);
+				if (e.l & 256 && !(t.l & 16)) {
+					if (frameRead(t, e)) return e.le;
+				}
 			}
-			e.he = true;
-			e.q = getOrCreateLane$1(e);
-			e.ee = t;
-		} else {
-			if (e.X === NOT_PENDING$1) globalQueue$1.se.push(e);
-			e.X = t;
+			if (!t || e.ue === NOT_PENDING || t.l & 16) return e.le;
+			if (e.ue === e.le && Object.is(e.ue, e.le) || (observeFlightHook && t.l & 32768 || laneStageHook && passLane?.folded) && stagedScreen(t, e)) return e.le;
+			stagedRead(t);
+			return e.ue;
 		}
-		updatePendingSignal$1(e);
-		if (e.xe) setSignal$1(e.xe, t);
-		e.Ee = clock$1;
-		insertSubs$1(e, n);
-		schedule$1();
+		let n = false;
+		let o;
+		if (t) {
+			if (laneStageHook) fresh = tracking && readsFresh(t, e);
+			if (tracking) {
+				o = link(e, t);
+				if (e.X) {
+					pullComputed(e, t);
+					if (observeFlightHook && (t.m & 4 ? t.l & 256 || flushTransaction : t.l & 1048576)) {
+						if (t.i === 1 && e.l & 32768 && !(e.m & 5)) t.R |= REACTIVE_AHEAD;
+						if ((e.l & 1619034112) === 32768 && !(t.l & 536870912)) {
+							const n = resolveTx(t.l & 256 ? txOf(t) : flushTransaction), o = ext(e);
+							if (o.Dt !== n) {
+								o.Dt = n;
+								recompute(e);
+							}
+						}
+					}
+					if (observeFlightHook && !t.i) t.R |= e.l & CONFIG_VERDICT & (e.m & 1 && (t.l & 128 || t.m & 4) ? t.l : -1);
+				}
+			}
+			if (e.l & 256 && !(e.l & 2048) && !(t.l & 16)) {
+				if (e.m & 4) joinPass(t, e);
+				else n = frameRead(t, e);
+			}
+		}
+		if (laneReadHook && e.l & 2048) {
+			const n = laneReadHook(t, e);
+			if (n !== NOT_PENDING) return n;
+		}
+		if (snapshotCaptureActive && t && t.l & 8) {
+			const n = e.T?.De;
+			if (n !== void 0 && !(e.m & 2)) {
+				const o = n === NO_SNAPSHOT ? void 0 : n;
+				if ((e.ue !== NOT_PENDING ? e.ue : e.le) !== o) t.R |= 256;
+				return o;
+			}
+		}
+		if (laneStageHook && e.m & 1 && !n && !(e.l & 2048) && !(e.m & 4)) {
+			if (t !== null && t.l & 32768 && !(t.l & 16777216 && t.m & 4)) n = observeFlightHook(t, e);
+			else if (passLane !== null && (!(t?.m & 4) || bornOfLaneRerun(t))) n = laneServedHook(t, e, true);
+		}
+		if (e.m & 1 && !n) {
+			if (t) {
+				if (!(t.l & 16) || e.m & 4) {
+					if (observeFlightHook && servesStaged(t, e, e)) return e.ue;
+					if (!tracking && e !== t) link(e, t);
+					throw e.T?.U;
+				}
+			} else if (e.m & 4) throw e.T?.U;
+		}
+		if (e.X && e.m & 2) {
+			if (o && e.ie < clock && !(e.R & 32)) {
+				recompute(e);
+				return read(e);
+			}
+			if (!n && e.l & 2097152) serve(e, t);
+			throw e.T?.U;
+		}
+		if (n || !t) throwShown(e);
+		const E = serve(e, n ? null : t);
+		if (!t && typeof e.X === "function" && e.l & 32 && !(e.m & 1) && !e.o) {
+			dormantNodes.add(e);
+			schedule();
+		}
+		return E;
+	}
+	/** A first pass a guess lane's re-run creates stands where the memo it
+	* replaces stood, so lane work's read of a parent's flight is the screen's
+	* for it too (#4824). A boundary's structure (F-7, #3835) and a mount a
+	* display-ahead read opens (S-58, D-25) still see the flight. */ function bornOfLaneRerun(e) {
+		const t = e._parent;
+		return passLane._parent?.Pe !== passLane && t?.X && !(t.m & 4 | t.l & 8388608);
+	}
+	/** A reader served the screen reads a shown error until its replacement
+	* commits (D-41). */ function throwShown(e) {
+		if (e.T?.Te) throw e.T.Te;
+	}
+	/** The value reader `c` (null: untracked) is served from `el`; read's fast
+	* block keeps its trivial ternary for speed. */ function serve(e, t) {
+		if (e.ue !== NOT_PENDING && e.m & 4 && (!t || t.l & 16)) {
+			if (refCallbackDepth > 0) {
+				const t = creatorPass(context);
+				if (t && e.l & 256 && bornInto(t, txOf(e))) return e.ue;
+			}
+			throw new NotReadyError(null);
+		}
+		const n = t && unflushedStaged ? unflushedValue(e) : NOT_PENDING;
+		if (n !== NOT_PENDING) {
+			markLateLinker(t);
+			return n;
+		}
+		if (readerSeesCommitted(e, t) || observeFlightHook && t.l & 32768 && !(e.m & 4) && stagedScreen(t, e) && !throwShown(e)) return e.le;
+		stagedRead(t, e);
+		if (e.l & 2097152) throw e.ue;
+		return e.ue;
+	}
+	/** A pass read a staging of this flush: the seam decides (D-25). Lane work
+	* too: if the flush parks, the pass re-derives on the committed world and
+	* its lane waits that round, so the held write never shows through it. A
+	* folded lane only before the frame has a transaction (D-34). Not a node
+	* born staged: a re-run would read the same staging every round (#3969). */ function stagedRead(e, t) {
+		if (!(t?.m & 4)) {
+			if (laneServedHook && passLane !== null) laneServedHook(e, null);
+			e.R |= REACTIVE_STAGED_READ;
+			if (laneSeamsHook && (passLane !== null || e.i && e.l & 32768)) stagedReaders.push(e);
+		}
+	}
+	/** A verdict reader's plain read of a staged node sees the screen once the
+	* frame has a transaction, and re-derives at its landing (D-25, #3322).
+	* Before that the seam answers. A node born into the future (F-7), a reader
+	* born into the transaction (#4010) or into the hold (D-25) has no screen. */ function stagedScreen(e, t) {
+		if (flushTransaction === null || bornInto(e, flushTransaction) || (t?.l & 2304) === 256 || observeFlightHook && holdStagingHook(e, t)) return false;
+		if (laneStageHook && t && fresh && passLane && e.R >> 24 != 1) passLane.Gt = 1;
+		staleReader(e, flushTransaction);
+		return true;
+	}
+	/** A write inside a recompute outside a flush is promoted at that pass's end. */ function notePromotedWrite(e) {
+		if (globalQueue.Y || e.l & 4194304) return;
+		e.l |= CONFIG_PROMOTED;
+		promotedWrites.push(e);
+	}
+	/** The first write during snapshot capture to a plain user signal records the
+	* pre-write value. Async landings reveal, and projection leaves are their
+	* compute's, so neither qualifies. */ function captureWriteSnapshot(e, t) {
+		if (e.l & 2 || e.X !== void 0 || e.T?.De !== void 0) return;
+		takeSnapshot(e, t);
+	}
+	function takeSnapshot(e, t) {
+		ext(e).De = t === void 0 ? NO_SNAPSHOT : t;
+		e.l |= 512;
+		snapshotSources.add(e);
+	}
+	/** Called before every signal or store write while set. The server-components
+	* client mounts still-deferred slots before a write applies, then clears it. */ var writeHook = null;
+	/** The one guarded comparator call. A comparator that read unresolved async
+	* reports a change (#4111); any other throw is `el`'s error, routed to its
+	* boundary and answered "same" (D-38, #2837).
+	* @internal */ function isSame(e, t, n) {
+		if (e.ye === isEqual) return t === n;
+		try {
+			return e.ye && e.ye(t, n);
+		} catch (t) {
+			if (!(t instanceof NotReadyError)) return notifyStatus(e, 2, t), true;
+		}
+	}
+	function setSignal(e, t) {
+		if (writeHook !== null) writeHook(e);
+		const n = e.ue === NOT_PENDING ? e.le : e.ue;
+		if (typeof t === "function") t = t(n);
+		if (laneWriteHook && e.l & 2048) return laneWriteHook(e, t);
+		if (e.l & 256) joinFuture(txOf(e));
+		const o = observeFlightHook ? e.ye !== isEqual : null;
+		if (!(!!(e.m & 4) || !!e.T?.Te || (o === false ? n !== t : !isSame(e, n, t)))) return t;
+		if (snapshotCaptureActive) captureWriteSnapshot(e, n);
+		const s = e.ue !== NOT_PENDING;
+		if (!s) queuePendingNode(e);
+		else if (e.l & 256 && !globalQueue.Y) stashFlushed(e);
+		e.ue = o && s && !(e.m & 4 || e.T?.Te) && isSame(e, e.le, t) ? e.le : t;
+		if (context !== null) notePromotedWrite(e);
+		if (e.X !== void 0) e.ie = clock;
+		if (s && e.we === notifyEpoch) return t;
+		insertSubs(e);
+		schedule();
 		return t;
 	}
-	function runWithOwner(e, t) {
-		const n = context$1;
-		const i = tracking$1;
-		context$1 = e;
-		tracking$1 = false;
+	/** User-facing setter for the memo form of `createSignal(fn)`. The write
+	* stages like any other, and a later source change re-derives with it as
+	* `prev` (D-8, CS-R31). REACTIVE_MANUAL_WRITE marks it a user proposal until
+	* a pass re-derives it or the commit lands it. */ function setMemo(e, t) {
+		const n = e.l & 256 && !(e.R & 1024) && txOf(e) !== flushTransaction;
+		if (n && typeof t === "function") {
+			const n = t(e.le);
+			t = () => n;
+		}
+		if (e.m & 2) {
+			e.T.Te = e.T.U;
+			notifyStatus(e, 0);
+		}
+		t = setSignal(e, t);
+		e.l &= ~CONFIG_STAGED_ERROR;
+		if (n) {
+			e.R = e.R & -2 | 2;
+			insertIntoHeap(e, dirtyQueue);
+			schedule();
+		} else if (e.ue !== NOT_PENDING) e.R |= REACTIVE_MANUAL_WRITE;
+		return t;
+	}
+	/**
+	* Executes `fn` with the given `owner` set as the current owner. Any reactive
+	* primitives (`createSignal`, `createMemo`, `createEffect`, `onCleanup`,
+	* `cleanup`, etc.) created inside `fn` are attached to that owner, so they
+	* are disposed when the owner is disposed.
+	*
+	* The classic pattern: capture the current owner with `getOwner()` inside a
+	* component, then re-enter it from a callback (event handler, async resolve,
+	* setTimeout) so disposables created in the callback get cleaned up with the
+	* component.
+	*
+	* @example
+	* ```ts
+	* function delayed<T>(ms: number, fn: () => T) {
+	*   const owner = getOwner();
+	*   setTimeout(() => runWithOwner(owner, fn), ms);
+	* }
+	* ```
+	*/ function runWithOwner(e, t) {
+		const n = context;
+		const o = tracking;
+		context = e;
+		tracking = false;
 		try {
 			return t();
 		} finally {
-			context$1 = n;
-			tracking$1 = i;
+			context = n;
+			tracking = o;
 		}
 	}
-	function getPendingSignal(e) {
-		if (!e.Fe) {
-			e.Fe = optimisticSignal(false, { ownedWrite: true });
-			if (e._e) e.Fe._e = e;
-			if (computePendingState$1(e)) setSignal$1(e.Fe, true);
-		}
-		return e.Fe;
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/identities.js
+	/**
+	* @internal Called with every plain signal `createSignal` makes, and every
+	* plain store root `createStore` makes, while set (the namer above). Never
+	* set unless `setSignalIdentities` is imported, so a bundle without it keeps
+	* only a null check.
+	*/ var signalHook = null;
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/context.js
+	/**
+	* Low-level owner-targeted context read. The user-facing read API is
+	* `useContext` (in `solid-js`), which wraps this primitive. Exposed here for
+	* cross-package wiring (e.g. hydration-aware context plumbing).
+	*
+	* @throws `NoOwnerError` in dev if there's no owner at the time of call; production
+	*   reads the default instead (see below).
+	* @throws `ContextNotFoundError` if a context value has not been set yet.
+	*
+	* @internal
+	*/ function getContext(e, t = getOwner()) {
+		let r;
+		if (t) r = t.A[e.id];
+		if (r === void 0) r = e.defaultValue;
+		if (r === void 0) throw new ContextNotFoundError();
+		return r;
 	}
-	function computePendingState$1(e) {
-		const t = e;
-		const n = e.V;
-		if (n && e.X !== NOT_PENDING$1) return !n.ye && !(n.Se & STATUS_PENDING$1);
-		if (e.ee !== void 0 && e.ee !== NOT_PENDING$1) {
-			if (t.Se & STATUS_PENDING$1 && !(t.Se & STATUS_UNINITIALIZED$1)) return true;
-			if (e._e) {
-				const t = e.q ? findLane$1(e.q) : null;
-				return !!(t && t.k.size > 0);
+	/**
+	* Low-level owner-targeted context write. The user-facing API is
+	* `createContext` (in `solid-js`); its provider component wraps this
+	* primitive. Exposed here for cross-package wiring.
+	*
+	* @throws `NoOwnerError` if there's no owner at the time of call.
+	*
+	* @internal
+	*/ function setContext(e, t, r = getOwner()) {
+		if (!r) throw new NoOwnerError();
+		r.A = {
+			...r.A,
+			[e.id]: t === void 0 ? e.defaultValue : t
+		};
+	}
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/core/effect.js
+	/**
+	* Effects are the leaf nodes of our reactive graph. When their sources change, they are
+	* automatically added to the queue of effects to re-execute, which will cause them to fetch their
+	* sources and recompute
+	*/ function effect$1(e, t, E, f) {
+		const o = createEffectNode(e, t, E, !!f?.user ? 2 : 1, f);
+		recompute(o, true);
+		f?.defer ? applyStaged(o) : o.ue === NOT_PENDING && (o.T?.Re?.P || o.i === 2 || f?.schedule ? globalQueue.enqueue(o.i, runEffect.bind(null, o), o.T?.Re) : runEffect(o, 0));
+	}
+	function notifyEffectStatus() {
+		const e = this.m;
+		const t = this.T?.U;
+		if (e & 2) {
+			globalQueue.notify(this, 1, 0);
+			if (this.i === 2) {
+				if (this.m & 2) queueEffectRun(this);
+				return;
 			}
-			return true;
-		}
-		if (e.ee !== void 0 && e.ee === NOT_PENDING$1 && !e._e) return false;
-		if (e.X !== NOT_PENDING$1 && !(t.Se & STATUS_UNINITIALIZED$1)) return true;
-		return !!(t.Se & STATUS_PENDING$1 && !(t.Se & STATUS_UNINITIALIZED$1));
+			escalate(this, unwrapStatusError(t));
+		} else if (this.i === 2) {
+			if (e & 1 && this.Ae && !t?.source?.T?.Ve) ext(this).fe = !(this.Ae = false);
+		} else if (this.i === 1) globalQueue.notify(this, 3, e, t);
 	}
-	function updatePendingSignal$1(e) {
-		if (e.Fe) {
-			const t = computePendingState$1(e);
-			const n = e.Fe;
-			setSignal$1(n, t);
-			if (!t && n.q) {
-				const t = resolveLane$1(e);
-				if (t && t.k.size > 0) {
-					const e = findLane$1(n.q);
-					if (e !== t) mergeLanes$1(t, e);
-				}
-				signalLanes$1.delete(n);
-				n.q = void 0;
+	/** An effect's error no boundary takes halts the system (boundary-or-halt):
+	* halted with `cause` and rethrown; dev locates it at `subject` (default:
+	* the effect). */ function escalate(e, t, E) {
+		if (!globalQueue.notify(e, 2, 2)) {
+			haltReactivity(t);
+			throw t;
+		}
+	}
+	function runEffect(e, t) {
+		if (!e.Ae || e.R & 64) return;
+		if (t && heldRunHook?.(e)) return;
+		if (t && attachHook?.(e)) return;
+		if (e.m & 2 && e.i === 2) {
+			const t = unwrapStatusError(e.T?.U);
+			e.ge = e.le;
+			e.Ae = false;
+			try {
+				e.Je ? e.Je(t, () => {
+					const t = e.ze;
+					e.ze = void 0;
+					t?.();
+				}) : console.error(t);
+			} catch (t) {
+				escalate(e, t);
 			}
+			return;
 		}
-	}
-	function getLatestValueComputed(e) {
-		if (!e.xe) {
-			const t = latestReadActive;
-			latestReadActive = false;
-			const n = pendingCheckActive;
-			pendingCheckActive = false;
-			const i = context$1;
-			context$1 = null;
-			e.xe = optimisticComputed(() => read$1(e));
-			e.xe._e = e;
-			context$1 = i;
-			pendingCheckActive = n;
-			latestReadActive = t;
-		}
-		return e.xe;
-	}
-	function staleValues(e, t = true) {
-		const n = stale$1;
-		stale$1 = t;
+		const E = e.T?.U == null;
+		const f = e.ze;
+		e.ze = void 0;
 		try {
-			return e();
+			f?.();
+			e.ze = e.qe(e.le, e.ge);
+		} catch (t) {
+			ext(e).U = new StatusError(e, t);
+			e.m |= 2;
+			escalate(e, t);
 		} finally {
-			stale$1 = n;
+			e.ge = e.le;
+			e.Ae = false;
+			if (E) trimStaleDeps(e);
 		}
 	}
-	function createContext$1(e, t) {
-		return {
-			id: Symbol(t),
-			defaultValue: e
-		};
+	GlobalQueue.q = runEffect;
+	setEffectStatusNotify(notifyEffectStatus);
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/store/types.js
+	/** Brand keys the proxy answers directly (never user data). */
+	var $TRACK = Symbol(0);
+	var $TARGET = Symbol(0);
+	var $PROXY = Symbol(0);
+	var $RECORD = Symbol(0);
+	function ownEnumerableKeys(e) {
+		return Reflect.ownKeys(e).filter((a) => Object.prototype.propertyIsEnumerable.call(e, a));
 	}
-	function getContext(e, t = getOwner()) {
-		if (!t) throw new NoOwnerError();
-		const n = hasContext(e, t) ? t.Le[e.id] : e.defaultValue;
-		if (isUndefined(n)) throw new ContextNotFoundError();
-		return n;
+	/** The list driver's view of a shallow store (map.ts): the backing a read of
+	* every slot serves this reader, or `undefined` when the list is no shallow
+	* store or a slot read could differ from it. Installed by store.ts's top
+	* level, so a `<For>` in an app without stores carries none of it; it lives
+	* beside `$TRACK` so map.ts reaches no other store module. */ var shallowView = null;
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/signals.js
+	/**
+	* Low-level reactive-cleanup primitive. Registers a callback that runs when
+	* the surrounding owner is disposed.
+	*
+	* **In 2.0 user code this is rare.** The two cases where you might reach for
+	* it have better-shaped tools:
+	*
+	* - **Component lifecycle (mount/unmount, listeners, intervals):** use
+	*   {@link onSettled} and **return** a cleanup function. Setup and teardown
+	*   stay paired in one block. This replaces the 1.x `onMount` + `onCleanup`
+	*   pairing.
+	* - **Cleanup tied to an effect run:** `onCleanup` does not belong in
+	*   `createEffect`'s apply phase. If a compute phase genuinely needs per-run
+	*   teardown, that's usually a sign the work should be a memo/projection
+	*   instead, or moved to `onSettled` if it's lifecycle-shaped.
+	*
+	* Where `onCleanup` is the right tool is **library / custom-primitive
+	* internals** — coordinating disposal inside a `createRoot` body, or wiring
+	* cleanup to a captured owner via `runWithOwner` from a custom factory.
+	* Application code rarely needs to write any of those shapes directly.
+	*
+	* Must be called inside an owner. Calling outside an owner is a no-op (with a
+	* dev-mode warning).
+	*
+	* Cannot be used inside `createTrackedEffect` or `onSettled` — return a
+	* cleanup function from the callback body instead.
+	*
+	* Cleanups run in unwind order: an owner's children are disposed before its
+	* own cleanups, and within one owner later registrations run before earlier
+	* ones. In production a component body shares its enclosing owner, so
+	* register cleanup before creating children when the order between them
+	* matters.
+	*
+	* @example
+	* ```ts
+	* // Library shape: thread a resource's disposal into a *captured* owner
+	* // from a factory that has no settle-phase setup of its own. `onSettled`
+	* // would queue a callback we don't need; `onCleanup` is the leaner
+	* // primitive when the only job is "register disposal on this owner".
+	* function bindToOwner<T extends { dispose(): void }>(owner: Owner, resource: T): T {
+	*   runWithOwner(owner, () => onCleanup(() => resource.dispose()));
+	*   return resource;
+	* }
+	* ```
+	*/ function onCleanup(e) {
+		return cleanup(e);
 	}
-	function setContext(e, t, n = getOwner()) {
-		if (!n) throw new NoOwnerError();
-		n.Le = {
-			...n.Le,
-			[e.id]: isUndefined(t) ? e.defaultValue : t
-		};
-	}
-	function hasContext(e, t) {
-		return !isUndefined(t?.Le[e.id]);
-	}
-	function isUndefined(e) {
-		return typeof e === "undefined";
-	}
-	function effect$1(e, t, n, i, r) {
-		let s = false;
-		const o = computed$1(r?.render ? (t) => staleValues(() => e(t)) : e, i, {
-			...r,
-			equals: () => {
-				o.H = !o.fe;
-				if (s) o.F.enqueue(o.W, runEffect.bind(o));
-				return false;
-			},
-			lazy: true
-		});
-		o.Qe = i;
-		o.Me = t;
-		o.je = n;
-		o.$e = void 0;
-		o.W = r?.render ? EFFECT_RENDER$1 : EFFECT_USER$1;
-		o.Ge = (e, t) => {
-			const n = e !== void 0 ? e : o.Se;
-			const i = t !== void 0 ? t : o.fe;
-			if (n & STATUS_ERROR$1) {
-				let e = i;
-				o.F.notify(o, STATUS_PENDING$1, 0);
-				if (o.W === EFFECT_USER$1) try {
-					return o.je ? o.je(e, () => {
-						o.$e?.();
-						o.$e = void 0;
-					}) : console.error(e);
-				} catch (t) {
-					e = t;
-				}
-				if (!o.F.notify(o, STATUS_ERROR$1, STATUS_ERROR$1)) throw e;
-			} else if (o.W === EFFECT_RENDER$1) o.F.notify(o, STATUS_PENDING$1 | STATUS_ERROR$1, n, i);
-		};
-		recompute$1(o, true);
-		!r?.defer && (o.W === EFFECT_USER$1 ? o.F.enqueue(o.W, runEffect.bind(o)) : runEffect.call(o));
-		s = true;
-		cleanup$1(() => o.$e?.());
-	}
-	function runEffect() {
-		if (!this.H || this.O & REACTIVE_DISPOSED$1) return;
-		this.$e?.();
-		this.$e = void 0;
-		try {
-			this.$e = this.Me(this.J, this.Qe);
-		} catch (e) {
-			this.fe = new StatusError$1(this, e);
-			this.Se |= STATUS_ERROR$1;
-			if (!this.F.notify(this, STATUS_ERROR$1, STATUS_ERROR$1)) throw e;
-		} finally {
-			this.Qe = this.J;
-			this.H = false;
-		}
-	}
-	function onCleanup(e) {
-		return cleanup$1(e);
-	}
-	function accessor$1(e) {
-		const t = read$1.bind(null, e);
-		t.$r = true;
+	function accessor(e) {
+		const t = read.bind(null, e);
+		t[$REFRESH] = e;
 		return t;
 	}
 	function createSignal$1(e, t) {
 		if (typeof e === "function") {
-			const n = computed$1(e, void 0, t);
-			n.Pe = true;
-			return [accessor$1(n), setSignal$1.bind(null, n)];
+			const r = computed(e, t);
+			r.l &= -33;
+			return [accessor(r), setMemo.bind(null, r)];
 		}
-		const n = signal(e, t);
-		return [accessor$1(n), setSignal$1.bind(null, n)];
+		const r = signal(e, t);
+		if (signalHook !== null) signalHook(r);
+		return [accessor(r), setSignal.bind(null, r)];
 	}
-	function createMemo$2(e, t) {
-		return accessor$1(computed$1(e, void 0, t));
+	function createMemo$1(e, t) {
+		return accessor(computed(e, t));
 	}
-	function createRenderEffect$1(e, t, n) {
-		effect$1(e, t, void 0, void 0, {
-			render: true,
-			...n
-		});
+	/**
+	* Creates a reactive computation that runs during the render phase as DOM elements
+	* are created and updated but not necessarily connected.
+	*
+	* Same compute / effect split as `createEffect`, but scheduled inside the render
+	* queue rather than after it. Reach for this only when authoring renderer
+	* plumbing (custom DOM bindings, JSX-generated `insert()` / `spread()` calls).
+	* App code should use `createEffect`.
+	*
+	* ```typescript
+	* createRenderEffect<T>(compute, effectFn, options?: EffectOptions);
+	* ```
+	* @param compute a function that receives its previous value and returns a new value used to react on a computation
+	* @param effectFn a function that receives the new value and is used to perform side effects
+	* @param options `EffectOptions` -- name, defer, schedule, transparent
+	*
+	* @example
+	* ```ts
+	* // Custom directive: bind an element's textContent to a reactive source.
+	* function bindText(el: HTMLElement, source: () => string) {
+	*   createRenderEffect(
+	*     () => source(),
+	*     value => { el.textContent = value; }
+	*   );
+	* }
+	* ```
+	*
+	* @description https://docs.solidjs.com/reference/solid-js/advanced/specialized-reactivity/create-render-effect
+	*/ function createRenderEffect$1(e, t, r) {
+		effect$1(e, t, void 0, r);
 	}
-	var $TRACK = Symbol(0), $PROXY = Symbol(0);
-	function isWrappable$1(e) {
-		return e != null && typeof e === "object" && !Object.isFrozen(e) && !(typeof Node !== "undefined" && e instanceof Node);
-	}
-	var DELETE$1 = Symbol(0);
-	function updatePath$1(e, t, n = 0) {
-		let i, r = e;
-		if (n < t.length - 1) {
-			i = t[n];
-			const s = typeof i;
-			const o = Array.isArray(e);
-			if (Array.isArray(i)) {
-				for (let r = 0; r < i.length; r++) {
-					t[n] = i[r];
-					updatePath$1(e, t, n);
-				}
-				t[n] = i;
-				return;
-			} else if (o && s === "function") {
-				for (let r = 0; r < e.length; r++) if (i(e[r], r)) {
-					t[n] = r;
-					updatePath$1(e, t, n);
-				}
-				t[n] = i;
-				return;
-			} else if (o && s === "object") {
-				const { from: r = 0, to: s = e.length - 1, by: o = 1 } = i;
-				for (let i = r; i <= s; i += o) {
-					t[n] = i;
-					updatePath$1(e, t, n);
-				}
-				t[n] = i;
-				return;
-			} else if (n < t.length - 2) {
-				updatePath$1(e[i], t, n + 1);
-				return;
-			}
-			r = e[i];
-		}
-		let s = t[t.length - 1];
-		if (typeof s === "function") {
-			s = s(r);
-			if (s === r) return;
-		}
-		if (i === void 0 && s == void 0) return;
-		if (s === DELETE$1) delete e[i];
-		else if (i === void 0 || isWrappable$1(r) && isWrappable$1(s) && !Array.isArray(s)) {
-			const t = i !== void 0 ? e[i] : e;
-			const n = Object.keys(s);
-			for (let e = 0; e < n.length; e++) {
-				const i = n[e];
-				const r = Object.getOwnPropertyDescriptor(s, i);
-				if (r.get || r.set) Object.defineProperty(t, i, r);
-				else t[i] = r.value;
-			}
-		} else e[i] = s;
-	}
-	Object.assign(function storePath(...e) {
-		return (t) => {
-			updatePath$1(t, e);
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/map.js
+	function mapArray(t, e, i) {
+		const s = typeof i?.keyed === "function" ? i.keyed : void 0;
+		const n = e.length > 1;
+		const r = e;
+		const o = {
+			H: createOwner(),
+			it: 0,
+			st: t,
+			ot: [],
+			ft: r,
+			ht: [],
+			ln: [],
+			Xe: s,
+			ct: s || i?.keyed === false ? [] : void 0,
+			lt: n && i?.keyed !== false ? [] : void 0,
+			ut: i?.keyed === false,
+			L: i?.fallback
 		};
-	}, { DELETE: DELETE$1 });
+		const h = computed(updateKeyedMap.bind(o), void 0);
+		h.l &= -33;
+		return accessor(h);
+	}
+	var pureOptions = { ownedWrite: true };
+	function trySmallMove(t, e, i, s) {
+		const n = t.ot;
+		const r = t.it - 1;
+		const o = [];
+		const h = [];
+		const f = [];
+		let c = 256;
+		let a = s;
+		let l = s;
+		while (a <= r && l <= i - 1) {
+			const t = n[a];
+			const s = e[l];
+			if (t === s) {
+				const t = a;
+				do
+					l++;
+				while (++a <= r && l < i && n[a] === e[l]);
+				f.push(t, l - a + t, a - t);
+				continue;
+			}
+			let u = -1;
+			let w = Math.min(32 - o.length, r - a, c);
+			for (let t = 1; t <= w; t++) if (n[a + t] === s) {
+				u = t;
+				break;
+			}
+			c -= u === -1 ? w : u;
+			let d = -1;
+			w = Math.min(32 - h.length, i - 1 - l, c);
+			for (let i = 1; i <= w; i++) if (e[l + i] === t) {
+				d = i;
+				break;
+			}
+			c -= d === -1 ? w : d;
+			if (u !== -1 && (d === -1 || u <= d)) {
+				while (u-- > 0) o.push(a++);
+				continue;
+			}
+			if (d !== -1) {
+				while (d-- > 0) h.push(l++);
+				continue;
+			}
+			if (c <= 0 || o.length === 32 || h.length === 32) return false;
+			o.push(a++);
+			h.push(l++);
+		}
+		for (; a <= r; a++) {
+			if (o.length === 32) return false;
+			o.push(a);
+		}
+		for (; l <= i - 1; l++) {
+			if (h.length === 32) return false;
+			h.push(l);
+		}
+		return commitSmallMove(t, e, i, s, o, h, f);
+	}
+	/** PHASE 2 of the small-move path, in its OWN function so that a pass which
+	* only SCANS and bails (a full replace: the first structural pass of a page,
+	* typically) compiles nothing but the scan — V8 parses and compiles lazily
+	* per function, and cold `replace` measured +0.5 ms with both phases in one
+	* body. Pairs displaced sources with destinations (an unmatched destination
+	* is a replacement/insertion → general path), then commits: slice() the live
+	* arrays, copy shifted runs, patch displaced pairs, dispose leftovers. */ function commitSmallMove(t, e, i, s, n, r, o) {
+		const h = t.ot;
+		let f;
+		let c;
+		let a;
+		if (r.length !== 0) {
+			a = new Array(n.length);
+			for (c = 0; c < r.length; c++) {
+				let t = -1;
+				for (f = 0; f < n.length; f++) if (!a[f] && h[n[f]] === e[r[c]]) {
+					t = f;
+					break;
+				}
+				if (t === -1) return false;
+				a[t] = true;
+				r[c] = r[c] << 6 | t;
+			}
+		}
+		for (f = 0; f < n.length; f++) {
+			const t = h[n[f]];
+			if (t === void 0) return false;
+			for (c = s - 1; (c = h.indexOf(t, c + 1)) !== -1;) if (!n.includes(c)) return false;
+		}
+		const l = t.ht;
+		const u = t.ln;
+		const w = l.slice(0, i);
+		const d = u.slice(0, i);
+		for (let t = 0; t < o.length; t += 3) {
+			const e = o[t];
+			const i = o[t + 1];
+			if (e !== i) for (let s = 0; s < o[t + 2]; s++) {
+				w[i + s] = l[e + s];
+				d[i + s] = u[e + s];
+			}
+		}
+		for (c = 0; c < r.length; c++) {
+			const t = r[c] >> 6;
+			const e = n[r[c] & 63];
+			w[t] = l[e];
+			d[t] = u[e];
+		}
+		t.ht = w;
+		t.ln = d;
+		t.it = i;
+		t.ot = e;
+		for (f = 0; f < n.length; f++) if (a === void 0 || !a[f]) u[n[f]].dispose();
+		return true;
+	}
+	/** Stage a PURE REMOVAL without the key map: when the new window is the old
+	* window with items dropped, in order (one-item removals, every-nth, the
+	* table filters), a two-pointer walk lands every survivor in the window
+	* stage with one key call per item and returns the leavers; a shape that is
+	* not an ordered subsequence returns null with the node stage cleared, and
+	* the map path below starts from scratch (it rewrites every window slot of
+	* `temp` / `rows` / `indexes`, so only `tempNodes`' `!== undefined` probe
+	* needs the reset). The stage arrays are scratch — nothing live is touched. */ function stageRemoval(t, e, i, s, n, r, o, h, f) {
+		const c = t.Xe;
+		const a = t.ot;
+		const l = t.ln;
+		const u = [];
+		let w = i;
+		for (let d = i; d <= n; w++, d++) {
+			const n = c ? c(e[d]) : e[d];
+			while (w <= s && (c ? c(a[w]) : a[w]) !== n) u.push(l[w++]);
+			if (w > s) {
+				o.fill(void 0);
+				return null;
+			}
+			r[d] = t.ht[w];
+			o[d - i] = l[w];
+			if (h) h[d - i] = t.ct[w];
+			if (f) f[d - i] = t.lt[w];
+		}
+		for (; w <= s; w++) u.push(l[w]);
+		return u;
+	}
+	/** Land a staged window into the live bookkeeping arrays in place: shift the
+	* suffix by `dif` (a loop walked from the side that never overwrites an
+	* unread slot), take the window from the stage, write survivors' row and
+	* index signals. Its own function so the general path's body stays under
+	* the JIT's optimization budget — the inlined commit measured ~10% slower on
+	* full-window reorders (the small-move note has the same finding). */ function commitWindow(t, e, i, s, n, r, o, h, f) {
+		const c = t.ln;
+		const a = t.ct;
+		const l = t.lt;
+		const u = t.it;
+		const w = i - u;
+		let d, p;
+		if (w > 0) {
+			c.length = i;
+			if (a) a.length = i;
+			if (l) l.length = i;
+			for (d = u - 1, p = i - 1; d > n; d--, p--) {
+				c[p] = c[d];
+				if (a) a[p] = a[d];
+				if (l) l[p] = l[d];
+			}
+		} else if (w < 0) {
+			for (d = n + 1, p = r + 1; d < u; d++, p++) {
+				c[p] = c[d];
+				if (a) a[p] = a[d];
+				if (l) l[p] = l[d];
+			}
+			c.length = i;
+			if (a) a.length = i;
+			if (l) l.length = i;
+		}
+		for (p = s; p <= r; p++) {
+			c[p] = o[p - s];
+			if (a) writeRow(a[p] = h[p - s], e[p]);
+			if (l) setSignal(l[p] = f[p - s], p);
+		}
+		for (p = r + 1; p < i; p++) {
+			if (a) writeRow(a[p], e[p]);
+			if (l && w !== 0) setSignal(l[p], p);
+		}
+	}
+	var writeRow = (t, e) => t.le === e && t.ue === NOT_PENDING || setSignal(t, e);
+	function updateKeyedMap() {
+		this.H.Ke = getOwner();
+		let t = this.st() || [];
+		t[$TRACK];
+		t = shallowView?.(t[$TARGET]) ?? t;
+		const e = t.length;
+		runWithOwner(this.H, updateKeyedRows.bind(this, t, e));
+		return this.ht;
+	}
+	function updateKeyedRows(t, e) {
+		const i = t.slice(0);
+		let s, n, r, o, h, f = this.ct ? this.ut ? () => {
+			o[r] = signal(i[n], pureOptions);
+			return this.ft(accessor(o[r]), n);
+		} : () => {
+			o[r] = signal(i[n], pureOptions);
+			h && (h[r] = signal(n, pureOptions));
+			return this.ft(accessor(o[r]), h ? accessor(h[r]) : void 0);
+		} : this.lt ? () => {
+			const t = i[n];
+			h[r] = signal(n, pureOptions);
+			return this.ft(t, accessor(h[r]));
+		} : () => {
+			const t = i[n];
+			return this.ft(t);
+		};
+		if (e === 0) {
+			if (this.it !== 0) {
+				this.H.dispose(false);
+				this.ln = [];
+				this.ot = [];
+				this.ht = [];
+				this.it = 0;
+				this.ct && (this.ct = []);
+				this.lt && (this.lt = []);
+			}
+			if (this.L && !this.ht.length) {
+				this.ln[0]?.dispose();
+				this.ht[0] = runWithOwner(this.ln[0] = createOwner(), this.L);
+			}
+		} else if (this.it === 0) {
+			const t = new Array(e);
+			const c = new Array(e);
+			o = this.ct && new Array(e);
+			h = this.lt && new Array(e);
+			try {
+				for (n = 0; n < e; n++) {
+					r = n;
+					t[n] = runWithOwner(c[n] = createOwner(), f);
+				}
+			} catch (t) {
+				for (s = 0; s <= n; s++) c[s]?.dispose();
+				throw t;
+			}
+			if (this.ln[0]) this.ln[0].dispose();
+			this.ht = t;
+			this.ln = c;
+			o && (this.ct = o);
+			h && (this.lt = h);
+			this.ot = i;
+			this.it = e;
+		} else {
+			let t, c, a, l, u, w, d, p, m;
+			for (t = 0, c = Math.min(this.it, e); t < c && (this.ot[t] === i[t] || this.ct && compare(this.Xe, this.ot[t], i[t])); t++) if (this.ct) writeRow(this.ct[t], i[t]);
+			for (c = this.it - 1, a = e - 1; c >= t && a >= t && (this.ot[c] === i[a] || this.ct && compare(this.Xe, this.ot[c], i[a])); c--, a--);
+			if (t === e && this.it === e) {
+				this.ot = i;
+				return;
+			}
+			if (e <= this.it && c - t > 64 && this.ct === void 0 && this.lt === void 0) {
+				const s = t + (a - t >> 1);
+				const n = i[s];
+				const r = Math.min(c, s + 32);
+				let o = Math.max(t, s - 32);
+				while (o <= r && this.ot[o] !== n) o++;
+				if (o <= r && trySmallMove(this, i, e, t)) return;
+			}
+			const _ = e - this.it;
+			const y = a - t + 1;
+			const A = new Array(e);
+			const R = new Array(y);
+			o = this.ct ? new Array(y) : void 0;
+			h = this.lt ? new Array(y) : void 0;
+			const g = _ < 0 ? stageRemoval(this, i, t, c, a, A, R, o, h) : null;
+			if (g !== null) {
+				if (g.length !== 0) p = g;
+			} else {
+				w = /* @__PURE__ */ new Map();
+				d = new Array(y);
+				for (n = a; n >= t; n--) {
+					l = i[n];
+					u = this.Xe ? this.Xe(l) : l;
+					s = w.get(u);
+					d[n - t] = s === void 0 ? -1 : s;
+					w.set(u, n);
+				}
+				for (s = t; s <= c; s++) {
+					l = this.ot[s];
+					u = this.Xe ? this.Xe(l) : l;
+					n = w.get(u);
+					if (n !== void 0 && n !== -1) {
+						A[n] = this.ht[s];
+						R[n - t] = this.ln[s];
+						o && (o[n - t] = this.ct[s]);
+						h && (h[n - t] = this.lt[s]);
+						n = d[n - t];
+						w.set(u, n);
+					} else (p ?? (p = [])).push(this.ln[s]);
+				}
+				try {
+					for (n = t; n <= a; n++) {
+						if (R[n - t] !== void 0) continue;
+						(m ?? (m = [])).push(R[n - t] = createOwner());
+						r = n - t;
+						A[n] = runWithOwner(R[n - t], f);
+					}
+				} catch (t) {
+					if (m) for (s = 0; s < m.length; s++) m[s].dispose();
+					throw t;
+				}
+			}
+			for (s = 0; s < t; s++) A[s] = this.ht[s];
+			for (n = a + 1; n < e; n++) A[n] = this.ht[n - _];
+			commitWindow(this, i, e, t, c, a, R, o, h);
+			this.ht = A;
+			this.it = e;
+			this.ot = i;
+			if (p) for (s = 0; s < p.length; s++) p[s].dispose();
+		}
+	}
+	function compare(t, e, i) {
+		return t ? t(e) === t(i) : true;
+	}
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/flatten.js
+	/**
+	* Resolves nested accessors and arrays in a children tree to their rendered
+	* values. See the `children()` helper in solid-js for the memoized form.
+	*/
+	function flatten(r, t) {
+		if (typeof r === "function" && !r.length) {
+			if (t?.doNotUnwrap) return r;
+			do
+				r = r();
+			while (typeof r === "function" && !r.length);
+		}
+		if (t?.skipNonRendered && (r == null || r === true || r === false || r === "")) return;
+		if (Array.isArray(r)) {
+			let e = [];
+			if (flattenArray(r, e, t)) return () => {
+				let r = [];
+				flattenArray(e, r, {
+					...t,
+					doNotUnwrap: false
+				});
+				return r;
+			};
+			return e;
+		}
+		return r;
+	}
+	function flattenArray(r, t = [], e) {
+		let o = null;
+		let f = false;
+		for (let n = 0; n < r.length; n++) try {
+			let o = r[n];
+			if (typeof o === "function" && !o.length) {
+				if (e?.doNotUnwrap) {
+					t.push(o);
+					f = true;
+					continue;
+				}
+				do
+					o = o();
+				while (typeof o === "function" && !o.length);
+			}
+			if (Array.isArray(o)) f = flattenArray(o, t, e) || f;
+			else if (e?.skipNonRendered && (o == null || o === true || o === false || o === "")) {} else t.push(o);
+		} catch (r) {
+			if (!(r instanceof NotReadyError)) throw r;
+			o = r;
+		}
+		if (o) throw o;
+		return f;
+	}
+	// ../../node_modules/.bun/@solidjs+signals@2.0.3/node_modules/@solidjs/signals/dist/prod/store/utils.js
 	function trueFn() {
 		return true;
 	}
-	var propTraps = {
-		get(e, t, n) {
-			if (t === $PROXY) return n;
-			return e.get(t);
+	var EMPTY = Object.freeze({});
+	function leafOf(e, n) {
+		return n === 3 ? (e = e()) || EMPTY : e;
+	}
+	/** @internal The record behind an `omit()` proxy: `source` with `hidden`
+	* keys removed. It is the proxy's TARGET, so the shared handler reads it as
+	* plain fields — no per-instance closures — and it is what props consumers
+	* walk directly (`merge`, `spread`, `ssrElement`): a view never materializes
+	* a copy, and a consumer that knows the record never goes through its traps
+	* (a `getOwnPropertyDescriptor` trap per key allocates a descriptor and a
+	* getter, so enumerating a proxy costs more than the copy it was avoiding).
+	* `hidden` is a key list or a predicate (`omit(props, k => k[0] === "$")`).
+	*
+	* An omit over a `merge()` holds the merge's RECORD (`MergeView`, kind
+	* `SOURCE_MERGE`) — never its proxy, so no read hops through a trap — and is
+	* one record however many leaves the merge has. A consumer walks it as ONE
+	* filtered entry (`sourceKeys` / `sourceGet` recurse into the merge's
+	* sources by function call), and a later `merge()` over it carries the
+	* record as one entry instead of copying its leaves: on a component chain of
+	* defaults + omit + spread (`merge(omit(merge(omit(props))))`) the layers
+	* nest as records, each a few fields, where a flatten to leaf views built a
+	* view and a combined key list per leaf per layer — the largest allocation
+	* of a Kobalte-shaped render. A merge leaf may be merge's memo for a
+	* function source; it is resolved on access. */ var OmitView = class {
+		constructor(e, n, t) {
+			_defineProperty(this, "source", void 0);
+			_defineProperty(this, "kind", void 0);
+			_defineProperty(this, "hidden", void 0);
+			_defineProperty(
+				this,
+				/** see `MergeView.table` */
+				"table",
+				0
+			);
+			_defineProperty(
+				this,
+				/** see `tableOwnKeys` / `tableDescriptor` */
+				"keys",
+				void 0
+			);
+			_defineProperty(this, "descs", void 0);
+			this.source = e;
+			this.kind = n;
+			this.hidden = t;
+		}
+	};
+	function isHidden(e, n) {
+		const t = e.hidden;
+		return typeof t === "function" ? t(n) : t.includes(n);
+	}
+	function combineHidden(e, n) {
+		if (typeof e !== "function" && typeof n !== "function") {
+			const t = e.slice();
+			for (let e = 0; e < n.length; e++) t.push(n[e]);
+			return t;
+		}
+		return (t) => (typeof e === "function" ? e(t) : e.includes(t)) || (typeof n === "function" ? n(t) : n.includes(t));
+	}
+	function viewSource(e) {
+		return leafOf(e.source, e.kind);
+	}
+	function recordOf(e) {
+		return e[$RECORD];
+	}
+	function leafKeys(e, n) {
+		if (n === 0) return Object.keys(e);
+		if (n === 2 || e[$PROXY] === e) {
+			const n = e[$TARGET];
+			return (n?.px === e ? n : Reflect).ownKeys(e);
+		}
+		return Object.keys(e);
+	}
+	/** @internal Own string keys of a source entry — every consumer skips
+	* symbols itself. */ function sourceKeys(e, n) {
+		if (n === 1) {
+			if (e.kind === 4) return mergeKeysOf(e.source, false, e);
+			const n = leafKeys(viewSource(e), e.kind);
+			const t = [];
+			for (let r = 0; r < n.length; r++) if (!isHidden(e, n[r])) t.push(n[r]);
+			return t;
+		}
+		return leafKeys(leafOf(e, n), n);
+	}
+	/** @internal `key in entry`. */ function sourceHas(e, n, t) {
+		if (n === 1) {
+			if (isHidden(e, t)) return false;
+			return e.kind === 4 ? mergeHas(e.source, t) : t in viewSource(e);
+		}
+		return t in leafOf(e, n);
+	}
+	/** @internal `entry[key]` — the source's getter runs once, here. */ function sourceGet(e, n, t) {
+		if (n === 1) {
+			if (isHidden(e, t)) return void 0;
+			return e.kind === 4 ? mergeGet(e.source, t) : viewSource(e)[t];
+		}
+		return leafOf(e, n)[t];
+	}
+	function entryHasStaticKeys(e, n) {
+		if (n === 0) return true;
+		if (n !== 1) return false;
+		if (e.kind === 0) return true;
+		return e.kind === 4 && mergeHasStaticKeys(e.source);
+	}
+	function mergeHasStaticKeys(e) {
+		const n = e.sources, t = e.kinds;
+		for (let e = 0; e < n.length; e++) if (!entryHasStaticKeys(n[e], t[e])) return false;
+		return true;
+	}
+	/** @internal Whether the own key set of a props object cannot change
+	* reactively: a plain object, or a merge/omit view over plain objects only.
+	* A consumer may then decide from `Object.getOwnPropertyDescriptor` once —
+	* "no `children` key" or "a data `children`" holds for the object's lifetime,
+	* so no tracking scope is needed for it (#3388). For a store, or a view with
+	* a store or memo leaf, keys can appear later and the reactive path is the
+	* only correct one. */ function hasStaticKeys(e) {
+		if (!($PROXY in e)) return true;
+		const n = recordOf(e);
+		if (n instanceof MergeView) return mergeHasStaticKeys(n);
+		return n !== void 0 && entryHasStaticKeys(n, 1);
+	}
+	function accessorDescriptor(e, n = true) {
+		return {
+			configurable: true,
+			enumerable: n,
+			get: e,
+			set: trueFn
+		};
+	}
+	/** The descriptor a consumer should see for `key` on an entry —
+	* the view proxies answer `getOwnPropertyDescriptor` with it, so it tells the
+	* truth through any depth of merge/omit layers.
+	*
+	* A DATA descriptor means "nothing reactive can hide behind this value": the
+	* key is a data property of a plain-object leaf — the compiler's own
+	* encoding of a static attribute. Everything else is an accessor: a getter
+	* on a leaf, a key on a store proxy (its "data" is a signal), or a key on a
+	* merge memo source (the whole object is reactive). That is what lets a
+	* consumer skip a reactive node for a static prop at the bottom of a
+	* component chain, and it is why the store case must NOT forward the store's
+	* own descriptor, which reports a value.
+	*
+	* `configurable: true` always — the target has no such property, and the
+	* Proxy invariants forbid reporting a non-configurable one. */
+	function sourceDescriptor(e, n, t, r = false) {
+		if (n === 1) {
+			if (isHidden(e, t)) return void 0;
+			return sourceDescriptor(e.source, e.kind, t, r);
+		}
+		if (n === 4) return mergeDescriptor(e, t);
+		if (n === 3) return r || t in leafOf(e, n) ? accessorDescriptor(() => leafOf(e, n)[t]) : void 0;
+		if (n === 2) {
+			if (recordOf(e) !== void 0) return Reflect.getOwnPropertyDescriptor(e, t);
+			return r || t in e ? accessorDescriptor(() => e[t]) : void 0;
+		}
+		const i = Reflect.getOwnPropertyDescriptor(e, t);
+		if (i === void 0) return void 0;
+		if (i.get !== void 0 || i.set !== void 0) return accessorDescriptor(() => e[t], i.enumerable);
+		if (i.configurable) return i;
+		return {
+			configurable: true,
+			enumerable: i.enumerable,
+			writable: true,
+			value: i.value
+		};
+	}
+	function sourceEnumerableKeys(e, n) {
+		{
+			if (e.kind === 4) return mergeEnumerableKeys(e.source, e);
+			const n = ownEnumerableKeys(viewSource(e));
+			const t = [];
+			for (let r = 0; r < n.length; r++) if (!isHidden(e, n[r])) t.push(n[r]);
+			return t;
+		}
+	}
+	/** @internal */ var MergeView = class {
+		constructor(e, n) {
+			_defineProperty(this, "sources", void 0);
+			_defineProperty(this, "kinds", void 0);
+			_defineProperty(
+				this,
+				/** key → the plain leaf that owns it (later sources win), built by an
+				* enumeration or once the reads have paid for it (see `resolvedTable`)
+				* when every leaf has static keys; `null` when one doesn't. Until then
+				* the slot counts the per-key trap reads so far. One slot rather than a
+				* counter field of its own: a view is built per source per component
+				* layer, and each field initializer is a measurable share of a
+				* constructor that small in the lower JIT tiers. */
+				"table",
+				0
+			);
+			_defineProperty(
+				this,
+				/** see `tableOwnKeys` / `tableDescriptor` */
+				"keys",
+				void 0
+			);
+			_defineProperty(this, "descs", void 0);
+			this.sources = e;
+			this.kinds = n;
+		}
+	};
+	/** @internal The record behind a merge() or omit() proxy — a `MergeView`
+	* (flattened `sources` with their `kinds`) or an `OmitView` — or undefined
+	* for anything else (a plain object, a store, a foreign proxy). Two fast
+	* traps on a proxy (`has`, then `$RECORD`), none on a plain object. */ function viewOf(e) {
+		return e && $PROXY in e ? e[$RECORD] : void 0;
+	}
+	/** @internal The resolved key table of a merge/omit view — every own key of
+	* the view mapped to the plain object that owns it, in merged order (a key
+	* at the position of the last source that carries it, see `tableSet`) — or
+	* undefined when it has none: a leaf is a store or a memo source, whose
+	* keys can change, or the object is not a view at all.
+	*
+	* This is the flat object the eager copy used to build, made lazily and
+	* without copying: one pass over the leaves' own keys, then every
+	* `get`/`has`/descriptor is one lookup plus one read of the owning leaf, and
+	* a consumer (`spread` rerunning its effect) walks the table instead of
+	* re-deriving shadowing from the leaves each time. Own keys only, as the
+	* copy's were: a plain source's key set is fixed once merged (keys added to
+	* it later are not seen — the copy didn't see them either).
+	*
+	* It is built by an ENUMERATION — the `ownKeys` trap, or a consumer asking
+	* for it here — or once per-key reads have paid for it (`READS_FOR_TABLE`),
+	* not on the first read. A per-key read has a direct answer (a walk of the
+	* sources, last to first, one `in` each) whose cost is the source count,
+	* while the table's is every key of every leaf, so the walk wins until a
+	* view has been read about as many times as it has keys. On the server it
+	* never is: a component reads its props a few times, the element enumerates
+	* them once through its own source walk, and the view is gone — building on
+	* first read there cost a component chain a table per layer (profiled on
+	* the Kobalte-shaped chain: a third of SSR time in the table code and its
+	* garbage). On the
+	* client a view read on every reactive rerun crosses the threshold in its
+	* first few updates and is one lookup per read from then on, as before.
+	* Once built — by a `spread`, `Object.keys`, `{...props}`, or the count —
+	* every trap uses it. */ function resolvedTable(e) {
+		if (!e || !($PROXY in e)) return void 0;
+		const n = recordOf(e);
+		if (n instanceof OmitView) return omitTable(n);
+		return n === void 0 ? void 0 : mergeTable(n);
+	}
+	function mergeTable(e) {
+		let n = e.table;
+		if (typeof n !== "object") {
+			const t = e.sources, r = e.kinds;
+			for (let n = 0; n < t.length; n++) if (!entryHasStaticKeys(t[n], r[n])) {
+				e.table = null;
+				return;
+			}
+			n = /* @__PURE__ */ new Map();
+			collectTable(n, e, void 0);
+			e.table = n;
+		}
+		return n === null ? void 0 : n;
+	}
+	function collectTable(e, n, t) {
+		const r = n.sources, i = n.kinds;
+		for (let n = 0; n < r.length; n++) {
+			const f = r[n];
+			if (i[n] === 1) {
+				if (f.kind === 4) {
+					if (t === void 0) t = [f];
+					else t.push(f);
+					collectTable(e, f.source, t);
+					t.pop();
+					continue;
+				}
+				const n = f.source;
+				const r = Reflect.ownKeys(n);
+				for (let i = 0; i < r.length; i++) {
+					const u = r[i];
+					if (!isHidden(f, u) && !hiddenByAny(t, u)) tableSet(e, u, n);
+				}
+			} else {
+				const n = Reflect.ownKeys(f);
+				for (let r = 0; r < n.length; r++) {
+					const i = n[r];
+					if (!hiddenByAny(t, i)) tableSet(e, i, f);
+				}
+			}
+		}
+	}
+	function hiddenByAny(e, n) {
+		if (e !== void 0) {
+			for (let t = e.length - 1; t >= 0; t--) if (isHidden(e[t], n)) return true;
+		}
+		return false;
+	}
+	function tableSet(e, n, t) {
+		if (e.has(n)) e.delete(n);
+		e.set(n, t);
+	}
+	function omitTable(e) {
+		let n = e.table;
+		if (typeof n !== "object") {
+			const t = e.source;
+			if (e.kind === 4) {
+				if (!mergeHasStaticKeys(t)) {
+					e.table = null;
+					return;
+				}
+				n = /* @__PURE__ */ new Map();
+				collectTable(n, t, [e]);
+			} else if (e.kind === 0) {
+				n = /* @__PURE__ */ new Map();
+				const r = Reflect.ownKeys(t);
+				for (let i = 0; i < r.length; i++) {
+					const f = r[i];
+					if (!isHidden(e, f)) n.set(f, t);
+				}
+			} else {
+				e.table = null;
+				return;
+			}
+			e.table = n;
+		}
+		return n === null ? void 0 : n;
+	}
+	var propertyIsEnumerable = Object.prototype.propertyIsEnumerable;
+	function tableOwnKeys(e, n) {
+		let t = e.keys;
+		if (t === void 0) {
+			t = e.keys = [];
+			for (const [e, r] of n) if (propertyIsEnumerable.call(r, e)) t.push(e);
+		}
+		return t;
+	}
+	function tableDescriptor(e, n, t) {
+		const r = n.get(t);
+		if (r === void 0) return void 0;
+		let i = e.descs;
+		if (i === void 0) i = e.descs = /* @__PURE__ */ new Map();
+		let f = i.get(t);
+		if (f === void 0) {
+			f = sourceDescriptor(r, 0, t);
+			if (f === void 0) return void 0;
+			i.set(t, f);
+			return f;
+		}
+		if (f.get !== void 0) return f;
+		return {
+			configurable: true,
+			enumerable: f.enumerable,
+			writable: f.writable,
+			value: r[t]
+		};
+	}
+	var READS_FOR_TABLE = 16;
+	function mergeReadTable(e) {
+		const n = e.table;
+		if (typeof n === "object") return n === null ? void 0 : n;
+		if (n + 1 < READS_FOR_TABLE) {
+			e.table = n + 1;
+			return;
+		}
+		return mergeTable(e);
+	}
+	function omitReadTable(e) {
+		const n = e.table;
+		if (typeof n === "object") return n === null ? void 0 : n;
+		if (n + 1 < READS_FOR_TABLE) {
+			e.table = n + 1;
+			return;
+		}
+		return omitTable(e);
+	}
+	function tableOf(e) {
+		const n = e.table;
+		return typeof n === "object" && n !== null ? n : void 0;
+	}
+	var MISSING = Symbol();
+	function mergeLookup(e, n) {
+		const t = tableOf(e);
+		if (t !== void 0) {
+			const e = t.get(n);
+			return e === void 0 ? MISSING : e[n];
+		}
+		const r = e.sources, i = e.kinds;
+		for (let e = r.length - 1; e >= 0; e--) {
+			const t = i[e];
+			if (t === 0) {
+				const t = r[e];
+				if (n in t) return t[n];
+				continue;
+			}
+			if (t === 1) {
+				const t = r[e];
+				if (isHidden(t, n)) continue;
+				if (t.kind === 4) {
+					const e = mergeLookup(t.source, n);
+					if (e !== MISSING) return e;
+					continue;
+				}
+				const i = viewSource(t);
+				if (n in i) return i[n];
+			} else {
+				const i = leafOf(r[e], t);
+				if (n in i) return i[n];
+			}
+		}
+		return MISSING;
+	}
+	function mergeGet(e, n) {
+		const t = mergeLookup(e, n);
+		return t === MISSING ? void 0 : t;
+	}
+	function mergeHas(e, n) {
+		const t = tableOf(e);
+		if (t !== void 0) return t.has(n);
+		const r = e.sources, i = e.kinds;
+		for (let e = r.length - 1; e >= 0; e--) if (sourceHas(r[e], i[e], n)) return true;
+		return false;
+	}
+	function mergeDescriptor(e, n) {
+		const t = tableOf(e);
+		if (t !== void 0) return tableDescriptor(e, t, n);
+		const r = e.sources, i = e.kinds;
+		for (let t = r.length - 1; t >= 0; t--) {
+			if (!sourceHas(r[t], i[t], n)) continue;
+			return sourceDescriptor(r[t], i[t], n, true) ?? accessorDescriptor(() => mergeGet(e, n));
+		}
+	}
+	function mergeKeysOf(e, n, t) {
+		const r = [];
+		collectKeys(e, t === void 0 ? void 0 : [t], n, r, null);
+		return r;
+	}
+	function collectKeys(e, n, t, r, i) {
+		const f = e.sources, u = e.kinds;
+		for (let e = 0; e < f.length; e++) {
+			let o = f[e], c = u[e];
+			let s;
+			if (c === 1) {
+				if (o.kind === 4) {
+					if (n === void 0) n = [o];
+					else n.push(o);
+					collectKeys(o.source, n, t, r, i);
+					n.pop();
+					continue;
+				}
+				s = o;
+				c = o.kind;
+				o = o.source;
+			}
+			o = leafOf(o, c);
+			const d = t ? ownEnumerableKeys(o) : leafKeys(o, c);
+			for (let e = 0; e < d.length; e++) {
+				const t = d[e];
+				if (s !== void 0 && isHidden(s, t)) continue;
+				if (hiddenByAny(n, t)) continue;
+				addKey(r, i, t, o);
+			}
+		}
+	}
+	function addKey(e, n, t, r) {
+		const i = e.indexOf(t);
+		if (i !== -1) {
+			e.splice(i, 1);
+			if (n !== null) n.splice(i, 1);
+		}
+		e.push(t);
+		if (n !== null) n.push(r);
+	}
+	function mergeEnumerableKeys(e, n) {
+		const t = mergeTable(e);
+		if (t === void 0) return mergeKeysOf(e, true, n);
+		const r = tableOwnKeys(e, t);
+		if (n === void 0) return r;
+		const i = [];
+		for (let e = 0; e < r.length; e++) if (!isHidden(n, r[e])) i.push(r[e]);
+		return i;
+	}
+	var mergeTraps = {
+		get(e, n, t) {
+			if (typeof n === "symbol") {
+				if (n === $PROXY) return t;
+				if (n === $RECORD) return e;
+				if (n === $TARGET) return void 0;
+			}
+			const r = e.table;
+			let i;
+			if (typeof r !== "object") {
+				if (r + 1 < READS_FOR_TABLE) {
+					e.table = r + 1;
+					const t = e.sources, i = e.kinds;
+					for (let r = t.length - 1; r >= 0; r--) {
+						if (i[r] !== 0) return mergeGet(e, n);
+						const f = t[r][n];
+						if (f !== void 0 || n in t[r]) return f;
+					}
+					return;
+				}
+				i = mergeTable(e);
+				if (i === void 0) return mergeGet(e, n);
+			} else if (r === null) return mergeGet(e, n);
+			else i = r;
+			const f = i.get(n);
+			return f === void 0 ? void 0 : f[n];
 		},
-		has(e, t) {
-			if (t === $PROXY) return true;
-			return e.has(t);
+		has(e, n) {
+			if (n === $PROXY) return true;
+			if (n === $TARGET || n === $RECORD) return false;
+			const t = mergeReadTable(e);
+			if (t !== void 0) return t.has(n);
+			return mergeHas(e, n);
 		},
 		set: trueFn,
 		deleteProperty: trueFn,
-		getOwnPropertyDescriptor(e, t) {
-			return {
-				configurable: true,
-				enumerable: true,
-				get() {
-					return e.get(t);
-				},
-				set: trueFn,
-				deleteProperty: trueFn
-			};
+		getOwnPropertyDescriptor(e, n) {
+			if (n === $PROXY || n === $TARGET || n === $RECORD) return void 0;
+			const t = mergeReadTable(e);
+			if (t !== void 0) return tableDescriptor(e, t, n);
+			return mergeDescriptor(e, n);
 		},
 		ownKeys(e) {
-			return e.keys();
+			return mergeEnumerableKeys(e);
 		}
 	};
-	function resolveSource(e) {
-		return !(e = typeof e === "function" ? e() : e) ? {} : e;
-	}
-	var $SOURCES = Symbol(0);
-	function merge(...e) {
-		if (e.length === 1 && typeof e[0] !== "function") return e[0];
-		let t = false;
-		const n = [];
-		for (let i = 0; i < e.length; i++) {
-			const r = e[i];
-			t = t || !!r && $PROXY in r;
-			const s = !!r && r[$SOURCES];
-			if (s) n.push(...s);
-			else n.push(typeof r === "function" ? (t = true, createMemo$2(r)) : r);
-		}
-		if (SUPPORTS_PROXY && t) return new Proxy({
-			get(e) {
-				if (e === $SOURCES) return n;
-				for (let t = n.length - 1; t >= 0; t--) {
-					const i = resolveSource(n[t]);
-					if (e in i) return i[e];
+	var omitTraps = {
+		get(e, n, t) {
+			if (n === $PROXY) return t;
+			if (n === $RECORD) return e;
+			if (n === $TARGET) return void 0;
+			if (e.kind === 4) {
+				const t = omitReadTable(e);
+				if (t !== void 0) {
+					const e = t.get(n);
+					return e === void 0 ? void 0 : e[n];
 				}
-			},
-			has(e) {
-				for (let t = n.length - 1; t >= 0; t--) if (e in resolveSource(n[t])) return true;
-				return false;
-			},
-			keys() {
-				const e = [];
-				for (let t = 0; t < n.length; t++) e.push(...Object.keys(resolveSource(n[t])));
-				return [...new Set(e)];
+				if (isHidden(e, n)) return void 0;
+				return mergeGet(e.source, n);
 			}
-		}, propTraps);
-		const i = Object.create(null);
-		let r = false;
-		let s = n.length - 1;
-		for (let e = s; e >= 0; e--) {
-			const t = n[e];
-			if (!t) {
-				e === s && s--;
+			if (isHidden(e, n)) return void 0;
+			return viewSource(e)[n];
+		},
+		has(e, n) {
+			if (n === $PROXY) return true;
+			if (n === $TARGET || n === $RECORD) return false;
+			if (e.kind === 4) {
+				const t = omitReadTable(e);
+				if (t !== void 0) return t.has(n);
+				if (isHidden(e, n)) return false;
+				return mergeHas(e.source, n);
+			}
+			if (isHidden(e, n)) return false;
+			return n in viewSource(e);
+		},
+		set: trueFn,
+		deleteProperty: trueFn,
+		getOwnPropertyDescriptor(e, n) {
+			if (n === $PROXY || n === $TARGET || n === $RECORD) return void 0;
+			if (e.kind === 4) {
+				const t = omitReadTable(e);
+				if (t !== void 0) return tableDescriptor(e, t, n);
+			}
+			return sourceDescriptor(e, 1, n);
+		},
+		ownKeys(e) {
+			if (e.kind === 4) {
+				const n = omitTable(e);
+				if (n !== void 0) return tableOwnKeys(e, n);
+				return sourceEnumerableKeys(e);
+			}
+			const n = Reflect.ownKeys(viewSource(e));
+			const t = [];
+			for (let r = 0; r < n.length; r++) if (!isHidden(e, n[r])) t.push(n[r]);
+			return t;
+		}
+	};
+	/**
+	* Merges multiple props-like objects into a single proxy that *preserves
+	* reactivity*. Reads are forwarded to the right-most source that defines the
+	* property, so later sources override earlier ones (like `Object.assign`).
+	*
+	* Function arguments are treated as memo-backed sources — useful for passing
+	* derived defaults whose computation should track reactively.
+	*
+	* The result is a live VIEW of its sources, never a copy: creating it costs
+	* nothing per key, every read goes to the source that owns the key (a getter
+	* runs there, a data property is read live), and writing to it is a no-op.
+	* A single non-function source is returned as is. To own a mutable object,
+	* copy it: `{ ...merged }` snapshots the current values.
+	*
+	* Use this in component bodies to merge defaults / overrides without losing
+	* Solid's per-property tracking.
+	*
+	* Reading props, here and anywhere: a prop's getter is defined only for a
+	* read through its own object (`props.x`, `{ ...props }`, `Reflect.get`,
+	* these views). Forwarding its descriptor onto another object and reading it
+	* there is not supported — the compiler's server-side props keep their state
+	* on the instance, so the getter needs its object as receiver. A copy that
+	* must stay live defines its own getter that reads through the source, as
+	* the no-Proxy paths of merge() and omit() do.
+	*
+	* @example
+	* ```tsx
+	* function Button(_props: { label: string; type?: string; disabled?: boolean }) {
+	*   const props = merge({ type: "button", disabled: false }, _props);
+	*
+	*   return <button type={props.type} disabled={props.disabled}>{props.label}</button>;
+	* }
+	* ```
+	*/ function merge(...e) {
+		if (e.length === 1 && typeof e[0] !== "function") return e[0];
+		const n = new Array(e.length);
+		const t = new Array(e.length);
+		let r = 0;
+		let i = void 0;
+		let f = 0;
+		for (let u = 0; u < e.length; u++) {
+			const o = e[u];
+			if (!o) continue;
+			f++;
+			i = o;
+			if (typeof o === "function") {
+				n[r] = createMemo$1(o);
+				t[r++] = 3;
 				continue;
 			}
-			const o = Object.getOwnPropertyNames(t);
-			for (let n = o.length - 1; n >= 0; n--) {
-				const u = o[n];
-				if (u === "__proto__" || u === "constructor") continue;
-				if (!i[u]) {
-					r = r || e !== s;
-					const n = Object.getOwnPropertyDescriptor(t, u);
-					i[u] = n.get ? {
+			if ($PROXY in o) {
+				const e = recordOf(o);
+				if (e instanceof MergeView) for (let i = 0; i < e.sources.length; i++) {
+					n[r] = e.sources[i];
+					t[r++] = e.kinds[i];
+				}
+				else if (e !== void 0) {
+					n[r] = e;
+					t[r++] = 1;
+				} else {
+					n[r] = o;
+					t[r++] = 2;
+				}
+				continue;
+			}
+			n[r] = o;
+			t[r++] = 0;
+		}
+		if (r !== n.length) {
+			n.length = r;
+			t.length = r;
+		}
+		if (SUPPORTS_PROXY) {
+			if (f === 1 && typeof i !== "function") return i;
+			return new Proxy(new MergeView(n, t), mergeTraps);
+		}
+		const u = Object.create(null);
+		let o = false;
+		let c = n.length - 1;
+		for (let e = c; e >= 0; e--) {
+			const t = n[e];
+			if (!t) {
+				e === c && c--;
+				continue;
+			}
+			const r = Object.getOwnPropertyNames(t);
+			for (let n = r.length - 1; n >= 0; n--) {
+				const i = r[n];
+				if (i === "__proto__" || i === "constructor") continue;
+				if (!u[i]) {
+					o = o || e !== c;
+					const n = Object.getOwnPropertyDescriptor(t, i);
+					u[i] = n.get ? {
 						enumerable: true,
 						configurable: true,
 						get: n.get.bind(t)
@@ -1748,201 +3705,61 @@
 				}
 			}
 		}
-		if (!r) return n[s];
-		const o = {};
-		const u = Object.keys(i);
-		for (let e = u.length - 1; e >= 0; e--) {
-			const t = u[e], n = i[t];
-			if (n.get) Object.defineProperty(o, t, n);
-			else o[t] = n.value;
+		if (!o) return n[c];
+		const s = {};
+		const d = Object.keys(u);
+		for (let e = d.length - 1; e >= 0; e--) {
+			const n = d[e], t = u[n];
+			if (t.get) Object.defineProperty(s, n, t);
+			else s[n] = t.value;
 		}
-		o[$SOURCES] = n;
-		return o;
+		return s;
 	}
-	function omit(e, ...t) {
-		const n = new Set(t);
-		if (SUPPORTS_PROXY && $PROXY in e) return new Proxy({
-			get(t) {
-				return n.has(t) ? void 0 : e[t];
-			},
-			has(t) {
-				return !n.has(t) && t in e;
-			},
-			keys() {
-				return Object.keys(e).filter((e) => !n.has(e));
+	function omit(e, ...n) {
+		let t = n.length === 1 && typeof n[0] === "function" ? n[0] : n;
+		if (SUPPORTS_PROXY) {
+			let n = e;
+			let r = 0;
+			if (typeof e === "function") r = 3;
+			else if ($PROXY in e) {
+				r = 2;
+				const i = recordOf(e);
+				if (i instanceof OmitView) {
+					n = i.source;
+					r = i.kind;
+					t = combineHidden(i.hidden, t);
+				} else if (i !== void 0) {
+					n = i;
+					r = 4;
+				}
 			}
-		}, propTraps);
-		const i = {};
-		for (const t of Object.getOwnPropertyNames(e)) if (!n.has(t)) {
-			const n = Object.getOwnPropertyDescriptor(e, t);
-			!n.get && !n.set && n.enumerable && n.writable && n.configurable ? i[t] = n.value : Object.defineProperty(i, t, n);
+			return new Proxy(new OmitView(n, r, t), omitTraps);
 		}
-		return i;
-	}
-	function mapArray(e, t, n) {
-		const i = typeof n?.keyed === "function" ? n.keyed : void 0;
-		const r = t.length > 1;
-		const s = t;
-		const o = computed$1(updateKeyedMap.bind({
-			Ye: createOwner(),
-			Ze: 0,
-			Be: e,
-			qe: [],
-			Xe: s,
-			ze: [],
-			Je: [],
-			et: i,
-			tt: i || n?.keyed === false ? [] : void 0,
-			nt: r ? [] : void 0,
-			it: n?.fallback
-		}));
-		o.Pe = true;
-		return accessor$1(o);
-	}
-	var pureOptions = { ownedWrite: true };
-	function updateKeyedMap() {
-		const e = this.Be() || [], t = e.length;
-		e[$TRACK];
-		runWithOwner(this.Ye, () => {
-			let n, i, r = this.tt ? () => {
-				this.tt[i] = signal(e[i], pureOptions);
-				this.nt && (this.nt[i] = signal(i, pureOptions));
-				return this.Xe(accessor$1(this.tt[i]), this.nt ? accessor$1(this.nt[i]) : void 0);
-			} : this.nt ? () => {
-				const t = e[i];
-				this.nt[i] = signal(i, pureOptions);
-				return this.Xe(() => t, accessor$1(this.nt[i]));
-			} : () => {
-				const t = e[i];
-				return this.Xe(() => t);
-			};
-			if (t === 0) {
-				if (this.Ze !== 0) {
-					this.Ye.dispose(false);
-					this.Je = [];
-					this.qe = [];
-					this.ze = [];
-					this.Ze = 0;
-					this.tt && (this.tt = []);
-					this.nt && (this.nt = []);
-				}
-				if (this.it && !this.ze[0]) this.ze[0] = runWithOwner(this.Je[0] = createOwner(), this.it);
-			} else if (this.Ze === 0) {
-				if (this.Je[0]) this.Je[0].dispose();
-				this.ze = new Array(t);
-				for (i = 0; i < t; i++) {
-					this.qe[i] = e[i];
-					this.ze[i] = runWithOwner(this.Je[i] = createOwner(), r);
-				}
-				this.Ze = t;
-			} else {
-				let s, o, u, c, a, l, f, E = new Array(t), d = new Array(t), T = this.tt ? new Array(t) : void 0, S = this.nt ? new Array(t) : void 0;
-				for (s = 0, o = Math.min(this.Ze, t); s < o && (this.qe[s] === e[s] || this.tt && compare(this.et, this.qe[s], e[s])); s++) if (this.tt) setSignal$1(this.tt[s], e[s]);
-				for (o = this.Ze - 1, u = t - 1; o >= s && u >= s && (this.qe[o] === e[u] || this.tt && compare(this.et, this.qe[o], e[u])); o--, u--) {
-					E[u] = this.ze[o];
-					d[u] = this.Je[o];
-					T && (T[u] = this.tt[o]);
-					S && (S[u] = this.nt[o]);
-				}
-				l = /* @__PURE__ */ new Map();
-				f = new Array(u + 1);
-				for (i = u; i >= s; i--) {
-					c = e[i];
-					a = this.et ? this.et(c) : c;
-					n = l.get(a);
-					f[i] = n === void 0 ? -1 : n;
-					l.set(a, i);
-				}
-				for (n = s; n <= o; n++) {
-					c = this.qe[n];
-					a = this.et ? this.et(c) : c;
-					i = l.get(a);
-					if (i !== void 0 && i !== -1) {
-						E[i] = this.ze[n];
-						d[i] = this.Je[n];
-						T && (T[i] = this.tt[n]);
-						S && (S[i] = this.nt[n]);
-						i = f[i];
-						l.set(a, i);
-					} else this.Je[n].dispose();
-				}
-				for (i = s; i < t; i++) if (i in E) {
-					this.ze[i] = E[i];
-					this.Je[i] = d[i];
-					if (T) {
-						this.tt[i] = T[i];
-						setSignal$1(this.tt[i], e[i]);
-					}
-					if (S) {
-						this.nt[i] = S[i];
-						setSignal$1(this.nt[i], i);
-					}
-				} else this.ze[i] = runWithOwner(this.Je[i] = createOwner(), r);
-				this.ze = this.ze.slice(0, this.Ze = t);
-				this.qe = e.slice(0);
-			}
-		});
-		return this.ze;
-	}
-	function compare(e, t, n) {
-		return e ? e(t) === e(n) : true;
-	}
-	createContext$1(null);
-	function flatten(e, t) {
-		if (typeof e === "function" && !e.length) {
-			if (t?.doNotUnwrap) return e;
-			do
-				e = e();
-			while (typeof e === "function" && !e.length);
+		const r = {};
+		const i = Object.getOwnPropertyNames(e);
+		const f = typeof t === "function" ? t : t.length > 4 && i.length > t.length ? ((e) => (n) => e.has(n))(new Set(t)) : (e) => t.includes(e);
+		for (const n of i) if (!f(n)) {
+			const t = Object.getOwnPropertyDescriptor(e, n);
+			if (!t.get && !t.set && t.enumerable && t.writable && t.configurable) r[n] = t.value;
+			else if (t.get || t.set) Object.defineProperty(r, n, {
+				enumerable: t.enumerable,
+				configurable: true,
+				get: t.get && t.get.bind(e),
+				set: t.set && t.set.bind(e)
+			});
+			else Object.defineProperty(r, n, t);
 		}
-		if (t?.skipNonRendered && (e == null || e === true || e === false || e === "")) return;
-		if (Array.isArray(e)) {
-			let n = [];
-			if (flattenArray(e, n, t)) return () => {
-				let e = [];
-				flattenArray(n, e, {
-					...t,
-					doNotUnwrap: false
-				});
-				return e;
-			};
-			return n;
-		}
-		return e;
-	}
-	function flattenArray(e, t = [], n) {
-		let i = null;
-		let r = false;
-		for (let s = 0; s < e.length; s++) try {
-			let i = e[s];
-			if (typeof i === "function" && !i.length) {
-				if (n?.doNotUnwrap) {
-					t.push(i);
-					r = true;
-					continue;
-				}
-				do
-					i = i();
-				while (typeof i === "function" && !i.length);
-			}
-			if (Array.isArray(i)) r = flattenArray(i, t, n);
-			else if (n?.skipNonRendered && (i == null || i === true || i === false || i === "")) {} else t.push(i);
-		} catch (e) {
-			if (!(e instanceof NotReadyError$1)) throw e;
-			i = e;
-		}
-		if (i) throw i;
 		return r;
 	}
-	//#endregion
-	//#region ../../node_modules/.bun/solid-js@2.0.0-beta.7/node_modules/solid-js/dist/solid.js
-	var _MockPromise;
+	// ../../node_modules/.bun/solid-js@2.0.3/node_modules/solid-js/dist/solid.js
 	function createContext(defaultValue, options) {
 		const id = Symbol(options && options.name || "");
 		function provider(props) {
-			return createRoot(() => {
-				setContext(provider, props.value);
-				return children(() => props.children);
+			const value = props.value;
+			const c = createMemo$1((p) => (p || setContext(provider, value), props.children), { lazy: true });
+			return createMemo$1((p) => (p || setContext(provider, value), flatten(c())), {
+				lazy: true,
+				sync: true
 			});
 		}
 		provider.id = id;
@@ -1952,1363 +3769,90 @@
 	function useContext(context) {
 		return getContext(context);
 	}
-	function children(fn) {
-		const c = createMemo$2(fn, { lazy: true });
-		const memo = createMemo$2(() => flatten(c()), { lazy: true });
-		memo.toArray = () => {
-			const v = memo();
-			return Array.isArray(v) ? v : v != null ? [v] : [];
-		};
-		return memo;
-	}
-	var _createMemo;
-	var _createSignal;
-	var _createRenderEffect;
-	_MockPromise = class MockPromise {
-		catch() {
-			return new MockPromise();
-		}
-		then() {
-			return new MockPromise();
-		}
-		finally() {
-			return new MockPromise();
-		}
+	var sharedConfig = {
+		hydrating: false,
+		registry: void 0,
+		done: false
 	};
-	(() => {
-		for (const k of [
-			"all",
-			"allSettled",
-			"any",
-			"race",
-			"reject",
-			"resolve"
-		]) _MockPromise[k] = () => new _MockPromise();
-	})();
-	var createMemo$1 = (...args) => (_createMemo || createMemo$2)(...args);
-	var createSignal = (...args) => (_createSignal || createSignal$1)(...args);
-	var createRenderEffect = (...args) => (_createRenderEffect || createRenderEffect$1)(...args);
-	function createComponent(Comp, props) {
-		return untrack$1(() => Comp(props || {}));
+	var _createMemo;
+	var createMemo = (...args) => {
+		return (_createMemo || createMemo$1)(...args);
+	};
+	var createSignal = createSignal$1;
+	var createRoot = createRoot$1;
+	var createRenderEffect = createRenderEffect$1;
+	function createComponent(Comp, props, name, loc) {
+		return untrack(() => Comp(props || {}));
 	}
 	function For(props) {
 		const options = "fallback" in props ? {
 			keyed: props.keyed,
 			fallback: () => props.fallback
 		} : { keyed: props.keyed };
-		return mapArray(() => props.each, props.children, options);
+		const owner = getOwner();
+		let mapped;
+		const create = () => runWithOwner(owner, () => mapArray(() => props.each, props.children, options));
+		if (sharedConfig.hydrating) mapped = create();
+		const list = () => (mapped ?? (mapped = create()))();
+		return list;
 	}
-	//#endregion
-	//#region ../../node_modules/.bun/@solidjs+universal@2.0.0-beta.7+b8339d087ca3085b/node_modules/@solidjs/universal/dist/universal.js
-	var NotReadyError = class extends Error {
-		constructor(e) {
-			super();
-			_defineProperty(this, "source", void 0);
-			this.source = e;
-		}
+	// ../../node_modules/.bun/@solidjs+universal@2.0.3+ef26f217b6584227/node_modules/@solidjs/universal/dist/universal.js
+	var transparentOptions = {
+		transparent: true,
+		sync: true
 	};
-	var StatusError = class extends Error {
-		constructor(e, t) {
-			super(t instanceof Error ? t.message : String(t), { cause: t });
-			_defineProperty(this, "source", void 0);
-			this.source = e;
-		}
-	};
-	var REACTIVE_NONE = 0;
-	var REACTIVE_CHECK = 1;
-	var REACTIVE_DIRTY = 2;
-	var REACTIVE_RECOMPUTING_DEPS = 4;
-	var REACTIVE_IN_HEAP = 8;
-	var REACTIVE_IN_HEAP_HEIGHT = 16;
-	var REACTIVE_ZOMBIE = 32;
-	var REACTIVE_DISPOSED = 64;
-	var REACTIVE_OPTIMISTIC_DIRTY = 128;
-	var REACTIVE_SNAPSHOT_STALE = 256;
-	var REACTIVE_LAZY = 512;
-	var STATUS_PENDING = 1;
-	var STATUS_ERROR = 2;
-	var STATUS_UNINITIALIZED = 4;
-	var EFFECT_RENDER = 1;
-	var EFFECT_USER = 2;
-	var EFFECT_TRACKED = 3;
-	var NOT_PENDING = {};
-	var defaultContext = {};
-	function actualInsertIntoHeap(e, t) {
-		const n = (e.i?.t ? e.i.u?.o : e.i?.o) ?? -1;
-		if (n >= e.o) e.o = n + 1;
-		const i = e.o;
-		const r = t.l[i];
-		if (r === void 0) t.l[i] = e;
-		else {
-			const t = r.T;
-			t.S = e;
-			e.T = t;
-			r.T = e;
-		}
-		if (i > t.R) t.R = i;
-	}
-	function insertIntoHeap(e, t) {
-		let n = e.O;
-		if (n & (REACTIVE_IN_HEAP | REACTIVE_RECOMPUTING_DEPS)) return;
-		if (n & REACTIVE_CHECK) e.O = n & -4 | 10;
-		else e.O = n | REACTIVE_IN_HEAP;
-		if (!(n & REACTIVE_IN_HEAP_HEIGHT)) actualInsertIntoHeap(e, t);
-	}
-	function insertIntoHeapHeight(e, t) {
-		let n = e.O;
-		if (n & (REACTIVE_RECOMPUTING_DEPS | 24)) return;
-		e.O = n | REACTIVE_IN_HEAP_HEIGHT;
-		actualInsertIntoHeap(e, t);
-	}
-	function deleteFromHeap(e, t) {
-		const n = e.O;
-		if (!(n & (REACTIVE_IN_HEAP | REACTIVE_IN_HEAP_HEIGHT))) return;
-		e.O = n & -25;
-		const i = e.o;
-		if (e.T === e) t.l[i] = void 0;
-		else {
-			const n = e.S;
-			const r = t.l[i];
-			const s = n ?? r;
-			if (e === r) t.l[i] = n;
-			else e.T.S = n;
-			s.T = e.T;
-		}
-		e.T = e;
-		e.S = void 0;
-	}
-	function markHeap(e) {
-		if (e._) return;
-		e._ = true;
-		for (let t = 0; t <= e.R; t++) for (let n = e.l[t]; n !== void 0; n = n.S) if (n.O & REACTIVE_IN_HEAP) markNode(n);
-	}
-	function markNode(e, t = REACTIVE_DIRTY) {
-		const n = e.O;
-		if ((n & (REACTIVE_CHECK | REACTIVE_DIRTY)) >= t) return;
-		e.O = n & -4 | t;
-		for (let t = e.I; t !== null; t = t.h) markNode(t.p, REACTIVE_CHECK);
-		if (e.A !== null) for (let t = e.A; t !== null; t = t.N) for (let e = t.I; e !== null; e = e.h) markNode(e.p, REACTIVE_CHECK);
-	}
-	function runHeap(e, t) {
-		e._ = false;
-		for (e.P = 0; e.P <= e.R; e.P++) {
-			let n = e.l[e.P];
-			while (n !== void 0) {
-				if (n.O & REACTIVE_IN_HEAP) t(n);
-				else adjustHeight(n, e);
-				n = e.l[e.P];
+	var syncOptions = { sync: true };
+	var effect = (fn, effectFn, options) => createRenderEffect(fn, effectFn, options ? {
+		sync: true,
+		...options,
+		transparent: !options.scope
+	} : transparentOptions);
+	var memo = (fn) => createMemo(() => fn(), syncOptions);
+	var named = (options, fallback) => options;
+	var INNER_OWNED = {};
+	function createRenderer({ createElement, createTextNode, createSentinel = () => createTextNode(""), isTextNode, replaceText, insertNode, removeNode, cleanupNodes, setProperty, getParentNode, getFirstChild, getNextSibling }) {
+		function insert(parent, accessor, marker, initial, options) {
+			const onUpdate = options && options.onUpdate;
+			let effectOptions = options;
+			if (onUpdate) {
+				const { onUpdate, ...rest } = options;
+				effectOptions = rest;
 			}
-		}
-		e.R = 0;
-	}
-	function adjustHeight(e, t) {
-		deleteFromHeap(e, t);
-		let n = e.o;
-		for (let t = e.C; t; t = t.D) {
-			const e = t.m;
-			const i = e.V || e;
-			if (i.L && i.o >= n) n = i.o + 1;
-		}
-		if (e.o !== n) {
-			e.o = n;
-			for (let n = e.I; n !== null; n = n.h) insertIntoHeapHeight(n.p, t);
-		}
-	}
-	var transitions = /* @__PURE__ */ new Set();
-	var dirtyQueue = {
-		l: new Array(2e3).fill(void 0),
-		_: false,
-		P: 0,
-		R: 0
-	};
-	var zombieQueue = {
-		l: new Array(2e3).fill(void 0),
-		_: false,
-		P: 0,
-		R: 0
-	};
-	var clock = 0;
-	var activeTransition = null;
-	var scheduled = false;
-	var stashedOptimisticReads = null;
-	function runLaneEffects(e) {
-		for (const t of activeLanes) {
-			if (t.U || t.k.size > 0) continue;
-			const n = t.G[e - 1];
-			if (n.length) {
-				t.G[e - 1] = [];
-				runQueue(n, e);
-			}
-		}
-	}
-	function queueStashedOptimisticEffects(e) {
-		for (let t = e.I; t !== null; t = t.h) {
-			const e = t.p;
-			if (!e.W) continue;
-			if (e.W === EFFECT_TRACKED) {
-				if (!e.H) {
-					e.H = true;
-					e.F.enqueue(EFFECT_USER, e.M);
-				}
-				continue;
-			}
-			const n = e.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue;
-			if (n.P > e.o) n.P = e.o;
-			insertIntoHeap(e, n);
-		}
-	}
-	function mergeTransitionState(e, t) {
-		t.j = e;
-		e.$.push(...t.$);
-		for (const n of activeLanes) if (n.K === t) n.K = e;
-		e.Y.push(...t.Y);
-		for (const n of t.Z) e.Z.add(n);
-		for (const [n, i] of t.B) {
-			let t = e.B.get(n);
-			if (!t) e.B.set(n, t = /* @__PURE__ */ new Set());
-			for (const e of i) t.add(e);
-		}
-	}
-	function resolveOptimisticNodes(e) {
-		for (let t = 0; t < e.length; t++) {
-			const n = e[t];
-			n.q = void 0;
-			if (n.X !== NOT_PENDING) {
-				n.J = n.X;
-				n.X = NOT_PENDING;
-			}
-			const i = n.ee;
-			n.ee = NOT_PENDING;
-			if (i !== NOT_PENDING && n.J !== i) insertSubs(n, true);
-			n.K = null;
-		}
-		e.length = 0;
-	}
-	function cleanupCompletedLanes(e) {
-		for (const t of activeLanes) {
-			if (!(e ? t.K === e : !t.K)) continue;
-			if (!t.U) {
-				if (t.G[0].length) runQueue(t.G[0], EFFECT_RENDER);
-				if (t.G[1].length) runQueue(t.G[1], EFFECT_USER);
-			}
-			if (t.te.q === t) t.te.q = void 0;
-			t.k.clear();
-			t.G[0].length = 0;
-			t.G[1].length = 0;
-			activeLanes.delete(t);
-			signalLanes.delete(t.te);
-		}
-	}
-	function schedule() {
-		if (scheduled) return;
-		scheduled = true;
-		if (!globalQueue.ne && true) queueMicrotask(flush);
-	}
-	var Queue = class {
-		constructor() {
-			_defineProperty(this, "i", null);
-			_defineProperty(this, "ie", [[], []]);
-			_defineProperty(this, "re", []);
-			_defineProperty(this, "created", clock);
-		}
-		addChild(e) {
-			this.re.push(e);
-			e.i = this;
-		}
-		removeChild(e) {
-			const t = this.re.indexOf(e);
-			if (t >= 0) {
-				this.re.splice(t, 1);
-				e.i = null;
-			}
-		}
-		notify(e, t, n, i) {
-			if (this.i) return this.i.notify(e, t, n, i);
-			return false;
-		}
-		run(e) {
-			if (this.ie[e - 1].length) {
-				const t = this.ie[e - 1];
-				this.ie[e - 1] = [];
-				runQueue(t, e);
-			}
-			for (let t = 0; t < this.re.length; t++) this.re[t].run?.(e);
-		}
-		enqueue(e, t) {
-			if (e) if (currentOptimisticLane) findLane(currentOptimisticLane).G[e - 1].push(t);
-			else this.ie[e - 1].push(t);
-			schedule();
-		}
-		stashQueues(e) {
-			e.ie[0].push(...this.ie[0]);
-			e.ie[1].push(...this.ie[1]);
-			this.ie = [[], []];
-			for (let t = 0; t < this.re.length; t++) {
-				let n = this.re[t];
-				let i = e.re[t];
-				if (!i) {
-					i = {
-						ie: [[], []],
-						re: []
-					};
-					e.re[t] = i;
-				}
-				n.stashQueues(i);
-			}
-		}
-		restoreQueues(e) {
-			this.ie[0].push(...e.ie[0]);
-			this.ie[1].push(...e.ie[1]);
-			for (let t = 0; t < e.re.length; t++) {
-				const n = e.re[t];
-				let i = this.re[t];
-				if (i) i.restoreQueues(n);
-			}
-		}
-	};
-	var GlobalQueue = class GlobalQueue extends Queue {
-		constructor(..._args) {
-			super(..._args);
-			_defineProperty(this, "ne", false);
-			_defineProperty(this, "se", []);
-			_defineProperty(this, "Y", []);
-			_defineProperty(this, "Z", /* @__PURE__ */ new Set());
-		}
-		flush() {
-			if (this.ne) return;
-			this.ne = true;
-			try {
-				runHeap(dirtyQueue, GlobalQueue.oe);
-				if (activeTransition) {
-					if (!transitionComplete(activeTransition)) {
-						const e = activeTransition;
-						runHeap(zombieQueue, GlobalQueue.oe);
-						this.se = [];
-						this.Y = [];
-						this.Z = /* @__PURE__ */ new Set();
-						runLaneEffects(EFFECT_RENDER);
-						runLaneEffects(EFFECT_USER);
-						this.stashQueues(e.ae);
-						clock++;
-						scheduled = dirtyQueue.R >= dirtyQueue.P;
-						reassignPendingTransition(e.se);
-						activeTransition = null;
-						if (!e.$.length && e.Y.length) {
-							stashedOptimisticReads = /* @__PURE__ */ new Set();
-							for (let t = 0; t < e.Y.length; t++) {
-								const n = e.Y[t];
-								if (n.L || n.le) continue;
-								stashedOptimisticReads.add(n);
-								queueStashedOptimisticEffects(n);
-							}
-						}
-						try {
-							finalizePureQueue(null, true);
-						} finally {
-							stashedOptimisticReads = null;
-						}
-						return;
-					}
-					this.se !== activeTransition.se && this.se.push(...activeTransition.se);
-					this.restoreQueues(activeTransition.ae);
-					transitions.delete(activeTransition);
-					const t = activeTransition;
-					activeTransition = null;
-					reassignPendingTransition(this.se);
-					finalizePureQueue(t);
-				} else {
-					if (transitions.size) runHeap(zombieQueue, GlobalQueue.oe);
-					finalizePureQueue();
-				}
-				clock++;
-				scheduled = dirtyQueue.R >= dirtyQueue.P;
-				runLaneEffects(EFFECT_RENDER);
-				this.run(EFFECT_RENDER);
-				runLaneEffects(EFFECT_USER);
-				this.run(EFFECT_USER);
-			} finally {
-				this.ne = false;
-			}
-		}
-		notify(e, t, n, i) {
-			if (t & STATUS_PENDING) {
-				if (n & STATUS_PENDING) {
-					const t = i !== void 0 ? i : e.fe;
-					if (activeTransition && t) {
-						const n = t.source;
-						let i = activeTransition.B.get(n);
-						if (!i) activeTransition.B.set(n, i = /* @__PURE__ */ new Set());
-						const r = i.size;
-						i.add(e);
-						if (i.size !== r) schedule();
-					}
-				}
-				return true;
-			}
-			return false;
-		}
-		initTransition(e) {
-			if (e) e = currentTransition(e);
-			if (e && e === activeTransition) return;
-			if (!e && activeTransition && activeTransition.Ee === clock) return;
-			if (!activeTransition) activeTransition = e ?? {
-				Ee: clock,
-				se: [],
-				B: /* @__PURE__ */ new Map(),
-				Y: [],
-				Z: /* @__PURE__ */ new Set(),
-				$: [],
-				ae: {
-					ie: [[], []],
-					re: []
-				},
-				j: false
-			};
-			else if (e) {
-				const t = activeTransition;
-				mergeTransitionState(e, t);
-				transitions.delete(t);
-				activeTransition = e;
-			}
-			transitions.add(activeTransition);
-			activeTransition.Ee = clock;
-			if (this.se !== activeTransition.se) {
-				for (let e = 0; e < this.se.length; e++) {
-					const t = this.se[e];
-					t.K = activeTransition;
-					activeTransition.se.push(t);
-				}
-				this.se = activeTransition.se;
-			}
-			if (this.Y !== activeTransition.Y) {
-				for (let e = 0; e < this.Y.length; e++) {
-					const t = this.Y[e];
-					t.K = activeTransition;
-					activeTransition.Y.push(t);
-				}
-				this.Y = activeTransition.Y;
-			}
-			for (const e of activeLanes) if (!e.K) e.K = activeTransition;
-			if (this.Z !== activeTransition.Z) {
-				for (const e of this.Z) activeTransition.Z.add(e);
-				this.Z = activeTransition.Z;
-			}
-		}
-	};
-	_defineProperty(GlobalQueue, "oe", void 0);
-	_defineProperty(GlobalQueue, "ue", void 0);
-	_defineProperty(GlobalQueue, "ce", null);
-	function insertSubs(e, t = false) {
-		const n = e.q || currentOptimisticLane;
-		const i = e.de !== void 0;
-		for (let r = e.I; r !== null; r = r.h) {
-			if (i && r.p.Te) {
-				r.p.O |= REACTIVE_SNAPSHOT_STALE;
-				continue;
-			}
-			if (t && n) {
-				r.p.O |= REACTIVE_OPTIMISTIC_DIRTY;
-				assignOrMergeLane(r.p, n);
-			} else if (t) {
-				r.p.O |= REACTIVE_OPTIMISTIC_DIRTY;
-				r.p.q = void 0;
-			}
-			const e = r.p;
-			if (e.W === EFFECT_TRACKED) {
-				if (!e.H) {
-					e.H = true;
-					e.F.enqueue(EFFECT_USER, e.M);
-				}
-				continue;
-			}
-			const s = r.p.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue;
-			if (s.P > r.p.o) s.P = r.p.o;
-			insertIntoHeap(r.p, s);
-		}
-	}
-	function commitPendingNodes() {
-		const e = globalQueue.se;
-		for (let t = 0; t < e.length; t++) {
-			const n = e[t];
-			if (n.X !== NOT_PENDING) {
-				n.J = n.X;
-				n.X = NOT_PENDING;
-				if (n.W && n.W !== EFFECT_TRACKED) n.H = true;
-			}
-			if (!(n.Se & STATUS_PENDING)) n.Se &= ~STATUS_UNINITIALIZED;
-			if (n.L) GlobalQueue.ue(n, false, true);
-		}
-		e.length = 0;
-	}
-	function finalizePureQueue(e = null, t = false) {
-		const n = !t;
-		if (n) commitPendingNodes();
-		if (!t) checkBoundaryChildren(globalQueue);
-		if (dirtyQueue.R >= dirtyQueue.P) runHeap(dirtyQueue, GlobalQueue.oe);
-		if (n) {
-			commitPendingNodes();
-			resolveOptimisticNodes(e ? e.Y : globalQueue.Y);
-			e ? e.Z : globalQueue.Z;
-			cleanupCompletedLanes(e);
-		}
-	}
-	function checkBoundaryChildren(e) {
-		for (const t of e.re) {
-			t.checkSources?.();
-			checkBoundaryChildren(t);
-		}
-	}
-	function reassignPendingTransition(e) {
-		for (let t = 0; t < e.length; t++) e[t].K = activeTransition;
-	}
-	var globalQueue = new GlobalQueue();
-	function flush() {
-		if (globalQueue.ne) return;
-		while (scheduled || activeTransition) globalQueue.flush();
-	}
-	function runQueue(e, t) {
-		for (let n = 0; n < e.length; n++) e[n](t);
-	}
-	function reporterBlocksSource(e, t) {
-		if (e.O & (REACTIVE_ZOMBIE | REACTIVE_DISPOSED)) return false;
-		if (e.Re === t || e.Oe?.has(t)) return true;
-		for (let n = e.C; n; n = n.D) {
-			let e = n.m;
-			while (e) {
-				if (e === t || e.V === t) return true;
-				e = e._e;
-			}
-		}
-		return !!(e.Se & STATUS_PENDING && e.fe instanceof NotReadyError && e.fe.source === t);
-	}
-	function transitionComplete(e) {
-		if (e.j) return true;
-		if (e.$.length) return false;
-		let t = true;
-		for (const [n, i] of e.B) {
-			let r = false;
-			for (const e of i) {
-				if (reporterBlocksSource(e, n)) {
-					r = true;
-					break;
-				}
-				i.delete(e);
-			}
-			if (!r) e.B.delete(n);
-			else if (n.Se & STATUS_PENDING && n.fe?.source === n) {
-				t = false;
-				break;
-			}
-		}
-		if (t) for (let n = 0; n < e.Y.length; n++) {
-			const i = e.Y[n];
-			if (hasActiveOverride(i) && "Se" in i && i.Se & STATUS_PENDING && i.fe instanceof NotReadyError && i.fe.source !== i) {
-				t = false;
-				break;
-			}
-		}
-		t && (e.j = true);
-		return t;
-	}
-	function currentTransition(e) {
-		while (e.j && typeof e.j === "object") e = e.j;
-		return e;
-	}
-	function runInTransition(e, t) {
-		const n = activeTransition;
-		try {
-			activeTransition = currentTransition(e);
-			return t();
-		} finally {
-			activeTransition = n;
-		}
-	}
-	var signalLanes = /* @__PURE__ */ new WeakMap();
-	var activeLanes = /* @__PURE__ */ new Set();
-	function getOrCreateLane(e) {
-		let t = signalLanes.get(e);
-		if (t) return findLane(t);
-		const n = e._e;
-		const i = n?.q ? findLane(n.q) : null;
-		t = {
-			te: e,
-			k: /* @__PURE__ */ new Set(),
-			G: [[], []],
-			U: null,
-			K: activeTransition,
-			Ie: i
-		};
-		signalLanes.set(e, t);
-		activeLanes.add(t);
-		e.he = false;
-		return t;
-	}
-	function findLane(e) {
-		while (e.U) e = e.U;
-		return e;
-	}
-	function mergeLanes(e, t) {
-		e = findLane(e);
-		t = findLane(t);
-		if (e === t) return e;
-		t.U = e;
-		for (const n of t.k) e.k.add(n);
-		e.G[0].push(...t.G[0]);
-		e.G[1].push(...t.G[1]);
-		return e;
-	}
-	function resolveLane(e) {
-		const t = e.q;
-		if (!t) return void 0;
-		const n = findLane(t);
-		if (activeLanes.has(n)) return n;
-		e.q = void 0;
-	}
-	function resolveTransition(e) {
-		return resolveLane(e)?.K ?? e.K;
-	}
-	function hasActiveOverride(e) {
-		return !!(e.ee !== void 0 && e.ee !== NOT_PENDING);
-	}
-	function assignOrMergeLane(e, t) {
-		const n = findLane(t);
-		const i = e.q;
-		if (i) {
-			if (i.U) {
-				e.q = t;
-				return;
-			}
-			const r = findLane(i);
-			if (activeLanes.has(r)) {
-				if (r !== n && !hasActiveOverride(e)) if (n.Ie && findLane(n.Ie) === r) e.q = t;
-				else if (r.Ie && findLane(r.Ie) === n);
-				else mergeLanes(n, r);
-				return;
-			}
-		}
-		e.q = t;
-	}
-	function unlinkSubs(e) {
-		const t = e.m;
-		const n = e.D;
-		const i = e.h;
-		const r = e.pe;
-		if (i !== null) i.pe = r;
-		else t.Ae = r;
-		if (r !== null) r.h = i;
-		else {
-			t.I = i;
-			if (i === null) {
-				t.Ne?.();
-				t.L && !t.Pe && !(t.O & REACTIVE_ZOMBIE) && unobserved(t);
-			}
-		}
-		return n;
-	}
-	function unobserved(e) {
-		deleteFromHeap(e, e.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue);
-		let t = e.C;
-		while (t !== null) t = unlinkSubs(t);
-		e.C = null;
-		e.ge = null;
-		disposeChildren(e, true);
-	}
-	function link(e, t) {
-		const n = t.ge;
-		if (n !== null && n.m === e) return;
-		let i = null;
-		const r = t.O & REACTIVE_RECOMPUTING_DEPS;
-		if (r) {
-			i = n !== null ? n.D : t.C;
-			if (i !== null && i.m === e) {
-				t.ge = i;
-				return;
-			}
-		}
-		const s = e.Ae;
-		if (s !== null && s.p === t && (!r || isValidLink(s, t))) return;
-		const o = t.ge = e.Ae = {
-			m: e,
-			p: t,
-			D: i,
-			pe: s,
-			h: null
-		};
-		if (n !== null) n.D = o;
-		else t.C = o;
-		if (s !== null) s.h = o;
-		else e.I = o;
-	}
-	function isValidLink(e, t) {
-		const n = t.ge;
-		if (n !== null) {
-			let i = t.C;
-			do {
-				if (i === e) return true;
-				if (i === n) break;
-				i = i.D;
-			} while (i !== null);
-		}
-		return false;
-	}
-	function markDisposal(e) {
-		let t = e.Ce;
-		while (t) {
-			t.O |= REACTIVE_ZOMBIE;
-			if (t.O & REACTIVE_IN_HEAP) {
-				deleteFromHeap(t, dirtyQueue);
-				insertIntoHeap(t, zombieQueue);
-			}
-			markDisposal(t);
-			t = t.De;
-		}
-	}
-	function disposeChildren(e, t = false, n) {
-		if (e.O & REACTIVE_DISPOSED) return;
-		if (t) e.O = REACTIVE_DISPOSED;
-		if (t && e.L) e.ye = null;
-		let i = n ? e.ve : e.Ce;
-		while (i) {
-			const e = i.De;
-			if (i.C) {
-				const e = i;
-				deleteFromHeap(e, e.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue);
-				let t = e.C;
-				do
-					t = unlinkSubs(t);
-				while (t !== null);
-				e.C = null;
-				e.ge = null;
-			}
-			disposeChildren(i, true);
-			i = e;
-		}
-		if (n) e.ve = null;
-		else {
-			e.Ce = null;
-			e.we = 0;
-		}
-		runDisposal(e, n);
-	}
-	function runDisposal(e, t) {
-		let n = t ? e.me : e.Ve;
-		if (!n) return;
-		if (Array.isArray(n)) for (let e = 0; e < n.length; e++) {
-			const t = n[e];
-			t.call(t);
-		}
-		else n.call(n);
-		t ? e.me = null : e.Ve = null;
-	}
-	function cleanup(e) {
-		if (!context) return e;
-		if (!context.Ve) context.Ve = e;
-		else if (Array.isArray(context.Ve)) context.Ve.push(e);
-		else context.Ve = [context.Ve, e];
-		return e;
-	}
-	function addPendingSource(e, t) {
-		if (e.Re === t || e.Oe?.has(t)) return false;
-		if (!e.Re) {
-			e.Re = t;
-			return true;
-		}
-		if (!e.Oe) e.Oe = new Set([e.Re, t]);
-		else e.Oe.add(t);
-		e.Re = void 0;
-		return true;
-	}
-	function removePendingSource(e, t) {
-		if (e.Re) {
-			if (e.Re !== t) return false;
-			e.Re = void 0;
-			return true;
-		}
-		if (!e.Oe?.delete(t)) return false;
-		if (e.Oe.size === 1) {
-			e.Re = e.Oe.values().next().value;
-			e.Oe = void 0;
-		} else if (e.Oe.size === 0) e.Oe = void 0;
-		return true;
-	}
-	function clearPendingSources(e) {
-		e.Re = void 0;
-		e.Oe?.clear();
-		e.Oe = void 0;
-	}
-	function setPendingError(e, t, n) {
-		if (!t) {
-			e.fe = null;
-			return;
-		}
-		if (n instanceof NotReadyError && n.source === t) {
-			e.fe = n;
-			return;
-		}
-		const i = e.fe;
-		if (!(i instanceof NotReadyError) || i.source !== t) e.fe = new NotReadyError(t);
-	}
-	function forEachDependent(e, t) {
-		for (let n = e.I; n !== null; n = n.h) t(n.p);
-		for (let n = e.A; n !== null; n = n.N) for (let e = n.I; e !== null; e = e.h) t(e.p);
-	}
-	function settlePendingSource(e) {
-		let t = false;
-		const n = /* @__PURE__ */ new Set();
-		const settle = (i) => {
-			if (n.has(i) || !removePendingSource(i, e)) return;
-			n.add(i);
-			i.Ee = clock;
-			const r = i.Re ?? i.Oe?.values().next().value;
-			if (r) {
-				setPendingError(i, r);
-				updatePendingSignal(i);
-			} else {
-				i.Se &= ~STATUS_PENDING;
-				setPendingError(i);
-				updatePendingSignal(i);
-				if (i.Ue) {
-					if (i.W === EFFECT_TRACKED) {
-						const e = i;
-						if (!e.H) {
-							e.H = true;
-							e.F.enqueue(EFFECT_USER, e.M);
-						}
-					} else {
-						const e = i.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue;
-						if (e.P > i.o) e.P = i.o;
-						insertIntoHeap(i, e);
-					}
-					t = true;
-				}
-				i.Ue = false;
-			}
-			forEachDependent(i, settle);
-		};
-		forEachDependent(e, settle);
-		if (t) schedule();
-	}
-	function handleAsync(e, t, n) {
-		const i = typeof t === "object" && t !== null;
-		const r = i && untrack(() => t[Symbol.asyncIterator]);
-		const s = !r && i && untrack(() => typeof t.then === "function");
-		if (!s && !r) {
-			e.ye = null;
-			return t;
-		}
-		e.ye = t;
-		let o;
-		const handleError = (n) => {
-			if (e.ye !== t) return;
-			globalQueue.initTransition(resolveTransition(e));
-			notifyStatus(e, n instanceof NotReadyError ? STATUS_PENDING : STATUS_ERROR, n);
-			e.Ee = clock;
-		};
-		const asyncWrite = (i, r) => {
-			if (e.ye !== t) return;
-			if (e.O & (REACTIVE_DIRTY | REACTIVE_OPTIMISTIC_DIRTY)) return;
-			globalQueue.initTransition(resolveTransition(e));
-			const s = !!(e.Se & STATUS_UNINITIALIZED);
-			clearStatus(e);
-			const o = resolveLane(e);
-			if (o) o.k.delete(e);
-			if (e.ee !== void 0) {
-				if (e.ee !== void 0 && e.ee !== NOT_PENDING) e.X = i;
-				else {
-					e.J = i;
-					insertSubs(e);
-				}
-				e.Ee = clock;
-			} else if (o) {
-				const t = e.W;
-				const n = e.J;
-				const r = e.ke;
-				if (!t && s || !r || !r(i, n)) {
-					e.J = i;
-					e.Ee = clock;
-					if (e.xe) setSignal(e.xe, i);
-					insertSubs(e, true);
-				}
-			} else setSignal(e, () => i);
-			settlePendingSource(e);
-			schedule();
-			flush();
-			r?.();
-		};
-		if (s) {
-			let n = false, i = true;
-			t.then((e) => {
-				if (i) {
-					o = e;
-					n = true;
-				} else asyncWrite(e);
-			}, (e) => {
-				if (!i) handleError(e);
-			});
-			i = false;
-			if (!n) {
-				globalQueue.initTransition(resolveTransition(e));
-				throw new NotReadyError(context);
-			}
-		}
-		if (r) {
-			const n = t[Symbol.asyncIterator]();
-			let i = false;
-			let r = false;
-			cleanup(() => {
-				if (r) return;
-				r = true;
-				try {
-					const e = n.return?.();
-					if (e && typeof e.then === "function") e.then(void 0, () => {});
-				} catch {}
-			});
-			const iterate = () => {
-				let s, u = false, c = true;
-				n.next().then((n) => {
-					if (c) {
-						s = n;
-						u = true;
-						if (n.done) r = true;
-					} else if (e.ye !== t) return;
-					else if (!n.done) asyncWrite(n.value, iterate);
-					else {
-						r = true;
-						schedule();
-						flush();
-					}
-				}, (n) => {
-					if (!c && e.ye === t) {
-						r = true;
-						handleError(n);
-					}
-				});
-				c = false;
-				if (u && !s.done) {
-					o = s.value;
-					i = true;
-					return iterate();
-				}
-				return u && s.done;
-			};
-			const s = iterate();
-			if (!i && !s) {
-				globalQueue.initTransition(resolveTransition(e));
-				throw new NotReadyError(context);
-			}
-		}
-		return o;
-	}
-	function clearStatus(e, t = false) {
-		clearPendingSources(e);
-		e.Ue = false;
-		e.Se = t ? 0 : e.Se & STATUS_UNINITIALIZED;
-		setPendingError(e);
-		updatePendingSignal(e);
-		e.Ge?.();
-	}
-	function notifyStatus(e, t, n, i, r) {
-		if (t === STATUS_ERROR && !(n instanceof StatusError) && !(n instanceof NotReadyError)) n = new StatusError(e, n);
-		const s = t === STATUS_PENDING && n instanceof NotReadyError ? n.source : void 0;
-		const o = s === e;
-		const u = t === STATUS_PENDING && e.ee !== void 0 && !o;
-		const c = u && hasActiveOverride(e);
-		if (!i) {
-			if (t === STATUS_PENDING && s) {
-				addPendingSource(e, s);
-				e.Se = STATUS_PENDING | e.Se & STATUS_UNINITIALIZED;
-				setPendingError(e, s, n);
-			} else {
-				clearPendingSources(e);
-				e.Se = t | (t !== STATUS_ERROR ? e.Se & STATUS_UNINITIALIZED : 0);
-				e.fe = n;
-			}
-			updatePendingSignal(e);
-		}
-		if (r && !i) assignOrMergeLane(e, r);
-		const a = i || c;
-		const l = i || u ? void 0 : r;
-		if (e.Ge) {
-			if (i && t === STATUS_PENDING) return;
-			if (a) e.Ge(t, n);
-			else e.Ge();
-			return;
-		}
-		forEachDependent(e, (e) => {
-			e.Ee = clock;
-			if (t === STATUS_PENDING && s && e.Re !== s && !e.Oe?.has(s) || t !== STATUS_PENDING && (e.fe !== n || e.Re || e.Oe)) {
-				if (!a && !e.K) globalQueue.se.push(e);
-				notifyStatus(e, t, n, a, l);
-			}
-		});
-	}
-	GlobalQueue.oe = recompute;
-	GlobalQueue.ue = disposeChildren;
-	var tracking = false;
-	var stale = false;
-	var context = null;
-	var currentOptimisticLane = null;
-	function recompute(e, t = false) {
-		const n = e.W;
-		if (!t) {
-			if (e.K && (!n || activeTransition) && activeTransition !== e.K) globalQueue.initTransition(e.K);
-			deleteFromHeap(e, e.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue);
-			e.ye = null;
-			if (e.K || n === EFFECT_TRACKED) disposeChildren(e);
-			else {
-				markDisposal(e);
-				e.me = e.Ve;
-				e.ve = e.Ce;
-				e.Ve = null;
-				e.Ce = null;
-				e.we = 0;
-			}
-		}
-		const i = !!(e.O & REACTIVE_OPTIMISTIC_DIRTY);
-		const r = e.ee !== void 0 && e.ee !== NOT_PENDING;
-		const s = !!(e.Se & STATUS_PENDING);
-		const o = !!(e.Se & STATUS_UNINITIALIZED);
-		const u = context;
-		context = e;
-		e.ge = null;
-		e.O = REACTIVE_RECOMPUTING_DEPS;
-		e.Ee = clock;
-		let c = e.X === NOT_PENDING ? e.J : e.X;
-		let a = e.o;
-		let l = tracking;
-		let f = currentOptimisticLane;
-		tracking = true;
-		if (i) {
-			const t = resolveLane(e);
-			if (t) currentOptimisticLane = t;
-		}
-		try {
-			c = handleAsync(e, e.L(c));
-			clearStatus(e, t);
-			const n = resolveLane(e);
-			if (n) {
-				n.k.delete(e);
-				updatePendingSignal(n.te);
-			}
-		} catch (t) {
-			if (t instanceof NotReadyError && currentOptimisticLane) {
-				const t = findLane(currentOptimisticLane);
-				if (t.te !== e) {
-					t.k.add(e);
-					e.q = t;
-					updatePendingSignal(t.te);
-				}
-			}
-			if (t instanceof NotReadyError) e.Ue = true;
-			notifyStatus(e, t instanceof NotReadyError ? STATUS_PENDING : STATUS_ERROR, t, void 0, t instanceof NotReadyError ? e.q : void 0);
-		} finally {
-			tracking = l;
-			e.O = REACTIVE_NONE | (t ? e.O & REACTIVE_SNAPSHOT_STALE : 0);
-			context = u;
-		}
-		if (!e.fe) {
-			const u = e.ge;
-			let l = u !== null ? u.D : e.C;
-			if (l !== null) {
-				do
-					l = unlinkSubs(l);
-				while (l !== null);
-				if (u !== null) u.D = null;
-				else e.C = null;
-			}
-			const f = r ? e.ee : e.X === NOT_PENDING ? e.J : e.X;
-			if (!n && o || !e.ke || !e.ke(f, c)) {
-				const o = r ? e.ee : void 0;
-				if (t || n && activeTransition !== e.K || i) {
-					e.J = c;
-					if (r && i) {
-						e.ee = c;
-						e.X = c;
-					}
-				} else e.X = c;
-				if (r && !i && s && !e.he) e.ee = c;
-				if (!r || i || e.ee !== o) insertSubs(e, i || r);
-			} else if (r) e.X = c;
-			else if (e.o != a) for (let t = e.I; t !== null; t = t.h) insertIntoHeapHeight(t.p, t.p.O & REACTIVE_ZOMBIE ? zombieQueue : dirtyQueue);
-		}
-		currentOptimisticLane = f;
-		(!t || e.Se & STATUS_PENDING) && !e.K && !(activeTransition && r) && globalQueue.se.push(e);
-		e.K && n && activeTransition !== e.K && runInTransition(e.K, () => recompute(e));
-	}
-	function updateIfNecessary(e) {
-		if (e.O & REACTIVE_CHECK) for (let t = e.C; t; t = t.D) {
-			const n = t.m;
-			const i = n.V || n;
-			if (i.L) updateIfNecessary(i);
-			if (e.O & REACTIVE_DIRTY) break;
-		}
-		if (e.O & (REACTIVE_DIRTY | REACTIVE_OPTIMISTIC_DIRTY) || e.fe && e.Ee < clock && !e.ye) recompute(e);
-		e.O = e.O & (REACTIVE_IN_HEAP | 272);
-	}
-	function computed(e, t, n) {
-		const i = n?.transparent;
-		const r = {
-			id: n?.id ?? context?.id,
-			be: i,
-			ke: n?.equals != null ? n.equals : isEqual,
-			le: !!n?.ownedWrite,
-			Ne: n?.unobserved,
-			Ve: null,
-			F: context?.F ?? globalQueue,
-			Le: context?.Le ?? defaultContext,
-			we: 0,
-			L: e,
-			J: t,
-			o: 0,
-			A: null,
-			S: void 0,
-			T: null,
-			C: null,
-			ge: null,
-			I: null,
-			Ae: null,
-			i: context,
-			De: null,
-			Ce: null,
-			O: n?.lazy ? REACTIVE_LAZY : REACTIVE_NONE,
-			Se: STATUS_UNINITIALIZED,
-			Ee: clock,
-			X: NOT_PENDING,
-			me: null,
-			ve: null,
-			ye: null,
-			K: null
-		};
-		r.T = r;
-		const s = context?.t ? context.u : context;
-		if (context) {
-			const e = context.Ce;
-			if (e === null) context.Ce = r;
-			else {
-				r.De = e;
-				context.Ce = r;
-			}
-		}
-		if (s) r.o = s.o + 1;
-		!n?.lazy && recompute(r, true);
-		return r;
-	}
-	function isEqual(e, t) {
-		return e === t;
-	}
-	function untrack(e, t) {
-		if (!tracking && true) return e();
-		const n = tracking;
-		tracking = false;
-		try {
-			return e();
-		} finally {
-			tracking = n;
-		}
-	}
-	function read(e) {
-		let t = context;
-		if (t?.t) t = t.u;
-		const n = e;
-		if (typeof n.L === "function") {
-			const t = e;
-			if (t.O & REACTIVE_LAZY) {
-				t.O &= ~REACTIVE_LAZY;
-				recompute(t, true);
-			} else if (t.O & REACTIVE_DISPOSED) recompute(t, true);
-		}
-		const i = e.V || e;
-		if (t && tracking) {
-			link(e, t);
-			if (i.L) {
-				const n = e.O & REACTIVE_ZOMBIE;
-				if (i.o >= (n ? zombieQueue.P : dirtyQueue.P)) {
-					markNode(t);
-					markHeap(n ? zombieQueue : dirtyQueue);
-					updateIfNecessary(i);
-				}
-				const r = i.o;
-				if (r >= t.o && e.i !== t) t.o = r + 1;
-			}
-		}
-		if (i.Se & STATUS_PENDING) {
-			if (t && true) if (currentOptimisticLane) {
-				const n = i.q;
-				const r = findLane(currentOptimisticLane);
-				if (n && findLane(n) === r && !hasActiveOverride(i)) {
-					if (!tracking && e !== t) link(e, t);
-					throw i.fe;
-				}
-			} else {
-				if (!tracking && e !== t) link(e, t);
-				throw i.fe;
-			}
-			else if (t && i !== e && i.Se & STATUS_UNINITIALIZED) {
-				if (!tracking && e !== t) link(e, t);
-				throw i.fe;
-			} else if (!t && i.Se & STATUS_UNINITIALIZED) throw i.fe;
-		}
-		if (e.L && e.Se & STATUS_ERROR) if (e.Ee < clock) {
-			recompute(e);
-			return read(e);
-		} else throw e.fe;
-		if (e.ee !== void 0 && e.ee !== NOT_PENDING) return e.ee;
-		const r = !t || currentOptimisticLane !== null && (e.ee !== void 0 || e.q || !!(i.Se & STATUS_PENDING)) || e.X === NOT_PENDING || stale ? e.J : e.X;
-		if (!t && i === e && typeof n.L === "function" && !n.Pe && !(i.Se & STATUS_PENDING) && !n.i && !e.I) unobserved(e);
-		return r;
-	}
-	function setSignal(e, t) {
-		if (e.K && activeTransition !== e.K) globalQueue.initTransition(e.K);
-		const n = e.ee !== void 0 && true;
-		const i = e.ee !== void 0 && e.ee !== NOT_PENDING;
-		const r = n ? i ? e.ee : e.J : e.X === NOT_PENDING ? e.J : e.X;
-		if (typeof t === "function") t = t(r);
-		if (!(!e.ke || !e.ke(r, t) || !!(e.Se & STATUS_UNINITIALIZED))) {
-			if (n && i && e.L) {
-				insertSubs(e, true);
-				schedule();
-			}
-			return t;
-		}
-		if (n) {
-			const n = e.ee === NOT_PENDING;
-			if (!n) globalQueue.initTransition(resolveTransition(e));
-			if (n) {
-				e.X = e.J;
-				globalQueue.Y.push(e);
-			}
-			e.he = true;
-			e.q = getOrCreateLane(e);
-			e.ee = t;
-		} else {
-			if (e.X === NOT_PENDING) globalQueue.se.push(e);
-			e.X = t;
-		}
-		updatePendingSignal(e);
-		if (e.xe) setSignal(e.xe, t);
-		e.Ee = clock;
-		insertSubs(e, n);
-		schedule();
-		return t;
-	}
-	function computePendingState(e) {
-		const t = e;
-		const n = e.V;
-		if (n && e.X !== NOT_PENDING) return !n.ye && !(n.Se & STATUS_PENDING);
-		if (e.ee !== void 0 && e.ee !== NOT_PENDING) {
-			if (t.Se & STATUS_PENDING && !(t.Se & STATUS_UNINITIALIZED)) return true;
-			if (e._e) {
-				const t = e.q ? findLane(e.q) : null;
-				return !!(t && t.k.size > 0);
-			}
-			return true;
-		}
-		if (e.ee !== void 0 && e.ee === NOT_PENDING && !e._e) return false;
-		if (e.X !== NOT_PENDING && !(t.Se & STATUS_UNINITIALIZED)) return true;
-		return !!(t.Se & STATUS_PENDING && !(t.Se & STATUS_UNINITIALIZED));
-	}
-	function updatePendingSignal(e) {
-		if (e.Fe) {
-			const t = computePendingState(e);
-			const n = e.Fe;
-			setSignal(n, t);
-			if (!t && n.q) {
-				const t = resolveLane(e);
-				if (t && t.k.size > 0) {
-					const e = findLane(n.q);
-					if (e !== t) mergeLanes(t, e);
-				}
-				signalLanes.delete(n);
-				n.q = void 0;
-			}
-		}
-	}
-	function accessor(e) {
-		const t = read.bind(null, e);
-		t.$r = true;
-		return t;
-	}
-	function createMemo(e, t) {
-		return accessor(computed(e, void 0, t));
-	}
-	function isWrappable(e) {
-		return e != null && typeof e === "object" && !Object.isFrozen(e) && !(typeof Node !== "undefined" && e instanceof Node);
-	}
-	var DELETE = Symbol(0);
-	function updatePath(e, t, n = 0) {
-		let i, r = e;
-		if (n < t.length - 1) {
-			i = t[n];
-			const s = typeof i;
-			const o = Array.isArray(e);
-			if (Array.isArray(i)) {
-				for (let r = 0; r < i.length; r++) {
-					t[n] = i[r];
-					updatePath(e, t, n);
-				}
-				t[n] = i;
-				return;
-			} else if (o && s === "function") {
-				for (let r = 0; r < e.length; r++) if (i(e[r], r)) {
-					t[n] = r;
-					updatePath(e, t, n);
-				}
-				t[n] = i;
-				return;
-			} else if (o && s === "object") {
-				const { from: r = 0, to: s = e.length - 1, by: o = 1 } = i;
-				for (let i = r; i <= s; i += o) {
-					t[n] = i;
-					updatePath(e, t, n);
-				}
-				t[n] = i;
-				return;
-			} else if (n < t.length - 2) {
-				updatePath(e[i], t, n + 1);
-				return;
-			}
-			r = e[i];
-		}
-		let s = t[t.length - 1];
-		if (typeof s === "function") {
-			s = s(r);
-			if (s === r) return;
-		}
-		if (i === void 0 && s == void 0) return;
-		if (s === DELETE) delete e[i];
-		else if (i === void 0 || isWrappable(r) && isWrappable(s) && !Array.isArray(s)) {
-			const t = i !== void 0 ? e[i] : e;
-			const n = Object.keys(s);
-			for (let e = 0; e < n.length; e++) {
-				const i = n[e];
-				const r = Object.getOwnPropertyDescriptor(s, i);
-				if (r.get || r.set) Object.defineProperty(t, i, r);
-				else t[i] = r.value;
-			}
-		} else e[i] = s;
-	}
-	Object.assign(function storePath(...e) {
-		return (t) => {
-			updatePath(t, e);
-		};
-	}, { DELETE });
-	var effect = (fn, effectFn) => createRenderEffect(fn, effectFn, { transparent: true });
-	var memo = (fn, transparent) => transparent ? fn.$r ? fn : createMemo(() => fn(), { transparent: true }) : createMemo$1(() => fn());
-	function createRenderer({ createElement, createTextNode, createSentinel = () => createTextNode(""), isTextNode, replaceText, insertNode, removeNode, setProperty, getParentNode, getFirstChild, getNextSibling }) {
-		function insert(parent, accessor, marker, initial) {
+			effectOptions = named(effectOptions);
 			const multi = marker !== void 0;
 			if (multi && !initial) initial = [];
 			if (typeof accessor !== "function") {
 				accessor = normalize(accessor, multi, true);
-				if (typeof accessor !== "function") return insertExpression(parent, accessor, initial, marker);
+				if (typeof accessor !== "function") {
+					insertExpression(parent, accessor, initial, marker);
+					onUpdate && onUpdate(accessor);
+					return;
+				}
 			}
-			accessor = memo(accessor, true);
 			if (multi && initial.length === 0) {
 				const sentinel = createSentinel();
 				insertNode(parent, sentinel, marker);
 				initial = [sentinel];
 			}
-			effect(() => normalize(accessor, multi), (value, current = initial) => insertExpression(parent, value, current, marker));
+			let current = initial;
+			effect((prev) => {
+				const value = normalize(accessor(), multi, true);
+				if (typeof value !== "function") return value;
+				effect(() => normalize(value, multi), (inner) => {
+					insertExpression(parent, inner, current, marker);
+					current = inner;
+					onUpdate && onUpdate(current);
+				}, prev !== void 0 && !(options && options.schedule) ? {
+					...effectOptions,
+					schedule: true
+				} : effectOptions);
+				return INNER_OWNED;
+			}, (value) => {
+				if (value === INNER_OWNED) return;
+				insertExpression(parent, value, current, marker);
+				current = value;
+				onUpdate && onUpdate(current);
+			}, effectOptions);
 		}
 		function insertExpression(parent, value, current, marker) {
 			if (value === current) return;
@@ -3318,12 +3862,14 @@
 				if (tc === "string" || tc === "number") replaceText(getFirstChild(parent), value);
 				else cleanChildren(parent, current, marker, createTextNode(value));
 			} else if (value == null) cleanChildren(parent, current, marker);
-			else if (Array.isArray(value)) if (value.length === 0) cleanChildren(parent, current, marker);
-			else if (Array.isArray(current)) if (current.length === 0) appendNodes(parent, value, marker);
-			else reconcileArrays(parent, current, value);
-			else if (current == null) appendNodes(parent, value);
-			else reconcileArrays(parent, multi && current || [getFirstChild(parent)], value);
-			else if (Array.isArray(current)) cleanChildren(parent, current, multi ? marker : null, value);
+			else if (Array.isArray(value)) {
+				if (value.length === 0) cleanChildren(parent, current, marker);
+				else if (Array.isArray(current)) {
+					if (current.length === 0) appendNodes(parent, value, marker);
+					else reconcileArrays(parent, current, value);
+				} else if (current == null) appendNodes(parent, value);
+				else reconcileArrays(parent, multi && current || [getFirstChild(parent)], value);
+			} else if (Array.isArray(current)) cleanChildren(parent, current, multi ? marker : null, value);
 			else if (current == null || !getFirstChild(parent)) insertNode(parent, value);
 			else replaceNode(parent, value, getFirstChild(parent));
 		}
@@ -3334,6 +3880,7 @@
 			});
 			if (doNotUnwrap && typeof value === "function") return value;
 			if (multi && !Array.isArray(value)) value = [value != null ? value : ""];
+			else if (multi && !value.length) value = [createSentinel()];
 			if (Array.isArray(value)) for (let i = 0, len = value.length; i < len; i++) {
 				const item = value[i], t = typeof item;
 				if (t === "string" || t === "number") value[i] = createTextNode(item);
@@ -3342,13 +3889,14 @@
 		}
 		function reconcileArrays(parentNode, a, b) {
 			let bLength = b.length, aEnd = a.length, bEnd = bLength, aStart = 0, bStart = 0, after = getNextSibling(a[aEnd - 1]), map = null;
+			const isLive = (n) => n && getParentNode(n) === parentNode;
 			while (aStart < aEnd || bStart < bEnd) {
-				if (a[aStart] === b[bStart]) {
+				if (a[aStart] === b[bStart] && isLive(a[aStart])) {
 					aStart++;
 					bStart++;
 					continue;
 				}
-				while (a[aEnd - 1] === b[bEnd - 1]) {
+				while (a[aEnd - 1] === b[bEnd - 1] && isLive(a[aEnd - 1])) {
 					aEnd--;
 					bEnd--;
 				}
@@ -3360,10 +3908,12 @@
 					aStart++;
 				}
 				else if (a[aStart] === b[bEnd - 1] && b[bStart] === a[aEnd - 1]) {
-					const node = getNextSibling(a[--aEnd]);
-					insertNode(parentNode, b[bStart++], getNextSibling(a[aStart++]));
-					insertNode(parentNode, b[--bEnd], node);
-					a[aEnd] = b[bEnd];
+					const anchor = a[aStart];
+					do {
+						insertNode(parentNode, a[--aEnd], anchor);
+						bStart++;
+						if (aStart >= aEnd - 1 || bStart >= bEnd) break;
+					} while (a[aStart] === b[bEnd - 1] && b[bStart] === a[aEnd - 1]);
 				} else {
 					if (!map) {
 						map = /* @__PURE__ */ new Map();
@@ -3371,18 +3921,19 @@
 						while (i < bEnd) map.set(b[i], i++);
 					}
 					const index = map.get(a[aStart]);
-					if (index != null) if (bStart < index && index < bEnd) {
-						let i = aStart, sequence = 1, t;
-						while (++i < aEnd && i < bEnd) {
-							if ((t = map.get(a[i])) == null || t !== index + sequence) break;
-							sequence++;
-						}
-						if (sequence > index - bStart) {
-							const node = a[aStart];
-							while (bStart < index) insertNode(parentNode, b[bStart++], node);
-						} else replaceNode(parentNode, b[bStart++], a[aStart++]);
-					} else aStart++;
-					else removeNode(parentNode, a[aStart++]);
+					if (index != null) {
+						if (bStart < index && index < bEnd) {
+							let i = aStart, sequence = 1, t;
+							while (++i < aEnd && i < bEnd) {
+								if ((t = map.get(a[i])) == null || t !== index + sequence) break;
+								sequence++;
+							}
+							if (sequence > index - bStart) {
+								const node = a[aStart];
+								while (bStart < index) insertNode(parentNode, b[bStart++], node);
+							} else replaceNode(parentNode, b[bStart++], a[aStart++]);
+						} else aStart++;
+					} else removeNode(parentNode, a[aStart++]);
 				}
 			}
 		}
@@ -3412,50 +3963,170 @@
 			insertNode(parent, newNode, oldNode);
 			removeNode(parent, oldNode);
 		}
-		function spread(node, props, skipChildren) {
+		function collectNodes(value, nodes) {
+			if (Array.isArray(value)) for (let i = 0, len = value.length; i < len; i++) collectNodes(value[i], nodes);
+			else if (value != null && typeof value !== "string" && typeof value !== "number") nodes.push(value);
+			return nodes;
+		}
+		function collectMounted(parent, value) {
+			const nodes = collectNodes(value, []);
+			if (!nodes.length && (typeof value === "string" || typeof value === "number")) {
+				const node = getFirstChild(parent);
+				if (node) nodes.push(node);
+			}
+			return nodes;
+		}
+		function defaultCleanupNodes(parent, nodes) {
+			for (let i = 0, len = nodes.length; i < len; i++) {
+				const node = nodes[i];
+				if (getParentNode(node) === parent) removeNode(parent, node);
+			}
+		}
+		function spread(node, props, skipChildren, options) {
 			const prevProps = {};
-			props || (props = {});
-			if (!skipChildren) insert(node, () => props.children);
-			effect(() => {
-				const r = props.ref;
-				(typeof r === "function" || Array.isArray(r)) && ref(() => r, node);
-			}, () => {});
-			effect(() => {
-				const newProps = {};
-				for (const prop in props) {
-					if (prop === "children" || prop === "ref") continue;
-					newProps[prop] = props[prop];
-				}
-				return newProps;
-			}, (props) => {
-				for (const prop in prevProps) if (!(prop in props)) {
-					setProperty(node, prop, void 0, prevProps[prop]);
+			const apply = (newProps) => {
+				for (const prop in prevProps) {
+					if (prop in newProps) continue;
+					if (prop !== "ref") setProperty(node, prop, void 0, prevProps[prop]);
 					delete prevProps[prop];
 				}
-				for (const prop in props) {
-					const value = props[prop];
+				for (const prop in newProps) {
+					const value = newProps[prop];
 					if (value === prevProps[prop]) continue;
-					setProperty(node, prop, value, prevProps[prop]);
+					if (prop === "ref") (typeof value === "function" || Array.isArray(value)) && ref(() => value, node);
+					else setProperty(node, prop, value, prevProps[prop]);
 					prevProps[prop] = value;
 				}
-			});
+			};
+			const childrenOptions = () => named(options);
+			if (Array.isArray(props)) {
+				if (!skipChildren) insert(node, () => {
+					for (let i = props.length - 1; i >= 0; i--) {
+						const s = resolveSource(props[i]);
+						if (s != null && entryHas(s, "children")) return entryGet(s, "children");
+					}
+				}, void 0, void 0, childrenOptions());
+				effect(() => collectSources({}, props, void 0), apply, named(options));
+				return prevProps;
+			}
+			if (!skipChildren) {
+				if (typeof props !== "function" && props != null && hasStaticKeys(props)) {
+					const desc = Object.getOwnPropertyDescriptor(props, "children");
+					if (desc !== void 0) {
+						if (desc.get === void 0) insert(node, desc.value, void 0, void 0, childrenOptions());
+						else insert(node, () => props.children, void 0, void 0, childrenOptions());
+					}
+				} else insert(node, () => {
+					const s = resolveSource(props);
+					return s != null ? entryGet(s, "children") : void 0;
+				}, void 0, void 0, childrenOptions());
+			}
+			effect(() => {
+				const s = resolveSource(props);
+				const newProps = {};
+				const table = resolvedTable(s);
+				if (table !== void 0) {
+					for (const [prop, leaf] of table) {
+						if (typeof prop !== "string" || prop === "children") continue;
+						newProps[prop] = leaf[prop];
+					}
+					return newProps;
+				}
+				if (s != null) {
+					const view = viewOf(s);
+					if (view instanceof OmitView) collectProps(newProps, view, 1);
+					else if (view !== void 0) collectSources(newProps, view.sources, view.kinds);
+					else collectProps(newProps, s, $PROXY in s ? 2 : 0);
+				}
+				return newProps;
+			}, apply, named(options));
 			return prevProps;
+		}
+		function resolveSource(s) {
+			return typeof s === "function" ? s() : s;
+		}
+		function entryHas(s, key) {
+			const view = viewOf(s);
+			return view instanceof OmitView ? sourceHas(view, 1, key) : key in s;
+		}
+		function entryGet(s, key) {
+			const view = viewOf(s);
+			return view instanceof OmitView ? sourceGet(view, 1, key) : s[key];
+		}
+		function collectSources(out, sources, kinds) {
+			const resolved = [];
+			const resolvedKinds = [];
+			for (let i = 0; i < sources.length; i++) pushEntry(resolved, resolvedKinds, sources[i], kinds !== void 0 ? kinds[i] : 3);
+			for (let i = 0; i < resolved.length; i++) collectProps(out, resolved[i], resolvedKinds[i], resolved, resolvedKinds, i + 1);
+			return out;
+		}
+		function pushEntry(resolved, kinds, s, kind) {
+			if (kind !== 3) {
+				resolved.push(s);
+				kinds.push(kind);
+				return;
+			}
+			s = resolveSource(s);
+			if (s == null) return;
+			const view = viewOf(s);
+			if (view instanceof OmitView) {
+				resolved.push(view);
+				kinds.push(1);
+			} else if (view !== void 0) {
+				const f = view.sources, k = view.kinds;
+				for (let j = 0; j < f.length; j++) pushEntry(resolved, kinds, f[j], k[j]);
+			} else {
+				resolved.push(s);
+				kinds.push($PROXY in s ? 2 : 0);
+			}
+		}
+		function collectProps(out, s, kind, later, laterKinds, from) {
+			const keys = sourceKeys(s, kind);
+			outer: for (let i = 0; i < keys.length; i++) {
+				const prop = keys[i];
+				if (typeof prop !== "string" || prop === "children") continue;
+				if (later !== void 0) {
+					for (let j = from; j < later.length; j++) if (sourceHas(later[j], laterKinds[j], prop)) continue outer;
+				}
+				out[prop] = sourceGet(s, kind, prop);
+			}
+			return out;
 		}
 		function applyRef(r, element) {
 			Array.isArray(r) ? r.flat(Infinity).forEach((f) => f && f(element)) : r(element);
 		}
 		function ref(fn, element) {
-			const resolved = untrack$1(fn);
-			runWithOwner(null, () => applyRef(resolved, element));
+			const resolved = untrack(fn);
+			runRefCallback(() => applyRef(resolved, element));
 		}
 		return {
 			render(code, element) {
-				let disposer;
-				createRoot((dispose) => {
-					disposer = dispose;
-					insert(element, code());
-				});
-				return disposer;
+				let disposer, disposed = false, mounted = [];
+				const cleanup = cleanupNodes || defaultCleanupNodes;
+				try {
+					createRoot((dispose) => {
+						disposer = dispose;
+						const tree = code();
+						insert(element, () => tree, void 0, void 0, {
+							schedule: true,
+							onUpdate(value) {
+								mounted = collectMounted(element, value);
+							}
+						});
+					});
+					flush();
+				} catch (err) {
+					if (disposer) disposer();
+					cleanup(element, mounted);
+					throw err;
+				}
+				return () => {
+					if (disposed) return;
+					disposed = true;
+					disposer();
+					cleanup(element, mounted);
+					mounted = [];
+				};
 			},
 			insert,
 			spread,
@@ -3474,20 +4145,46 @@
 			ref
 		};
 	}
-	//#endregion
-	//#region ../../packages/solid-fuse/dist/index.js
-	var h$1 = /* @__PURE__ */ new Map(), g$1;
-	function _$1(e, t) {
-		h$1.set(e, t);
+	// ../../packages/solid-fuse/dist/index.js
+	function p(e) {
+		let t = globalThis.__fuseDevServer;
+		if (!t) console.error(e);
+		else try {
+			let n = e instanceof Error ? e : Error(String(e)), r = oe(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			fetch(`${t}/__fuse_error`, {
+				method: "POST",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify({
+					message: n.message,
+					stack: n.stack ?? "",
+					causeStack: i
+				})
+			}).catch(() => console.error(e));
+		} catch {
+			console.error(e);
+		}
 	}
-	function v$1(e, t = {}) {
+	function oe(e) {
+		let t = /* @__PURE__ */ new Set([e]), n = e;
+		for (;;) {
+			let e = n.cause;
+			if (!(e instanceof Error) || t.has(e)) return n;
+			t.add(e), n = e;
+		}
+	}
+	var m = /* @__PURE__ */ new Map();
+	var h;
+	function g(e, t) {
+		m.set(e, t);
+	}
+	function _(e, t = {}) {
 		fjs.bridge_call({
 			channel: e,
 			...t
 		});
 	}
-	function y$1(e, t = {}, n) {
-		b$1?.();
+	function se(e, t = {}, n) {
+		v?.();
 		let r = n?.timeout ?? 3e4, i = fjs.bridge_call({
 			channel: e,
 			...t
@@ -3504,51 +4201,51 @@
 			});
 		});
 	}
-	function ne$1(e) {
-		g$1 = e;
+	function ce(e) {
+		h = e;
 	}
-	var b$1;
-	function x$1(e) {
-		b$1 = e;
+	var v;
+	function le(e) {
+		v = e;
 	}
 	globalThis.__dispatch = async (e, t) => {
-		let n = h$1.get(e);
+		let n = m.get(e);
 		try {
 			let e = n ? await n(t) : void 0;
-			return g$1?.(), e;
+			return h?.(), e;
 		} catch (e) {
-			throw g$1?.(), e;
+			h?.(), p(e);
 		}
 	};
-	var S$1 = {
-		send: v$1,
-		call: y$1,
-		on: _$1
+	var y = {
+		send: _,
+		call: se,
+		on: g
 	};
-	function C$1(e) {
+	function b(e) {
 		"@babel/helpers - typeof";
-		return C$1 = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return b = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, C$1(e);
+		}, b(e);
 	}
-	function w$1(e, t) {
-		if (C$1(e) != "object" || !e) return e;
+	function ue(e, t) {
+		if (b(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (C$1(r) != "object") return r;
+			if (b(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function re$1(e) {
-		var t = w$1(e, "string");
-		return C$1(t) == "symbol" ? t : t + "";
+	function de(e) {
+		var t = ue(e, "string");
+		return b(t) == "symbol" ? t : t + "";
 	}
-	function T$1(e, t, n) {
-		return (t = re$1(t)) in e ? Object.defineProperty(e, t, {
+	function x(e, t, n) {
+		return (t = de(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -3560,7 +4257,9 @@
 		globalThis.URL = function(t, n) {
 			if (n !== void 0) {
 				let r = typeof n == "string" ? n : n.href, i = typeof t == "string" ? t : t.href;
-				return /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(i) ? new e(i) : new e((r.endsWith("/") ? r : r + "/") + i);
+				if (/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(i)) return new e(i);
+				let a = r.endsWith("/") ? r : r + "/";
+				return new e(a + i);
 			}
 			return new e(typeof t == "string" ? t : t.href);
 		}, Object.setPrototypeOf(globalThis.URL, e), globalThis.URL.prototype = e.prototype;
@@ -3569,7 +4268,7 @@
 		let e = /* @__PURE__ */ new Map(), t = 0;
 		class n {
 			constructor(n, r) {
-				T$1(this, "_id", void 0), T$1(this, "url", void 0), T$1(this, "readyState", 0), T$1(this, "protocol", ""), T$1(this, "binaryType", "blob"), T$1(this, "bufferedAmount", 0), T$1(this, "extensions", ""), T$1(this, "onopen", null), T$1(this, "onmessage", null), T$1(this, "onclose", null), T$1(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), v$1("_ws", {
+				x(this, "_id", void 0), x(this, "url", void 0), x(this, "readyState", 0), x(this, "protocol", ""), x(this, "binaryType", "blob"), x(this, "bufferedAmount", 0), x(this, "extensions", ""), x(this, "onopen", null), x(this, "onmessage", null), x(this, "onclose", null), x(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), _("_ws", {
 					op: "open",
 					id: this._id,
 					url: n,
@@ -3578,14 +4277,14 @@
 			}
 			send(e) {
 				if (this.readyState !== 1) throw Error("WebSocket is not open");
-				v$1("_ws", {
+				_("_ws", {
 					op: "send",
 					id: this._id,
 					data: e
 				});
 			}
 			close(e, t) {
-				this.readyState === 2 || this.readyState === 3 || (this.readyState = 2, v$1("_ws", {
+				this.readyState !== 2 && this.readyState !== 3 && (this.readyState = 2, _("_ws", {
 					op: "close",
 					id: this._id,
 					code: e ?? 1e3,
@@ -3598,7 +4297,7 @@
 				return !0;
 			}
 		}
-		T$1(n, "CONNECTING", 0), T$1(n, "OPEN", 1), T$1(n, "CLOSING", 2), T$1(n, "CLOSED", 3), _$1("_wsEvent", (t) => {
+		x(n, "CONNECTING", 0), x(n, "OPEN", 1), x(n, "CLOSING", 2), x(n, "CLOSED", 3), g("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -3618,35 +4317,101 @@
 						wasClean: t.wasClean ?? !0
 					}), e.delete(t.id);
 					break;
-				case "error":
-					n.onerror?.({
-						type: "error",
-						message: t.message
-					});
-					break;
+				case "error": n.onerror?.({
+					type: "error",
+					message: t.message
+				});
 			}
 		}), globalThis.WebSocket = n;
 	}
-	var E$1 = 0, D$1, O$1 = class {
+	{
+		let e = (e) => {
+			if (typeof e == "string") return e;
+			if (e instanceof Error) return e.stack ?? `${e.name}: ${e.message}`;
+			if (typeof e == "object" && e) try {
+				return JSON.stringify(e);
+			} catch {
+				return String(e);
+			}
+			return String(e);
+		}, t = (t) => {
+			if (t.length === 0) return "";
+			let n = t[0];
+			if (typeof n != "string" || !n.includes("%")) return t.map(e).join(" ");
+			let r = 1, i = n.replace(/%[sdifoOc%]/g, (n) => {
+				if (n === "%%") return "%";
+				if (r >= t.length) return n;
+				let i = t[r++];
+				switch (n) {
+					case "%c": return "";
+					case "%s": return String(i);
+					case "%d":
+					case "%i": return String(parseInt(i, 10));
+					case "%f": return String(parseFloat(i));
+					default: return e(i);
+				}
+			});
+			for (; r < t.length; r++) i += " " + e(t[r]);
+			return i;
+		}, n = (e, n) => _("_log", { message: e + t(n) }), r = () => {};
+		globalThis.console = {
+			log: (...e) => n("", e),
+			info: (...e) => n("", e),
+			debug: (...e) => n("", e),
+			dir: (...e) => n("", e),
+			trace: (...e) => n("[TRACE] ", [...e, (/* @__PURE__ */ Error()).stack]),
+			warn: (...e) => n("[WARN] ", e),
+			error: (...e) => n("[ERROR] ", e),
+			group: (...e) => n("", e),
+			groupCollapsed: (...e) => n("", e),
+			groupEnd: r,
+			table: (...e) => n("", e),
+			assert: (e, ...t) => {
+				e || n("[ASSERT] ", t);
+			},
+			count: r,
+			countReset: r,
+			time: r,
+			timeEnd: r,
+			timeLog: r
+		};
+	}
+	var S = globalThis.__fuseHost;
+	if (!S) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
+	var [C, w] = createSignal(S.brightness);
+	g("_brightness", (e) => w(e.value));
+	var T = {
+		brightness: C,
+		platform: S.platform,
+		mode: S.mode
+	};
+	var fe = 0;
+	var E;
+	var D = class {
 		constructor(e) {
-			T$1(this, "id", E$1++), T$1(this, "props", {}), T$1(this, "children", []), T$1(this, "parent", void 0), this.type = e;
+			x(this, "type", void 0), x(this, "id", fe++), x(this, "props", {}), x(this, "children", []), x(this, "parent", void 0), this.type = e;
 		}
-	}, k$1 = /* @__PURE__ */ new Map();
-	_$1("_functionCall", (e) => {
-		k$1.get(`${e.nodeId}:${e.name}`)?.(e.value);
+	};
+	var O = /* @__PURE__ */ new Map();
+	g("_functionCall", (e) => {
+		let t = `${e.nodeId}:${e.name}`;
+		O.get(t)?.(e.value);
 	});
-	var A$1 = [], j$1 = new O$1("root"), M$1 = !1, N$1 = !1;
-	function P$1() {
-		flush$1(), M$1 = !1, A$1.length !== 0 && (v$1("_ops", { ops: A$1.slice() }), A$1.length = 0);
+	var k = [];
+	var A = new D("root");
+	var j = !1;
+	var M = !1;
+	function N() {
+		flush(), j = !1, k.length !== 0 && (_("_ops", { json: JSON.stringify(k) }), k.length = 0);
 	}
-	function F$1() {
-		M$1 || N$1 || (M$1 = !0, Promise.resolve().then(P$1));
+	function P() {
+		j || M || (j = !0, Promise.resolve().then(N));
 	}
-	ne$1(P$1), x$1(P$1);
-	var { render: ie$1, effect: ae$1, memo: oe$1, createComponent: I$1, createElement: L$1, createTextNode: R$1, insertNode: z$1, insert: B$1, spread: V$1, setProp: H$1, mergeProps: U$1, ...W$1 } = createRenderer({
+	ce(N), le(N);
+	var { render: F, effect: I, memo: L, createComponent: R, createElement: z, createTextNode: B, insertNode: V, insert: H, spread: U, setProp: W, mergeProps: G, ...pe } = createRenderer({
 		createElement(e) {
-			let t = new O$1(e), n = {};
-			return flutterMode !== "release" && D$1 && (n._component = D$1), A$1.push({
+			let t = new D(e), n = {};
+			return T.mode !== "release" && E && (n._component = E), k.push({
 				op: "create",
 				id: t.id,
 				type: e,
@@ -3654,8 +4419,8 @@
 			}), t;
 		},
 		createTextNode(e) {
-			let t = new O$1("__text__");
-			return t.props.text = e, A$1.push({
+			let t = new D("__text__");
+			return t.props.text = e, k.push({
 				op: "create",
 				id: t.id,
 				type: "__text__",
@@ -3663,41 +4428,37 @@
 			}), t;
 		},
 		replaceText(e, t) {
-			e.props.text = t, A$1.push({
+			e.props.text = t, k.push({
 				op: "setText",
 				id: e.id,
 				text: t
-			}), F$1();
+			}), P();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
 		setProperty(e, t, n) {
-			if (typeof n == "function") {
-				k$1.set(`${e.id}:${t}`, n), e.props[t] = !0, A$1.push({
-					op: "setProp",
-					id: e.id,
-					name: t,
-					value: !0
-				});
-				return;
-			}
-			let r = n instanceof O$1 ? n : n?.node instanceof O$1 ? n.node : null;
-			if (r) {
-				e.props[t] = n, A$1.push({
+			if (typeof n == "function") O.set(`${e.id}:${t}`, n), e.props[t] = !0, k.push({
+				op: "setProp",
+				id: e.id,
+				name: t,
+				value: !0
+			});
+			else {
+				let r = n instanceof D ? n : n?.node instanceof D ? n.node : null;
+				e.props[t] = n, k.push(r ? {
 					op: "setProp",
 					id: e.id,
 					name: t,
 					value: { _node: r.id }
+				} : {
+					op: "setProp",
+					id: e.id,
+					name: t,
+					value: n
 				});
-				return;
 			}
-			e.props[t] = n, A$1.push({
-				op: "setProp",
-				id: e.id,
-				name: t,
-				value: n
-			});
+			P();
 		},
 		insertNode(e, t, n) {
 			t.parent = e;
@@ -3706,20 +4467,20 @@
 				let i = e.children.indexOf(n);
 				i >= 0 ? (e.children.splice(i, 0, t), r = i) : (e.children.push(t), r = e.children.length - 1);
 			} else e.children.push(t), r = e.children.length - 1;
-			A$1.push({
+			k.push({
 				op: "insert",
 				parentId: e.id,
 				childId: t.id,
 				index: r
-			}), F$1();
+			}), P();
 		},
 		removeNode(e, t) {
 			let n = e.children.indexOf(t);
-			n >= 0 && e.children.splice(n, 1), t.parent = void 0, A$1.push({
+			n >= 0 && e.children.splice(n, 1), t.parent = void 0, k.push({
 				op: "remove",
 				parentId: e.id,
 				childId: t.id
-			}), F$1();
+			}), P();
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -3734,211 +4495,199 @@
 			return t.children[n + 1];
 		}
 	});
-	function G$1(e, t) {
-		if (flutterMode === "release") return I$1(e, t);
-		let n = D$1;
-		D$1 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+	function K(e, t) {
+		if (T.mode === "release") return R(e, t);
+		let n = E;
+		E = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
-			return I$1(e, t);
+			return R(e, t);
 		} finally {
-			D$1 = n;
+			E = n;
 		}
 	}
-	function K$1(e) {
-		N$1 = !0;
-		let t = ie$1(e, j$1);
-		return N$1 = !1, P$1(), () => {
+	function me(e) {
+		M = !0;
+		let t;
+		try {
+			t = F(e, A);
+		} catch (e) {
+			return M = !1, p(e), () => {};
+		}
+		return M = !1, N(), () => {
 			typeof t == "function" && t();
-			for (let e of j$1.children) A$1.push({
+			for (let e of A.children) k.push({
 				op: "remove",
-				parentId: j$1.id,
+				parentId: A.id,
 				childId: e.id
 			});
-			j$1.children = [], k$1.clear();
+			A.children = [], O.clear();
 		};
 	}
-	W$1.ref;
-	function q$1(e, t) {
-		let n = createMemo$1(e);
-		return createMemo$1(() => {
+	pe.ref;
+	function q(e, t) {
+		let n = createMemo(e);
+		return createMemo(() => {
 			let e = n();
 			switch (typeof e) {
-				case "function": return untrack$1(() => e(t));
+				case "function": return untrack(() => e(t));
 				case "string": {
-					let n = L$1(e);
-					return V$1(n, t), n;
+					let n = z(e);
+					return U(n, t), n;
 				}
 			}
 		});
 	}
-	function J$1(e) {
-		return q$1(() => e.component, omit(e, "component"));
+	function J(e) {
+		return q(() => e.component, omit(e, "component"));
 	}
-	function Y$1({ child: e, ...t }) {
+	function Y({ child: e, ...t }) {
 		return {
 			type: "materialPage",
 			child: e,
 			props: t
 		};
 	}
-	var X$1 = createContext();
-	function Z$1(e = {}) {
-		let t = 0, n = untrack$1(() => {
+	var X = createContext();
+	function Z(e = {}) {
+		let t = 0, n = untrack(() => {
 			let t = e.initialPage;
-			return typeof t == "function" ? Y$1({ child: t }) : t;
-		}), [r, i] = createSignal(n ? [{
+			return typeof t == "function" ? Y({ child: t }) : t;
+		}), [i, a] = createSignal(n ? [{
 			id: t++,
-			cfg: n,
+			config: n,
 			resolve: () => {}
-		}] : []);
-		function a(e) {
-			return new Promise((n) => {
+		}] : [], { ownedWrite: !0 });
+		function o(e) {
+			let n = typeof e == "function" ? Y({ child: e }) : e;
+			return new Promise((e) => {
 				let r = {
 					id: t++,
-					cfg: e,
-					resolve: n
+					config: n,
+					resolve: e
 				};
-				i((e) => [...e, r]);
+				a((e) => [...e, r]);
 			});
 		}
-		function o(e, t) {
+		function s(e, t) {
 			let n;
-			i((t) => t.filter((t) => t.id === e ? (n = t, !1) : !0)), n?.resolve(t);
+			a((t) => t.filter((t) => t.id !== e || (n = t, !1))), n?.resolve(t);
 		}
 		return getOwner() && onCleanup(() => {
-			for (let e of r()) e.resolve(null);
-			i([]);
+			for (let e of i()) e.resolve(null);
+			a([]);
 		}), {
-			pages: r,
-			stackDepth: () => r().length,
-			push: (e) => a(e),
+			pages: i,
+			stackDepth: () => i().length,
+			push: (e) => o(e),
 			pop: (e) => {
-				let t = r();
-				if (t.length <= 1) {
-					console.warn("[Fuse] nav.pop() ignored — cannot pop the root page");
-					return;
-				}
-				o(t[t.length - 1].id, e);
+				let t = i();
+				t.length <= 1 ? console.warn("[Fuse] nav.pop() ignored — cannot pop the root page") : s(t[t.length - 1].id, e);
 			},
 			pushReplacement: (e, t) => {
-				let n = r();
-				return n.length > 0 && o(n[n.length - 1].id, t), a(e);
+				let n = i();
+				return n.length > 0 && s(n[n.length - 1].id, t), o(e);
 			},
 			popUntil: (e) => {
-				let t = r();
+				let t = i();
 				if (e) {
-					let n = t.findLastIndex((t) => t.cfg.props.name === e);
+					let n = t.findLastIndex((t) => t.config.props.name === e);
 					if (n < 0) {
 						console.warn(`[Fuse] nav.popUntil(${JSON.stringify(e)}) ignored — no page with that name on the stack`);
 						return;
 					}
 					let r = t.slice(n + 1);
-					i(t.slice(0, n + 1));
+					a(t.slice(0, n + 1));
 					for (let e of r) e.resolve(null);
 				} else {
 					let e = t.slice(1);
-					i(t.slice(0, 1));
+					a(t.slice(0, 1));
 					for (let t of e) t.resolve(null);
 				}
 			},
 			replaceAll: (e) => {
 				if (e.length === 0) return console.warn("[Fuse] nav.replaceAll([]) ignored — would leave the navigator empty"), [];
-				let t = r();
-				i([]);
+				let t = i();
+				a([]);
 				for (let e of t) e.resolve(null);
-				return e.map((e) => a(e));
+				return e.map((e) => o(e));
 			},
-			onDidRemovePage: (e) => o(e, null)
+			onDidRemovePage: (e) => s(e, null)
 		};
 	}
-	function ce$1() {
-		let e = useContext(X$1);
+	function ge() {
+		let e = useContext(X);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function le$1(e) {
-		let t = untrack$1(() => e.controller ?? Z$1({ initialPage: e.initialPage }));
-		return G$1(X$1, {
+	function _e(e) {
+		let t = untrack(() => e.controller ?? Z({ initialPage: e.initialPage }));
+		return K(X, {
 			value: t,
 			get children() {
-				var e = L$1("navigator");
-				return H$1(e, "onDidRemovePage", (e) => t.onDidRemovePage(e.id)), B$1(e, G$1(For, {
+				var e = z("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
+				return H(e, K(For, {
 					get each() {
 						return t.pages();
 					},
-					children: (e) => {
-						let t = e();
-						return G$1(J$1, U$1({
-							get component() {
-								return t.cfg.type;
-							},
-							get _pageId() {
-								return t.id;
-							}
-						}, () => t.cfg.props, { get children() {
-							return t.cfg.child();
-						} }));
-					}
+					keyed: (e) => e.id,
+					children: (e) => K(J, G({
+						get component() {
+							return e().config.type;
+						},
+						get _pageId() {
+							return e().id;
+						}
+					}, () => e().config.props, { get children() {
+						return e().config.child();
+					} }))
 				})), e;
 			}
 		});
 	}
-	function ue$1(e) {
-		return (() => {
-			var t = L$1("view");
-			return V$1(t, e, !1), t;
-		})();
+	function ve(e) {
+		var t = z("view");
+		return U(t, e, !1), t;
 	}
-	function de$1(e) {
-		return (() => {
-			var t = L$1("text");
-			return V$1(t, e, !1), t;
-		})();
+	function ye(e) {
+		var t = z("text");
+		return U(t, e, !1), t;
 	}
-	function Q$1(e) {
-		return (() => {
-			var t = L$1("icon");
-			return V$1(t, e, !1), t;
-		})();
+	function be(e) {
+		var t = z("icon");
+		return U(t, e, !1), t;
 	}
-	function fe$1(e) {
-		return (() => {
-			var t = L$1("gestureDetector");
-			return V$1(t, e, !1), t;
-		})();
+	function Q(e) {
+		var t = z("gestureDetector");
+		return U(t, e, !1), t;
 	}
-	function pe$1(e) {
-		return (() => {
-			var t = L$1("scrollView");
-			return V$1(t, e, !1), t;
-		})();
+	function xe(e) {
+		var t = z("scrollView");
+		return U(t, e, !1), t;
 	}
-	function ge$1(e) {
-		return (() => {
-			var t = L$1("textField");
-			return V$1(t, e, !1), t;
-		})();
+	function we(e) {
+		var t = z("textField");
+		return U(t, e, !1), t;
 	}
-	function $$1(e, t = {}) {
-		let n = new O$1(e), r = {}, i = [];
-		for (let [e, a] of Object.entries(t)) typeof a == "function" || a instanceof O$1 || a?.node instanceof O$1 ? i.push([e, a]) : (r[e] = a, n.props[e] = a);
-		A$1.push({
+	function $(e, t = {}) {
+		let n = new D(e), r = {}, i = [];
+		for (let [e, a] of Object.entries(t)) typeof a == "function" || a instanceof D || a?.node instanceof D ? i.push([e, a]) : (r[e] = a, n.props[e] = a);
+		k.push({
 			op: "create",
 			id: n.id,
 			type: e,
 			props: r
 		});
-		for (let [e, t] of i) H$1(n, e, t);
-		F$1();
+		for (let [e, t] of i) W(n, e, t);
+		P();
 		let a = !1, o = () => {
-			a || (a = !0, A$1.push({
+			a || (a = !0, k.push({
 				op: "dispose",
 				id: n.id
-			}), F$1());
+			}), P());
 		};
 		return getOwner() && onCleanup(o), {
 			node: n,
-			call: (e, t, r) => S$1.call("_handleCall", {
+			call: (e, t, r) => y.call("_handleCall", {
 				node: n.id,
 				method: e,
 				value: t
@@ -3946,8 +4695,8 @@
 			dispose: o
 		};
 	}
-	function _e$1(e = {}) {
-		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $$1("scrollController", {
+	function Te(e = {}) {
+		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
 			...e,
 			setScrollOffset: n
 		});
@@ -3962,8 +4711,8 @@
 			dispose: a
 		};
 	}
-	function ve$1() {
-		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $$1("focusNode", { setHasFocus: t });
+	function Ee() {
+		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
 		return {
 			node: n,
 			hasFocus: e,
@@ -3972,15 +4721,14 @@
 			dispose: i
 		};
 	}
-	//#endregion
-	//#region src/ui.tsx
+	// src/ui.tsx
 	function Button(props) {
-		return G$1(fe$1, {
+		return K(Q, {
 			get onTap() {
 				return props.onTap;
 			},
 			get children() {
-				return G$1(ue$1, {
+				return K(ve, {
 					padding: {
 						horizontal: 16,
 						vertical: 12
@@ -3990,7 +4738,7 @@
 						borderRadius: 8
 					},
 					get children() {
-						return G$1(de$1, {
+						return K(ye, {
 							color: "white",
 							fontWeight: "semiBold",
 							get children() {
@@ -4003,7 +4751,7 @@
 		});
 	}
 	function Row(props) {
-		return G$1(ue$1, {
+		return K(ve, {
 			get flex() {
 				return {
 					direction: "horizontal",
@@ -4017,19 +4765,19 @@
 		});
 	}
 	function MenuItem(props) {
-		return G$1(fe$1, {
+		return K(Q, {
 			get onTap() {
 				return props.onTap;
 			},
 			get children() {
-				return G$1(ue$1, {
+				return K(ve, {
 					padding: 16,
 					decoration: { border: { bottom: {
 						width: 1,
 						color: "#E5E7EB"
 					} } },
 					get children() {
-						return G$1(de$1, {
+						return K(ye, {
 							fontSize: 16,
 							get children() {
 								return props.label;
@@ -4040,46 +4788,158 @@
 			}
 		});
 	}
-	//#endregion
-	//#region ../../packages/solid-fuse/dist/icons/material.js
+	// src/screens/counter.tsx
+	function CounterScreen() {
+		const [count, setCount] = createSignal(0);
+		return K(ve, {
+			flex: {
+				direction: "vertical",
+				align: "center",
+				gap: 32
+			},
+			padding: 24,
+			get children() {
+				return [K(ye, {
+					fontSize: 96,
+					fontWeight: "bold",
+					color: "#2563eb",
+					get children() {
+						return count();
+					}
+				}), K(ve, {
+					flex: {
+						direction: "horizontal",
+						gap: 16,
+						align: "center"
+					},
+					get children() {
+						return [
+							K(Q, {
+								onTap: () => setCount((c) => c - 1),
+								get children() {
+									return K(ve, {
+										width: 64,
+										height: 64,
+										decoration: {
+											color: "#ef4444",
+											borderRadius: 32
+										},
+										flex: {
+											align: "center",
+											justify: "center"
+										},
+										get children() {
+											return K(ye, {
+												fontSize: 28,
+												fontWeight: "bold",
+												color: "#fff",
+												children: "−"
+											});
+										}
+									});
+								}
+							}),
+							K(Q, {
+								onTap: () => setCount(0),
+								get children() {
+									return K(ve, {
+										height: 64,
+										padding: { horizontal: 24 },
+										decoration: {
+											color: "#6b7280",
+											borderRadius: 32
+										},
+										flex: {
+											align: "center",
+											justify: "center"
+										},
+										get children() {
+											return K(ye, {
+												fontSize: 15,
+												fontWeight: "semiBold",
+												color: "#fff",
+												children: "Reset"
+											});
+										}
+									});
+								}
+							}),
+							K(Q, {
+								onTap: () => setCount((c) => c + 1),
+								get children() {
+									return K(ve, {
+										width: 64,
+										height: 64,
+										decoration: {
+											color: "#22c55e",
+											borderRadius: 32
+										},
+										flex: {
+											align: "center",
+											justify: "center"
+										},
+										get children() {
+											return K(ye, {
+												fontSize: 28,
+												fontWeight: "bold",
+												color: "#fff",
+												children: "+"
+											});
+										}
+									});
+								}
+							})
+						];
+					}
+				})];
+			}
+		});
+	}
+	// ../../packages/solid-fuse/dist/icons/material.js
 	var e = (e, t = !1) => ({
 		codePoint: e,
 		fontFamily: "MaterialIcons",
 		...t && { matchTextDirection: !0 }
-	}), EY = /* @__PURE__ */ e(57947), lre = /* @__PURE__ */ e(58136), coe = /* @__PURE__ */ e(58172), Bge = /* @__PURE__ */ e(58286), x4e = /* @__PURE__ */ e(58727), _6e = /* @__PURE__ */ e(58751), est = /* @__PURE__ */ e(58873);
-	//#endregion
-	//#region src/screens/text-field.tsx
+	});
+	var EY = /*#__PURE__*/ e(57947);
+	var lre = /*#__PURE__*/ e(58136);
+	var coe = /*#__PURE__*/ e(58172);
+	var Bge = /*#__PURE__*/ e(58286);
+	var x4e = /*#__PURE__*/ e(58727);
+	var _6e = /*#__PURE__*/ e(58751);
+	var est = /*#__PURE__*/ e(58873);
+	// src/screens/text-field.tsx
 	function TextFieldScreen() {
-		const nav = ce$1();
+		const nav = ge();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = ve$1();
-		return G$1(pe$1, {
+		const focus = Ee();
+		return K(xe, {
 			flex: {
 				direction: "vertical",
 				gap: 16
 			},
 			get children() {
 				return [
-					G$1(ue$1, {
+					K(ve, {
 						padding: {
 							horizontal: 16,
 							top: 16,
 							bottom: 8
 						},
 						get children() {
-							return [G$1(de$1, {
+							return [K(ye, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "textField"
-							}), G$1(de$1, {
+							}), K(ye, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Reactive value, focus control, filtering"
 							})];
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
@@ -4087,18 +4947,18 @@
 						},
 						get children() {
 							return [
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											G$1(de$1, {
+											K(ye, {
 												fontWeight: "semiBold",
 												children: "Name"
 											}),
-											G$1(ge$1, {
+											K(we, {
 												get value() {
 													return name();
 												},
@@ -4109,22 +4969,24 @@
 													contentPadding: 12
 												}
 											}),
-											G$1(de$1, {
+											K(ye, {
 												color: "#6B7280",
 												fontSize: 13,
 												get children() {
 													return [
 														"value = \"",
-														oe$1(() => name()),
+														L(() => {
+															return name();
+														}),
 														"\""
 													];
 												}
 											}),
-											G$1(Row, { get children() {
-												return [G$1(Button, {
+											K(Row, { get children() {
+												return [K(Button, {
 													onTap: () => setName("Override!"),
 													children: "external setName"
-												}), G$1(Button, {
+												}), K(Button, {
 													onTap: () => setName(""),
 													children: "clear"
 												})];
@@ -4132,18 +4994,18 @@
 										];
 									}
 								}),
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											G$1(de$1, {
+											K(ye, {
 												fontWeight: "semiBold",
 												children: "Focus control"
 											}),
-											G$1(ge$1, {
+											K(we, {
 												focusNode: focus,
 												placeholder: "Controlled by buttons below",
 												decoration: {
@@ -4151,18 +5013,20 @@
 													contentPadding: 12
 												}
 											}),
-											G$1(de$1, {
+											K(ye, {
 												color: "#6B7280",
 												fontSize: 13,
 												get children() {
-													return ["hasFocus = ", oe$1(() => focus.hasFocus() ? "true" : "false")];
+													return ["hasFocus = ", L(() => {
+														return focus.hasFocus() ? "true" : "false";
+													})];
 												}
 											}),
-											G$1(Row, { get children() {
-												return [G$1(Button, {
+											K(Row, { get children() {
+												return [K(Button, {
 													onTap: () => focus.focus(),
 													children: "focus"
-												}), G$1(Button, {
+												}), K(Button, {
 													onTap: () => focus.unfocus(),
 													children: "unfocus"
 												})];
@@ -4170,16 +5034,16 @@
 										];
 									}
 								}),
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [G$1(de$1, {
+										return [K(ye, {
 											fontWeight: "semiBold",
 											children: "Digits only"
-										}), G$1(ge$1, {
+										}), K(we, {
 											get value() {
 												return digits();
 											},
@@ -4194,21 +5058,21 @@
 										})];
 									}
 								}),
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											G$1(de$1, {
+											K(ye, {
 												fontWeight: "semiBold",
 												children: "Slot widgets"
 											}),
-											G$1(ge$1, {
+											K(we, {
 												placeholder: "Search…",
 												get prefixIcon() {
-													return G$1(Q$1, {
+													return K(be, {
 														data: x4e,
 														size: 20,
 														color: "#6B7280"
@@ -4219,11 +5083,11 @@
 													contentPadding: 12
 												}
 											}),
-											G$1(ge$1, {
+											K(we, {
 												placeholder: "Password",
 												obscureText: true,
 												get prefixIcon() {
-													return G$1(Q$1, {
+													return K(be, {
 														data: Bge,
 														size: 20,
 														color: "#6B7280"
@@ -4237,16 +5101,16 @@
 										];
 									}
 								}),
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [G$1(de$1, {
+										return [K(ye, {
 											fontWeight: "semiBold",
 											children: "Autofocus"
-										}), G$1(de$1, {
+										}), K(ye, {
 											color: "#6B7280",
 											fontSize: 13,
 											children: "(would autofocus on mount — disabled here so it doesn't steal focus)"
@@ -4256,10 +5120,10 @@
 							];
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: 16,
 						get children() {
-							return G$1(Button, {
+							return K(Button, {
 								onTap: () => nav.pop(),
 								children: "Back"
 							});
@@ -4269,38 +5133,37 @@
 			}
 		});
 	}
-	//#endregion
-	//#region src/screens/icon.tsx
+	// src/screens/icon.tsx
 	function IconScreen() {
-		const nav = ce$1();
+		const nav = ge();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
-		return G$1(pe$1, {
+		return K(xe, {
 			flex: {
 				direction: "vertical",
 				gap: 16
 			},
 			get children() {
 				return [
-					G$1(ue$1, {
+					K(ve, {
 						padding: {
 							horizontal: 16,
 							top: 16,
 							bottom: 8
 						},
 						get children() {
-							return [G$1(de$1, {
+							return [K(ye, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "icon"
-							}), G$1(de$1, {
+							}), K(ye, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Baseline icon rendering + reactive props"
 							})];
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
@@ -4308,16 +5171,16 @@
 						},
 						get children() {
 							return [
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [G$1(de$1, {
+										return [K(ye, {
 											fontWeight: "semiBold",
 											children: "Static grid"
-										}), G$1(ue$1, {
+										}), K(ve, {
 											flex: {
 												direction: "horizontal",
 												gap: 16,
@@ -4325,28 +5188,28 @@
 											},
 											get children() {
 												return [
-													G$1(Q$1, {
+													K(be, {
 														data: x4e,
 														size: 32
 													}),
-													G$1(Q$1, {
+													K(be, {
 														data: Bge,
 														size: 32
 													}),
-													G$1(Q$1, {
+													K(be, {
 														data: lre,
 														size: 32
 													}),
-													G$1(Q$1, {
+													K(be, {
 														data: _6e,
 														size: 32
 													}),
-													G$1(Q$1, {
+													K(be, {
 														data: EY,
 														size: 32,
 														color: "#EF4444"
 													}),
-													G$1(Q$1, {
+													K(be, {
 														data: est,
 														size: 32,
 														color: "#F59E0B"
@@ -4356,18 +5219,18 @@
 										})];
 									}
 								}),
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											G$1(de$1, {
+											K(ye, {
 												fontWeight: "semiBold",
 												children: "Reactive props"
 											}),
-											G$1(ue$1, {
+											K(ve, {
 												flex: {
 													direction: "horizontal",
 													gap: 12,
@@ -4375,7 +5238,7 @@
 												},
 												padding: 12,
 												get children() {
-													return [G$1(Q$1, {
+													return [K(be, {
 														data: EY,
 														get size() {
 															return size();
@@ -4383,47 +5246,51 @@
 														get color() {
 															return color();
 														}
-													}), G$1(de$1, {
+													}), K(ye, {
 														color: "#6B7280",
 														fontSize: 13,
 														get children() {
 															return [
 																"size = ",
-																oe$1(() => size()),
+																L(() => {
+																	return size();
+																}),
 																", color = ",
-																oe$1(() => color())
+																L(() => {
+																	return color();
+																})
 															];
 														}
 													})];
 												}
 											}),
-											G$1(Row, { get children() {
+											K(Row, { get children() {
 												return [
-													G$1(Button, {
+													K(Button, {
 														onTap: () => setSize(16),
 														children: "16"
 													}),
-													G$1(Button, {
+													K(Button, {
 														onTap: () => setSize(32),
 														children: "32"
 													}),
-													G$1(Button, {
+													K(Button, {
 														onTap: () => setSize(64),
 														children: "64"
 													})
 												];
 											} }),
-											G$1(Row, { get children() {
+											K(Row, { get children() {
 												return [
-													G$1(Button, {
+													K(Button, {
 														onTap: () => setColor("#EF4444"),
 														children: "red"
 													}),
-													G$1(Button, {
+													K(Button, {
 														onTap: () => setColor("#10B981"),
 														children: "green"
 													}),
-													G$1(Button, {
+													K(Button, {
 														onTap: () => setColor("#3B82F6"),
 														children: "blue"
 													})
@@ -4432,16 +5299,16 @@
 										];
 									}
 								}),
-								G$1(ue$1, {
+								K(ve, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [G$1(de$1, {
+										return [K(ye, {
 											fontWeight: "semiBold",
 											children: "Icon + text row"
-										}), G$1(ue$1, {
+										}), K(ve, {
 											flex: {
 												direction: "horizontal",
 												gap: 8,
@@ -4449,11 +5316,11 @@
 											},
 											padding: 12,
 											get children() {
-												return [G$1(Q$1, {
+												return [K(be, {
 													data: coe,
 													size: 20,
 													color: "#3B82F6"
-												}), G$1(de$1, { children: "Inline icon + text composition" })];
+												}), K(ye, { children: "Inline icon + text composition" })];
 											}
 										})];
 									}
@@ -4461,10 +5328,10 @@
 							];
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: 16,
 						get children() {
-							return G$1(Button, {
+							return K(Button, {
 								onTap: () => nav.pop(),
 								children: "Back"
 							});
@@ -4474,12 +5341,11 @@
 			}
 		});
 	}
-	//#endregion
-	//#region src/screens/scroll.tsx
+	// src/screens/scroll.tsx
 	function ScrollScreen() {
-		const nav = ce$1();
-		const scroll = _e$1({ initialScrollOffset: 120 });
-		return G$1(pe$1, {
+		const nav = ge();
+		const scroll = Te({ initialScrollOffset: 120 });
+		return K(xe, {
 			controller: scroll,
 			flex: {
 				direction: "vertical",
@@ -4487,7 +5353,7 @@
 			},
 			get children() {
 				return [
-					G$1(ue$1, {
+					K(ve, {
 						padding: {
 							horizontal: 16,
 							top: 16,
@@ -4498,30 +5364,32 @@
 							gap: 4
 						},
 						get children() {
-							return [G$1(de$1, {
+							return [K(ye, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "scrollController"
-							}), G$1(de$1, {
+							}), K(ye, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "initialScrollOffset, reactive offset, imperative scroll"
 							})];
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
 							gap: 8
 						},
 						get children() {
-							return [G$1(de$1, {
+							return [K(ye, {
 								fontWeight: "semiBold",
 								get children() {
-									return ["scrollOffset = ", oe$1(() => scroll.scrollOffset().toFixed(1))];
+									return ["scrollOffset = ", L(() => {
+										return scroll.scrollOffset().toFixed(1);
+									})];
 								}
-							}), G$1(pe$1, {
+							}), K(xe, {
 								scrollDirection: "horizontal",
 								flex: {
 									direction: "horizontal",
@@ -4529,10 +5397,10 @@
 									align: "center"
 								},
 								get children() {
-									return [G$1(Button, {
+									return [K(Button, {
 										onTap: () => scroll.jumpTo(0),
 										children: "jumpTo(0)"
-									}), G$1(Button, {
+									}), K(Button, {
 										onTap: () => scroll.animateTo(1200, { duration: 800 }),
 										children: "animateTo(1200)"
 									})];
@@ -4540,31 +5408,31 @@
 							})];
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: 16,
 						flex: {
 							direction: "vertical",
 							gap: 8
 						},
 						get children() {
-							return Array.from({ length: 40 }, (_, i) => G$1(ue$1, {
+							return Array.from({ length: 40 }, (_, i) => K(ve, {
 								padding: 16,
 								decoration: {
 									color: i % 2 === 0 ? "#F3F4F6" : "#E5E7EB",
 									borderRadius: 8
 								},
 								get children() {
-									return G$1(de$1, { get children() {
+									return K(ye, { get children() {
 										return ["row ", i];
 									} });
 								}
 							}));
 						}
 					}),
-					G$1(ue$1, {
+					K(ve, {
 						padding: 16,
 						get children() {
-							return G$1(Button, {
+							return K(Button, {
 								onTap: () => nav.pop(),
 								children: "Back"
 							});
@@ -4574,51 +5442,54 @@
 			}
 		});
 	}
-	//#endregion
-	//#region src/screens/home.tsx
+	// src/screens/home.tsx
 	function HomeScreen() {
-		const nav = ce$1();
-		return G$1(ue$1, {
+		const nav = ge();
+		return K(ve, {
 			flex: { direction: "vertical" },
 			get children() {
 				return [
-					G$1(ue$1, {
+					K(ve, {
 						padding: {
 							horizontal: 16,
 							top: 24,
 							bottom: 12
 						},
 						get children() {
-							return [G$1(de$1, {
+							return [K(ye, {
 								fontSize: 28,
 								fontWeight: "bold",
 								children: "solid-fuse demos"
-							}), G$1(de$1, {
+							}), K(ye, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Playground for widget primitives"
 							})];
 						}
 					}),
-					G$1(MenuItem, {
+					K(MenuItem, {
+						label: "counter",
+						onTap: () => nav.push(() => K(CounterScreen, {}))
+					}),
+					K(MenuItem, {
 						label: "textField",
-						onTap: () => nav.push(Y$1({ child: () => G$1(TextFieldScreen, {}) }))
+						onTap: () => nav.push(() => K(TextFieldScreen, {}))
 					}),
-					G$1(MenuItem, {
+					K(MenuItem, {
 						label: "icon",
-						onTap: () => nav.push(Y$1({ child: () => G$1(IconScreen, {}) }))
+						onTap: () => nav.push(() => K(IconScreen, {}))
 					}),
-					G$1(MenuItem, {
+					K(MenuItem, {
 						label: "scrollController",
-						onTap: () => nav.push(Y$1({ child: () => G$1(ScrollScreen, {}) }))
+						onTap: () => nav.push(() => K(ScrollScreen, {}))
 					})
 				];
 			}
 		});
 	}
-	//#endregion
-	//#region src/index.tsx
-	var App = () => G$1(le$1, { initialPage: () => G$1(HomeScreen, {}) });
-	K$1(App);
-	//#endregion
+	// src/index.tsx
+	var App = () => K(_e, { initialPage: () => K(HomeScreen, {}) });
+	me(App);
 })();
+
+//# sourceMappingURL=bundle.js.map

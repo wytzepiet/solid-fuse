@@ -14,7 +14,7 @@ dependencies:
   # it — see notes/vendoring-fjs.md. The runtime API is re-exported through
   # lib/fjs.dart (import 'package:solid_fuse/fjs.dart').
   # frb pinned exactly to the version the vendored bindings were generated with.
-  flutter_rust_bridge: 2.12.0
+  flutter_rust_bridge: 2.13.0
   freezed_annotation: ^3.1.0
   plugin_platform_interface: ^2.1.8
   http: ^1.2.0

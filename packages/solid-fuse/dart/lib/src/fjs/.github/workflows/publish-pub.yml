@@ -1,0 +1,82 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  publish-precompiled:
+    uses: ./.github/workflows/precompile-binaries.yml
+    permissions:
+      contents: write
+    secrets:
+      PRECOMPILE_BINARIES_PRIVATE_KEY: ${{ secrets.PRECOMPILE_BINARIES_PRIVATE_KEY }}
+
+  publish:
+    needs: publish-precompiled
+    runs-on: ubuntu-latest
+    environment: pub.dev
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Verify tag matches package version
+        shell: bash
+        run: |
+          set -euo pipefail
+          package_version="$(awk '$1 == "version:" { print $2; exit }' pubspec.yaml)"
+          expected_tag="v${package_version}"
+          if [[ "$GITHUB_REF_NAME" != "$expected_tag" ]]; then
+            echo "error: tag '$GITHUB_REF_NAME' must match package version '$expected_tag'" >&2
+            exit 1
+          fi
+
+      - name: Configure pub.dev OIDC authentication
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1
+
+      - name: Setup pinned Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: 3.44.0
+          cache: true
+
+      - name: Resolve dependencies
+        run: flutter pub get --no-example
+
+      - name: Resolve build tool dependencies
+        run: dart pub get
+        working-directory: cargokit/build_tool
+
+      - name: Fetch verified SwiftPM binary into the package
+        run: >-
+          dart run cargokit/build_tool/bin/build_tool.dart
+          fetch-precompiled-artifacts
+          --manifest-dir=libfjs
+          --output-dir=darwin/fjs/Binaries
+          --asset=fjs.xcframework.zip
+
+      - name: Require the SwiftPM binary in the package
+        shell: bash
+        run: test -f darwin/fjs/Binaries/fjs.xcframework.zip
+
+      - name: Verify tracked package source
+        run: git diff HEAD --exit-code --
+
+      - name: Dry-run and publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Tolerates only the expected exact-pin warning for
+          # flutter_rust_bridge (see tool/check_pub_dry_run.sh).
+          tool/check_pub_dry_run.sh
+          flutter pub publish --force

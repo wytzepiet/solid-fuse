@@ -118,14 +118,110 @@ print(functionResult.ok.value); // 5
 final availableModules = await context.getAvailableModules();
 print(availableModules);
 
-// Advance or fully drain pending async work when you need explicit control.
-if (await runtime.isJobPending()) {
-  await runtime.executePendingJob();
-}
-await runtime.idle();
+// Detached Promise, timer, fetch, and spawned async work is driven automatically.
+// Prefer JavaScript .catch() for failures that are expected and owned by JS.
+await context.evalWithOptions(
+  code: '''
+    Promise.resolve()
+      .then(() => 'background result')
+      .catch((error) => console.log(String(error)));
+    undefined
+  ''',
+  options: JsEvalOptions.withPromise(),
+);
 ```
 
 Low-level context APIs return `JsResult`, which is useful when you want structured success or error handling instead of exceptions.
+Detached JavaScript work is scheduled automatically. Use JavaScript `.catch()`
+for expected detached failures; unhandled background failures are surfaced on a
+later `eval()`, `call()`, low-level context operation, or `close()`. When you
+prefer to observe them without failing an unrelated call, drain them explicitly
+with `engine.drainUnhandledJobErrors()` (works in every engine state, including
+after `close()`).
+
+### Security Boundary
+
+FJS is intended for application-owned or otherwise trusted scripts. Enabling
+filesystem, network, or process builtins grants scripts the corresponding native
+capabilities. Memory, stack, and value-conversion limits reduce accidental
+resource exhaustion, but they do not make QuickJS/LLRT a hostile-code sandbox.
+Consumers that execute untrusted code must add process or OS isolation and run
+with least privilege.
+
+### Async Work and Error Handling
+
+Async runtimes own their background driver internally. Application code does not
+start, stop, poll, or drain the driver for normal use:
+
+```dart
+final engine = await JsEngine.create(
+  builtins: JsBuiltinOptions.web(),
+);
+await engine.initWithoutBridge();
+
+await engine.eval(source: const JsCode.code('''
+  setTimeout(() => {
+    globalThis.ready = true;
+  }, 10);
+  "scheduled";
+'''));
+
+// The timer above is advanced by FJS. Any later engine operation observes the
+// updated JS state after the timer fires.
+await Future<void>.delayed(const Duration(milliseconds: 20));
+final ready = await engine.eval(
+  source: const JsCode.code('globalThis.ready === true'),
+);
+print(ready.value); // true
+
+await engine.close();
+```
+
+If detached JavaScript work owns a failure path, catch it in JavaScript:
+
+```dart
+await engine.eval(source: const JsCode.code('''
+  async function runOptionalBackgroundTask() {
+    throw new Error("optional task failed");
+  }
+
+  Promise.resolve()
+    .then(() => runOptionalBackgroundTask())
+    .catch((error) => console.log(String(error)));
+  undefined;
+'''));
+```
+
+If detached work fails without a JavaScript `.catch()`, FJS stores the formatted
+QuickJS error in a bounded runtime queue and surfaces it automatically through a
+later public operation:
+
+```dart
+await engine.eval(source: const JsCode.code('''
+  setTimeout(() => {
+    throw new Error("background task failed");
+  }, 10);
+  "scheduled";
+'''));
+
+await Future<void>.delayed(const Duration(milliseconds: 20));
+try {
+  await engine.eval(source: const JsCode.code('1 + 1'));
+} catch (error) {
+  // Contains "Unhandled JavaScript background error" and the original JS stack.
+  print(error);
+}
+```
+
+This keeps the user-facing lifecycle small: create an engine, run JavaScript,
+and call `close()` when the owner is done. In `3.2.0+`, `close()` is immediate:
+it stops accepting work and cancels in-flight foreground operations with
+`JsError.cancelled` without draining arbitrary timers, Promise callbacks, fetches,
+bridge calls, or spawned runtime work. Use `closeGracefully()` only when you
+intentionally want the old draining behavior and are prepared to wait for
+already-scheduled JavaScript work to finish. Lower-level async runtime/context
+users still get the same automatic driver behavior; Dart application code does
+not start, stop, poll, or drain that driver.
 
 ### Synchronous Runtime & Context
 
@@ -272,7 +368,8 @@ print('console: $hasConsole, llrt:xml: $hasXml');
 ## 🔄 Engine Lifecycle Notes
 
 - `JsEngine` creates and owns its internal runtime/context when constructed via `create()`
-- `close()` detaches the `fjs` bridge object, drains pending runtime work, and then runs GC before the engine becomes unusable
+- `close()` marks the engine closed immediately, requests runtime shutdown, stops the driver, detaches the `fjs` bridge object, and cancels in-flight foreground work with `JsError.cancelled`
+- `closeGracefully()` keeps the pre-3.2 draining behavior: it waits for already-scheduled timers, Promise callbacks, fetches, bridge calls, and spawned runtime work to finish before GC
 - `clearPendingModules()` only removes dynamic modules that have not been loaded into the current context yet
 - `declareNewModules()` and `declareNewBytecodeModules()` reject duplicate module names in a single request
 
@@ -419,15 +516,25 @@ const syntaxError = JsError.syntax(
 print(syntaxError.code());
 print(syntaxError.isRecoverable());
 
-// High-level execution APIs still throw AnyhowException on failure.
+// High-level execution APIs throw a typed JsError on failure, classified
+// from the real QuickJS exception (SyntaxError, TypeError, ReferenceError,
+// stack overflow, memory limit, ...), including line/column and stack text.
 try {
   await engine.eval(source: JsCode.code('invalid.code()'));
-} on AnyhowException catch (e) {
-  print('Execution failed: ${e.message}');
+} on JsError catch (e) {
+  print('Execution failed [${e.code()}]: $e');
+  switch (e) {
+    case JsError_Syntax(:final line, :final column):
+      print('Syntax error at $line:$column');
+    case JsError_Reference():
+      print('Reference error');
+    default:
+      break;
+  }
 }
 ```
 
-`JsError` is returned inside `JsResult.err(...)` for structured bridge and low-level context results. Public execution APIs like `eval()` and `call()` currently surface Rust-side failures as `AnyhowException`.
+`JsError` is used everywhere: thrown by `JsEngine`/`JsBytecode` methods and returned inside `JsResult.err(...)` by low-level context APIs and the bridge. Use `code()` for stable programmatic matching or pattern-match the freezed variants.
 
 ## 🌉 Bridge Communication
 
@@ -479,9 +586,6 @@ abstract class JsAsyncRuntime {
     List<JsModule>? modules,
   });
 
-  Future<bool> isJobPending();
-  Future<bool> executePendingJob();
-  Future<void> idle();
   Future<MemoryUsage> memoryUsage();
   Future<void> setMemoryLimit({required BigInt limit});
   Future<void> setGcThreshold({required BigInt threshold});
@@ -569,16 +673,15 @@ abstract class JsEngine {
   Future<JsValue> evaluateBytecodeModule({required JsModuleBytecode module});
   Future<JsValue> evaluateScriptBytecode({required JsScriptBytecode script});
 
-  Future<bool> executePendingJob();
-  Future<void> idle();
-  Future<bool> isJobPending();
   Future<MemoryUsage> memoryUsage();
   Future<void> runGc();
   Future<void> setGcThreshold({required BigInt threshold});
   Future<void> setInfo({required String info});
   Future<void> setMaxStackSize({required BigInt limit});
   Future<void> setMemoryLimit({required BigInt limit});
-  Future<void> close(); // drains pending runtime work, then runs GC
+  List<String> drainUnhandledJobErrors(); // background JS failures; usable in every state
+  Future<void> close(); // immediate shutdown; cancels in-flight foreground work
+  Future<void> closeGracefully(); // drains pending runtime work, then runs GC
   bool get running;
   bool get closed;
 }
@@ -606,6 +709,8 @@ abstract class MemoryUsage {
   PlatformInt64 get mallocSize;
   PlatformInt64 get objCount;
   PlatformInt64 get strCount;
+  // ... plus detailed counters: atomCount/Size, shapeCount/Size, propCount/Size,
+  // jsFuncCount/Size, arrayCount, fastArrayCount, binaryObjectCount/Size, etc.
   String summary();
 }
 ```
@@ -630,6 +735,13 @@ sealed class JsValue {
   static JsValue from(Object? any);
   String typeName();
   dynamic get value;
+
+  // Variant tests and typed accessors.
+  bool isNone() / isBoolean() / isNumber() / isString() / isBytes()
+       / isArray() / isObject() / isDate() / isPrimitive();
+  bool? get asBoolean; PlatformInt64? get asInteger; double? get asFloat;
+  String? get asBigint; String? get asString; Uint8List? get asBytes;
+  List<JsValue>? get asArray; Map<String, JsValue>? get asObject; num? get asNum;
 }
 ```
 
@@ -681,6 +793,8 @@ sealed class JsCode {
   const factory JsCode.code(String value);    // Inline code
   const factory JsCode.path(String value);    // File path
   const factory JsCode.bytes(Uint8List value); // Raw UTF-8 source bytes
+
+  bool isCode() / isPath() / isBytes();
 }
 
 sealed class JsModule {
@@ -803,10 +917,7 @@ sealed class JsError {
     required String operation,
     required BigInt timeoutMs,
   });
-  const factory JsError.memoryLimit({
-    required BigInt current,
-    required BigInt limit,
-  });
+  const factory JsError.memoryLimit(String message);
   const factory JsError.stackOverflow(String message);
   const factory JsError.syntax({int? line, int? column, required String message});
   const factory JsError.reference(String message);
@@ -815,6 +926,7 @@ sealed class JsError {
 
   String code();
   bool isRecoverable();
+  String toString(); // formatted message including stack text when available
 }
 ```
 
@@ -885,6 +997,72 @@ JsBuiltinOptions(
 2. **Set Memory Limits** - Configure appropriate limits
 3. **Use Source Bytes** - Prefer `JsCode.bytes()` / `JsModule.bytes()` when your JavaScript source is already in UTF-8 bytes
 4. **Batch Operations** - Group related operations
+
+## Darwin Packaging and Release
+
+fjs supports both CocoaPods and Swift Package Manager on iOS and macOS. Flutter
+discovers the shared Darwin package from `pubspec.yaml`; application developers
+normally only add `fjs` to `pubspec.yaml` and run the usual Flutter build.
+
+### CocoaPods
+
+CocoaPods consumes `darwin/fjs.podspec` for shared Darwin builds, with
+`ios/fjs.podspec` and `macos/fjs.podspec` kept for older Flutter layouts. The
+podspec runs:
+
+```sh
+sh "$PODS_TARGET_SRCROOT/../cargokit/build_pod.sh" ../libfjs fjs
+```
+
+That Cargokit script builds `libfjs.a` for the current Xcode platform and links
+it with `-force_load`. When Rustup is installed, it builds from local Rust
+source by default. When Rustup is missing, or when the application opts in with
+`cargokit_options.yaml`, it downloads signed precompiled artifacts from the
+GitHub Release configured in `libfjs/cargokit.yaml`.
+
+```yaml
+use_precompiled_binaries: true
+verbose_logging: false
+```
+
+### Swift Package Manager
+
+SwiftPM consumes `darwin/fjs/Package.swift`. The package exposes a small Swift
+target and links the binary target at:
+
+```text
+darwin/fjs/Binaries/fjs.xcframework.zip
+```
+
+The XCFramework is a release artifact, not a file edited by hand. If you are
+working from source and need to refresh it locally, run:
+
+```sh
+tool/build_fjs_xcframework.sh \
+  --configuration Release \
+  --zip-output darwin/fjs/Binaries/fjs.xcframework.zip
+```
+
+### Release Checklist
+
+Before publishing a Darwin-capable release, run:
+
+```sh
+tool/prepare_darwin_release.sh --configuration Release
+```
+
+The script builds the XCFramework from the same Rust/Cargokit inputs used by
+CocoaPods, writes the raw framework to `darwin/fjs/Binaries/fjs.xcframework`,
+creates the package-local `darwin/fjs/Binaries/fjs.xcframework.zip` consumed by
+SwiftPM, copies the validated zip and checksum to `build/darwin-release`,
+validates the Darwin package metadata and SwiftPM consumption, and runs
+`flutter pub publish --dry-run`.
+
+Upload `build/darwin-release/fjs.xcframework.zip` to the GitHub Release for the
+package version. Keep the checksum next to the artifact for verification or for
+a future remote `binaryTarget(url:checksum:)` manifest. The release script
+forces local compilation before packaging the XCFramework so CocoaPods, SwiftPM,
+and Cargokit precompiled releases are traceable to the same Rust inputs.
 
 ## 📄 License
 

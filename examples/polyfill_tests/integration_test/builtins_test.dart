@@ -8,11 +8,7 @@ void main() {
 
   testWidgets('all() builtins availability', (tester) async {
     await initFjs();
-    final runtime = await JsAsyncRuntime.withOptions(
-      builtin: JsBuiltinOptions.all(),
-    );
-    final context = await JsAsyncContext.from(runtime: runtime);
-    final engine = JsEngine(context: context);
+    final engine = await JsEngine.create(builtins: JsBuiltinOptions.all());
     await engine.init(bridge: (_) async => const JsResult.ok(JsValue.none()));
 
     final r = await engine.eval(source: JsCode.code('''
@@ -43,7 +39,6 @@ void main() {
         EventTarget: typeof EventTarget,
       }))()
     '''));
-    await runtime.idle();
     final data = r.value as Map<String, dynamic>;
     for (final e in (data.entries.toList()..sort((a, b) => a.key.compareTo(b.key)))) {
       final status = e.value == 'undefined' ? '  MISSING' : '';

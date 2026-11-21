@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +134,12 @@ class FuseRuntime {
     final channels = _connection!.channels!;
     channels.on('_ops', (data) {
       try {
-        applyOps(data['ops'] as List<dynamic>);
+        // JS sends each batch as one JSON string (see flushOps in
+        // renderer.ts); `ops` is accepted for older bundles.
+        final json = data['json'];
+        applyOps(json is String
+            ? jsonDecode(json) as List<dynamic>
+            : data['ops'] as List<dynamic>);
       } catch (e, st) {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
