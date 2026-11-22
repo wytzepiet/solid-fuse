@@ -1,0 +1,4 @@
+# The fixture app's own tests run through cli/gen/gen.test.ts (they need generated code).
+paths:
+  - test/rules_test.dart
+  - test/whole_libraries_test.dart

@@ -18,8 +18,12 @@ export 'src/manifest.dart' show generatorVersion, manifestFormat;
 /// Hash of everything the manifest depends on: the generator, the config, and
 /// the resolved packages. Equal hash, equal manifest.
 String inputHash({required String root, required String configJson}) {
+  // The generator's own build: its snapshot changes whenever its code does,
+  // which a version number alone would miss during development.
+  final self = File.fromUri(Platform.script);
+  final stamp = self.existsSync() ? '${self.lengthSync()}:${self.lastModifiedSync().microsecondsSinceEpoch}' : '';
   final parts = <List<int>>[
-    utf8.encode('$generatorVersion\n$manifestFormat\n'),
+    utf8.encode('$generatorVersion\n$manifestFormat\n$stamp\n'),
     utf8.encode(configJson),
   ];
   for (final f in ['.dart_tool/package_config.json', 'pubspec.lock']) {

@@ -119,14 +119,21 @@ class Classifier {
 
     if (t.isDartCoreList || t.isDartCoreSet || t.isDartCoreIterable) {
       final kind = t.isDartCoreList ? 'list' : t.isDartCoreSet ? 'set' : 'iterable';
-      return {'k': kind, 'of': input(t.typeArguments.first)};
+      // The element's Dart type, for the decoder's type argument.
+      return {'k': kind, 'of': input(t.typeArguments.first), 'ofDart': code.type(t.typeArguments.first)};
     }
     if (t.isDartCoreMap) {
       final k = input(t.typeArguments[0]);
       if (!const {'String', 'int', 'enum', 'dynamic', 'Object', 'typeParam'}.contains(k['k']) || k['null'] == true) {
         throw Skip('map key ${t.typeArguments[0].getDisplayString()}');
       }
-      return {'k': 'map', 'key': k, 'of': input(t.typeArguments[1])};
+      return {
+        'k': 'map',
+        'key': k,
+        'of': input(t.typeArguments[1]),
+        'keyDart': code.type(t.typeArguments[0]),
+        'ofDart': code.type(t.typeArguments[1]),
+      };
     }
     if (t.isDartAsyncFuture || t.isDartAsyncFutureOr || t.isDartAsyncStream) {
       throw Skip('Future/Stream argument (not bridged yet)');
@@ -134,7 +141,8 @@ class Classifier {
 
     if (el == w.widgetEl) return {'k': 'widget'};
     if (w.isSubtypeOfEl(t, w.widgetEl)) {
-      if (el == w.preferredSizeWidgetEl) return {'k': 'widget', 'as': 'PreferredSizeWidget'};
+      // An adapter is not a PreferredSizeWidget; needs a size from the node.
+      if (el == w.preferredSizeWidgetEl) throw Skip('PreferredSizeWidget slot (not bridged yet)');
       throw Skip('widget slot typed ${el.name}');
     }
     if (w.isSubtypeOfEl(t, w.keyEl)) {
@@ -151,8 +159,13 @@ class Classifier {
     if (el.library.uri.toString() == 'dart:typed_data') throw Skip('typed data (not bridged yet)');
 
     if (isHandle(t)) return {'k': 'handle', 'id': _handle(t)};
+    if (t.typeArguments.any(_hasTypeParameter)) throw Skip('value generic over a type parameter (not bridged yet)');
     return {'k': 'data', 'id': _data(t)};
   }
+
+  static bool _hasTypeParameter(DartType t) =>
+      t is TypeParameterType || (t is InterfaceType && t.typeArguments.any(_hasTypeParameter)) ||
+      (t is FunctionType && (_hasTypeParameter(t.returnType) || t.formalParameters.any((p) => _hasTypeParameter(p.type))));
 
   // ── handles ───────────────────────────────────────────────────────────────
 
@@ -289,20 +302,19 @@ class Classifier {
           if (ctor.isPrivate || _hidden(ctor)) continue;
           if (!ctor.isFactory && ce.isAbstract) continue;
           final cname = (ctor.name == null || ctor.name == 'new') ? null : ctor.name;
-          // Tag: the constructor name for the type's own constructors, the
-          // subclass name (+ ctor) for a subclass: EdgeInsets.symmetric is
-          // "symmetric" under EdgeInsets and "EdgeInsets.symmetric" under
-          // EdgeInsetsGeometry.
-          final tag = ce == el ? cname : (cname == null ? ce.name! : '${ce.name}.$cname');
+          // Tags are absolute (`EdgeInsets.symmetric`, `Point` for an
+          // unnamed constructor), so one value decodes the same wherever it
+          // goes: under EdgeInsets and under EdgeInsetsGeometry.
+          final tag = cname == null ? ce.name! : '${ce.name}.$cname';
           try {
             final v = invocable(cname, ctor.formalParameters, deprecated: ctor.metadata.hasDeprecated);
             v['tag'] = tag;
             if (ce != el) v['class'] = code.type(ct);
             variants.add(v);
           } on Skip catch (s) {
-            rejected[tag ?? 'new'] = s.reason;
+            rejected[tag] = s.reason;
           } on NotNameable catch (e) {
-            rejected[tag ?? 'new'] = '$e';
+            rejected[tag] = '$e';
           }
         }
       }
@@ -361,7 +373,7 @@ class Classifier {
         if (ft.element != el && ft.asInstanceOf(el) == null) continue;
         if (!w.ts.isSubtypeOf(ft, t)) continue;
         found.add({
-          'name': owner == el ? f.name : '${owner.name}.${f.name}',
+          'name': '${owner.name}.${f.name}',
           'dart': '${code.ref(owner)}.${f.name}',
           if (f.metadata.hasDeprecated) 'deprecated': true,
         });
@@ -451,6 +463,7 @@ class Classifier {
     var i = 0;
     for (final p in f.formalParameters) {
       if (p.isNamed) throw Skip('callback with named parameters');
+      if (p.isOptionalPositional) throw Skip('callback with optional parameters');
       final pt = p.type;
       if (pt is InterfaceType && pt.element == w.buildContextEl) {
         context = true;

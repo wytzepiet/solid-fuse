@@ -16,6 +16,12 @@ export interface FuseCompileOptions {
    * element. The solid-fuse components are known already.
    */
   intrinsics?: Record<string, Record<string, string>>;
+  /**
+   * Value builders whose calls fold to constants when every argument is a
+   * literal (`EdgeInsets.all(8)`), per module they are imported from. `fuse
+   * gen` writes these tables for the modules it generates.
+   */
+  builders?: Record<string, Record<string, { tag: string; positional: string[] } | { const: string }>>;
 }
 
 export interface FuseConfig {

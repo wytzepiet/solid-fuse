@@ -199,17 +199,76 @@ class ManifestBuilder {
 
   // ── consistency ───────────────────────────────────────────────────────────
 
-  /// Refs to data types whose input side failed after they were referenced
-  /// (recursive types resolved late) are turned into skips, until nothing
-  /// changes. Afterwards every ref in the manifest points at something an
-  /// emitter can build.
+  /// Whether [ref] carries a node, a function or a handle anywhere inside.
+  static bool _carriesRef(Object? ref) {
+    if (ref is! Map) return false;
+    return switch (ref['k']) {
+      'widget' || 'fn' || 'handle' || 'key' => true,
+      'list' || 'set' || 'iterable' => _carriesRef(ref['of']),
+      'map' => _carriesRef(ref['of']),
+      _ => false,
+    };
+  }
+
+  /// Why the bridge cannot carry [ref] in this position yet, or null. Only
+  /// top-level props carry nodes, functions and handles today; nested ones
+  /// wait for tagged refs in the wire format. Async callbacks wait for
+  /// replies from JS.
+  String? _unsupported(Object? ref, {required bool topLevel, bool childrenSlot = false}) {
+    if (ref is! Map) return null;
+    if (topLevel) {
+      switch (ref['k']) {
+        case 'widget' || 'handle' || 'key':
+          return null;
+        case 'fn':
+          if (ref['async'] == true) return 'async callback (needs replies from JS)';
+          for (final a in (ref['args']! as List).cast<Json>()) {
+            if (_carriesRef(a['type'])) return 'callback argument carries a handle';
+          }
+          return null;
+        case 'list' when childrenSlot:
+          return null;
+      }
+    }
+    return _carriesRef(ref) ? 'widget, callback or handle inside a value (not bridged yet)' : null;
+  }
+
+  /// Turns every unusable parameter of [params] into a skip. Returns false
+  /// when the signature can no longer be called (a required parameter went).
+  static bool _fix(List<Object?> params, String? Function(Json p) why) {
+    var cut = false;
+    for (var i = 0; i < params.length; i++) {
+      final p = params[i]! as Json;
+      final optionalPositional = p['named'] == false && p['required'] == false;
+      if (!p.containsKey('type')) {
+        if (optionalPositional) cut = true;
+        continue;
+      }
+      final reason = cut && optionalPositional ? 'follows a skipped positional parameter' : why(p);
+      if (reason == null) continue;
+      if (optionalPositional) cut = true;
+      if (p['required'] == true && p['nullable'] != true) return false;
+      params[i] = {
+        ...p..remove('type')..remove('dart'),
+        'skip': reason,
+        if (p['required'] == true) 'passNull': true,
+      };
+    }
+    return true;
+  }
+
+  /// Applies the bridge's current limits ([_unsupported]), then turns refs
+  /// to data types whose input side failed after they were referenced
+  /// (recursive types resolved late) into skips, until nothing changes.
+  /// Afterwards every ref in the manifest points at something an emitter can
+  /// build.
   void _prune() {
     bool bad(Object? ref) {
       if (ref is! Map) return false;
       switch (ref['k']) {
         case 'data':
           final d = c.types[ref['id']];
-          return d == null || d['inputSkipped'] != null || (d['variants'] == null && d['consts'] == null);
+          return d == null || d['inputSkipped'] != null || d['variants'] == null;
         case 'list' || 'set' || 'iterable':
           return bad(ref['of']);
         case 'map':
@@ -220,27 +279,28 @@ class ManifestBuilder {
       return false;
     }
 
-    /// Returns false when the signature can no longer be called.
-    bool fix(List<Object?> params) {
-      var cut = false;
-      for (var i = 0; i < params.length; i++) {
-        final p = params[i]! as Json;
-        final optionalPositional = p['named'] == false && p['required'] == false;
-        if (!p.containsKey('type')) {
-          if (optionalPositional) cut = true;
-          continue;
-        }
-        if (cut && optionalPositional) {
-          params[i] = {...p..remove('type')..remove('dart'), 'skip': 'follows a skipped positional parameter'};
-          continue;
-        }
-        if (!bad(p['type'])) continue;
-        if (optionalPositional) cut = true;
-        final mustSupply = p['required'] == true && p['nullable'] != true;
-        if (mustSupply) return false;
-        params[i] = {...p..remove('type')..remove('dart'), 'skip': 'type not constructible', if (p['required'] == true) 'passNull': true};
+    String? notBuildable(Json p) => bad(p['type']) ? 'type not constructible' : null;
+
+    // Limits first: they only ever remove things.
+    _widgets.removeWhere((wj) {
+      final children = (wj['children'] as Map?)?['param'];
+      final ok = _fix(wj['params']! as List, (p) => _unsupported(p['type'], topLevel: true, childrenSlot: p['name'] == children));
+      if (!ok) _skip(wj['id']! as String, 'a required parameter cannot cross the bridge yet');
+      return !ok;
+    });
+    for (final d in c.types.values) {
+      final variants = d['variants'];
+      if (variants is List) {
+        variants.removeWhere((v) {
+          final ok = _fix((v as Json)['params']! as List, (p) => _unsupported(p['type'], topLevel: false));
+          if (!ok) ((d['rejected'] ??= <String, String>{}) as Map)[v['tag']] = 'a required parameter cannot cross the bridge yet';
+          return !ok;
+        });
       }
-      return true;
+      final ctors = d['ctors'];
+      if (ctors is List) {
+        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _unsupported(p['type'], topLevel: true)));
+      }
     }
 
     var changed = true;
@@ -248,31 +308,29 @@ class ManifestBuilder {
       changed = false;
       for (final d in c.types.values) {
         final variants = d['variants'];
-        if (variants is! List) continue;
-        final keep = [for (final v in variants) if (fix(((v as Json)['params']! as List))) v];
-        if (keep.length != variants.length) {
+        if (variants is! List || d['inputSkipped'] != null) continue;
+        final before = variants.length;
+        variants.removeWhere((v) => !_fix((v as Json)['params']! as List, notBuildable));
+        if (variants.length != before) changed = true;
+        if (variants.isEmpty && (d['consts'] as List? ?? const []).isEmpty) {
+          d['inputSkipped'] = 'no usable constructor after pruning';
           changed = true;
-          d['variants'] = keep;
-          if (keep.isEmpty && (d['consts'] as List? ?? const []).isEmpty) {
-            d['inputSkipped'] = 'no usable constructor after pruning';
-          }
         }
       }
       for (final d in c.types.values) {
-        if (d['kind'] != 'handle') continue;
-        final ctors = d['ctors']! as List;
-        final keep = [for (final k in ctors) if (fix(((k as Json)['params']! as List))) k];
-        if (keep.length != ctors.length) {
-          changed = true;
-          d['ctors'] = keep;
-        }
+        final ctors = d['ctors'];
+        if (ctors is! List) continue;
+        final before = ctors.length;
+        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, notBuildable));
+        if (ctors.length != before) changed = true;
       }
       _widgets.removeWhere((wj) {
-        if (fix(wj['params']! as List)) return false;
+        if (_fix(wj['params']! as List, notBuildable)) return false;
         _skip(wj['id']! as String, 'a required parameter\'s type is not constructible');
         changed = true;
         return true;
       });
     }
+    // A data type with only constants left still has an input side.
   }
 }

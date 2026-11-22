@@ -180,9 +180,24 @@ class World {
   EntryLib? importOf(Element e) => _importMemo.putIfAbsent(e, () {
         final name = e.name;
         if (name == null || name.startsWith('_')) return null;
+        // Prefer a library of the package that declares [e] (Flutter's
+        // Visibility through widgets.dart, not through cupertino_ui's
+        // re-export); dart:ui and friends come through Flutter.
+        final declared = e.library?.uri;
+        final home = declared == null
+            ? null
+            : declared.scheme == 'package'
+                ? declared.pathSegments.first
+                : 'flutter';
+        EntryLib? fallback;
         for (final lib in entries) {
-          if (lib.element.exportNamespace.get2(name) == e) return lib;
+          if (lib.element.exportNamespace.get2(name) != e) continue;
+          final u = Uri.parse(lib.uri);
+          final pkg = u.scheme == 'package' ? u.pathSegments.first : u.scheme;
+          if (pkg == home || (u.scheme == 'dart' && declared?.scheme == 'dart')) return lib;
+          fallback ??= lib;
         }
+        if (fallback != null) return fallback;
         final uri = e.library?.uri;
         if (uri != null && uri.scheme == 'package') missedPackages.add(uri.pathSegments.first);
         return null;

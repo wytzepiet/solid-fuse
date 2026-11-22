@@ -56,7 +56,7 @@ triggers a second round, which loads that package's public libraries.
   }],
   "handles": ["package:flutter/widgets.dart#ScrollController"],   // exported roots
   "types": {
-    "<import uri>#<Dart type>": { "kind": "data", "variants": [{ "tag": "symmetric", "params": [...] }],
+    "<import uri>#<Dart type>": { "kind": "data", "variants": [{ "tag": "EdgeInsets.symmetric", "params": [...] }],
                                   "consts": [{ "name": "Colors.red", "dart": "material_ui.Colors.red" }],
                                   "fields": [...] },             // fields: Dart -> JS encoding
     "…": { "kind": "enum", "values": ["start", { "name": "x", "deprecated": true }] },
@@ -65,6 +65,16 @@ triggers a second round, which loads that package's public libraries.
   "skipped": [{ "item": "…#Image.memory", "reason": "bytes: typed data (not bridged yet)" }]
 }
 ```
+
+Tags and constant names are absolute (`Class.ctor`, `Class` for the unnamed
+constructor, `Owner.field`), so a value decodes the same under any declared
+type. A plain object without `$` means the declared type's unnamed
+constructor. Collection refs carry `ofDart` / `keyDart` (the element types'
+Dart source) for the decoders' type arguments.
+
+The bridge's current limits are applied as a last pass (`_prune`): nodes,
+functions and handles only as top-level props, no async callbacks yet. A
+parameter that would need more is a `skip` like any other.
 
 The `k` values for refs are `bool int double num String Object dynamic enum
 data handle widget key list set iterable map fn typeParam`. A nullable ref

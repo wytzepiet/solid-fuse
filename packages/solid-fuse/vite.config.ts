@@ -24,6 +24,7 @@ export default defineConfig({
       entry: {
         index: resolve(import.meta.dirname, "src/index.ts"),
         config: resolve(import.meta.dirname, "src/config.ts"),
+        generated: resolve(import.meta.dirname, "src/generated.ts"),
         "icons/material": resolve(import.meta.dirname, "src/icons/material.ts"),
         "icons/cupertino": resolve(import.meta.dirname, "src/icons/cupertino.ts"),
       },

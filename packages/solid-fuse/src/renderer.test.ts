@@ -261,6 +261,14 @@ describe("props", () => {
     expect(got).toBe(7);
   });
 
+  test("a call with args (a Dart callback with several parameters) spreads them", async () => {
+    let got: any[] = [];
+    const el = R.createElement("view", { onPair: (...a: any[]) => (got = a) });
+    takeOps();
+    await (globalThis as any).__dispatch("_functionCall", { nodeId: el.id, name: "onPair", args: [1, "b"] });
+    expect(got).toEqual([1, "b"]);
+  });
+
   test("props set before the batch is sent fold into create; later ones are setProp ops", () => {
     const [w, setW] = createSignal(1);
     let el!: InstanceType<typeof R.FuseNode>;

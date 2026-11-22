@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'connection.dart';
 import 'dev_connection.dart';
 import 'fuse_handle.dart';
+import 'generated_support.dart' show FuseCallArgs;
 import 'node.dart';
 import 'quickjs_connection.dart';
 
@@ -174,12 +175,13 @@ class FuseRuntime {
   /// No-op: connections are reused across hot restarts, never disposed.
   void dispose() {}
 
-  /// Call a JS function via the bridge.
+  /// Call a JS function via the bridge. A [FuseCallArgs] value is spread
+  /// into the handler's parameters.
   void callFunction(int nodeId, String name, [dynamic value]) {
     _connection?.channels?.send('_functionCall', {
       'nodeId': nodeId,
       'name': name,
-      'value': ?value,
+      if (value is FuseCallArgs) 'args': value.args else 'value': ?value,
     });
   }
 

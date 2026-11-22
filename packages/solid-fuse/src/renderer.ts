@@ -67,8 +67,12 @@ export class FuseNode<K extends string = string> {
 const handlerNodes = new Map<number, WeakRef<FuseNode>>();
 
 // Register the function call channel — Dart calls JS functions via channels.send('_functionCall', ...)
-on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
-  handlerNodes.get(data.nodeId)?.deref()?.handlers?.[data.name]?.(data.value);
+// A call with `args` (a Dart callback with several parameters) spreads them.
+on("_functionCall", (data: { nodeId: number; name: string; value?: any; args?: any[] }) => {
+  const handler = handlerNodes.get(data.nodeId)?.deref()?.handlers?.[data.name];
+  if (handler === undefined) return;
+  if (data.args) handler(...data.args);
+  else handler(data.value);
 });
 
 // --- Ops journal ---

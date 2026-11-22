@@ -95,7 +95,8 @@ void main() {
       expect(param(w, 'onTap')['type'], containsPair('k', 'fn'));
       final move = param(w, 'onMove')['type']! as Json;
       expect(((move['args']! as List).single as Json)['type'], {'k': 'data', 'id': '$fixtureLib#Point'});
-      expect(param(w, 'onRefresh')['type'], containsPair('async', true));
+      // Waits for replies from JS.
+      expect(param(w, 'onRefresh')['skip'], contains('async'));
     });
   });
 

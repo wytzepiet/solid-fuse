@@ -146,6 +146,22 @@ export function transformJsx(
     }
   }
 
+  // Local name -> builder table and the name it was imported as, for the
+  // generated value builders (`EdgeInsets.all(8)`, `Colors.red`).
+  const builderTables = options.builders ?? {};
+  const builderImports = new Map<string, { table: Record<string, BuilderFold>; imported: string }>();
+  for (const statement of program.body as Node[]) {
+    if (statement.type !== "ImportDeclaration" || statement.importKind === "type") continue;
+    const table = builderTables[statement.source.value];
+    if (!table) continue;
+    for (const spec of statement.specifiers as Node[]) {
+      if (spec.type !== "ImportSpecifier" || spec.importKind === "type") continue;
+      const imported = spec.imported.type === "Identifier" ? spec.imported.name : spec.imported.value;
+      builderImports.set(spec.local.name, { table, imported });
+    }
+  }
+  const fold: Fold | null = builderImports.size === 0 ? null : (node, literalOf) => foldBuilder(node, builderImports, literalOf);
+
   const ms = new MagicString(code);
   const declarations: string[] = [];
   let changed = false;
@@ -178,7 +194,7 @@ export function transformJsx(
     let props: Record<string, unknown> | null = null;
     const lifted: Node[] = [];
     for (const attribute of attributes) {
-      const value = literalAttribute(attribute);
+      const value = literalAttribute(attribute, fold);
       if (value === NOT_LITERAL) continue;
       (props ??= {})[attribute.name.name] = value;
       lifted.push(attribute);
@@ -382,7 +398,7 @@ function isComponentName(name: Node): boolean {
 const NOT_LITERAL = Symbol("not literal");
 
 /** The value of an attribute that is a literal Solid's compiler would pass through unchanged. */
-function literalAttribute(attribute: Node): unknown {
+function literalAttribute(attribute: Node, fold: Fold | null = null): unknown {
   if (attribute.name.type !== "JSXIdentifier") return NOT_LITERAL;
   const name: string = attribute.name.name;
   if (name === "ref" || name === "children" || name === "__proto__") return NOT_LITERAL;
@@ -393,7 +409,7 @@ function literalAttribute(attribute: Node): unknown {
     return typeof value.value === "string" && !(value.raw ?? "&").includes("&") ? value.value : NOT_LITERAL;
   }
   if (value.type !== "JSXExpressionContainer") return NOT_LITERAL;
-  return literal(value.expression);
+  return literal(value.expression, fold);
 }
 
 function unwrap(node: Node): Node {
@@ -408,10 +424,69 @@ function unwrap(node: Node): Node {
   return node;
 }
 
+/** How a generated builder call folds (cli/gen/emit-ts.ts writes these tables). */
+export type BuilderFold = { tag: string; positional: string[] } | { const: string };
+
+/** Folds a builder call or constant into its value, or returns NOT_LITERAL. */
+type Fold = (node: Node, literalOf: (n: Node) => unknown) => unknown;
+
+/**
+ * `EdgeInsets.all(8)` -> `{ $: "EdgeInsets.all", value: 8 }`, `Colors.red` ->
+ * `"Colors.red"`: the same value `$build` in src/generated.ts returns, when
+ * every argument is a literal.
+ */
+function foldBuilder(
+  node: Node,
+  imports: Map<string, { table: Record<string, BuilderFold>; imported: string }>,
+  literalOf: (n: Node) => unknown = () => NOT_LITERAL,
+): unknown {
+  const keyOf = (callee: Node): { table: Record<string, BuilderFold>; key: string } | null => {
+    callee = unwrap(callee);
+    if (callee.type === "Identifier") {
+      const i = imports.get(callee.name);
+      return i ? { table: i.table, key: i.imported } : null;
+    }
+    if (callee.type === "MemberExpression" && !callee.computed && callee.object.type === "Identifier" && callee.property.type === "Identifier") {
+      const i = imports.get(callee.object.name);
+      return i ? { table: i.table, key: `${i.imported}.${callee.property.name}` } : null;
+    }
+    return null;
+  };
+  if (node.type === "MemberExpression") {
+    const k = keyOf(node);
+    const entry = k && Object.hasOwn(k.table, k.key) ? k.table[k.key] : null;
+    return entry && "const" in entry ? entry.const : NOT_LITERAL;
+  }
+  if (node.type !== "CallExpression" || node.optional) return NOT_LITERAL;
+  const k = keyOf(node.callee);
+  const entry = k && Object.hasOwn(k.table, k.key) ? k.table[k.key] : null;
+  if (!entry || "const" in entry) return NOT_LITERAL;
+  const args = node.arguments as Node[];
+  if (args.length > entry.positional.length + 1) return NOT_LITERAL;
+  const value: Record<string, unknown> = { $: entry.tag };
+  for (let i = 0; i < args.length; i++) {
+    if (args[i].type === "SpreadElement") return NOT_LITERAL;
+    const v = literalOf(args[i]);
+    if (v === NOT_LITERAL) return NOT_LITERAL;
+    if (i < entry.positional.length) {
+      value[entry.positional[i]] = v;
+    } else if (v !== null && typeof v === "object" && !Array.isArray(v)) {
+      Object.assign(value, v);
+    } else {
+      return NOT_LITERAL;
+    }
+  }
+  return value;
+}
+
 /** The JSON value of an expression made only of literals, or NOT_LITERAL. */
-function literal(expression: Node): unknown {
+function literal(expression: Node, fold: Fold | null = null): unknown {
   const node = unwrap(expression);
+  const inner = (n: Node) => literal(n, fold);
   switch (node.type) {
+    case "CallExpression":
+    case "MemberExpression":
+      return fold ? fold(node, inner) : NOT_LITERAL;
     case "Literal": {
       const value = node.value;
       if (value === null) return node.raw === "null" ? null : NOT_LITERAL;
@@ -425,7 +500,7 @@ function literal(expression: Node): unknown {
         : NOT_LITERAL;
     case "UnaryExpression": {
       if (node.operator !== "-" && node.operator !== "+") return NOT_LITERAL;
-      const value = literal(node.argument);
+      const value = inner(node.argument);
       if (typeof value !== "number") return NOT_LITERAL;
       return node.operator === "-" ? -value : value;
     }
@@ -433,7 +508,7 @@ function literal(expression: Node): unknown {
       const out: unknown[] = [];
       for (const element of node.elements as (Node | null)[]) {
         if (element === null || element.type === "SpreadElement") return NOT_LITERAL;
-        const value = literal(element);
+        const value = inner(element);
         if (value === NOT_LITERAL) return NOT_LITERAL;
         out.push(value);
       }
@@ -452,7 +527,7 @@ function literal(expression: Node): unknown {
               ? property.key.value
               : NOT_LITERAL;
         if (typeof key !== "string" || key === "__proto__") return NOT_LITERAL;
-        const value = property.shorthand ? NOT_LITERAL : literal(property.value);
+        const value = property.shorthand ? NOT_LITERAL : inner(property.value);
         if (value === NOT_LITERAL) return NOT_LITERAL;
         out[key] = value;
       }

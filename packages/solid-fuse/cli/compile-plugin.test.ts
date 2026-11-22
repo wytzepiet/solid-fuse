@@ -464,6 +464,31 @@ describe("the compile step", () => {
     expect(code).toMatch(/<h\$view \$t=\{_at\$1\} \$i=\{0\}\s+f=\{g\} h=\{\(\) => 1\} i=\{j\.k\} l=\{`m\$\{n\}`\}\s+>/);
   });
 
+  test("generated builders with literal arguments fold into the shape", () => {
+    const options = {
+      intrinsics: { "solid-fuse/flutter": { Padding: "flutter_Padding" } },
+      builders: {
+        "solid-fuse/flutter": {
+          "EdgeInsets.all": { tag: "EdgeInsets.all", positional: ["value"] },
+          "EdgeInsets.only": { tag: "EdgeInsets.only", positional: [] },
+          "Colors.red": { const: "Colors.red" },
+          FlSpot: { tag: "FlSpot", positional: ["x", "y"] },
+        },
+      },
+    };
+    const code = transformJsx(
+      `import { Padding, EdgeInsets as E, Colors, FlSpot } from "solid-fuse/flutter";\n` +
+        `const x = <Padding a={E.all(8)} b={E.only({ left: 1 })} c={Colors.red} d={[FlSpot(0, 1)]} e={E.all(n)} f={Colors.blue} g={E.only(1)} />;\n`,
+      "/a.tsx",
+      options,
+    )!.code;
+    expect(code).toContain(
+      `["flutter_Padding",{"a":{"$":"EdgeInsets.all","value":8},"b":{"$":"EdgeInsets.only","left":1},"c":"Colors.red","d":[{"$":"FlSpot","x":0,"y":1}]}]`,
+    );
+    // A dynamic argument, an unknown member, a non-object named argument: left to run.
+    expect(code).toMatch(/e=\{E\.all\(n\)\} f=\{Colors\.blue\} g=\{E\.only\(1\)\}/);
+  });
+
   test("line numbers do not move", () => {
     const source = `import { View, Text } from "solid-fuse";\nconst x = (\n  <View>\n    <Text>\n      a\n    </Text>\n    <Text>{b()}</Text>\n  </View>\n);\nthrow new Error("line 10");\n`;
     const out = transformJsx(source, "/a.tsx")!;
