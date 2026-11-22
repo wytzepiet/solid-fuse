@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
-import { createSignal, flush, For } from "solid-js";
+import { createSignal, createStore, flush, For } from "solid-js";
 
 // Run through `bun run test` (or `bun test --conditions browser`): by default
 // Bun resolves solid-js to its server build, where nothing is reactive.
@@ -366,5 +366,108 @@ describe("compiler contract", () => {
     R.applyRef((n: unknown) => (viaApply = n), el);
     expect(viaRef).toBe(el);
     expect(viaApply).toBe(el);
+  });
+});
+
+describe("spread (what a wrapper component compiles to)", () => {
+  // `<view {...props} />` → createElement("view") + spread(el, props, false)
+  function wrapper(type: string, props: any) {
+    const el = R.createElement(type);
+    R.spread(el, props, false);
+    return el;
+  }
+  const setProps = (ops: Op[]) => ops.filter((o) => o.op === "setProp");
+
+  test("literal props of a plain props object ride in create, with no effect", () => {
+    let tapped = 0;
+    let el!: InstanceType<typeof R.FuseNode>;
+    mount(() => (el = wrapper("view", { width: 40, flex: { gap: 2 }, onTap: () => tapped++ })));
+    expect(takeOps()[0]).toEqual({
+      op: "create", id: el.id, type: "view", props: { width: 40, flex: { gap: 2 }, onTap: true },
+    });
+  });
+
+  test("getter props update; literals next to them are left alone", () => {
+    const [h, setH] = createSignal(1);
+    let el!: InstanceType<typeof R.FuseNode>;
+    mount(() => (el = wrapper("view", { width: 40, get height() { return h(); } })));
+    expect(takeOps()[0].props).toEqual({ width: 40, height: 1 });
+    setH(2);
+    flush();
+    expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "height", value: 2 }]);
+    setH(2);
+    flush();
+    expect(takeOps()).toEqual([]);
+  });
+
+  test("children: static and getter; skipChildren leaves them out", () => {
+    const [label, setLabel] = createSignal("a");
+    let outer!: InstanceType<typeof R.FuseNode>;
+    let inner!: InstanceType<typeof R.FuseNode>;
+    mount(() => {
+      inner = wrapper("text", { get children() { return label(); } });
+      outer = wrapper("view", { children: inner });
+      return outer;
+    });
+    expect(outer.children).toEqual([inner]);
+    const text = inner.first!;
+    takeOps();
+    setLabel("b");
+    flush();
+    expect(takeOps()).toEqual([{ op: "setText", id: text.id, text: "b" }]);
+
+    const skipped = R.createElement("view");
+    R.spread(skipped, { width: 1, children: R.createElement("text") }, true);
+    expect(skipped.first).toBeUndefined();
+  });
+
+  test("ref, as a literal and as a getter, receives the node", () => {
+    const seen: unknown[] = [];
+    let a!: InstanceType<typeof R.FuseNode>;
+    let b!: InstanceType<typeof R.FuseNode>;
+    mount(() => {
+      a = wrapper("view", { ref: (n: unknown) => seen.push(n) });
+      b = wrapper("view", { get ref() { return (n: unknown) => seen.push(n); } });
+      return [a, b];
+    });
+    expect(seen).toEqual([a, b]);
+    expect(takeOps().filter((o) => o.op === "create").map((o) => o.props)).toEqual([{}, {}]);
+  });
+
+  test("a store keeps the reactive path: keys can change", () => {
+    const [state, setState] = createStore<Record<string, any>>({ width: 1 });
+    let el!: InstanceType<typeof R.FuseNode>;
+    mount(() => (el = wrapper("view", state)));
+    expect(takeOps()[0].props).toEqual({ width: 1 });
+    setState((s) => {
+      s.width = 2;
+      s.height = 3;
+    });
+    flush();
+    expect(setProps(takeOps())).toEqual([
+      { op: "setProp", id: el.id, name: "width", value: 2 },
+      { op: "setProp", id: el.id, name: "height", value: 3 },
+    ]);
+  });
+
+  test("merged props and an array of sources keep the reactive path", () => {
+    const [w, setW] = createSignal(1);
+    let a!: InstanceType<typeof R.FuseNode>;
+    let b!: InstanceType<typeof R.FuseNode>;
+    mount(() => {
+      a = wrapper("view", R.mergeProps({ height: 5 }, { get width() { return w(); } }));
+      // `<view {...p} width={w()} />`
+      b = R.createElement("view");
+      R.spread(b, [{ height: 6, width: 0 }, { get width() { return w(); } }], false);
+      return [a, b];
+    });
+    const created = takeOps().filter((o) => o.op === "create");
+    expect(created.map((o) => o.props)).toEqual([{ height: 5, width: 1 }, { height: 6, width: 1 }]);
+    setW(9);
+    flush();
+    expect(setProps(takeOps())).toEqual([
+      { op: "setProp", id: a.id, name: "width", value: 9 },
+      { op: "setProp", id: b.id, name: "width", value: 9 },
+    ]);
   });
 });

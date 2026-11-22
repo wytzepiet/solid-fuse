@@ -91,6 +91,8 @@ Wrapper components are the seam between user code and the renderer. Once you own
 
 Adding JS behavior to a widget no longer means switching from `<widget>` to `<MyWidget>` — the wrapper is already there.
 
+A wrapper adds little at runtime. When `<Badge label="New" color={tone()} />` reaches `<badge {...props} />`, the renderer looks at how each prop was written: a literal (`label`) is sent once with the node's creation and never tracked, and only expressions (`color`) share a reactive binding. Props that come from a store or from `merge()` are tracked as a whole, since their keys can change.
+
 ## FuseNode prop accessors
 
 `FuseNode` extends `FuseMap`, which provides typed accessors for reading props. All return nullable — if the prop wasn't set in JSX, you get `null`.

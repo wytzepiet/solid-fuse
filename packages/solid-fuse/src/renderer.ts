@@ -1,5 +1,5 @@
-import { createRenderer } from "@solidjs/universal";
-import { flush } from "solid-js";
+import { createRenderer, type RendererEffectOptions } from "@solidjs/universal";
+import { $PROXY, flush } from "solid-js";
 import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
 import { reportDevError } from "./dev-error";
 import { host } from "./host";
@@ -181,7 +181,7 @@ const {
   createTextNode,
   insertNode: innerInsertNode,
   insert,
-  spread,
+  spread: universalSpread,
   setProp,
   mergeProps,
   ...rest
@@ -311,6 +311,80 @@ export function render(code: () => any) {
 
 const insertNode = innerInsertNode;
 const { ref, applyRef } = rest;
+
+/**
+ * `<tag {...props} />` — what every wrapper component (`View`, `Text`, a
+ * package's own) compiles to.
+ *
+ * The universal `spread` runs one render effect that copies every prop and
+ * diffs the copy, whatever the props are. But a props object written in JSX
+ * is a plain object in which the compiler has already classified each prop:
+ * a literal is a data property, an expression is a getter (the contract
+ * behind Solid's `isStatic`). So for a plain object the work is decided per
+ * key, once:
+ *
+ * - a data property cannot change: set it now, with no effect (it rides in
+ *   the node's `create` op);
+ * - the getters share one effect;
+ * - `children` is inserted statically unless it is a getter.
+ *
+ * Anything proxy-backed (a store, `merge()`/`omit()` views) can gain and
+ * lose keys, and an array of sources needs merging: those keep the universal
+ * implementation.
+ */
+function spread(
+  node: FuseNode,
+  props: any,
+  skipChildren?: boolean,
+  options?: RendererEffectOptions,
+): void {
+  if (props === null || typeof props !== "object" || Array.isArray(props) || $PROXY in props) {
+    universalSpread(node, props, skipChildren, options);
+    return;
+  }
+  let dynamic: string[] | undefined;
+  for (const key in props) {
+    const desc = Object.getOwnPropertyDescriptor(props, key);
+    // An inherited property has no own descriptor: treat it as dynamic.
+    const isDynamic = desc === undefined || desc.get !== undefined;
+    if (key === "children") {
+      if (!skipChildren) {
+        insert(node, isDynamic ? () => props.children : desc.value, undefined, undefined, options);
+      }
+    } else if (isDynamic) {
+      (dynamic ??= []).push(key);
+    } else if (key === "ref") {
+      applySpreadRef(node, desc.value);
+    } else {
+      setProperty(node, key, desc.value);
+    }
+  }
+  if (dynamic === undefined) return;
+  const keys = dynamic;
+  const prev: Record<string, any> = {};
+  effect(
+    () => {
+      const next: Record<string, any> = {};
+      for (let i = 0; i < keys.length; i++) next[keys[i]] = props[keys[i]];
+      return next;
+    },
+    (next: Record<string, any>) => {
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = next[key];
+        if (value === prev[key]) continue;
+        if (key === "ref") applySpreadRef(node, value);
+        else setProperty(node, key, value);
+        prev[key] = value;
+      }
+    },
+    options,
+  );
+}
+
+function applySpreadRef(node: FuseNode, value: any) {
+  if (typeof value === "function" || Array.isArray(value)) ref(() => value, node);
+}
 
 export {
   effect,
