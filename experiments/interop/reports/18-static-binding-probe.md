@@ -101,3 +101,30 @@ Node 22 (`perf_bench-main/tools/jit.mjs`: loads the bench bundle with a stub `fj
 | JS heap retained by one mounted 5,000-node screen, KB (after gc) | 2,060 | 741 | 741 |
 
 Warm, the JIT makes all three the same. Cold, the fast version is about 18% faster; recycle is within the spread. The heap is the clear difference: the screen has 2,275 static bindings (455 cards × 5), and not keeping an effect for each saves about 1,320 KB, about 580 bytes per binding, 64% of what this screen retains on the JS side. That holds on any engine.
+
+## Addendum 5: a first-pass path inside Solid (the S.js shape)
+
+Patch: `patches/spike-solid-first-pass.patch`, against `solidjs/solid` main `a406a5d`. This replaces the bolted-on probe with a change to how a render effect is born.
+
+Shape:
+
+- A render effect that runs on creation is created **unlinked** (`createEffectNode(..., unlinked)`). Nothing has to be unhooked later.
+- `firstPass(node)` in `core.ts` runs the body once on that node. In a quiet world (no hold, lane, snapshot or observer) it opens a small frame itself. Otherwise it links the node and calls the general `recompute`.
+- After the body: nothing recorded means the effect does not exist, the value is applied and the node is kept as the spare. A plain outcome means the node is linked and published in four assignments. Anything else is linked and handed to `recompute(node, true, ran)`, which finishes a pass whose body already ran (six small edits in `recompute`, no stub function).
+- "Nothing recorded" is one counter (`touches`, bumped by `read`, `getOwner`, `getObserver`) plus empty child, cleanup and context checks. No `probing` flags.
+- On for every render effect without `defer`/`schedule`, not only compiler bindings.
+
+Tests (path on by default): signals 7,263, universal 61, solid-js 936, web client 2,040, web hydrate 801 pass; web server 2,226 of 2,227 (the same adapter test that fails on unpatched main). Path counts in the signals suite: resumed 28,674, plain 9,492, general 4,843, static 30.
+
+QuickJS, best of 8 per process, median of 8 processes, JS ms:
+
+| | main | probe + fast finish | first pass | first pass, no spare |
+|---|---:|---:|---:|---:|
+| mount 5,000 static | 54.0 | 30.7 | 31.1 | 38.7 |
+| mount 1,000 reactive rows | 52.9 | 47.4 | 44.7 | 44.5 |
+
+V8 (Node 22, 12 processes): cold first mount 11.5 / 8.4 / 8.9 ms, warm 1.34 / 1.26 / 1.26, heap of the mounted screen 2,060 / 741 / 741 KB.
+
+The spare is an optimisation worth about 7.5 ms of the 23 ms gain; the design works without it.
+
+Not done: dev-tools `onOwner` now fires when a node is kept, after its children's; memos still take the general first pass.

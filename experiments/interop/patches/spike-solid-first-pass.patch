@@ -1,0 +1,453 @@
+diff --git a/packages/signals/scripts/mangle-props.json b/packages/signals/scripts/mangle-props.json
+index 2c4db96..c3686c1 100644
+--- a/packages/signals/scripts/mangle-props.json
++++ b/packages/signals/scripts/mangle-props.json
+@@ -83,6 +83,7 @@
+     "_nodes": "ln",
+     "_notifiedAt": "we",
+     "_offset": "wt",
++    "_ok": "Pt",
+     "_open": "tt",
+     "_opened": "Gt",
+     "_order": "yt",
+@@ -264,6 +265,7 @@
+     "_nodes": "Ye",
+     "_notifiedAt": "Dt",
+     "_offset": "zt",
++    "_ok": "fn",
+     "_open": "tt",
+     "_opened": "Tn",
+     "_order": "Zt",
+diff --git a/packages/signals/src/core/core.ts b/packages/signals/src/core/core.ts
+index ecae8be..55dc0dc 100644
+--- a/packages/signals/src/core/core.ts
++++ b/packages/signals/src/core/core.ts
+@@ -348,7 +348,7 @@ export function clearSnapshots(): void {
+   snapshotCaptureActive = false;
+ }
+ 
+-export function recompute(el: Computed<any>, create: boolean = false): void {
++export function recompute(el: Computed<any>, create: boolean = false, ran?: Ran): void {
+   // Any recompute can clean a marked subscriber: invalidate the skip (§12d).
+   bumpNotifyEpoch();
+   const isEffect = (el as any)._type;
+@@ -516,7 +516,7 @@ export function recompute(el: Computed<any>, create: boolean = false): void {
+     );
+ 
+   // Shadow seat, compared with the seating above (reader-seat-rebuild.md §3.2).
+-  if (__TEST__)
++  if (__TEST__ && !ran)
+     shadowSeatOpen(
+       el,
+       create,
+@@ -527,12 +527,16 @@ export function recompute(el: Computed<any>, create: boolean = false): void {
+     );
+   const oldcontext = context;
+   context = el;
+-  el._depsTail = null;
+-  el._depGen++;
++  if (!ran) {
++    el._depsTail = null;
++    el._depGen++;
++  }
+   // REACTIVE_ZOMBIE is position (on its owner's parked frame), so every per-pass
+   // wipe keeps it (#3543). A release found while queued is this pass's tail's (#4474).
+   const releaseAfter = el._flags & REACTIVE_RELEASE_AFTER;
+-  el._flags = REACTIVE_RECOMPUTING_DEPS | (el._flags & (REACTIVE_ZOMBIE | REACTIVE_REASK));
++  el._flags = ran
++    ? el._flags
++    : REACTIVE_RECOMPUTING_DEPS | (el._flags & (REACTIVE_ZOMBIE | REACTIVE_REASK));
+   el._time = clock;
+   // The previous value: the staging, else the committed value.
+   let value = el._pendingValue !== NOT_PENDING ? el._pendingValue : el._value;
+@@ -554,17 +558,17 @@ export function recompute(el: Computed<any>, create: boolean = false): void {
+   const prevStale = stale;
+   if (isStaleEffect) stale = true;
+   // Dev: only this pass's body is judged (D-42).
+-  if (__DEV__) clearThrownRead(el);
++  if (__DEV__ && !ran) clearThrownRead(el);
+   try {
+     // The sync fast arm is prod-only, so dev checks sync nodes too (D-42).
+     if (!__DEV__ && el._config & CONFIG_SYNC) {
+-      value = el._fn(value);
++      value = ran ? outcome(ran) : el._fn(value);
+       if (el._x !== null) el._x._inFlight = null;
+       el._loading = false;
+     } else {
+       // A projection self-registers its flight; its undefined return is not an answer.
+       const prevInFlight = el._x?._inFlight;
+-      const fnResult = el._fn(value);
++      const fnResult = ran ? outcome(ran) : el._fn(value);
+       const isAsyncResult = typeof fnResult === "object" && fnResult !== null;
+       const selfRegistered = el._x?._inFlight !== prevInFlight;
+       // Dev: a body that returned after a read threw into it caught the throw,
+@@ -643,7 +647,7 @@ export function recompute(el: Computed<any>, create: boolean = false): void {
+         : REACTIVE_JOINED)
+     );
+     // Shadow seat: the born-held decision, then restore.
+-    if (__TEST__) shadowSeatClose(el, !!isEffect, joined, creatorPass(oldcontext), mount);
++    if (__TEST__ && !ran) shadowSeatClose(el, !!isEffect, joined, creatorPass(oldcontext), mount);
+     // A verdict reader is one only while it probes or reads a memo that does
+     // (D-25). Folded away without the verdict engine.
+     if (observeFlightHook)
+@@ -1193,21 +1197,24 @@ export function createEffectNode<T>(
+   effectFn: (val: T, prev: T | undefined) => void | (() => void),
+   errorFn: ((err: unknown, cleanup: () => void) => void | (() => void)) | undefined,
+   type: number,
+-  options: NodeOptions<T> | undefined
++  options: NodeOptions<T> | undefined,
++  unlinked?: boolean
+ ): any {
+   const transparent = options?.transparent ?? false;
++  const config =
++    // CONFIG_FRAME for a render effect.
++    (type << 23) |
++    (transparent ? CONFIG_TRANSPARENT : 0) |
++    (options?.ownedWrite ? CONFIG_OWNED_WRITE : 0) |
++    (options?.sync ? CONFIG_SYNC : 0) |
++    (options?._extraConfig ?? 0) |
++    (snapshotCaptureActive && ownerInSnapshotScope(context) ? CONFIG_IN_SNAPSHOT_SCOPE : 0);
++  if (unlinked && spare !== null) return reuseSpare(fn, effectFn, errorFn, options, config);
+   // See `computed()` for the observe slots.
+   const self = __OBSERVE__
+     ? ({
+         id: inheritId(options, transparent, context),
+-        _config:
+-          // CONFIG_FRAME for a render effect.
+-          (type << 23) |
+-          (transparent ? CONFIG_TRANSPARENT : 0) |
+-          (options?.ownedWrite ? CONFIG_OWNED_WRITE : 0) |
+-          (options?.sync ? CONFIG_SYNC : 0) |
+-          (options?._extraConfig ?? 0) |
+-          (snapshotCaptureActive && ownerInSnapshotScope(context) ? CONFIG_IN_SNAPSHOT_SCOPE : 0),
++        _config: config,
+         _equals: false as unknown as Computed<T>["_equals"],
+         _disposal: null,
+         _context: context?._context ?? defaultContext,
+@@ -1245,14 +1252,7 @@ export function createEffectNode<T>(
+       } as any)
+     : ({
+         id: inheritId(options, transparent, context),
+-        _config:
+-          // CONFIG_FRAME for a render effect.
+-          (type << 23) |
+-          (transparent ? CONFIG_TRANSPARENT : 0) |
+-          (options?.ownedWrite ? CONFIG_OWNED_WRITE : 0) |
+-          (options?.sync ? CONFIG_SYNC : 0) |
+-          (options?._extraConfig ?? 0) |
+-          (snapshotCaptureActive && ownerInSnapshotScope(context) ? CONFIG_IN_SNAPSHOT_SCOPE : 0),
++        _config: config,
+         _equals: false as unknown as Computed<T>["_equals"],
+         _disposal: null,
+         _context: context?._context ?? defaultContext,
+@@ -1290,10 +1290,185 @@ export function createEffectNode<T>(
+   if (options?.unobserved) ext(self)._unobserved = options.unobserved;
+   // Dev only: observe mangles `_` option names (CONFIG_WIDE).
+   if (__DEV__ && options?._wide) self._config |= CONFIG_WIDE;
+-  setupComputedNode(self, lazyOptions);
++  setupComputedNode(self, lazyOptions, unlinked);
+   return self;
+ }
+ 
++/** What a body that already ran left: its return, or its throw. */
++export interface Ran {
++  _ok: boolean;
++  _value: unknown;
++}
++function outcome(ran: Ran): any {
++  if (ran._ok) return ran._value;
++  throw ran._value;
++}
++
++/** Bumped by every read and owner lookup: a pass that leaves it as it was
++ * handed its node to nothing. */
++export let touches = 0;
++export function touch(): void {
++  touches++;
++}
++
++/** A render effect node whose first pass recorded nothing, kept for the next
++ * creation. It was never linked, read or handed out. */
++let spare: any = null;
++
++function reuseSpare(
++  fn: any,
++  effectFn: any,
++  errorFn: any,
++  options: NodeOptions<any> | undefined,
++  config: number
++): any {
++  const self = spare;
++  spare = null;
++  self.id = inheritId(options, options?.transparent ?? false, context);
++  self._config = config;
++  self._context = context?._context ?? defaultContext;
++  self._fn = fn;
++  self._effectFn = effectFn;
++  self._errorFn = errorFn;
++  self._parent = context;
++  self._time = clock;
++  if (__OBSERVE__) {
++    self._name = options?.name ?? "effect";
++    self._loc = options?.loc;
++  }
++  if (__DEV__ && options?._wide) self._config |= CONFIG_WIDE;
++  setupComputedNode(self, lazyOptions, true);
++  return self;
++}
++
++/** Link a node created unlinked into its owner. */
++function adopt(el: any): void {
++  if (el._parent !== null) linkChild(el._parent, el);
++  if (__DEV__) DEV.hooks.onOwner?.(el);
++}
++
++/**
++ * A render effect's first pass, on a node not yet linked into its owner. The
++ * pass decides whether the effect exists: a body that read nothing, created
++ * nothing and registered nothing can never run again, so its node is not
++ * kept. Returns true for that case, with the value in `_value`; the caller
++ * applies it and then calls `release` or `keep`.
++ *
++ * Outside a quiet world (a hold, a lane, a snapshot, an observer) the node is
++ * linked first and takes the general pass.
++ */
++export function firstPass(el: any): boolean {
++  const owner = el._parent as any;
++  const creator = owner === null ? null : creatorPass(owner);
++  if (
++    owner === null ||
++    owner._flags & REACTIVE_DISPOSED ||
++    el._x !== null ||
++    verdict !== null ||
++    snapshotCaptureActive ||
++    wireExternalSourceHook !== undefined ||
++    flushTransaction !== null ||
++    passTx !== null ||
++    (__OBSERVE__ && attrHooks !== null) ||
++    (laneStageHook &&
++      (passLane !== null ||
++        (creator !== null &&
++          ((creator._flags as number) & REACTIVE_PROBED ||
++            (creator._config & CONFIG_MOUNT_AHEAD && creator._statusFlags & STATUS_UNINITIALIZED) ||
++            ((creator as any)._type === EFFECT_RENDER && creator._depsTail)))))
++  ) {
++    adopt(el);
++    recompute(el, true);
++    if (__DEV__) stat("g");
++    return false;
++  }
++  const seen = touches;
++  const prevTracking = tracking;
++  const prevStale = stale;
++  let prevStrictRead: string | false = false;
++  let prevStrictPending: string | false = false;
++  if (__DEV__) {
++    prevStrictRead = strictRead;
++    prevStrictPending = strictPending;
++    strictRead = strictPending = false;
++    clearThrownRead(el);
++  }
++  const prevCopy = __DEV__ ? enterCopy() : undefined;
++  const mount = laneStageHook && laneRoot;
++  if (__TEST__)
++    shadowSeatOpen(el, true, creator, null, mount, !!((creator?._flags as number) & REACTIVE_JOINED));
++  el._flags = REACTIVE_RECOMPUTING_DEPS;
++  context = el;
++  tracking = stale = true;
++  let value: any;
++  let ok = true;
++  try {
++    value = el._fn(undefined);
++  } catch (e) {
++    ok = false;
++    value = e;
++  } finally {
++    context = owner;
++    tracking = prevTracking;
++    stale = prevStale;
++    if (__TEST__) shadowSeatClose(el, true, !!(el._flags & REACTIVE_JOINED), creator, mount);
++    if (__DEV__) {
++      strictRead = prevStrictRead;
++      strictPending = prevStrictPending;
++      exitCopy(prevCopy);
++    }
++  }
++  if (
++    ok &&
++    el._x === null &&
++    el._flags === REACTIVE_RECOMPUTING_DEPS &&
++    el._statusFlags === STATUS_UNINITIALIZED &&
++    el._pendingValue === NOT_PENDING &&
++    el._subs === null &&
++    !(owner._flags & REACTIVE_DISPOSED) &&
++    (el._config & CONFIG_SYNC || typeof value !== "object" || value === null)
++  ) {
++    // The plain outcome: a value, and nothing for the general pass to settle.
++    el._flags = REACTIVE_NONE;
++    el._statusFlags = 0;
++    el._value = value;
++    if (
++      touches === seen &&
++      el._firstChild === null &&
++      el._disposal === null &&
++      el._childCount === 0 &&
++      el._context === owner._context
++    ) {
++      if (__DEV__) stat("s");
++      return true;
++    }
++    if (__DEV__) stat("p");
++    adopt(el);
++    if (__DEV__) checkCaughtRead(el, value);
++    el._modified = true;
++    return false;
++  }
++  if (__DEV__) stat("r");
++  adopt(el);
++  recompute(el, true, { _ok: ok, _value: value });
++  return false;
++}
++
++/** Keep a node `firstPass` reported empty: its callback left something. */
++export function keep(el: any): void {
++  adopt(el);
++}
++
++/** Drop a node `firstPass` reported empty, once its value is applied. */
++export function release(el: any): void {
++  el._fn = el._effectFn = el._errorFn = null;
++  el._value = el._prevValue = undefined;
++  el._parent = null;
++  el._flags = REACTIVE_LAZY;
++  el._statusFlags = STATUS_UNINITIALIZED;
++  spare = el;
++}
++
+ /** The shared effect status notifier, installed by effect.ts. */
+ export let effectStatusNotify: ((this: any) => void) | null = null;
+ export function setEffectStatusNotify(fn: NonNullable<typeof effectStatusNotify>): void {
+@@ -1307,7 +1482,11 @@ export function statusNotifierOf(el: any): ((this: any) => void) | null {
+ 
+ const lazyOptions = { lazy: true } as const;
+ 
+-function setupComputedNode<T>(self: Computed<T>, options: NodeOptions<T> | undefined): void {
++function setupComputedNode<T>(
++  self: Computed<T>,
++  options: NodeOptions<T> | undefined,
++  unlinked?: boolean
++): void {
+   self._prevHeap = self;
+   const parent = (context as Root)?._root
+     ? (context as Root)._parentComputed
+@@ -1324,9 +1503,11 @@ function setupComputedNode<T>(self: Computed<T>, options: NodeOptions<T> | undef
+     throw new Error(PRIMITIVE_IN_FORBIDDEN_SCOPE_MESSAGE);
+   }
+   if (__DEV__) assertNotInEffectCallback();
+-  if (context) linkChild(context, self);
+-  if (__DEV__) DEV.hooks.onOwner?.(self);
+-  if (parent) self._height = parent._height + 1;
++  if (!unlinked) {
++    if (context) linkChild(context, self);
++    if (__DEV__) DEV.hooks.onOwner?.(self);
++  }
++  self._height = parent ? parent._height + 1 : 0;
+   wireExternalSourceHook?.(self);
+   !options?.lazy && recompute(self, true);
+   if (snapshotCaptureActive && !options?.lazy) {
+@@ -1775,6 +1956,7 @@ export function heldRead(): number {
+ export function read<T>(el: Signal<T> | Computed<T>): T;
+ // Typed `any` so `el` needs no cast alias: an alias the minifier keeps.
+ export function read<T>(el: any): T {
++  touches++;
+   // Shadow (seat.ts): compare the slot the table predicts with the one served.
+   if (__TEST__ && !shadowConsumeBypass()) return shadowRead(el);
+   if (__DEV__) devRead(el);
+@@ -2515,3 +2697,9 @@ export function markRefresh(node: Computed<any>, check?: boolean): void {
+     schedule();
+   }
+ }
++
++const statsFile = __DEV__ && (globalThis as any).process?.env?.FIRST_PASS_STATS;
++const statsFs = statsFile && (globalThis as any).process.getBuiltinModule("fs");
++function stat(c: string): void {
++  if (statsFs) statsFs.appendFileSync(statsFile, c);
++}
+diff --git a/packages/signals/src/core/effect.ts b/packages/signals/src/core/effect.ts
+index b54784c..31255ff 100644
+--- a/packages/signals/src/core/effect.ts
++++ b/packages/signals/src/core/effect.ts
+@@ -14,6 +14,9 @@ import {
+ import {
+   computed,
+   createEffectNode,
++  firstPass,
++  keep,
++  release,
+   enterCallback,
+   exitCallback,
+   recompute,
+@@ -53,6 +56,8 @@ import {
+ } from "./scheduler.js";
+ import type { Computed, NodeOptions, Owner } from "./types.js";
+ 
++const FIRST_PASS_OFF = __DEV__ && !!(globalThis as any).process?.env?.FIRST_PASS_OFF;
++
+ export interface Effect<T> extends Computed<T>, Owner {
+   _effectFn: (val: T, prev: T | undefined) => void | (() => void);
+   _errorFn?: (err: unknown, cleanup: () => void) => void;
+@@ -74,14 +79,24 @@ export function effect<T>(
+   options?: NodeOptions<any> & { user?: boolean; defer?: boolean; schedule?: boolean }
+ ): void {
+   const isUser = !!options?.user;
++  // A render effect that runs on creation is born unlinked: its first pass
++  // decides whether it exists (`firstPass`).
++  const unlinked = !isUser && !options?.defer && !options?.schedule && !FIRST_PASS_OFF;
+   const node = createEffectNode<T>(
+     compute,
+     effect,
+     error,
+     isUser ? EFFECT_USER : EFFECT_RENDER,
+-    options
++    options,
++    unlinked
+   ) as Effect<T>;
+-  recompute(node, true);
++  if (!unlinked) recompute(node, true);
++  else if (firstPass(node)) {
++    node._modified = true;
++    runEffect(node, 0);
++    node._cleanup === undefined && node._x === null ? release(node) : keep(node);
++    return;
++  }
+   // A first pass that read a staged value was staged itself (recompute: born
+   // staged); the flush's commit replays this effect. Its first run is not this
+   // creation's (F-7). A lane's node's run is the lane's: queued, not run
+diff --git a/packages/signals/src/core/owner.ts b/packages/signals/src/core/owner.ts
+index 3895ce3..ec62547 100644
+--- a/packages/signals/src/core/owner.ts
++++ b/packages/signals/src/core/owner.ts
+@@ -18,6 +18,7 @@ import {
+   exitDisposal,
+   PRIMITIVE_IN_FORBIDDEN_SCOPE_MESSAGE,
+   runWithOwner,
++  touch,
+   tracking
+ } from "./core.js";
+ import {
+@@ -303,6 +304,7 @@ function formatId(prefix: string, id: number) {
+  * ```
+  */
+ export function getObserver(): Owner | null {
++  touch();
+   return tracking ? context : null;
+ }
+ 
+@@ -324,6 +326,7 @@ export function getObserver(): Owner | null {
+  * ```
+  */
+ export function getOwner(): Owner | null {
++  touch();
+   return context;
+ }
+ 
