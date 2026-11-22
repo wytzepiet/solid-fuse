@@ -1,6 +1,6 @@
 import { getOwner, onCleanup } from "solid-js";
 import { channels } from "./channels";
-import { type FuseNode, createNode, ops, scheduleFlush } from "./renderer";
+import { type FuseNode, createNode, disposeNode, scheduleFlush } from "./renderer";
 
 /**
  * Structural contract for a handle: carries a `FuseNode` in its `node`
@@ -55,8 +55,7 @@ export function createHandle<K extends string>(
   const dispose = () => {
     if (disposed) return;
     disposed = true;
-    ops.push({ op: "dispose", id: node.id });
-    scheduleFlush();
+    disposeNode(node);
   };
 
   if (getOwner()) onCleanup(dispose);

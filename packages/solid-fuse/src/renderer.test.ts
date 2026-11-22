@@ -36,8 +36,30 @@ type Op = Record<string, any>;
 function takeOps(): Op[] {
   R.flushOps();
   const out: Op[] = [];
-  for (const m of sent) if (m.channel === "_ops") out.push(...JSON.parse(m.json));
+  for (const m of sent) {
+    if (m.channel !== "_ops") continue;
+    expect(m.v).toBe(2);
+    out.push(...decode(JSON.parse(m.json)));
+  }
   sent.length = 0;
+  return out;
+}
+
+/** The flat journal (opcode, operands, opcode, ...) as one object per op. */
+function decode(flat: any[]): Op[] {
+  const out: Op[] = [];
+  for (let i = 0; i < flat.length; ) {
+    switch (flat[i]) {
+      case 0: out.push({ op: "create", id: flat[i + 1], type: flat[i + 2], props: flat[i + 3] }); i += 4; break;
+      case 1: out.push({ op: "text", id: flat[i + 1], text: flat[i + 2] }); i += 3; break;
+      case 2: out.push({ op: "setProp", id: flat[i + 1], name: flat[i + 2], value: flat[i + 3] }); i += 4; break;
+      case 3: out.push({ op: "setText", id: flat[i + 1], text: flat[i + 2] }); i += 3; break;
+      case 4: out.push({ op: "insert", parentId: flat[i + 1], childId: flat[i + 2], before: flat[i + 3] }); i += 4; break;
+      case 5: out.push({ op: "remove", childId: flat[i + 1] }); i += 2; break;
+      case 6: out.push({ op: "dispose", id: flat[i + 1] }); i += 2; break;
+      default: throw new Error(`unknown opcode ${flat[i]} at ${i}`);
+    }
+  }
   return out;
 }
 
@@ -50,15 +72,15 @@ class DartTree {
   parent = new Map<number, number>();
   apply(ops: Op[]) {
     for (const op of ops) {
-      if (op.op === "create") this.children.set(op.id, []);
+      if (op.op === "create" || op.op === "text") this.children.set(op.id, []);
       else if (op.op === "insert") {
         this.detach(op.childId);
         const list = this.children.get(op.parentId)!;
-        const at = op.before === undefined ? -1 : list.indexOf(op.before);
+        const at = op.before === null ? -1 : list.indexOf(op.before);
         list.splice(at < 0 ? list.length : at, 0, op.childId);
         this.parent.set(op.childId, op.parentId);
       } else if (op.op === "remove") {
-        if (this.parent.get(op.childId) === op.parentId) this.detach(op.childId);
+        this.detach(op.childId);
       }
     }
   }
@@ -86,7 +108,7 @@ describe("insertNode / removeNode", () => {
     expect(parent.children).toEqual([a, b, c]);
     expect(takeOps()).toEqual([
       { op: "insert", parentId: parent.id, childId: c.id, before: a.id },
-      { op: "insert", parentId: parent.id, childId: c.id },
+      { op: "insert", parentId: parent.id, childId: c.id, before: null },
     ]);
   });
 
@@ -113,7 +135,7 @@ describe("insertNode / removeNode", () => {
     takeOps();
     R.insertNode(p1, b, stranger);
     expect(p1.children).toEqual([a, b]);
-    expect(takeOps()).toEqual([{ op: "insert", parentId: p1.id, childId: b.id }]);
+    expect(takeOps()).toEqual([{ op: "insert", parentId: p1.id, childId: b.id, before: null }]);
   });
 
   test("inserting under another parent detaches from the old one", () => {
@@ -141,7 +163,7 @@ describe("insertNode / removeNode", () => {
     flush();
     expect(p2.children).toEqual([]);
     expect(n.parent).toBeUndefined();
-    expect(takeOps()).toEqual([{ op: "remove", parentId: p2.id, childId: n.id }]);
+    expect(takeOps()).toEqual([{ op: "remove", childId: n.id }]);
   });
 });
 
@@ -246,7 +268,7 @@ describe("props", () => {
     });
     expect(takeOps()).toEqual([
       { op: "create", id: el.id, type: "view", props: { height: 2, width: 1 } },
-      { op: "insert", parentId: 0, childId: el.id },
+      { op: "insert", parentId: 0, childId: el.id, before: null },
     ]);
     setW(5);
     flush();
@@ -276,5 +298,39 @@ describe("props", () => {
       { op: "create", id: handle.node.id, type: "scrollController", props: { initialScrollOffset: 10 } },
       { op: "setProp", id: el.id, name: "controller", value: { _node: handle.node.id } },
     ]);
+  });
+});
+
+describe("journal", () => {
+  test("text nodes, text updates and handle disposal", () => {
+    const [label, setLabel] = createSignal("a");
+    let el!: InstanceType<typeof R.FuseNode>;
+    mount(() => {
+      el = R.createElement("text");
+      R.insert(el, label);
+      return el;
+    });
+    const text = el.first!;
+    expect(takeOps()).toEqual([
+      { op: "create", id: el.id, type: "text", props: {} },
+      { op: "text", id: text.id, text: "a" },
+      { op: "insert", parentId: el.id, childId: text.id, before: null },
+      { op: "insert", parentId: 0, childId: el.id, before: null },
+    ]);
+    setLabel("b");
+    flush();
+    expect(takeOps()).toEqual([{ op: "setText", id: text.id, text: "b" }]);
+
+    const handle = R.createNode("focusNode");
+    R.disposeNode(handle);
+    expect(takeOps()).toEqual([
+      { op: "create", id: handle.id, type: "focusNode", props: {} },
+      { op: "dispose", id: handle.id },
+    ]);
+  });
+
+  test("nothing is sent when nothing changed", () => {
+    R.flushOps();
+    expect(sent).toEqual([]);
   });
 });

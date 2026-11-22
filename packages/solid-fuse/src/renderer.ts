@@ -59,16 +59,24 @@ on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
 
 // --- Ops journal ---
 
-type Op =
-  | { op: "create"; id: number; type: string; props: Record<string, any> }
-  | { op: "setText"; id: number; text: string }
-  | { op: "setProp"; id: number; name: string; value: any }
-  // `before`: id of the sibling the child goes in front of; absent = append.
-  | { op: "insert"; parentId: number; childId: number; before?: number }
-  | { op: "remove"; parentId: number; childId: number }
-  | { op: "dispose"; id: number };
+// A batch is one flat array: an opcode followed by its operands, then the
+// next opcode. No object per op: a mount of 1,000 nodes used to allocate and
+// stringify about 3,700 of them. `applyOps` in dart/lib/src/runtime.dart
+// reads the same layout; change both together and bump OPS_VERSION.
+//
+//   CREATE   id, type, props     new node; props known so far ride along
+//   TEXT     id, text            new text node
+//   SET_PROP id, name, value     value `{ _node: id }` references a node
+//   SET_TEXT id, text
+//   INSERT   parent, child, before   before: sibling id, or null to append;
+//                                    an attached child moves
+//   REMOVE   child               detach; disposed if not re-inserted in
+//                                the same batch
+//   DISPOSE  id
+const CREATE = 0, TEXT = 1, SET_PROP = 2, SET_TEXT = 3, INSERT = 4, REMOVE = 5, DISPOSE = 6;
+const OPS_VERSION = 2;
 
-const ops: Op[] = [];
+const ops: unknown[] = [];
 /** Number of the batch being journalled; bumped each time one is sent. */
 let batch = 0;
 
@@ -86,7 +94,7 @@ function flushOps() {
   // JS→Dart value conversion at 100,000 values, which an op array crosses at
   // roughly 4,500 mounted elements. A string is a single value, and
   // JSON.stringify + jsonDecode is also cheaper than walking the objects.
-  send("_ops", { json: JSON.stringify(ops) });
+  send("_ops", { v: OPS_VERSION, json: JSON.stringify(ops) });
   ops.length = 0;
   batch++;
 }
@@ -118,7 +126,7 @@ function createNode<K extends string>(type: K, props?: Record<string, unknown>):
   if (host.mode !== "release" && _currentComponent) createProps._component = _currentComponent;
   node.created = createProps;
   node.batch = batch;
-  ops.push({ op: "create", id: node.id, type, props: createProps });
+  ops.push(CREATE, node.id, type, createProps);
   if (props) for (const name in props) setProperty(node, name, props[name]);
   return node;
 }
@@ -141,7 +149,7 @@ function setProperty(node: FuseNode, name: string, value: any) {
       // later in this batch than the node that points at it.
       // From here on this node's props go out as ops, in order.
       node.batch = -1;
-      ops.push({ op: "setProp", id: node.id, name, value: { _node: ref.id } });
+      ops.push(SET_PROP, node.id, name, { _node: ref.id });
       scheduleFlush();
       return;
     }
@@ -153,7 +161,7 @@ function setProperty(node: FuseNode, name: string, value: any) {
     // prop.
     node.created![name] = wire;
   } else {
-    ops.push({ op: "setProp", id: node.id, name, value: wire });
+    ops.push(SET_PROP, node.id, name, wire);
   }
   // Like insertNode/removeNode/replaceText: schedule a flush so the op is
   // sent. Without this, a prop-only reactive update that runs after a
@@ -184,12 +192,12 @@ const {
 
   createTextNode(value: string) {
     const node = new FuseNode("__text__");
-    ops.push({ op: "create", id: node.id, type: "__text__", props: { text: value } });
+    ops.push(TEXT, node.id, value);
     return node;
   },
 
   replaceText(node: FuseNode, value: string) {
-    ops.push({ op: "setText", id: node.id, text: value });
+    ops.push(SET_TEXT, node.id, value);
     scheduleFlush();
   },
 
@@ -221,9 +229,7 @@ const {
       if (last) last.next = node;
       else parent.first = node;
     }
-    ops.push(anchor
-      ? { op: "insert", parentId: parent.id, childId: node.id, before: anchor.id }
-      : { op: "insert", parentId: parent.id, childId: node.id });
+    ops.push(INSERT, parent.id, node.id, anchor ? anchor.id : null);
     scheduleFlush();
   },
 
@@ -231,7 +237,7 @@ const {
     // Not (or no longer) a child of `parent`: nothing to detach.
     if (node.parent !== parent) return;
     unlink(node);
-    ops.push({ op: "remove", parentId: parent.id, childId: node.id });
+    ops.push(REMOVE, node.id);
     scheduleFlush();
   },
 
@@ -257,6 +263,12 @@ function unlink(node: FuseNode) {
   if (next) next.prev = prev;
   else parent.last = prev;
   node.parent = node.prev = node.next = undefined;
+}
+
+/** Journal the disposal of a node that was never part of the tree (a handle). */
+function disposeNode(node: FuseNode) {
+  ops.push(DISPOSE, node.id);
+  scheduleFlush();
 }
 
 function createComponent(Comp: any, props: any) {
@@ -291,7 +303,7 @@ export function render(code: () => any) {
     if (typeof dispose === "function") dispose();
     for (let child = root.first; child; child = root.first) {
       unlink(child);
-      ops.push({ op: "remove", parentId: root.id, childId: child.id });
+      ops.push(REMOVE, child.id);
     }
     handlers.clear();
   };
@@ -313,8 +325,8 @@ export {
   mergeProps,
   flushOps,
   ref,
-  ops,
   createNode,
+  disposeNode,
   scheduleFlush,
 };
 

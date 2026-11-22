@@ -11,7 +11,7 @@ SolidJS runs inside [FJS](https://github.com/fluttercandies/fjs) — a QuickJS-b
 
 Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten. Props that are known by the time a new node's batch is sent travel inside its create operation, so mounting an element costs one operation rather than one per prop.
 
-The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string (cheaper to convert than an array of op objects, and not subject to FJS's per-value conversion limit). `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
+The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string: a flat array of opcodes and their operands (cheaper to build and convert than an array of op objects, and not subject to FJS's per-value conversion limit). The batch carries a format version, so a bundle and a runtime built from different solid-fuse versions fail with a clear message instead of misreading each other. `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
 
 Events flow back the same way. A `GestureDetector` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
 
@@ -33,7 +33,7 @@ For production, bundles can be pre-compiled to QuickJS bytecode — no parse ste
 
 Only things that need Flutter cross the bridge: rendering ops, gesture events, platform APIs. Reactive state, data fetching, timers, module imports — all of that stays inside the Rust/QuickJS layer on its own thread.
 
-There's no JSON serialization. FJS passes structured values directly between Dart and JS through Rust. On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
+Channel messages and event payloads are not JSON: FJS passes structured values directly between Dart and JS through Rust. (Render ops are the exception described above — one string per batch.) On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
 
 ## Extending
 
