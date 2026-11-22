@@ -56,3 +56,20 @@ The machine was faster in the afternoon than in the morning run above (head 12.6
 The probe costs reactive bindings about 5 µs each (+18% on that screen): a kept node is set up twice (the probe run, then `recompute` with a stub that re-links the recorded dependencies). Done inside `recompute` that replay would not be needed, but that is the maintainers' code to restructure. Recycle saves only the allocation and linking of the node, about a fifth of the mount, with no cost elsewhere.
 
 Earlier claim corrected: "about 110 of 145 µs per card is creating bindings" came from micro benchmarks; removing nearly all of that cost (probe) takes 46% off the mount, so about half is the measured share.
+
+## Addendum 2: early exit, and a better way to measure
+
+The medians above could not resolve differences under about 20% (a later run of the same bundles put recycle level with head). Method from here on: 8 repeats of each operation per process, take the best of the 8, median over 8 processes, bundles alternated. Spread between processes is then about ±5%.
+
+**Early exit** (`patches/spike-solid-recycle-early.patch`, recycle plus 22 lines in `recompute`): after the compute of a render effect's first pass, if the node has no dependencies, no extension, no flags, no status, nothing staged, no subscribers, and no transaction or lane is active, set the value, mark it modified and return without the tail.
+
+JS ms (production builds of `a406a5d`, test switches compiled out; two runs where given):
+
+| | head | recycle | recycle + early exit | probe |
+|---|---:|---:|---:|---:|
+| mount 5,000 nodes, all bindings static | 55.2 / 57.4 | 45.2 / 47.7 | 41.6 / 41.5 | 31.3 |
+| mount 1,000 rows, all bindings reactive | 53.7 / 62.4 | 56.9 / 57.6 | 57.0 / 56.6 | 67.4 |
+
+So: recycle −17%, with early exit −26%, probe −43% on static bindings; on reactive bindings the first two are within noise of head (the 62.4 was a noisy process group, range 53–77) and the probe is about +25%.
+
+Tests with early exit: signals 7,263 (`PROBE_ALL=1`), universal 61, solid-js 936, web client 2,040, web hydrate 801 pass; web server as before. One hydrate test (`served-source-landing`, uses `sleep(30)`) failed once in a full run under load and passed in three reruns and a second full run. solid-fuse 65 pass.

@@ -1,0 +1,233 @@
+diff --git a/packages/signals/src/core/core.ts b/packages/signals/src/core/core.ts
+index ecae8be..e8accdf 100644
+--- a/packages/signals/src/core/core.ts
++++ b/packages/signals/src/core/core.ts
+@@ -672,6 +672,29 @@ export function recompute(el: Computed<any>, create: boolean = false): void {
+     if (el._x !== null) el._x._reask = reask && (el._statusFlags & STATUS_PENDING) !== 0;
+   }
+ 
++  // PROTOTYPE: a render effect's first pass that recorded nothing has no tail.
++  if (
++    !__OBSERVE__ &&
++    create &&
++    isEffect === EFFECT_RENDER &&
++    el._deps === null &&
++    el._x === null &&
++    el._flags === 0 &&
++    el._statusFlags === 0 &&
++    el._pendingValue === NOT_PENDING &&
++    el._subs === null &&
++    flushTransaction === null &&
++    passTx === null &&
++    (!laneStageHook || passLane === null) &&
++    !missedWake &&
++    !releaseAfter &&
++    el._equals === false
++  ) {
++    el._value = value;
++    (el as any)._modified = true;
++    if (laneStageHook) setPassLane(prevLane);
++    return;
++  }
+   // A node that died during its own pass is void: unlink the reads made after
+   // `dispose()`, retire its flight, and publish nothing (#3024, #3621).
+   if (el._flags & REACTIVE_DISPOSED) {
+@@ -1294,6 +1317,103 @@ export function createEffectNode<T>(
+   return self;
+ }
+ 
++/* PROTOTYPE (static binding elision): a render effect whose first run left it
++ * empty is taken back out of the tree and reused for the next one. */
++let spareEffect: any = null;
++export let probing = false;
++let probeTouched = false;
++export function touchProbe(): void {
++  probeTouched = true;
++}
++export function beginWatch(): number {
++  const prev = (probing ? 1 : 0) | (probeTouched ? 2 : 0);
++  probing = true;
++  probeTouched = false;
++  return prev;
++}
++export function endWatch(prev: number): boolean {
++  const touched = probeTouched;
++  probing = (prev & 1) !== 0;
++  probeTouched = touched || (prev & 2) !== 0;
++  return touched;
++}
++function effectConfig(options: NodeOptions<any> | undefined, transparent: boolean): number {
++  return (
++    (EFFECT_RENDER << 23) |
++    (transparent ? CONFIG_TRANSPARENT : 0) |
++    (options?.sync ? CONFIG_SYNC : 0) |
++    (snapshotCaptureActive && ownerInSnapshotScope(context) ? CONFIG_IN_SNAPSHOT_SCOPE : 0) |
++    (__DEV__ && (options as any)?._wide ? CONFIG_WIDE : 0)
++  );
++}
++export function takeSpareEffect<T>(
++  fn: (prev?: T) => T,
++  effectFn: (val: T, prev: T | undefined) => void | (() => void),
++  options: NodeOptions<T> | undefined
++): any {
++  const p = spareEffect;
++  if (p === null) return null;
++  spareEffect = null;
++  const transparent = options?.transparent ?? false;
++  p.id = inheritId(options, transparent, context);
++  p._config = effectConfig(options, transparent);
++  p._context = context?._context ?? defaultContext;
++  p._fn = fn;
++  p._height = 0;
++  p._parent = context;
++  p._flags = REACTIVE_LAZY;
++  p._statusFlags = STATUS_UNINITIALIZED;
++  p._time = clock;
++  p._effectFn = effectFn;
++  if (__DEV__) {
++    p._name = options?.name ?? "effect";
++    p._loc = (options as any)?.loc;
++  }
++  setupComputedNode(p, lazyOptions);
++  return p;
++}
++const statsFile = (globalThis as any).process?.env?.PROBE_STATS;
++const statsFs = statsFile && (globalThis as any).process.getBuiltinModule("fs");
++export function releaseIfEmpty(
++  p: any,
++  c: any,
++  options: NodeOptions<any> | undefined,
++  touched: boolean
++): void {
++  if (
++    !touched &&
++    spareEffect === null &&
++    p._deps === null &&
++    p._firstChild === null &&
++    p._disposal === null &&
++    p._x === null &&
++    p._cleanup === undefined &&
++    p._boundRunEffect === undefined &&
++    p._subs === null &&
++    p._childCount === 0 &&
++    p._statusFlags === 0 &&
++    p._flags === 0 &&
++    p._pendingValue === NOT_PENDING &&
++    !p._modified &&
++    p._parent === c &&
++    p._context === c._context &&
++    p._config === effectConfig(options, options?.transparent ?? false)
++  ) {
++    const next = p._nextSibling,
++      prev = p._prevSibling;
++    if (c._firstChild === p) c._firstChild = next;
++    else if (prev !== null) prev._nextSibling = next;
++    if (next !== null) next._prevSibling = prev;
++    p._nextSibling = p._prevSibling = null;
++    p._fn = p._effectFn = null;
++    p._value = p._prevValue = undefined;
++    p._parent = null;
++    p._context = defaultContext;
++    spareEffect = p;
++    if (statsFs) statsFs.appendFileSync(statsFile, "s");
++  } else if (statsFs) statsFs.appendFileSync(statsFile, "a");
++}
++
+ /** The shared effect status notifier, installed by effect.ts. */
+ export let effectStatusNotify: ((this: any) => void) | null = null;
+ export function setEffectStatusNotify(fn: NonNullable<typeof effectStatusNotify>): void {
+@@ -1775,6 +1895,7 @@ export function heldRead(): number {
+ export function read<T>(el: Signal<T> | Computed<T>): T;
+ // Typed `any` so `el` needs no cast alias: an alias the minifier keeps.
+ export function read<T>(el: any): T {
++  if (probing) probeTouched = true;
+   // Shadow (seat.ts): compare the slot the table predicts with the one served.
+   if (__TEST__ && !shadowConsumeBypass()) return shadowRead(el);
+   if (__DEV__) devRead(el);
+diff --git a/packages/signals/src/core/effect.ts b/packages/signals/src/core/effect.ts
+index b54784c..02025b0 100644
+--- a/packages/signals/src/core/effect.ts
++++ b/packages/signals/src/core/effect.ts
+@@ -14,6 +14,11 @@ import {
+ import {
+   computed,
+   createEffectNode,
++  beginWatch,
++  endWatch,
++  releaseIfEmpty,
++  takeSpareEffect,
++  context,
+   enterCallback,
+   exitCallback,
+   recompute,
+@@ -74,6 +79,40 @@ export function effect<T>(
+   options?: NodeOptions<any> & { user?: boolean; defer?: boolean; schedule?: boolean }
+ ): void {
+   const isUser = !!options?.user;
++  const o = options as any;
++  const c = context as any;
++  if (
++    c !== null &&
++    !isUser &&
++    !error &&
++    !(__DEV__ && (globalThis as any).process?.env?.PROBE_OFF) &&
++    !o?.defer &&
++    !o?.schedule &&
++    !o?.unobserved &&
++    !o?.ownedWrite &&
++    o?._extraConfig === undefined &&
++    ((__DEV__ && (globalThis as any).process?.env?.PROBE_ALL) ||
++      (o && o.sync && o.transparent && o.id === undefined))
++  ) {
++    const watch = beginWatch();
++    let touched = true,
++      n: any;
++    try {
++      n =
++        takeSpareEffect<T>(compute, effect, options) ??
++        (createEffectNode<T>(compute, effect, undefined, EFFECT_RENDER, options) as Effect<T>);
++      recompute(n, true);
++      n._pendingValue === NOT_PENDING &&
++        (n._x?._transaction?._lane
++          ? globalQueue.enqueue(n._type, runEffect.bind(null, n), n._x?._transaction)
++          : runEffect(n, 0));
++      touched = false;
++    } finally {
++      touched = endWatch(watch) || touched;
++    }
++    releaseIfEmpty(n, c, options, touched);
++    return;
++  }
+   const node = createEffectNode<T>(
+     compute,
+     effect,
+diff --git a/packages/signals/src/core/owner.ts b/packages/signals/src/core/owner.ts
+index 3895ce3..666eee6 100644
+--- a/packages/signals/src/core/owner.ts
++++ b/packages/signals/src/core/owner.ts
+@@ -18,8 +18,7 @@ import {
+   exitDisposal,
+   PRIMITIVE_IN_FORBIDDEN_SCOPE_MESSAGE,
+   runWithOwner,
+-  tracking
+-} from "./core.js";
++  tracking, probing, touchProbe } from "./core.js";
+ import {
+   assertInvariant,
+   clearSignals,
+@@ -303,6 +302,7 @@ function formatId(prefix: string, id: number) {
+  * ```
+  */
+ export function getObserver(): Owner | null {
++  if (probing) touchProbe();
+   return tracking ? context : null;
+ }
+ 
+@@ -324,6 +324,7 @@ export function getObserver(): Owner | null {
+  * ```
+  */
+ export function getOwner(): Owner | null {
++  if (probing) touchProbe();
+   return context;
+ }
+ 
