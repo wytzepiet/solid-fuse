@@ -6,7 +6,7 @@
 //   cd examples/demo && bun run build   # writes dart/assets/js/bundle.js
 //   cd dart && flutter test integration_test/app_test.dart -d <device>
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:solid_fuse/solid_fuse.dart';
@@ -87,5 +87,16 @@ void main() {
 
     await tester.tap(find.text('+'));
     await pumpUntil(tester, find.text('1'));
+
+    // textField is a material_ui widget: it needs material_ui's Material,
+    // Theme and localizations, not the deprecated package:flutter ones.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('textField'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('textField'));
+    await pumpUntil(tester, find.byType(TextField));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField).first, 'Hi');
+    await pumpUntil(tester, find.text('value = "Hi"'));
   });
 }

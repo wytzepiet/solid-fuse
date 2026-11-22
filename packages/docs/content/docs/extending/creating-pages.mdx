@@ -51,7 +51,7 @@ nav.push(cupertinoPage({ title: "Settings", child: () => <SettingsPage /> }));
 - `pageContent` — a reactive widget rendering the node's JSX children with `flexChildren` layout. Wrap it in your page type's scaffolding (Cupertino, Material, custom).
 
 ```dart title="dart/lib/src/handles/cupertino_page.dart"
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
 class FuseCupertinoPage extends FusePageHandle {
@@ -77,7 +77,7 @@ runtime.registerHandle('cupertinoPage', FuseCupertinoPage.new);
 ## Example: custom fade transition
 
 ```dart title="dart/lib/src/handles/fade_page.dart"
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
 class FuseFadePage extends FusePageHandle {

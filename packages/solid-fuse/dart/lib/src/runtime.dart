@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'connection.dart';
 import 'dev_connection.dart';
@@ -399,7 +399,7 @@ class FuseRuntime {
         : propsStr;
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.red, width: 3),
+        border: Border.all(color: const Color(0xFFF44336), width: 3),
         color: const Color(0xFFFFCDD2),
       ),
       padding: const EdgeInsets.all(8),

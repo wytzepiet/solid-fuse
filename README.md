@@ -53,7 +53,7 @@ export default function App() {
 ### Dart side
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 import '_generated/fuse_packages.dart';
 

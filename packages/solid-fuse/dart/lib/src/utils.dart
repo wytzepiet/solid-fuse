@@ -1,26 +1,26 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'node.dart';
 
 // ─── Named colors ────────────────────────────────────────────────────────────
 
 const _namedColors = <String, Color>{
-  'red': Colors.red,
-  'blue': Colors.blue,
-  'green': Colors.green,
-  'white': Colors.white,
-  'black': Colors.black,
-  'grey': Colors.grey,
-  'orange': Colors.orange,
-  'purple': Colors.purple,
-  'yellow': Colors.yellow,
-  'teal': Colors.teal,
-  'cyan': Colors.cyan,
-  'amber': Colors.amber,
-  'indigo': Colors.indigo,
-  'pink': Colors.pink,
-  'brown': Colors.brown,
-  'transparent': Colors.transparent,
+  'red': Color(0xFFF44336),
+  'blue': Color(0xFF2196F3),
+  'green': Color(0xFF4CAF50),
+  'white': Color(0xFFFFFFFF),
+  'black': Color(0xFF000000),
+  'grey': Color(0xFF9E9E9E),
+  'orange': Color(0xFFFF9800),
+  'purple': Color(0xFF9C27B0),
+  'yellow': Color(0xFFFFEB3B),
+  'teal': Color(0xFF009688),
+  'cyan': Color(0xFF00BCD4),
+  'amber': Color(0xFFFFC107),
+  'indigo': Color(0xFF3F51B5),
+  'pink': Color(0xFFE91E63),
+  'brown': Color(0xFF795548),
+  'transparent': Color(0x00000000),
 };
 
 // ─── parseColor ──────────────────────────────────────────────────────────────
@@ -216,7 +216,7 @@ Gradient? parseGradient(dynamic value) {
   final m = FuseMap.from(value)!;
   final type = m.string('type') ?? 'linear';
   final colors = (m['colors'] as List?)
-      ?.map((c) => parseColor(c) ?? Colors.transparent)
+      ?.map((c) => parseColor(c) ?? const Color(0x00000000))
       .toList();
   if (colors == null || colors.isEmpty) return null;
 
