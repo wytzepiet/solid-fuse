@@ -8,16 +8,27 @@ let nextId = 0;
 let _currentComponent: string | undefined;
 
 export class FuseNode<K extends string = string> {
-  id = nextId++;
-  props: Record<string, any> = {};
-  children: FuseNode[] = [];
-  parent: FuseNode | undefined = undefined;
+  // Fields are assigned in the constructor, not declared with initialisers:
+  // the es2020 build target turns class fields into one defineProperty
+  // helper call each, which costs several times a plain assignment in
+  // QuickJS, and this constructor runs once per element and text node.
+  declare id: number;
+  declare type: K;
+  declare children: FuseNode[];
+  declare parent: FuseNode | undefined;
   /** The props object of this node's `create` op, while that op is unsent. */
-  created: Record<string, any> | undefined = undefined;
+  declare created: Record<string, any> | undefined;
   /** The batch the `create` op was journalled in. */
-  batch = -1;
+  declare batch: number;
 
-  constructor(public type: K) {}
+  constructor(type: K) {
+    this.id = nextId++;
+    this.type = type;
+    this.children = [];
+    this.parent = undefined;
+    this.created = undefined;
+    this.batch = -1;
+  }
 }
 
 // --- Event handler registry ---
@@ -96,7 +107,6 @@ function createNode<K extends string>(type: K, props?: Record<string, unknown>):
 }
 
 function setProperty(node: FuseNode, name: string, value: any) {
-  node.props[name] = value;
   let wire = value;
   if (typeof value === "function") {
     handlers.set(`${node.id}:${name}`, value);
@@ -157,18 +167,11 @@ const {
 
   createTextNode(value: string) {
     const node = new FuseNode("__text__");
-    node.props.text = value;
-    ops.push({
-      op: "create",
-      id: node.id,
-      type: "__text__",
-      props: { text: value },
-    });
+    ops.push({ op: "create", id: node.id, type: "__text__", props: { text: value } });
     return node;
   },
 
   replaceText(node: FuseNode, value: string) {
-    node.props.text = value;
     ops.push({ op: "setText", id: node.id, text: value });
     scheduleFlush();
   },
