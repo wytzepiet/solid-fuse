@@ -4420,10 +4420,10 @@
 		let e;
 		try {
 			e = JSON.stringify(k);
-		} finally {
-			k.length = 0, A++;
+		} catch (e) {
+			p(e);
 		}
-		_("_ops", {
+		k.length = 0, A++, e !== void 0 && _("_ops", {
 			v: Ce,
 			json: e
 		});
@@ -4434,22 +4434,47 @@
 	de(P), fe(P);
 	function I(e, t) {
 		let n = new T(e), r = {};
-		if (C.mode !== "release" && w && (r._component = w), n.batch = A, n.slot = k.push(ve, n.id, e, r) - 1, t) for (let e in t) L(n, e, t[e]);
+		if (C.mode !== "release" && w && (r._component = w), n.batch = A, n.slot = k.push(ve, n.id, e, r) - 1, t) {
+			let e;
+			for (let r in t) {
+				let i = t[r];
+				L(i) ? (e ?? (e = [])).push(r) : z(n, r, i);
+			}
+			if (e) for (let r of e) z(n, r, t[r]);
+		}
 		return n;
 	}
-	function L(e, t, n) {
+	function L(e) {
+		return typeof e != "object" || !e ? null : e instanceof T ? e : e.node instanceof T ? e.node : null;
+	}
+	function R(e, t = 0) {
+		if (typeof e == "number") return e === e && e !== Infinity && e !== -Infinity ? e : String(e);
+		if (typeof e != "object" || !e || t > 16) return e;
+		let n;
+		if (Array.isArray(e)) for (let r = 0; r < e.length; r++) {
+			let i = e[r], a = R(i, t + 1);
+			a !== i && ((n ?? (n = e.slice()))[r] = a);
+		}
+		else for (let r in e) {
+			let i = e[r], a = R(i, t + 1);
+			a !== i && ((n ?? (n = { ...e }))[r] = a);
+		}
+		return n ?? e;
+	}
+	function z(e, t, n) {
 		let r = n;
 		if (typeof n == "function") E.set(`${e.id}:${t}`, n), r = !0;
 		else if (n != null) {
-			let r = n instanceof T ? n : n.node instanceof T ? n.node : null;
-			if (r) {
-				e.batch = -1, k.push(D, e.id, t, { _node: r.id }), F();
+			let i = L(n);
+			if (i) {
+				e.batch = -1, k.push(D, e.id, t, { _node: i.id }), F();
 				return;
 			}
+			r = R(n);
 		}
 		e.batch === A ? k[e.slot][t] = r : k.push(D, e.id, t, r), F();
 	}
-	var { render: we, effect: R, memo: Te, createComponent: z, createElement: B, createTextNode: Ee, insertNode: De, insert: V, spread: Oe, setProp: ke, mergeProps: H, ...Ae } = createRenderer({
+	var { render: we, effect: B, memo: Te, createComponent: V, createElement: H, createTextNode: Ee, insertNode: De, insert: U, spread: Oe, setProp: ke, mergeProps: W, ...Ae } = createRenderer({
 		createElement(e, t) {
 			return I(e, t);
 		},
@@ -4463,10 +4488,10 @@
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
-		setProperty: L,
+		setProperty: z,
 		insertNode(e, t, n) {
 			if (t !== n) {
-				if (t.parent && U(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
+				if (t.parent && G(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
 					let r = n.prev;
 					t.prev = r, t.next = n, n.prev = t, r ? r.next = t : e.first = t;
 				} else {
@@ -4477,7 +4502,7 @@
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (U(t), k.push(O, t.id), F());
+			t.parent === e && (G(t), k.push(O, t.id), F());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4489,19 +4514,19 @@
 			return e.next;
 		}
 	});
-	function U(e) {
+	function G(e) {
 		let t = e.parent, { prev: n, next: r } = e;
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
 	function je(e) {
 		k.push(Se, e.id), F();
 	}
-	function W(e, t) {
-		if (C.mode === "release") return z(e, t);
+	function K(e, t) {
+		if (C.mode === "release") return V(e, t);
 		let n = w;
 		w = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
-			return z(e, t);
+			return V(e, t);
 		} finally {
 			w = n;
 		}
@@ -4516,12 +4541,12 @@
 		}
 		return N = !1, P(), () => {
 			typeof t == "function" && t();
-			for (let e = j.first; e; e = j.first) U(e), k.push(O, e.id);
+			for (let e = j.first; e; e = j.first) G(e), k.push(O, e.id);
 			E.clear();
 		};
 	}
-	var { ref: G, applyRef: Pe } = Ae;
-	function K(e, t, r, i) {
+	var { ref: q, applyRef: Pe } = Ae;
+	function J(e, t, r, i) {
 		if (typeof t != "object" || !t || Array.isArray(t) || $PROXY in t) {
 			Oe(e, t, r, i);
 			return;
@@ -4529,59 +4554,59 @@
 		let a;
 		for (let n in t) {
 			let o = Object.getOwnPropertyDescriptor(t, n), s = o === void 0 || o.get !== void 0;
-			n === "children" ? r || V(e, s ? () => t.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(n) : n === "ref" ? q(e, o.value) : L(e, n, o.value);
+			n === "children" ? r || U(e, s ? () => t.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(n) : n === "ref" ? Y(e, o.value) : z(e, n, o.value);
 		}
 		if (a === void 0) return;
 		let o = a, s = {};
-		R(() => {
+		B(() => {
 			let e = {};
 			for (let n = 0; n < o.length; n++) e[o[n]] = t[o[n]];
 			return e;
 		}, (t) => {
 			for (let n = 0; n < o.length; n++) {
 				let r = o[n], i = t[r];
-				i !== s[r] && (r === "ref" ? q(e, i) : L(e, r, i), s[r] = i);
+				i !== s[r] && (r === "ref" ? Y(e, i) : z(e, r, i), s[r] = i);
 			}
 		}, i);
 	}
-	function q(e, t) {
-		(typeof t == "function" || Array.isArray(t)) && G(() => t, e);
+	function Y(e, t) {
+		(typeof t == "function" || Array.isArray(t)) && q(() => t, e);
 	}
-	function J(e, t) {
+	function X(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
 			switch (typeof e) {
 				case "function": return untrack(() => e(t));
 				case "string": {
-					let n = B(e);
-					return K(n, t), n;
+					let n = H(e);
+					return J(n, t), n;
 				}
 			}
 		});
 	}
-	function Y(e) {
-		return J(() => e.component, omit(e, "component"));
+	function Fe(e) {
+		return X(() => e.component, omit(e, "component"));
 	}
-	function X({ child: e, ...t }) {
+	function Z({ child: e, ...t }) {
 		return {
 			type: "materialPage",
 			child: e,
 			props: t
 		};
 	}
-	var Z = createContext();
+	var Ie = createContext();
 	function Q(e = {}) {
 		let t = 0, n = untrack(() => {
 			let t = e.initialPage;
-			return typeof t == "function" ? X({ child: t }) : t;
+			return typeof t == "function" ? Z({ child: t }) : t;
 		}), [i, a] = createSignal(n ? [{
 			id: t++,
 			config: n,
 			resolve: () => {}
 		}] : [], { ownedWrite: !0 });
 		function o(e) {
-			let n = typeof e == "function" ? X({ child: e }) : e;
+			let n = typeof e == "function" ? Z({ child: e }) : e;
 			return new Promise((e) => {
 				let r = {
 					id: t++,
@@ -4637,23 +4662,23 @@
 			onDidRemovePage: (e) => s(e, null)
 		};
 	}
-	function Fe() {
-		let e = useContext(Z);
+	function Le() {
+		let e = useContext(Ie);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function Ie(e) {
+	function Re(e) {
 		let t = untrack(() => e.controller ?? Q({ initialPage: e.initialPage }));
-		return W(Z, {
+		return K(Ie, {
 			value: t,
 			get children() {
-				var e = B("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
-				return V(e, W(For, {
+				var e = H("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
+				return U(e, K(For, {
 					get each() {
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => W(Y, H({
+					children: (e) => K(Fe, W({
 						get component() {
 							return e().config.type;
 						},
@@ -4667,29 +4692,29 @@
 			}
 		});
 	}
-	function Le(e) {
-		var t = B("view");
-		return K(t, e, !1), t;
-	}
-	function Re(e) {
-		var t = B("text");
-		return K(t, e, !1), t;
-	}
 	function ze(e) {
-		var t = B("icon");
-		return K(t, e, !1), t;
+		var t = H("view");
+		return J(t, e, !1), t;
 	}
 	function Be(e) {
-		var t = B("gestureDetector");
-		return K(t, e, !1), t;
+		var t = H("text");
+		return J(t, e, !1), t;
 	}
 	function Ve(e) {
-		var t = B("scrollView");
-		return K(t, e, !1), t;
+		var t = H("icon");
+		return J(t, e, !1), t;
 	}
-	function We(e) {
-		var t = B("textField");
-		return K(t, e, !1), t;
+	function He(e) {
+		var t = H("gestureDetector");
+		return J(t, e, !1), t;
+	}
+	function Ue(e) {
+		var t = H("scrollView");
+		return J(t, e, !1), t;
+	}
+	function Ke(e) {
+		var t = H("textField");
+		return J(t, e, !1), t;
 	}
 	function $(e, t = {}) {
 		let n = I(e, t);
@@ -4707,7 +4732,7 @@
 			dispose: i
 		};
 	}
-	function Ge(e = {}) {
+	function qe(e = {}) {
 		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
 			...e,
 			setScrollOffset: n
@@ -4723,7 +4748,7 @@
 			dispose: a
 		};
 	}
-	function Ke() {
+	function Je() {
 		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
 		return {
 			node: n,
@@ -4735,12 +4760,12 @@
 	}
 	// src/ui.tsx
 	function Button(props) {
-		return W(Be, {
+		return K(He, {
 			get onTap() {
 				return props.onTap;
 			},
 			get children() {
-				return W(Le, {
+				return K(ze, {
 					padding: {
 						horizontal: 16,
 						vertical: 12
@@ -4750,7 +4775,7 @@
 						borderRadius: 8
 					},
 					get children() {
-						return W(Re, {
+						return K(Be, {
 							color: "white",
 							fontWeight: "semiBold",
 							get children() {
@@ -4763,7 +4788,7 @@
 		});
 	}
 	function Row(props) {
-		return W(Le, {
+		return K(ze, {
 			get flex() {
 				return {
 					direction: "horizontal",
@@ -4777,19 +4802,19 @@
 		});
 	}
 	function MenuItem(props) {
-		return W(Be, {
+		return K(He, {
 			get onTap() {
 				return props.onTap;
 			},
 			get children() {
-				return W(Le, {
+				return K(ze, {
 					padding: 16,
 					decoration: { border: { bottom: {
 						width: 1,
 						color: "#E5E7EB"
 					} } },
 					get children() {
-						return W(Re, {
+						return K(Be, {
 							fontSize: 16,
 							get children() {
 								return props.label;
@@ -4803,7 +4828,7 @@
 	// src/screens/counter.tsx
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
-		return W(Le, {
+		return K(ze, {
 			flex: {
 				direction: "vertical",
 				align: "center",
@@ -4811,14 +4836,14 @@
 			},
 			padding: 24,
 			get children() {
-				return [W(Re, {
+				return [K(Be, {
 					fontSize: 96,
 					fontWeight: "bold",
 					color: "#2563eb",
 					get children() {
 						return count();
 					}
-				}), W(Le, {
+				}), K(ze, {
 					flex: {
 						direction: "horizontal",
 						gap: 16,
@@ -4826,10 +4851,10 @@
 					},
 					get children() {
 						return [
-							W(Be, {
+							K(He, {
 								onTap: () => setCount((c) => c - 1),
 								get children() {
-									return W(Le, {
+									return K(ze, {
 										width: 64,
 										height: 64,
 										decoration: {
@@ -4841,7 +4866,7 @@
 											justify: "center"
 										},
 										get children() {
-											return W(Re, {
+											return K(Be, {
 												fontSize: 28,
 												fontWeight: "bold",
 												color: "#fff",
@@ -4851,10 +4876,10 @@
 									});
 								}
 							}),
-							W(Be, {
+							K(He, {
 								onTap: () => setCount(0),
 								get children() {
-									return W(Le, {
+									return K(ze, {
 										height: 64,
 										padding: { horizontal: 24 },
 										decoration: {
@@ -4866,7 +4891,7 @@
 											justify: "center"
 										},
 										get children() {
-											return W(Re, {
+											return K(Be, {
 												fontSize: 15,
 												fontWeight: "semiBold",
 												color: "#fff",
@@ -4876,10 +4901,10 @@
 									});
 								}
 							}),
-							W(Be, {
+							K(He, {
 								onTap: () => setCount((c) => c + 1),
 								get children() {
-									return W(Le, {
+									return K(ze, {
 										width: 64,
 										height: 64,
 										decoration: {
@@ -4891,7 +4916,7 @@
 											justify: "center"
 										},
 										get children() {
-											return W(Re, {
+											return K(Be, {
 												fontSize: 28,
 												fontWeight: "bold",
 												color: "#fff",
@@ -4922,36 +4947,36 @@
 	var est = /*#__PURE__*/ e(58873);
 	// src/screens/text-field.tsx
 	function TextFieldScreen() {
-		const nav = Fe();
+		const nav = Le();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = Ke();
-		return W(Ve, {
+		const focus = Je();
+		return K(Ue, {
 			flex: {
 				direction: "vertical",
 				gap: 16
 			},
 			get children() {
 				return [
-					W(Le, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 16,
 							bottom: 8
 						},
 						get children() {
-							return [W(Re, {
+							return [K(Be, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "textField"
-							}), W(Re, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Reactive value, focus control, filtering"
 							})];
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
@@ -4959,18 +4984,18 @@
 						},
 						get children() {
 							return [
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											W(Re, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Name"
 											}),
-											W(We, {
+											K(Ke, {
 												get value() {
 													return name();
 												},
@@ -4981,7 +5006,7 @@
 													contentPadding: 12
 												}
 											}),
-											W(Re, {
+											K(Be, {
 												color: "#6B7280",
 												fontSize: 13,
 												get children() {
@@ -4994,11 +5019,11 @@
 													];
 												}
 											}),
-											W(Row, { get children() {
-												return [W(Button, {
+											K(Row, { get children() {
+												return [K(Button, {
 													onTap: () => setName("Override!"),
 													children: "external setName"
-												}), W(Button, {
+												}), K(Button, {
 													onTap: () => setName(""),
 													children: "clear"
 												})];
@@ -5006,18 +5031,18 @@
 										];
 									}
 								}),
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											W(Re, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Focus control"
 											}),
-											W(We, {
+											K(Ke, {
 												focusNode: focus,
 												placeholder: "Controlled by buttons below",
 												decoration: {
@@ -5025,7 +5050,7 @@
 													contentPadding: 12
 												}
 											}),
-											W(Re, {
+											K(Be, {
 												color: "#6B7280",
 												fontSize: 13,
 												get children() {
@@ -5034,11 +5059,11 @@
 													})];
 												}
 											}),
-											W(Row, { get children() {
-												return [W(Button, {
+											K(Row, { get children() {
+												return [K(Button, {
 													onTap: () => focus.focus(),
 													children: "focus"
-												}), W(Button, {
+												}), K(Button, {
 													onTap: () => focus.unfocus(),
 													children: "unfocus"
 												})];
@@ -5046,16 +5071,16 @@
 										];
 									}
 								}),
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [W(Re, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Digits only"
-										}), W(We, {
+										}), K(Ke, {
 											get value() {
 												return digits();
 											},
@@ -5070,21 +5095,21 @@
 										})];
 									}
 								}),
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											W(Re, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Slot widgets"
 											}),
-											W(We, {
+											K(Ke, {
 												placeholder: "Search…",
 												get prefixIcon() {
-													return W(ze, {
+													return K(Ve, {
 														data: x4e,
 														size: 20,
 														color: "#6B7280"
@@ -5095,11 +5120,11 @@
 													contentPadding: 12
 												}
 											}),
-											W(We, {
+											K(Ke, {
 												placeholder: "Password",
 												obscureText: true,
 												get prefixIcon() {
-													return W(ze, {
+													return K(Ve, {
 														data: Bge,
 														size: 20,
 														color: "#6B7280"
@@ -5113,16 +5138,16 @@
 										];
 									}
 								}),
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [W(Re, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Autofocus"
-										}), W(Re, {
+										}), K(Be, {
 											color: "#6B7280",
 											fontSize: 13,
 											children: "(would autofocus on mount — disabled here so it doesn't steal focus)"
@@ -5132,10 +5157,10 @@
 							];
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: 16,
 						get children() {
-							return W(Button, {
+							return K(Button, {
 								onTap: () => nav.pop(),
 								children: "Back"
 							});
@@ -5147,35 +5172,35 @@
 	}
 	// src/screens/icon.tsx
 	function IconScreen() {
-		const nav = Fe();
+		const nav = Le();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
-		return W(Ve, {
+		return K(Ue, {
 			flex: {
 				direction: "vertical",
 				gap: 16
 			},
 			get children() {
 				return [
-					W(Le, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 16,
 							bottom: 8
 						},
 						get children() {
-							return [W(Re, {
+							return [K(Be, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "icon"
-							}), W(Re, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Baseline icon rendering + reactive props"
 							})];
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
@@ -5183,16 +5208,16 @@
 						},
 						get children() {
 							return [
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [W(Re, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Static grid"
-										}), W(Le, {
+										}), K(ze, {
 											flex: {
 												direction: "horizontal",
 												gap: 16,
@@ -5200,28 +5225,28 @@
 											},
 											get children() {
 												return [
-													W(ze, {
+													K(Ve, {
 														data: x4e,
 														size: 32
 													}),
-													W(ze, {
+													K(Ve, {
 														data: Bge,
 														size: 32
 													}),
-													W(ze, {
+													K(Ve, {
 														data: lre,
 														size: 32
 													}),
-													W(ze, {
+													K(Ve, {
 														data: _6e,
 														size: 32
 													}),
-													W(ze, {
+													K(Ve, {
 														data: EY,
 														size: 32,
 														color: "#EF4444"
 													}),
-													W(ze, {
+													K(Ve, {
 														data: est,
 														size: 32,
 														color: "#F59E0B"
@@ -5231,18 +5256,18 @@
 										})];
 									}
 								}),
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											W(Re, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Reactive props"
 											}),
-											W(Le, {
+											K(ze, {
 												flex: {
 													direction: "horizontal",
 													gap: 12,
@@ -5250,7 +5275,7 @@
 												},
 												padding: 12,
 												get children() {
-													return [W(ze, {
+													return [K(Ve, {
 														data: EY,
 														get size() {
 															return size();
@@ -5258,7 +5283,7 @@
 														get color() {
 															return color();
 														}
-													}), W(Re, {
+													}), K(Be, {
 														color: "#6B7280",
 														fontSize: 13,
 														get children() {
@@ -5276,33 +5301,33 @@
 													})];
 												}
 											}),
-											W(Row, { get children() {
+											K(Row, { get children() {
 												return [
-													W(Button, {
+													K(Button, {
 														onTap: () => setSize(16),
 														children: "16"
 													}),
-													W(Button, {
+													K(Button, {
 														onTap: () => setSize(32),
 														children: "32"
 													}),
-													W(Button, {
+													K(Button, {
 														onTap: () => setSize(64),
 														children: "64"
 													})
 												];
 											} }),
-											W(Row, { get children() {
+											K(Row, { get children() {
 												return [
-													W(Button, {
+													K(Button, {
 														onTap: () => setColor("#EF4444"),
 														children: "red"
 													}),
-													W(Button, {
+													K(Button, {
 														onTap: () => setColor("#10B981"),
 														children: "green"
 													}),
-													W(Button, {
+													K(Button, {
 														onTap: () => setColor("#3B82F6"),
 														children: "blue"
 													})
@@ -5311,16 +5336,16 @@
 										];
 									}
 								}),
-								W(Le, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [W(Re, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Icon + text row"
-										}), W(Le, {
+										}), K(ze, {
 											flex: {
 												direction: "horizontal",
 												gap: 8,
@@ -5328,11 +5353,11 @@
 											},
 											padding: 12,
 											get children() {
-												return [W(ze, {
+												return [K(Ve, {
 													data: coe,
 													size: 20,
 													color: "#3B82F6"
-												}), W(Re, { children: "Inline icon + text composition" })];
+												}), K(Be, { children: "Inline icon + text composition" })];
 											}
 										})];
 									}
@@ -5340,10 +5365,10 @@
 							];
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: 16,
 						get children() {
-							return W(Button, {
+							return K(Button, {
 								onTap: () => nav.pop(),
 								children: "Back"
 							});
@@ -5355,9 +5380,9 @@
 	}
 	// src/screens/scroll.tsx
 	function ScrollScreen() {
-		const nav = Fe();
-		const scroll = Ge({ initialScrollOffset: 120 });
-		return W(Ve, {
+		const nav = Le();
+		const scroll = qe({ initialScrollOffset: 120 });
+		return K(Ue, {
 			controller: scroll,
 			flex: {
 				direction: "vertical",
@@ -5365,7 +5390,7 @@
 			},
 			get children() {
 				return [
-					W(Le, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 16,
@@ -5376,32 +5401,32 @@
 							gap: 4
 						},
 						get children() {
-							return [W(Re, {
+							return [K(Be, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "scrollController"
-							}), W(Re, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "initialScrollOffset, reactive offset, imperative scroll"
 							})];
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
 							gap: 8
 						},
 						get children() {
-							return [W(Re, {
+							return [K(Be, {
 								fontWeight: "semiBold",
 								get children() {
 									return ["scrollOffset = ", Te(() => {
 										return scroll.scrollOffset().toFixed(1);
 									})];
 								}
-							}), W(Ve, {
+							}), K(Ue, {
 								scrollDirection: "horizontal",
 								flex: {
 									direction: "horizontal",
@@ -5409,10 +5434,10 @@
 									align: "center"
 								},
 								get children() {
-									return [W(Button, {
+									return [K(Button, {
 										onTap: () => scroll.jumpTo(0),
 										children: "jumpTo(0)"
-									}), W(Button, {
+									}), K(Button, {
 										onTap: () => scroll.animateTo(1200, { duration: 800 }),
 										children: "animateTo(1200)"
 									})];
@@ -5420,31 +5445,31 @@
 							})];
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: 16,
 						flex: {
 							direction: "vertical",
 							gap: 8
 						},
 						get children() {
-							return Array.from({ length: 40 }, (_, i) => W(Le, {
+							return Array.from({ length: 40 }, (_, i) => K(ze, {
 								padding: 16,
 								decoration: {
 									color: i % 2 === 0 ? "#F3F4F6" : "#E5E7EB",
 									borderRadius: 8
 								},
 								get children() {
-									return W(Re, { get children() {
+									return K(Be, { get children() {
 										return ["row ", i];
 									} });
 								}
 							}));
 						}
 					}),
-					W(Le, {
+					K(ze, {
 						padding: 16,
 						get children() {
-							return W(Button, {
+							return K(Button, {
 								onTap: () => nav.pop(),
 								children: "Back"
 							});
@@ -5463,35 +5488,35 @@
 			"banana",
 			"date"
 		]);
-		return W(Le, {
+		return K(ze, {
 			flex: {
 				direction: "vertical",
 				gap: 12
 			},
 			padding: 24,
 			get children() {
-				return [W(Row, { get children() {
+				return [K(Row, { get children() {
 					return [
-						W(Button, {
+						K(Button, {
 							onTap: () => setRows((r) => r.slice().reverse()),
 							children: "Reverse"
 						}),
-						W(Button, {
+						K(Button, {
 							onTap: () => setRows((r) => r.slice().sort()),
 							children: "Sort"
 						}),
-						W(Button, {
+						K(Button, {
 							onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
 							children: "Thin"
 						})
 					];
-				} }), W(For, {
+				} }), K(For, {
 					get each() {
 						return rows();
 					},
 					children: (row) => (() => {
-						var _el$ = B("view", { height: 40 });
-						V(_el$, W(Re, {
+						var _el$ = H("view", { height: 40 });
+						U(_el$, K(Be, {
 							fontSize: 16,
 							children: row
 						}));
@@ -5503,55 +5528,55 @@
 	}
 	// src/screens/home.tsx
 	function HomeScreen() {
-		const nav = Fe();
-		return W(Le, {
+		const nav = Le();
+		return K(ze, {
 			flex: { direction: "vertical" },
 			get children() {
 				return [
-					W(Le, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 24,
 							bottom: 12
 						},
 						get children() {
-							return [W(Re, {
+							return [K(Be, {
 								fontSize: 28,
 								fontWeight: "bold",
 								children: "solid-fuse demos"
-							}), W(Re, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Playground for widget primitives"
 							})];
 						}
 					}),
-					W(MenuItem, {
+					K(MenuItem, {
 						label: "counter",
-						onTap: () => nav.push(() => W(CounterScreen, {}))
+						onTap: () => nav.push(() => K(CounterScreen, {}))
 					}),
-					W(MenuItem, {
+					K(MenuItem, {
 						label: "textField",
-						onTap: () => nav.push(() => W(TextFieldScreen, {}))
+						onTap: () => nav.push(() => K(TextFieldScreen, {}))
 					}),
-					W(MenuItem, {
+					K(MenuItem, {
 						label: "icon",
-						onTap: () => nav.push(() => W(IconScreen, {}))
+						onTap: () => nav.push(() => K(IconScreen, {}))
 					}),
-					W(MenuItem, {
+					K(MenuItem, {
 						label: "list",
-						onTap: () => nav.push(() => W(ListScreen, {}))
+						onTap: () => nav.push(() => K(ListScreen, {}))
 					}),
-					W(MenuItem, {
+					K(MenuItem, {
 						label: "scrollController",
-						onTap: () => nav.push(() => W(ScrollScreen, {}))
+						onTap: () => nav.push(() => K(ScrollScreen, {}))
 					})
 				];
 			}
 		});
 	}
 	// src/index.tsx
-	var App = () => W(Ie, { initialPage: () => W(HomeScreen, {}) });
+	var App = () => K(Re, { initialPage: () => K(HomeScreen, {}) });
 	Me(App);
 })();
 
