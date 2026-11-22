@@ -1,0 +1,17 @@
+{
+  "name": "@solid-fuse/perf-bench",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "link": "fuse link",
+    "build:js": "fuse build --js-only"
+  },
+  "dependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

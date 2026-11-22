@@ -1,0 +1,22 @@
+name: perf_bench
+description: Render benchmark (experiments/interop/reports 11, 14, 15).
+publish_to: "none"
+version: 0.0.0+1
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  solid_fuse: any
+  flutter_test:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/js/
