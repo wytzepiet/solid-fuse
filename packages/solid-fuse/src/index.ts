@@ -12,6 +12,8 @@ export {
   spread,
   setProp,
   mergeProps,
+  ref,
+  applyRef,
   flush,
   flushOps,
   For,
@@ -20,6 +22,8 @@ export {
   Match,
   Errored,
   Loading,
+  Repeat,
+  Reveal,
 } from "./renderer";
 export { FuseNode } from "./renderer";
 export {

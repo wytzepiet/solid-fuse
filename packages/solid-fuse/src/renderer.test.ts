@@ -334,3 +334,37 @@ describe("journal", () => {
     expect(sent).toEqual([]);
   });
 });
+
+describe("compiler contract", () => {
+  // Compiled JSX imports these from "solid-fuse" (the compiler's moduleName):
+  // the universal runtime helpers, and the control-flow built-ins a module
+  // uses without importing them itself (`Portal` is DOM-only).
+  test("the package entry exports every helper the compiler can emit", async () => {
+    // Scanned, not imported: the entry pulls in .tsx files that need the
+    // Solid compiler.
+    const source = await Bun.file(new URL("./index.ts", import.meta.url)).text();
+    const exported = new Bun.Transpiler({ loader: "ts" }).scan(source).exports;
+    const helpers = [
+      "createElement", "createTextNode", "insertNode", "insert", "spread", "setProp",
+      "mergeProps", "effect", "memo", "createComponent", "ref", "applyRef",
+      "For", "Show", "Switch", "Match", "Loading", "Errored", "Repeat", "Reveal", "Dynamic",
+    ];
+    expect(helpers.filter((name) => !exported.includes(name))).toEqual([]);
+    // ...and the renderer module actually provides the ones it owns.
+    const renderer: Record<string, unknown> = R;
+    const own = helpers.filter((name) => name !== "Dynamic");
+    expect(own.filter((name) => typeof renderer[name] !== "function")).toEqual([]);
+  });
+
+  test("ref on an intrinsic element and applyRef hand over the node", () => {
+    const el = R.createElement("view");
+    let viaRef: unknown, viaApply: unknown;
+    mount(() => {
+      R.ref(() => (n: unknown) => (viaRef = n), el);
+      return el;
+    });
+    R.applyRef((n: unknown) => (viaApply = n), el);
+    expect(viaRef).toBe(el);
+    expect(viaApply).toBe(el);
+  });
+});

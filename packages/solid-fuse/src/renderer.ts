@@ -310,7 +310,7 @@ export function render(code: () => any) {
 }
 
 const insertNode = innerInsertNode;
-const ref: (fn: () => any, element: FuseNode) => void = (rest as any).ref;
+const { ref, applyRef } = rest;
 
 export {
   effect,
@@ -325,10 +325,11 @@ export {
   mergeProps,
   flushOps,
   ref,
+  applyRef,
   createNode,
   disposeNode,
   scheduleFlush,
 };
 
 // Re-export Solid control flow and flush
-export { flush, For, Show, Switch, Match, Errored, Loading } from "solid-js";
+export { flush, For, Show, Switch, Match, Errored, Loading, Repeat, Reveal } from "solid-js";
