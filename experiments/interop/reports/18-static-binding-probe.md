@@ -32,3 +32,27 @@ So about half of the mount, not the "roughly 3 ms" guessed in report 17 from the
 
 - An error thrown by the apply step of a static binding does not go to an error boundary.
 - Boundaries, transitions/lanes, hydration ids and dev tooling were not looked at beyond the bail-outs above; Solid's own test suite was not run.
+
+## Addendum, same day: against Solid's source and test suites
+
+Solid cloned at `a406a5d` (main, signals 2.0.3 plus later fixes). Two designs, both as patches against `packages/signals/src` (apply with `git apply` in a clone at that commit; they contain test-only switches `PROBE_ALL`, `PROBE_OFF`, `PROBE_STATS` read from `process.env`):
+
+- **Probe** (`patches/spike-solid-probe-src.patch`): the design above, fixed until Solid's suites pass. What the first prototype had wrong: it dropped a cleanup returned by the effect function; it missed reads through `isPending`/`latest` (now any `read`, `getOwner` or `getObserver` during the run counts as recorded); a compute that throws is now adopted and the throw replayed, so nothing runs twice; it did not set the `stale` read mode render effects run in; the spare is linked into the owner tree during the run; the apply step goes through `runEffect`; it does not try while a transaction (hold) is open, which one web test needed (`e3-derived-store-heal-4451`, nested `Loading`).
+- **Recycle** (`patches/spike-solid-recycle.patch`, 139 lines): create the effect the normal way (or take the spare), run the normal `recompute` and `runEffect`, then if the node is empty (no deps, children, disposal, cleanup, extension, status, flags, config change, and nothing read or asked for the owner) unlink it and keep it as the spare. Same code path as today, no bail-outs.
+
+Tests, both designs: signals 7,263 with the change forced on for every render effect (`PROBE_ALL=1`), universal 61, solid-js 936, web client 2,040, web hydrate 801 all pass; web server 2,226 of 2,227, the one failure (`server-functions-adapter-request`) also fails with the change switched off. solid-fuse's 65 tests pass. How often the static path ran: signals 49, universal 12, solid-fuse 35, web 0 (its dev build calls `getOwner()` in every compute). So Solid's suites mostly prove that reactive effects are unaffected.
+
+JS ms, median, same harness, production builds of `a406a5d` (one run of 6 rounds, three bundles alternated; a second run of 10 rounds for head and probe agreed):
+
+| | head | recycle | probe |
+|---|---:|---:|---:|
+| mount 1,000 nodes, all bindings static | 12.6 | 9.6 | 7.1 |
+| mount 5,000 nodes | 62.1 | 48.4 | 33.6 |
+| replace 500 list rows | 36.8 | 32.1 | 21.4 |
+| mount 1,000 rows, all bindings reactive | 60.4 | 61.3 | 71.1 |
+
+The machine was faster in the afternoon than in the morning run above (head 12.6 against 16.0 for the same bundle content), so compare within a table only.
+
+The probe costs reactive bindings about 5 µs each (+18% on that screen): a kept node is set up twice (the probe run, then `recompute` with a stub that re-links the recorded dependencies). Done inside `recompute` that replay would not be needed, but that is the maintainers' code to restructure. Recycle saves only the allocation and linking of the node, about a fifth of the mount, with no cost elsewhere.
+
+Earlier claim corrected: "about 110 of 145 µs per card is creating bindings" came from micro benchmarks; removing nearly all of that cost (probe) takes 46% off the mount, so about half is the measured share.

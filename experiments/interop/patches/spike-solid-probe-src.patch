@@ -1,0 +1,321 @@
+diff --git a/packages/signals/src/core/core.ts b/packages/signals/src/core/core.ts
+index ecae8be..0cf3044 100644
+--- a/packages/signals/src/core/core.ts
++++ b/packages/signals/src/core/core.ts
+@@ -109,6 +109,7 @@ import {
+   checkCaughtRead,
+   checkPostAwaitRead,
+   clearThrownRead,
++  moveThrownRead,
+   forgetThrownRead,
+   GRAPH_SIZE_WARN_AT,
+   noteFanIn,
+@@ -1294,6 +1295,191 @@ export function createEffectNode<T>(
+   return self;
+ }
+ 
++/* PROTOTYPE (static binding elision): a render effect's first compute runs on a
++ * spare node that is not linked into the tree. Nothing recorded: the value is
++ * applied and the spare is kept. Something recorded: the spare becomes the effect. */
++const probes: any[] = [];
++let probeDepth = 0;
++export let probing = false;
++let probeTouched = false;
++export function touchProbe(): void {
++  probeTouched = true;
++}
++export const probeStats = ((globalThis as any).__probeStats = {
++  static: 0,
++  adopted: 0,
++  thrown: 0,
++  skipped: 0
++});
++export function probeEffect<T>(
++  fn: (prev?: T) => T,
++  effectFn: (val: T, prev: T | undefined) => void | (() => void),
++  options: NodeOptions<T> | undefined,
++  run: (node: any, type: number) => void
++): any {
++  const c = context as any;
++  if (
++    c === null ||
++    verdict !== null ||
++    snapshotCaptureActive ||
++    c._flags & REACTIVE_DISPOSED
++  ) {
++    probeStats.skipped++;
++    stat('k');
++    return null;
++  }
++  const n = c._root ? c._parentComputed : c;
++  if (flushTransaction !== null || passTx !== null) {
++    probeStats.skipped++;
++    stat("k");
++    return null;
++  }
++  if (laneStageHook) {
++    if (
++      passLane !== null ||
++      (n &&
++        ((n._flags | 0) & REACTIVE_PROBED ||
++          (n._config & CONFIG_MOUNT_AHEAD && n._statusFlags & STATUS_UNINITIALIZED) ||
++          (n._type === EFFECT_RENDER && n._depsTail)))
++    ) {
++      probeStats.skipped++;
++    stat('k');
++      return null;
++    }
++  }
++  const depth = probeDepth;
++  let p = probes[depth];
++  if (p === undefined) {
++    p = probes[depth] = createEffectNode(null as any, null as any, undefined, EFFECT_RENDER, {
++      transparent: true
++    });
++    const next = (c._firstChild = p._nextSibling);
++    if (next !== null) next._prevSibling = null;
++    p._nextSibling = null;
++  }
++  const transparent = options?.transparent ?? false;
++  p.id = inheritId(options, transparent, c);
++  p._config =
++    (EFFECT_RENDER << 23) |
++    (transparent ? CONFIG_TRANSPARENT : 0) |
++    (options?.sync ? CONFIG_SYNC : 0) |
++    (__DEV__ && (options as any)?._wide ? CONFIG_WIDE : 0);
++  p._fn = fn;
++  p._parent = c;
++  p._context = c._context;
++  p._height = n ? n._height + 1 : 0;
++  p._flags = REACTIVE_RECOMPUTING_DEPS;
++  p._time = clock;
++  p._depGen++;
++  if (__DEV__) {
++    p._name = options?.name ?? "effect";
++    p._loc = (options as any)?.loc;
++  }
++  linkChild(c, p);
++  const prevTracking = tracking;
++  const prevProbing = probing;
++  const prevTouched = probeTouched;
++  const prevStale = stale;
++  let prevStrictRead: string | false = false;
++  let prevStrictPending: string | false = false;
++  if (__DEV__) {
++    prevStrictRead = strictRead;
++    prevStrictPending = strictPending;
++    strictRead = strictPending = false;
++    clearThrownRead(p);
++  }
++  const prevCopy = __DEV__ ? enterCopy() : undefined;
++  const mount = laneStageHook && laneRoot;
++  if (__TEST__)
++    shadowSeatOpen(p, true, n, null, mount, !!((n?._flags as number) & REACTIVE_JOINED));
++  stale = true;
++  context = p;
++  tracking = true;
++  probing = true;
++  probeTouched = false;
++  probeDepth = depth + 1;
++  let v: any,
++    err: any,
++    ok = true;
++  try {
++    v = fn(undefined);
++  } catch (e) {
++    ok = false;
++    err = e;
++  } finally {
++    context = c;
++    tracking = prevTracking;
++    probeDepth = depth;
++    probing = prevProbing;
++    stale = prevStale;
++    if (__TEST__) shadowSeatClose(p, true, !!(p._flags & REACTIVE_JOINED), n, mount);
++    if (__DEV__) {
++      strictRead = prevStrictRead;
++      strictPending = prevStrictPending;
++      exitCopy(prevCopy);
++    }
++  }
++  const touched = probeTouched;
++  probeTouched = prevTouched || touched;
++  if (
++    ok &&
++    !touched &&
++    p._context === c._context &&
++    p._deps === null &&
++    p._firstChild === null &&
++    p._disposal === null &&
++    p._x === null &&
++    p._childCount === 0 &&
++    p._subs === null &&
++    p._flags === REACTIVE_RECOMPUTING_DEPS &&
++    (p._config & CONFIG_SYNC || typeof v !== "object" || v === null)
++  ) {
++    probeStats.static++;
++    stat('s');
++    p._value = v;
++    p._effectFn = effectFn;
++    p._modified = true;
++    run(p, 0);
++    if (p._cleanup === undefined && p._x === null && !(p._statusFlags & STATUS_ERROR)) {
++      if (c._firstChild === p) c._firstChild = p._nextSibling;
++      else p._prevSibling._nextSibling = p._nextSibling;
++      if (p._nextSibling !== null) p._nextSibling._prevSibling = p._prevSibling;
++      p._nextSibling = p._prevSibling = null;
++      p._fn = p._effectFn = null;
++      p._value = p._prevValue = undefined;
++      p._parent = null;
++      p._context = defaultContext;
++      p._flags = REACTIVE_LAZY;
++      return true;
++    }
++    probes[depth] = undefined;
++    p._flags = REACTIVE_NONE;
++    p._statusFlags &= ~STATUS_UNINITIALIZED;
++    return true;
++  }
++  probes[depth] = undefined;
++  if (!ok) (probeStats.thrown++, stat('t'));
++  else (probeStats.adopted++, stat('a'));
++  const saved = p._flags & ~REACTIVE_RECOMPUTING_DEPS;
++  p._flags = REACTIVE_LAZY;
++  p._effectFn = effectFn;
++  const renote = __DEV__ ? moveThrownRead(p) : undefined;
++  p._fn = () => {
++    renote?.();
++    for (let d = p._deps; d !== null; ) {
++      const next = d._nextDep;
++      link(d._dep, p);
++      d = next;
++    }
++    p._flags |= saved;
++    if (!ok) throw err;
++    return v;
++  };
++  recompute(p, true);
++  p._fn = fn;
++  return p;
++}
++
+ /** The shared effect status notifier, installed by effect.ts. */
+ export let effectStatusNotify: ((this: any) => void) | null = null;
+ export function setEffectStatusNotify(fn: NonNullable<typeof effectStatusNotify>): void {
+@@ -1775,6 +1961,7 @@ export function heldRead(): number {
+ export function read<T>(el: Signal<T> | Computed<T>): T;
+ // Typed `any` so `el` needs no cast alias: an alias the minifier keeps.
+ export function read<T>(el: any): T {
++  if (probing) probeTouched = true;
+   // Shadow (seat.ts): compare the slot the table predicts with the one served.
+   if (__TEST__ && !shadowConsumeBypass()) return shadowRead(el);
+   if (__DEV__) devRead(el);
+@@ -2515,3 +2702,9 @@ export function markRefresh(node: Computed<any>, check?: boolean): void {
+     schedule();
+   }
+ }
++
++const statsFile = (globalThis as any).process?.env?.PROBE_STATS;
++const statsFs = statsFile && (globalThis as any).process.getBuiltinModule("fs");
++function stat(c: string): void {
++  if (statsFs) statsFs.appendFileSync(statsFile, c);
++}
+diff --git a/packages/signals/src/core/dev.ts b/packages/signals/src/core/dev.ts
+index 9b1839a..afcff7b 100644
+--- a/packages/signals/src/core/dev.ts
++++ b/packages/signals/src/core/dev.ts
+@@ -1533,6 +1533,10 @@ export function forgetThrownRead(): void {
+ }
+ 
+ /** The head of `el`'s pass: whatever an earlier pass left is not this one's. */
++export function moveThrownRead(el: Computed<any>): (() => void) | undefined {
++  const r = thrownReads.get(el);
++  return r && (() => thrownReads.set(el, r));
++}
+ export function clearThrownRead(el: Computed<any>): void {
+   thrownReads.delete(el);
+ }
+diff --git a/packages/signals/src/core/effect.ts b/packages/signals/src/core/effect.ts
+index b54784c..ffa042f 100644
+--- a/packages/signals/src/core/effect.ts
++++ b/packages/signals/src/core/effect.ts
+@@ -14,6 +14,7 @@ import {
+ import {
+   computed,
+   createEffectNode,
++  probeEffect,
+   enterCallback,
+   exitCallback,
+   recompute,
+@@ -74,14 +75,33 @@ export function effect<T>(
+   options?: NodeOptions<any> & { user?: boolean; defer?: boolean; schedule?: boolean }
+ ): void {
+   const isUser = !!options?.user;
+-  const node = createEffectNode<T>(
+-    compute,
+-    effect,
+-    error,
+-    isUser ? EFFECT_USER : EFFECT_RENDER,
+-    options
+-  ) as Effect<T>;
+-  recompute(node, true);
++  let node: Effect<T> | null = null;
++  const o = options as any;
++  if (
++    !isUser &&
++    !(globalThis as any).process?.env?.PROBE_OFF &&
++    !error &&
++    !o?.defer &&
++    !o?.schedule &&
++    !o?.unobserved &&
++    !o?.ownedWrite &&
++    o?._extraConfig === undefined &&
++    ((globalThis as any).process?.env?.PROBE_ALL || (o && o.sync && o.transparent && o.id === undefined))
++  ) {
++    const r = probeEffect<T>(compute, effect, options, runEffect);
++    if (r === true) return;
++    node = r;
++  }
++  if (node === null) {
++    node = createEffectNode<T>(
++      compute,
++      effect,
++      error,
++      isUser ? EFFECT_USER : EFFECT_RENDER,
++      options
++    ) as Effect<T>;
++    recompute(node, true);
++  }
+   // A first pass that read a staged value was staged itself (recompute: born
+   // staged); the flush's commit replays this effect. Its first run is not this
+   // creation's (F-7). A lane's node's run is the lane's: queued, not run
+diff --git a/packages/signals/src/core/owner.ts b/packages/signals/src/core/owner.ts
+index 3895ce3..666eee6 100644
+--- a/packages/signals/src/core/owner.ts
++++ b/packages/signals/src/core/owner.ts
+@@ -18,8 +18,7 @@ import {
+   exitDisposal,
+   PRIMITIVE_IN_FORBIDDEN_SCOPE_MESSAGE,
+   runWithOwner,
+-  tracking
+-} from "./core.js";
++  tracking, probing, touchProbe } from "./core.js";
+ import {
+   assertInvariant,
+   clearSignals,
+@@ -303,6 +302,7 @@ function formatId(prefix: string, id: number) {
+  * ```
+  */
+ export function getObserver(): Owner | null {
++  if (probing) touchProbe();
+   return tracking ? context : null;
+ }
+ 
+@@ -324,6 +324,7 @@ export function getObserver(): Owner | null {
+  * ```
+  */
+ export function getOwner(): Owner | null {
++  if (probing) touchProbe();
+   return context;
+ }
+ 
