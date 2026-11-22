@@ -102,6 +102,22 @@ void main() {
     expect(menu.onPick, isNull);
   });
 
+  testWidgets('a PreferredSizeWidget slot takes an app bar', (t) async {
+    await pump(t, [
+      create(1, 'material_ui_MaterialApp'),
+      create(2, 'material_ui_Scaffold'),
+      create(3, 'material_ui_AppBar'),
+      create(4, 'flutter_Text'),
+      text(5, 'title'),
+      insert(4, 5),
+      setProp(3, 'title', {'_node': 4}),
+      setProp(2, 'appBar', {'_node': 3}),
+      setProp(1, 'home', {'_node': 2}),
+    ], 1);
+    expect(find.text('title'), findsOneWidget);
+    expect(t.getSize(find.byType(m.AppBar)).height, m.kToolbarHeight);
+  });
+
   group('a created handle', () {
     late List<(int, String, Object?)> calls;
     late FuseNodeRegistry registry;

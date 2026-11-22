@@ -117,7 +117,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       case "vsync":
         return "fuseVsync";
       case "widget":
-        return `decWidget(${cx.n}, ${src})`;
+        return ref.as === "preferredSize" ? `decPreferredSize(${cx.n}, ${src}, fuseGeneratedWidgets)` : `decWidget(${cx.n}, ${src})`;
       case "handle":
         return `decHandle<${noQ(cx.sub(m.types[ref.id].dart))}>(${cx.n}, ${src})`;
       case "fn":
@@ -302,15 +302,30 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
           });
     const typeArgs = tps.length ? `<${tps.map((tp) => bounds.get(tp.name)).join(", ")}>` : "";
     const callee = `${w.dart}${typeArgs}${w.ctor ? `.${w.ctor}` : ""}`;
+    const made = call(callee, w.params, (p) => widgetArg(w, p, sub));
     adapters.push(
-      [
-        `class ${cls} extends $fw.StatelessWidget {`,
-        `  const ${cls}(this.node, {super.key});`,
-        "  final FuseNode node;",
-        "  @override",
-        `  $fw.Widget build($fw.BuildContext context) => ${call(callee, w.params, (p) => widgetArg(w, p, sub))};`,
-        "}",
-      ].join("\n"),
+      (w.preferredSize
+        ? [
+            // Built without a context, so the slot can ask for the size.
+            `class ${cls} extends $fw.StatelessWidget implements $fw.PreferredSizeWidget {`,
+            `  const ${cls}(this.node, {super.key});`,
+            "  final FuseNode node;",
+            `  ${noQ(w.dart)}${typeArgs} _make() => ${made};`,
+            "  @override",
+            "  $fw.Size get preferredSize => _make().preferredSize;",
+            "  @override",
+            "  $fw.Widget build($fw.BuildContext context) => _make();",
+            "}",
+          ]
+        : [
+            `class ${cls} extends $fw.StatelessWidget {`,
+            `  const ${cls}(this.node, {super.key});`,
+            "  final FuseNode node;",
+            "  @override",
+            `  $fw.Widget build($fw.BuildContext context) => ${made};`,
+            "}",
+          ]
+      ).join("\n"),
     );
     const tag = tagOf(w);
     tags[tag] = cls;

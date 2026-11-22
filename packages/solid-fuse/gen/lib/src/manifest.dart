@@ -185,6 +185,7 @@ class ManifestBuilder {
       'class': name,
       'ctor': ?cname,
       'dart': code.ref(cls),
+      if (w.isSubtypeOfEl(cls.thisType, w.preferredSizeWidgetEl)) 'preferredSize': true,
       if (sig['deprecated'] == true) 'deprecated': true,
       if (firstParagraph(ctor.documentationComment) ?? firstParagraph(cls.documentationComment) case final d?) 'doc': d,
       if (cls.typeParameters.isNotEmpty)

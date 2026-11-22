@@ -141,8 +141,8 @@ class Classifier {
 
     if (el == w.widgetEl) return {'k': 'widget'};
     if (w.isSubtypeOfEl(t, w.widgetEl)) {
-      // An adapter is not a PreferredSizeWidget; needs a size from the node.
-      if (el == w.preferredSizeWidgetEl) throw Skip('PreferredSizeWidget slot (not bridged yet)');
+      // The adapter of a PreferredSizeWidget is one too; the slot asks it.
+      if (el == w.preferredSizeWidgetEl) return {'k': 'widget', 'as': 'preferredSize'};
       throw Skip('widget slot typed ${el.name}');
     }
     if (w.isSubtypeOfEl(t, w.keyEl)) {

@@ -72,6 +72,19 @@ Widget? decWidget(FuseNode n, Object? v) {
   return node == null ? null : FuseNodeWidget(node: node);
 }
 
+/// A widget for a `PreferredSizeWidget` slot (Scaffold's `appBar`). The node's
+/// adapter knows the size (generated adapters of PreferredSizeWidgets are
+/// ones too); the child still rebuilds on its own.
+PreferredSizeWidget? decPreferredSize(FuseNode n, Object? v, Map<String, Widget Function(FuseNode)> builders) {
+  final node = fuseNodeOf(n, v);
+  if (node == null) return null;
+  final w = builders[node.type]?.call(node);
+  if (w is! PreferredSizeWidget) {
+    throw ArgumentError('<${node.type}> has no preferred size; this slot takes a widget that does (an app bar)');
+  }
+  return PreferredSize(preferredSize: w.preferredSize, child: FuseNodeWidget(node: node));
+}
+
 /// The object of the handle a value points at, when it is a [T].
 T? decHandle<T>(FuseNode n, Object? v) {
   final object = fuseNodeOf(n, v)?.ownHandle?.object;

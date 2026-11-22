@@ -22,7 +22,7 @@ async function run(cmd: string[], cwd: string): Promise<{ code: number; output: 
 
 const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
-import { Colors, ElevatedButton, Slider } from "./out/material_ui";
+import { Colors, ElevatedButton, Slider, Scaffold, AppBar } from "./out/material_ui";
 import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter } from "./out/fixture_app";
 import { createScrollController, createTextEditingController, createAnimationController, ListView, EditableText } from "./out/flutter";
 import { createSignal } from "solid-js";
@@ -37,6 +37,7 @@ export const a = (
     </Column>
   </Padding>
 );
+export const page = <Scaffold appBar={<AppBar title={<Text>t</Text>} />} body={<Text>b</Text>} />;
 export const b = <Slider value={0.5} onChanged={(v) => v.toFixed()} />;
 export const c = <ElevatedButton onPressed={() => {}}><Text>Go</Text></ElevatedButton>;
 export const d = <FixtureBox at={Point(1, 2)} shape={Square.unit()} mode={"b" satisfies Mode} />;
