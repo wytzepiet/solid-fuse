@@ -38,7 +38,7 @@
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json && bun scripts/post-build.ts",
     "sync-solid-docs": "bun scripts/sync-solid-docs.ts",
-    "test": "bun test"
+    "test": "bun test --conditions browser"
   },
   "peerDependencies": {
     "solid-js": "^2.0.3"

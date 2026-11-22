@@ -63,6 +63,7 @@ describe("NavigationController", () => {
       const b = nav.push(page("b"));
       flush();
       nav.popUntil();
+      flush();
       expect(nav.stackDepth()).toBe(1);
       await expect(a).resolves.toBeNull();
       await expect(b).resolves.toBeNull();
