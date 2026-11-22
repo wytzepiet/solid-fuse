@@ -42,6 +42,13 @@ needed: Apple QoS for the `fjs-js` workers (was `ad90eb8`) and the dev-profile
 that rebuilt branch; push it to the fork as `solid-fuse` (force, since the
 history is new) so the next `make sync-fjs` lines up.
 
+**Nov 2026, release speed.** `feat/quickjs-opt-speed` adds a release profile
+override that builds only `rquickjs-sys` (the QuickJS C sources) at
+`opt-level = 3`; the rest of the crate stays at "z". Measured with the JS-only
+render harness on x64: mount of 1,000 nodes 45.9 -> 37.3 ms, 5,000 nodes
+268 -> 236 ms, for about 0.4 MB per ABI. Merged into `solid-fuse`; a candidate
+to upstream.
+
 ## How solid-fuse consumes it
 
 **solid-fuse no longer depends on fjs as a package — it vendors the
