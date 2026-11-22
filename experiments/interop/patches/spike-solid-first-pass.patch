@@ -19,7 +19,7 @@ index 2c4db96..c3686c1 100644
      "_opened": "Tn",
      "_order": "Zt",
 diff --git a/packages/signals/src/core/core.ts b/packages/signals/src/core/core.ts
-index ecae8be..55dc0dc 100644
+index ecae8be..a0a7845 100644
 --- a/packages/signals/src/core/core.ts
 +++ b/packages/signals/src/core/core.ts
 @@ -348,7 +348,7 @@ export function clearSnapshots(): void {
@@ -140,7 +140,7 @@ index ecae8be..55dc0dc 100644
          _equals: false as unknown as Computed<T>["_equals"],
          _disposal: null,
          _context: context?._context ?? defaultContext,
-@@ -1290,10 +1290,185 @@ export function createEffectNode<T>(
+@@ -1290,10 +1290,183 @@ export function createEffectNode<T>(
    if (options?.unobserved) ext(self)._unobserved = options.unobserved;
    // Dev only: observe mangles `_` option names (CONFIG_WIDE).
    if (__DEV__ && options?._wide) self._config |= CONFIG_WIDE;
@@ -215,15 +215,13 @@ index ecae8be..55dc0dc 100644
 +export function firstPass(el: any): boolean {
 +  const owner = el._parent as any;
 +  const creator = owner === null ? null : creatorPass(owner);
++  // A hold or a read ahead is in play: the general pass seats the node before
++  // its body runs.
 +  if (
-+    owner === null ||
-+    owner._flags & REACTIVE_DISPOSED ||
-+    el._x !== null ||
-+    verdict !== null ||
-+    snapshotCaptureActive ||
-+    wireExternalSourceHook !== undefined ||
 +    flushTransaction !== null ||
 +    passTx !== null ||
++    verdict !== null ||
++    wireExternalSourceHook !== undefined ||
 +    (__OBSERVE__ && attrHooks !== null) ||
 +    (laneStageHook &&
 +      (passLane !== null ||
@@ -280,7 +278,7 @@ index ecae8be..55dc0dc 100644
 +    el._statusFlags === STATUS_UNINITIALIZED &&
 +    el._pendingValue === NOT_PENDING &&
 +    el._subs === null &&
-+    !(owner._flags & REACTIVE_DISPOSED) &&
++    !(owner !== null && owner._flags & REACTIVE_DISPOSED) &&
 +    (el._config & CONFIG_SYNC || typeof value !== "object" || value === null)
 +  ) {
 +    // The plain outcome: a value, and nothing for the general pass to settle.
@@ -292,7 +290,7 @@ index ecae8be..55dc0dc 100644
 +      el._firstChild === null &&
 +      el._disposal === null &&
 +      el._childCount === 0 &&
-+      el._context === owner._context
++      el._context === (owner !== null ? owner._context : defaultContext)
 +    ) {
 +      if (__DEV__) stat("s");
 +      return true;
@@ -327,7 +325,7 @@ index ecae8be..55dc0dc 100644
  /** The shared effect status notifier, installed by effect.ts. */
  export let effectStatusNotify: ((this: any) => void) | null = null;
  export function setEffectStatusNotify(fn: NonNullable<typeof effectStatusNotify>): void {
-@@ -1307,7 +1482,11 @@ export function statusNotifierOf(el: any): ((this: any) => void) | null {
+@@ -1307,7 +1480,11 @@ export function statusNotifierOf(el: any): ((this: any) => void) | null {
  
  const lazyOptions = { lazy: true } as const;
  
@@ -340,7 +338,7 @@ index ecae8be..55dc0dc 100644
    self._prevHeap = self;
    const parent = (context as Root)?._root
      ? (context as Root)._parentComputed
-@@ -1324,9 +1503,11 @@ function setupComputedNode<T>(self: Computed<T>, options: NodeOptions<T> | undef
+@@ -1324,9 +1501,11 @@ function setupComputedNode<T>(self: Computed<T>, options: NodeOptions<T> | undef
      throw new Error(PRIMITIVE_IN_FORBIDDEN_SCOPE_MESSAGE);
    }
    if (__DEV__) assertNotInEffectCallback();
@@ -355,7 +353,7 @@ index ecae8be..55dc0dc 100644
    wireExternalSourceHook?.(self);
    !options?.lazy && recompute(self, true);
    if (snapshotCaptureActive && !options?.lazy) {
-@@ -1775,6 +1956,7 @@ export function heldRead(): number {
+@@ -1775,6 +1954,7 @@ export function heldRead(): number {
  export function read<T>(el: Signal<T> | Computed<T>): T;
  // Typed `any` so `el` needs no cast alias: an alias the minifier keeps.
  export function read<T>(el: any): T {
@@ -363,7 +361,7 @@ index ecae8be..55dc0dc 100644
    // Shadow (seat.ts): compare the slot the table predicts with the one served.
    if (__TEST__ && !shadowConsumeBypass()) return shadowRead(el);
    if (__DEV__) devRead(el);
-@@ -2515,3 +2697,9 @@ export function markRefresh(node: Computed<any>, check?: boolean): void {
+@@ -2515,3 +2695,9 @@ export function markRefresh(node: Computed<any>, check?: boolean): void {
      schedule();
    }
  }

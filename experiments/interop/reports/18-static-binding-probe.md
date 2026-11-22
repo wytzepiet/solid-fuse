@@ -128,3 +128,14 @@ V8 (Node 22, 12 processes): cold first mount 11.5 / 8.4 / 8.9 ms, warm 1.34 / 1.
 The spare is an optimisation worth about 7.5 ms of the 23 ms gain; the design works without it.
 
 Not done: dev-tools `onOwner` now fires when a node is kept, after its children's; memos still take the general first pass.
+
+### Addendum 5b: which pre-run checks are needed
+
+Each of the 11 pre-run checks was removed in turn and the signals suite run; then all suites with reduced sets.
+
+- Not needed by any test, removed: owner is null, owner disposed, node has an extension, snapshot capture.
+- Needed (signals `l2-contract`): a transaction is open. A render effect born into a hold must not run before the hold commits, even a static one.
+- Needed as a group (web `display-ahead-gate-*`, `async-gen/e1-3289-1831`): verdict, lane, and the creator's read-ahead marks (PROBED, MOUNT_AHEAD, verdict dep). Not split further.
+- Kept by reasoning, not by a failing test: external-source hook and attribution hooks (they wrap or observe the general pass).
+
+With the final list: signals 7,263, solid-js 936, web client 2,040, hydrate 801 pass. Timings not re-measured after this trim.
