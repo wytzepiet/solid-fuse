@@ -23,7 +23,9 @@ async function run(cmd: string[], cwd: string): Promise<{ code: number; output: 
 const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
 import { Colors, ElevatedButton, Slider } from "./out/material_ui";
-import { FixtureBox, Point, Square, Mode, Menu, MenuItem } from "./out/fixture_app";
+import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter } from "./out/fixture_app";
+import { createScrollController, createTextEditingController, createAnimationController, ListView, EditableText } from "./out/flutter";
+import { createSignal } from "solid-js";
 
 export const a = (
   <Padding padding={EdgeInsets.symmetric({ horizontal: 8 })}>
@@ -47,6 +49,28 @@ export const menu = (
     onPick={async (s) => s.length}
   />
 );
+export function handles() {
+  const [label] = createSignal("x");
+  const counter: Counter = createCounter({ start: 1, label });
+  const n: number = counter.start();
+  const l: string = counter.label();
+  const c: number | undefined = counter.count();
+  counter.setLabel("y");
+  void counter.increment();
+  const total: Promise<number> = counter.add(2, { times: 3 });
+  (async () => {
+    for await (const t of counter.ticks()) t.toFixed();
+  })();
+  const scroll = createScrollController({ initialScrollOffset: 10 });
+  const text = createTextEditingController({ text: "hi" });
+  const t2: string | undefined = text.text();
+  text.setText("there");
+  const anim = createAnimationController({ duration: { milliseconds: 300 } });
+  void anim.forward();
+  // @ts-expect-error a ScrollController is not a TextEditingController
+  const wrong = <EditableText controller={scroll} />;
+  return [n, l, c, total, t2, wrong, <ListView controller={scroll} />];
+}
 // @ts-expect-error a number is not EdgeInsets (until shorthands)
 export const f = <Padding padding={8} />;
 // @ts-expect-error not a MainAxisAlignment

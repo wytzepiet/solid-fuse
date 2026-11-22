@@ -70,6 +70,7 @@ class World {
   late final InterfaceElement? stateEl = _cls('State');
   late final InterfaceElement? renderObjectEl = _cls('RenderObject');
   late final InterfaceElement? elementEl = _cls('Element');
+  late final InterfaceElement? tickerProviderEl = _cls('TickerProvider');
 
   InterfaceElement? _cls(String n) {
     final el = _byUri('package:flutter/widgets.dart')?.element.exportNamespace.get2(n);

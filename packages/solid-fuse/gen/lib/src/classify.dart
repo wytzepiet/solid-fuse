@@ -149,6 +149,8 @@ class Classifier {
       if (el == w.keyEl || el == w.localKeyEl) return {'k': 'key'};
       throw Skip('${el.name} (only Key is bridged)');
     }
+    // The runtime supplies one (tickers run while the app does).
+    if (el == w.tickerProviderEl) return {'k': 'vsync'};
     if (el == w.buildContextEl ||
         w.isSubtypeOfEl(t, w.stateEl) ||
         w.isSubtypeOfEl(t, w.renderObjectEl) ||
@@ -229,6 +231,129 @@ class Classifier {
     }
     if (rejected.isNotEmpty) decl['rejected'] = rejected;
     return id;
+  }
+
+  // ── handle members ────────────────────────────────────────────────────────
+
+  /// Members every object has, or every notifier: not offered.
+  static const _baseClasses = {
+    'Object', 'Listenable', 'ChangeNotifier', 'Diagnosticable', 'DiagnosticableTreeMixin', 'DiagnosticableTree',
+  };
+  static const _skipNames = {'dispose', 'notifyListeners', 'hashCode', 'runtimeType', 'toString', 'noSuchMethod', 'hasListeners'};
+
+  bool _memberOk(ExecutableElement e) {
+    if (e.isStatic || e.isPrivate || e.metadata.hasDeprecated || _hidden(e)) return false;
+    // A field's annotations are on the field, not its getter and setter.
+    if (e is PropertyAccessorElement && (e.variable.metadata.hasDeprecated || _hidden(e.variable))) return false;
+    final name = e.name ?? '';
+    if (name.isEmpty || name.startsWith('debug') || name.startsWith('toString') || _skipNames.contains(name)) return false;
+    final owner = e.enclosingElement;
+    // Declared by a handle class: a mixin's or an interface's members
+    // (WidgetsBindingObserver's didPopRoute) are the framework's to call.
+    if (owner is InterfaceElement && !isHandle(owner.thisType)) return false;
+    final lib = e.library.uri.toString();
+    if (owner is InterfaceElement &&
+        _baseClasses.contains(owner.name) &&
+        (lib == 'dart:core' || lib.startsWith('package:flutter/src/foundation/'))) {
+      return false;
+    }
+    return true;
+  }
+
+  /// What JS can do with a handle it created, added to the handle's
+  /// declaration: `state` (getters JS mirrors, re-read whenever a Listenable
+  /// notifies), `setters`, `methods` (each called through a Promise) and
+  /// `streams` (Stream getters, read as async iterables). A member no rule
+  /// covers is listed under `memberSkips`.
+  void handleMembers(InterfaceType t) {
+    final decl = types[idOf(t)]!;
+    if (decl.containsKey('methods')) return;
+    final listenable = w.isSubtypeOfEl(t, w.listenableEl);
+    final state = <Json>[];
+    final setters = <Json>[];
+    final methods = <Json>[];
+    final streams = <Json>[];
+    final skips = <String, String>{};
+    final seen = <String>{};
+    Json out(DartType type) {
+      final o = output(type);
+      if (_outHandle(o)) throw Skip('handle value (borrowed handles not bridged yet)');
+      return o;
+    }
+
+    for (final st in [t, ...t.allSupertypes]) {
+      for (final g in st.getters) {
+        if (!_memberOk(g) || !seen.add('get ${g.name}')) continue;
+        final rt = g.returnType;
+        try {
+          if (rt is InterfaceType && rt.isDartAsyncStream) {
+            streams.add({'name': g.name, 'type': out(rt.typeArguments.first)});
+          } else if (listenable) {
+            state.add({'name': g.name, 'type': out(rt)});
+          }
+        } on Skip catch (e) {
+          skips[g.name!] = e.reason;
+        } on NotNameable catch (e) {
+          skips[g.name!] = '$e';
+        }
+      }
+      for (final s in st.setters) {
+        if (!_memberOk(s) || !seen.add('set ${s.name}')) continue;
+        final p = s.formalParameters.first;
+        try {
+          setters.add({'name': s.name, 'type': input(p.type), 'dart': code.type(p.type), if (isNullable(p.type)) 'nullable': true});
+        } on Skip catch (e) {
+          skips['${s.name}='] = e.reason;
+        } on NotNameable catch (e) {
+          skips['${s.name}='] = '$e';
+        }
+      }
+      for (final m in st.methods) {
+        if (!_memberOk(m) || m.isOperator || !seen.add('${m.name}()')) continue;
+        try {
+          if (m.typeParameters.isNotEmpty) throw Skip('generic method');
+          final inv = invocable(m.name, m.formalParameters);
+          final r = m.returnType;
+          var isAsync = false;
+          Json ret;
+          if (r is VoidType) {
+            ret = {'k': 'void'};
+          } else if (r is InterfaceType && (r.isDartAsyncFutureOr || r.asInstanceOf(w.tp.futureElement) != null)) {
+            // A Future, or a subtype such as TickerFuture.
+            isAsync = true;
+            final a = (r.isDartAsyncFutureOr ? r : r.asInstanceOf(w.tp.futureElement)!).typeArguments.first;
+            ret = a is VoidType || a.isDartCoreNull ? {'k': 'void'} : out(a);
+          } else {
+            ret = out(r);
+          }
+          inv['ret'] = ret;
+          if (isAsync) inv['async'] = true;
+          if (firstParagraph(m.documentationComment) case final d?) inv['doc'] = d;
+          methods.add(inv);
+        } on Skip catch (e) {
+          skips['${m.name}()'] = e.reason;
+        } on NotNameable catch (e) {
+          skips['${m.name}()'] = '$e';
+        }
+      }
+    }
+    final dispose = t.lookUpMethod('dispose', t.element.library);
+    decl['state'] = state;
+    decl['setters'] = setters;
+    decl['methods'] = methods;
+    decl['streams'] = streams;
+    if (dispose != null && dispose.formalParameters.every((p) => !p.isRequired)) decl['disposable'] = true;
+    if (skips.isNotEmpty) decl['memberSkips'] = skips;
+  }
+
+  static bool _outHandle(Object? ref) {
+    if (ref is! Map) return false;
+    return switch (ref['k']) {
+      'handle' => true,
+      'list' || 'set' || 'iterable' => _outHandle(ref['of']),
+      'map' => _outHandle(ref['of']),
+      _ => false,
+    };
   }
 
   // ── enums ─────────────────────────────────────────────────────────────────
@@ -586,7 +711,8 @@ class Classifier {
       void consider(String n, DartType ft) {
         if (n.startsWith('_') || n == 'hashCode' || n == 'runtimeType' || !seen.add(n)) return;
         try {
-          fields.add({'name': n, 'type': output(ft, depth + 1)});
+          final o = output(ft, depth + 1);
+          if (!_outHandle(o)) fields.add({'name': n, 'type': o});
         } on Skip {
           // field not encodable: left out of the payload
         }

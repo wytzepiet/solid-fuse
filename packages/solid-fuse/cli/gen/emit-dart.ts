@@ -5,11 +5,34 @@
  * adapters. Everything it writes goes through the prefixes the manifest
  * lists, so names from different libraries never collide.
  */
-import { moduleOf, mustSupply, uriOf, type DataType, type FnRef, type Manifest, type Param, type Ref, type Widget } from "./manifest";
+import { moduleOf, mustSupply, uriOf, type DataType, type FnRef, type HandleType, type Manifest, type Param, type Ref, type Widget } from "./manifest";
 
 /** The element tag a generated component renders; `registerWidget` key. */
 export function tagOf(w: Widget): string {
   return `${moduleOf(uriOf(w.id))}_${w.component}`;
+}
+
+/** Handle id -> node type (`registerHandle` key, `Handle<K>` brand) of the
+ *  handles JS creates. */
+export function handleTags(m: Manifest): Map<string, string> {
+  const out = new Map<string, string>();
+  const taken = new Set<string>();
+  for (const id of m.handles) {
+    const base = `${moduleOf(uriOf(id))}_${m.types[id].name}`;
+    let tag = base;
+    for (let i = 2; taken.has(tag); i++) tag = `${base}${i}`;
+    taken.add(tag);
+    out.set(id, tag);
+  }
+  return out;
+}
+
+/** JS arguments of a handle method: index of each typed positional
+ *  parameter, and where the object with the named ones goes. */
+export function methodArgs(params: Param[]): { index: Map<string, number>; named: number } {
+  const index = new Map<string, number>();
+  for (const p of params) if (!p.named && p.type) index.set(p.name, index.size);
+  return { index, named: index.size };
 }
 
 const q = (s: string) => `'${s.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\$/g, "\\$")}'`;
@@ -91,6 +114,8 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         return `${decoderOf(ref.id)}(${src}, ${cx.n})`;
       case "key":
         return `decKey(${src})`;
+      case "vsync":
+        return "fuseVsync";
       case "widget":
         return `decWidget(${cx.n}, ${src})`;
       case "handle":
@@ -159,6 +184,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
   /** The argument passed for [p], or null to leave it out. */
   function arg(p: Param, owner: string, read: string, cx: Cx): string | null {
     if (!p.type) return p.passNull ? "null" : null;
+    if (p.type.k === "vsync") return "fuseVsync";
     const dart = cx.sub(p.dart!);
     const e = RAW.has(p.type.k) ? (dart === "dynamic" ? read : `(${read} as ${dart.endsWith("?") ? dart : `${dart}?`})`) : dec(p.type, read, { ...cx, prop: p.name });
     if (p.default !== undefined && p.default !== "null") return `${e} ?? ${p.default}`;
@@ -230,6 +256,9 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       }
       case "data":
         return `${encoderOf(ref.id)}(${src})`;
+      case "dynamic":
+      case "Object":
+        return `encAny(${src})`;
       default:
         return src;
     }
@@ -288,6 +317,81 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     registrations.push(`  ${q(tag)}: ${cls}.new,`);
   });
 
+  // ── handles ─────────────────────────────────────────────────────────────
+
+  const handleCode: string[] = [];
+  const handleRegs: string[] = [];
+  const hTags = handleTags(m);
+  const plain: Cx = { n: "node", prop: "", sub: (d) => d };
+
+  /** A value of [dart] decoded from [src]; a non-null one is required. */
+  function need(ref: Ref, dart: string, src: string, owner: string, what: string, nullable: boolean): string {
+    if (RAW.has(ref.k)) return dart === "dynamic" ? src : `${src} as ${dart}`;
+    const e = dec(ref, src, { ...plain, prop: what });
+    return nullable ? e : `fuseReq(${e}, ${q(owner)}, ${q(what)})`;
+  }
+
+  m.handles.forEach((id, i) => {
+    const h = m.types[id] as HandleType;
+    const T = noQ(h.dart);
+    const cls = `_H${i}_${h.name}`;
+    const tag = hTags.get(id)!;
+    const make = (c: (typeof h.ctors)[number]) =>
+      call(c.name ? `${T}.${c.name}` : T, c.params, (p) => arg(p, h.name, `node[${q(p.name)}]`, { ...plain, prop: p.name }));
+    const lines = [`class ${cls} extends FuseGeneratedHandle<${T}> {`, `  ${cls}(super.node) : object = _make(node) {`, "    start();", "  }", ""];
+    lines.push(`  static ${T} _make(FuseNode node) {`);
+    if (h.ctors.length === 1) {
+      lines.push(`    return ${make(h.ctors[0])};`);
+    } else {
+      // `$ctor` names the constructor; none is the unnamed one (or the first).
+      const fallback = h.ctors.find((c) => !c.name) ?? h.ctors[0];
+      lines.push("    switch (node[r'$ctor']) {");
+      for (const c of h.ctors) {
+        if (c === fallback) continue;
+        lines.push(`      case ${q(c.name!)}:`, `        return ${make(c)};`);
+      }
+      lines.push("    }", `    return ${make(fallback)};`);
+    }
+    lines.push("  }", "", "  @override", `  final ${T} object;`);
+    if (h.state?.length) {
+      lines.push("", "  @override", "  void snapshot(FuseSnapshot put) {");
+      for (const f of h.state) lines.push(`    put(${q(f.name)}, () => ${enc(f.type, `object.${f.name}`)});`);
+      lines.push("  }");
+    }
+    if (h.setters?.length) {
+      lines.push("", "  @override", "  void set(String name, Object? v) {", "    switch (name) {");
+      for (const st of h.setters) {
+        lines.push(`      case ${q(st.name)}:`, `        object.${st.name} = ${need(st.type, st.dart, "v", h.name, st.name, !!st.nullable)};`);
+      }
+      lines.push("      default:", "        super.set(name, v);", "    }", "  }");
+    }
+    if (h.methods?.length) {
+      lines.push("", "  @override", "  Future<Object?> invoke(String name, List<Object?> a) async {", "    switch (name) {");
+      for (const mt of h.methods) {
+        const { index, named } = methodArgs(mt.params);
+        const c = call(`object.${mt.name}`, mt.params, (p) => {
+          if (!p.type) return p.passNull ? "null" : null;
+          const src = p.named ? `fuseNamed(a, ${named})[${q(p.name)}]` : `fuseAt(a, ${index.get(p.name)})`;
+          return arg(p, `${h.name}.${mt.name}`, src, { ...plain, prop: p.name });
+        });
+        const got = mt.async ? `(await ${c})` : c;
+        lines.push(`      case ${q(mt.name)}:`);
+        if (mt.ret.k === "void") lines.push(`        ${mt.async ? `await ${c}` : c};`, "        return null;");
+        else lines.push(`        return ${enc(mt.ret, got)};`);
+      }
+      lines.push("    }", "    return super.invoke(name, a);", "  }");
+    }
+    if (h.streams?.length) {
+      lines.push("", "  @override", "  Stream<Object?>? stream(String name) => switch (name) {");
+      for (const st of h.streams) lines.push(`        ${q(st.name)} => object.${st.name}.map((e) => ${enc(st.type, "e")}),`);
+      lines.push("        _ => null,", "      };");
+    }
+    if (h.disposable) lines.push("", "  @override", "  void release() => object.dispose();");
+    lines.push("}");
+    handleCode.push(lines.join("\n"));
+    handleRegs.push(`  ${q(tag)}: ${cls}.new,`);
+  });
+
   // Decoders and encoders are discovered while writing the adapters and each
   // other; drain until no new ones appear.
   const decoderCode: string[] = [];
@@ -321,13 +425,19 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     ...registrations,
     "};",
     "",
+    "/// Node type -> handle, for the handles JS creates.",
+    "const fuseGeneratedHandles = <String, FuseHandle Function(FuseNode)>{",
+    ...handleRegs,
+    "};",
+    "",
     `void ${registerFunction}(FuseRuntime runtime) {`,
     "  fuseGeneratedWidgets.forEach(runtime.registerWidget);",
+    "  fuseGeneratedHandles.forEach(runtime.registerHandle);",
     "}",
     "",
   ];
   return {
-    code: [...header, ...adapters, "", ...decoderCode, "", ...encoderCode, ""].join("\n"),
+    code: [...header, ...adapters, "", ...handleCode, "", ...decoderCode, "", ...encoderCode, ""].join("\n"),
     tags,
   };
 }

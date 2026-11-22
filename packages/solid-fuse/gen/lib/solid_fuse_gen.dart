@@ -21,7 +21,19 @@ String inputHash({required String root, required String configJson}) {
   // The generator's own build: its snapshot changes whenever its code does,
   // which a version number alone would miss during development.
   final self = File.fromUri(Platform.script);
-  final stamp = self.existsSync() ? '${self.lengthSync()}:${self.lastModifiedSync().microsecondsSinceEpoch}' : '';
+  final stamp = StringBuffer(self.existsSync() ? '${self.lengthSync()}:${self.lastModifiedSync().microsecondsSinceEpoch}' : '');
+  // Run from source (`dart run` inside this package): the code is the
+  // package's lib/ too.
+  if (self.path.endsWith('.dart')) {
+    final src = Directory(p.join(self.parent.parent.path, 'lib'));
+    if (src.existsSync()) {
+      final files = [for (final f in src.listSync(recursive: true)) if (f is File) f]..sort((a, b) => a.path.compareTo(b.path));
+      for (final f in files) {
+        final st = f.statSync();
+        stamp.write(';${f.path}:${st.size}:${st.modified.microsecondsSinceEpoch}');
+      }
+    }
+  }
   final parts = <List<int>>[
     utf8.encode('$generatorVersion\n$manifestFormat\n$stamp\n'),
     utf8.encode(configJson),

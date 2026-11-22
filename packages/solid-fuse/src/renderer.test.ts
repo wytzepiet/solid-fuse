@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
-import { createSignal, createStore, flush, For } from "solid-js";
+import { createRoot, createSignal, createStore, flush, For } from "solid-js";
 
 // Run through `bun run test` (or `bun test --conditions browser`): by default
 // Bun resolves solid-js to its server build, where nothing is reactive.
@@ -721,5 +721,110 @@ describe("flush", () => {
     sent.length = 0;
     R.setProp(el, "width", 1);
     expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "width", value: 1 }]);
+  });
+});
+
+describe("generated handles ($handle)", () => {
+  let G: typeof import("./generated");
+  beforeAll(async () => {
+    G = await import("./generated");
+  });
+  const spec = { s: ["text", "count"], w: ["text"], o: ["text"], m: ["clear"], st: [] };
+  const dispatch = (name: string, data: any) => (globalThis as any).__dispatch(name, data);
+  const calls = () => sent.filter((m) => m.channel === "_handleCall");
+
+  async function collect(done: () => boolean) {
+    for (let i = 0; i < 50 && !done(); i++) {
+      Bun.gc(true);
+      await new Promise((r) => setTimeout(r, 2));
+    }
+  }
+
+  test("options ride in create; accessors are read once; state is seeded", () => {
+    let h: any;
+    const dispose = createRoot((d) => {
+      h = G.$handle("t_Ctl", spec, { text: () => "hi", onDone: () => {} }, { ctor: "named", fns: ["onDone"], seeds: { count: 0 } });
+      return d;
+    });
+    const [create] = takeOps();
+    expect(create).toEqual({ op: "create", id: h.node.id, type: "t_Ctl", props: { text: "hi", onDone: true, $ctor: "named", $push: true } });
+    expect(h.text()).toBe("hi");
+    expect(h.count()).toBe(0);
+    dispose();
+  });
+
+  test("pushes update state; a push older than JS's last write is dropped", async () => {
+    let h: any;
+    const dispose = createRoot((d) => {
+      h = G.$handle("t_Ctl", spec, { text: "a" }, {});
+      return d;
+    });
+    takeOps();
+    await dispatch("_functionCall", { nodeId: h.node.id, name: "$push", value: { v: 0, s: { text: "ab", count: 2 } } });
+    flush();
+    expect([h.text(), h.count()]).toEqual(["ab", 2]);
+    sent.length = 0;
+    h.setText("x");
+    flush();
+    expect(h.text()).toBe("x");
+    expect(calls()).toEqual([{ channel: "_handleCall", node: h.node.id, method: "$set", value: { n: "text", v: "x", ver: 1 } }]);
+    // Typed in Dart before the write landed: stale.
+    await dispatch("_functionCall", { nodeId: h.node.id, name: "$push", value: { v: 0, s: { text: "abc" } } });
+    flush();
+    expect(h.text()).toBe("x");
+    await dispatch("_functionCall", { nodeId: h.node.id, name: "$push", value: { v: 1, s: { text: "xy" } } });
+    flush();
+    expect(h.text()).toBe("xy");
+    dispose();
+  });
+
+  test("methods send their arguments; a live accessor writes through the setter", () => {
+    const [text, setText] = createSignal("a");
+    let h: any;
+    const dispose = createRoot((d) => {
+      h = G.$handle("t_Ctl", spec, { text }, { live: ["text"] });
+      return d;
+    });
+    flush();
+    takeOps();
+    sent.length = 0;
+    h.clear(1, { all: true });
+    expect(calls()).toEqual([{ channel: "_handleCall", node: h.node.id, method: "clear", value: [1, { all: true }] }]);
+    sent.length = 0;
+    setText("b");
+    flush();
+    expect(calls()).toEqual([{ channel: "_handleCall", node: h.node.id, method: "$set", value: { n: "text", v: "b", ver: 1 } }]);
+    dispose();
+  });
+
+  test("lives while its owner does and while JS holds it, whichever is longer", async () => {
+    let held: any;
+    let id = -1;
+    const disposeA = createRoot((d) => {
+      held = G.$handle("t_Ctl", spec, undefined, {});
+      id = held.node.id;
+      return d;
+    });
+    const seen: Op[] = [];
+    const gone = () => (seen.push(...takeOps()), seen.some((o) => o.op === "dispose" && o.id === id));
+    disposeA();
+    await collect(gone);
+    expect(gone()).toBe(false); // owner gone, still held
+    held = undefined;
+    await collect(gone);
+    expect(gone()).toBe(true);
+
+    // Dropped while the owner lives: kept until the owner goes.
+    let id2 = -1;
+    const disposeB = createRoot((d) => {
+      id2 = (G.$handle("t_Ctl", spec, undefined, {}) as any).node.id;
+      return d;
+    });
+    const seen2: Op[] = [];
+    const gone2 = () => (seen2.push(...takeOps()), seen2.some((o) => o.op === "dispose" && o.id === id2));
+    await collect(gone2);
+    expect(gone2()).toBe(false);
+    disposeB();
+    expect(gone2()).toBe(true);
   });
 });

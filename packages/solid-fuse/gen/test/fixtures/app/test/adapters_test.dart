@@ -102,6 +102,60 @@ void main() {
     expect(menu.onPick, isNull);
   });
 
+  group('a created handle', () {
+    late List<(int, String, Object?)> calls;
+    late FuseNodeRegistry registry;
+    late FuseHandle h;
+    late Counter counter;
+    setUp(() {
+      calls = [];
+      registry = FuseNodeRegistry(callFunction: (id, name, [v]) => calls.add((id, name, v)));
+      final node = registry.create(7, 'fixture_app_Counter', {'start': 2, 'label': 'a', r'$push': true});
+      h = node.ownHandle = fuseGeneratedHandles['fixture_app_Counter']!(node);
+      counter = h.object as Counter;
+    });
+    Map<Object?, Object?> lastPush() => calls.lastWhere((c) => c.$2 == r'$push').$3! as Map;
+
+    test('pushes its state on creation, then what changed', () async {
+      expect(lastPush(), {'v': 0, 's': {'start': 2, 'count': 2, 'label': 'a', 'disposed': false}});
+      await h.call('increment', <Object?>[]);
+      await Future<void>.delayed(Duration.zero);
+      expect(lastPush(), {'v': 0, 's': {'count': 3}});
+    });
+
+    test('setters carry a version; the next push confirms it', () async {
+      await h.call(r'$set', {'n': 'label', 'v': 'b', 'ver': 4});
+      await Future<void>.delayed(Duration.zero);
+      expect(counter.label, 'b');
+      expect(lastPush()['v'], 4);
+      expect((lastPush()['s']! as Map)['label'], 'b');
+    });
+
+    test('methods take positional and named arguments and return values', () async {
+      expect(await h.call('add', <Object?>[2, {'times': 3}]), 8);
+      expect(counter.count, 8);
+    });
+
+    test('streams run into a JS function until cancelled', () async {
+      await h.call(r'$listen', {'stream': 'ticks', 'fn': r'$s0'});
+      counter.tick();
+      await Future<void>.delayed(Duration.zero);
+      expect((calls.last.$1, calls.last.$2), (7, r'$s0'));
+      expect(calls.last.$3, {'v': 2});
+      await h.call(r'$cancel', {'fn': r'$s0'});
+      counter.tick();
+      await Future<void>.delayed(Duration.zero);
+      expect(calls.where((c) => c.$2 == r'$s0'), hasLength(1));
+    });
+
+    testWidgets('dispose stops pushing and frees the object after the frame', (t) async {
+      registry.remove(7);
+      counter.increment();
+      await t.pump();
+      expect(counter.disposed, true);
+    });
+  });
+
   testWidgets('a missing required prop is an error naming it', (t) async {
     rt.applyOps([...create(1, 'flutter_Padding')]);
     await t.pumpWidget(FuseRuntimeScope(

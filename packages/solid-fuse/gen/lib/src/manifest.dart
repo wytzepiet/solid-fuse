@@ -142,6 +142,7 @@ class ManifestBuilder {
           if (rule.explicitlyAllows(name)) _skip('${lib.uri}#$name', 'no public constructor');
           continue;
         }
+        c.handleMembers(t);
         _handleRoots.add(id);
       } on Skip catch (s) {
         if (rule.explicitlyAllows(name)) _skip('${lib.uri}#$name', s.reason);
@@ -228,6 +229,34 @@ class ManifestBuilder {
     };
   }
 
+  static const _notPlain = {'fn', 'widget', 'handle', 'vsync'};
+
+  /// Whether [ref] can hold one of [kinds], through collections and the
+  /// variants of data types.
+  bool _reaches(Object? ref, Set<String> kinds, [Set<String>? seen]) {
+    if (ref is! Map) return false;
+    final k = ref['k'];
+    if (kinds.contains(k)) return true;
+    switch (k) {
+      case 'list' || 'set' || 'iterable':
+        return _reaches(ref['of'], kinds, seen);
+      case 'map':
+        return _reaches(ref['of'], kinds, seen);
+      case 'data':
+        final id = ref['id']! as String;
+        seen ??= {};
+        if (!seen.add(id)) return false;
+        final variants = c.types[id]?['variants'];
+        if (variants is! List) return false;
+        for (final v in variants) {
+          for (final p in ((v as Json)['params']! as List).cast<Json>()) {
+            if (_reaches(p['type'], kinds, seen)) return true;
+          }
+        }
+    }
+    return false;
+  }
+
   /// Turns every unusable parameter of [params] into a skip. Returns false
   /// when the signature can no longer be called (a required parameter went).
   static bool _fix(List<Object?> params, String? Function(Json p) why) {
@@ -297,6 +326,33 @@ class ManifestBuilder {
       }
     }
 
+    // Handles: constructor options ride in the `create` op, which cannot
+    // carry node references; method and setter values go through a channel
+    // call, which carries plain values only.
+    for (final d in c.types.values) {
+      if (d['kind'] != 'handle') continue;
+      final ctors = d['ctors'];
+      if (ctors is List) {
+        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _reaches(p['type'], const {'widget', 'handle'}) ? 'holds a widget or handle' : null));
+      }
+      final methods = d['methods'];
+      if (methods is List) {
+        methods.removeWhere((mj) {
+          final ok = _fix((mj as Json)['params']! as List, (p) => _reaches(p['type'], _notPlain) ? 'holds a function, widget or handle' : null);
+          if (!ok) ((d['memberSkips'] ??= <String, String>{}) as Map)['${mj['name']}()'] = 'a required parameter holds a function, widget or handle';
+          return !ok;
+        });
+      }
+      final setters = d['setters'];
+      if (setters is List) {
+        setters.removeWhere((sj) {
+          final bad = _reaches((sj as Json)['type'], _notPlain);
+          if (bad) ((d['memberSkips'] ??= <String, String>{}) as Map)['${sj['name']}='] = 'holds a function, widget or handle';
+          return bad;
+        });
+      }
+    }
+
     var changed = true;
     while (changed) {
       changed = false;
@@ -317,6 +373,18 @@ class ManifestBuilder {
         final before = ctors.length;
         ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, notBuildable));
         if (ctors.length != before) changed = true;
+        final methods = d['methods'];
+        if (methods is List) {
+          final n = methods.length;
+          methods.removeWhere((mj) => !_fix((mj as Json)['params']! as List, notBuildable));
+          if (methods.length != n) changed = true;
+        }
+        final setters = d['setters'];
+        if (setters is List) {
+          final n = setters.length;
+          setters.removeWhere((sj) => bad((sj as Json)['type']));
+          if (setters.length != n) changed = true;
+        }
       }
       _widgets.removeWhere((wj) {
         if (_fix(wj['params']! as List, notBuildable)) return false;
@@ -326,5 +394,10 @@ class ManifestBuilder {
       });
     }
     // A data type with only constants left still has an input side.
+    _handleRoots.removeWhere((id) {
+      if ((c.types[id]!['ctors']! as List).isNotEmpty) return false;
+      _skip(id, 'no constructor left that can cross the bridge yet');
+      return true;
+    });
   }
 }

@@ -23,7 +23,13 @@ they know are the framework roots (Widget, Key, Listenable, BuildContext, State,
 RenderObject, Element).
 
 - **Handles** are Listenables, plus classes with mutable state (a non-final
-  field or an explicit setter) that aren't `@immutable`.
+  field or an explicit setter) that aren't `@immutable`. A handle JS creates
+  (a root, see `handles`) lists its members: the getters JS mirrors (a
+  Listenable's), setters, methods (`void`, a value, or a Future of one) and
+  Stream getters. Members of Object, Listenable, ChangeNotifier and the
+  Diagnosticable classes are left out, and so are members a mixin or an
+  interface that isn't a handle declares (WidgetsBindingObserver's).
+- **TickerProvider** parameters (`vsync`) are supplied by the runtime.
 - **Data** is every other exported class. Its variants are its public
   constructors and those of its exported subclasses (at most 40, tagged by
   class). Its constants are the `static const` fields of the type, its
@@ -60,7 +66,11 @@ triggers a second round, which loads that package's public libraries.
                                   "consts": [{ "name": "Colors.red", "dart": "material_ui.Colors.red" }],
                                   "fields": [...] },             // fields: Dart -> JS encoding
     "…": { "kind": "enum", "values": ["start", { "name": "x", "deprecated": true }] },
-    "…": { "kind": "handle", "ctors": [...], "supertypes": [...] }
+    "…": { "kind": "handle", "ctors": [...], "supertypes": [...],
+           // roots only:
+           "state": [{ "name": "offset", "type": {...} }], "setters": [{ "name": "text", "type": {...}, "dart": "String" }],
+           "methods": [{ "name": "animateTo", "params": [...], "ret": {...}, "async": true }],
+           "streams": [...], "disposable": true, "memberSkips": { "position": "why" } }
   },
   "skipped": [{ "item": "…#Image.memory", "reason": "bytes: typed data (not bridged yet)" }]
 }
@@ -72,12 +82,14 @@ type. A plain object without `$` means the declared type's unnamed
 constructor. Collection refs carry `ofDart` / `keyDart` (the element types'
 Dart source) for the decoders' type arguments.
 
-The bridge's current limits are applied as a last pass (`_prune`): nodes,
-functions and handles only as top-level props, no async callbacks yet. A
-parameter that would need more is a `skip` like any other.
+The bridge's current limits are applied as a last pass (`_prune`): a callback
+argument can't be a handle (borrowed handles), a handle constructor can't take
+a widget or handle (its options ride in the `create` op), and a method or
+setter takes plain values only (it goes through a channel call). A parameter
+that would need more is a `skip` like any other.
 
 The `k` values for refs are `bool int double num String Object dynamic enum
-data handle widget key list set iterable map fn typeParam`. A nullable ref
+data handle widget key vsync list set iterable map fn typeParam`. A nullable ref
 carries `"null": true`. An `fn` has `args` (output refs, or `context` /
 `omitted`), `ret`, and `async` / `sync`. Every `dart` string uses the prefixes
 in `imports`.

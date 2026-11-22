@@ -1,5 +1,5 @@
 import { createRenderer, type RendererEffectOptions } from "@solidjs/universal";
-import { $PROXY, flush } from "solid-js";
+import { $PROXY, flush, getOwner, onCleanup } from "solid-js";
 import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
 import { reportDevError } from "./dev-error";
 import { host } from "./host";
@@ -278,24 +278,76 @@ function createNode<K extends string>(type: K, props?: Record<string, unknown>):
   if (host.mode !== "release" && _currentComponent) createProps._component = _currentComponent;
   node.batch = batch;
   node.slot = ops.push(CREATE, node.id, type, createProps) - 1;
-  if (props) {
-    // Plain values first, node references after: a reference ends folding
-    // (see setProperty), and every plain prop must be in the `create` op,
-    // where a handle factory reads its options.
-    let refs: [string, Encoded][] | undefined;
-    for (const name in props) {
-      const value = props[name];
-      if (value == null || typeof value === "function") {
-        setProperty(node, name, value);
-        continue;
-      }
-      const e = encodeValue(name, value);
-      if (e.refs) (refs ??= []).push([name, e]);
-      else applyEncoded(node, name, e);
-    }
-    if (refs) for (const [name, e] of refs) applyEncoded(node, name, e);
-  }
+  if (props) setCreateProps(node, props);
   return node;
+}
+
+function setCreateProps(node: FuseNode, props: Record<string, unknown>) {
+  // Plain values first, node references after: a reference ends folding
+  // (see setProperty), and every plain prop must be in the `create` op,
+  // where a handle factory reads its options.
+  let refs: [string, Encoded][] | undefined;
+  for (const name in props) {
+    const value = props[name];
+    if (value == null || typeof value === "function") {
+      setProperty(node, name, value);
+      continue;
+    }
+    const e = encodeValue(name, value);
+    if (e.refs) (refs ??= []).push([name, e]);
+    else applyEncoded(node, name, e);
+  }
+  if (refs) for (const [name, e] of refs) applyEncoded(node, name, e);
+}
+
+// --- Owned handles ---
+//
+// A handle `createX` makes lives while its reactive owner does, and after
+// that for as long as JS can still reach it (it was handed to a parent, or
+// kept in a variable): Dart disposes it once both are over. The owner's
+// cleanup must not hold the node, or the node could never be collected.
+
+interface Life {
+  id: number;
+  owned: boolean;
+  collected: boolean;
+}
+
+const ownedReleased = new FinalizationRegistry<Life>((life) => {
+  life.collected = true;
+  if (!life.owned) releaseOwned(life);
+});
+
+function releaseOwned(life: Life) {
+  handlerNodes.delete(life.id);
+  ops.push(DISPOSE, life.id);
+  scheduleFlush();
+}
+
+/** A handle node owned by the current reactive owner (none: by JS alone). */
+function createOwnedNode<K extends string>(type: K, props?: Record<string, unknown>): FuseNode<K> {
+  const node = createNode(type);
+  // Not released by the plain rule (`track`): the owner counts too.
+  node.tracked = true;
+  const life: Life = { id: node.id, owned: getOwner() !== null, collected: false };
+  ownedReleased.register(node, life);
+  if (life.owned) {
+    const gen = generation;
+    onCleanup(() => {
+      life.owned = false;
+      if (life.collected && gen === (globalThis as any).__fuseGeneration) releaseOwned(life);
+    });
+  }
+  if (props) setCreateProps(node, props);
+  scheduleFlush();
+  return node;
+}
+
+/** Registers (or with `undefined`, removes) a function Dart calls by name on
+ *  [node] through `_functionCall`, without a prop. */
+function setHandler(node: FuseNode, name: string, fn: Function | undefined) {
+  if (fn) handlersOf(node)[name] = fn;
+  else if (node.handlers) delete node.handlers[name];
 }
 
 /** The node a prop value refers to: an orphan JSX node (passed itself) or a
@@ -673,6 +725,8 @@ export {
   ref,
   applyRef,
   createNode,
+  createOwnedNode,
+  setHandler,
   disposeNode,
   template,
   instantiate,

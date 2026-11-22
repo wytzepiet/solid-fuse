@@ -10,8 +10,8 @@
  *    `Colors.red`, `FlSpot(0, 1)`. They return the wire value (`{ $: tag, ... }`
  *    or `"Owner.field"`), which users never write by hand.
  */
-import { tagOf } from "./emit-dart";
-import { moduleOf, mustSupply, uriOf, type DataType, type FnRef, type Manifest, type Param, type Ref, type Variant } from "./manifest";
+import { handleTags, tagOf } from "./emit-dart";
+import { moduleOf, mustSupply, uriOf, type DataType, type FnRef, type HandleType, type Manifest, type Param, type Ref, type Variant } from "./manifest";
 
 export interface TsModule {
   /** Package name; the file is `<name>.tsx`. */
@@ -61,6 +61,7 @@ class Module {
   readonly builders: Record<string, BuilderEntry | { const: string }> = {};
   usesHandle = false;
   usesBuild = false;
+  usesCreate = false;
   constructor(readonly name: string) {}
 
   claim(space: "value" | "type", base: string): string {
@@ -92,6 +93,19 @@ export function emitTs(m: Manifest): TsOutput {
     const head = dart.split("<")[0].replace(/\?$/, "");
     return head.slice(head.lastIndexOf(".") + 1);
   };
+
+  // ── handles: which created ones fit where ───────────────────────────────
+
+  const hTags = handleTags(m);
+  /** Handle id -> the node types of created handles that are one. */
+  const accepts = new Map<string, string[]>();
+  for (const [id, tag] of hTags) {
+    for (const t of [id, ...(m.types[id] as HandleType).supertypes]) {
+      let list = accepts.get(t);
+      if (!list) accepts.set(t, (list = []));
+      list.push(tag);
+    }
+  }
 
   // ── type names ──────────────────────────────────────────────────────────
 
@@ -178,10 +192,13 @@ export function emitTs(m: Manifest): TsOutput {
       case "key":
         t = "string | number";
         break;
-      case "handle":
+      case "handle": {
         from.usesHandle = true;
-        t = "Handle<string>";
+        // A handle nothing here creates: any (a hand-written one).
+        const tags = accepts.get(ref.id);
+        t = tags ? `Handle<${tags.map(lit).join(" | ")}>` : "Handle<string>";
         break;
+      }
       case "fn":
         t = tsFn(ref, from);
         if (ref.null) t = `(${t})`;
@@ -256,7 +273,7 @@ export function emitTs(m: Manifest): TsOutput {
   function variantShape(v: Variant, declName: string | null, from: Module): string {
     const fields = [`${v.tag === declName ? "$?" : "$"}: ${lit(v.tag)}`];
     for (const p of v.params) {
-      if (!p.type) continue;
+      if (!p.type || p.type.k === "vsync") continue;
       fields.push(`${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, from)}`);
     }
     return `{ ${fields.join("; ")} }`;
@@ -411,7 +428,7 @@ export function emitTs(m: Manifest): TsOutput {
     const propsName = module.claim("type", `${name}Props`);
     const fields: string[] = [];
     for (const p of w.params) {
-      if (!p.type || p.name === w.children?.param || p.name === w.textChild) continue;
+      if (!p.type || p.type.k === "vsync" || p.name === w.children?.param || p.name === w.textChild) continue;
       if (p.name === "children") continue; // a widget whose children are not a slot
       fields.push(`${jsdoc("  ", p.doc, p.deprecated, p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : [])}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, module)};`);
     }
@@ -435,6 +452,114 @@ export function emitTs(m: Manifest): TsOutput {
         "}",
       ].join("\n"),
     );
+  }
+
+  // ── handles JS creates ──────────────────────────────────────────────────
+
+  const PRIMITIVE = new Set(["bool", "int", "double", "num", "String", "enum"]);
+  const cap = (n: string) => n[0].toUpperCase() + n.slice(1);
+  const isNull = (r: Ref) => "null" in r && !!r.null;
+
+  for (const id of m.handles) {
+    const h = m.types[id] as HandleType;
+    const module = mod(moduleOf(uriOf(id)));
+    const tag = hTags.get(id)!;
+    module.usesHandle = true;
+    module.usesCreate = true;
+    const name = module.claim("type", h.name);
+    const members: string[] = [];
+    const taken = new Set(["node"]);
+    const state = (h.state ?? []).filter((f) => !taken.has(f.name) && taken.add(f.name));
+    const methods = (h.methods ?? []).filter((mt) => !taken.has(mt.name) && taken.add(mt.name));
+    const streams = (h.streams ?? []).filter((st) => !taken.has(st.name) && taken.add(st.name));
+    const setters = (h.setters ?? []).filter((st) => !taken.has(`set${cap(st.name)}`) && taken.add(`set${cap(st.name)}`));
+    const stateOf = new Map(state.map((f) => [f.name, f]));
+    // Seeded before Dart's first push: from the option or default of the
+    // same name, for values whose input and output look the same.
+    const seedable = (f: { name: string; type: Ref }) => PRIMITIVE.has(f.type.k);
+    const alwaysSeeded = (f: { name: string; type: Ref }) =>
+      seedable(f) &&
+      h.ctors.every((c) => c.params.some((p) => p.name === f.name && p.type && (mustSupply(p) || p.defaultValue !== undefined)));
+    for (const f of state) {
+      const t = tsOut(f.type, module);
+      members.push(`${jsdoc("  ", undefined, undefined, ["Mirrored from Dart; updates when it notifies."])}  ${f.name}(): ${alwaysSeeded(f) ? t : `${t} | undefined`};`);
+    }
+    const optimistic: string[] = [];
+    for (const st of setters) {
+      const f = stateOf.get(st.name);
+      if (f && seedable(f) && PRIMITIVE.has(st.type.k)) optimistic.push(st.name);
+      members.push(`${jsdoc("  ", undefined, undefined, [`Dart: \`${st.name} = value\`.${f ? ` \`${st.name}()\` shows it at once.` : ""}`])}  set${cap(st.name)}(value: ${tsIn(st.type, module)}): void;`);
+    }
+    for (const mt of methods) {
+      const params: string[] = [];
+      for (const p of mt.params) {
+        if (p.named || !p.type) continue;
+        params.push(`${safeParam(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, module)}`);
+      }
+      const named = mt.params.filter((p) => p.named && p.type);
+      if (named.length) {
+        const fields = named.map((p) => `${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type!, module)}`);
+        params.push(`named${named.some(mustSupply) ? "" : "?"}: { ${fields.join("; ")} }`);
+      }
+      const ret = mt.ret.k === "void" ? "void" : tsOut(mt.ret, module);
+      members.push(`${jsdoc("  ", mt.doc, mt.deprecated)}  ${mt.name}(${params.join(", ")}): Promise<${ret}>;`);
+    }
+    for (const st of streams) {
+      members.push(`${jsdoc("  ", undefined, undefined, [`Dart's \`${st.name}\` stream; leaving the loop cancels it.`])}  ${st.name}(): AsyncIterable<${tsOut(st.type, module)}>;`);
+    }
+    module.parts.push(
+      `${jsdoc("", h.doc, h.deprecated, [`Dart: \`${h.name}\`. Make one with \`create${h.name}\`.`])}export interface ${name} extends Handle<${lit(tag)}> {\n${members.join("\n")}\n}`,
+    );
+
+    const setterNames = new Set(setters.map((st) => st.name));
+    const spec = {
+      s: state.map((f) => f.name),
+      w: setters.map((st) => st.name),
+      o: optimistic,
+      m: methods.map((mt) => mt.name),
+      st: streams.map((st) => st.name),
+    };
+    const specName = module.claim("value", `$${h.name}`);
+    module.parts.push(`const ${specName} = ${JSON.stringify(spec)};`);
+    for (const c of h.ctors) {
+      const fn = module.claim("value", `create${h.name}${c.name ? cap(c.name) : ""}`);
+      const fields: string[] = [];
+      const fns: string[] = [];
+      const live: string[] = [];
+      const seeds: Record<string, unknown> = {};
+      for (const p of c.params) {
+        if (!p.type || p.type.k === "vsync") continue;
+        const t = tsIn(p.type, module);
+        if (p.type.k === "fn") {
+          fns.push(p.name);
+          fields.push(`${jsdoc("  ", p.doc, p.deprecated)}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${t};`);
+          continue;
+        }
+        const isLive = setterNames.has(p.name);
+        if (isLive) live.push(p.name);
+        const f = stateOf.get(p.name);
+        if (f && seedable(f) && p.defaultValue !== undefined) seeds[p.name] = p.defaultValue;
+        const extra = [
+          ...(p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : []),
+          isLive ? "An accessor keeps it in sync." : "An accessor is read once.",
+        ];
+        const tt = /[ |&]/.test(t) ? `(${t})` : t;
+        fields.push(`${jsdoc("  ", p.doc, p.deprecated, extra)}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${t} | (() => ${tt});`);
+      }
+      const optsName = module.claim("type", `${fn[0].toUpperCase()}${fn.slice(1)}Options`);
+      const required = c.params.some((p) => p.type && p.type.k !== "vsync" && mustSupply(p));
+      module.parts.push(`export interface ${optsName} {\n${fields.join("\n")}\n}`);
+      const extra = { ...(c.name ? { ctor: c.name } : {}), ...(fns.length ? { fns } : {}), ...(live.length ? { live } : {}), ...(Object.keys(seeds).length ? { seeds } : {}) };
+      module.parts.push(
+        [
+          `${jsdoc("", h.doc, c.deprecated ?? h.deprecated, [
+            `Dart: \`${h.name}${c.name ? `.${c.name}` : ""}(...)\`. Lives while the calling owner does, and after that while JS still holds it.`,
+          ])}export function ${fn}(options${required ? "" : "?"}: ${optsName}): ${name} {`,
+          `  return $handle(${lit(tag)}, ${specName}, options, ${JSON.stringify(extra)}) as ${name};`,
+          "}",
+        ].join("\n"),
+      );
+    }
   }
 
   // Types and builders reached from the widgets (and from each other).
@@ -466,7 +591,7 @@ export function emitTs(m: Manifest): TsOutput {
       `// Manifest fingerprint: ${m.fingerprint}`,
       "/* eslint-disable */",
     ];
-    const fromFuse = [...(module.usesBuild ? ["$build"] : [])];
+    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : [])];
     if (fromFuse.length) head.push(`import { ${fromFuse.join(", ")} } from "solid-fuse/generated";`);
     if (module.usesHandle) head.push('import type { Handle } from "solid-fuse";');
     for (const [other, names] of [...module.typeImports].sort()) {

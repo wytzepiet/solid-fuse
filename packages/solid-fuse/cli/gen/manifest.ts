@@ -15,6 +15,8 @@ export type Ref =
   | { k: "key"; null?: true }
   | { k: "typeParam"; name: string; bound?: string; null?: true }
   | { k: "context" }
+  /** A TickerProvider: the runtime supplies one; never a prop. */
+  | { k: "vsync" }
   | { k: "omitted"; reason: string }
   | { k: "void" }
   | FnRef;
@@ -99,6 +101,13 @@ export interface EnumType {
   values: (string | { name: string; deprecated: true })[];
 }
 
+export interface HandleMethod extends Invocable {
+  name: string;
+  doc?: string;
+  ret: Ref;
+  async?: true;
+}
+
 export interface HandleType {
   kind: "handle";
   name: string;
@@ -108,6 +117,15 @@ export interface HandleType {
   abstract?: boolean;
   supertypes: string[];
   ctors: Invocable[];
+  /** Members, for the handles JS creates (`Manifest.handles`). */
+  /** Getters JS mirrors (a Listenable's, re-read when it notifies). */
+  state?: Field[];
+  setters?: { name: string; type: Ref; dart: string; nullable?: true }[];
+  methods?: HandleMethod[];
+  /** Stream getters. */
+  streams?: Field[];
+  /** Has a `dispose()` to call when JS lets go. */
+  disposable?: true;
 }
 
 export type TypeDecl = DataType | EnumType | HandleType;

@@ -37,7 +37,7 @@ void main() {
         'libraries': {
           fixtureLib: {},
           widgetsLib: {
-            'allow': ['Text', 'Padding', 'Image.*', 'ListView', 'ScrollController'],
+            'allow': ['Text', 'Padding', 'Image.*', 'ListView', 'ScrollController', 'AnimationController'],
           },
         },
       }),
@@ -135,6 +135,29 @@ void main() {
         'b',
         {'name': 'c', 'deprecated': true},
       ]);
+    });
+
+    test('a created handle: mirrored getters, setters, methods, streams', () {
+      final h = type('$fixtureLib#Counter');
+      List<String> names(String k) => [for (final x in h[k] as List) (x as Map)['name'] as String];
+      expect(names('state'), containsAll(['start', 'count', 'label', 'disposed']));
+      expect(names('setters'), ['label']);
+      expect(names('methods'), containsAll(['increment', 'add', 'tick']));
+      expect(names('methods'), isNot(contains('dispose')));
+      expect(names('methods'), isNot(contains('addListener')));
+      expect(names('streams'), ['ticks']);
+      expect(h['disposable'], true);
+      final add = (h['methods'] as List).cast<Map>().firstWhere((x) => x['name'] == 'add');
+      expect(add['async'], true);
+      expect(add['ret'], {'k': 'int'});
+    });
+
+    test('a TickerProvider is supplied by the runtime', () {
+      final ac = type('$widgetsLib#AnimationController');
+      final ctor = (ac['ctors'] as List).cast<Map>().firstWhere((c) => c['name'] == null);
+      final vsync = (ctor['params'] as List).cast<Map>().firstWhere((p) => p['name'] == 'vsync');
+      expect(vsync['type'], {'k': 'vsync'});
+      expect([for (final x in ac['methods'] as List) (x as Map)['name']], containsAll(['forward', 'reverse', 'animateTo']));
     });
 
     test('Listenables and mutable classes are handles', () {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -43,8 +45,43 @@ class Mutable {
 }
 
 class Counter extends ChangeNotifier {
-  Counter({this.start = 0});
+  Counter({this.start = 0, String label = ''}) : _count = start, _label = label;
   final int start;
+
+  int _count;
+  int get count => _count;
+
+  String _label;
+  String get label => _label;
+  set label(String v) {
+    _label = v;
+    notifyListeners();
+  }
+
+  void increment() {
+    _count++;
+    notifyListeners();
+  }
+
+  Future<int> add(int n, {int times = 1}) async {
+    _count += n * times;
+    notifyListeners();
+    return _count;
+  }
+
+  final StreamController<int> _ticks = StreamController.broadcast();
+  Stream<int> get ticks => _ticks.stream;
+  void tick() => _ticks.add(_count);
+
+  bool _disposed = false;
+  bool get disposed => _disposed;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    _ticks.close();
+    super.dispose();
+  }
 }
 
 class Secret {
