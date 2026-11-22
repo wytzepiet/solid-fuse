@@ -1,0 +1,123 @@
+--- /tmp/claude-0/-home-claude/abb9ed47-0cbe-55cd-9575-dfe5faa1e27d/scratchpad/probe/orig/core.js	2026-11-22 12:58:35.071589771 +0000
++++ core.js	2026-11-22 12:58:56.151539711 +0000
+@@ -675,6 +675,84 @@
+     return l;
+ }
+ 
++/* PROTOTYPE: static binding elision. Runs a render effect's first compute on a
++ * spare node that is not linked into the tree. Nothing recorded: apply and keep
++ * the spare. Something recorded: the spare becomes the effect. */
++const probes = [];
++let probeDepth = 0;
++let probeStats = globalThis.__probeStats = { static: 0, adopted: 0, thrown: 0, skipped: 0 };
++function probeEffect(fn, effectFn, E) {
++    const c = context;
++    if (c === null || verdict !== null || snapshotCaptureActive || c.R & REACTIVE_DISPOSED) { probeStats.skipped++; return null; }
++    const n = c.Qe ? c.Ke : c;
++    if (laneStageHook) {
++        if (passLane !== null) { probeStats.skipped++; return null; }
++        if (n && ((n.R | 0) & REACTIVE_PROBED || n.l & CONFIG_MOUNT_AHEAD && n.m & STATUS_UNINITIALIZED || n.i === EFFECT_RENDER && n._)) { probeStats.skipped++; return null; }
++    }
++    const depth = probeDepth;
++    let p = probes[depth];
++    if (p === undefined) {
++        context = null;
++        try { p = probes[depth] = createEffectNode(null, null, undefined, EFFECT_RENDER, E); } finally { context = c; }
++    }
++    p.X = fn;
++    p._parent = c;
++    p.A = c.A;
++    p.id = c.id;
++    p.he = n ? n.he + 1 : 0;
++    p.R = REACTIVE_RECOMPUTING_DEPS;
++    p.ie = clock;
++    p.de++;
++    const D = tracking;
++    context = p;
++    tracking = true;
++    probeDepth = depth + 1;
++    let v, ok = true;
++    try {
++        v = fn(undefined);
++    } catch (e) {
++        ok = false;
++    } finally {
++        context = c;
++        tracking = D;
++        probeDepth = depth;
++    }
++    if (ok && p.C === null && p.pe === null && p.ke === null && p.T === null && p.be === 0 && p.o === null && p.R === REACTIVE_RECOMPUTING_DEPS) {
++        p.X = null;
++        p._parent = null;
++        p.A = defaultContext;
++        p.R = REACTIVE_LAZY;
++        probeStats.static++;
++        effectFn(v, undefined);
++        return true;
++    }
++    probes[depth] = undefined;
++    if (!ok) {
++        probeStats.thrown++;
++        p.R = REACTIVE_LAZY;
++        disposeChildren(p);
++        clearDeps(p);
++        return null;
++    }
++    probeStats.adopted++;
++    const saved = p.R & ~REACTIVE_RECOMPUTING_DEPS;
++    p.R = REACTIVE_LAZY;
++    p.qe = effectFn;
++    linkChild(c, p);
++    p.X = () => {
++        for (let d = p.C; d !== null; ) {
++            const next = d.G;
++            link(d.S, p);
++            d = next;
++        }
++        p.R |= saved;
++        return v;
++    };
++    recompute(p, true);
++    p.X = fn;
++    return p;
++}
++
+ /** The shared effect status notifier, installed by effect.ts. */ let effectStatusNotify = null;
+ 
+ function setEffectStatusNotify(e) {
+@@ -1340,4 +1418,4 @@
+     }
+ }
+ 
+-export { adopter, bornInto, captureWriteSnapshot, clearSnapshots, computed, context, createEffectNode, creatorPass, creatorReads, effectStatusNotify, ext, heldRead, isEqual, isSame, joinPass, joinPassAt, markLateLinker, markRefresh, markSnapshotScope, markUnflushedStaged, notePromotedWrite, prepareComputed, pullComputed, read, readerSeesCommitted, recompute, releaseSnapshotScope, resyncUnflushedCompanions, runRefCallback, runWithOwner, serve, setAdopter, setEffectStatusNotify, setMemo, setSignal, setSnapshotCapture, setVerdict, setWriteHook, signal, slotSignal, snapshotCaptureActive, snapshotSources, spectating, stagedRead, stagedScreen, staleValues, stashFlushed, statusNotifierOf, strictReadTracked, tickBase, tracking, unflushedStaged, unflushedValue, untrack, verdict, writeHook };
+\ No newline at end of file
++export { probeEffect, adopter, bornInto, captureWriteSnapshot, clearSnapshots, computed, context, createEffectNode, creatorPass, creatorReads, effectStatusNotify, ext, heldRead, isEqual, isSame, joinPass, joinPassAt, markLateLinker, markRefresh, markSnapshotScope, markUnflushedStaged, notePromotedWrite, prepareComputed, pullComputed, read, readerSeesCommitted, recompute, releaseSnapshotScope, resyncUnflushedCompanions, runRefCallback, runWithOwner, serve, setAdopter, setEffectStatusNotify, setMemo, setSignal, setSnapshotCapture, setVerdict, setWriteHook, signal, slotSignal, snapshotCaptureActive, snapshotSources, spectating, stagedRead, stagedScreen, staleValues, stashFlushed, statusNotifierOf, strictReadTracked, tickBase, tracking, unflushedStaged, unflushedValue, untrack, verdict, writeHook };
+\ No newline at end of file
+--- /tmp/claude-0/-home-claude/abb9ed47-0cbe-55cd-9575-dfe5faa1e27d/scratchpad/probe/orig/effect.js	2026-11-22 12:58:35.071625807 +0000
++++ effect.js	2026-11-22 12:58:56.152075367 +0000
+@@ -1,6 +1,6 @@
+ import { NOT_PENDING, EFFECT_USER, CONFIG_AUTO_DISPOSE, CONFIG_CHILDREN_FORBIDDEN, EFFECT_TRACKED, EFFECT_RENDER, REACTIVE_DISPOSED, STATUS_ERROR, CONFIG_OVERRIDE, CONFIG_HELD, STATUS_PENDING } from "./constants.js";
+ 
+-import { createEffectNode, recompute, computed, staleValues, ext, setEffectStatusNotify } from "./core.js";
++import { probeEffect, createEffectNode, recompute, computed, staleValues, ext, setEffectStatusNotify } from "./core.js";
+ 
+ import { unwrapStatusError, StatusError } from "./error.js";
+ 
+@@ -16,8 +16,15 @@
+  * sources and recompute
+  */ function effect(e, t, E, f) {
+     const u = !!f?.user;
+-    const o = createEffectNode(e, t, E, u ? EFFECT_USER : EFFECT_RENDER, f);
+-    recompute(o, true);
++    let o = null;
++    if (!globalThis.__noProbe && !u && f && f.sync && f.transparent && !f.defer && !f.schedule && !f.unobserved && !f.ownedWrite && f.id === undefined && f.xe === undefined) {
++        o = probeEffect(e, t, f);
++        if (o === true) return;
++    }
++    if (o === null) {
++        o = createEffectNode(e, t, E, u ? EFFECT_USER : EFFECT_RENDER, f);
++        recompute(o, true);
++    }
+     // A first pass that read a staged value was staged itself (recompute: born
+     // staged); the flush's commit replays this effect. Its first run is not this
+     // creation's (F-7). A lane's node's run is the lane's: queued, not run
