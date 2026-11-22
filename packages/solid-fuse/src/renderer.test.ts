@@ -289,6 +289,40 @@ describe("props", () => {
     ]);
   });
 
+  test("createNode puts every plain prop in create, even after a node reference", () => {
+    const target = R.createNode("scrollController");
+    const node = R.createNode("pageController", { linked: { node: target }, initialPage: 2, onPage: () => {} });
+    expect(takeOps()).toEqual([
+      { op: "create", id: target.id, type: "scrollController", props: {} },
+      { op: "create", id: node.id, type: "pageController", props: { initialPage: 2, onPage: true } },
+      { op: "setProp", id: node.id, name: "linked", value: { _node: target.id } },
+    ]);
+  });
+
+  test("non-finite numbers cross as strings, at any depth; other values are untouched", () => {
+    const el = R.createElement("view", { width: Infinity });
+    const box = { maxWidth: Infinity, minWidth: 0, nested: [1, -Infinity, { ratio: NaN }] };
+    const plain = { color: "#fff", radius: 4 };
+    R.setProp(el, "constraints", box);
+    R.setProp(el, "decoration", plain);
+    expect(takeOps()).toEqual([
+      {
+        op: "create",
+        id: el.id,
+        type: "view",
+        props: {
+          width: "Infinity",
+          constraints: { maxWidth: "Infinity", minWidth: 0, nested: [1, "-Infinity", { ratio: "NaN" }] },
+          decoration: { color: "#fff", radius: 4 },
+        },
+      },
+    ]);
+    // The caller's objects are not modified.
+    expect(box.maxWidth).toBe(Infinity);
+    R.setProp(el, "height", Infinity);
+    expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "height", value: "Infinity" }]);
+  });
+
   test("a handle passed as a prop is sent as a reference to its node", () => {
     const el = R.createElement("scrollView");
     const handle = { node: R.createNode("scrollController", { initialScrollOffset: 10 }) };
@@ -478,7 +512,17 @@ describe("flush", () => {
     const cyclic: any = {};
     cyclic.self = cyclic;
     R.setProp(el, "bad", cyclic);
-    expect(() => R.flushOps()).toThrow();
+    // Reported (console.error without a dev server), not thrown.
+    const error = console.error;
+    const reported: unknown[] = [];
+    console.error = (err: unknown) => void reported.push(err);
+    try {
+      R.flushOps();
+    } finally {
+      console.error = error;
+    }
+    expect(reported.length).toBe(1);
+    expect(sent.filter((m) => m.channel === "_ops")).toEqual([]);
     sent.length = 0;
     R.setProp(el, "width", 1);
     expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "width", value: 1 }]);

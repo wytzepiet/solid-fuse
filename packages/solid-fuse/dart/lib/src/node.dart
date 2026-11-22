@@ -26,8 +26,25 @@ class FuseMap {
 
   // ── Primitives ────────────────────────────────────────────────────────────
 
-  core.double? double(String key) =>
-      _data[key] is num ? (_data[key] as num).toDouble() : null;
+  /// A number prop. JSON cannot carry non-finite numbers, so renderer.ts
+  /// sends them as the strings "Infinity", "-Infinity" and "NaN"
+  /// (`width={Infinity}` is how a view asks to fill its parent).
+  core.double? double(String key) {
+    final v = _data[key];
+    if (v is num) return v.toDouble();
+    if (v is String) {
+      switch (v) {
+        case 'Infinity':
+          return core.double.infinity;
+        case '-Infinity':
+          return core.double.negativeInfinity;
+        case 'NaN':
+          return core.double.nan;
+      }
+    }
+    return null;
+  }
+
   core.int? int(String key) =>
       _data[key] is num ? (_data[key] as num).toInt() : null;
   core.bool? bool(String key) => _data[key] as core.bool?;

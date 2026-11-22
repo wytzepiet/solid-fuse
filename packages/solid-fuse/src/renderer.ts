@@ -95,16 +95,18 @@ function flushOps() {
   // JS→Dart value conversion at 100,000 values, which an op array crosses at
   // roughly 4,500 mounted elements. A string is a single value, and
   // JSON.stringify + jsonDecode is also cheaper than walking the objects.
-  let json: string;
+  let json: string | undefined;
   try {
     json = JSON.stringify(ops);
-  } finally {
-    // Also when a prop value cannot be serialised: drop the batch rather
-    // than fail on it again at every later flush.
-    ops.length = 0;
-    batch++;
+  } catch (err) {
+    // A prop value JSON cannot carry (a cycle, a BigInt). The batch is
+    // dropped rather than failing again at every later flush; report it,
+    // because the Dart tree is now missing these ops.
+    reportDevError(err);
   }
-  send("_ops", { v: OPS_VERSION, json });
+  ops.length = 0;
+  batch++;
+  if (json !== undefined) send("_ops", { v: OPS_VERSION, json });
 }
 
 function scheduleFlush() {
@@ -134,8 +136,57 @@ function createNode<K extends string>(type: K, props?: Record<string, unknown>):
   if (host.mode !== "release" && _currentComponent) createProps._component = _currentComponent;
   node.batch = batch;
   node.slot = ops.push(CREATE, node.id, type, createProps) - 1;
-  if (props) for (const name in props) setProperty(node, name, props[name]);
+  if (props) {
+    // Plain values first, node references after: a reference ends folding
+    // (see setProperty), and every plain prop must be in the `create` op,
+    // where a handle factory reads its options.
+    let refs: string[] | undefined;
+    for (const name in props) {
+      const value = props[name];
+      if (nodeOf(value)) (refs ??= []).push(name);
+      else setProperty(node, name, value);
+    }
+    if (refs) for (const name of refs) setProperty(node, name, props[name]);
+  }
   return node;
+}
+
+/** The node a prop value refers to: an orphan JSX node (passed itself) or a
+ *  handle (carries `.node`). */
+function nodeOf(value: any): FuseNode | null {
+  if (value == null || typeof value !== "object") return null;
+  if (value instanceof FuseNode) return value;
+  return value.node instanceof FuseNode ? value.node : null;
+}
+
+/**
+ * JSON has no Infinity or NaN: `JSON.stringify` writes them as `null`, which
+ * would turn `width={Infinity}` into "no width". They cross as the strings
+ * "Infinity", "-Infinity" and "NaN", which Dart's number accessors
+ * (`FuseMap.double`) read back. Returns `value` itself unless something
+ * inside it had to change, so the common case allocates nothing.
+ */
+function encodeNumbers(value: any, depth = 0): any {
+  if (typeof value === "number") {
+    return value === value && value !== Infinity && value !== -Infinity ? value : String(value);
+  }
+  // Depth-bounded: a cyclic value is left for JSON.stringify to reject.
+  if (value === null || typeof value !== "object" || depth > 16) return value;
+  let out: any;
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const item = value[i];
+      const encoded = encodeNumbers(item, depth + 1);
+      if (encoded !== item) (out ??= value.slice())[i] = encoded;
+    }
+  } else {
+    for (const key in value) {
+      const item = value[key];
+      const encoded = encodeNumbers(item, depth + 1);
+      if (encoded !== item) (out ??= { ...value })[key] = encoded;
+    }
+  }
+  return out ?? value;
 }
 
 function setProperty(node: FuseNode, name: string, value: any) {
@@ -144,13 +195,8 @@ function setProperty(node: FuseNode, name: string, value: any) {
     handlers.set(`${node.id}:${name}`, value);
     wire = true;
   } else if (value != null) {
-    // A node reference: an orphan JSX node (passed itself) or a handle
-    // (carries `.node`) — same wire shape either way.
-    const ref = value instanceof FuseNode
-      ? value
-      : value.node instanceof FuseNode
-        ? value.node
-        : null;
+    // A node reference: same wire shape for an orphan node and a handle.
+    const ref = nodeOf(value);
     if (ref) {
       // Never folded into `create`: the referenced node may be created
       // later in this batch than the node that points at it.
@@ -160,6 +206,7 @@ function setProperty(node: FuseNode, name: string, value: any) {
       scheduleFlush();
       return;
     }
+    wire = encodeNumbers(value);
   }
   if (node.batch === batch) {
     // The node's `create` op has not left JS yet: the prop rides in it.

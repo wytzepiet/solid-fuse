@@ -35,6 +35,28 @@ void main() {
 
   setUp(() => rt = FuseRuntime.forTest());
 
+  test('non-finite numbers arrive as strings and read back as doubles', () {
+    apply([
+      create(1, 'view', {
+        'width': 'Infinity',
+        'left': '-Infinity',
+        'ratio': 'NaN',
+        'height': 12,
+        'label': 'Infinity',
+        'constraints': {'maxWidth': 'Infinity'},
+      }),
+    ]);
+    expect(node(1).double('width'), double.infinity);
+    expect(node(1).double('left'), double.negativeInfinity);
+    expect(node(1).double('ratio'), isNaN);
+    expect(node(1).double('height'), 12.0);
+    expect(node(1).double('missing'), isNull);
+    expect(node(1).double('other'), isNull);
+    // A string prop keeps its text; only the number accessor interprets it.
+    expect(node(1).string('label'), 'Infinity');
+    expect(node(1).map('constraints')!.double('maxWidth'), double.infinity);
+  });
+
   test('create + insert build the tree', () {
     mountList(3);
     expect(childIds(0), [1]);

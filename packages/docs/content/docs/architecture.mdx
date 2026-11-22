@@ -33,7 +33,7 @@ For production, bundles can be pre-compiled to QuickJS bytecode — no parse ste
 
 Only things that need Flutter cross the bridge: rendering ops, gesture events, platform APIs. Reactive state, data fetching, timers, module imports — all of that stays inside the Rust/QuickJS layer on its own thread.
 
-Channel messages and event payloads are not JSON: FJS passes structured values directly between Dart and JS through Rust. (Render ops are the exception described above — one string per batch.) On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
+Channel messages and event payloads are not JSON: FJS passes structured values directly between Dart and JS through Rust. (Render ops are the exception described above — one string per batch. JSON has no `Infinity` or `NaN`, so those props cross as the strings `"Infinity"`, `"-Infinity"` and `"NaN"`, and `node.double()` reads them back as numbers: `width={Infinity}` still means fill.) On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
 
 ## Extending
 
