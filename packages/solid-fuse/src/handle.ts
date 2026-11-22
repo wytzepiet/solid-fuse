@@ -1,11 +1,6 @@
 import { getOwner, onCleanup } from "solid-js";
 import { channels } from "./channels";
-import {
-  FuseNode,
-  ops,
-  scheduleFlush,
-  setProp as rawSetProp,
-} from "./renderer";
+import { type FuseNode, createNode, disposeNode, scheduleFlush } from "./renderer";
 
 /**
  * Structural contract for a handle: carries a `FuseNode` in its `node`
@@ -50,37 +45,17 @@ export function createHandle<K extends string>(
   type: K,
   props: Record<string, any> = {},
 ): HandleRuntime<K> {
-  const node = new FuseNode(type);
-
-  // Split props: plain values land inline in the create op so the handle
-  // factory sees them immediately (needed for things like `initialScrollOffset`
-  // on ScrollController). Functions and node refs go through rawSetProp so
-  // the renderer's setProperty logic can register them correctly (handlers
-  // registry for functions, `_node` wire tag for refs).
-  const createProps: Record<string, any> = {};
-  const deferred: Array<[string, any]> = [];
-  for (const [k, v] of Object.entries(props)) {
-    if (
-      typeof v === "function" ||
-      v instanceof FuseNode ||
-      v?.node instanceof FuseNode
-    ) {
-      deferred.push([k, v]);
-    } else {
-      createProps[k] = v;
-      node.props[k] = v;
-    }
-  }
-  ops.push({ op: "create", id: node.id, type, props: createProps });
-  for (const [k, v] of deferred) rawSetProp(node, k, v);
+  // The props ride in the node's `create` op, so the handle factory sees
+  // them immediately (needed for things like `initialScrollOffset` on
+  // ScrollController).
+  const node = createNode(type, props);
   scheduleFlush();
 
   let disposed = false;
   const dispose = () => {
     if (disposed) return;
     disposed = true;
-    ops.push({ op: "dispose", id: node.id });
-    scheduleFlush();
+    disposeNode(node);
   };
 
   if (getOwner()) onCleanup(dispose);

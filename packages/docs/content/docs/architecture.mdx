@@ -9,9 +9,9 @@ Fuse connects SolidJS and Flutter through a surprisingly small set of ideas. Eac
 
 SolidJS runs inside [FJS](https://github.com/fluttercandies/fjs) — a QuickJS-based JavaScript runtime built in Rust. FJS runs on its own isolate thread, off Flutter's main thread, so the JS engine and Flutter's frame pipeline never compete for the same core.
 
-Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten.
+Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten. Props that are known by the time a new node's batch is sent travel inside its create operation, so mounting an element costs one operation rather than one per prop.
 
-The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string (cheaper to convert than an array of op objects, and not subject to FJS's per-value conversion limit). `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
+The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string: a flat array of opcodes and their operands (cheaper to build and convert than an array of op objects, and not subject to FJS's per-value conversion limit). The batch carries a format version, so a bundle and a runtime built from different solid-fuse versions fail with a clear message instead of misreading each other. `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
 
 Events flow back the same way. A `GestureDetector` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
 
@@ -33,7 +33,7 @@ For production, bundles can be pre-compiled to QuickJS bytecode — no parse ste
 
 Only things that need Flutter cross the bridge: rendering ops, gesture events, platform APIs. Reactive state, data fetching, timers, module imports — all of that stays inside the Rust/QuickJS layer on its own thread.
 
-There's no JSON serialization. FJS passes structured values directly between Dart and JS through Rust. On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
+Channel messages and event payloads are not JSON: FJS passes structured values directly between Dart and JS through Rust. (Render ops are the exception described above — one string per batch. JSON has no `Infinity` or `NaN`, so those props cross as the strings `"Infinity"`, `"-Infinity"` and `"NaN"`, and `node.double()` reads them back as numbers: `width={Infinity}` still means fill.) On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.color('color')`) that read these values directly.
 
 ## Extending
 
@@ -62,4 +62,4 @@ One package manager for both sides.
 
 **Development** — `fuse dev` starts Vite and Flutter together. Dart connects to the Vite dev server via WebSocket, pre-fetches ES modules, and evaluates them in FJS. HMR works — edit, save, see it on device.
 
-**Production** — `fuse build` produces a single IIFE bundle with optional bytecode compilation. The Dart layer is a stable native SDK that rarely changes. The JS bundle is where product code lives and can ship continuously — including over-the-air without app store review.
+**Production** — `fuse build` produces a single IIFE bundle with optional bytecode compilation, then runs `flutter build` (`fuse build --js-only` stops after the bundle). The Dart layer is a stable native SDK that rarely changes. The JS bundle is where product code lives and can ship continuously — including over-the-air without app store review.

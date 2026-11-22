@@ -5,11 +5,25 @@ import { buildViteConfig } from "../config";
 import { runLink } from "../link";
 import type { FuseConfig } from "../../src/config";
 
+/**
+ * Split `fuse build` arguments into our own flags and the rest, which goes
+ * to `flutter build` untouched.
+ *
+ *   --js-only   build the JS bundle and stop: no Flutter build
+ */
+export function parseBuildArgs(rawArgs: string[]) {
+  return {
+    jsOnly: rawArgs.includes("--js-only"),
+    flutterArgs: rawArgs.filter((arg) => arg !== "--js-only"),
+  };
+}
+
 export async function buildApp(
   projectRoot: string,
   fuseConfig: FuseConfig | null,
   rawArgs: string[],
 ) {
+  const { jsOnly, flutterArgs } = parseBuildArgs(rawArgs);
   await runLink(projectRoot, { pubGet: false });
 
   const dartRoot = getDartRoot(projectRoot, fuseConfig);
@@ -18,8 +32,13 @@ export async function buildApp(
   console.log("\nBuilding JS bundle...");
   await viteBuild(viteConfig);
 
+  if (jsOnly) {
+    console.log("\nDone! (--js-only: skipped the Flutter build)");
+    return;
+  }
+
   console.log("\nBuilding Flutter app...");
-  const flutter = spawnSync("flutter", ["build", ...rawArgs], {
+  const flutter = spawnSync("flutter", ["build", ...flutterArgs], {
     cwd: dartRoot,
     stdio: "inherit",
   });

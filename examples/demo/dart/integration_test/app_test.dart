@@ -37,6 +37,49 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: FuseView(runtime: runtime)));
     await pumpUntil(tester, find.text('solid-fuse demos'));
 
+    // Keyed list: reorders move the existing rows (remove + insert of the
+    // same node in one batch), and the screen follows.
+    await tester.tap(find.text('list'));
+    await pumpUntil(tester, find.text('Reverse'));
+    await tester.pumpAndSettle();
+    List<String> onScreen() {
+      const all = ['apple', 'banana', 'cherry', 'date', 'elder'];
+      final shown = all.where((r) => find.text(r).evaluate().isNotEmpty).toList();
+      shown.sort((a, b) => tester
+          .getTopLeft(find.text(a))
+          .dy
+          .compareTo(tester.getTopLeft(find.text(b)).dy));
+      return shown;
+    }
+
+    Future<void> tapAndExpect(String button, List<String> order) async {
+      await tester.tap(find.text(button));
+      for (var i = 0; i < 100 && onScreen().join() != order.join(); i++) {
+        await tester.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 20)));
+        await tester.pump();
+      }
+      expect(onScreen(), order);
+    }
+
+    expect(onScreen(), ['cherry', 'apple', 'elder', 'banana', 'date']);
+    // Static attribute on an intrinsic element: each row is 40 high, plus
+    // the list's gap of 12.
+    expect(
+      tester.getTopLeft(find.text('apple')).dy -
+          tester.getTopLeft(find.text('cherry')).dy,
+      52,
+    );
+    await tapAndExpect('Reverse', ['date', 'banana', 'elder', 'apple', 'cherry']);
+    await tapAndExpect('Sort', ['apple', 'banana', 'cherry', 'date', 'elder']);
+    await tapAndExpect('Thin', ['apple', 'cherry', 'elder']);
+    await tapAndExpect('Reverse', ['elder', 'cherry', 'apple']);
+
+    // Back to the menu: pop the Fuse navigator (the innermost one).
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('counter'));
+    await tester.pumpAndSettle();
+
     await tester.tap(find.text('counter'));
     await pumpUntil(tester, find.text('Reset'));
     await tester.pumpAndSettle();

@@ -26,8 +26,25 @@ class FuseMap {
 
   // ── Primitives ────────────────────────────────────────────────────────────
 
-  core.double? double(String key) =>
-      _data[key] is num ? (_data[key] as num).toDouble() : null;
+  /// A number prop. JSON cannot carry non-finite numbers, so renderer.ts
+  /// sends them as the strings "Infinity", "-Infinity" and "NaN"
+  /// (`width={Infinity}` is how a view asks to fill its parent).
+  core.double? double(String key) {
+    final v = _data[key];
+    if (v is num) return v.toDouble();
+    if (v is String) {
+      switch (v) {
+        case 'Infinity':
+          return core.double.infinity;
+        case '-Infinity':
+          return core.double.negativeInfinity;
+        case 'NaN':
+          return core.double.nan;
+      }
+    }
+    return null;
+  }
+
   core.int? int(String key) =>
       _data[key] is num ? (_data[key] as num).toInt() : null;
   core.bool? bool(String key) => _data[key] as core.bool?;
@@ -92,8 +109,36 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// Set once by the runtime during the `create` op; disposed on node removal.
   FuseHandle? ownHandle;
 
-  final List<FuseNode> children = [];
   FuseNode? parent;
+
+  // Children are a doubly linked list threaded through the nodes (the same
+  // structure as the JS mirror in renderer.ts): inserting before a sibling
+  // and removing are constant time, so a keyed reorder of a long list costs
+  // time proportional to the number of moves, not moves times list length.
+  FuseNode? _first;
+  FuseNode? _last;
+  FuseNode? _prev;
+  FuseNode? _next;
+
+  /// The first child, or null. Walk with [nextSibling].
+  FuseNode? get firstChild => _first;
+
+  /// The next child of this node's parent, or null.
+  FuseNode? get nextSibling => _next;
+
+  List<FuseNode>? _cachedChildren;
+
+  /// The child nodes in order. An unmodifiable snapshot, rebuilt after the
+  /// child list changes; edit the list through ops, not through this.
+  List<FuseNode> get children {
+    final cached = _cachedChildren;
+    if (cached != null) return cached;
+    final list = <FuseNode>[];
+    for (var c = _first; c != null; c = c._next) {
+      list.add(c);
+    }
+    return _cachedChildren = List.unmodifiable(list);
+  }
 
   List<Widget>? _cachedChildWidgets;
 
@@ -204,15 +249,58 @@ class FuseNode extends FuseMap with ChangeNotifier {
     props[name] = value;
   }
 
-  void insertChildSilent(core.int index, FuseNode child) {
-    children.insert(index.clamp(0, children.length), child);
+  /// Insert [child] in front of [before], or append it when [before] is
+  /// null or not a child of this node. [child] must be detached.
+  void insertChildSilent(FuseNode child, {FuseNode? before}) {
+    assert(child.parent == null);
+    if (before != null && !identical(before.parent, this)) before = null;
     child.parent = this;
-    _cachedChildWidgets = null;
+    if (before != null) {
+      final prev = before._prev;
+      child._prev = prev;
+      child._next = before;
+      before._prev = child;
+      if (prev != null) {
+        prev._next = child;
+      } else {
+        _first = child;
+      }
+    } else {
+      final last = _last;
+      child._prev = last;
+      _last = child;
+      if (last != null) {
+        last._next = child;
+      } else {
+        _first = child;
+      }
+    }
+    _childrenChanged();
   }
 
+  /// Detach [child], which must be a child of this node.
   void removeChildSilent(FuseNode child) {
-    children.remove(child);
+    assert(identical(child.parent, this));
+    final prev = child._prev;
+    final next = child._next;
+    if (prev != null) {
+      prev._next = next;
+    } else {
+      _first = next;
+    }
+    if (next != null) {
+      next._prev = prev;
+    } else {
+      _last = prev;
+    }
     child.parent = null;
+    child._prev = null;
+    child._next = null;
+    _childrenChanged();
+  }
+
+  void _childrenChanged() {
+    _cachedChildren = null;
     _cachedChildWidgets = null;
   }
 

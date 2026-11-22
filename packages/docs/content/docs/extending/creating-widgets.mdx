@@ -30,6 +30,16 @@ export function Badge(props: BadgeProps) {
 
 The lowercase `<badge>` is the wire format — the Solid universal renderer creates a node with `type: "badge"` that Dart will look up. Consumers never see it; they import `Badge` and write `<Badge label="New" />`.
 
+Attributes written directly on the lowercase tag work like on any JSX element, so a wrapper can pin or default props instead of spreading everything:
+
+```tsx
+export function Badge(props: BadgeProps) {
+  return <badge color="blue" label={props.label} onTap={() => console.log("tapped")} />;
+}
+```
+
+Literal values and handlers (`color`, `onTap`) are sent together with the node's creation; expressions that read props or signals (`label`) update whenever they change.
+
 > You don't need to declare `<badge>` in a `.d.ts` file — `solid-fuse` defines the JSX namespace as an open `[name: string]: any` catch-all so any lowercase tag works.
 
 ### Step 2: Write the Dart widget
@@ -80,6 +90,8 @@ Wrapper components are the seam between user code and the renderer. Once you own
 - Tree-shake unused widgets out of production bundles
 
 Adding JS behavior to a widget no longer means switching from `<widget>` to `<MyWidget>` — the wrapper is already there.
+
+A wrapper adds little at runtime. When `<Badge label="New" color={tone()} />` reaches `<badge {...props} />`, the renderer looks at how each prop was written: a literal (`label`) is sent once with the node's creation and never tracked, and only expressions (`color`) share a reactive binding. Props that come from a store or from `merge()` are tracked as a whole, since their keys can change.
 
 ## FuseNode prop accessors
 

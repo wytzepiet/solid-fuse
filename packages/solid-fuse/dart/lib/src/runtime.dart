@@ -32,6 +32,11 @@ class FuseRuntime {
     registry.create(0, 'root', {'_id': 0});
   }
 
+  /// A runtime with no JS engine behind it, for tests that drive [applyOps]
+  /// directly. Never calls into fjs; [start] must not be called on it.
+  @visibleForTesting
+  FuseRuntime.forTest() : this._();
+
   FuseConnection? _connection;
 
   final Map<String, FuseWidgetBuilder> _widgetBuilders = {};
@@ -135,11 +140,16 @@ class FuseRuntime {
     channels.on('_ops', (data) {
       try {
         // JS sends each batch as one JSON string (see flushOps in
-        // renderer.ts); `ops` is accepted for older bundles.
-        final json = data['json'];
-        applyOps(json is String
-            ? jsonDecode(json) as List<dynamic>
-            : data['ops'] as List<dynamic>);
+        // renderer.ts).
+        final version = data['v'];
+        if (version != opsVersion) {
+          throw StateError(
+            'The JS bundle speaks op format ${version ?? 1}, this runtime '
+            'speaks $opsVersion. Rebuild the bundle and the app with the '
+            'same solid-fuse version.',
+          );
+        }
+        applyOps(jsonDecode(data['json'] as String) as List<dynamic>);
       } catch (e, st) {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
@@ -173,35 +183,54 @@ class FuseRuntime {
     });
   }
 
+  /// Version of the op format [applyOps] reads; `OPS_VERSION` in
+  /// renderer.ts is its JS twin.
+  static const opsVersion = 2;
+
+  // Opcodes, as in renderer.ts.
+  static const _opCreate = 0;
+  static const _opText = 1;
+  static const _opSetProp = 2;
+  static const _opSetText = 3;
+  static const _opInsert = 4;
+  static const _opRemove = 5;
+  static const _opDispose = 6;
+
   /// Apply a batch of ops from the JS side.
+  ///
+  /// [ops] is the flat journal written by renderer.ts: an opcode followed by
+  /// its operands, then the next opcode (the layout is documented there).
   void applyOps(List<dynamic> ops) {
     final dirty = <FuseNode>{};
+    // Nodes detached by a `remove` in this batch. Solid's keyed reconciler
+    // may move a node as a `remove` followed by an `insert` of the same node,
+    // so disposal waits until the whole batch is applied: only nodes that are
+    // still detached then are gone for good.
+    final removed = <FuseNode>{};
 
-    for (final op in ops) {
-      final map = op is Map<String, dynamic>
-          ? op
-          : Map<String, dynamic>.from(op as Map);
-      switch (map['op']) {
-        case 'create':
-          final type = map['type'] as String;
+    final length = ops.length;
+    var i = 0;
+    while (i < length) {
+      switch (ops[i]) {
+        case _opCreate:
+          final type = ops[i + 2] as String;
           final node = registry.create(
-            map['id'] as int,
+            ops[i + 1] as int,
             type,
-            Map<String, dynamic>.from(map['props'] as Map),
+            ops[i + 3] as Map<String, dynamic>,
           );
           final factory = _handleFactories[type];
           if (factory != null) {
             node.ownHandle = factory(node);
           }
-        case 'setText':
-          final node = registry.get(map['id'] as int);
-          node.setPropSilent('text', map['text']);
-          dirty.add(node);
-          if (node.parent != null) dirty.add(node.parent!);
-        case 'setProp':
-          final node = registry.get(map['id'] as int);
-          final name = map['name'] as String;
-          var value = map['value'];
+          i += 4;
+        case _opText:
+          registry.create(ops[i + 1] as int, '__text__', {'text': ops[i + 2]});
+          i += 3;
+        case _opSetProp:
+          final node = registry.get(ops[i + 1] as int);
+          final name = ops[i + 2] as String;
+          var value = ops[i + 3];
           if (value is Map && value.containsKey('_node')) {
             final target = registry.get(value['_node'] as int);
             final prev = node.props[name];
@@ -212,21 +241,54 @@ class FuseRuntime {
           }
           node.setPropSilent(name, value);
           dirty.add(node);
-        case 'insert':
-          final parent = registry.get(map['parentId'] as int);
-          final child = registry.get(map['childId'] as int);
-          parent.insertChildSilent(map['index'] as int, child);
+          i += 4;
+        case _opSetText:
+          final node = registry.get(ops[i + 1] as int);
+          node.setPropSilent('text', ops[i + 2]);
+          dirty.add(node);
+          if (node.parent != null) dirty.add(node.parent!);
+          i += 3;
+        case _opInsert:
+          final parent = registry.get(ops[i + 1] as int);
+          final child = registry.get(ops[i + 2] as int);
+          final before = ops[i + 3] as int?;
+          i += 4;
+          removed.remove(child);
+          if (child.id == before) break;
+          // Inserting an attached node moves it (DOM `insertBefore`
+          // semantics, mirrored by `insertNode` in renderer.ts): detach it
+          // first so it is never listed twice.
+          final oldParent = child.parent;
+          if (oldParent != null) {
+            oldParent.removeChildSilent(child);
+            dirty.add(oldParent);
+          }
+          parent.insertChildSilent(
+            child,
+            before: before == null ? null : registry.tryGet(before),
+          );
           dirty.add(parent);
-        case 'remove':
-          final parent = registry.get(map['parentId'] as int);
-          final child = registry.get(map['childId'] as int);
-          parent.removeChildSilent(child);
-          dirty.add(parent);
-          _removeSubtree(child, dirty);
-        case 'dispose':
-          final node = registry.tryGet(map['id'] as int);
+        case _opRemove:
+          final child = registry.get(ops[i + 1] as int);
+          i += 2;
+          final parent = child.parent;
+          if (parent != null) {
+            parent.removeChildSilent(child);
+            dirty.add(parent);
+            removed.add(child);
+          }
+        case _opDispose:
+          final node = registry.tryGet(ops[i + 1] as int);
           if (node != null) _removeSubtree(node, dirty);
+          i += 2;
+        default:
+          throw StateError('Unknown op ${ops[i]} at $i');
       }
+    }
+
+    for (final node in removed) {
+      // Skip nodes already disposed as part of another removed subtree.
+      if (identical(registry.tryGet(node.id), node)) _removeSubtree(node, dirty);
     }
 
     for (final node in dirty) {
@@ -238,7 +300,7 @@ class FuseRuntime {
   /// disposing their ChangeNotifiers. Also removes them from [dirty] to
   /// prevent notifying disposed nodes.
   void _removeSubtree(FuseNode node, Set<FuseNode> dirty) {
-    for (final child in node.children) {
+    for (var child = node.firstChild; child != null; child = child.nextSibling) {
       _removeSubtree(child, dirty);
     }
     for (final v in node.props.values) {

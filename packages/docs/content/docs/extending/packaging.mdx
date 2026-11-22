@@ -126,4 +126,7 @@ my-fuse-package/
 |---|---|
 | `fuse dev` | Start Vite dev server + Flutter app with HMR |
 | `fuse build` | Production build (Vite IIFE bundle + Flutter release) |
+| `fuse build --js-only` | Build only the JS bundle and skip the Flutter build |
 | `fuse link` | Scan packages, generate Dart glue code |
+
+`fuse build` passes every other argument to `flutter build` (`fuse build apk --release`). With `--js-only` it stops after writing the bundle into the Flutter project's assets — for when only JS changed, or when the bundle ships on its own (for example over the air).

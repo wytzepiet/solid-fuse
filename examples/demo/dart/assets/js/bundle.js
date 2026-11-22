@@ -4150,7 +4150,7 @@
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
 		else try {
-			let n = e instanceof Error ? e : Error(String(e)), r = oe(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			let n = e instanceof Error ? e : Error(String(e)), r = le(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
 			fetch(`${t}/__fuse_error`, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
@@ -4164,7 +4164,7 @@
 			console.error(e);
 		}
 	}
-	function oe(e) {
+	function le(e) {
 		let t = /* @__PURE__ */ new Set([e]), n = e;
 		for (;;) {
 			let e = n.cause;
@@ -4183,7 +4183,7 @@
 			...t
 		});
 	}
-	function se(e, t = {}, n) {
+	function ue(e, t = {}, n) {
 		v?.();
 		let r = n?.timeout ?? 3e4, i = fjs.bridge_call({
 			channel: e,
@@ -4201,11 +4201,11 @@
 			});
 		});
 	}
-	function ce(e) {
+	function de(e) {
 		h = e;
 	}
 	var v;
-	function le(e) {
+	function fe(e) {
 		v = e;
 	}
 	globalThis.__dispatch = async (e, t) => {
@@ -4219,7 +4219,7 @@
 	};
 	var y = {
 		send: _,
-		call: se,
+		call: ue,
 		on: g
 	};
 	function b(e) {
@@ -4230,7 +4230,7 @@
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
 		}, b(e);
 	}
-	function ue(e, t) {
+	function pe(e, t) {
 		if (b(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
@@ -4240,12 +4240,12 @@
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function de(e) {
-		var t = ue(e, "string");
+	function me(e) {
+		var t = pe(e, "string");
 		return b(t) == "symbol" ? t : t + "";
 	}
 	function x(e, t, n) {
-		return (t = de(t)) in e ? Object.defineProperty(e, t, {
+		return (t = me(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4378,187 +4378,235 @@
 	}
 	var S = globalThis.__fuseHost;
 	if (!S) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [C, w] = createSignal(S.brightness);
-	g("_brightness", (e) => w(e.value));
-	var T = {
-		brightness: C,
+	var [he, ge] = createSignal(S.brightness);
+	g("_brightness", (e) => ge(e.value));
+	var C = {
+		brightness: he,
 		platform: S.platform,
 		mode: S.mode
 	};
-	var fe = 0;
-	var E;
-	var D = class {
+	var _e = 0;
+	var w;
+	var T = class {
 		constructor(e) {
-			x(this, "type", void 0), x(this, "id", fe++), x(this, "props", {}), x(this, "children", []), x(this, "parent", void 0), this.type = e;
+			this.id = _e++, this.type = e, this.parent = void 0, this.first = void 0, this.last = void 0, this.prev = void 0, this.next = void 0, this.batch = -1, this.slot = -1;
+		}
+		get children() {
+			let e = [];
+			for (let t = this.first; t; t = t.next) e.push(t);
+			return e;
 		}
 	};
-	var O = /* @__PURE__ */ new Map();
+	var E = /* @__PURE__ */ new Map();
 	g("_functionCall", (e) => {
 		let t = `${e.nodeId}:${e.name}`;
-		O.get(t)?.(e.value);
+		E.get(t)?.(e.value);
 	});
+	var ve = 0;
+	var ye = 1;
+	var D = 2;
+	var be = 3;
+	var xe = 4;
+	var O = 5;
+	var Se = 6;
+	var Ce = 2;
 	var k = [];
-	var A = new D("root");
-	var j = !1;
+	var A = 0;
+	var j = new T("root");
 	var M = !1;
-	function N() {
-		flush(), j = !1, k.length !== 0 && (_("_ops", { json: JSON.stringify(k) }), k.length = 0);
-	}
+	var N = !1;
 	function P() {
-		j || M || (j = !0, Promise.resolve().then(N));
+		if (flush(), M = !1, k.length === 0) return;
+		let e;
+		try {
+			e = JSON.stringify(k);
+		} catch (e) {
+			p(e);
+		}
+		k.length = 0, A++, e !== void 0 && _("_ops", {
+			v: Ce,
+			json: e
+		});
 	}
-	ce(N), le(N);
-	var { render: F, effect: I, memo: L, createComponent: R, createElement: z, createTextNode: B, insertNode: V, insert: H, spread: U, setProp: W, mergeProps: G, ...pe } = createRenderer({
-		createElement(e) {
-			let t = new D(e), n = {};
-			return T.mode !== "release" && E && (n._component = E), k.push({
-				op: "create",
-				id: t.id,
-				type: e,
-				props: n
-			}), t;
+	function F() {
+		M || N || (M = !0, Promise.resolve().then(P));
+	}
+	de(P), fe(P);
+	function I(e, t) {
+		let n = new T(e), r = {};
+		if (C.mode !== "release" && w && (r._component = w), n.batch = A, n.slot = k.push(ve, n.id, e, r) - 1, t) {
+			let e;
+			for (let r in t) {
+				let i = t[r];
+				L(i) ? (e ?? (e = [])).push(r) : z(n, r, i);
+			}
+			if (e) for (let r of e) z(n, r, t[r]);
+		}
+		return n;
+	}
+	function L(e) {
+		return typeof e != "object" || !e ? null : e instanceof T ? e : e.node instanceof T ? e.node : null;
+	}
+	function R(e, t = 0) {
+		if (typeof e == "number") return e === e && e !== Infinity && e !== -Infinity ? e : String(e);
+		if (typeof e != "object" || !e || t > 16) return e;
+		let n;
+		if (Array.isArray(e)) for (let r = 0; r < e.length; r++) {
+			let i = e[r], a = R(i, t + 1);
+			a !== i && ((n ?? (n = e.slice()))[r] = a);
+		}
+		else for (let r in e) {
+			let i = e[r], a = R(i, t + 1);
+			a !== i && ((n ?? (n = { ...e }))[r] = a);
+		}
+		return n ?? e;
+	}
+	function z(e, t, n) {
+		let r = n;
+		if (typeof n == "function") E.set(`${e.id}:${t}`, n), r = !0;
+		else if (n != null) {
+			let i = L(n);
+			if (i) {
+				e.batch = -1, k.push(D, e.id, t, { _node: i.id }), F();
+				return;
+			}
+			r = R(n);
+		}
+		e.batch === A ? k[e.slot][t] = r : k.push(D, e.id, t, r), F();
+	}
+	var { render: we, effect: B, memo: Te, createComponent: V, createElement: H, createTextNode: Ee, insertNode: De, insert: U, spread: Oe, setProp: ke, mergeProps: W, ...Ae } = createRenderer({
+		createElement(e, t) {
+			return I(e, t);
 		},
 		createTextNode(e) {
-			let t = new D("__text__");
-			return t.props.text = e, k.push({
-				op: "create",
-				id: t.id,
-				type: "__text__",
-				props: { text: e }
-			}), t;
+			let t = new T("__text__");
+			return k.push(ye, t.id, e), t;
 		},
 		replaceText(e, t) {
-			e.props.text = t, k.push({
-				op: "setText",
-				id: e.id,
-				text: t
-			}), P();
+			k.push(be, e.id, t), F();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
-		setProperty(e, t, n) {
-			if (typeof n == "function") O.set(`${e.id}:${t}`, n), e.props[t] = !0, k.push({
-				op: "setProp",
-				id: e.id,
-				name: t,
-				value: !0
-			});
-			else {
-				let r = n instanceof D ? n : n?.node instanceof D ? n.node : null;
-				e.props[t] = n, k.push(r ? {
-					op: "setProp",
-					id: e.id,
-					name: t,
-					value: { _node: r.id }
-				} : {
-					op: "setProp",
-					id: e.id,
-					name: t,
-					value: n
-				});
-			}
-			P();
-		},
+		setProperty: z,
 		insertNode(e, t, n) {
-			t.parent = e;
-			let r;
-			if (n) {
-				let i = e.children.indexOf(n);
-				i >= 0 ? (e.children.splice(i, 0, t), r = i) : (e.children.push(t), r = e.children.length - 1);
-			} else e.children.push(t), r = e.children.length - 1;
-			k.push({
-				op: "insert",
-				parentId: e.id,
-				childId: t.id,
-				index: r
-			}), P();
+			if (t !== n) {
+				if (t.parent && G(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
+					let r = n.prev;
+					t.prev = r, t.next = n, n.prev = t, r ? r.next = t : e.first = t;
+				} else {
+					let n = e.last;
+					t.prev = n, e.last = t, n ? n.next = t : e.first = t;
+				}
+				k.push(xe, e.id, t.id, n ? n.id : null), F();
+			}
 		},
 		removeNode(e, t) {
-			let n = e.children.indexOf(t);
-			n >= 0 && e.children.splice(n, 1), t.parent = void 0, k.push({
-				op: "remove",
-				parentId: e.id,
-				childId: t.id
-			}), P();
+			t.parent === e && (G(t), k.push(O, t.id), F());
 		},
 		getParentNode(e) {
 			return e.parent;
 		},
 		getFirstChild(e) {
-			return e.children[0];
+			return e.first;
 		},
 		getNextSibling(e) {
-			let t = e.parent;
-			if (!t) return;
-			let n = t.children.indexOf(e);
-			return t.children[n + 1];
+			return e.next;
 		}
 	});
+	function G(e) {
+		let t = e.parent, { prev: n, next: r } = e;
+		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
+	}
+	function je(e) {
+		k.push(Se, e.id), F();
+	}
 	function K(e, t) {
-		if (T.mode === "release") return R(e, t);
-		let n = E;
-		E = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+		if (C.mode === "release") return V(e, t);
+		let n = w;
+		w = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
-			return R(e, t);
+			return V(e, t);
 		} finally {
-			E = n;
+			w = n;
 		}
 	}
-	function me(e) {
-		M = !0;
+	function Me(e) {
+		N = !0;
 		let t;
 		try {
-			t = F(e, A);
+			t = we(e, j);
 		} catch (e) {
-			return M = !1, p(e), () => {};
+			return N = !1, p(e), () => {};
 		}
-		return M = !1, N(), () => {
+		return N = !1, P(), () => {
 			typeof t == "function" && t();
-			for (let e of A.children) k.push({
-				op: "remove",
-				parentId: A.id,
-				childId: e.id
-			});
-			A.children = [], O.clear();
+			for (let e = j.first; e; e = j.first) G(e), k.push(O, e.id);
+			E.clear();
 		};
 	}
-	pe.ref;
-	function q(e, t) {
+	var { ref: q, applyRef: Pe } = Ae;
+	function J(e, t, r, i) {
+		if (typeof t != "object" || !t || Array.isArray(t) || $PROXY in t) {
+			Oe(e, t, r, i);
+			return;
+		}
+		let a;
+		for (let n in t) {
+			let o = Object.getOwnPropertyDescriptor(t, n), s = o === void 0 || o.get !== void 0;
+			n === "children" ? r || U(e, s ? () => t.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(n) : n === "ref" ? Y(e, o.value) : z(e, n, o.value);
+		}
+		if (a === void 0) return;
+		let o = a, s = {};
+		B(() => {
+			let e = {};
+			for (let n = 0; n < o.length; n++) e[o[n]] = t[o[n]];
+			return e;
+		}, (t) => {
+			for (let n = 0; n < o.length; n++) {
+				let r = o[n], i = t[r];
+				i !== s[r] && (r === "ref" ? Y(e, i) : z(e, r, i), s[r] = i);
+			}
+		}, i);
+	}
+	function Y(e, t) {
+		(typeof t == "function" || Array.isArray(t)) && q(() => t, e);
+	}
+	function X(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
 			switch (typeof e) {
 				case "function": return untrack(() => e(t));
 				case "string": {
-					let n = z(e);
-					return U(n, t), n;
+					let n = H(e);
+					return J(n, t), n;
 				}
 			}
 		});
 	}
-	function J(e) {
-		return q(() => e.component, omit(e, "component"));
+	function Fe(e) {
+		return X(() => e.component, omit(e, "component"));
 	}
-	function Y({ child: e, ...t }) {
+	function Z({ child: e, ...t }) {
 		return {
 			type: "materialPage",
 			child: e,
 			props: t
 		};
 	}
-	var X = createContext();
-	function Z(e = {}) {
+	var Ie = createContext();
+	function Q(e = {}) {
 		let t = 0, n = untrack(() => {
 			let t = e.initialPage;
-			return typeof t == "function" ? Y({ child: t }) : t;
+			return typeof t == "function" ? Z({ child: t }) : t;
 		}), [i, a] = createSignal(n ? [{
 			id: t++,
 			config: n,
 			resolve: () => {}
 		}] : [], { ownedWrite: !0 });
 		function o(e) {
-			let n = typeof e == "function" ? Y({ child: e }) : e;
+			let n = typeof e == "function" ? Z({ child: e }) : e;
 			return new Promise((e) => {
 				let r = {
 					id: t++,
@@ -4614,23 +4662,23 @@
 			onDidRemovePage: (e) => s(e, null)
 		};
 	}
-	function ge() {
-		let e = useContext(X);
+	function Le() {
+		let e = useContext(Ie);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function _e(e) {
-		let t = untrack(() => e.controller ?? Z({ initialPage: e.initialPage }));
-		return K(X, {
+	function Re(e) {
+		let t = untrack(() => e.controller ?? Q({ initialPage: e.initialPage }));
+		return K(Ie, {
 			value: t,
 			get children() {
-				var e = z("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
-				return H(e, K(For, {
+				var e = H("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
+				return U(e, K(For, {
 					get each() {
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => K(J, G({
+					children: (e) => K(Fe, W({
 						get component() {
 							return e().config.type;
 						},
@@ -4644,58 +4692,47 @@
 			}
 		});
 	}
-	function ve(e) {
-		var t = z("view");
-		return U(t, e, !1), t;
+	function ze(e) {
+		var t = H("view");
+		return J(t, e, !1), t;
 	}
-	function ye(e) {
-		var t = z("text");
-		return U(t, e, !1), t;
+	function Be(e) {
+		var t = H("text");
+		return J(t, e, !1), t;
 	}
-	function be(e) {
-		var t = z("icon");
-		return U(t, e, !1), t;
+	function Ve(e) {
+		var t = H("icon");
+		return J(t, e, !1), t;
 	}
-	function Q(e) {
-		var t = z("gestureDetector");
-		return U(t, e, !1), t;
+	function He(e) {
+		var t = H("gestureDetector");
+		return J(t, e, !1), t;
 	}
-	function xe(e) {
-		var t = z("scrollView");
-		return U(t, e, !1), t;
+	function Ue(e) {
+		var t = H("scrollView");
+		return J(t, e, !1), t;
 	}
-	function we(e) {
-		var t = z("textField");
-		return U(t, e, !1), t;
+	function Ke(e) {
+		var t = H("textField");
+		return J(t, e, !1), t;
 	}
 	function $(e, t = {}) {
-		let n = new D(e), r = {}, i = [];
-		for (let [e, a] of Object.entries(t)) typeof a == "function" || a instanceof D || a?.node instanceof D ? i.push([e, a]) : (r[e] = a, n.props[e] = a);
-		k.push({
-			op: "create",
-			id: n.id,
-			type: e,
-			props: r
-		});
-		for (let [e, t] of i) W(n, e, t);
-		P();
-		let a = !1, o = () => {
-			a || (a = !0, k.push({
-				op: "dispose",
-				id: n.id
-			}), P());
+		let n = I(e, t);
+		F();
+		let r = !1, i = () => {
+			r || (r = !0, je(n));
 		};
-		return getOwner() && onCleanup(o), {
+		return getOwner() && onCleanup(i), {
 			node: n,
 			call: (e, t, r) => y.call("_handleCall", {
 				node: n.id,
 				method: e,
 				value: t
 			}, r),
-			dispose: o
+			dispose: i
 		};
 	}
-	function Te(e = {}) {
+	function qe(e = {}) {
 		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
 			...e,
 			setScrollOffset: n
@@ -4711,7 +4748,7 @@
 			dispose: a
 		};
 	}
-	function Ee() {
+	function Je() {
 		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
 		return {
 			node: n,
@@ -4723,12 +4760,12 @@
 	}
 	// src/ui.tsx
 	function Button(props) {
-		return K(Q, {
+		return K(He, {
 			get onTap() {
 				return props.onTap;
 			},
 			get children() {
-				return K(ve, {
+				return K(ze, {
 					padding: {
 						horizontal: 16,
 						vertical: 12
@@ -4738,7 +4775,7 @@
 						borderRadius: 8
 					},
 					get children() {
-						return K(ye, {
+						return K(Be, {
 							color: "white",
 							fontWeight: "semiBold",
 							get children() {
@@ -4751,7 +4788,7 @@
 		});
 	}
 	function Row(props) {
-		return K(ve, {
+		return K(ze, {
 			get flex() {
 				return {
 					direction: "horizontal",
@@ -4765,19 +4802,19 @@
 		});
 	}
 	function MenuItem(props) {
-		return K(Q, {
+		return K(He, {
 			get onTap() {
 				return props.onTap;
 			},
 			get children() {
-				return K(ve, {
+				return K(ze, {
 					padding: 16,
 					decoration: { border: { bottom: {
 						width: 1,
 						color: "#E5E7EB"
 					} } },
 					get children() {
-						return K(ye, {
+						return K(Be, {
 							fontSize: 16,
 							get children() {
 								return props.label;
@@ -4791,7 +4828,7 @@
 	// src/screens/counter.tsx
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
-		return K(ve, {
+		return K(ze, {
 			flex: {
 				direction: "vertical",
 				align: "center",
@@ -4799,14 +4836,14 @@
 			},
 			padding: 24,
 			get children() {
-				return [K(ye, {
+				return [K(Be, {
 					fontSize: 96,
 					fontWeight: "bold",
 					color: "#2563eb",
 					get children() {
 						return count();
 					}
-				}), K(ve, {
+				}), K(ze, {
 					flex: {
 						direction: "horizontal",
 						gap: 16,
@@ -4814,10 +4851,10 @@
 					},
 					get children() {
 						return [
-							K(Q, {
+							K(He, {
 								onTap: () => setCount((c) => c - 1),
 								get children() {
-									return K(ve, {
+									return K(ze, {
 										width: 64,
 										height: 64,
 										decoration: {
@@ -4829,7 +4866,7 @@
 											justify: "center"
 										},
 										get children() {
-											return K(ye, {
+											return K(Be, {
 												fontSize: 28,
 												fontWeight: "bold",
 												color: "#fff",
@@ -4839,10 +4876,10 @@
 									});
 								}
 							}),
-							K(Q, {
+							K(He, {
 								onTap: () => setCount(0),
 								get children() {
-									return K(ve, {
+									return K(ze, {
 										height: 64,
 										padding: { horizontal: 24 },
 										decoration: {
@@ -4854,7 +4891,7 @@
 											justify: "center"
 										},
 										get children() {
-											return K(ye, {
+											return K(Be, {
 												fontSize: 15,
 												fontWeight: "semiBold",
 												color: "#fff",
@@ -4864,10 +4901,10 @@
 									});
 								}
 							}),
-							K(Q, {
+							K(He, {
 								onTap: () => setCount((c) => c + 1),
 								get children() {
-									return K(ve, {
+									return K(ze, {
 										width: 64,
 										height: 64,
 										decoration: {
@@ -4879,7 +4916,7 @@
 											justify: "center"
 										},
 										get children() {
-											return K(ye, {
+											return K(Be, {
 												fontSize: 28,
 												fontWeight: "bold",
 												color: "#fff",
@@ -4910,36 +4947,36 @@
 	var est = /*#__PURE__*/ e(58873);
 	// src/screens/text-field.tsx
 	function TextFieldScreen() {
-		const nav = ge();
+		const nav = Le();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = Ee();
-		return K(xe, {
+		const focus = Je();
+		return K(Ue, {
 			flex: {
 				direction: "vertical",
 				gap: 16
 			},
 			get children() {
 				return [
-					K(ve, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 16,
 							bottom: 8
 						},
 						get children() {
-							return [K(ye, {
+							return [K(Be, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "textField"
-							}), K(ye, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Reactive value, focus control, filtering"
 							})];
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
@@ -4947,18 +4984,18 @@
 						},
 						get children() {
 							return [
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											K(ye, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Name"
 											}),
-											K(we, {
+											K(Ke, {
 												get value() {
 													return name();
 												},
@@ -4969,13 +5006,13 @@
 													contentPadding: 12
 												}
 											}),
-											K(ye, {
+											K(Be, {
 												color: "#6B7280",
 												fontSize: 13,
 												get children() {
 													return [
 														"value = \"",
-														L(() => {
+														Te(() => {
 															return name();
 														}),
 														"\""
@@ -4994,18 +5031,18 @@
 										];
 									}
 								}),
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											K(ye, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Focus control"
 											}),
-											K(we, {
+											K(Ke, {
 												focusNode: focus,
 												placeholder: "Controlled by buttons below",
 												decoration: {
@@ -5013,11 +5050,11 @@
 													contentPadding: 12
 												}
 											}),
-											K(ye, {
+											K(Be, {
 												color: "#6B7280",
 												fontSize: 13,
 												get children() {
-													return ["hasFocus = ", L(() => {
+													return ["hasFocus = ", Te(() => {
 														return focus.hasFocus() ? "true" : "false";
 													})];
 												}
@@ -5034,16 +5071,16 @@
 										];
 									}
 								}),
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [K(ye, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Digits only"
-										}), K(we, {
+										}), K(Ke, {
 											get value() {
 												return digits();
 											},
@@ -5058,21 +5095,21 @@
 										})];
 									}
 								}),
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											K(ye, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Slot widgets"
 											}),
-											K(we, {
+											K(Ke, {
 												placeholder: "Search…",
 												get prefixIcon() {
-													return K(be, {
+													return K(Ve, {
 														data: x4e,
 														size: 20,
 														color: "#6B7280"
@@ -5083,11 +5120,11 @@
 													contentPadding: 12
 												}
 											}),
-											K(we, {
+											K(Ke, {
 												placeholder: "Password",
 												obscureText: true,
 												get prefixIcon() {
-													return K(be, {
+													return K(Ve, {
 														data: Bge,
 														size: 20,
 														color: "#6B7280"
@@ -5101,16 +5138,16 @@
 										];
 									}
 								}),
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [K(ye, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Autofocus"
-										}), K(ye, {
+										}), K(Be, {
 											color: "#6B7280",
 											fontSize: 13,
 											children: "(would autofocus on mount — disabled here so it doesn't steal focus)"
@@ -5120,7 +5157,7 @@
 							];
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: 16,
 						get children() {
 							return K(Button, {
@@ -5135,35 +5172,35 @@
 	}
 	// src/screens/icon.tsx
 	function IconScreen() {
-		const nav = ge();
+		const nav = Le();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
-		return K(xe, {
+		return K(Ue, {
 			flex: {
 				direction: "vertical",
 				gap: 16
 			},
 			get children() {
 				return [
-					K(ve, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 16,
 							bottom: 8
 						},
 						get children() {
-							return [K(ye, {
+							return [K(Be, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "icon"
-							}), K(ye, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Baseline icon rendering + reactive props"
 							})];
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
@@ -5171,16 +5208,16 @@
 						},
 						get children() {
 							return [
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [K(ye, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Static grid"
-										}), K(ve, {
+										}), K(ze, {
 											flex: {
 												direction: "horizontal",
 												gap: 16,
@@ -5188,28 +5225,28 @@
 											},
 											get children() {
 												return [
-													K(be, {
+													K(Ve, {
 														data: x4e,
 														size: 32
 													}),
-													K(be, {
+													K(Ve, {
 														data: Bge,
 														size: 32
 													}),
-													K(be, {
+													K(Ve, {
 														data: lre,
 														size: 32
 													}),
-													K(be, {
+													K(Ve, {
 														data: _6e,
 														size: 32
 													}),
-													K(be, {
+													K(Ve, {
 														data: EY,
 														size: 32,
 														color: "#EF4444"
 													}),
-													K(be, {
+													K(Ve, {
 														data: est,
 														size: 32,
 														color: "#F59E0B"
@@ -5219,18 +5256,18 @@
 										})];
 									}
 								}),
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
 										return [
-											K(ye, {
+											K(Be, {
 												fontWeight: "semiBold",
 												children: "Reactive props"
 											}),
-											K(ve, {
+											K(ze, {
 												flex: {
 													direction: "horizontal",
 													gap: 12,
@@ -5238,7 +5275,7 @@
 												},
 												padding: 12,
 												get children() {
-													return [K(be, {
+													return [K(Ve, {
 														data: EY,
 														get size() {
 															return size();
@@ -5246,17 +5283,17 @@
 														get color() {
 															return color();
 														}
-													}), K(ye, {
+													}), K(Be, {
 														color: "#6B7280",
 														fontSize: 13,
 														get children() {
 															return [
 																"size = ",
-																L(() => {
+																Te(() => {
 																	return size();
 																}),
 																", color = ",
-																L(() => {
+																Te(() => {
 																	return color();
 																})
 															];
@@ -5299,16 +5336,16 @@
 										];
 									}
 								}),
-								K(ve, {
+								K(ze, {
 									flex: {
 										direction: "vertical",
 										gap: 6
 									},
 									get children() {
-										return [K(ye, {
+										return [K(Be, {
 											fontWeight: "semiBold",
 											children: "Icon + text row"
-										}), K(ve, {
+										}), K(ze, {
 											flex: {
 												direction: "horizontal",
 												gap: 8,
@@ -5316,11 +5353,11 @@
 											},
 											padding: 12,
 											get children() {
-												return [K(be, {
+												return [K(Ve, {
 													data: coe,
 													size: 20,
 													color: "#3B82F6"
-												}), K(ye, { children: "Inline icon + text composition" })];
+												}), K(Be, { children: "Inline icon + text composition" })];
 											}
 										})];
 									}
@@ -5328,7 +5365,7 @@
 							];
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: 16,
 						get children() {
 							return K(Button, {
@@ -5343,9 +5380,9 @@
 	}
 	// src/screens/scroll.tsx
 	function ScrollScreen() {
-		const nav = ge();
-		const scroll = Te({ initialScrollOffset: 120 });
-		return K(xe, {
+		const nav = Le();
+		const scroll = qe({ initialScrollOffset: 120 });
+		return K(Ue, {
 			controller: scroll,
 			flex: {
 				direction: "vertical",
@@ -5353,7 +5390,7 @@
 			},
 			get children() {
 				return [
-					K(ve, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 16,
@@ -5364,32 +5401,32 @@
 							gap: 4
 						},
 						get children() {
-							return [K(ye, {
+							return [K(Be, {
 								fontSize: 24,
 								fontWeight: "bold",
 								children: "scrollController"
-							}), K(ye, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "initialScrollOffset, reactive offset, imperative scroll"
 							})];
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: { horizontal: 16 },
 						flex: {
 							direction: "vertical",
 							gap: 8
 						},
 						get children() {
-							return [K(ye, {
+							return [K(Be, {
 								fontWeight: "semiBold",
 								get children() {
-									return ["scrollOffset = ", L(() => {
+									return ["scrollOffset = ", Te(() => {
 										return scroll.scrollOffset().toFixed(1);
 									})];
 								}
-							}), K(xe, {
+							}), K(Ue, {
 								scrollDirection: "horizontal",
 								flex: {
 									direction: "horizontal",
@@ -5408,28 +5445,28 @@
 							})];
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: 16,
 						flex: {
 							direction: "vertical",
 							gap: 8
 						},
 						get children() {
-							return Array.from({ length: 40 }, (_, i) => K(ve, {
+							return Array.from({ length: 40 }, (_, i) => K(ze, {
 								padding: 16,
 								decoration: {
 									color: i % 2 === 0 ? "#F3F4F6" : "#E5E7EB",
 									borderRadius: 8
 								},
 								get children() {
-									return K(ye, { get children() {
+									return K(Be, { get children() {
 										return ["row ", i];
 									} });
 								}
 							}));
 						}
 					}),
-					K(ve, {
+					K(ze, {
 						padding: 16,
 						get children() {
 							return K(Button, {
@@ -5442,25 +5479,72 @@
 			}
 		});
 	}
+	// src/screens/list.tsx
+	function ListScreen() {
+		const [rows, setRows] = createSignal([
+			"cherry",
+			"apple",
+			"elder",
+			"banana",
+			"date"
+		]);
+		return K(ze, {
+			flex: {
+				direction: "vertical",
+				gap: 12
+			},
+			padding: 24,
+			get children() {
+				return [K(Row, { get children() {
+					return [
+						K(Button, {
+							onTap: () => setRows((r) => r.slice().reverse()),
+							children: "Reverse"
+						}),
+						K(Button, {
+							onTap: () => setRows((r) => r.slice().sort()),
+							children: "Sort"
+						}),
+						K(Button, {
+							onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
+							children: "Thin"
+						})
+					];
+				} }), K(For, {
+					get each() {
+						return rows();
+					},
+					children: (row) => (() => {
+						var _el$ = H("view", { height: 40 });
+						U(_el$, K(Be, {
+							fontSize: 16,
+							children: row
+						}));
+						return _el$;
+					})()
+				})];
+			}
+		});
+	}
 	// src/screens/home.tsx
 	function HomeScreen() {
-		const nav = ge();
-		return K(ve, {
+		const nav = Le();
+		return K(ze, {
 			flex: { direction: "vertical" },
 			get children() {
 				return [
-					K(ve, {
+					K(ze, {
 						padding: {
 							horizontal: 16,
 							top: 24,
 							bottom: 12
 						},
 						get children() {
-							return [K(ye, {
+							return [K(Be, {
 								fontSize: 28,
 								fontWeight: "bold",
 								children: "solid-fuse demos"
-							}), K(ye, {
+							}), K(Be, {
 								color: "#6B7280",
 								fontSize: 14,
 								children: "Playground for widget primitives"
@@ -5480,6 +5564,10 @@
 						onTap: () => nav.push(() => K(IconScreen, {}))
 					}),
 					K(MenuItem, {
+						label: "list",
+						onTap: () => nav.push(() => K(ListScreen, {}))
+					}),
+					K(MenuItem, {
 						label: "scrollController",
 						onTap: () => nav.push(() => K(ScrollScreen, {}))
 					})
@@ -5488,8 +5576,8 @@
 		});
 	}
 	// src/index.tsx
-	var App = () => K(_e, { initialPage: () => K(HomeScreen, {}) });
-	me(App);
+	var App = () => K(Re, { initialPage: () => K(HomeScreen, {}) });
+	Me(App);
 })();
 
 //# sourceMappingURL=bundle.js.map
