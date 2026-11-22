@@ -1,0 +1,608 @@
+// The rule engine: how a Dart type crosses the bridge.
+//
+// Every rule is structural. The only names it knows are the framework roots
+// in [World] (Widget, Key, Listenable, BuildContext, State, RenderObject,
+// Element). A type that no rule covers throws [Skip] with a reason; callers
+// drop the parameter (or the whole item when the parameter is required).
+//
+// Two directions:
+//  * input  (JS -> Dart): widget props, constructor and method arguments
+//  * output (Dart -> JS): callback arguments, getters, return values
+//
+// Refs are JSON maps, `{"k": kind, ...}`, with `"null": true` when nullable.
+// Named types (enums, data classes, handles) are registered once in [types]
+// and referenced by id.
+import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
+import 'package:analyzer/dart/element/type.dart';
+
+import 'dart_code.dart';
+import 'docs.dart';
+import 'world.dart';
+
+typedef Json = Map<String, Object?>;
+
+class Skip implements Exception {
+  Skip(this.reason);
+  final String reason;
+  @override
+  String toString() => reason;
+}
+
+/// Above this many exported subclasses a hierarchy is treated as open and only
+/// the declared type's own constructors are offered.
+const kMaxSubclasses = 40;
+
+/// Output encoding stops this deep (Dart -> JS payloads).
+const kMaxOutputDepth = 4;
+
+class Classifier {
+  Classifier(this.w, this.code, {this.maxConsts = 400, this.syncCalls = false});
+  final World w;
+  final DartCode code;
+
+  /// Whether Dart can call JS synchronously (builders, callbacks that return
+  /// a value). Until it can, such callbacks are skipped.
+  final bool syncCalls;
+
+  /// Per namespace owner, more constants than this are not offered
+  /// (Icons has ~8.9k; IconData gets a shorthand instead).
+  final int maxConsts;
+
+  /// id -> declaration. Ordered by first use.
+  final Map<String, Json> types = {};
+
+  final Map<String, Object> _inMemo = {}; // key -> Json | Skip
+  final Map<String, Object> _outMemo = {};
+
+  DartType nonNull(DartType t) => w.ts.promoteToNonNull(t);
+  static bool isNullable(DartType t) =>
+      t.nullabilitySuffix == NullabilitySuffix.question || t is DynamicType;
+
+  String _key(DartType t) {
+    final nn = nonNull(t);
+    final lib = nn.element?.library?.uri.toString() ?? '';
+    return '$lib|${nn.getDisplayString()}';
+  }
+
+  /// The manifest id of a named type: import uri + Dart display string.
+  String idOf(InterfaceType t) {
+    final lib = w.importOf(t.element);
+    if (lib == null) throw Skip('not exported: ${t.element.name}');
+    return '${lib.uri}#${nonNull(t).getDisplayString()}';
+  }
+
+  Json _withNull(Json r, DartType t) =>
+      isNullable(t) && t is! DynamicType ? {...r, 'null': true} : r;
+
+  // ── input ─────────────────────────────────────────────────────────────────
+
+  Json input(DartType t) {
+    if (t is TypeParameterType) {
+      final b = t.element.bound;
+      return _withNull({'k': 'typeParam', 'name': t.element.name, if (b != null) 'bound': code.type(b)}, t);
+    }
+    final key = _key(t);
+    var hit = _inMemo[key];
+    if (hit == null) {
+      try {
+        hit = _input(nonNull(t));
+      } on Skip catch (s) {
+        hit = s;
+      } on NotNameable catch (e) {
+        hit = Skip('$e');
+      }
+      _inMemo[key] = hit;
+    }
+    if (hit is Skip) throw hit;
+    return _withNull(hit as Json, t);
+  }
+
+  Json _input(DartType t) {
+    if (t is DynamicType) return {'k': 'dynamic'};
+    if (t is VoidType || t is NeverType || t.isDartCoreNull) throw Skip('void/Never');
+    if (t is InvalidType) throw Skip('unresolved type');
+    if (t is RecordType) throw Skip('record type');
+    if (t is FunctionType) return _callback(t);
+    if (t is! InterfaceType) throw Skip('unsupported type ${t.getDisplayString()}');
+
+    final el = t.element;
+    if (t.isDartCoreBool) return {'k': 'bool'};
+    if (t.isDartCoreInt) return {'k': 'int'};
+    if (t.isDartCoreDouble) return {'k': 'double'};
+    if (t.isDartCoreNum) return {'k': 'num'};
+    if (t.isDartCoreString) return {'k': 'String'};
+    if (t.isDartCoreObject) return {'k': 'Object'};
+    if (t.isDartCoreFunction) throw Skip('untyped Function');
+    if (t.isDartCoreType) throw Skip('Type');
+    if (el is EnumElement) return {'k': 'enum', 'id': _enum(t)};
+
+    if (t.isDartCoreList || t.isDartCoreSet || t.isDartCoreIterable) {
+      final kind = t.isDartCoreList ? 'list' : t.isDartCoreSet ? 'set' : 'iterable';
+      return {'k': kind, 'of': input(t.typeArguments.first)};
+    }
+    if (t.isDartCoreMap) {
+      final k = input(t.typeArguments[0]);
+      if (!const {'String', 'int', 'enum', 'dynamic', 'Object', 'typeParam'}.contains(k['k']) || k['null'] == true) {
+        throw Skip('map key ${t.typeArguments[0].getDisplayString()}');
+      }
+      return {'k': 'map', 'key': k, 'of': input(t.typeArguments[1])};
+    }
+    if (t.isDartAsyncFuture || t.isDartAsyncFutureOr || t.isDartAsyncStream) {
+      throw Skip('Future/Stream argument (not bridged yet)');
+    }
+
+    if (el == w.widgetEl) return {'k': 'widget'};
+    if (w.isSubtypeOfEl(t, w.widgetEl)) {
+      if (el == w.preferredSizeWidgetEl) return {'k': 'widget', 'as': 'PreferredSizeWidget'};
+      throw Skip('widget slot typed ${el.name}');
+    }
+    if (w.isSubtypeOfEl(t, w.keyEl)) {
+      if (el == w.keyEl || el == w.localKeyEl) return {'k': 'key'};
+      throw Skip('${el.name} (only Key is bridged)');
+    }
+    if (el == w.buildContextEl ||
+        w.isSubtypeOfEl(t, w.stateEl) ||
+        w.isSubtypeOfEl(t, w.renderObjectEl) ||
+        w.isSubtypeOfEl(t, w.elementEl)) {
+      throw Skip('framework object ${el.name}');
+    }
+    if (el.isPrivate || !w.isExported(el)) throw Skip('not exported: ${el.name}');
+    if (el.library.uri.toString() == 'dart:typed_data') throw Skip('typed data (not bridged yet)');
+
+    if (isHandle(t)) return {'k': 'handle', 'id': _handle(t)};
+    return {'k': 'data', 'id': _data(t)};
+  }
+
+  // ── handles ───────────────────────────────────────────────────────────────
+
+  /// Objects with identity: Listenables, and classes with mutable state that
+  /// are not marked @immutable. Everything else is plain data.
+  bool isHandle(InterfaceType t) {
+    if (w.isSubtypeOfEl(t, w.listenableEl)) return true;
+    final el = t.element;
+    if (el is! ClassElement) return false;
+    if (_immutable(el)) return false;
+    for (final s in [el, ...el.allSupertypes.map((s) => s.element)]) {
+      if (s is! ClassElement || s.library.uri.toString() == 'dart:core') continue;
+      for (final f in s.fields) {
+        if (!f.isStatic && f.isOriginDeclaration && !f.isFinal && !f.isConst) return true;
+      }
+      // Explicit setters; synthetic ones belong to the fields checked above.
+      for (final setter in s.setters) {
+        if (!setter.isStatic && setter.isPublic && setter.isOriginDeclaration) return true;
+      }
+    }
+    return false;
+  }
+
+  bool _immutable(InterfaceElement el) =>
+      el.metadata.hasImmutable || el.allSupertypes.any((s) => s.element.metadata.hasImmutable);
+
+  String _handle(InterfaceType t) {
+    final id = idOf(t);
+    if (types.containsKey(id)) return id;
+    final el = t.element;
+    final decl = <String, Object?>{
+      'kind': 'handle',
+      'name': el.name,
+      'dart': code.type(t),
+      'abstract': el is ClassElement && el.isAbstract,
+    };
+    types[id] = decl;
+    final doc = firstParagraph(el.documentationComment);
+    if (doc != null) decl['doc'] = doc;
+    if (el.metadata.hasDeprecated) decl['deprecated'] = true;
+    // Supertypes that are handles too, so a ScrollController can go where a
+    // Listenable is expected.
+    decl['supertypes'] = [
+      for (final s in t.allSupertypes)
+        if (w.isExported(s.element) && !s.element.isPrivate && isHandle(s) && s.element != el) idOf(s),
+    ];
+    final ctors = <Json>[];
+    final rejected = <String, String>{};
+    decl['ctors'] = ctors;
+    for (final c in el.constructors) {
+      if (c.isPrivate || _hidden(c)) continue;
+      if (!c.isFactory && el is ClassElement && el.isAbstract) continue;
+      final name = c.name == null || c.name == 'new' ? null : c.name;
+      try {
+        ctors.add(invocable(name, c.formalParameters, deprecated: c.metadata.hasDeprecated));
+      } on Skip catch (s) {
+        rejected[name ?? 'new'] = s.reason;
+      } on NotNameable catch (e) {
+        rejected[name ?? 'new'] = '$e';
+      }
+    }
+    if (rejected.isNotEmpty) decl['rejected'] = rejected;
+    return id;
+  }
+
+  // ── enums ─────────────────────────────────────────────────────────────────
+
+  String _enum(InterfaceType t) {
+    final id = idOf(t);
+    if (types.containsKey(id)) return id;
+    final el = t.element as EnumElement;
+    types[id] = {
+      'kind': 'enum',
+      'name': el.name,
+      'dart': code.type(t),
+      if (firstParagraph(el.documentationComment) case final d?) 'doc': d,
+      if (el.metadata.hasDeprecated) 'deprecated': true,
+      'values': [
+        for (final c in el.constants)
+          if (c.isPublic) c.metadata.hasDeprecated ? {'name': c.name, 'deprecated': true} : c.name,
+      ],
+    };
+    return id;
+  }
+
+  // ── data classes ──────────────────────────────────────────────────────────
+
+  static bool _hidden(Element e) =>
+      e.metadata.hasProtected || e.metadata.hasVisibleForTesting || e.metadata.hasInternal;
+
+  final Set<String> _filling = {};
+
+  String _data(InterfaceType t) {
+    final id = idOf(t);
+    final existing = types[id];
+    if (existing != null) {
+      if (existing['inputSkipped'] case final String why) throw Skip(why);
+      // Filled, or being filled further up the stack (recursive types such as
+      // Border -> BorderSide refer to themselves instead of looping).
+      if (existing.containsKey('variants') || _filling.contains(id)) return id;
+    }
+    final el = t.element;
+    final decl = existing ??
+        <String, Object?>{
+          'kind': 'data',
+          'name': el.name,
+          'dart': code.type(t),
+        };
+    types[id] = decl;
+    decl['abstract'] = el is ClassElement && el.isAbstract;
+    if (firstParagraph(el.documentationComment) case final d?) decl['doc'] = d;
+    if (el.metadata.hasDeprecated) decl['deprecated'] = true;
+    _filling.add(id);
+    try {
+      final variants = <Json>[];
+      final rejected = <String, String>{};
+      final candidates = <InterfaceType>[t];
+      final subs = [
+        for (final c in w.subclassesOf(el))
+          if (c is ClassElement && c.isPublic && !_hidden(c)) c,
+      ];
+      if (subs.length > kMaxSubclasses) {
+        decl['openHierarchy'] = subs.length;
+      } else {
+        for (final c in subs) {
+          final it = _instantiateSub(c, t);
+          if (it != null) candidates.add(it);
+        }
+      }
+      for (final ct in candidates) {
+        final ce = ct.element;
+        if (ce is! ClassElement) continue;
+        for (final ctor in ct.constructors) {
+          if (ctor.isPrivate || _hidden(ctor)) continue;
+          if (!ctor.isFactory && ce.isAbstract) continue;
+          final cname = (ctor.name == null || ctor.name == 'new') ? null : ctor.name;
+          // Tag: the constructor name for the type's own constructors, the
+          // subclass name (+ ctor) for a subclass: EdgeInsets.symmetric is
+          // "symmetric" under EdgeInsets and "EdgeInsets.symmetric" under
+          // EdgeInsetsGeometry.
+          final tag = ce == el ? cname : (cname == null ? ce.name! : '${ce.name}.$cname');
+          try {
+            final v = invocable(cname, ctor.formalParameters, deprecated: ctor.metadata.hasDeprecated);
+            v['tag'] = tag;
+            if (ce != el) v['class'] = code.type(ct);
+            variants.add(v);
+          } on Skip catch (s) {
+            rejected[tag ?? 'new'] = s.reason;
+          } on NotNameable catch (e) {
+            rejected[tag ?? 'new'] = '$e';
+          }
+        }
+      }
+      final consts = _consts(t, el, decl);
+      if (variants.isEmpty && consts.isEmpty) {
+        final why = rejected.isEmpty
+            ? (el is ClassElement && el.isAbstract ? 'abstract, no constructible subtype' : 'no public constructor')
+            : 'no usable constructor (${rejected.entries.map((e) => '${e.key}: ${e.value}').join('; ')})';
+        decl['inputSkipped'] = why;
+        throw Skip(why);
+      }
+      decl['variants'] = variants;
+      decl['consts'] = consts;
+      if (rejected.isNotEmpty) decl['rejected'] = rejected;
+      return id;
+    } finally {
+      _filling.remove(id);
+    }
+  }
+
+  InterfaceType? _instantiateSub(InterfaceElement c, InterfaceType target) {
+    if (c.typeParameters.isEmpty) {
+      final t = c.thisType;
+      return w.ts.isSubtypeOf(t, target) ? t : null;
+    }
+    final sup = c.thisType.asInstanceOf(target.element);
+    if (sup == null) return null;
+    final map = <TypeParameterElement, DartType>{};
+    for (var i = 0; i < sup.typeArguments.length; i++) {
+      final a = sup.typeArguments[i];
+      if (a is TypeParameterType && c.typeParameters.contains(a.element)) {
+        map[a.element] = target.typeArguments[i];
+      }
+    }
+    if (map.length != c.typeParameters.length) return null;
+    final t = c.instantiate(
+      typeArguments: [for (final p in c.typeParameters) map[p]!],
+      nullabilitySuffix: NullabilitySuffix.none,
+    );
+    return w.ts.isSubtypeOf(t, target) ? t : null;
+  }
+
+  /// Static constants of type [t] on [el], its subclasses and namespace
+  /// classes: `Colors.red`, `Curves.easeIn`, `Alignment.center`.
+  List<Json> _consts(InterfaceType t, InterfaceElement el, Json decl) {
+    final owners = <InterfaceElement>{el, ...w.subclassesOf(el), ...w.namespaces};
+    final out = <Json>[];
+    final capped = <String, int>{};
+    for (final owner in owners) {
+      if (owner.metadata.hasDeprecated || owner.isPrivate || !w.isExported(owner)) continue;
+      final found = <Json>[];
+      for (final f in owner.fields) {
+        if (!f.isStatic || !f.isConst || !f.isPublic || f.isEnumConstant) continue;
+        final ft = f.type;
+        if (ft is! InterfaceType || ft.nullabilitySuffix == NullabilitySuffix.question) continue;
+        if (ft.element != el && ft.asInstanceOf(el) == null) continue;
+        if (!w.ts.isSubtypeOf(ft, t)) continue;
+        found.add({
+          'name': owner == el ? f.name : '${owner.name}.${f.name}',
+          'dart': '${code.ref(owner)}.${f.name}',
+          if (f.metadata.hasDeprecated) 'deprecated': true,
+        });
+      }
+      if (found.length > maxConsts) {
+        capped[owner.name!] = found.length;
+      } else {
+        out.addAll(found);
+      }
+    }
+    if (capped.isNotEmpty) decl['constsCapped'] = capped;
+    return out;
+  }
+
+  // ── parameters ────────────────────────────────────────────────────────────
+
+  /// A constructor / function / method signature as manifest params, in
+  /// declared order. A parameter no rule covers is kept with `skip` (so
+  /// emitters still know positional order); throws when such a parameter must
+  /// be supplied.
+  Json invocable(String? name, List<FormalParameterElement> params, {bool deprecated = false}) {
+    final out = <Json>[];
+    var positionalCut = false;
+    for (final p in params) {
+      out.add(param(p, positionalCut: positionalCut));
+      if (out.last.containsKey('skip') && p.isOptionalPositional) positionalCut = true;
+    }
+    return {'name': ?name, if (deprecated) 'deprecated': true, 'params': out};
+  }
+
+  Json param(FormalParameterElement p, {bool positionalCut = false}) {
+    final nullable = isNullable(p.type);
+    final base = <String, Object?>{
+      'name': p.name ?? '_',
+      'named': p.isNamed,
+      'required': p.isRequired,
+      if (nullable) 'nullable': true,
+      if (p.metadata.hasDeprecated) 'deprecated': true,
+    };
+    if (firstParagraph(p.documentationComment) case final d?) base['doc'] = d;
+    final mustSupply = p.isRequired && !nullable;
+    String? reason;
+    Json? ref;
+    if (p.metadata.hasMustBeConst) {
+      reason = '@mustBeConst';
+    } else if (positionalCut && p.isOptionalPositional) {
+      reason = 'follows a skipped positional parameter';
+    } else {
+      try {
+        ref = input(p.type);
+      } on Skip catch (s) {
+        reason = s.reason;
+      }
+    }
+    if (ref != null && !p.isRequired) {
+      if (code.hasDefault(p)) {
+        final d = code.defaultOf(p);
+        if (d == null) {
+          reason = 'default value cannot be named from generated code';
+        } else {
+          base['default'] = d;
+          final j = code.defaultJson(p);
+          if (j != null) base['defaultValue'] = j;
+        }
+      } else if (!nullable) {
+        reason = 'optional, non-nullable, no default';
+      }
+    }
+    if (reason != null) {
+      if (mustSupply) throw Skip('${p.name}: $reason');
+      return {...base, 'skip': reason, if (p.isRequired) 'passNull': true};
+    }
+    try {
+      base['dart'] = code.type(p.type);
+    } on NotNameable catch (e) {
+      if (mustSupply) throw Skip('${p.name}: $e');
+      return {...base, 'skip': '$e', if (p.isRequired) 'passNull': true};
+    }
+    return {...base, 'type': ref};
+  }
+
+  // ── callbacks ─────────────────────────────────────────────────────────────
+
+  Json _callback(FunctionType f) {
+    final args = <Json>[];
+    var context = false;
+    var i = 0;
+    for (final p in f.formalParameters) {
+      if (p.isNamed) throw Skip('callback with named parameters');
+      final pt = p.type;
+      if (pt is InterfaceType && pt.element == w.buildContextEl) {
+        context = true;
+        args.add({'name': p.name ?? 'context', 'type': {'k': 'context'}});
+        i++;
+        continue;
+      }
+      final n = (p.name == null || p.name!.isEmpty) ? 'arg$i' : p.name!;
+      Json t;
+      try {
+        t = output(pt);
+      } on Skip catch (s) {
+        // Dart still passes it; JS gets undefined.
+        t = {'k': 'omitted', 'reason': s.reason};
+      }
+      args.add({'name': n, 'type': t});
+      i++;
+    }
+    final r = f.returnType;
+    Json ret;
+    var isAsync = false;
+    if (r is VoidType) {
+      ret = {'k': 'void'};
+    } else if (r is InterfaceType && (r.isDartAsyncFuture || r.isDartAsyncFutureOr)) {
+      isAsync = true;
+      final a = r.typeArguments.first;
+      ret = a is VoidType ? {'k': 'void'} : input(a);
+    } else {
+      ret = input(r);
+    }
+    final sync = !isAsync && ret['k'] != 'void';
+    if (sync && !syncCalls) throw Skip('callback returns a value synchronously (needs sync Dart -> JS calls)');
+    return {
+      'k': 'fn',
+      'args': args,
+      'ret': ret,
+      if (context) 'context': true,
+      if (isAsync) 'async': true,
+      // A synchronous return value needs a synchronous Dart -> JS call.
+      if (sync) 'sync': true,
+      'dart': code.type(f),
+    };
+  }
+
+  // ── output ────────────────────────────────────────────────────────────────
+
+  Json output(DartType t, [int depth = 0]) {
+    if (t is TypeParameterType || t is DynamicType) return {'k': 'dynamic'};
+    final key = _key(t);
+    var hit = _outMemo[key];
+    if (hit == null) {
+      try {
+        hit = _output(nonNull(t), depth);
+      } on Skip catch (s) {
+        hit = s;
+      } on NotNameable catch (e) {
+        hit = Skip('$e');
+      }
+      _outMemo[key] = hit;
+    }
+    if (hit is Skip) throw hit;
+    return _withNull(hit as Json, t);
+  }
+
+  Json _output(DartType t, int depth) {
+    if (t is! InterfaceType) throw Skip('unsupported type ${t.getDisplayString()}');
+    final el = t.element;
+    if (t.isDartCoreBool) return {'k': 'bool'};
+    if (t.isDartCoreInt) return {'k': 'int'};
+    if (t.isDartCoreDouble) return {'k': 'double'};
+    if (t.isDartCoreNum) return {'k': 'num'};
+    if (t.isDartCoreString) return {'k': 'String'};
+    if (t.isDartCoreObject) return {'k': 'dynamic'};
+    if (el is EnumElement) return {'k': 'enum', 'id': _enum(t)};
+    final iter = t.asInstanceOf(w.tp.iterableElement);
+    if (iter != null) return {'k': 'list', 'of': output(iter.typeArguments.first, depth + 1)};
+    if (t.isDartCoreMap) {
+      final k = t.typeArguments[0];
+      if (!(k.isDartCoreString || k.isDartCoreInt || k.element is EnumElement)) throw Skip('map key ${k.getDisplayString()}');
+      return {'k': 'map', 'key': output(k), 'of': output(t.typeArguments[1], depth + 1)};
+    }
+    if (t.isDartAsyncFuture || t.isDartAsyncStream) throw Skip('Future/Stream value');
+    if (t.isDartCoreFunction || t.isDartCoreType) throw Skip('${el.name} value');
+    if (w.isSubtypeOfEl(t, w.widgetEl)) throw Skip('widget value');
+    if (w.isSubtypeOfEl(t, w.keyEl)) throw Skip('key value');
+    if (el == w.buildContextEl ||
+        w.isSubtypeOfEl(t, w.stateEl) ||
+        w.isSubtypeOfEl(t, w.renderObjectEl) ||
+        w.isSubtypeOfEl(t, w.elementEl)) {
+      throw Skip('framework object ${el.name}');
+    }
+    if (el.isPrivate || !w.isExported(el)) throw Skip('not exported: ${el.name}');
+    if (isHandle(t)) return {'k': 'handle', 'id': _handle(t)};
+    if (depth > kMaxOutputDepth) throw Skip('nested too deep');
+    return {'k': 'data', 'id': _outData(t, depth)};
+  }
+
+  final Set<String> _outInProgress = {};
+
+  /// Fields a data value is encoded with: getters named like a constructor
+  /// parameter (state that round-trips), else declared fields, else every
+  /// public getter.
+  String _outData(InterfaceType t, int depth) {
+    final id = idOf(t);
+    final decl = types[id] ??= {'kind': 'data', 'name': t.element.name, 'dart': code.type(t)};
+    if (decl['outputSkipped'] case final String why) throw Skip(why);
+    if (decl.containsKey('fields') || !_outInProgress.add(id)) return id;
+    try {
+      final names = <String>{};
+      final ctors = t.element.constructors.where((c) => c.isPublic).toList();
+      final unnamed = ctors.where((c) => c.name == null || c.name == 'new').toList();
+      for (final c in unnamed.isNotEmpty && unnamed.first.formalParameters.isNotEmpty ? unnamed : ctors) {
+        for (final p in c.formalParameters) {
+          if (p.name != null) names.add(p.name!);
+        }
+      }
+      final lib = t.element.library;
+      final fields = <Json>[];
+      final seen = <String>{};
+      void consider(String n, DartType ft) {
+        if (n.startsWith('_') || n == 'hashCode' || n == 'runtimeType' || !seen.add(n)) return;
+        try {
+          fields.add({'name': n, 'type': output(ft, depth + 1)});
+        } on Skip {
+          // field not encodable: left out of the payload
+        }
+      }
+
+      for (final n in names) {
+        final g = t.lookUpGetter(n, lib);
+        if (g != null && !g.isStatic && !g.metadata.hasDeprecated) consider(n, g.returnType);
+      }
+      void scan(bool Function(GetterElement) pick) {
+        for (final st in [t, ...t.allSupertypes]) {
+          if (st.isDartCoreObject) continue;
+          for (final g in st.getters) {
+            if (g.isStatic || g.isPrivate || g.metadata.hasDeprecated) continue;
+            if (pick(g)) consider(g.name!, g.returnType);
+          }
+        }
+      }
+
+      if (fields.isEmpty) scan((g) => g.isOriginVariable);
+      if (fields.isEmpty) scan((g) => true);
+      if (fields.isEmpty) {
+        decl['outputSkipped'] = 'no encodable fields';
+        throw Skip('no encodable fields on ${t.element.name}');
+      }
+      decl['fields'] = fields;
+    } finally {
+      _outInProgress.remove(id);
+    }
+    return id;
+  }
+}

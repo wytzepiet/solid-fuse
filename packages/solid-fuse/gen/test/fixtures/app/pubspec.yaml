@@ -1,0 +1,9 @@
+name: fixture_app
+publish_to: "none"
+environment:
+  sdk: ^3.14.0
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.11.1
+  cupertino_ui: ^1.1.0

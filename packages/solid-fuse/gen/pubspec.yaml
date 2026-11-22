@@ -1,0 +1,18 @@
+name: solid_fuse_gen
+description: Reads Dart signatures (Flutter, pub packages, the app's own @fuse code) and writes the solid-fuse bridge manifest.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.14.0
+
+executables:
+  solid_fuse_gen:
+
+dependencies:
+  analyzer: ^14.7.0
+  crypto: ^3.0.0
+  path: ^1.9.0
+
+dev_dependencies:
+  test: ^1.25.0

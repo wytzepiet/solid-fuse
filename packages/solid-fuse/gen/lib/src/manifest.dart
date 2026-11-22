@@ -1,0 +1,278 @@
+// Builds the manifest: the one JSON file the emitters (in the fuse CLI) turn
+// into TypeScript and Dart adapters. Nothing here ever throws for a single
+// item: an item that cannot be bridged lands in `skipped` with a reason.
+import 'dart:convert';
+
+import 'package:analyzer/dart/element/element.dart';
+import 'package:crypto/crypto.dart';
+
+import 'classify.dart';
+import 'config.dart';
+import 'dart_code.dart';
+import 'docs.dart';
+import 'world.dart';
+
+/// Bumped whenever the manifest shape changes.
+const manifestFormat = 1;
+
+/// Bumped whenever the generator's output for the same input can change.
+/// Part of the input hash.
+const generatorVersion = '0.1.0';
+
+class ManifestBuilder {
+  ManifestBuilder(this.w, this.config, {int maxConsts = 400, bool syncCalls = false})
+      : code = DartCode(w) {
+    c = Classifier(w, code, maxConsts: maxConsts, syncCalls: syncCalls);
+  }
+
+  final World w;
+  final GenConfig config;
+  final DartCode code;
+  late final Classifier c;
+
+  final List<Json> _widgets = [];
+  final List<Json> _skipped = [];
+  final Set<String> _handleRoots = {};
+
+  void _skip(String item, String reason) => _skipped.add({'item': item, 'reason': reason});
+
+  Json build() {
+    w.loadErrors.forEach((uri, why) {
+      if (config.libraries.containsKey(uri)) _skip(uri, 'library did not load: $why');
+    });
+    config.libraries.forEach((uri, rule) {
+      final lib = w.library(uri);
+      if (lib == null) return;
+      _library(lib, rule);
+    });
+    _prune();
+    final types = Map.fromEntries(c.types.entries.toList()..sort((a, b) => a.key.compareTo(b.key)));
+    final body = <String, Object?>{
+      'widgets': _widgets,
+      'handles': _handleRoots.toList()..sort(),
+      'types': types,
+    };
+    return {
+      'format': manifestFormat,
+      'generator': generatorVersion,
+      // Identifies the bridged surface; the runtime compares it with the JS
+      // bundle's copy at startup.
+      'fingerprint': sha256.convert(utf8.encode(jsonEncode(body))).toString().substring(0, 16),
+      'imports': [
+        for (final e in w.entries)
+          if (code.used.contains(e) && e.prefix.isNotEmpty) {'uri': e.uri, 'prefix': e.prefix},
+      ],
+      ...body,
+      'skipped': _skipped,
+    };
+  }
+
+  // ── selection ─────────────────────────────────────────────────────────────
+
+  /// Classes declared by the package [lib] belongs to (a library that
+  /// re-exports Flutter does not re-export Flutter's widgets).
+  bool _ownedBy(Element el, EntryLib lib) {
+    final declared = el.library?.uri;
+    final target = Uri.parse(lib.uri);
+    if (declared == null) return false;
+    if (target.scheme == 'dart') return declared.scheme == 'dart';
+    return declared.scheme == 'package' && declared.pathSegments.first == target.pathSegments.first;
+  }
+
+  void _library(EntryLib lib, LibraryRule rule) {
+    final classes = <ClassElement>[];
+    lib.element.exportNamespace.definedNames2.forEach((name, el) {
+      if (el is ClassElement && el.isPublic && _ownedBy(el, lib)) classes.add(el);
+    });
+    classes.sort((a, b) => a.name!.compareTo(b.name!));
+    // A class name wins over a named constructor that would spell the same
+    // component (PositionedDirectional vs Positioned.directional).
+    final components = <String, String>{
+      for (final cls in classes)
+        if (!cls.isAbstract && w.isSubtypeOfEl(cls.thisType, w.widgetEl)) cls.name!: '',
+    };
+    for (final cls in classes) {
+      final name = cls.name!;
+      final isWidget = !cls.isAbstract && w.isSubtypeOfEl(cls.thisType, w.widgetEl);
+      if (isWidget) {
+        for (final ctor in cls.constructors) {
+          if (ctor.isPrivate) continue;
+          final cname = (ctor.name == null || ctor.name == 'new') ? null : ctor.name;
+          if (!rule.includes(name, cname)) continue;
+          final item = '${lib.uri}#$name${cname == null ? '' : '.$cname'}';
+          try {
+            final wj = _widget(lib, cls, ctor, cname);
+            final comp = wj['component']! as String;
+            final clash = components[comp];
+            if (clash != null && (cname != null || clash.isNotEmpty)) {
+              _skip(item, 'component name $comp is taken by ${clash.isEmpty ? 'the class $comp' : clash}');
+              continue;
+            }
+            components[comp] = item;
+            _widgets.add(wj);
+          } on Skip catch (s) {
+            _skip(item, s.reason);
+          } on NotNameable catch (e) {
+            _skip(item, '$e');
+          } catch (e) {
+            // A bug in the generator, never in the user's code: still not fatal.
+            _skip(item, 'internal error: $e');
+          }
+        }
+        continue;
+      }
+      // Handles: the Listenables the package declares (controllers,
+      // notifiers, focus nodes) when the allow list is empty; any handle
+      // class the allow list names. Handles that widget parameters reach are
+      // in the manifest either way.
+      final named = rule.explicitlyAllows(name) && rule.includes(name);
+      final listenable = rule.allowsAll && rule.includes(name) && w.isSubtypeOfEl(cls.thisType, w.listenableEl);
+      if (!named && !listenable) continue;
+      try {
+        final t = cls.thisType;
+        if (cls.typeParameters.isNotEmpty || !c.isHandle(t)) {
+          if (rule.explicitlyAllows(name)) {
+            _skip('${lib.uri}#$name', cls.typeParameters.isNotEmpty ? 'generic class (not bridged yet)' : 'not a widget or handle');
+          }
+          continue;
+        }
+        final ref = c.input(t);
+        final id = ref['id']! as String;
+        if ((c.types[id]!['ctors']! as List).isEmpty) {
+          if (rule.explicitlyAllows(name)) _skip('${lib.uri}#$name', 'no public constructor');
+          continue;
+        }
+        _handleRoots.add(id);
+      } on Skip catch (s) {
+        if (rule.explicitlyAllows(name)) _skip('${lib.uri}#$name', s.reason);
+      } catch (e) {
+        _skip('${lib.uri}#$name', 'internal error: $e');
+      }
+    }
+  }
+
+  // ── widgets ───────────────────────────────────────────────────────────────
+
+  static String _cap(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
+
+  Json _widget(EntryLib lib, ClassElement cls, ConstructorElement ctor, String? cname) {
+    final name = cls.name!;
+    final sig = c.invocable(cname, ctor.formalParameters, deprecated: ctor.metadata.hasDeprecated || cls.metadata.hasDeprecated);
+    final params = (sig['params']! as List).cast<Json>();
+    Json? find(bool Function(Json p) f) => params.where((p) => p.containsKey('type') && f(p)).firstOrNull;
+    bool isWidget(Object? t) => t is Map && t['k'] == 'widget';
+    bool isWidgetList(Object? t) => t is Map && t['k'] == 'list' && isWidget(t['of']);
+
+    // JSX children: `child` / `sliver` (one) or `children` / `slivers` (many).
+    final many = find((p) => (p['name'] == 'children' || p['name'] == 'slivers') && isWidgetList(p['type']));
+    final one = find((p) => (p['name'] == 'child' || p['name'] == 'sliver') && isWidget(p['type']));
+    final children = many != null
+        ? {'param': many['name'], 'many': true}
+        : one != null
+            ? {'param': one['name'], 'many': false}
+            : null;
+    // Text children: the first required positional String, when there is no
+    // child slot (Text("hi") -> <Text>hi</Text>).
+    final text = children != null
+        ? null
+        : find((p) => p['named'] == false && p['required'] == true && (p['type']! as Map)['k'] == 'String' && (p['type']! as Map)['null'] != true);
+
+    final id = '${lib.uri}#$name${cname == null ? '' : '.$cname'}';
+    return {
+      'id': id,
+      'component': '$name${_cap(cname ?? '')}',
+      'class': name,
+      'ctor': ?cname,
+      'dart': code.ref(cls),
+      if (sig['deprecated'] == true) 'deprecated': true,
+      if (firstParagraph(ctor.documentationComment) ?? firstParagraph(cls.documentationComment) case final d?) 'doc': d,
+      if (cls.typeParameters.isNotEmpty)
+        'typeParams': [
+          for (final tp in cls.typeParameters)
+            {'name': tp.name, if (tp.bound != null) 'bound': code.type(tp.bound!)},
+        ],
+      'params': params,
+      'children': ?children,
+      if (text != null) 'textChild': text['name'],
+    };
+  }
+
+  // ── consistency ───────────────────────────────────────────────────────────
+
+  /// Refs to data types whose input side failed after they were referenced
+  /// (recursive types resolved late) are turned into skips, until nothing
+  /// changes. Afterwards every ref in the manifest points at something an
+  /// emitter can build.
+  void _prune() {
+    bool bad(Object? ref) {
+      if (ref is! Map) return false;
+      switch (ref['k']) {
+        case 'data':
+          final d = c.types[ref['id']];
+          return d == null || d['inputSkipped'] != null || (d['variants'] == null && d['consts'] == null);
+        case 'list' || 'set' || 'iterable':
+          return bad(ref['of']);
+        case 'map':
+          return bad(ref['key']) || bad(ref['of']);
+        case 'fn':
+          return bad(ref['ret']);
+      }
+      return false;
+    }
+
+    /// Returns false when the signature can no longer be called.
+    bool fix(List<Object?> params) {
+      var cut = false;
+      for (var i = 0; i < params.length; i++) {
+        final p = params[i]! as Json;
+        final optionalPositional = p['named'] == false && p['required'] == false;
+        if (!p.containsKey('type')) {
+          if (optionalPositional) cut = true;
+          continue;
+        }
+        if (cut && optionalPositional) {
+          params[i] = {...p..remove('type')..remove('dart'), 'skip': 'follows a skipped positional parameter'};
+          continue;
+        }
+        if (!bad(p['type'])) continue;
+        if (optionalPositional) cut = true;
+        final mustSupply = p['required'] == true && p['nullable'] != true;
+        if (mustSupply) return false;
+        params[i] = {...p..remove('type')..remove('dart'), 'skip': 'type not constructible', if (p['required'] == true) 'passNull': true};
+      }
+      return true;
+    }
+
+    var changed = true;
+    while (changed) {
+      changed = false;
+      for (final d in c.types.values) {
+        final variants = d['variants'];
+        if (variants is! List) continue;
+        final keep = [for (final v in variants) if (fix(((v as Json)['params']! as List))) v];
+        if (keep.length != variants.length) {
+          changed = true;
+          d['variants'] = keep;
+          if (keep.isEmpty && (d['consts'] as List? ?? const []).isEmpty) {
+            d['inputSkipped'] = 'no usable constructor after pruning';
+          }
+        }
+      }
+      for (final d in c.types.values) {
+        if (d['kind'] != 'handle') continue;
+        final ctors = d['ctors']! as List;
+        final keep = [for (final k in ctors) if (fix(((k as Json)['params']! as List))) k];
+        if (keep.length != ctors.length) {
+          changed = true;
+          d['ctors'] = keep;
+        }
+      }
+      _widgets.removeWhere((wj) {
+        if (fix(wj['params']! as List)) return false;
+        _skip(wj['id']! as String, 'a required parameter\'s type is not constructible');
+        changed = true;
+        return true;
+      });
+    }
+  }
+}
