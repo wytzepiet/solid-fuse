@@ -88,3 +88,16 @@ Same method as addendum 2 (best of 8 per process, median of 8 processes):
 Static −42%, reactive −10%: a reactive binding in the plain state now skips most of `recompute` as well.
 
 Tests: signals 7,263 with `PROBE_ALL=1` (fast finish 9,491 times, replay 26,244, thrown 2,578, static 30, not tried 4,712), universal 61, solid-js 936, web client 2,040 (fast finish 4,424), web hydrate 801 pass; web server as before (one failure with and without). solid-fuse 65 pass.
+
+## Addendum 4: the same bundles on V8 (JIT)
+
+Node 22 (`perf_bench-main/tools/jit.mjs`: loads the bench bundle with a stub `fjs.bridge_call`, 30 mounts of 5,000 nodes per process, 12 processes per bundle). Bundles: `head`, `recycle` (spare only), `fast` (probe + fast finish).
+
+| | head | recycle | fast |
+|---|---:|---:|---:|
+| first mount in a fresh process (cold), ms, median [range] | 11.6 [10.9–19.1] | 11.0 [9.8–13.1] | 9.5 [7.8–13.0] |
+| warm mount, best of mounts 11–30, ms | 1.37 | 1.48 | 1.29 |
+| warm reactive screen, best, ms | 1.49 | 1.53 | 1.40 |
+| JS heap retained by one mounted 5,000-node screen, KB (after gc) | 2,060 | 741 | 741 |
+
+Warm, the JIT makes all three the same. Cold, the fast version is about 18% faster; recycle is within the spread. The heap is the clear difference: the screen has 2,275 static bindings (455 cards × 5), and not keeping an effect for each saves about 1,320 KB, about 580 bytes per binding, 64% of what this screen retains on the JS side. That holds on any engine.
