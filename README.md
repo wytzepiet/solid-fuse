@@ -187,6 +187,7 @@ export default defineConfig({ register: "MyPackage" });
 | --- | --- |
 | `fuse dev` | Start Vite + Flutter with HMR |
 | `fuse build` | Production build |
+| `fuse build --js-only` | Build only the JS bundle, skip the Flutter build |
 | `fuse link` | Scan packages, generate Dart glue code |
 
 ## Status
