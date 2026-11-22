@@ -30,6 +30,21 @@ String inputHash({required String root, required String configJson}) {
     final file = File(p.join(root, f));
     parts.add(file.existsSync() ? file.readAsBytesSync() : const []);
   }
+  // The app's own Dart (its `@fuse` code, a target library of its own): a
+  // stat per file is enough to notice an edit.
+  final lib = Directory(p.join(root, 'lib'));
+  if (lib.existsSync()) {
+    final files = [
+      for (final f in lib.listSync(recursive: true))
+        if (f is File && f.path.endsWith('.dart')) f,
+    ]..sort((a, b) => a.path.compareTo(b.path));
+    final stats = StringBuffer();
+    for (final f in files) {
+      final st = f.statSync();
+      stats.write('${p.relative(f.path, from: root)}:${st.size}:${st.modified.microsecondsSinceEpoch}\n');
+    }
+    parts.add(utf8.encode(stats.toString()));
+  }
   final b = BytesBuilder(copy: false);
   for (final x in parts) {
     b

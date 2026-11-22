@@ -240,7 +240,10 @@ export function emitTs(m: Manifest): TsOutput {
       used.add(n);
       return `${n}: ${tsOut(a.type, from)}`;
     });
-    return `(${params.join(", ")}) => void`;
+    if (!fn.async) return `(${params.join(", ")}) => void`;
+    // Dart waits for the result; a Promise is awaited.
+    const ret = fn.ret.k === "void" ? "void" : tsIn(fn.ret, from);
+    return `(${params.join(", ")}) => ${ret} | Promise<${ret}>`;
   }
 
   // ── data types ──────────────────────────────────────────────────────────

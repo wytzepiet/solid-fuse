@@ -3,6 +3,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'node.dart';
+import 'node_widget.dart';
 
 // ── JS -> Dart ──────────────────────────────────────────────────────────────
 
@@ -38,7 +39,7 @@ Map<K, V>? decMap<K, V>(Object? v, K Function(String k) kf, V Function(Object? e
     v is Map ? {for (final MapEntry(:key, :value) in v.entries) kf(key as String): vf(value)} : null;
 
 /// A JSX `key` prop. Strings and numbers become value keys.
-Key? decKey(Object? v) => v == null ? null : ValueKey<Object>(v);
+ValueKey<Object>? decKey(Object? v) => v == null ? null : ValueKey<Object>(v);
 
 /// The `$` tag of a tagged value, or [fallback] (the declared type's unnamed
 /// constructor) for a plain object.
@@ -51,6 +52,56 @@ T fuseReq<T>(T? v, String owner, String name) {
 }
 
 Never fuseBad(String type, Object? v) => throw ArgumentError('cannot read a $type from ${v.runtimeType}: $v');
+
+// ── nodes, functions and handles (top-level props or inside values) ─────────
+
+/// The node a value points at: a node prop arrives as the node itself, a node
+/// inside a value as `{_node: id}`.
+FuseNode? fuseNodeOf(FuseNode n, Object? v) {
+  if (v is FuseNode) return v;
+  if (v is Map && v['_node'] is int) return n.registry.tryGet(v['_node'] as int);
+  return null;
+}
+
+Widget? decWidget(FuseNode n, Object? v) {
+  final node = fuseNodeOf(n, v);
+  return node == null ? null : FuseNodeWidget(node: node);
+}
+
+/// The object of the handle a value points at, when it is a [T].
+T? decHandle<T>(FuseNode n, Object? v) {
+  final object = fuseNodeOf(n, v)?.ownHandle?.object;
+  return object is T ? object : null;
+}
+
+/// The handler name of a function: a function prop arrives as `true` (named
+/// by the prop), a function inside a value as `{$fn: "<prop>#<i>"}`.
+String? _fnName(Object? v, String prop) => v == true ? prop : (v is Map ? v[r'$fn'] as String? : null);
+
+/// A JS function, called without waiting. [FuseCallArgs] spreads.
+void Function([Object? value])? decFn(FuseNode n, Object? v, String prop) {
+  final name = _fnName(v, prop);
+  if (name == null) return null;
+  return ([value]) => n.callFunction(n.id, name, value);
+}
+
+/// A JS function whose result Dart waits for (a Promise is awaited).
+Future<Object?> Function([Object? value])? decFnAsync(FuseNode n, Object? v, String prop) {
+  final name = _fnName(v, prop);
+  if (name == null) return null;
+  final call = n.registry.callFunctionAsync;
+  if (call == null) return ([value]) async => throw FuseCallbackError(name, 'no JS connection');
+  return ([value]) => call(n.id, name, value);
+}
+
+/// A JS callback threw or its Promise rejected.
+class FuseCallbackError implements Exception {
+  FuseCallbackError(this.name, this.message);
+  final String name;
+  final String message;
+  @override
+  String toString() => 'JS callback "$name" failed: $message';
+}
 
 // ── Dart -> JS ──────────────────────────────────────────────────────────────
 
@@ -90,15 +141,5 @@ extension FuseGeneratedNode on FuseNode {
 
     walk(this);
     return b.toString();
-  }
-
-  /// A prop holding a JSX element, as a widget.
-  Widget? widgetProp(String name) => widget(name);
-
-  /// A callback with more than one parameter.
-  void Function(List<Object?> args)? callbackArgs(String name) {
-    final f = callback(name);
-    if (f == null) return null;
-    return (args) => f(FuseCallArgs(args));
   }
 }

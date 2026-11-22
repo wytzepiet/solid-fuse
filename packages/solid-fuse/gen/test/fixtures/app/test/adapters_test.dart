@@ -10,6 +10,7 @@ import 'package:solid_fuse/solid_fuse.dart';
 List<Object?> create(int id, String type, [Map<String, dynamic>? props]) => [0, id, type, props ?? <String, dynamic>{}];
 List<Object?> text(int id, String value) => [1, id, value];
 List<Object?> insert(int parent, int child) => [4, parent, child, null];
+List<Object?> setProp(int id, String name, Object? value) => [2, id, name, value];
 
 void main() {
   late FuseRuntime rt;
@@ -73,6 +74,32 @@ void main() {
     expect(box.mode, Mode.b);
     expect(box.size, 3);
     expect(box.tags, ['x']);
+  });
+
+  testWidgets('nodes and functions inside values', (t) async {
+    await pump(t, [
+      create(1, 'fixture_app_Menu'),
+      create(2, 'flutter_Text'),
+      text(3, 'icon'),
+      insert(2, 3),
+      create(4, 'flutter_Text'),
+      text(5, 'end'),
+      insert(4, 5),
+      setProp(1, 'items', [
+        {'label': 'a', 'onTap': {r'$fn': 'items#0'}},
+        {'label': 'b', 'icon': {'_node': 2}},
+      ]),
+      setProp(1, 'trailing', [{'_node': 4}]),
+      setProp(1, 'onRefresh', true),
+    ], 1);
+    expect(find.text('a'), findsOneWidget);
+    expect(find.text('icon'), findsOneWidget);
+    expect(find.text('end'), findsOneWidget);
+    final menu = t.widget<Menu>(find.byType(Menu));
+    expect(menu.items.first.onTap, isNotNull);
+    expect(menu.items.last.onTap, isNull);
+    expect(menu.onRefresh, isNotNull);
+    expect(menu.onPick, isNull);
   });
 
   testWidgets('a missing required prop is an error naming it', (t) async {

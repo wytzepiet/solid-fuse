@@ -32,9 +32,13 @@ export class FuseNode<K extends string = string> {
   declare adopt: boolean;
   /** Function props by name; Dart calls them through `_functionCall`. */
   declare handlers: Record<string, Function> | undefined;
-  /** Nodes this node's props refer to, by prop name: kept here because the
-   *  Dart side uses them for as long as this node does. */
-  declare refs: Record<string, FuseNode> | undefined;
+  /** Nodes this node's props refer to, by prop name (all of them, for a
+   *  value with nodes inside): kept here because the Dart side uses them for
+   *  as long as this node does. */
+  declare refs: Record<string, FuseNode | FuseNode[]> | undefined;
+  /** How many functions inside a prop's value are registered as
+   *  `handlers["<prop>#<i>"]`, by prop name. */
+  declare nested: Record<string, number> | undefined;
   /** Whether the node is registered with `released`. */
   declare tracked: boolean | undefined;
 
@@ -68,11 +72,25 @@ const handlerNodes = new Map<number, WeakRef<FuseNode>>();
 
 // Register the function call channel — Dart calls JS functions via channels.send('_functionCall', ...)
 // A call with `args` (a Dart callback with several parameters) spreads them.
-on("_functionCall", (data: { nodeId: number; name: string; value?: any; args?: any[] }) => {
+// A call with `reply` (a Dart callback that returns a Future) waits for the
+// handler and answers `{ value }` or `{ error }`.
+on("_functionCall", (data: { nodeId: number; name: string; value?: any; args?: any[]; reply?: boolean }) => {
   const handler = handlerNodes.get(data.nodeId)?.deref()?.handlers?.[data.name];
-  if (handler === undefined) return;
-  if (data.args) handler(...data.args);
-  else handler(data.value);
+  if (!data.reply) {
+    if (handler === undefined) return;
+    if (data.args) handler(...data.args);
+    else handler(data.value);
+    return;
+  }
+  if (handler === undefined) return { error: `no function "${data.name}" on node ${data.nodeId}` };
+  return (async () => {
+    try {
+      const value = await (data.args ? handler(...data.args) : handler(data.value));
+      return { value: encodeValue("", value).wire };
+    } catch (err) {
+      return { error: err instanceof Error ? err.message : String(err) };
+    }
+  })();
 });
 
 // --- Ops journal ---
@@ -264,13 +282,18 @@ function createNode<K extends string>(type: K, props?: Record<string, unknown>):
     // Plain values first, node references after: a reference ends folding
     // (see setProperty), and every plain prop must be in the `create` op,
     // where a handle factory reads its options.
-    let refs: string[] | undefined;
+    let refs: [string, Encoded][] | undefined;
     for (const name in props) {
       const value = props[name];
-      if (nodeOf(value)) (refs ??= []).push(name);
-      else setProperty(node, name, value);
+      if (value == null || typeof value === "function") {
+        setProperty(node, name, value);
+        continue;
+      }
+      const e = encodeValue(name, value);
+      if (e.refs) (refs ??= []).push([name, e]);
+      else applyEncoded(node, name, e);
     }
-    if (refs) for (const name of refs) setProperty(node, name, props[name]);
+    if (refs) for (const [name, e] of refs) applyEncoded(node, name, e);
   }
   return node;
 }
@@ -283,63 +306,116 @@ function nodeOf(value: any): FuseNode | null {
   return value.node instanceof FuseNode ? value.node : null;
 }
 
+/** A prop value as it goes to Dart, with what it holds that Dart calls or
+ *  shows: functions and nodes anywhere inside it. */
+interface Encoded {
+  wire: any;
+  refs: FuseNode[] | null;
+  fns: Function[] | null;
+}
+
 /**
- * JSON has no Infinity or NaN: `JSON.stringify` writes them as `null`, which
- * would turn `width={Infinity}` into "no width". They cross as the strings
- * "Infinity", "-Infinity" and "NaN", which Dart's number accessors
- * (`FuseMap.double`) read back. Returns `value` itself unless something
- * inside it had to change, so the common case allocates nothing.
+ * The wire form of a prop value.
+ *
+ * - JSON has no Infinity or NaN: `JSON.stringify` writes them as `null`,
+ *   which would turn `width={Infinity}` into "no width". They cross as the
+ *   strings "Infinity", "-Infinity" and "NaN", which Dart's number readers
+ *   (`FuseMap.double`, `decDouble`) read back.
+ * - A node (an orphan JSX element, or a handle's `.node`) inside a value
+ *   becomes `{ _node: id }`, the same shape as a node prop.
+ * - A function inside a value becomes `{ $fn: "<prop>#<i>" }`, a handler
+ *   name Dart calls through `_functionCall`.
+ *
+ * Returns `value` itself unless something inside it had to change, so the
+ * common case allocates nothing.
  */
-function encodeNumbers(value: any, depth = 0): any {
-  if (typeof value === "number") {
-    return value === value && value !== Infinity && value !== -Infinity ? value : String(value);
-  }
-  // Depth-bounded: a cyclic value is left for JSON.stringify to reject.
-  if (value === null || typeof value !== "object" || depth > 16) return value;
-  let out: any;
-  if (Array.isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      const item = value[i];
-      const encoded = encodeNumbers(item, depth + 1);
-      if (encoded !== item) (out ??= value.slice())[i] = encoded;
+function encodeValue(name: string, value: any): Encoded {
+  const e: Encoded = { wire: value, refs: null, fns: null };
+  const walk = (v: any, depth: number): any => {
+    if (typeof v === "number") return v === v && v !== Infinity && v !== -Infinity ? v : String(v);
+    if (typeof v === "function") return { $fn: `${name}#${(e.fns ??= []).push(v) - 1}` };
+    // Depth-bounded: a cyclic value is left for JSON.stringify to reject.
+    if (v === null || typeof v !== "object" || depth > 16) return v;
+    const ref = nodeOf(v);
+    if (ref) {
+      (e.refs ??= []).push(ref);
+      return { _node: ref.id };
     }
-  } else {
-    for (const key in value) {
-      const item = value[key];
-      const encoded = encodeNumbers(item, depth + 1);
-      if (encoded !== item) (out ??= { ...value })[key] = encoded;
+    let out: any;
+    if (Array.isArray(v)) {
+      for (let i = 0; i < v.length; i++) {
+        const item = v[i];
+        const encoded = walk(item, depth + 1);
+        if (encoded !== item) (out ??= v.slice())[i] = encoded;
+      }
+    } else {
+      for (const key in v) {
+        const item = v[key];
+        const encoded = walk(item, depth + 1);
+        if (encoded !== item) (out ??= { ...v })[key] = encoded;
+      }
     }
-  }
-  return out ?? value;
+    return out ?? v;
+  };
+  e.wire = walk(value, 0);
+  return e;
 }
 
 function setProperty(node: FuseNode, name: string, value: any) {
-  let wire = value;
   if (typeof value === "function") {
-    let handlers = node.handlers;
-    if (handlers === undefined) {
-      handlers = node.handlers = {};
-      handlerNodes.set(node.id, new WeakRef(node));
-      track(node);
-    }
-    handlers[name] = value;
-    wire = true;
-  } else if (value != null) {
-    // A node reference: same wire shape for an orphan node and a handle.
-    const ref = nodeOf(value);
-    if (ref) {
-      (node.refs ??= {})[name] = ref;
-      track(ref);
-      // Never folded into `create`: the referenced node may be created
-      // later in this batch than the node that points at it.
-      // From here on this node's props go out as ops, in order.
-      node.batch = -1;
-      ops.push(SET_PROP, node.id, name, { _node: ref.id });
-      scheduleFlush();
-      return;
-    }
-    wire = encodeNumbers(value);
+    setNested(node, name, null);
+    if (node.refs) delete node.refs[name];
+    handlersOf(node)[name] = value;
+    applyWire(node, name, true);
+    return;
   }
+  applyEncoded(node, name, value == null ? { wire: value, refs: null, fns: null } : encodeValue(name, value));
+}
+
+function handlersOf(node: FuseNode): Record<string, Function> {
+  let handlers = node.handlers;
+  if (handlers === undefined) {
+    handlers = node.handlers = {};
+    handlerNodes.set(node.id, new WeakRef(node));
+    track(node);
+  }
+  return handlers;
+}
+
+/** Replaces the functions registered from inside prop [name]'s value. */
+function setNested(node: FuseNode, name: string, fns: Function[] | null) {
+  const before = node.nested?.[name] ?? 0;
+  if (before === 0 && fns === null) return;
+  const handlers = handlersOf(node);
+  for (let i = fns?.length ?? 0; i < before; i++) delete handlers[`${name}#${i}`];
+  if (fns) {
+    for (let i = 0; i < fns.length; i++) handlers[`${name}#${i}`] = fns[i];
+    (node.nested ??= {})[name] = fns.length;
+  } else {
+    delete node.nested![name];
+  }
+}
+
+function applyEncoded(node: FuseNode, name: string, e: Encoded) {
+  setNested(node, name, e.fns);
+  if (e.refs) {
+    // A node reference, or nodes inside the value.
+    const top = e.refs.length === 1 && e.wire?._node === e.refs[0].id && nodeOf(e.wire) === null;
+    (node.refs ??= {})[name] = top ? e.refs[0] : e.refs;
+    for (const ref of e.refs) track(ref);
+    // Never folded into `create`: the referenced node may be created
+    // later in this batch than the node that points at it.
+    // From here on this node's props go out as ops, in order.
+    node.batch = -1;
+    ops.push(SET_PROP, node.id, name, e.wire);
+    scheduleFlush();
+    return;
+  }
+  if (node.refs) delete node.refs[name];
+  applyWire(node, name, e.wire);
+}
+
+function applyWire(node: FuseNode, name: string, wire: any) {
   if (node.batch === batch) {
     // The node's `create` op has not left JS yet: the prop rides in it.
     // Static attributes, a wrapper's spread and the first run of a dynamic

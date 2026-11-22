@@ -61,10 +61,19 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
   // ── JS -> Dart ──────────────────────────────────────────────────────────
 
   /**
-   * An expression of the ref's type, nullable, read from [src]. [sub] maps a
+   * Where a decode happens: [n] is the Dart expression of the FuseNode
+   * (`node` in an adapter, `n` in a decoder), [prop] the prop being read (a
+   * function prop arrives as `true` and is called by that name), [sub] maps a
    * generic widget's type parameters to the types it is instantiated with.
    */
-  function dec(ref: Ref, src: string, sub: (dart: string) => string): string {
+  interface Cx {
+    n: string;
+    prop: string;
+    sub: (dart: string) => string;
+  }
+
+  /** An expression of the ref's type, nullable, read from [src]. */
+  function dec(ref: Ref, src: string, cx: Cx): string {
     switch (ref.k) {
       case "bool":
         return `decBool(${src})`;
@@ -79,53 +88,79 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       case "enum":
         return `decEnum(${noQ(m.types[ref.id].dart)}.values, ${src})`;
       case "data":
-        return `${decoderOf(ref.id)}(${src})`;
+        return `${decoderOf(ref.id)}(${src}, ${cx.n})`;
       case "key":
         return `decKey(${src})`;
+      case "widget":
+        return `decWidget(${cx.n}, ${src})`;
+      case "handle":
+        return `decHandle<${noQ(cx.sub(m.types[ref.id].dart))}>(${cx.n}, ${src})`;
+      case "fn":
+        return fnExpr(ref, src, cx);
       case "list":
       case "set":
       case "iterable": {
-        const of = sub((ref as any).ofDart);
-        const list = `decList<${of}>(${src}, (e) => ${elem(ref.of, "e", of, sub)})`;
+        const of = cx.sub((ref as any).ofDart);
+        const list = `decList<${of}>(${src}, (e) => ${elem(ref.of, "e", of, cx)})`;
         return ref.k === "set" ? `${list}?.toSet()` : list;
       }
       case "map": {
         const r = ref as any;
-        const kd = sub(r.keyDart);
+        const kd = cx.sub(r.keyDart);
         const kf =
           ref.key.k === "enum"
             ? `(k) => decEnum(${noQ(m.types[ref.key.id].dart)}.values, k)!`
             : ref.key.k === "int"
               ? "(k) => int.parse(k)"
               : `(k) => k as ${kd}`;
-        const of = sub(r.ofDart);
-        return `decMap<${kd}, ${of}>(${src}, ${kf}, (e) => ${elem(ref.of, "e", of, sub)})`;
+        const of = cx.sub(r.ofDart);
+        return `decMap<${kd}, ${of}>(${src}, ${kf}, (e) => ${elem(ref.of, "e", of, cx)})`;
       }
       case "Object":
       case "dynamic":
       case "typeParam":
         return src;
     }
-    throw new Error(`no decoder for ${ref.k} here`);
+    throw new Error(`no decoder for ${ref.k}`);
   }
 
-  /** A non-null element of type [dart] (unless the element type is nullable). */
-  function elem(ref: Ref, src: string, dart: string, sub: (dart: string) => string): string {
+  /** A non-null value of type [dart] (unless the ref is nullable). */
+  function elem(ref: Ref, src: string, dart: string, cx: Cx): string {
     if (RAW.has(ref.k)) return dart === "dynamic" ? src : `${src} as ${dart}`;
-    const e = dec(ref, src, sub);
+    const e = dec(ref, src, cx);
     return "null" in ref && ref.null ? e : `${e}!`;
   }
 
-  /** The argument passed for [p], or null to leave it out. */
-  function arg(p: Param, owner: string, read: string, sub: (dart: string) => string): string | null {
-    if (!p.type) return p.passNull ? "null" : null;
-    const dart = sub(p.dart!);
-    let e: string;
-    if (RAW.has(p.type.k)) {
-      e = dart === "dynamic" ? read : `(${read} as ${dart.endsWith("?") ? dart : `${dart}?`})`;
+  /**
+   * A Dart closure of the callback's type that calls the JS function: the
+   * arguments are encoded (a BuildContext stays in Dart), several are spread
+   * on the JS side, and a Future callback waits for the JS result.
+   */
+  function fnExpr(fn: FnRef, src: string, cx: Cx): string {
+    const params = fn.args.map((_, i) => `a${i}`);
+    const sent = fn.args.flatMap((a, i) => (a.type.k === "context" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`)]));
+    const payload = sent.length === 0 ? "" : sent.length === 1 ? sent[0] : `FuseCallArgs([${sent.join(", ")}])`;
+    const read = `${fn.async ? "decFnAsync" : "decFn"}(${cx.n}, ${src}, ${q(cx.prop)})`;
+    if (!fn.async && params.length === 0) return read; // void Function([Object?]) is a VoidCallback
+    let body: string;
+    if (!fn.async) {
+      body = `=> f(${payload})`;
+    } else if (fn.ret.k === "void") {
+      body = `async {\n          await f(${payload});\n        }`;
     } else {
-      e = dec(p.type, read, sub);
+      const got = `(await f(${payload}))`;
+      body = RAW.has(fn.ret.k)
+        ? `async => ${got} as dynamic`
+        : `async => ${"null" in fn.ret && fn.ret.null ? dec(fn.ret, got, cx) : `fuseReq(${dec(fn.ret, got, cx)}, ${q(cx.prop)}, 'result')`}`;
     }
+    return `switch (${read}) {\n        final f? => (${params.join(", ")}) ${body},\n        null => null,\n      }`;
+  }
+
+  /** The argument passed for [p], or null to leave it out. */
+  function arg(p: Param, owner: string, read: string, cx: Cx): string | null {
+    if (!p.type) return p.passNull ? "null" : null;
+    const dart = cx.sub(p.dart!);
+    const e = RAW.has(p.type.k) ? (dart === "dynamic" ? read : `(${read} as ${dart.endsWith("?") ? dart : `${dart}?`})`) : dec(p.type, read, { ...cx, prop: p.name });
     if (p.default !== undefined && p.default !== "null") return `${e} ?? ${p.default}`;
     if (mustSupply(p)) return `fuseReq(${e}, ${q(owner)}, ${q(p.name)})`;
     return e;
@@ -148,7 +183,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     const t = m.types[id] as DataType;
     const lines: string[] = [];
     const tn = noQ(t.dart);
-    lines.push(`${tn}? ${name}(Object? v) {`);
+    lines.push(`${tn}? ${name}(Object? v, FuseNode n) {`);
     lines.push("  if (v == null) return null;");
     const consts = t.consts ?? [];
     if (consts.length > 0) {
@@ -167,7 +202,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         const cls = noQ(variant.class ?? t.dart);
         const callee = variant.name ? `${cls}.${variant.name}` : cls;
         lines.push(`    case ${q(variant.tag)}:`);
-        lines.push(`      return ${call(callee, variant.params, (p) => arg(p, variant.tag, `v[${q(p.name)}]`, (d) => d))};`);
+        lines.push(`      return ${call(callee, variant.params, (p) => arg(p, variant.tag, `v[${q(p.name)}]`, { n: "n", prop: p.name, sub: (d) => d }))};`);
       }
       lines.push("  }");
     }
@@ -210,40 +245,14 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
 
   // ── widgets ─────────────────────────────────────────────────────────────
 
-  function callback(p: Param, fn: FnRef, owner: string): string {
-    const params = fn.args.map((_, i) => `a${i}`);
-    const sent = fn.args.flatMap((a, i) => (a.type.k === "context" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`)]));
-    const read = sent.length > 1 ? `node.callbackArgs(${q(p.name)})` : `node.callback(${q(p.name)})`;
-    let e: string;
-    if (sent.length === 0 && params.length === 0) {
-      e = read;
-    } else {
-      const body = sent.length === 0 ? "f()" : sent.length === 1 ? `f(${sent[0]})` : `f([${sent.join(", ")}])`;
-      e = `switch (${read}) {\n        final f? => (${params.join(", ")}) => ${body},\n        null => null,\n      }`;
-    }
-    return mustSupply(p) ? `fuseReq(${e}, ${q(owner)}, ${q(p.name)})` : e;
-  }
-
   function widgetArg(w: Widget, p: Param, sub: (dart: string) => string): string | null {
     if (!p.type) return p.passNull ? "null" : null;
-    const owner = w.component;
-    const req = (e: string) =>
-      p.default !== undefined && p.default !== "null"
-        ? `${e} ?? ${p.default}`
-        : mustSupply(p)
-          ? `fuseReq(${e}, ${q(owner)}, ${q(p.name)})`
-          : e;
-    if (w.children?.param === p.name) return w.children.many ? "node.childrenSlot" : req("node.childSlot");
-    if (w.textChild === p.name) return "node.textContent";
-    switch (p.type.k) {
-      case "widget":
-        return req(`node.widgetProp(${q(p.name)})`);
-      case "handle":
-        return req(`node.handle<${noQ(sub(p.dart!))}>(${q(p.name)})`);
-      case "fn":
-        return p.default !== undefined && p.default !== "null" ? `${callback({ ...p, required: false }, p.type, owner)} ?? ${p.default}` : callback(p, p.type, owner);
+    if (w.children?.param === p.name) {
+      if (w.children.many) return "node.childrenSlot";
+      return mustSupply(p) ? `fuseReq(node.childSlot, ${q(w.component)}, ${q(p.name)})` : "node.childSlot";
     }
-    return arg(p, owner, `node[${q(p.name)}]`, sub);
+    if (w.textChild === p.name) return "node.textContent";
+    return arg(p, w.component, `node[${q(p.name)}]`, { n: "node", prop: p.name, sub });
   }
 
   const adapters: string[] = [];

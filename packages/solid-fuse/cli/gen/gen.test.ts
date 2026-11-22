@@ -23,7 +23,7 @@ async function run(cmd: string[], cwd: string): Promise<{ code: number; output: 
 const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
 import { Colors, ElevatedButton, Slider } from "./out/material_ui";
-import { FixtureBox, Point, Square, Mode } from "./out/fixture_app";
+import { FixtureBox, Point, Square, Mode, Menu, MenuItem } from "./out/fixture_app";
 
 export const a = (
   <Padding padding={EdgeInsets.symmetric({ horizontal: 8 })}>
@@ -39,6 +39,14 @@ export const b = <Slider value={0.5} onChanged={(v) => v.toFixed()} />;
 export const c = <ElevatedButton onPressed={() => {}}><Text>Go</Text></ElevatedButton>;
 export const d = <FixtureBox at={Point(1, 2)} shape={Square.unit()} mode={"b" satisfies Mode} />;
 export const e = <GestureDetector onTapDown={(details) => details.globalPosition.dx} />;
+export const menu = (
+  <Menu
+    items={[MenuItem("a", { onTap: () => {} }), MenuItem("b", { icon: <Text>i</Text> })]}
+    trailing={[<Text>end</Text>]}
+    onRefresh={async () => {}}
+    onPick={async (s) => s.length}
+  />
+);
 // @ts-expect-error a number is not EdgeInsets (until shorthands)
 export const f = <Padding padding={8} />;
 // @ts-expect-error not a MainAxisAlignment

@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'connection.dart';
 import 'dev_connection.dart';
 import 'fuse_handle.dart';
-import 'generated_support.dart' show FuseCallArgs;
+import 'generated_support.dart' show FuseCallArgs, FuseCallbackError;
 import 'node.dart';
 import 'quickjs_connection.dart';
 
@@ -28,7 +28,7 @@ const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
 /// and tree rendering.
 class FuseRuntime {
   FuseRuntime._() {
-    registry = FuseNodeRegistry(callFunction: callFunction);
+    registry = FuseNodeRegistry(callFunction: callFunction, callFunctionAsync: callFunctionAsync);
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
   }
@@ -183,6 +183,21 @@ class FuseRuntime {
       'name': name,
       if (value is FuseCallArgs) 'args': value.args else 'value': ?value,
     });
+  }
+
+  /// Call a JS function and wait for its result; a rejected Promise or a
+  /// throw becomes a [FuseCallbackError].
+  Future<Object?> callFunctionAsync(int nodeId, String name, [dynamic value]) async {
+    final channels = _connection?.channels;
+    if (channels == null) throw FuseCallbackError(name, 'no JS connection');
+    final r = await channels.call('_functionCall', {
+      'nodeId': nodeId,
+      'name': name,
+      'reply': true,
+      if (value is FuseCallArgs) 'args': value.args else 'value': ?value,
+    }, timeout: null);
+    if (r is Map && r.containsKey('error')) throw FuseCallbackError(name, '${r['error']}');
+    return r is Map ? r['value'] : null;
   }
 
   /// Version of the op format [applyOps] reads; `OPS_VERSION` in

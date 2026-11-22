@@ -261,6 +261,49 @@ describe("props", () => {
     expect(got).toBe(7);
   });
 
+  test("functions and nodes inside a value cross as handler names and node ids", async () => {
+    let got: any;
+    const child = R.createElement("text");
+    const el = R.createElement("view", {
+      items: [{ label: "a", onTap: (v: any) => (got = ["a", v]) }, { label: "b", icon: child, onTap: () => (got = "b") }],
+    });
+    const ops = takeOps();
+    // Plain props ride in `create`; a value with a node inside is a setProp after it.
+    expect(ops).toEqual([
+      { op: "create", id: child.id, type: "text", props: {} },
+      { op: "create", id: el.id, type: "view", props: {} },
+      {
+        op: "setProp",
+        id: el.id,
+        name: "items",
+        value: [{ label: "a", onTap: { $fn: "items#0" } }, { label: "b", icon: { _node: child.id }, onTap: { $fn: "items#1" } }],
+      },
+    ]);
+    await (globalThis as any).__dispatch("_functionCall", { nodeId: el.id, name: "items#0", value: 3 });
+    expect(got).toEqual(["a", 3]);
+    // A new value replaces the old functions: one left, the second gone.
+    R.setProp(el, "items", [{ onTap: () => (got = "c") }]);
+    expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "items", value: [{ onTap: { $fn: "items#0" } }] }]);
+    expect(Object.keys(el.handlers!)).toEqual(["items#0"]);
+    await (globalThis as any).__dispatch("_functionCall", { nodeId: el.id, name: "items#0" });
+    expect(got).toBe("c");
+  });
+
+  test("a call with reply waits for the handler and answers with its value or error", async () => {
+    const el = R.createElement("view", {
+      onLoad: async (v: number) => ({ n: v * 2, inf: Infinity }),
+      onFail: async () => {
+        throw new Error("nope");
+      },
+    });
+    takeOps();
+    const dispatch = (globalThis as any).__dispatch;
+    expect(await dispatch("_functionCall", { nodeId: el.id, name: "onLoad", value: 2, reply: true })).toEqual({
+      value: { n: 4, inf: "Infinity" },
+    });
+    expect(await dispatch("_functionCall", { nodeId: el.id, name: "onFail", reply: true })).toEqual({ error: "nope" });
+  });
+
   test("a call with args (a Dart callback with several parameters) spreads them", async () => {
     let got: any[] = [];
     const el = R.createElement("view", { onPair: (...a: any[]) => (got = a) });

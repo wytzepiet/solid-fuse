@@ -78,3 +78,24 @@ class Many extends StatelessWidget {
 class _Hidden extends Shape {
   const _Hidden();
 }
+
+/// Widgets, callbacks and values inside values.
+class Menu extends StatelessWidget {
+  const Menu({super.key, required this.items, this.trailing, this.onRefresh, this.onPick});
+  final List<MenuItem> items;
+  final List<Widget>? trailing;
+  final Future<void> Function()? onRefresh;
+  final Future<int> Function(String)? onPick;
+  @override
+  Widget build(BuildContext context) => Column(children: [
+        for (final i in items) GestureDetector(onTap: i.onTap, child: i.icon ?? Text(i.label)),
+        ...?trailing,
+      ]);
+}
+
+class MenuItem {
+  const MenuItem(this.label, {this.onTap, this.icon});
+  final String label;
+  final VoidCallback? onTap;
+  final Widget? icon;
+}

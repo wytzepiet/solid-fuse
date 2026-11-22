@@ -334,11 +334,16 @@ class FuseNode extends FuseMap with ChangeNotifier {
 }
 
 class FuseNodeRegistry {
-  FuseNodeRegistry({required this.callFunction});
+  FuseNodeRegistry({required this.callFunction, this.callFunctionAsync});
 
   /// Callback to call a JS function via the bridge.
   final void Function(core.int nodeId, String name, [dynamic value])
   callFunction;
+
+  /// Calls a JS function and waits for what it returns (a Promise is
+  /// awaited). Null where there is no JS behind the registry (tests).
+  final Future<Object?> Function(core.int nodeId, String name, [dynamic value])?
+  callFunctionAsync;
 
   final _nodes = <int, FuseNode>{};
 

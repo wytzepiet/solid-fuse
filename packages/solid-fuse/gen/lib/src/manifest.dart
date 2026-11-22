@@ -199,38 +199,33 @@ class ManifestBuilder {
 
   // ── consistency ───────────────────────────────────────────────────────────
 
-  /// Whether [ref] carries a node, a function or a handle anywhere inside.
-  static bool _carriesRef(Object? ref) {
-    if (ref is! Map) return false;
-    return switch (ref['k']) {
-      'widget' || 'fn' || 'handle' || 'key' => true,
-      'list' || 'set' || 'iterable' => _carriesRef(ref['of']),
-      'map' => _carriesRef(ref['of']),
-      _ => false,
-    };
+  /// Why the bridge cannot carry [ref] yet, or null. Nodes, functions and
+  /// handles go anywhere (top-level props and inside values); a callback
+  /// argument that is a handle waits for borrowed handles.
+  String? _unsupported(Object? ref) {
+    if (ref is! Map) return null;
+    switch (ref['k']) {
+      case 'fn':
+        for (final a in (ref['args']! as List).cast<Json>()) {
+          if (_carriesHandle(a['type'])) return 'callback argument is a handle (borrowed handles not bridged yet)';
+        }
+        return _unsupported(ref['ret']);
+      case 'list' || 'set' || 'iterable':
+        return _unsupported(ref['of']);
+      case 'map':
+        return _unsupported(ref['of']);
+    }
+    return null;
   }
 
-  /// Why the bridge cannot carry [ref] in this position yet, or null. Only
-  /// top-level props carry nodes, functions and handles today; nested ones
-  /// wait for tagged refs in the wire format. Async callbacks wait for
-  /// replies from JS.
-  String? _unsupported(Object? ref, {required bool topLevel, bool childrenSlot = false}) {
-    if (ref is! Map) return null;
-    if (topLevel) {
-      switch (ref['k']) {
-        case 'widget' || 'handle' || 'key':
-          return null;
-        case 'fn':
-          if (ref['async'] == true) return 'async callback (needs replies from JS)';
-          for (final a in (ref['args']! as List).cast<Json>()) {
-            if (_carriesRef(a['type'])) return 'callback argument carries a handle';
-          }
-          return null;
-        case 'list' when childrenSlot:
-          return null;
-      }
-    }
-    return _carriesRef(ref) ? 'widget, callback or handle inside a value (not bridged yet)' : null;
+  static bool _carriesHandle(Object? ref) {
+    if (ref is! Map) return false;
+    return switch (ref['k']) {
+      'handle' => true,
+      'list' || 'set' || 'iterable' => _carriesHandle(ref['of']),
+      'map' => _carriesHandle(ref['of']),
+      _ => false,
+    };
   }
 
   /// Turns every unusable parameter of [params] into a skip. Returns false
@@ -283,8 +278,7 @@ class ManifestBuilder {
 
     // Limits first: they only ever remove things.
     _widgets.removeWhere((wj) {
-      final children = (wj['children'] as Map?)?['param'];
-      final ok = _fix(wj['params']! as List, (p) => _unsupported(p['type'], topLevel: true, childrenSlot: p['name'] == children));
+      final ok = _fix(wj['params']! as List, (p) => _unsupported(p['type']));
       if (!ok) _skip(wj['id']! as String, 'a required parameter cannot cross the bridge yet');
       return !ok;
     });
@@ -292,14 +286,14 @@ class ManifestBuilder {
       final variants = d['variants'];
       if (variants is List) {
         variants.removeWhere((v) {
-          final ok = _fix((v as Json)['params']! as List, (p) => _unsupported(p['type'], topLevel: false));
+          final ok = _fix((v as Json)['params']! as List, (p) => _unsupported(p['type']));
           if (!ok) ((d['rejected'] ??= <String, String>{}) as Map)[v['tag']] = 'a required parameter cannot cross the bridge yet';
           return !ok;
         });
       }
       final ctors = d['ctors'];
       if (ctors is List) {
-        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _unsupported(p['type'], topLevel: true)));
+        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _unsupported(p['type'])));
       }
     }
 
