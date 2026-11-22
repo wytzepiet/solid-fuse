@@ -17,3 +17,5 @@ See `../reports/05-bridge.md` and `../reports/06-e2e-fuse-add.md` for what each 
 `spike-templates.patch` applies on top of `spike-perf.patch` (compile-time templates: Babel plugin, runtime, Dart ops); see `../reports/12-bundle-time.md`.
 
 `spike-dartside.patch` applies on top of `spike-templates.patch` (lean render path: merged box for view, text leaf, block list editor, lazy ScrollView); see `../reports/14-dart-side.md`.
+
+`spike-rebase.patch` applies on `main` at 4fc0652 (benchmark app, harness and inert perf hooks ported to the updated dependencies; no optimisations); see `../reports/15-main-baseline.md`. All other spike patches predate the dependency update.
