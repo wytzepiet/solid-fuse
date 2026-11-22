@@ -185,7 +185,7 @@ class FuseRuntime {
 
   /// Version of the op format [applyOps] reads; `OPS_VERSION` in
   /// renderer.ts is its JS twin.
-  static const opsVersion = 2;
+  static const opsVersion = 3;
 
   // Opcodes, as in renderer.ts.
   static const _opCreate = 0;
@@ -202,11 +202,6 @@ class FuseRuntime {
   /// its operands, then the next opcode (the layout is documented there).
   void applyOps(List<dynamic> ops) {
     final dirty = <FuseNode>{};
-    // Nodes detached by a `remove` in this batch. Solid's keyed reconciler
-    // may move a node as a `remove` followed by an `insert` of the same node,
-    // so disposal waits until the whole batch is applied: only nodes that are
-    // still detached then are gone for good.
-    final removed = <FuseNode>{};
 
     final length = ops.length;
     var i = 0;
@@ -232,12 +227,7 @@ class FuseRuntime {
           final name = ops[i + 2] as String;
           var value = ops[i + 3];
           if (value is Map && value.containsKey('_node')) {
-            final target = registry.get(value['_node'] as int);
-            final prev = node.props[name];
-            if (prev is FuseNode && prev.id != target.id) {
-              _removeSubtree(prev, dirty);
-            }
-            value = target;
+            value = registry.get(value['_node'] as int);
           }
           node.setPropSilent(name, value);
           dirty.add(node);
@@ -253,7 +243,6 @@ class FuseRuntime {
           final child = registry.get(ops[i + 2] as int);
           final before = ops[i + 3] as int?;
           i += 4;
-          removed.remove(child);
           if (child.id == before) break;
           // Inserting an attached node moves it (DOM `insertBefore`
           // semantics, mirrored by `insertNode` in renderer.ts): detach it
@@ -275,20 +264,20 @@ class FuseRuntime {
           if (parent != null) {
             parent.removeChildSilent(child);
             dirty.add(parent);
-            removed.add(child);
           }
         case _opDispose:
           final node = registry.tryGet(ops[i + 1] as int);
-          if (node != null) _removeSubtree(node, dirty);
           i += 2;
+          if (node == null) break;
+          final parent = node.parent;
+          if (parent != null) {
+            parent.removeChildSilent(node);
+            dirty.add(parent);
+          }
+          _removeSubtree(node, dirty);
         default:
           throw StateError('Unknown op ${ops[i]} at $i');
       }
-    }
-
-    for (final node in removed) {
-      // Skip nodes already disposed as part of another removed subtree.
-      if (identical(registry.tryGet(node.id), node)) _removeSubtree(node, dirty);
     }
 
     for (final node in dirty) {
@@ -298,13 +287,11 @@ class FuseRuntime {
 
   /// Recursively remove a node and its descendants from the registry,
   /// disposing their ChangeNotifiers. Also removes them from [dirty] to
-  /// prevent notifying disposed nodes.
+  /// prevent notifying disposed nodes. Nodes referenced by props are not
+  /// part of the subtree: JS disposes those itself when it lets go of them.
   void _removeSubtree(FuseNode node, Set<FuseNode> dirty) {
     for (var child = node.firstChild; child != null; child = child.nextSibling) {
       _removeSubtree(child, dirty);
-    }
-    for (final v in node.props.values) {
-      if (v is FuseNode) _removeSubtree(v, dirty);
     }
     dirty.remove(node);
     registry.remove(node.id);

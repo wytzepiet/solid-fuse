@@ -64,10 +64,24 @@ void main() {
     expect(node(11).parent, same(node(1)));
   });
 
-  test('remove disposes the subtree', () {
+  test('remove detaches and keeps the node; it can come back in a later batch', () {
     mountList(3);
     apply([remove(1)]);
     expect(childIds(0), isEmpty);
+    expect(node(1).parent, isNull);
+    expect(childIds(1), [10, 11, 12]);
+    apply([setProp(1, 'width', 2), insert(0, 1)]);
+    expect(childIds(0), [1]);
+    expect(node(1).props['width'], 2);
+  });
+
+  test('dispose removes the subtree, detaching it if still attached', () {
+    mountList(3);
+    var rootNotified = 0;
+    node(0).addListener(() => rootNotified++);
+    apply([dispose(1)]);
+    expect(childIds(0), isEmpty);
+    expect(rootNotified, 1);
     expect(rt.registry.tryGet(1), isNull);
     expect(rt.registry.tryGet(11), isNull);
   });
@@ -102,12 +116,19 @@ void main() {
     expect(childIds(1), [2]);
   });
 
-  test('a node-reference prop resolves to the node; replacing it disposes the old one', () {
+  test('a node-reference prop resolves to the node; a replaced or orphaned one lives until disposed', () {
     apply([create(1), create(2, 'icon'), setProp(1, 'leading', {'_node': 2}), insert(0, 1)]);
     expect(node(1).props['leading'], same(node(2)));
     apply([create(3, 'icon'), setProp(1, 'leading', {'_node': 3})]);
-    expect(rt.registry.tryGet(2), isNull);
     expect(node(1).props['leading'], same(node(3)));
+    // JS may hand the old node to this prop again.
+    apply([setProp(1, 'leading', {'_node': 2})]);
+    expect(node(1).props['leading'], same(node(2)));
+    // Disposing the owner leaves referenced nodes to their own dispose.
+    apply([dispose(1)]);
+    expect(rt.registry.tryGet(2), isNotNull);
+    apply([dispose(2), dispose(3)]);
+    expect(rt.registry.tryGet(2), isNull);
   });
 
   test('dispose removes a node that was never inserted; unknown ids are ignored', () {
@@ -166,17 +187,10 @@ void main() {
       expect(childIds(1), [14, 13, 12, 11, 10]);
     });
 
-    test('a node removed and not re-inserted is disposed with its subtree', () {
-      mountList(3);
-      apply([remove(10), insert(1, 10), remove(11)]);
-      expect(childIds(1), [12, 10]);
-      expect(rt.registry.tryGet(11), isNull);
-      expect(rt.registry.tryGet(10), isNotNull);
-    });
-
-    test('removing a parent and its child in one batch disposes each once', () {
+    test('disposing a parent and then its child is harmless', () {
       mountList(2);
       apply([remove(10), remove(1)]);
+      apply([dispose(1), dispose(10), dispose(11)]);
       expect(rt.registry.tryGet(1), isNull);
       expect(rt.registry.tryGet(10), isNull);
       expect(rt.registry.tryGet(11), isNull);

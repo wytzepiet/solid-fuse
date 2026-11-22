@@ -27,6 +27,13 @@ export class FuseNode<K extends string = string> {
    *  written there instead of becoming ops of their own. */
   declare batch: number;
   declare slot: number;
+  /** Function props by name; Dart calls them through `_functionCall`. */
+  declare handlers: Record<string, Function> | undefined;
+  /** Nodes this node's props refer to, by prop name: kept here because the
+   *  Dart side uses them for as long as this node does. */
+  declare refs: Record<string, FuseNode> | undefined;
+  /** Whether the node is registered with `released`. */
+  declare tracked: boolean | undefined;
 
   constructor(type: K) {
     this.id = nextId++;
@@ -38,6 +45,7 @@ export class FuseNode<K extends string = string> {
     this.next = undefined;
     this.batch = -1;
     this.slot = -1;
+    this.handlers = undefined;
   }
 
   /** The child nodes, in order, as a new array. */
@@ -48,14 +56,15 @@ export class FuseNode<K extends string = string> {
   }
 }
 
-// --- Event handler registry ---
+// --- Event handlers ---
 
-const handlers = new Map<string, Function>();
+// A node owns its handlers; this map only finds the node for an id, weakly,
+// so that a handler closing over its node does not keep the node alive.
+const handlerNodes = new Map<number, WeakRef<FuseNode>>();
 
 // Register the function call channel — Dart calls JS functions via channels.send('_functionCall', ...)
 on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
-  const key = `${data.nodeId}:${data.name}`;
-  handlers.get(key)?.(data.value);
+  handlerNodes.get(data.nodeId)?.deref()?.handlers?.[data.name]?.(data.value);
 });
 
 // --- Ops journal ---
@@ -71,15 +80,44 @@ on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
 //   SET_TEXT id, text
 //   INSERT   parent, child, before   before: sibling id, or null to append;
 //                                    an attached child moves
-//   REMOVE   child               detach; disposed if not re-inserted in
-//                                the same batch
-//   DISPOSE  id
+//   REMOVE   child               detach; the node stays usable
+//   DISPOSE  id                  the node and its subtree are gone for good
 const CREATE = 0, TEXT = 1, SET_PROP = 2, SET_TEXT = 3, INSERT = 4, REMOVE = 5, DISPOSE = 6;
-const OPS_VERSION = 2;
+const OPS_VERSION = 3;
 
 const ops: unknown[] = [];
 /** Number of the batch being journalled; bumped each time one is sent. */
 let batch = 0;
+
+// --- Node lifetime ---
+//
+// A Dart node lives exactly as long as JS can still reach its JS node. Solid
+// has no "this node is finished" hook: it detaches a node and may insert the
+// same node again much later (a `<Show>` around an element held in a
+// variable), exactly as it does with DOM nodes, which the browser frees by
+// garbage collection. So `remove` only detaches, and the garbage collector
+// says when a node is gone: nodes that can become unreachable on their own
+// (a detached subtree's root, a node referenced by a prop) are registered
+// here, and `dispose` is journalled once JS has let go of them. A subtree
+// stays reachable through its root for as long as any node in it is, so the
+// root alone speaks for it.
+const released = new FinalizationRegistry<number>((id) => {
+  handlerNodes.delete(id);
+  ops.push(DISPOSE, id);
+  scheduleFlush();
+});
+
+function track(node: FuseNode) {
+  if (node.tracked) return;
+  node.tracked = true;
+  released.register(node, node.id);
+}
+
+// Restarting the app evaluates the bundle again in the same engine, with
+// node ids starting over. Whatever the previous evaluation still does (a
+// timer, a collected node) must not reach the new tree.
+const generation: number = ((globalThis as any).__fuseGeneration =
+  ((globalThis as any).__fuseGeneration ?? 0) + 1);
 
 // --- Auto-flush machinery ---
 
@@ -91,6 +129,10 @@ function flushOps() {
   flush();
   flushScheduled = false;
   if (ops.length === 0) return;
+  if (generation !== (globalThis as any).__fuseGeneration) {
+    ops.length = 0;
+    return;
+  }
   // One JSON string per batch, not an array of op objects: fjs (3.3+) bounds
   // JS→Dart value conversion at 100,000 values, which an op array crosses at
   // roughly 4,500 mounted elements. A string is a single value, and
@@ -192,12 +234,20 @@ function encodeNumbers(value: any, depth = 0): any {
 function setProperty(node: FuseNode, name: string, value: any) {
   let wire = value;
   if (typeof value === "function") {
-    handlers.set(`${node.id}:${name}`, value);
+    let handlers = node.handlers;
+    if (handlers === undefined) {
+      handlers = node.handlers = {};
+      handlerNodes.set(node.id, new WeakRef(node));
+      track(node);
+    }
+    handlers[name] = value;
     wire = true;
   } else if (value != null) {
     // A node reference: same wire shape for an orphan node and a handle.
     const ref = nodeOf(value);
     if (ref) {
+      (node.refs ??= {})[name] = ref;
+      track(ref);
       // Never folded into `create`: the referenced node may be created
       // later in this batch than the node that points at it.
       // From here on this node's props go out as ops, in order.
@@ -291,6 +341,7 @@ const {
     // Not (or no longer) a child of `parent`: nothing to detach.
     if (node.parent !== parent) return;
     unlink(node);
+    track(node);
     ops.push(REMOVE, node.id);
     scheduleFlush();
   },
@@ -357,9 +408,10 @@ export function render(code: () => any) {
     if (typeof dispose === "function") dispose();
     for (let child = root.first; child; child = root.first) {
       unlink(child);
-      ops.push(REMOVE, child.id);
+      ops.push(DISPOSE, child.id);
     }
-    handlers.clear();
+    handlerNodes.clear();
+    scheduleFlush();
   };
 }
 

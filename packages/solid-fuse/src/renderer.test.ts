@@ -38,7 +38,7 @@ function takeOps(): Op[] {
   const out: Op[] = [];
   for (const m of sent) {
     if (m.channel !== "_ops") continue;
-    expect(m.v).toBe(2);
+    expect(m.v).toBe(3);
     out.push(...decode(JSON.parse(m.json)));
   }
   sent.length = 0;
@@ -366,6 +366,83 @@ describe("journal", () => {
   test("nothing is sent when nothing changed", () => {
     R.flushOps();
     expect(sent).toEqual([]);
+  });
+});
+
+describe("node lifetime", () => {
+  /** Collect garbage until `done` holds (finalisers run some time after). */
+  async function collect(done: () => boolean) {
+    for (let i = 0; i < 50 && !done(); i++) {
+      Bun.gc(true);
+      await new Promise((r) => setTimeout(r, 2));
+    }
+  }
+
+  test("a removed node can be inserted again in a later batch", () => {
+    // What `<Show when={show()}>{child}</Show>` does with an element held in
+    // a variable.
+    const parent = R.createElement("view");
+    const child = R.createElement("text");
+    const [show, setShow] = createSignal(true);
+    mount(() => {
+      R.insert(parent, () => (show() ? child : undefined));
+      return parent;
+    });
+    takeOps();
+    setShow(false);
+    flush();
+    expect(takeOps()).toEqual([{ op: "remove", childId: child.id }]);
+    R.setProp(child, "color", "red");
+    setShow(true);
+    flush();
+    expect(takeOps()).toEqual([
+      { op: "setProp", id: child.id, name: "color", value: "red" },
+      { op: "insert", parentId: parent.id, childId: child.id, before: null },
+    ]);
+  });
+
+  test("a detached subtree is disposed once JS lets go of it, by its root alone", async () => {
+    const parent = R.createElement("view");
+    const [show, setShow] = createSignal(true);
+    let rootId = -1, leafId = -1;
+    mount(() => {
+      let row: InstanceType<typeof R.FuseNode> | undefined = R.createElement("view");
+      const leaf = R.createElement("text", { onTap: () => {} });
+      R.insertNode(row, leaf);
+      rootId = row.id;
+      leafId = leaf.id;
+      R.insert(parent, () => (show() ? row : (row = undefined)));
+      return parent;
+    });
+    takeOps();
+    setShow(false);
+    flush();
+    const seen: Op[] = [];
+    await collect(() => (seen.push(...takeOps()), seen.some((o) => o.op === "dispose" && o.id === rootId)));
+    expect(seen).toContainEqual({ op: "dispose", id: rootId });
+    // Ops for the subtree itself: nothing but its removal and disposal.
+    expect(seen.filter((o) => o.childId === rootId || o.childId === leafId).map((o) => o.op)).toEqual(["remove"]);
+  });
+
+  test("a node referenced by a prop lives as long as its owner", async () => {
+    const owner = R.createElement("view");
+    let iconId = -1;
+    (() => {
+      const icon = R.createElement("icon");
+      iconId = icon.id;
+      R.setProp(owner, "leading", icon);
+    })();
+    const seen: Op[] = [];
+    const gone = () => (seen.push(...takeOps()), seen.some((o) => o.op === "dispose" && o.id === iconId));
+    Bun.gc(true);
+    await new Promise((r) => setTimeout(r, 10));
+    Bun.gc(true);
+    await new Promise((r) => setTimeout(r, 10));
+    expect(gone()).toBe(false);
+    // Replaced: nothing else holds the old node, so it goes.
+    R.setProp(owner, "leading", R.createElement("icon"));
+    await collect(gone);
+    expect(gone()).toBe(true);
   });
 });
 

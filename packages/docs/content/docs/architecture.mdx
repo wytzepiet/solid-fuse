@@ -13,6 +13,8 @@ Components create a virtual tree of nodes using `@solidjs/universal` (the same r
 
 The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string: a flat array of opcodes and their operands (cheaper to build and convert than an array of op objects, and not subject to FJS's per-value conversion limit). The batch carries a format version, so a bundle and a runtime built from different solid-fuse versions fail with a clear message instead of misreading each other. `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
 
+A node on the Dart side lives exactly as long as JavaScript can still reach it. Removing a node only detaches it, so an element you keep in a variable can leave the tree and come back later (a `<Show>` around it, for example), as it could in the DOM. When the JS garbage collector finds that nothing refers to a detached subtree any more, its Dart nodes are disposed.
+
 Events flow back the same way. A `GestureDetector` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
 
 ```
