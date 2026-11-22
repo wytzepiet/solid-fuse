@@ -73,3 +73,18 @@ JS ms (production builds of `a406a5d`, test switches compiled out; two runs wher
 So: recycle −17%, with early exit −26%, probe −43% on static bindings; on reactive bindings the first two are within noise of head (the 62.4 was a noisy process group, range 53–77) and the probe is about +25%.
 
 Tests with early exit: signals 7,263 (`PROBE_ALL=1`), universal 61, solid-js 936, web client 2,040, web hydrate 801 pass; web server as before. One hydrate test (`served-source-landing`, uses `sleep(30)`) failed once in a full run under load and passed in three reruns and a second full run. solid-fuse 65 pass.
+
+## Addendum 3: probe with a hand-written finish for the plain case
+
+Wytze's question: why not evaluate, see whether it is reactive, and wire the result into the effect without the replay? `patches/spike-solid-probe-fast.patch` (the probe patch plus 20 lines): after the probe run, if the node is in the plain state (no extension object, no flags beyond "recomputing", status still "uninitialized", nothing staged, no subscribers, value not an object unless the node is sync, and the probe was allowed at all, so no transaction, lane, verdict window or snapshot capture), it is finished by hand: flags and status cleared, value stored, marked modified, effect function set; `runEffect` then applies it as usual. Everything else still goes through the `recompute` replay. Not done in that plain finish compared with `recompute`: `bumpNotifyEpoch()`, the status notify for a node that never had a status, and the observe hooks (the fast finish is off when attribution hooks are installed).
+
+Same method as addendum 2 (best of 8 per process, median of 8 processes):
+
+| JS ms | head | recycle + early exit | probe + fast finish |
+|---|---:|---:|---:|
+| mount 5,000 nodes, all bindings static | 53.4 | 40.9 | 31.2 |
+| mount 1,000 rows, all bindings reactive | 52.6 | 56.7 | 47.4 |
+
+Static −42%, reactive −10%: a reactive binding in the plain state now skips most of `recompute` as well.
+
+Tests: signals 7,263 with `PROBE_ALL=1` (fast finish 9,491 times, replay 26,244, thrown 2,578, static 30, not tried 4,712), universal 61, solid-js 936, web client 2,040 (fast finish 4,424), web hydrate 801 pass; web server as before (one failure with and without). solid-fuse 65 pass.
