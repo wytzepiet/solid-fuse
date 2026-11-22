@@ -141,6 +141,15 @@ const {
   },
 
   insertNode(parent: FuseNode, node: FuseNode, anchor?: FuseNode) {
+    // Inserting an attached node moves it, as `insertBefore` does in the DOM:
+    // Solid's keyed reconciler relies on that when it reorders a list. Detach
+    // first so the node is never listed twice. Dart's `insert` does the same,
+    // so a move needs no `remove` op.
+    const oldParent = node.parent;
+    if (oldParent) {
+      const old = oldParent.children.indexOf(node);
+      if (old >= 0) oldParent.children.splice(old, 1);
+    }
     node.parent = parent;
     let index: number;
     if (anchor) {
@@ -161,6 +170,8 @@ const {
   },
 
   removeNode(parent: FuseNode, node: FuseNode) {
+    // Not (or no longer) a child of `parent`: nothing to detach.
+    if (node.parent !== parent) return;
     const idx = parent.children.indexOf(node);
     if (idx >= 0) parent.children.splice(idx, 1);
     node.parent = undefined;

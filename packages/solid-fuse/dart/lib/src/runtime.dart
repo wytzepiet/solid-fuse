@@ -32,6 +32,11 @@ class FuseRuntime {
     registry.create(0, 'root', {'_id': 0});
   }
 
+  /// A runtime with no JS engine behind it, for tests that drive [applyOps]
+  /// directly. Never calls into fjs; [start] must not be called on it.
+  @visibleForTesting
+  FuseRuntime.forTest() : this._();
+
   FuseConnection? _connection;
 
   final Map<String, FuseWidgetBuilder> _widgetBuilders = {};
@@ -176,6 +181,11 @@ class FuseRuntime {
   /// Apply a batch of ops from the JS side.
   void applyOps(List<dynamic> ops) {
     final dirty = <FuseNode>{};
+    // Nodes detached by a `remove` in this batch. Solid's keyed reconciler
+    // may move a node as a `remove` followed by an `insert` of the same node,
+    // so disposal waits until the whole batch is applied: only nodes that are
+    // still detached then are gone for good.
+    final removed = <FuseNode>{};
 
     for (final op in ops) {
       final map = op is Map<String, dynamic>
@@ -215,18 +225,36 @@ class FuseRuntime {
         case 'insert':
           final parent = registry.get(map['parentId'] as int);
           final child = registry.get(map['childId'] as int);
+          removed.remove(child);
+          // Inserting an attached node moves it (DOM `insertBefore`
+          // semantics, mirrored by `insertNode` in renderer.ts): detach it
+          // first so it is never listed twice.
+          final oldParent = child.parent;
+          if (oldParent != null) {
+            oldParent.removeChildSilent(child);
+            dirty.add(oldParent);
+          }
           parent.insertChildSilent(map['index'] as int, child);
           dirty.add(parent);
         case 'remove':
           final parent = registry.get(map['parentId'] as int);
           final child = registry.get(map['childId'] as int);
-          parent.removeChildSilent(child);
-          dirty.add(parent);
-          _removeSubtree(child, dirty);
+          // A stale `remove` (the child has since moved elsewhere) must not
+          // detach it from its current parent.
+          if (identical(child.parent, parent)) {
+            parent.removeChildSilent(child);
+            dirty.add(parent);
+            removed.add(child);
+          }
         case 'dispose':
           final node = registry.tryGet(map['id'] as int);
           if (node != null) _removeSubtree(node, dirty);
       }
+    }
+
+    for (final node in removed) {
+      // Skip nodes already disposed as part of another removed subtree.
+      if (identical(registry.tryGet(node.id), node)) _removeSubtree(node, dirty);
     }
 
     for (final node in dirty) {
