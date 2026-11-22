@@ -471,3 +471,16 @@ describe("spread (what a wrapper component compiles to)", () => {
     ]);
   });
 });
+
+describe("flush", () => {
+  test("a batch that cannot be serialised is dropped, later batches still go out", () => {
+    const el = R.createElement("view");
+    const cyclic: any = {};
+    cyclic.self = cyclic;
+    R.setProp(el, "bad", cyclic);
+    expect(() => R.flushOps()).toThrow();
+    sent.length = 0;
+    R.setProp(el, "width", 1);
+    expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "width", value: 1 }]);
+  });
+});

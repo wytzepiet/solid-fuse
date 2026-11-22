@@ -22,10 +22,11 @@ export class FuseNode<K extends string = string> {
   declare last: FuseNode | undefined;
   declare prev: FuseNode | undefined;
   declare next: FuseNode | undefined;
-  /** The props object of this node's `create` op, while that op is unsent. */
-  declare created: Record<string, any> | undefined;
-  /** The batch the `create` op was journalled in. */
+  /** The batch this node's `create` op was journalled in, and where in the
+   *  journal its props object sits: while that batch is unsent, props are
+   *  written there instead of becoming ops of their own. */
   declare batch: number;
+  declare slot: number;
 
   constructor(type: K) {
     this.id = nextId++;
@@ -35,8 +36,8 @@ export class FuseNode<K extends string = string> {
     this.last = undefined;
     this.prev = undefined;
     this.next = undefined;
-    this.created = undefined;
     this.batch = -1;
+    this.slot = -1;
   }
 
   /** The child nodes, in order, as a new array. */
@@ -94,9 +95,16 @@ function flushOps() {
   // JS→Dart value conversion at 100,000 values, which an op array crosses at
   // roughly 4,500 mounted elements. A string is a single value, and
   // JSON.stringify + jsonDecode is also cheaper than walking the objects.
-  send("_ops", { v: OPS_VERSION, json: JSON.stringify(ops) });
-  ops.length = 0;
-  batch++;
+  let json: string;
+  try {
+    json = JSON.stringify(ops);
+  } finally {
+    // Also when a prop value cannot be serialised: drop the batch rather
+    // than fail on it again at every later flush.
+    ops.length = 0;
+    batch++;
+  }
+  send("_ops", { v: OPS_VERSION, json });
 }
 
 function scheduleFlush() {
@@ -124,9 +132,8 @@ function createNode<K extends string>(type: K, props?: Record<string, unknown>):
   const node = new FuseNode(type);
   const createProps: Record<string, any> = {};
   if (host.mode !== "release" && _currentComponent) createProps._component = _currentComponent;
-  node.created = createProps;
   node.batch = batch;
-  ops.push(CREATE, node.id, type, createProps);
+  node.slot = ops.push(CREATE, node.id, type, createProps) - 1;
   if (props) for (const name in props) setProperty(node, name, props[name]);
   return node;
 }
@@ -159,7 +166,7 @@ function setProperty(node: FuseNode, name: string, value: any) {
     // Static attributes, a wrapper's spread and the first run of a dynamic
     // binding all land here, so mounting an element is one op, not one per
     // prop.
-    node.created![name] = wire;
+    (ops[node.slot] as Record<string, any>)[name] = wire;
   } else {
     ops.push(SET_PROP, node.id, name, wire);
   }
