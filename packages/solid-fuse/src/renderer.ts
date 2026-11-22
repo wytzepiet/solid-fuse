@@ -14,8 +14,14 @@ export class FuseNode<K extends string = string> {
   // QuickJS, and this constructor runs once per element and text node.
   declare id: number;
   declare type: K;
-  declare children: FuseNode[];
   declare parent: FuseNode | undefined;
+  // Children are a doubly linked list threaded through the nodes, so that
+  // every tree hook Solid calls (insert before a sibling, remove, next
+  // sibling) is constant time however long the child list is.
+  declare first: FuseNode | undefined;
+  declare last: FuseNode | undefined;
+  declare prev: FuseNode | undefined;
+  declare next: FuseNode | undefined;
   /** The props object of this node's `create` op, while that op is unsent. */
   declare created: Record<string, any> | undefined;
   /** The batch the `create` op was journalled in. */
@@ -24,10 +30,20 @@ export class FuseNode<K extends string = string> {
   constructor(type: K) {
     this.id = nextId++;
     this.type = type;
-    this.children = [];
     this.parent = undefined;
+    this.first = undefined;
+    this.last = undefined;
+    this.prev = undefined;
+    this.next = undefined;
     this.created = undefined;
     this.batch = -1;
+  }
+
+  /** The child nodes, in order, as a new array. */
+  get children(): FuseNode[] {
+    const out: FuseNode[] = [];
+    for (let c = this.first; c; c = c.next) out.push(c);
+    return out;
   }
 }
 
@@ -47,7 +63,8 @@ type Op =
   | { op: "create"; id: number; type: string; props: Record<string, any> }
   | { op: "setText"; id: number; text: string }
   | { op: "setProp"; id: number; name: string; value: any }
-  | { op: "insert"; parentId: number; childId: number; index: number }
+  // `before`: id of the sibling the child goes in front of; absent = append.
+  | { op: "insert"; parentId: number; childId: number; before?: number }
   | { op: "remove"; parentId: number; childId: number }
   | { op: "dispose"; id: number };
 
@@ -183,40 +200,37 @@ const {
   setProperty,
 
   insertNode(parent: FuseNode, node: FuseNode, anchor?: FuseNode) {
+    if (node === anchor) return;
     // Inserting an attached node moves it, as `insertBefore` does in the DOM:
-    // Solid's keyed reconciler relies on that when it reorders a list. Detach
-    // first so the node is never listed twice. Dart's `insert` does the same,
-    // so a move needs no `remove` op.
-    const oldParent = node.parent;
-    if (oldParent) {
-      const old = oldParent.children.indexOf(node);
-      if (old >= 0) oldParent.children.splice(old, 1);
-    }
+    // Solid's keyed reconciler relies on that when it reorders a list. Dart's
+    // `insert` detaches too, so a move needs no `remove` op.
+    if (node.parent) unlink(node);
+    if (anchor && anchor.parent !== parent) anchor = undefined;
     node.parent = parent;
-    let index: number;
     if (anchor) {
-      const idx = parent.children.indexOf(anchor);
-      if (idx >= 0) {
-        parent.children.splice(idx, 0, node);
-        index = idx;
-      } else {
-        parent.children.push(node);
-        index = parent.children.length - 1;
-      }
+      const prev = anchor.prev;
+      node.prev = prev;
+      node.next = anchor;
+      anchor.prev = node;
+      if (prev) prev.next = node;
+      else parent.first = node;
     } else {
-      parent.children.push(node);
-      index = parent.children.length - 1;
+      const last = parent.last;
+      node.prev = last;
+      parent.last = node;
+      if (last) last.next = node;
+      else parent.first = node;
     }
-    ops.push({ op: "insert", parentId: parent.id, childId: node.id, index });
+    ops.push(anchor
+      ? { op: "insert", parentId: parent.id, childId: node.id, before: anchor.id }
+      : { op: "insert", parentId: parent.id, childId: node.id });
     scheduleFlush();
   },
 
   removeNode(parent: FuseNode, node: FuseNode) {
     // Not (or no longer) a child of `parent`: nothing to detach.
     if (node.parent !== parent) return;
-    const idx = parent.children.indexOf(node);
-    if (idx >= 0) parent.children.splice(idx, 1);
-    node.parent = undefined;
+    unlink(node);
     ops.push({ op: "remove", parentId: parent.id, childId: node.id });
     scheduleFlush();
   },
@@ -226,16 +240,24 @@ const {
   },
 
   getFirstChild(node: FuseNode) {
-    return node.children[0];
+    return node.first;
   },
 
   getNextSibling(node: FuseNode) {
-    const parent = node.parent;
-    if (!parent) return undefined;
-    const idx = parent.children.indexOf(node);
-    return parent.children[idx + 1];
+    return node.next;
   },
 });
+
+/** Take an attached node out of its parent's child list. */
+function unlink(node: FuseNode) {
+  const parent = node.parent!;
+  const { prev, next } = node;
+  if (prev) prev.next = next;
+  else parent.first = next;
+  if (next) next.prev = prev;
+  else parent.last = prev;
+  node.parent = node.prev = node.next = undefined;
+}
 
 function createComponent(Comp: any, props: any) {
   if (host.mode === 'release') return innerCreateComponent(Comp, props);
@@ -267,10 +289,10 @@ export function render(code: () => any) {
   flushOps();
   return () => {
     if (typeof dispose === "function") dispose();
-    for (const child of root.children) {
+    for (let child = root.first; child; child = root.first) {
+      unlink(child);
       ops.push({ op: "remove", parentId: root.id, childId: child.id });
     }
-    root.children = [];
     handlers.clear();
   };
 }

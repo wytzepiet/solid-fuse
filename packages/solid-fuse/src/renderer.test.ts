@@ -53,7 +53,9 @@ class DartTree {
       if (op.op === "create") this.children.set(op.id, []);
       else if (op.op === "insert") {
         this.detach(op.childId);
-        this.children.get(op.parentId)!.splice(op.index, 0, op.childId);
+        const list = this.children.get(op.parentId)!;
+        const at = op.before === undefined ? -1 : list.indexOf(op.before);
+        list.splice(at < 0 ? list.length : at, 0, op.childId);
         this.parent.set(op.childId, op.parentId);
       } else if (op.op === "remove") {
         if (this.parent.get(op.childId) === op.parentId) this.detach(op.childId);
@@ -83,9 +85,35 @@ describe("insertNode / removeNode", () => {
     R.insertNode(parent, c);
     expect(parent.children).toEqual([a, b, c]);
     expect(takeOps()).toEqual([
-      { op: "insert", parentId: parent.id, childId: c.id, index: 0 },
-      { op: "insert", parentId: parent.id, childId: c.id, index: 2 },
+      { op: "insert", parentId: parent.id, childId: c.id, before: a.id },
+      { op: "insert", parentId: parent.id, childId: c.id },
     ]);
+  });
+
+  test("first/last/prev/next stay consistent through edits", () => {
+    const parent = R.createElement("view");
+    const [a, b, c] = [R.createElement("a"), R.createElement("b"), R.createElement("c")];
+    R.insertNode(parent, b);
+    R.insertNode(parent, a, b);
+    R.insertNode(parent, c);
+    expect([parent.first, parent.last]).toEqual([a, c]);
+    expect([a.prev, a.next, b.prev, b.next, c.prev, c.next]).toEqual([undefined, b, a, c, b, undefined]);
+    R.insertNode(parent, a); // move the head to the tail
+    expect(parent.children).toEqual([b, c, a]);
+    expect([parent.first, parent.last, b.prev, a.next, a.prev]).toEqual([b, a, undefined, undefined, c]);
+    R.insertNode(parent, a, a); // before itself: no-op
+    expect(parent.children).toEqual([b, c, a]);
+  });
+
+  test("an anchor that is not a child of the parent means append", () => {
+    const [p1, p2] = [R.createElement("view"), R.createElement("view")];
+    const [a, b, stranger] = [R.createElement("a"), R.createElement("b"), R.createElement("c")];
+    R.insertNode(p2, stranger);
+    R.insertNode(p1, a);
+    takeOps();
+    R.insertNode(p1, b, stranger);
+    expect(p1.children).toEqual([a, b]);
+    expect(takeOps()).toEqual([{ op: "insert", parentId: p1.id, childId: b.id }]);
   });
 
   test("inserting under another parent detaches from the old one", () => {
@@ -218,7 +246,7 @@ describe("props", () => {
     });
     expect(takeOps()).toEqual([
       { op: "create", id: el.id, type: "view", props: { height: 2, width: 1 } },
-      { op: "insert", parentId: 0, childId: el.id, index: 0 },
+      { op: "insert", parentId: 0, childId: el.id },
     ]);
     setW(5);
     flush();

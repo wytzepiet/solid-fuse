@@ -229,12 +229,17 @@ class FuseRuntime {
           // Inserting an attached node moves it (DOM `insertBefore`
           // semantics, mirrored by `insertNode` in renderer.ts): detach it
           // first so it is never listed twice.
+          if (child.id == map['before']) break;
           final oldParent = child.parent;
           if (oldParent != null) {
             oldParent.removeChildSilent(child);
             dirty.add(oldParent);
           }
-          parent.insertChildSilent(map['index'] as int, child);
+          final before = map['before'];
+          parent.insertChildSilent(
+            child,
+            before: before == null ? null : registry.tryGet(before as int),
+          );
           dirty.add(parent);
         case 'remove':
           final parent = registry.get(map['parentId'] as int);
@@ -266,7 +271,7 @@ class FuseRuntime {
   /// disposing their ChangeNotifiers. Also removes them from [dirty] to
   /// prevent notifying disposed nodes.
   void _removeSubtree(FuseNode node, Set<FuseNode> dirty) {
-    for (final child in node.children) {
+    for (var child = node.firstChild; child != null; child = child.nextSibling) {
       _removeSubtree(child, dirty);
     }
     for (final v in node.props.values) {
