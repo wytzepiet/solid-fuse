@@ -45,6 +45,10 @@ flutter test
 flutter analyze
 ```
 
+### Fast rebuilds
+
+Set `CARGO_TARGET_DIR` (cloud: `/opt/cargo-target`, set by `scripts/cloud-setup.sh`) so every app shares one Rust build of fjs instead of rebuilding it per app and per `flutter clean`. Numbers and rules of thumb: `notes/fast-iteration.md`.
+
 ### Pushing changes to consumers
 
 solid-fuse is consumed via `yalc` in external apps (e.g. `pole-goals/app_2`). After changing JS or Dart:
