@@ -9,7 +9,7 @@ Fuse connects SolidJS and Flutter through a surprisingly small set of ideas. Eac
 
 SolidJS runs inside [FJS](https://github.com/fluttercandies/fjs) — a QuickJS-based JavaScript runtime built in Rust. FJS runs on its own isolate thread, off Flutter's main thread, so the JS engine and Flutter's frame pipeline never compete for the same core.
 
-Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten.
+Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten. Props that are known by the time a new node's batch is sent travel inside its create operation, so mounting an element costs one operation rather than one per prop.
 
 The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string (cheaper to convert than an array of op objects, and not subject to FJS's per-value conversion limit). `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
 

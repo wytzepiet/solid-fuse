@@ -12,6 +12,10 @@ export class FuseNode<K extends string = string> {
   props: Record<string, any> = {};
   children: FuseNode[] = [];
   parent: FuseNode | undefined = undefined;
+  /** The props object of this node's `create` op, while that op is unsent. */
+  created: Record<string, any> | undefined = undefined;
+  /** The batch the `create` op was journalled in. */
+  batch = -1;
 
   constructor(public type: K) {}
 }
@@ -37,6 +41,8 @@ type Op =
   | { op: "dispose"; id: number };
 
 const ops: Op[] = [];
+/** Number of the batch being journalled; bumped each time one is sent. */
+let batch = 0;
 
 // --- Auto-flush machinery ---
 
@@ -54,6 +60,7 @@ function flushOps() {
   // JSON.stringify + jsonDecode is also cheaper than walking the objects.
   send("_ops", { json: JSON.stringify(ops) });
   ops.length = 0;
+  batch++;
 }
 
 function scheduleFlush() {
@@ -68,6 +75,65 @@ onAfterDispatch(flushOps);
 // Let channels.call() drain pending ops before firing the RPC, so the
 // ref→handle-method pattern works without users thinking about ordering.
 _setFlushOps(flushOps);
+
+// --- Nodes and props ---
+
+/**
+ * Create a node of `type` and journal its `create` op. `props` are the
+ * node's initial props: the compiler passes an element's static attributes
+ * here (`createElement("view", { width: 40, onTap: f })`), and `createHandle`
+ * its options.
+ */
+function createNode<K extends string>(type: K, props?: Record<string, unknown>): FuseNode<K> {
+  const node = new FuseNode(type);
+  const createProps: Record<string, any> = {};
+  if (host.mode !== "release" && _currentComponent) createProps._component = _currentComponent;
+  node.created = createProps;
+  node.batch = batch;
+  ops.push({ op: "create", id: node.id, type, props: createProps });
+  if (props) for (const name in props) setProperty(node, name, props[name]);
+  return node;
+}
+
+function setProperty(node: FuseNode, name: string, value: any) {
+  node.props[name] = value;
+  let wire = value;
+  if (typeof value === "function") {
+    handlers.set(`${node.id}:${name}`, value);
+    wire = true;
+  } else if (value != null) {
+    // A node reference: an orphan JSX node (passed itself) or a handle
+    // (carries `.node`) — same wire shape either way.
+    const ref = value instanceof FuseNode
+      ? value
+      : value.node instanceof FuseNode
+        ? value.node
+        : null;
+    if (ref) {
+      // Never folded into `create`: the referenced node may be created
+      // later in this batch than the node that points at it.
+      // From here on this node's props go out as ops, in order.
+      node.batch = -1;
+      ops.push({ op: "setProp", id: node.id, name, value: { _node: ref.id } });
+      scheduleFlush();
+      return;
+    }
+  }
+  if (node.batch === batch) {
+    // The node's `create` op has not left JS yet: the prop rides in it.
+    // Static attributes, a wrapper's spread and the first run of a dynamic
+    // binding all land here, so mounting an element is one op, not one per
+    // prop.
+    node.created![name] = wire;
+  } else {
+    ops.push({ op: "setProp", id: node.id, name, value: wire });
+  }
+  // Like insertNode/removeNode/replaceText: schedule a flush so the op is
+  // sent. Without this, a prop-only reactive update that runs after a
+  // dispatch's flush (e.g. an async `.then(setState)`) buffers an op that
+  // nothing sends until the next event.
+  scheduleFlush();
+}
 
 // --- Renderer ---
 
@@ -85,12 +151,8 @@ const {
   mergeProps,
   ...rest
 } = createRenderer<FuseNode>({
-  createElement(tag: string) {
-    const node = new FuseNode(tag);
-    const createProps: Record<string, any> = {};
-    if (host.mode !== 'release' && _currentComponent) createProps._component = _currentComponent;
-    ops.push({ op: "create", id: node.id, type: tag, props: createProps });
-    return node;
+  createElement(tag: string, staticProps?: Record<string, unknown>) {
+    return createNode(tag, staticProps);
   },
 
   createTextNode(value: string) {
@@ -115,30 +177,7 @@ const {
     return node.type === "__text__";
   },
 
-  setProperty(node: FuseNode, name: string, value: any) {
-    if (typeof value === "function") {
-      handlers.set(`${node.id}:${name}`, value);
-      node.props[name] = true;
-      ops.push({ op: "setProp", id: node.id, name, value: true });
-    } else {
-      const ref = value instanceof FuseNode
-        ? value
-        : value?.node instanceof FuseNode
-          ? value.node
-          : null;
-      node.props[name] = value;
-      // ref: orphan JSX node (passed itself) or a handle (carries `.node`) —
-      // same wire shape either way.
-      ops.push(ref
-        ? { op: "setProp", id: node.id, name, value: { _node: ref.id } }
-        : { op: "setProp", id: node.id, name, value });
-    }
-    // Like insertNode/removeNode/replaceText: schedule a flush so the op is
-    // sent. Without this, a prop-only reactive update that runs after a
-    // dispatch's flush (e.g. an async `.then(setState)`) buffers an op that
-    // nothing sends until the next event.
-    scheduleFlush();
-  },
+  setProperty,
 
   insertNode(parent: FuseNode, node: FuseNode, anchor?: FuseNode) {
     // Inserting an attached node moves it, as `insertBefore` does in the DOM:
@@ -250,6 +289,7 @@ export {
   flushOps,
   ref,
   ops,
+  createNode,
   scheduleFlush,
 };
 

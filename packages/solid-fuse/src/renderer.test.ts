@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, describe, expect, test } from "bun:test";
+import { afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
 import { createSignal, flush, For } from "solid-js";
 
 // Run through `bun run test` (or `bun test --conditions browser`): by default
@@ -18,6 +18,16 @@ beforeAll(async () => {
 beforeEach(() => {
   R.flushOps();
   sent.length = 0;
+});
+
+// Each test renders into the one root; unmount afterwards so the next test
+// starts with an empty root.
+const disposers: (() => void)[] = [];
+function mount(code: () => any) {
+  disposers.push(R.render(code));
+}
+afterEach(() => {
+  for (const dispose of disposers.splice(0)) dispose();
 });
 
 type Op = Record<string, any>;
@@ -93,7 +103,7 @@ describe("insertNode / removeNode", () => {
     takeOps();
     // The universal renderer exposes no removeNode; drive it through insert().
     const [show, setShow] = createSignal(true);
-    R.render(() => {
+    mount(() => {
       R.insert(p2, () => (show() ? n : undefined));
       return p2;
     });
@@ -113,7 +123,7 @@ describe("keyed list moves", () => {
     const byKey = new Map<number, number>(); // row key → node id
     let list!: InstanceType<typeof R.FuseNode>;
     const tree = new DartTree();
-    R.render(() => {
+    mount(() => {
       list = R.createElement("view");
       R.insert(
         list,
@@ -179,5 +189,64 @@ describe("keyed list moves", () => {
     check(shuffled(all, 99)); // odd rows are new nodes, even rows move
     check(all.slice().sort((a, b) => a.key - b.key));
     check([]);
+  });
+});
+
+describe("props", () => {
+  test("static props passed to createElement ride in the create op", () => {
+    const el = R.createElement("view", { width: 40, flex: { gap: 4 }, color: "red" });
+    expect(takeOps()).toEqual([
+      { op: "create", id: el.id, type: "view", props: { width: 40, flex: { gap: 4 }, color: "red" } },
+    ]);
+  });
+
+  test("a static function prop is registered as a handler and sent as true", async () => {
+    let got: any;
+    const el = R.createElement("view", { onTap: (v: any) => (got = v) });
+    expect(takeOps()).toEqual([{ op: "create", id: el.id, type: "view", props: { onTap: true } }]);
+    await (globalThis as any).__dispatch("_functionCall", { nodeId: el.id, name: "onTap", value: 7 });
+    expect(got).toBe(7);
+  });
+
+  test("props set before the batch is sent fold into create; later ones are setProp ops", () => {
+    const [w, setW] = createSignal(1);
+    let el!: InstanceType<typeof R.FuseNode>;
+    mount(() => {
+      el = R.createElement("view", { height: 2 });
+      R.effect(w, (v: number, p?: number) => void R.setProp(el, "width", v, p));
+      return el;
+    });
+    expect(takeOps()).toEqual([
+      { op: "create", id: el.id, type: "view", props: { height: 2, width: 1 } },
+      { op: "insert", parentId: 0, childId: el.id, index: 0 },
+    ]);
+    setW(5);
+    flush();
+    expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "width", value: 5 }]);
+  });
+
+  test("a node-reference prop is a setProp op after both creates", () => {
+    const owner = R.createElement("view");
+    const orphan = R.createElement("icon");
+    R.setProp(owner, "leading", orphan);
+    R.setProp(owner, "width", 3);
+    // Props set after the reference stay in order behind it.
+    expect(takeOps()).toEqual([
+      { op: "create", id: owner.id, type: "view", props: {} },
+      { op: "create", id: orphan.id, type: "icon", props: {} },
+      { op: "setProp", id: owner.id, name: "leading", value: { _node: orphan.id } },
+      { op: "setProp", id: owner.id, name: "width", value: 3 },
+    ]);
+  });
+
+  test("a handle passed as a prop is sent as a reference to its node", () => {
+    const el = R.createElement("scrollView");
+    const handle = { node: R.createNode("scrollController", { initialScrollOffset: 10 }) };
+    R.setProp(el, "controller", handle);
+    expect(takeOps()).toEqual([
+      { op: "create", id: el.id, type: "scrollView", props: {} },
+      { op: "create", id: handle.node.id, type: "scrollController", props: { initialScrollOffset: 10 } },
+      { op: "setProp", id: el.id, name: "controller", value: { _node: handle.node.id } },
+    ]);
   });
 });
