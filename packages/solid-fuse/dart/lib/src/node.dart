@@ -130,14 +130,30 @@ class FuseNode extends FuseMap with ChangeNotifier {
 
   /// The child nodes in order. An unmodifiable snapshot, rebuilt after the
   /// child list changes; edit the list through ops, not through this.
+  ///
+  /// Empty text nodes are left out. Solid keeps one as a placeholder where a
+  /// dynamic child currently renders nothing (`<Show>` while hidden), as it
+  /// does in the DOM, where an empty text node takes no space. Walk
+  /// [firstChild] / [nextSibling] to see every node.
   List<FuseNode> get children {
     final cached = _cachedChildren;
     if (cached != null) return cached;
     final list = <FuseNode>[];
     for (var c = _first; c != null; c = c._next) {
-      list.add(c);
+      if (!c.isEmptyText) list.add(c);
     }
     return _cachedChildren = List.unmodifiable(list);
+  }
+
+  /// Whether this is a text node with no text (see [children]).
+  core.bool get isEmptyText => type == '__text__' && _data['text'] == '';
+
+  /// Set a text node's text.
+  void setTextSilent(Object? text) {
+    final wasEmpty = isEmptyText;
+    _data['text'] = text;
+    // Appearing in or leaving the parent's [children].
+    if (wasEmpty != isEmptyText) parent?._childrenChanged();
   }
 
   List<Widget>? _cachedChildWidgets;

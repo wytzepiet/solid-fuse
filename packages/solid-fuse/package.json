@@ -49,6 +49,7 @@
     "@solidjs/vite-plugin": "^3.0.1",
     "citty": "^0.2.2",
     "defu": "^6.1.7",
+    "magic-string": "^0.30.21",
     "vite": "^8.3.8"
   },
   "devDependencies": {

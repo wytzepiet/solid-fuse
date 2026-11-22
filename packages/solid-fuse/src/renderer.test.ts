@@ -38,7 +38,7 @@ function takeOps(): Op[] {
   const out: Op[] = [];
   for (const m of sent) {
     if (m.channel !== "_ops") continue;
-    expect(m.v).toBe(3);
+    expect(m.v).toBe(4);
     out.push(...decode(JSON.parse(m.json)));
   }
   sent.length = 0;
@@ -57,6 +57,9 @@ function decode(flat: any[]): Op[] {
       case 4: out.push({ op: "insert", parentId: flat[i + 1], childId: flat[i + 2], before: flat[i + 3] }); i += 4; break;
       case 5: out.push({ op: "remove", childId: flat[i + 1] }); i += 2; break;
       case 6: out.push({ op: "dispose", id: flat[i + 1] }); i += 2; break;
+      case 7: out.push({ op: "define", template: flat[i + 1], shape: flat[i + 2] }); i += 3; break;
+      case 8: out.push({ op: "instantiate", template: flat[i + 1], id: flat[i + 2], component: flat[i + 3] }); i += 4; break;
+      case 9: out.push({ op: "props", id: flat[i + 1], props: flat[i + 2] }); i += 3; break;
       default: throw new Error(`unknown opcode ${flat[i]} at ${i}`);
     }
   }
@@ -443,6 +446,70 @@ describe("node lifetime", () => {
     R.setProp(owner, "leading", R.createElement("icon"));
     await collect(gone);
     expect(gone()).toBe(true);
+  });
+});
+
+describe("templates (what cli/compile-plugin.ts emits calls to)", () => {
+  // <view a={1}><text>hi</text><text b={x()} onTap={f}>{y()}</text></view>
+  const shape = ["view", { a: 1 }, ["text", 0, "hi"], ["text", 0]] as any;
+
+  test("the shape is sent with the first instance only; ids are consecutive", () => {
+    const t = R.template(shape, 4);
+    const first = R.instantiate(t);
+    const second = R.instantiate(t);
+    expect(second).toBe(first + 4);
+    expect(R.createElement("view").id).toBe(second + 4);
+    const ops = takeOps();
+    expect(ops.slice(0, 3)).toEqual([
+      { op: "define", template: t.id, shape },
+      { op: "instantiate", template: t.id, id: first, component: null },
+      { op: "instantiate", template: t.id, id: second, component: null },
+    ]);
+    R.instantiate(t);
+    expect(takeOps().map((o) => o.op)).toEqual(["instantiate"]);
+  });
+
+  test("a hole is the JS node of a template node: props in one op, first insert only links", () => {
+    const t = R.template(shape, 4);
+    const base = R.instantiate(t);
+    const root = R.createElement("h$view", { $t: base, $i: 0 });
+    const text = R.createElement("h$text", { $t: base, $i: 3, onTap: () => {} });
+    R.setProp(text, "b", 2);
+    R.insertNode(root, text);
+    expect([root.id, text.id]).toEqual([base, base + 3]);
+    expect([root.type, text.type]).toEqual(["view", "text"]);
+    expect(text.parent).toBe(root);
+    const dynamic = R.createTextNode("y");
+    R.insertNode(text, dynamic);
+    const parent = R.createElement("view");
+    R.insertNode(parent, root);
+    expect(takeOps().slice(1)).toEqual([
+      { op: "instantiate", template: t.id, id: base, component: null },
+      { op: "props", id: text.id, props: { onTap: true, b: 2 } },
+      { op: "text", id: dynamic.id, text: "y" },
+      { op: "insert", parentId: text.id, childId: dynamic.id, before: null },
+      { op: "create", id: parent.id, type: "view", props: {} },
+      { op: "insert", parentId: parent.id, childId: root.id, before: null },
+    ]);
+    // Later changes are ordinary ops; a second insert is a move.
+    R.setProp(text, "b", 3);
+    R.insertNode(parent, text);
+    expect(takeOps()).toEqual([
+      { op: "setProp", id: text.id, name: "b", value: 3 },
+      { op: "insert", parentId: parent.id, childId: text.id, before: null },
+    ]);
+  });
+
+  test("a template defined in a dropped batch is defined again", () => {
+    const t = R.template(shape, 4);
+    R.instantiate(t);
+    const cyclic: any = {};
+    cyclic.self = cyclic;
+    R.setProp(R.createElement("view"), "bad", cyclic);
+    R.flushOps();
+    sent.length = 0;
+    R.instantiate(t);
+    expect(takeOps().map((o) => o.op)).toEqual(["define", "instantiate"]);
   });
 });
 

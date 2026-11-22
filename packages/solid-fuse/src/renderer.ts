@@ -27,6 +27,9 @@ export class FuseNode<K extends string = string> {
    *  written there instead of becoming ops of their own. */
   declare batch: number;
   declare slot: number;
+  /** A node that stands for a template node is already in place on the Dart
+   *  side: its first insert only links it into this mirror. */
+  declare adopt: boolean;
   /** Function props by name; Dart calls them through `_functionCall`. */
   declare handlers: Record<string, Function> | undefined;
   /** Nodes this node's props refer to, by prop name: kept here because the
@@ -35,8 +38,8 @@ export class FuseNode<K extends string = string> {
   /** Whether the node is registered with `released`. */
   declare tracked: boolean | undefined;
 
-  constructor(type: K) {
-    this.id = nextId++;
+  constructor(type: K, id: number = nextId++) {
+    this.id = id;
     this.type = type;
     this.parent = undefined;
     this.first = undefined;
@@ -45,6 +48,7 @@ export class FuseNode<K extends string = string> {
     this.next = undefined;
     this.batch = -1;
     this.slot = -1;
+    this.adopt = false;
     this.handlers = undefined;
   }
 
@@ -82,8 +86,13 @@ on("_functionCall", (data: { nodeId: number; name: string; value?: any }) => {
 //                                    an attached child moves
 //   REMOVE   child               detach; the node stays usable
 //   DISPOSE  id                  the node and its subtree are gone for good
-const CREATE = 0, TEXT = 1, SET_PROP = 2, SET_TEXT = 3, INSERT = 4, REMOVE = 5, DISPOSE = 6;
-const OPS_VERSION = 3;
+//   DEFINE   template, shape     a subtree shape, sent once (see Templates)
+//   INSTANTIATE template, id, component   build the shape; its nodes take
+//                                consecutive ids from `id`, in document order
+//   PROPS    id, props           set several props of an existing node
+const CREATE = 0, TEXT = 1, SET_PROP = 2, SET_TEXT = 3, INSERT = 4, REMOVE = 5, DISPOSE = 6,
+  DEFINE = 7, INSTANTIATE = 8, PROPS = 9;
+const OPS_VERSION = 4;
 
 const ops: unknown[] = [];
 /** Number of the batch being journalled; bumped each time one is sent. */
@@ -145,7 +154,10 @@ function flushOps() {
     // dropped rather than failing again at every later flush; report it,
     // because the Dart tree is now missing these ops.
     reportDevError(err);
+    // Dart never saw the templates this batch defined.
+    for (const t of defining) t.batch = -1;
   }
+  defining.length = 0;
   ops.length = 0;
   batch++;
   if (json !== undefined) send("_ops", { v: OPS_VERSION, json });
@@ -163,6 +175,72 @@ onAfterDispatch(flushOps);
 // Let channels.call() drain pending ops before firing the RPC, so the
 // ref→handle-method pattern works without users thinking about ordering.
 _setFlushOps(flushOps);
+
+// --- Templates ---
+//
+// The parts of a JSX tree that can never change (element types, literal
+// props, literal text, how they nest) are the same every time the JSX is
+// evaluated. The compile step (cli/compile-plugin.ts) lifts them out into a
+// template: a shape that crosses to Dart once. Mounting the JSX is then one
+// `instantiate` op, and JS creates a node only for the places that have
+// something dynamic (a "hole": an expression prop, a handler, a ref, dynamic
+// children), which Solid's compiler wires up exactly as it would a normal
+// element.
+
+/** A shape is `[type, props | 0, ...children]`; a string child is text. */
+export type TemplateShape = [string, Record<string, unknown> | 0, ...(TemplateShape | string)[]];
+
+export interface Template {
+  id: number;
+  shape: TemplateShape;
+  /** Number of nodes in the shape. */
+  size: number;
+  /** The batch that carried (or carries) the definition; -1 if Dart has none. */
+  batch: number;
+}
+
+let nextTemplate = 0;
+/** Templates defined in the unsent batch. */
+const defining: Template[] = [];
+
+function template(shape: TemplateShape, size: number): Template {
+  return { id: nextTemplate++, shape, size, batch: -1 };
+}
+
+/**
+ * Journal one instance of `t` and return the id of its root node; node `i`
+ * of the shape (document order) is `id + i`.
+ */
+function instantiate(t: Template): number {
+  if (t.batch < 0) {
+    t.batch = batch;
+    defining.push(t);
+    ops.push(DEFINE, t.id, t.shape);
+  }
+  const id = nextId;
+  nextId += t.size;
+  ops.push(INSTANTIATE, t.id, id, host.mode !== "release" && _currentComponent ? _currentComponent : null);
+  return id;
+}
+
+/**
+ * The JS node for node `$i` of the template instance rooted at id `$t`. The
+ * compile step writes such an element as `<h$view $t={...} $i={...}>`: the
+ * `h$` prefix on the tag is what tells it from an element to create.
+ */
+function hole(tag: string, props: Record<string, unknown>): FuseNode {
+  const index = props.$i as number;
+  const node = new FuseNode(tag.slice(2), (props.$t as number) + index);
+  // The root is inserted by whoever uses the JSX; the rest are in place.
+  node.adopt = index !== 0;
+  // Props known before the batch leaves ride in one `props` op, added when
+  // the first one arrives (see setProperty).
+  node.batch = batch;
+  for (const name in props) {
+    if (name !== "$t" && name !== "$i") setProperty(node, name, props[name]);
+  }
+  return node;
+}
 
 // --- Nodes and props ---
 
@@ -262,7 +340,8 @@ function setProperty(node: FuseNode, name: string, value: any) {
     // The node's `create` op has not left JS yet: the prop rides in it.
     // Static attributes, a wrapper's spread and the first run of a dynamic
     // binding all land here, so mounting an element is one op, not one per
-    // prop.
+    // prop. A template hole has no `create` op and gets a `props` op.
+    if (node.slot < 0) node.slot = ops.push(PROPS, node.id, {}) - 1;
     (ops[node.slot] as Record<string, any>)[name] = wire;
   } else {
     ops.push(SET_PROP, node.id, name, wire);
@@ -291,7 +370,10 @@ const {
   ...rest
 } = createRenderer<FuseNode>({
   createElement(tag: string, staticProps?: Record<string, unknown>) {
-    return createNode(tag, staticProps);
+    // "h$": charCodes 104, 36.
+    return tag.charCodeAt(1) === 36 && tag.charCodeAt(0) === 104
+      ? hole(tag, staticProps!)
+      : createNode(tag, staticProps);
   },
 
   createTextNode(value: string) {
@@ -332,6 +414,10 @@ const {
       parent.last = node;
       if (last) last.next = node;
       else parent.first = node;
+    }
+    if (node.adopt) {
+      node.adopt = false;
+      return;
     }
     ops.push(INSERT, parent.id, node.id, anchor ? anchor.id : null);
     scheduleFlush();
@@ -508,6 +594,8 @@ export {
   applyRef,
   createNode,
   disposeNode,
+  template,
+  instantiate,
   scheduleFlush,
 };
 

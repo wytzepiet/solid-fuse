@@ -5,6 +5,7 @@ import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
 import type { FuseConfig } from "../src/config";
 import { fuseDevErrorPlugin } from "./dev-error-plugin";
+import { fuseCompilePlugin } from "./compile-plugin";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -41,7 +42,12 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
   const fuseDefaults: InlineConfig = {
     configFile: false,
     root: projectRoot,
-    plugins: [solidPlugin(solidOptions), fuseDevErrorPlugin()],
+    // The compile step goes in front of Solid's compiler (both are "pre").
+    plugins: [
+      fuseCompilePlugin({ ...fuseConfig?.compile, moduleName: solidOptions.solid.moduleName }),
+      solidPlugin(solidOptions),
+      fuseDevErrorPlugin(),
+    ],
     optimizeDeps: {
       // Pre-bundle at server startup so hashes are stable before the device
       // connects. Without this, Vite discovers these deps from the first

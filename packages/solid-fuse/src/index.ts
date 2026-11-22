@@ -14,6 +14,8 @@ export {
   mergeProps,
   ref,
   applyRef,
+  template,
+  instantiate,
   flush,
   flushOps,
   For,

@@ -91,7 +91,17 @@ Wrapper components are the seam between user code and the renderer. Once you own
 
 Adding JS behavior to a widget no longer means switching from `<widget>` to `<MyWidget>` — the wrapper is already there.
 
-A wrapper adds little at runtime. When `<Badge label="New" color={tone()} />` reaches `<badge {...props} />`, the renderer looks at how each prop was written: a literal (`label`) is sent once with the node's creation and never tracked, and only expressions (`color`) share a reactive binding. Props that come from a store or from `merge()` are tracked as a whole, since their keys can change.
+The built-in wrappers cost nothing at runtime: `fuse dev` and `fuse build` compile `<View>`, `<Text>` and the others as the element they render. An app can get the same for a package's wrappers that do nothing but forward their props (`props => <badge {...props} />`) by naming them in `fuse.config.ts`:
+
+```ts title="fuse.config.ts"
+export default defineConfig({
+  compile: { intrinsics: { "my-badges": { Badge: "badge" } } },
+});
+```
+
+Leave a wrapper out of that list as soon as it does anything more than forward props; it then runs as the ordinary component it is.
+
+A wrapper that does run adds little. When `<Badge label="New" color={tone()} />` reaches `<badge {...props} />`, the renderer looks at how each prop was written: a literal (`label`) is sent once with the node's creation and never tracked, and only expressions (`color`) share a reactive binding. Props that come from a store or from `merge()` are tracked as a whole, since their keys can change.
 
 ## FuseNode prop accessors
 
@@ -169,6 +179,7 @@ Now consumers can do:
 ### childWidgets vs flexChildren
 
 - **`node.flexChildren`** — reads the `flex` prop and applies layout. Use this for anything that should support user-configured layout. This is the recommended default.
+- **`node.children`** — the child nodes themselves. Empty text nodes are left out of all three: Solid keeps one as a placeholder where a dynamic child currently renders nothing (a hidden `<Show>`), and like an empty text node in the DOM it takes no space.
 - **`node.childWidgets`** — raw list of child widgets, no layout applied. Use this when you're passing children to a Flutter widget that manages its own layout (like `Navigator` or `Stack`).
 
 ## Event callbacks

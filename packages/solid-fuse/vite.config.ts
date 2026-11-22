@@ -1,9 +1,11 @@
 import { defineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { resolve } from "path";
+import { fuseCompilePlugin } from "./cli/compile-plugin";
 
 export default defineConfig({
   plugins: [
+    fuseCompilePlugin({ moduleName: "~/renderer" }),
     solidPlugin({
       solid: {
         generate: "universal",

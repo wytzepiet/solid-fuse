@@ -4385,11 +4385,11 @@
 		platform: S.platform,
 		mode: S.mode
 	};
-	var _e = 0;
-	var w;
-	var T = class {
-		constructor(e) {
-			this.id = _e++, this.type = e, this.parent = void 0, this.first = void 0, this.last = void 0, this.prev = void 0, this.next = void 0, this.batch = -1, this.slot = -1;
+	var w = 0;
+	var T;
+	var E = class {
+		constructor(e, t = w++) {
+			this.id = t, this.type = e, this.parent = void 0, this.first = void 0, this.last = void 0, this.prev = void 0, this.next = void 0, this.batch = -1, this.slot = -1, this.adopt = !1, this.handlers = void 0;
 		}
 		get children() {
 			let e = [];
@@ -4397,112 +4397,149 @@
 			return e;
 		}
 	};
-	var E = /* @__PURE__ */ new Map();
+	var D = /* @__PURE__ */ new Map();
 	g("_functionCall", (e) => {
-		let t = `${e.nodeId}:${e.name}`;
-		E.get(t)?.(e.value);
+		D.get(e.nodeId)?.deref()?.handlers?.[e.name]?.(e.value);
 	});
-	var ve = 0;
-	var ye = 1;
-	var D = 2;
-	var be = 3;
-	var xe = 4;
-	var O = 5;
-	var Se = 6;
-	var Ce = 2;
-	var k = [];
-	var A = 0;
-	var j = new T("root");
-	var M = !1;
-	var N = !1;
-	function P() {
-		if (flush(), M = !1, k.length === 0) return;
+	var _e = 0;
+	var ve = 1;
+	var O = 2;
+	var ye = 3;
+	var be = 4;
+	var xe = 5;
+	var k = 6;
+	var Se = 7;
+	var Ce = 8;
+	var we = 9;
+	var Te = 4;
+	var A = [];
+	var j = 0;
+	var Ee = new FinalizationRegistry((e) => {
+		D.delete(e), A.push(k, e), L();
+	});
+	function M(e) {
+		e.tracked || (e.tracked = !0, Ee.register(e, e.id));
+	}
+	var De = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
+	var N = new E("root");
+	var P = !1;
+	var F = !1;
+	function I() {
+		if (flush(), P = !1, A.length === 0) return;
+		if (De !== globalThis.__fuseGeneration) {
+			A.length = 0;
+			return;
+		}
 		let e;
 		try {
-			e = JSON.stringify(k);
+			e = JSON.stringify(A);
 		} catch (e) {
 			p(e);
+			for (let e of R) e.batch = -1;
 		}
-		k.length = 0, A++, e !== void 0 && _("_ops", {
-			v: Ce,
+		R.length = 0, A.length = 0, j++, e !== void 0 && _("_ops", {
+			v: Te,
 			json: e
 		});
 	}
-	function F() {
-		M || N || (M = !0, Promise.resolve().then(P));
+	function L() {
+		P || F || (P = !0, Promise.resolve().then(I));
 	}
-	de(P), fe(P);
-	function I(e, t) {
-		let n = new T(e), r = {};
-		if (C.mode !== "release" && w && (r._component = w), n.batch = A, n.slot = k.push(ve, n.id, e, r) - 1, t) {
+	de(I), fe(I);
+	var Oe = 0;
+	var R = [];
+	function ke(e, t) {
+		return {
+			id: Oe++,
+			shape: e,
+			size: t,
+			batch: -1
+		};
+	}
+	function Ae(e) {
+		e.batch < 0 && (e.batch = j, R.push(e), A.push(Se, e.id, e.shape));
+		let t = w;
+		return w += e.size, A.push(Ce, e.id, t, C.mode !== "release" && T ? T : null), t;
+	}
+	function je(e, t) {
+		let n = t.$i, r = new E(e.slice(2), t.$t + n);
+		r.adopt = n !== 0, r.batch = j;
+		for (let e in t) e !== "$t" && e !== "$i" && H(r, e, t[e]);
+		return r;
+	}
+	function z(e, t) {
+		let n = new E(e), r = {};
+		if (C.mode !== "release" && T && (r._component = T), n.batch = j, n.slot = A.push(_e, n.id, e, r) - 1, t) {
 			let e;
 			for (let r in t) {
 				let i = t[r];
-				L(i) ? (e ?? (e = [])).push(r) : z(n, r, i);
+				B(i) ? (e ?? (e = [])).push(r) : H(n, r, i);
 			}
-			if (e) for (let r of e) z(n, r, t[r]);
+			if (e) for (let r of e) H(n, r, t[r]);
 		}
 		return n;
 	}
-	function L(e) {
-		return typeof e != "object" || !e ? null : e instanceof T ? e : e.node instanceof T ? e.node : null;
+	function B(e) {
+		return typeof e != "object" || !e ? null : e instanceof E ? e : e.node instanceof E ? e.node : null;
 	}
-	function R(e, t = 0) {
+	function V(e, t = 0) {
 		if (typeof e == "number") return e === e && e !== Infinity && e !== -Infinity ? e : String(e);
 		if (typeof e != "object" || !e || t > 16) return e;
 		let n;
 		if (Array.isArray(e)) for (let r = 0; r < e.length; r++) {
-			let i = e[r], a = R(i, t + 1);
+			let i = e[r], a = V(i, t + 1);
 			a !== i && ((n ?? (n = e.slice()))[r] = a);
 		}
 		else for (let r in e) {
-			let i = e[r], a = R(i, t + 1);
+			let i = e[r], a = V(i, t + 1);
 			a !== i && ((n ?? (n = { ...e }))[r] = a);
 		}
 		return n ?? e;
 	}
-	function z(e, t, n) {
+	function H(e, t, n) {
 		let r = n;
-		if (typeof n == "function") E.set(`${e.id}:${t}`, n), r = !0;
-		else if (n != null) {
-			let i = L(n);
+		if (typeof n == "function") {
+			let i = e.handlers;
+			i === void 0 && (i = e.handlers = {}, D.set(e.id, new WeakRef(e)), M(e)), i[t] = n, r = !0;
+		} else if (n != null) {
+			let i = B(n);
 			if (i) {
-				e.batch = -1, k.push(D, e.id, t, { _node: i.id }), F();
+				(e.refs ?? (e.refs = {}))[t] = i, M(i), e.batch = -1, A.push(O, e.id, t, { _node: i.id }), L();
 				return;
 			}
-			r = R(n);
+			r = V(n);
 		}
-		e.batch === A ? k[e.slot][t] = r : k.push(D, e.id, t, r), F();
+		e.batch === j ? (e.slot < 0 && (e.slot = A.push(we, e.id, {}) - 1), A[e.slot][t] = r) : A.push(O, e.id, t, r), L();
 	}
-	var { render: we, effect: B, memo: Te, createComponent: V, createElement: H, createTextNode: Ee, insertNode: De, insert: U, spread: Oe, setProp: ke, mergeProps: W, ...Ae } = createRenderer({
+	var { render: Me, effect: U, memo: Ne, createComponent: W, createElement: G, createTextNode: Pe, insertNode: Fe, insert: K, spread: Ie, setProp: Le, mergeProps: q, ...Re } = createRenderer({
 		createElement(e, t) {
-			return I(e, t);
+			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? je(e, t) : z(e, t);
 		},
 		createTextNode(e) {
-			let t = new T("__text__");
-			return k.push(ye, t.id, e), t;
+			let t = new E("__text__");
+			return A.push(ve, t.id, e), t;
 		},
 		replaceText(e, t) {
-			k.push(be, e.id, t), F();
+			A.push(ye, e.id, t), L();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
-		setProperty: z,
+		setProperty: H,
 		insertNode(e, t, n) {
 			if (t !== n) {
-				if (t.parent && G(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
+				if (t.parent && J(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
 					let r = n.prev;
 					t.prev = r, t.next = n, n.prev = t, r ? r.next = t : e.first = t;
 				} else {
 					let n = e.last;
 					t.prev = n, e.last = t, n ? n.next = t : e.first = t;
 				}
-				k.push(xe, e.id, t.id, n ? n.id : null), F();
+				t.adopt ? t.adopt = !1 : (A.push(be, e.id, t.id, n ? n.id : null), L());
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (G(t), k.push(O, t.id), F());
+			t.parent === e && (J(t), M(t), A.push(xe, t.id), L());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4514,99 +4551,99 @@
 			return e.next;
 		}
 	});
-	function G(e) {
+	function J(e) {
 		let t = e.parent, { prev: n, next: r } = e;
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
-	function je(e) {
-		k.push(Se, e.id), F();
+	function ze(e) {
+		A.push(k, e.id), L();
 	}
-	function K(e, t) {
-		if (C.mode === "release") return V(e, t);
-		let n = w;
-		w = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+	function Y(e, t) {
+		if (C.mode === "release") return W(e, t);
+		let n = T;
+		T = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
-			return V(e, t);
+			return W(e, t);
 		} finally {
-			w = n;
+			T = n;
 		}
 	}
-	function Me(e) {
-		N = !0;
+	function Be(e) {
+		F = !0;
 		let t;
 		try {
-			t = we(e, j);
+			t = Me(e, N);
 		} catch (e) {
-			return N = !1, p(e), () => {};
+			return F = !1, p(e), () => {};
 		}
-		return N = !1, P(), () => {
+		return F = !1, I(), () => {
 			typeof t == "function" && t();
-			for (let e = j.first; e; e = j.first) G(e), k.push(O, e.id);
-			E.clear();
+			for (let e = N.first; e; e = N.first) J(e), A.push(k, e.id);
+			D.clear(), L();
 		};
 	}
-	var { ref: q, applyRef: Pe } = Ae;
-	function J(e, t, r, i) {
+	var Ve = Fe, { ref: X, applyRef: He } = Re;
+	function Z(e, t, r, i) {
 		if (typeof t != "object" || !t || Array.isArray(t) || $PROXY in t) {
-			Oe(e, t, r, i);
+			Ie(e, t, r, i);
 			return;
 		}
 		let a;
 		for (let n in t) {
 			let o = Object.getOwnPropertyDescriptor(t, n), s = o === void 0 || o.get !== void 0;
-			n === "children" ? r || U(e, s ? () => t.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(n) : n === "ref" ? Y(e, o.value) : z(e, n, o.value);
+			n === "children" ? r || K(e, s ? () => t.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(n) : n === "ref" ? Ue(e, o.value) : H(e, n, o.value);
 		}
 		if (a === void 0) return;
 		let o = a, s = {};
-		B(() => {
+		U(() => {
 			let e = {};
 			for (let n = 0; n < o.length; n++) e[o[n]] = t[o[n]];
 			return e;
 		}, (t) => {
 			for (let n = 0; n < o.length; n++) {
 				let r = o[n], i = t[r];
-				i !== s[r] && (r === "ref" ? Y(e, i) : z(e, r, i), s[r] = i);
+				i !== s[r] && (r === "ref" ? Ue(e, i) : H(e, r, i), s[r] = i);
 			}
 		}, i);
 	}
-	function Y(e, t) {
-		(typeof t == "function" || Array.isArray(t)) && q(() => t, e);
+	function Ue(e, t) {
+		(typeof t == "function" || Array.isArray(t)) && X(() => t, e);
 	}
-	function X(e, t) {
+	function We(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
 			switch (typeof e) {
 				case "function": return untrack(() => e(t));
 				case "string": {
-					let n = H(e);
-					return J(n, t), n;
+					let n = G(e);
+					return Z(n, t), n;
 				}
 			}
 		});
 	}
-	function Fe(e) {
-		return X(() => e.component, omit(e, "component"));
+	function Ge(e) {
+		return We(() => e.component, omit(e, "component"));
 	}
-	function Z({ child: e, ...t }) {
+	function Q({ child: e, ...t }) {
 		return {
 			type: "materialPage",
 			child: e,
 			props: t
 		};
 	}
-	var Ie = createContext();
-	function Q(e = {}) {
+	var Ke = createContext();
+	function qe(e = {}) {
 		let t = 0, n = untrack(() => {
 			let t = e.initialPage;
-			return typeof t == "function" ? Z({ child: t }) : t;
+			return typeof t == "function" ? Q({ child: t }) : t;
 		}), [i, a] = createSignal(n ? [{
 			id: t++,
 			config: n,
 			resolve: () => {}
 		}] : [], { ownedWrite: !0 });
 		function o(e) {
-			let n = typeof e == "function" ? Z({ child: e }) : e;
+			let n = typeof e == "function" ? Q({ child: e }) : e;
 			return new Promise((e) => {
 				let r = {
 					id: t++,
@@ -4662,23 +4699,23 @@
 			onDidRemovePage: (e) => s(e, null)
 		};
 	}
-	function Le() {
-		let e = useContext(Ie);
+	function Je() {
+		let e = useContext(Ke);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function Re(e) {
-		let t = untrack(() => e.controller ?? Q({ initialPage: e.initialPage }));
-		return K(Ie, {
+	function Ye(e) {
+		let t = untrack(() => e.controller ?? qe({ initialPage: e.initialPage }));
+		return Y(Ke, {
 			value: t,
 			get children() {
-				var e = H("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
-				return U(e, K(For, {
+				var e = G("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
+				return K(e, Y(For, {
 					get each() {
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => K(Fe, W({
+					children: (e) => Y(Ge, q({
 						get component() {
 							return e().config.type;
 						},
@@ -4692,35 +4729,11 @@
 			}
 		});
 	}
-	function ze(e) {
-		var t = H("view");
-		return J(t, e, !1), t;
-	}
-	function Be(e) {
-		var t = H("text");
-		return J(t, e, !1), t;
-	}
-	function Ve(e) {
-		var t = H("icon");
-		return J(t, e, !1), t;
-	}
-	function He(e) {
-		var t = H("gestureDetector");
-		return J(t, e, !1), t;
-	}
-	function Ue(e) {
-		var t = H("scrollView");
-		return J(t, e, !1), t;
-	}
-	function Ke(e) {
-		var t = H("textField");
-		return J(t, e, !1), t;
-	}
 	function $(e, t = {}) {
-		let n = I(e, t);
-		F();
+		let n = z(e, t);
+		L();
 		let r = !1, i = () => {
-			r || (r = !0, je(n));
+			r || (r = !0, ze(n));
 		};
 		return getOwner() && onCleanup(i), {
 			node: n,
@@ -4732,7 +4745,7 @@
 			dispose: i
 		};
 	}
-	function qe(e = {}) {
+	function it(e = {}) {
 		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
 			...e,
 			setScrollOffset: n
@@ -4748,7 +4761,7 @@
 			dispose: a
 		};
 	}
-	function Je() {
+	function at() {
 		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
 		return {
 			node: n,
@@ -4759,178 +4772,253 @@
 		};
 	}
 	// src/ui.tsx
-	function Button(props) {
-		return K(He, {
-			get onTap() {
-				return props.onTap;
+	var _tpl$1$6 = /*@__PURE__*/ ke([
+		"gestureDetector",
+		0,
+		[
+			"view",
+			{
+				"padding": {
+					"horizontal": 16,
+					"vertical": 12
+				},
+				"decoration": {
+					"color": "#2563eb",
+					"borderRadius": 8
+				}
 			},
-			get children() {
-				return K(ze, {
-					padding: {
-						horizontal: 16,
-						vertical: 12
-					},
-					decoration: {
-						color: "#2563eb",
-						borderRadius: 8
-					},
-					get children() {
-						return K(Be, {
-							color: "white",
-							fontWeight: "semiBold",
-							get children() {
-								return props.children;
-							}
-						});
-					}
-				});
-			}
-		});
+			["text", {
+				"color": "white",
+				"fontWeight": "semiBold"
+			}]
+		]
+	], 3);
+	var _tpl$2$3 = /*@__PURE__*/ ke([
+		"gestureDetector",
+		0,
+		[
+			"view",
+			{
+				"padding": 16,
+				"decoration": { "border": { "bottom": {
+					"width": 1,
+					"color": "#E5E7EB"
+				} } }
+			},
+			["text", { "fontSize": 16 }]
+		]
+	], 3);
+	function Button(props) {
+		return ((_at$1) => (() => {
+			var _el$ = G("h$gestureDetector", {
+				$t: _at$1,
+				$i: 0
+			});
+			var _el$2 = G("h$view", {
+				$t: _at$1,
+				$i: 1
+			});
+			var _el$3 = G("h$text", {
+				$t: _at$1,
+				$i: 2
+			});
+			Ve(_el$, _el$2);
+			Ve(_el$2, _el$3);
+			K(_el$3, () => {
+				return props.children;
+			});
+			U(() => props.onTap, (_v$, _$p) => {
+				Le(_el$, "onTap", _v$, _$p);
+			});
+			return _el$;
+		})())(Ae(_tpl$1$6));
 	}
 	function Row(props) {
-		return K(ze, {
-			get flex() {
-				return {
-					direction: "horizontal",
-					gap: props.gap ?? 8,
-					align: "center"
-				};
-			},
-			get children() {
-				return props.children;
-			}
+		var _el$4 = G("view");
+		K(_el$4, () => {
+			return props.children;
 		});
+		U(() => ({
+			direction: "horizontal",
+			gap: props.gap ?? 8,
+			align: "center"
+		}), (_v$, _$p) => {
+			Le(_el$4, "flex", _v$, _$p);
+		});
+		return _el$4;
 	}
 	function MenuItem(props) {
-		return K(He, {
-			get onTap() {
-				return props.onTap;
-			},
-			get children() {
-				return K(ze, {
-					padding: 16,
-					decoration: { border: { bottom: {
-						width: 1,
-						color: "#E5E7EB"
-					} } },
-					get children() {
-						return K(Be, {
-							fontSize: 16,
-							get children() {
-								return props.label;
-							}
-						});
-					}
-				});
-			}
-		});
+		return ((_at$2) => (() => {
+			var _el$5 = G("h$gestureDetector", {
+				$t: _at$2,
+				$i: 0
+			});
+			var _el$6 = G("h$view", {
+				$t: _at$2,
+				$i: 1
+			});
+			var _el$7 = G("h$text", {
+				$t: _at$2,
+				$i: 2
+			});
+			Ve(_el$5, _el$6);
+			Ve(_el$6, _el$7);
+			K(_el$7, () => {
+				return props.label;
+			});
+			U(() => props.onTap, (_v$, _$p) => {
+				Le(_el$5, "onTap", _v$, _$p);
+			});
+			return _el$5;
+		})())(Ae(_tpl$2$3));
 	}
 	// src/screens/counter.tsx
+	var _tpl$1$5 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"flex": {
+				"direction": "vertical",
+				"align": "center",
+				"gap": 32
+			},
+			"padding": 24
+		},
+		["text", {
+			"fontSize": 96,
+			"fontWeight": "bold",
+			"color": "#2563eb"
+		}],
+		[
+			"view",
+			{ "flex": {
+				"direction": "horizontal",
+				"gap": 16,
+				"align": "center"
+			} },
+			[
+				"gestureDetector",
+				0,
+				[
+					"view",
+					{
+						"width": 64,
+						"height": 64,
+						"decoration": {
+							"color": "#ef4444",
+							"borderRadius": 32
+						},
+						"flex": {
+							"align": "center",
+							"justify": "center"
+						}
+					},
+					[
+						"text",
+						{
+							"fontSize": 28,
+							"fontWeight": "bold",
+							"color": "#fff"
+						},
+						"−"
+					]
+				]
+			],
+			[
+				"gestureDetector",
+				0,
+				[
+					"view",
+					{
+						"height": 64,
+						"padding": { "horizontal": 24 },
+						"decoration": {
+							"color": "#6b7280",
+							"borderRadius": 32
+						},
+						"flex": {
+							"align": "center",
+							"justify": "center"
+						}
+					},
+					[
+						"text",
+						{
+							"fontSize": 15,
+							"fontWeight": "semiBold",
+							"color": "#fff"
+						},
+						"Reset"
+					]
+				]
+			],
+			[
+				"gestureDetector",
+				0,
+				[
+					"view",
+					{
+						"width": 64,
+						"height": 64,
+						"decoration": {
+							"color": "#22c55e",
+							"borderRadius": 32
+						},
+						"flex": {
+							"align": "center",
+							"justify": "center"
+						}
+					},
+					[
+						"text",
+						{
+							"fontSize": 28,
+							"fontWeight": "bold",
+							"color": "#fff"
+						},
+						"+"
+					]
+				]
+			]
+		]
+	], 15);
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
-		return K(ze, {
-			flex: {
-				direction: "vertical",
-				align: "center",
-				gap: 32
-			},
-			padding: 24,
-			get children() {
-				return [K(Be, {
-					fontSize: 96,
-					fontWeight: "bold",
-					color: "#2563eb",
-					get children() {
-						return count();
-					}
-				}), K(ze, {
-					flex: {
-						direction: "horizontal",
-						gap: 16,
-						align: "center"
-					},
-					get children() {
-						return [
-							K(He, {
-								onTap: () => setCount((c) => c - 1),
-								get children() {
-									return K(ze, {
-										width: 64,
-										height: 64,
-										decoration: {
-											color: "#ef4444",
-											borderRadius: 32
-										},
-										flex: {
-											align: "center",
-											justify: "center"
-										},
-										get children() {
-											return K(Be, {
-												fontSize: 28,
-												fontWeight: "bold",
-												color: "#fff",
-												children: "−"
-											});
-										}
-									});
-								}
-							}),
-							K(He, {
-								onTap: () => setCount(0),
-								get children() {
-									return K(ze, {
-										height: 64,
-										padding: { horizontal: 24 },
-										decoration: {
-											color: "#6b7280",
-											borderRadius: 32
-										},
-										flex: {
-											align: "center",
-											justify: "center"
-										},
-										get children() {
-											return K(Be, {
-												fontSize: 15,
-												fontWeight: "semiBold",
-												color: "#fff",
-												children: "Reset"
-											});
-										}
-									});
-								}
-							}),
-							K(He, {
-								onTap: () => setCount((c) => c + 1),
-								get children() {
-									return K(ze, {
-										width: 64,
-										height: 64,
-										decoration: {
-											color: "#22c55e",
-											borderRadius: 32
-										},
-										flex: {
-											align: "center",
-											justify: "center"
-										},
-										get children() {
-											return K(Be, {
-												fontSize: 28,
-												fontWeight: "bold",
-												color: "#fff",
-												children: "+"
-											});
-										}
-									});
-								}
-							})
-						];
-					}
-				})];
-			}
-		});
+		return ((_at$1) => (() => {
+			var _el$ = G("h$view", {
+				$t: _at$1,
+				$i: 0
+			});
+			var _el$2 = G("h$text", {
+				$t: _at$1,
+				$i: 1
+			});
+			var _el$3 = G("h$view", {
+				$t: _at$1,
+				$i: 2
+			});
+			var _el$4 = G("h$gestureDetector", {
+				$t: _at$1,
+				$i: 3,
+				onTap: () => setCount((c) => c - 1)
+			});
+			var _el$5 = G("h$gestureDetector", {
+				$t: _at$1,
+				$i: 7,
+				onTap: () => setCount(0)
+			});
+			var _el$6 = G("h$gestureDetector", {
+				$t: _at$1,
+				$i: 11,
+				onTap: () => setCount((c) => c + 1)
+			});
+			Ve(_el$, _el$2);
+			Ve(_el$, _el$3);
+			K(_el$2, count);
+			Ve(_el$3, _el$4);
+			Ve(_el$3, _el$5);
+			Ve(_el$3, _el$6);
+			return _el$;
+		})())(Ae(_tpl$1$5));
 	}
 	// ../../packages/solid-fuse/dist/icons/material.js
 	var e = (e, t = !1) => ({
@@ -4946,540 +5034,811 @@
 	var _6e = /*#__PURE__*/ e(58751);
 	var est = /*#__PURE__*/ e(58873);
 	// src/screens/text-field.tsx
+	var _tpl$1$4 = /*@__PURE__*/ ke([
+		"scrollView",
+		{ "flex": {
+			"direction": "vertical",
+			"gap": 16
+		} },
+		[
+			"view",
+			{ "padding": {
+				"horizontal": 16,
+				"top": 16,
+				"bottom": 8
+			} },
+			[
+				"text",
+				{
+					"fontSize": 24,
+					"fontWeight": "bold"
+				},
+				"textField"
+			],
+			[
+				"text",
+				{
+					"color": "#6B7280",
+					"fontSize": 14
+				},
+				"Reactive value, focus control, filtering"
+			]
+		],
+		[
+			"view",
+			{
+				"padding": { "horizontal": 16 },
+				"flex": {
+					"direction": "vertical",
+					"gap": 24
+				}
+			},
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Name"
+				],
+				["textField", {
+					"placeholder": "Your name",
+					"decoration": {
+						"border": "outline",
+						"contentPadding": 12
+					}
+				}],
+				[
+					"text",
+					{
+						"color": "#6B7280",
+						"fontSize": 13
+					},
+					"value = \"",
+					"\""
+				]
+			],
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Focus control"
+				],
+				["textField", {
+					"placeholder": "Controlled by buttons below",
+					"decoration": {
+						"border": "outline",
+						"contentPadding": 12
+					}
+				}],
+				[
+					"text",
+					{
+						"color": "#6B7280",
+						"fontSize": 13
+					},
+					"hasFocus = "
+				]
+			],
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Digits only"
+				],
+				["textField", {
+					"placeholder": "Type letters, they vanish",
+					"keyboardType": "number",
+					"allowPattern": "[0-9]",
+					"decoration": {
+						"border": "outline",
+						"contentPadding": 12
+					}
+				}]
+			],
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Slot widgets"
+				],
+				["textField", {
+					"placeholder": "Search…",
+					"decoration": {
+						"border": "outline",
+						"contentPadding": 12
+					}
+				}],
+				["textField", {
+					"placeholder": "Password",
+					"obscureText": true,
+					"decoration": {
+						"border": "outline",
+						"contentPadding": 12
+					}
+				}]
+			],
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Autofocus"
+				],
+				[
+					"text",
+					{
+						"color": "#6B7280",
+						"fontSize": 13
+					},
+					"(would autofocus on mount — disabled here so it doesn't steal focus)"
+				]
+			]
+		],
+		["view", { "padding": 16 }]
+	], 35);
+	var _tpl$2$2 = /*@__PURE__*/ ke(["icon", {
+		"size": 20,
+		"color": "#6B7280"
+	}], 1);
+	var _tpl$3 = /*@__PURE__*/ ke(["icon", {
+		"size": 20,
+		"color": "#6B7280"
+	}], 1);
 	function TextFieldScreen() {
-		const nav = Le();
+		const nav = Je();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = Je();
-		return K(Ue, {
-			flex: {
-				direction: "vertical",
-				gap: 16
-			},
-			get children() {
-				return [
-					K(ze, {
-						padding: {
-							horizontal: 16,
-							top: 16,
-							bottom: 8
-						},
-						get children() {
-							return [K(Be, {
-								fontSize: 24,
-								fontWeight: "bold",
-								children: "textField"
-							}), K(Be, {
-								color: "#6B7280",
-								fontSize: 14,
-								children: "Reactive value, focus control, filtering"
-							})];
-						}
-					}),
-					K(ze, {
-						padding: { horizontal: 16 },
-						flex: {
-							direction: "vertical",
-							gap: 24
-						},
-						get children() {
-							return [
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [
-											K(Be, {
-												fontWeight: "semiBold",
-												children: "Name"
-											}),
-											K(Ke, {
-												get value() {
-													return name();
-												},
-												onChanged: setName,
-												placeholder: "Your name",
-												decoration: {
-													border: "outline",
-													contentPadding: 12
-												}
-											}),
-											K(Be, {
-												color: "#6B7280",
-												fontSize: 13,
-												get children() {
-													return [
-														"value = \"",
-														Te(() => {
-															return name();
-														}),
-														"\""
-													];
-												}
-											}),
-											K(Row, { get children() {
-												return [K(Button, {
-													onTap: () => setName("Override!"),
-													children: "external setName"
-												}), K(Button, {
-													onTap: () => setName(""),
-													children: "clear"
-												})];
-											} })
-										];
-									}
-								}),
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [
-											K(Be, {
-												fontWeight: "semiBold",
-												children: "Focus control"
-											}),
-											K(Ke, {
-												focusNode: focus,
-												placeholder: "Controlled by buttons below",
-												decoration: {
-													border: "outline",
-													contentPadding: 12
-												}
-											}),
-											K(Be, {
-												color: "#6B7280",
-												fontSize: 13,
-												get children() {
-													return ["hasFocus = ", Te(() => {
-														return focus.hasFocus() ? "true" : "false";
-													})];
-												}
-											}),
-											K(Row, { get children() {
-												return [K(Button, {
-													onTap: () => focus.focus(),
-													children: "focus"
-												}), K(Button, {
-													onTap: () => focus.unfocus(),
-													children: "unfocus"
-												})];
-											} })
-										];
-									}
-								}),
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [K(Be, {
-											fontWeight: "semiBold",
-											children: "Digits only"
-										}), K(Ke, {
-											get value() {
-												return digits();
-											},
-											onChanged: setDigits,
-											placeholder: "Type letters, they vanish",
-											keyboardType: "number",
-											allowPattern: "[0-9]",
-											decoration: {
-												border: "outline",
-												contentPadding: 12
-											}
-										})];
-									}
-								}),
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [
-											K(Be, {
-												fontWeight: "semiBold",
-												children: "Slot widgets"
-											}),
-											K(Ke, {
-												placeholder: "Search…",
-												get prefixIcon() {
-													return K(Ve, {
-														data: x4e,
-														size: 20,
-														color: "#6B7280"
-													});
-												},
-												decoration: {
-													border: "outline",
-													contentPadding: 12
-												}
-											}),
-											K(Ke, {
-												placeholder: "Password",
-												obscureText: true,
-												get prefixIcon() {
-													return K(Ve, {
-														data: Bge,
-														size: 20,
-														color: "#6B7280"
-													});
-												},
-												decoration: {
-													border: "outline",
-													contentPadding: 12
-												}
-											})
-										];
-									}
-								}),
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [K(Be, {
-											fontWeight: "semiBold",
-											children: "Autofocus"
-										}), K(Be, {
-											color: "#6B7280",
-											fontSize: 13,
-											children: "(would autofocus on mount — disabled here so it doesn't steal focus)"
-										})];
-									}
-								})
-							];
-						}
-					}),
-					K(ze, {
-						padding: 16,
-						get children() {
-							return K(Button, {
-								onTap: () => nav.pop(),
-								children: "Back"
-							});
-						}
-					})
-				];
-			}
-		});
+		const focus = at();
+		return ((_at$1) => (() => {
+			var _el$ = G("h$scrollView", {
+				$t: _at$1,
+				$i: 0
+			});
+			var _el$2 = G("h$view", {
+				$t: _at$1,
+				$i: 6
+			});
+			var _el$3 = G("h$view", {
+				$t: _at$1,
+				$i: 7
+			});
+			var _el$4 = G("h$text", {
+				$t: _at$1,
+				$i: 8
+			});
+			var _el$5 = G("h$textField", {
+				$t: _at$1,
+				$i: 10,
+				onChanged: setName
+			});
+			var _el$6 = G("h$text", {
+				$t: _at$1,
+				$i: 11
+			});
+			var _el$7 = G("h$__text__", {
+				$t: _at$1,
+				$i: 12
+			});
+			var _el$8 = G("h$__text__", {
+				$t: _at$1,
+				$i: 13
+			});
+			var _el$9 = G("h$view", {
+				$t: _at$1,
+				$i: 14
+			});
+			var _el$10 = G("h$text", {
+				$t: _at$1,
+				$i: 15
+			});
+			var _el$11 = G("h$textField", {
+				$t: _at$1,
+				$i: 17,
+				focusNode: focus
+			});
+			var _el$12 = G("h$text", {
+				$t: _at$1,
+				$i: 18
+			});
+			var _el$13 = G("h$__text__", {
+				$t: _at$1,
+				$i: 19
+			});
+			var _el$14 = G("h$view", {
+				$t: _at$1,
+				$i: 20
+			});
+			var _el$15 = G("h$textField", {
+				$t: _at$1,
+				$i: 23,
+				onChanged: setDigits
+			});
+			var _el$16 = G("h$view", {
+				$t: _at$1,
+				$i: 24
+			});
+			var _el$17 = G("h$textField", {
+				$t: _at$1,
+				$i: 27
+			});
+			var _el$18 = G("h$textField", {
+				$t: _at$1,
+				$i: 28
+			});
+			var _el$19 = G("h$view", {
+				$t: _at$1,
+				$i: 34
+			});
+			Ve(_el$, _el$2);
+			Ve(_el$, _el$19);
+			Ve(_el$2, _el$3);
+			Ve(_el$2, _el$9);
+			Ve(_el$2, _el$14);
+			Ve(_el$2, _el$16);
+			Ve(_el$3, _el$4);
+			Ve(_el$3, _el$5);
+			Ve(_el$3, _el$6);
+			Ve(_el$6, _el$7);
+			Ve(_el$6, _el$8);
+			K(_el$6, name, _el$8);
+			K(_el$3, Y(Row, { get children() {
+				return [Y(Button, {
+					onTap: () => setName("Override!"),
+					children: "external setName"
+				}), Y(Button, {
+					onTap: () => setName(""),
+					children: "clear"
+				})];
+			} }), null);
+			Ve(_el$9, _el$10);
+			Ve(_el$9, _el$11);
+			Ve(_el$9, _el$12);
+			Ve(_el$12, _el$13);
+			K(_el$12, () => {
+				return focus.hasFocus() ? "true" : "false";
+			}, null);
+			K(_el$9, Y(Row, { get children() {
+				return [Y(Button, {
+					onTap: () => focus.focus(),
+					children: "focus"
+				}), Y(Button, {
+					onTap: () => focus.unfocus(),
+					children: "unfocus"
+				})];
+			} }), null);
+			Ve(_el$14, _el$15);
+			Ve(_el$16, _el$17);
+			Ve(_el$16, _el$18);
+			K(_el$19, Y(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}));
+			U(() => {
+				return {
+					e: name(),
+					t: digits(),
+					a: ((_at$2) => G("h$icon", {
+						$t: _at$2,
+						$i: 0,
+						data: x4e
+					}))(Ae(_tpl$2$2)),
+					o: ((_at$3) => G("h$icon", {
+						$t: _at$3,
+						$i: 0,
+						data: Bge
+					}))(Ae(_tpl$3))
+				};
+			}, ({ e, t, a, o }, _p$) => {
+				e !== _p$?.e && Le(_el$5, "value", e, _p$?.e);
+				t !== _p$?.t && Le(_el$15, "value", t, _p$?.t);
+				a !== _p$?.a && Le(_el$17, "prefixIcon", a, _p$?.a);
+				o !== _p$?.o && Le(_el$18, "prefixIcon", o, _p$?.o);
+			});
+			return _el$;
+		})())(Ae(_tpl$1$4));
 	}
 	// src/screens/icon.tsx
+	var _tpl$1$3 = /*@__PURE__*/ ke([
+		"scrollView",
+		{ "flex": {
+			"direction": "vertical",
+			"gap": 16
+		} },
+		[
+			"view",
+			{ "padding": {
+				"horizontal": 16,
+				"top": 16,
+				"bottom": 8
+			} },
+			[
+				"text",
+				{
+					"fontSize": 24,
+					"fontWeight": "bold"
+				},
+				"icon"
+			],
+			[
+				"text",
+				{
+					"color": "#6B7280",
+					"fontSize": 14
+				},
+				"Baseline icon rendering + reactive props"
+			]
+		],
+		[
+			"view",
+			{
+				"padding": { "horizontal": 16 },
+				"flex": {
+					"direction": "vertical",
+					"gap": 24
+				}
+			},
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Static grid"
+				],
+				[
+					"view",
+					{ "flex": {
+						"direction": "horizontal",
+						"gap": 16,
+						"align": "center"
+					} },
+					["icon", { "size": 32 }],
+					["icon", { "size": 32 }],
+					["icon", { "size": 32 }],
+					["icon", { "size": 32 }],
+					["icon", {
+						"size": 32,
+						"color": "#EF4444"
+					}],
+					["icon", {
+						"size": 32,
+						"color": "#F59E0B"
+					}]
+				]
+			],
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Reactive props"
+				],
+				[
+					"view",
+					{
+						"flex": {
+							"direction": "horizontal",
+							"gap": 12,
+							"align": "center"
+						},
+						"padding": 12
+					},
+					["icon", 0],
+					[
+						"text",
+						{
+							"color": "#6B7280",
+							"fontSize": 13
+						},
+						"size = ",
+						", color = "
+					]
+				]
+			],
+			[
+				"view",
+				{ "flex": {
+					"direction": "vertical",
+					"gap": 6
+				} },
+				[
+					"text",
+					{ "fontWeight": "semiBold" },
+					"Icon + text row"
+				],
+				[
+					"view",
+					{
+						"flex": {
+							"direction": "horizontal",
+							"gap": 8,
+							"align": "center"
+						},
+						"padding": 12
+					},
+					["icon", {
+						"size": 20,
+						"color": "#3B82F6"
+					}],
+					[
+						"text",
+						0,
+						"Inline icon + text composition"
+					]
+				]
+			]
+		],
+		["view", { "padding": 16 }]
+	], 33);
 	function IconScreen() {
-		const nav = Le();
+		const nav = Je();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
-		return K(Ue, {
-			flex: {
-				direction: "vertical",
-				gap: 16
-			},
-			get children() {
+		return ((_at$1) => (() => {
+			var _el$ = G("h$scrollView", {
+				$t: _at$1,
+				$i: 0
+			});
+			var _el$2 = G("h$view", {
+				$t: _at$1,
+				$i: 6
+			});
+			var _el$3 = G("h$view", {
+				$t: _at$1,
+				$i: 7
+			});
+			var _el$4 = G("h$view", {
+				$t: _at$1,
+				$i: 10
+			});
+			var _el$5 = G("h$icon", {
+				$t: _at$1,
+				$i: 11,
+				data: x4e
+			});
+			var _el$6 = G("h$icon", {
+				$t: _at$1,
+				$i: 12,
+				data: Bge
+			});
+			var _el$7 = G("h$icon", {
+				$t: _at$1,
+				$i: 13,
+				data: lre
+			});
+			var _el$8 = G("h$icon", {
+				$t: _at$1,
+				$i: 14,
+				data: _6e
+			});
+			var _el$9 = G("h$icon", {
+				$t: _at$1,
+				$i: 15,
+				data: EY
+			});
+			var _el$10 = G("h$icon", {
+				$t: _at$1,
+				$i: 16,
+				data: est
+			});
+			var _el$11 = G("h$view", {
+				$t: _at$1,
+				$i: 17
+			});
+			var _el$12 = G("h$text", {
+				$t: _at$1,
+				$i: 18
+			});
+			var _el$13 = G("h$view", {
+				$t: _at$1,
+				$i: 20
+			});
+			var _el$14 = G("h$icon", {
+				$t: _at$1,
+				$i: 21,
+				data: EY
+			});
+			var _el$15 = G("h$text", {
+				$t: _at$1,
+				$i: 22
+			});
+			var _el$16 = G("h$__text__", {
+				$t: _at$1,
+				$i: 23
+			});
+			var _el$17 = G("h$__text__", {
+				$t: _at$1,
+				$i: 24
+			});
+			var _el$18 = G("h$view", {
+				$t: _at$1,
+				$i: 25
+			});
+			var _el$19 = G("h$view", {
+				$t: _at$1,
+				$i: 28
+			});
+			var _el$20 = G("h$icon", {
+				$t: _at$1,
+				$i: 29,
+				data: coe
+			});
+			var _el$21 = G("h$view", {
+				$t: _at$1,
+				$i: 32
+			});
+			Ve(_el$, _el$2);
+			Ve(_el$, _el$21);
+			Ve(_el$2, _el$3);
+			Ve(_el$2, _el$11);
+			Ve(_el$2, _el$18);
+			Ve(_el$3, _el$4);
+			Ve(_el$4, _el$5);
+			Ve(_el$4, _el$6);
+			Ve(_el$4, _el$7);
+			Ve(_el$4, _el$8);
+			Ve(_el$4, _el$9);
+			Ve(_el$4, _el$10);
+			Ve(_el$11, _el$12);
+			Ve(_el$11, _el$13);
+			Ve(_el$13, _el$14);
+			Ve(_el$13, _el$15);
+			Ve(_el$15, _el$16);
+			Ve(_el$15, _el$17);
+			K(_el$15, size, _el$17);
+			K(_el$15, color, null);
+			K(_el$11, Y(Row, { get children() {
 				return [
-					K(ze, {
-						padding: {
-							horizontal: 16,
-							top: 16,
-							bottom: 8
-						},
-						get children() {
-							return [K(Be, {
-								fontSize: 24,
-								fontWeight: "bold",
-								children: "icon"
-							}), K(Be, {
-								color: "#6B7280",
-								fontSize: 14,
-								children: "Baseline icon rendering + reactive props"
-							})];
-						}
+					Y(Button, {
+						onTap: () => setSize(16),
+						children: "16"
 					}),
-					K(ze, {
-						padding: { horizontal: 16 },
-						flex: {
-							direction: "vertical",
-							gap: 24
-						},
-						get children() {
-							return [
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [K(Be, {
-											fontWeight: "semiBold",
-											children: "Static grid"
-										}), K(ze, {
-											flex: {
-												direction: "horizontal",
-												gap: 16,
-												align: "center"
-											},
-											get children() {
-												return [
-													K(Ve, {
-														data: x4e,
-														size: 32
-													}),
-													K(Ve, {
-														data: Bge,
-														size: 32
-													}),
-													K(Ve, {
-														data: lre,
-														size: 32
-													}),
-													K(Ve, {
-														data: _6e,
-														size: 32
-													}),
-													K(Ve, {
-														data: EY,
-														size: 32,
-														color: "#EF4444"
-													}),
-													K(Ve, {
-														data: est,
-														size: 32,
-														color: "#F59E0B"
-													})
-												];
-											}
-										})];
-									}
-								}),
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [
-											K(Be, {
-												fontWeight: "semiBold",
-												children: "Reactive props"
-											}),
-											K(ze, {
-												flex: {
-													direction: "horizontal",
-													gap: 12,
-													align: "center"
-												},
-												padding: 12,
-												get children() {
-													return [K(Ve, {
-														data: EY,
-														get size() {
-															return size();
-														},
-														get color() {
-															return color();
-														}
-													}), K(Be, {
-														color: "#6B7280",
-														fontSize: 13,
-														get children() {
-															return [
-																"size = ",
-																Te(() => {
-																	return size();
-																}),
-																", color = ",
-																Te(() => {
-																	return color();
-																})
-															];
-														}
-													})];
-												}
-											}),
-											K(Row, { get children() {
-												return [
-													K(Button, {
-														onTap: () => setSize(16),
-														children: "16"
-													}),
-													K(Button, {
-														onTap: () => setSize(32),
-														children: "32"
-													}),
-													K(Button, {
-														onTap: () => setSize(64),
-														children: "64"
-													})
-												];
-											} }),
-											K(Row, { get children() {
-												return [
-													K(Button, {
-														onTap: () => setColor("#EF4444"),
-														children: "red"
-													}),
-													K(Button, {
-														onTap: () => setColor("#10B981"),
-														children: "green"
-													}),
-													K(Button, {
-														onTap: () => setColor("#3B82F6"),
-														children: "blue"
-													})
-												];
-											} })
-										];
-									}
-								}),
-								K(ze, {
-									flex: {
-										direction: "vertical",
-										gap: 6
-									},
-									get children() {
-										return [K(Be, {
-											fontWeight: "semiBold",
-											children: "Icon + text row"
-										}), K(ze, {
-											flex: {
-												direction: "horizontal",
-												gap: 8,
-												align: "center"
-											},
-											padding: 12,
-											get children() {
-												return [K(Ve, {
-													data: coe,
-													size: 20,
-													color: "#3B82F6"
-												}), K(Be, { children: "Inline icon + text composition" })];
-											}
-										})];
-									}
-								})
-							];
-						}
+					Y(Button, {
+						onTap: () => setSize(32),
+						children: "32"
 					}),
-					K(ze, {
-						padding: 16,
-						get children() {
-							return K(Button, {
-								onTap: () => nav.pop(),
-								children: "Back"
-							});
-						}
+					Y(Button, {
+						onTap: () => setSize(64),
+						children: "64"
 					})
 				];
-			}
-		});
+			} }), null);
+			K(_el$11, Y(Row, { get children() {
+				return [
+					Y(Button, {
+						onTap: () => setColor("#EF4444"),
+						children: "red"
+					}),
+					Y(Button, {
+						onTap: () => setColor("#10B981"),
+						children: "green"
+					}),
+					Y(Button, {
+						onTap: () => setColor("#3B82F6"),
+						children: "blue"
+					})
+				];
+			} }), null);
+			Ve(_el$18, _el$19);
+			Ve(_el$19, _el$20);
+			K(_el$21, Y(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}));
+			U(() => {
+				return {
+					e: size(),
+					t: color()
+				};
+			}, ({ e, t }, _p$) => {
+				e !== _p$?.e && Le(_el$14, "size", e, _p$?.e);
+				t !== _p$?.t && Le(_el$14, "color", t, _p$?.t);
+			});
+			return _el$;
+		})())(Ae(_tpl$1$3));
 	}
 	// src/screens/scroll.tsx
-	function ScrollScreen() {
-		const nav = Le();
-		const scroll = qe({ initialScrollOffset: 120 });
-		return K(Ue, {
-			controller: scroll,
-			flex: {
-				direction: "vertical",
-				gap: 12
+	var _tpl$1$2 = /*@__PURE__*/ ke([
+		"scrollView",
+		{ "flex": {
+			"direction": "vertical",
+			"gap": 12
+		} },
+		[
+			"view",
+			{
+				"padding": {
+					"horizontal": 16,
+					"top": 16,
+					"bottom": 8
+				},
+				"flex": {
+					"direction": "vertical",
+					"gap": 4
+				}
 			},
-			get children() {
-				return [
-					K(ze, {
-						padding: {
-							horizontal: 16,
-							top: 16,
-							bottom: 8
-						},
-						flex: {
-							direction: "vertical",
-							gap: 4
-						},
-						get children() {
-							return [K(Be, {
-								fontSize: 24,
-								fontWeight: "bold",
-								children: "scrollController"
-							}), K(Be, {
-								color: "#6B7280",
-								fontSize: 14,
-								children: "initialScrollOffset, reactive offset, imperative scroll"
-							})];
-						}
-					}),
-					K(ze, {
-						padding: { horizontal: 16 },
-						flex: {
-							direction: "vertical",
-							gap: 8
-						},
-						get children() {
-							return [K(Be, {
-								fontWeight: "semiBold",
-								get children() {
-									return ["scrollOffset = ", Te(() => {
-										return scroll.scrollOffset().toFixed(1);
-									})];
-								}
-							}), K(Ue, {
-								scrollDirection: "horizontal",
-								flex: {
-									direction: "horizontal",
-									gap: 8,
-									align: "center"
-								},
-								get children() {
-									return [K(Button, {
-										onTap: () => scroll.jumpTo(0),
-										children: "jumpTo(0)"
-									}), K(Button, {
-										onTap: () => scroll.animateTo(1200, { duration: 800 }),
-										children: "animateTo(1200)"
-									})];
-								}
-							})];
-						}
-					}),
-					K(ze, {
-						padding: 16,
-						flex: {
-							direction: "vertical",
-							gap: 8
-						},
-						get children() {
-							return Array.from({ length: 40 }, (_, i) => K(ze, {
-								padding: 16,
-								decoration: {
-									color: i % 2 === 0 ? "#F3F4F6" : "#E5E7EB",
-									borderRadius: 8
-								},
-								get children() {
-									return K(Be, { get children() {
-										return ["row ", i];
-									} });
-								}
-							}));
-						}
-					}),
-					K(ze, {
-						padding: 16,
-						get children() {
-							return K(Button, {
-								onTap: () => nav.pop(),
-								children: "Back"
-							});
-						}
-					})
-				];
+			[
+				"text",
+				{
+					"fontSize": 24,
+					"fontWeight": "bold"
+				},
+				"scrollController"
+			],
+			[
+				"text",
+				{
+					"color": "#6B7280",
+					"fontSize": 14
+				},
+				"initialScrollOffset, reactive offset, imperative scroll"
+			]
+		],
+		[
+			"view",
+			{
+				"padding": { "horizontal": 16 },
+				"flex": {
+					"direction": "vertical",
+					"gap": 8
+				}
+			},
+			[
+				"text",
+				{ "fontWeight": "semiBold" },
+				"scrollOffset = "
+			],
+			["scrollView", {
+				"scrollDirection": "horizontal",
+				"flex": {
+					"direction": "horizontal",
+					"gap": 8,
+					"align": "center"
+				}
+			}]
+		],
+		["view", {
+			"padding": 16,
+			"flex": {
+				"direction": "vertical",
+				"gap": 8
 			}
-		});
+		}],
+		["view", { "padding": 16 }]
+	], 12);
+	var _tpl$2$1 = /*@__PURE__*/ ke([
+		"view",
+		{ "padding": 16 },
+		[
+			"text",
+			0,
+			"row "
+		]
+	], 3);
+	function ScrollScreen() {
+		const nav = Je();
+		const scroll = it({ initialScrollOffset: 120 });
+		return ((_at$1) => (() => {
+			var _el$ = G("h$scrollView", {
+				$t: _at$1,
+				$i: 0,
+				controller: scroll
+			});
+			var _el$2 = G("h$view", {
+				$t: _at$1,
+				$i: 6
+			});
+			var _el$3 = G("h$text", {
+				$t: _at$1,
+				$i: 7
+			});
+			var _el$4 = G("h$__text__", {
+				$t: _at$1,
+				$i: 8
+			});
+			var _el$5 = G("h$scrollView", {
+				$t: _at$1,
+				$i: 9
+			});
+			var _el$6 = G("h$view", {
+				$t: _at$1,
+				$i: 10
+			});
+			var _el$10 = G("h$view", {
+				$t: _at$1,
+				$i: 11
+			});
+			Ve(_el$, _el$2);
+			Ve(_el$, _el$6);
+			Ve(_el$, _el$10);
+			Ve(_el$2, _el$3);
+			Ve(_el$2, _el$5);
+			Ve(_el$3, _el$4);
+			K(_el$3, () => {
+				return scroll.scrollOffset().toFixed(1);
+			}, null);
+			K(_el$5, Y(Button, {
+				onTap: () => scroll.jumpTo(0),
+				children: "jumpTo(0)"
+			}), null);
+			K(_el$5, Y(Button, {
+				onTap: () => scroll.animateTo(1200, { duration: 800 }),
+				children: "animateTo(1200)"
+			}), null);
+			K(_el$6, () => {
+				return Array.from({ length: 40 }, (_, i) => ((_at$2) => (() => {
+					var _el$7 = G("h$view", {
+						$t: _at$2,
+						$i: 0,
+						decoration: {
+							color: i % 2 === 0 ? "#F3F4F6" : "#E5E7EB",
+							borderRadius: 8
+						}
+					});
+					var _el$8 = G("h$text", {
+						$t: _at$2,
+						$i: 1
+					});
+					var _el$9 = G("h$__text__", {
+						$t: _at$2,
+						$i: 2
+					});
+					Ve(_el$7, _el$8);
+					Ve(_el$8, _el$9);
+					K(_el$8, i, null);
+					return _el$7;
+				})())(Ae(_tpl$2$1)));
+			});
+			K(_el$10, Y(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}));
+			return _el$;
+		})())(Ae(_tpl$1$2));
 	}
 	// src/screens/list.tsx
+	var _tpl$1$1 = /*@__PURE__*/ ke(["view", {
+		"flex": {
+			"direction": "vertical",
+			"gap": 12
+		},
+		"padding": 24
+	}], 1);
+	var _tpl$2 = /*@__PURE__*/ ke([
+		"view",
+		{ "height": 40 },
+		["text", { "fontSize": 16 }]
+	], 2);
 	function ListScreen() {
 		const [rows, setRows] = createSignal([
 			"cherry",
@@ -5488,96 +5847,114 @@
 			"banana",
 			"date"
 		]);
-		return K(ze, {
-			flex: {
-				direction: "vertical",
-				gap: 12
-			},
-			padding: 24,
-			get children() {
-				return [K(Row, { get children() {
-					return [
-						K(Button, {
-							onTap: () => setRows((r) => r.slice().reverse()),
-							children: "Reverse"
-						}),
-						K(Button, {
-							onTap: () => setRows((r) => r.slice().sort()),
-							children: "Sort"
-						}),
-						K(Button, {
-							onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
-							children: "Thin"
-						})
-					];
-				} }), K(For, {
-					get each() {
-						return rows();
-					},
-					children: (row) => (() => {
-						var _el$ = H("view", { height: 40 });
-						U(_el$, K(Be, {
-							fontSize: 16,
-							children: row
-						}));
-						return _el$;
-					})()
-				})];
-			}
-		});
-	}
-	// src/screens/home.tsx
-	function HomeScreen() {
-		const nav = Le();
-		return K(ze, {
-			flex: { direction: "vertical" },
-			get children() {
+		return ((_at$1) => (() => {
+			var _el$ = G("h$view", {
+				$t: _at$1,
+				$i: 0
+			});
+			K(_el$, Y(Row, { get children() {
 				return [
-					K(ze, {
-						padding: {
-							horizontal: 16,
-							top: 24,
-							bottom: 12
-						},
-						get children() {
-							return [K(Be, {
-								fontSize: 28,
-								fontWeight: "bold",
-								children: "solid-fuse demos"
-							}), K(Be, {
-								color: "#6B7280",
-								fontSize: 14,
-								children: "Playground for widget primitives"
-							})];
-						}
+					Y(Button, {
+						onTap: () => setRows((r) => r.slice().reverse()),
+						children: "Reverse"
 					}),
-					K(MenuItem, {
-						label: "counter",
-						onTap: () => nav.push(() => K(CounterScreen, {}))
+					Y(Button, {
+						onTap: () => setRows((r) => r.slice().sort()),
+						children: "Sort"
 					}),
-					K(MenuItem, {
-						label: "textField",
-						onTap: () => nav.push(() => K(TextFieldScreen, {}))
-					}),
-					K(MenuItem, {
-						label: "icon",
-						onTap: () => nav.push(() => K(IconScreen, {}))
-					}),
-					K(MenuItem, {
-						label: "list",
-						onTap: () => nav.push(() => K(ListScreen, {}))
-					}),
-					K(MenuItem, {
-						label: "scrollController",
-						onTap: () => nav.push(() => K(ScrollScreen, {}))
+					Y(Button, {
+						onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
+						children: "Thin"
 					})
 				];
-			}
-		});
+			} }), null);
+			K(_el$, Y(For, {
+				get each() {
+					return rows();
+				},
+				children: (row) => ((_at$2) => (() => {
+					var _el$2 = G("h$view", {
+						$t: _at$2,
+						$i: 0
+					});
+					var _el$3 = G("h$text", {
+						$t: _at$2,
+						$i: 1
+					});
+					Ve(_el$2, _el$3);
+					K(_el$3, row);
+					return _el$2;
+				})())(Ae(_tpl$2))
+			}), null);
+			return _el$;
+		})())(Ae(_tpl$1$1));
+	}
+	// src/screens/home.tsx
+	var _tpl$1 = /*@__PURE__*/ ke([
+		"view",
+		{ "flex": { "direction": "vertical" } },
+		[
+			"view",
+			{ "padding": {
+				"horizontal": 16,
+				"top": 24,
+				"bottom": 12
+			} },
+			[
+				"text",
+				{
+					"fontSize": 28,
+					"fontWeight": "bold"
+				},
+				"solid-fuse demos"
+			],
+			[
+				"text",
+				{
+					"color": "#6B7280",
+					"fontSize": 14
+				},
+				"Playground for widget primitives"
+			]
+		]
+	], 6);
+	function HomeScreen() {
+		const nav = Je();
+		return ((_at$1) => (() => {
+			var _el$ = G("h$view", {
+				$t: _at$1,
+				$i: 0
+			});
+			Ve(_el$, G("h$view", {
+				$t: _at$1,
+				$i: 1
+			}));
+			K(_el$, Y(MenuItem, {
+				label: "counter",
+				onTap: () => nav.push(() => Y(CounterScreen, {}))
+			}), null);
+			K(_el$, Y(MenuItem, {
+				label: "textField",
+				onTap: () => nav.push(() => Y(TextFieldScreen, {}))
+			}), null);
+			K(_el$, Y(MenuItem, {
+				label: "icon",
+				onTap: () => nav.push(() => Y(IconScreen, {}))
+			}), null);
+			K(_el$, Y(MenuItem, {
+				label: "list",
+				onTap: () => nav.push(() => Y(ListScreen, {}))
+			}), null);
+			K(_el$, Y(MenuItem, {
+				label: "scrollController",
+				onTap: () => nav.push(() => Y(ScrollScreen, {}))
+			}), null);
+			return _el$;
+		})())(Ae(_tpl$1));
 	}
 	// src/index.tsx
-	var App = () => K(Re, { initialPage: () => K(HomeScreen, {}) });
-	Me(App);
+	var App = () => Y(Ye, { initialPage: () => Y(HomeScreen, {}) });
+	Be(App);
 })();
 
 //# sourceMappingURL=bundle.js.map

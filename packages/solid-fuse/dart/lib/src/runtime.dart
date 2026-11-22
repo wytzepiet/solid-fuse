@@ -185,7 +185,7 @@ class FuseRuntime {
 
   /// Version of the op format [applyOps] reads; `OPS_VERSION` in
   /// renderer.ts is its JS twin.
-  static const opsVersion = 3;
+  static const opsVersion = 4;
 
   // Opcodes, as in renderer.ts.
   static const _opCreate = 0;
@@ -195,6 +195,13 @@ class FuseRuntime {
   static const _opInsert = 4;
   static const _opRemove = 5;
   static const _opDispose = 6;
+  static const _opDefine = 7;
+  static const _opInstantiate = 8;
+  static const _opProps = 9;
+
+  /// Template shapes by id, as sent by `define` ops: `[type, props | 0,
+  /// ...children]`, where a string child is a text node.
+  final Map<int, List<dynamic>> _templates = {};
 
   /// Apply a batch of ops from the JS side.
   ///
@@ -202,6 +209,10 @@ class FuseRuntime {
   /// its operands, then the next opcode (the layout is documented there).
   void applyOps(List<dynamic> ops) {
     final dirty = <FuseNode>{};
+    // Nodes created in this batch whose type has a handle factory. The
+    // factory runs once the batch is applied, so that it sees every prop the
+    // batch set, whichever op carried it.
+    List<FuseNode>? handleNodes;
 
     final length = ops.length;
     var i = 0;
@@ -214,9 +225,8 @@ class FuseRuntime {
             type,
             ops[i + 3] as Map<String, dynamic>,
           );
-          final factory = _handleFactories[type];
-          if (factory != null) {
-            node.ownHandle = factory(node);
+          if (_handleFactories.containsKey(type)) {
+            (handleNodes ??= []).add(node);
           }
           i += 4;
         case _opText:
@@ -234,7 +244,7 @@ class FuseRuntime {
           i += 4;
         case _opSetText:
           final node = registry.get(ops[i + 1] as int);
-          node.setPropSilent('text', ops[i + 2]);
+          node.setTextSilent(ops[i + 2]);
           dirty.add(node);
           if (node.parent != null) dirty.add(node.parent!);
           i += 3;
@@ -275,14 +285,72 @@ class FuseRuntime {
             dirty.add(parent);
           }
           _removeSubtree(node, dirty);
+        case _opDefine:
+          _templates[ops[i + 1] as int] = ops[i + 2] as List<dynamic>;
+          i += 3;
+        case _opInstantiate:
+          final shape = _templates[ops[i + 1] as int];
+          if (shape == null) {
+            throw StateError('Unknown template ${ops[i + 1]} at $i');
+          }
+          final component = ops[i + 3] as String?;
+          final created = handleNodes ??= [];
+          _instantiate(shape, ops[i + 2] as int, null, component, created);
+          i += 4;
+        case _opProps:
+          final node = registry.get(ops[i + 1] as int);
+          node.props.addAll(ops[i + 2] as Map<String, dynamic>);
+          dirty.add(node);
+          i += 3;
         default:
           throw StateError('Unknown op ${ops[i]} at $i');
+      }
+    }
+
+    if (handleNodes != null) {
+      for (final node in handleNodes) {
+        // Created and disposed in the same batch: nothing to back.
+        if (!identical(registry.tryGet(node.id), node)) continue;
+        node.ownHandle = _handleFactories[node.type]!(node);
       }
     }
 
     for (final node in dirty) {
       node.markDirty();
     }
+  }
+
+  /// Build the nodes of [shape] under [parent], giving them consecutive ids
+  /// from [id] in document order. Returns the next free id.
+  int _instantiate(
+    List<dynamic> shape,
+    int id,
+    FuseNode? parent,
+    String? component,
+    List<FuseNode> handleNodes,
+  ) {
+    final type = shape[0] as String;
+    final shared = shape[1];
+    // Each instance owns its props map (ops write to it); nested values are
+    // shared with the shape and never mutated.
+    final props = shared is Map<String, dynamic>
+        ? Map<String, dynamic>.of(shared)
+        : <String, dynamic>{};
+    if (component != null) props['_component'] = component;
+    final node = registry.create(id++, type, props);
+    if (_handleFactories.containsKey(type)) handleNodes.add(node);
+    parent?.insertChildSilent(node);
+    for (var k = 2; k < shape.length; k++) {
+      final child = shape[k];
+      if (child is String) {
+        node.insertChildSilent(
+          registry.create(id++, '__text__', {'text': child}),
+        );
+      } else {
+        id = _instantiate(child as List<dynamic>, id, node, component, handleNodes);
+      }
+    }
+    return id;
   }
 
   /// Recursively remove a node and its descendants from the registry,

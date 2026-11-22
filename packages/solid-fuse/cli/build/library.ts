@@ -5,6 +5,7 @@ import { build as viteBuild, mergeConfig, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
 import { detectPackageManager, pmExec } from "../utils";
+import { fuseCompilePlugin } from "../compile-plugin";
 import type { FuseConfig } from "../../src/config";
 
 export async function buildLibrary(projectRoot: string, fuseConfig: FuseConfig) {
@@ -33,7 +34,10 @@ export async function buildLibrary(projectRoot: string, fuseConfig: FuseConfig) 
   const fuseDefaults: InlineConfig = {
     configFile: false,
     root: projectRoot,
-    plugins: [solidPlugin(solidOptions)],
+    plugins: [
+      fuseCompilePlugin({ ...fuseConfig.compile, moduleName: solidOptions.solid.moduleName }),
+      solidPlugin(solidOptions),
+    ],
     build: {
       target: "es2020",
       emptyOutDir: true,

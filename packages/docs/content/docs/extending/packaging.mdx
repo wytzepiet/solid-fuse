@@ -58,6 +58,7 @@ Fuse auto-configures the Solid plugin with `generate: "universal"` and `moduleNa
 | `register` | `string` | `"register"` | Name of the Dart top-level registration function |
 | `dart` | `string` | `"dart"` | Path to the Dart/Flutter package directory |
 | `solid` | `object` | `{}` | `@solidjs/vite-plugin` option overrides |
+| `compile` | `object` | `{}` | Fuse's compile step: `templates: false` turns [templates](/docs/architecture#templates-the-constant-part-is-sent-once) off; `intrinsics` declares wrapper components of other packages (below) |
 | `vite` | `object` | `{}` | Vite config overrides |
 
 ## How fuse link works
