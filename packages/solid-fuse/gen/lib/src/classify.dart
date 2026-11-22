@@ -233,6 +233,60 @@ class Classifier {
     return id;
   }
 
+  // ── shorthands ────────────────────────────────────────────────────────────
+
+  final List<({TopLevelFunctionElement fn, InterfaceType ret, Json type, String dart, String kind, String? ts})> _shorthands = [];
+
+  /// Registers a `@fuseShorthand` function: one required positional
+  /// parameter of a kind JSON shows apart from a tagged object (bool,
+  /// number, String, List), returning a non-null class type.
+  void addShorthand(TopLevelFunctionElement fn, {String? ts}) {
+    final ps = fn.formalParameters;
+    if (ps.isEmpty || !ps.first.isRequiredPositional || ps.skip(1).any((p) => p.isRequired)) {
+      throw Skip('takes one required positional parameter');
+    }
+    final ret = fn.returnType;
+    if (ret is! InterfaceType || isNullable(ret)) throw Skip('returns a non-null class type');
+    final pt = ps.first.type;
+    if (isNullable(pt)) throw Skip('parameter is nullable');
+    final ref = input(pt);
+    final kind = switch (ref['k']) {
+      'bool' => 'bool',
+      'int' || 'double' || 'num' => 'number',
+      'String' => 'string',
+      'list' => 'list',
+      _ => throw Skip('parameter is ${pt.getDisplayString()} (bool, a number, String or List)'),
+    };
+    _shorthands.add((fn: fn, ret: ret, type: ref, dart: code.type(pt), kind: kind, ts: ts));
+  }
+
+  /// The shorthands a value of [t] accepts: per kind, the one returning [t]
+  /// itself, else the only one returning a subtype. Two candidates and no
+  /// exact one is a conflict, recorded on [decl].
+  List<Json> _shorthandsFor(InterfaceType t, Json decl) {
+    final byKind = <String, List<({TopLevelFunctionElement fn, InterfaceType ret, Json type, String dart, String kind, String? ts})>>{};
+    for (final s in _shorthands) {
+      if (w.ts.isSubtypeOf(s.ret, nonNull(t))) (byKind[s.kind] ??= []).add(s);
+    }
+    final out = <Json>[];
+    byKind.forEach((kind, list) {
+      final exact = list.where((s) => s.ret.element == t.element).toList();
+      final pick = exact.length == 1 ? exact.first : (exact.isEmpty && list.length == 1 ? list.first : null);
+      if (pick == null) {
+        ((decl['shorthandConflicts'] ??= <String, Object?>{}) as Map)[kind] = [for (final s in list) s.fn.name];
+        return;
+      }
+      out.add({
+        'kind': kind,
+        'fn': code.ref(pick.fn),
+        'type': pick.type,
+        'dart': pick.dart,
+        if (pick.ts != null) 'ts': pick.ts,
+      });
+    });
+    return out;
+  }
+
   // ── handle members ────────────────────────────────────────────────────────
 
   /// Members every object has, or every notifier: not offered.
@@ -444,7 +498,9 @@ class Classifier {
         }
       }
       final consts = _consts(t, el, decl);
-      if (variants.isEmpty && consts.isEmpty) {
+      final shorthands = _shorthandsFor(t, decl);
+      if (shorthands.isNotEmpty) decl['shorthands'] = shorthands;
+      if (variants.isEmpty && consts.isEmpty && shorthands.isEmpty) {
         final why = rejected.isEmpty
             ? (el is ClassElement && el.isAbstract ? 'abstract, no constructible subtype' : 'no public constructor')
             : 'no usable constructor (${rejected.entries.map((e) => '${e.key}: ${e.value}').join('; ')})';

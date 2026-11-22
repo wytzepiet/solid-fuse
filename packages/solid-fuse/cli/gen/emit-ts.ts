@@ -292,6 +292,11 @@ export function emitTs(m: Manifest): TsOutput {
     const arms: string[] = [];
     const consts = (decl.consts ?? []).filter((c) => !c.deprecated).map((c) => lit(c.name));
     for (let i = 0; i < consts.length; i += 6) arms.push(consts.slice(i, i + 6).join(" | "));
+    for (const sh of decl.shorthands ?? []) {
+      // `string & {}` keeps the constants' names as suggestions.
+      const t = sh.ts ?? (sh.kind === "string" && consts.length ? "(string & {})" : tsIn(sh.type, module));
+      arms.push(t);
+    }
     for (const v of decl.variants ?? []) {
       arms.push(variantShape(v, decl.name, module));
       builderFor(v);

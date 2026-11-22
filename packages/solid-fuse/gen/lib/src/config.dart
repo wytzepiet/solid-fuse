@@ -13,9 +13,13 @@
 // covers all its constructors.
 
 class LibraryRule {
-  LibraryRule({this.allow = const [], this.deny = const []});
+  LibraryRule({this.allow = const [], this.deny = const [], this.annotated = false});
   final List<String> allow;
   final List<String> deny;
+
+  /// Only what is annotated: `@fuse` classes and `@fuseShorthand`
+  /// functions (the app's own Dart, solid_fuse's shorthands).
+  final bool annotated;
 
   bool get allowsAll => allow.isEmpty;
 
@@ -43,6 +47,14 @@ class LibraryRule {
 class GenConfig {
   GenConfig(this.libraries);
   final Map<String, LibraryRule> libraries;
+
+  /// This config plus [uris] read for annotations only (a library the config
+  /// lists keeps its own rule).
+  GenConfig withAnnotated(Iterable<String> uris) => GenConfig({
+        ...libraries,
+        for (final u in uris)
+          if (!libraries.containsKey(u)) u: LibraryRule(annotated: true),
+      });
 
   static List<String> _strings(Object? v, String where) {
     if (v == null) return const [];

@@ -86,6 +86,8 @@ export interface DataType {
   /** Input side (JS -> Dart). Absent for types that are only read. */
   variants?: Variant[];
   consts?: Const[];
+  /** Short forms: a value of `kind` that `fn` (Dart) turns into this type. */
+  shorthands?: { kind: "bool" | "number" | "string" | "list"; fn: string; type: Ref; dart: string; ts?: string }[];
   inputSkipped?: string;
   /** Output side (Dart -> JS). */
   fields?: Field[];

@@ -211,14 +211,25 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     const tn = noQ(t.dart);
     lines.push(`${tn}? ${name}(Object? v, FuseNode n) {`);
     lines.push("  if (v == null) return null;");
+    const short = new Map((t.shorthands ?? []).map((sh) => [sh.kind, sh]));
+    const shortCall = (kind: string) => {
+      const sh = short.get(kind)!;
+      return `${sh.fn}(${elem(sh.type, "v", sh.dart, { n: "n", prop: t.name, sub: (d) => d })})`;
+    };
+    const test = { bool: "v is bool", number: "v is num", list: "v is List" } as const;
+    for (const kind of ["bool", "number", "list"] as const) {
+      if (short.has(kind)) lines.push(`  if (${test[kind]}) return ${shortCall(kind)};`);
+    }
     const consts = t.consts ?? [];
     if (consts.length > 0) {
       lines.push("  if (v is String) {");
       lines.push("    return switch (v) {");
       for (const c of consts) lines.push(`      ${q(c.name)} => ${c.dart},`);
-      lines.push(`      _ => fuseBad(${q(t.name)}, v),`);
+      lines.push(`      _ => ${short.has("string") ? shortCall("string") : `fuseBad(${q(t.name)}, v)`},`);
       lines.push("    };");
       lines.push("  }");
+    } else if (short.has("string")) {
+      lines.push(`  if (v is String) return ${shortCall("string")};`);
     }
     const variants = t.variants ?? [];
     if (variants.length > 0) {

@@ -3,7 +3,9 @@
 // item: an item that cannot be bridged lands in `skipped` with a reason.
 import 'dart:convert';
 
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:crypto/crypto.dart';
 
 import 'classify.dart';
@@ -40,9 +42,24 @@ class ManifestBuilder {
     w.loadErrors.forEach((uri, why) {
       if (config.libraries.containsKey(uri)) _skip(uri, 'library did not load: $why');
     });
+    // Shorthands first: data types pick them up as they are classified.
+    config.libraries.forEach((uri, rule) {
+      final lib = w.library(uri);
+      if (lib != null && rule.annotated) _shorthands(lib);
+    });
     config.libraries.forEach((uri, rule) {
       final lib = w.library(uri);
       if (lib == null) return;
+      if (rule.annotated) {
+        // The `@fuse` classes, by name; none means nothing (an empty allow
+        // list would mean everything).
+        final names = <String>[];
+        lib.element.exportNamespace.definedNames2.forEach((name, el) {
+          if (el is ClassElement && el.isPublic && _ownedBy(el, lib) && _annotation(el, 'Fuse') != null) names.add(name);
+        });
+        if (names.isEmpty) return;
+        rule = LibraryRule(allow: names);
+      }
       _library(lib, rule);
     });
     _prune();
@@ -65,6 +82,35 @@ class ManifestBuilder {
       ...body,
       'skipped': _skipped,
     };
+  }
+
+  // ── annotations ───────────────────────────────────────────────────────────
+
+  static const _annotationsLib = 'package:solid_fuse/src/annotations.dart';
+
+  /// The value of [e]'s annotation of class [cls] from solid_fuse.
+  static DartObject? _annotation(Element e, String cls) {
+    for (final a in e.metadata.annotations) {
+      final v = a.computeConstantValue();
+      final t = v?.type;
+      if (t is InterfaceType && t.element.name == cls && t.element.library.uri.toString() == _annotationsLib) return v;
+    }
+    return null;
+  }
+
+  void _shorthands(EntryLib lib) {
+    lib.element.exportNamespace.definedNames2.forEach((name, el) {
+      if (el is! TopLevelFunctionElement || !_ownedBy(el, lib)) return;
+      final a = _annotation(el, 'FuseShorthand');
+      if (a == null) return;
+      try {
+        c.addShorthand(el, ts: a.getField('ts')?.toStringValue());
+      } on Skip catch (s) {
+        _skip('${lib.uri}#$name', 'shorthand: ${s.reason}');
+      } on NotNameable catch (e) {
+        _skip('${lib.uri}#$name', 'shorthand: $e');
+      }
+    });
   }
 
   // ── selection ─────────────────────────────────────────────────────────────
@@ -363,7 +409,7 @@ class ManifestBuilder {
         final before = variants.length;
         variants.removeWhere((v) => !_fix((v as Json)['params']! as List, notBuildable));
         if (variants.length != before) changed = true;
-        if (variants.isEmpty && (d['consts'] as List? ?? const []).isEmpty) {
+        if (variants.isEmpty && (d['consts'] as List? ?? const []).isEmpty && d['shorthands'] == null) {
           d['inputSkipped'] = 'no usable constructor after pruning';
           changed = true;
         }

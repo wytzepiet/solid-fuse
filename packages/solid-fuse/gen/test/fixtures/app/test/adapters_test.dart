@@ -1,6 +1,7 @@
 // Generated adapters, pumped. lib/generated/fuse.generated.dart is written by
 // cli/gen/gen.test.ts before it runs this file.
 import 'package:fixture_app/fixture.dart';
+import 'package:fixture_app/src/annotated.dart';
 import 'package:fixture_app/generated/fuse.generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -100,6 +101,24 @@ void main() {
     expect(menu.items.last.onTap, isNull);
     expect(menu.onRefresh, isNotNull);
     expect(menu.onPick, isNull);
+  });
+
+  testWidgets('shorthands, and the app\'s own @fuse widget', (t) async {
+    await pump(t, [
+      create(1, 'flutter_Container', {
+        'padding': 8,
+        'decoration': {r'$': 'BoxDecoration', 'borderRadius': 12, 'color': '#ff880080'},
+      }),
+      create(2, 'fixture_app_Badge', {'label': 'b', 'at': 3}),
+      insert(1, 2),
+    ], 1);
+    final box = t.widget<Container>(find.byType(Container));
+    expect(box.padding, const EdgeInsets.all(8));
+    final deco = box.decoration! as BoxDecoration;
+    expect(deco.borderRadius, BorderRadius.circular(12));
+    expect(deco.color, const Color(0x80ff8800));
+    expect(t.widget<Badge>(find.byType(Badge)).at.x, 3);
+    expect(find.text('b'), findsOneWidget);
   });
 
   testWidgets('a PreferredSizeWidget slot takes an app bar', (t) async {

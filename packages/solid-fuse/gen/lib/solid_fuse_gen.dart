@@ -66,6 +66,36 @@ String inputHash({required String root, required String configJson}) {
   return sha256.convert(b.takeBytes()).toString();
 }
 
+/// Libraries read for annotations: the app's own `lib/` files that mention
+/// `@fuse` / `@Fuse` (a text check, so nothing else is resolved), and
+/// solid_fuse's shorthands when the app depends on solid_fuse.
+List<String> annotatedLibraries(String root) {
+  final out = <String>[];
+  final pubspec = File(p.join(root, 'pubspec.yaml'));
+  final name = pubspec.existsSync() ? RegExp(r'^name:\s*(\S+)', multiLine: true).firstMatch(pubspec.readAsStringSync())?.group(1) : null;
+  final lib = Directory(p.join(root, 'lib'));
+  if (name != null && lib.existsSync()) {
+    final files = [
+      for (final f in lib.listSync(recursive: true))
+        if (f is File && f.path.endsWith('.dart') && !_generatedFile(f.path)) f,
+    ]..sort((a, b) => a.path.compareTo(b.path));
+    final mark = RegExp(r'@(fuse|Fuse|fuseShorthand|FuseShorthand)\b');
+    for (final f in files) {
+      if (!mark.hasMatch(f.readAsStringSync())) continue;
+      out.add('package:$name/${p.posix.joinAll(p.split(p.relative(f.path, from: lib.path)))}');
+    }
+  }
+  final packages = File(p.join(root, '.dart_tool', 'package_config.json'));
+  if (packages.existsSync() && packages.readAsStringSync().contains('"name": "solid_fuse"')) {
+    out.add('package:solid_fuse/shorthands.dart');
+  }
+  return out;
+}
+
+bool _generatedFile(String path) =>
+    path.endsWith('.generated.dart') || path.endsWith('.g.dart') || path.endsWith('.freezed.dart') ||
+    p.split(path).contains('generated');
+
 /// Loads the libraries [config] names from the package at [root] and builds
 /// the manifest.
 Future<Map<String, Object?>> generate({
@@ -75,6 +105,7 @@ Future<Map<String, Object?>> generate({
   String? sdkPath,
   int maxConsts = 400,
 }) async {
+  config = config.withAnnotated(annotatedLibraries(root));
   var extra = <String>[];
   while (true) {
     final w = await World.load(

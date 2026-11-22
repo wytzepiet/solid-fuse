@@ -23,7 +23,7 @@ async function run(cmd: string[], cwd: string): Promise<{ code: number; output: 
 const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
 import { Colors, ElevatedButton, Slider, Scaffold, AppBar } from "./out/material_ui";
-import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter } from "./out/fixture_app";
+import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter, Badge, createTally } from "./out/fixture_app";
 import { createScrollController, createTextEditingController, createAnimationController, ListView, EditableText } from "./out/flutter";
 import { createSignal } from "solid-js";
 
@@ -62,6 +62,8 @@ export function handles() {
   (async () => {
     for await (const t of counter.ticks()) t.toFixed();
   })();
+  const tally = createTally();
+  void tally.bump();
   const scroll = createScrollController({ initialScrollOffset: 10 });
   const text = createTextEditingController({ text: "hi" });
   const t2: string | undefined = text.text();
@@ -72,8 +74,13 @@ export function handles() {
   const wrong = <EditableText controller={scroll} />;
   return [n, l, c, total, t2, wrong, <ListView controller={scroll} />];
 }
-// @ts-expect-error a number is not EdgeInsets (until shorthands)
-export const f = <Padding padding={8} />;
+export const short = (
+  <Container padding={8} decoration={BoxDecoration({ borderRadius: 12, color: "#ff8800" })}>
+    <Badge label="b" at={3} />
+  </Container>
+);
+// @ts-expect-error a color is a "#..." string
+export const f = <Container color="red" />;
 // @ts-expect-error not a MainAxisAlignment
 export const g = <Column mainAxisAlignment="middle" />;
 // @ts-expect-error padding is required

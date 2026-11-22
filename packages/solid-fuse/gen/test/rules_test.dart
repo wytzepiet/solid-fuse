@@ -160,6 +160,21 @@ void main() {
       expect([for (final x in ac['methods'] as List) (x as Map)['name']], containsAll(['forward', 'reverse', 'animateTo']));
     });
 
+    test('@fuse exports the app\'s own classes; @fuseShorthand adds short forms', () {
+      const lib = 'package:fixture_app/src/annotated.dart';
+      expect(widget('Badge')['id'], '$lib#Badge');
+      expect((manifest['widgets'] as List).any((w) => (w as Map)['component'] == 'Unmarked'), isFalse);
+      expect(manifest['handles'], contains('$lib#Tally'));
+      final point = type('package:fixture_app/fixture.dart#Point');
+      expect(point['shorthands'], [
+        {'kind': 'number', 'fn': contains('pointSquare'), 'type': {'k': 'double'}, 'dart': 'double'},
+      ]);
+      final insets = type('$widgetsLib#EdgeInsetsGeometry');
+      expect((insets['shorthands'] as List).single, containsPair('fn', contains('edgeInsetsAll')));
+      final color = type('$widgetsLib#Color');
+      expect((color['shorthands'] as List).single, containsPair('ts', '`#\${string}`'));
+    });
+
     test('Listenables and mutable classes are handles', () {
       expect(type('$fixtureLib#Counter')['kind'], 'handle');
       expect(type('$fixtureLib#Mutable')['kind'], 'handle');
