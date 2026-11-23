@@ -13,16 +13,29 @@ import {
   type FusePackageInfo,
 } from "./utils";
 import { loadFuseConfig } from "./config";
+import { GENERATED_DART, runGen } from "./gen/command";
 
 /**
  * Core link logic — exported so other commands (dev, build, install, remove) can call it.
  */
-export async function runLink(projectRoot?: string, { pubGet = true } = {}) {
+export async function runLink(projectRoot?: string, { pubGet = true, gen = true } = {}) {
   const root = projectRoot ?? findProjectRoot();
   console.log(`Project root: ${root}`);
 
   const fuseConfig = await loadFuseConfig(root);
   const dartRoot = getDartRoot(root, fuseConfig);
+
+  // Generated components and adapters (fuse.config.ts `gen`).
+  if (gen && fuseConfig?.gen) {
+    try {
+      const t0 = performance.now();
+      const r = await runGen(root, fuseConfig);
+      console.log(`fuse gen: ${r.manifest.widgets.length} widgets, ${r.manifest.handles.length} handles (${Math.round(performance.now() - t0)} ms)`);
+    } catch (err) {
+      // The previous output stays; the app still builds with it.
+      console.error(`fuse gen failed: ${err instanceof Error ? err.message : err}`);
+    }
+  }
 
   const packages = await scanFusePackages(root);
   console.log(`Found ${packages.length} Fuse package(s):`);
@@ -106,6 +119,10 @@ function generateFusePackagesDart(
     lines.push(`import 'package:${pkg.dartName}/${pkg.dartName}.dart' as ${alias};`);
   }
 
+  // `fuse gen` output, when there is some.
+  const generated = existsSync(join(dartRoot, GENERATED_DART));
+  if (generated) lines.push("import 'fuse.generated.dart' as fuse_generated;");
+
   lines.push("");
   lines.push("void registerFusePackages(FuseRuntime runtime) {");
 
@@ -113,6 +130,7 @@ function generateFusePackagesDart(
     const alias = dartAlias(pkg.dartName);
     lines.push(`  ${alias}.${pkg.registerClass}(runtime);`);
   }
+  if (generated) lines.push("  fuse_generated.registerFuseGenerated(runtime);");
 
   lines.push("}");
 

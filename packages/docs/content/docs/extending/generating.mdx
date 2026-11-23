@@ -1,0 +1,167 @@
+---
+title: Generated components
+description: Use Flutter widgets, controllers and your own Dart from JSX without writing a wrapper
+---
+
+`fuse gen` reads Dart signatures and writes the wrapper for you: a typed component per widget, a `createX` per controller, and the Dart adapter that reads the props. It covers the long tail (a pub.dev package, a Flutter widget the built-in set doesn't have, your own Dart). It doesn't replace the built-in components: `View`, `Text` and the rest stay the API to reach for first. A generated component mirrors Flutter as it is, so its props have Flutter's names and shapes.
+
+## Setting it up
+
+List the Dart libraries to export in `fuse.config.ts`:
+
+```ts title="fuse.config.ts"
+import { defineConfig } from "solid-fuse/config";
+
+export default defineConfig({
+  gen: {
+    libraries: {
+      "package:flutter/widgets.dart": { allow: ["Padding", "Container", "ListView", "ScrollController"] },
+      "package:fl_chart/fl_chart.dart": {},
+    },
+  },
+});
+```
+
+Each library takes optional `allow` and `deny` patterns. A pattern is `Class`, `Class.constructor` (`Image.network`), or either with `*` for any run of characters. With no `allow`, everything the library declares is exported, and `deny` always wins.
+
+`fuse link`, `fuse dev` and `fuse build` regenerate when the config has `gen`, and so does `fuse gen` on its own. When nothing changed, the run takes under half a second. It writes:
+
+- `fuse/<package>.tsx`: one module per Dart package (Flutter's own libraries and `dart:*` go into `flutter`). Import them as `#fuse/<package>`. `fuse gen` adds the `#fuse/*` path to `tsconfig.json`.
+- `fuse/gen-report.txt`: every exported item, and every skipped one with the reason.
+- `dart/lib/_generated/fuse.generated.dart`: the adapters. `registerFusePackages` registers them, so the Dart side needs no change.
+
+The generator runs from the solid-fuse package, so the Dart app needs no extra dependency.
+
+## Your own Dart: @fuse
+
+The app's own classes are exported by annotating them. You don't list them in the config.
+
+```dart title="dart/lib/src/badge.dart"
+import 'package:flutter/widgets.dart';
+import 'package:solid_fuse/solid_fuse.dart';
+
+@fuse
+class Badge extends StatelessWidget {
+  const Badge({super.key, required this.label, this.count = 0});
+  final String label;
+  final int count;
+  @override
+  Widget build(BuildContext context) => Text('$label ($count)');
+}
+```
+
+```tsx
+import { Badge } from "#fuse/my_app";
+
+<Badge label="Inbox" count={3} />;
+```
+
+Every file in `dart/lib/` that uses `@fuse` is read for annotations, and nothing else in it is exported.
+
+## Components
+
+A widget becomes a component with the widget's constructor parameters as props. A named constructor gets its own component (`Image.network` is `ImageNetwork`). A `child` or `children` parameter becomes JSX children, and so does the text of a widget whose first parameter is a string:
+
+```tsx
+import { Padding, Text, EdgeInsets } from "#fuse/flutter";
+
+<Padding padding={EdgeInsets.symmetric({ horizontal: 8 })}>
+  <Text maxLines={2}>Hello</Text>
+</Padding>;
+```
+
+A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it.
+
+## Values
+
+A Dart value is written the Dart way, with builders the module exports:
+
+| Dart | TypeScript |
+|---|---|
+| `EdgeInsets.all(8)` | `EdgeInsets.all(8)` |
+| `BorderRadius.circular(12)` | `BorderRadius.circular(12)` |
+| `Colors.red` | `Colors.red` |
+| `Point(1, 2)` | `Point(1, 2)` |
+| `MainAxisAlignment.center` | `"center"` |
+
+Enums are plain strings. A builder call with only literal arguments is folded into the template at compile time, so it costs nothing at runtime.
+
+### Shorthands
+
+Some values have a short form:
+
+| Short form | Means |
+|---|---|
+| `padding={8}` | `EdgeInsets.all(8)` |
+| `borderRadius={12}` | `BorderRadius.circular(12)` |
+| `color="#ff8800"` | the CSS hex color (`#rgb`, `#rgba`, `#rrggbb`, `#rrggbbaa`) |
+| `duration={300}` | 300 milliseconds |
+
+A short form works wherever a prop takes that type, or a supertype of it (`padding` takes `EdgeInsetsGeometry`). You can add your own with `@fuseShorthand`. Write a Dart function that takes a `bool`, a number, a `String` or a `List`, and returns the type:
+
+```dart
+@fuseShorthand
+Offset offsetSquare(double v) => Offset(v, v);
+```
+
+A type has at most one shorthand per kind of input. `@FuseShorthand(ts: ...)` narrows the TypeScript type: solid-fuse's color shorthand gives `` r'`#${string}`' ``.
+
+## Controllers: createX
+
+A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, or an `@fuse` class with mutable state) gets a `createX` function per constructor:
+
+```tsx
+import { GestureDetector, Text, View } from "solid-fuse";
+import { createTextEditingController } from "#fuse/flutter";
+import { TextField } from "#fuse/material_ui";
+
+function Search() {
+  const query = createTextEditingController({ text: "" });
+  return (
+    <View>
+      <TextField controller={query} />
+      <Text>{query.text()}</Text>
+      <GestureDetector onTap={() => query.setText("")}>
+        <Text>Clear</Text>
+      </GestureDetector>
+    </View>
+  );
+}
+```
+
+(With `"package:material_ui/material_ui.dart": { allow: ["TextField"] }` in `gen.libraries`. The import uses the generated component, not the built-in `TextField`.)
+
+- **Options** are the constructor's parameters. Each one takes a value or an accessor. An accessor is read once, unless the controller has a setter of the same name: then it stays in sync.
+- **State**: every getter is an accessor (`query.text()`) that updates when Dart notifies. It's `undefined` until Dart first reports it, unless an option or default gives the value.
+- **Setters** are `setX(value)`. A simple value (a number, string, boolean or enum) shows up in the accessor at once. A value Dart had before your write arrived is never shown over it, so the cursor of a text field you write to doesn't jump back.
+- **Methods** return a Promise of their result (`await anim.forward()` resolves when the animation ends).
+- **Streams** are async iterables: `for await (const v of x.changes()) ...`. Leaving the loop cancels the subscription.
+
+A Dart parameter that takes a `TickerProvider` (`vsync`) is supplied for you.
+
+A handle prop only takes controllers that fit: a `ScrollController` can't go where a `TextEditingController` is expected.
+
+### Lifetime
+
+A controller lives as long as the component (the reactive owner) that created it. If something still holds it after that, for example because it was handed to a parent, it lives until nothing does. Then Dart disposes it. There is no `dispose()` method, because anyone holding the controller could call it.
+
+To release one early, give it its own owner and keep the dispose function:
+
+```tsx
+import { createRoot } from "solid-js";
+
+const [anim, release] = createRoot((dispose) => [createAnimationController({ duration: 300 }), dispose] as const);
+// ... later
+release();
+```
+
+Only the code that called `createRoot` can release it. To create one that belongs to no component (a module-level controller), use `runWithOwner(null, () => createX())`. It then lives until JS lets go of it.
+
+## What is skipped
+
+Something that can't cross the bridge yet is skipped, not guessed at, and `gen-report.txt` says why. If an optional parameter is skipped, its prop is missing. If a required one is skipped, the whole widget is missing. Not bridged yet:
+
+- Builders: callbacks that return a value at once (`ListView.builder`'s `itemBuilder`). They wait for synchronous Dart to JS calls.
+- Controllers that Dart hands to JS: a callback argument, or a getter that returns another controller (`ScrollController.position`).
+- Typed data (`Uint8List`), records, and values generic over a type parameter.
+- A controller method or setter that takes a function, a widget or a controller.

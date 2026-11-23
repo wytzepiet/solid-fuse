@@ -36,6 +36,10 @@
     "src",
     "dart",
     "cli",
+    "gen/bin",
+    "gen/lib",
+    "gen/pubspec.yaml",
+    "gen/README.md",
     "templates",
     "fuse.config.ts"
   ],

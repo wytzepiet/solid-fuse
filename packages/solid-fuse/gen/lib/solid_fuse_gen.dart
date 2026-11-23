@@ -48,7 +48,8 @@ String inputHash({required String root, required String configJson}) {
   if (lib.existsSync()) {
     final files = [
       for (final f in lib.listSync(recursive: true))
-        if (f is File && f.path.endsWith('.dart')) f,
+        // What fuse gen and fuse link write is output, not input.
+        if (f is File && f.path.endsWith('.dart') && !_generatedFile(f.path)) f,
     ]..sort((a, b) => a.path.compareTo(b.path));
     final stats = StringBuffer();
     for (final f in files) {
@@ -94,7 +95,7 @@ List<String> annotatedLibraries(String root) {
 
 bool _generatedFile(String path) =>
     path.endsWith('.generated.dart') || path.endsWith('.g.dart') || path.endsWith('.freezed.dart') ||
-    p.split(path).contains('generated');
+    p.split(path).any((s) => s == 'generated' || s == '_generated');
 
 /// Loads the libraries [config] names from the package at [root] and builds
 /// the manifest.

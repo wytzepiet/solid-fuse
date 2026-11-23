@@ -105,6 +105,10 @@ Both are thin wrappers around the same [handle system](/docs/extending/creating-
 
 The signal updates are not lazy — every Dart-side change calls into JS. Use `Math.round` or wrap reads in your own `createMemo` if you want to throttle re-renders.
 
+## Generated controllers
+
+Any other Flutter controller (`TextEditingController`, `AnimationController`, `PageController`, ...) can be generated: see [Controllers: createX](/docs/extending/generating#controllers-createx).
+
 ## Building your own
 
 You can create handles for any persistent native Dart object — animation controllers, page route observers, native plugin instances. See [Creating handles](/docs/extending/creating-handles) for the full pattern.

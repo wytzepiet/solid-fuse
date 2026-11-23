@@ -1,9 +1,9 @@
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { join, resolve } from "path";
 import { mergeConfig, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
-import type { FuseConfig } from "../src/config";
+import type { FuseCompileOptions, FuseConfig } from "../src/config";
 import { fuseDevErrorPlugin } from "./dev-error-plugin";
 import { fuseCompilePlugin } from "./compile-plugin";
 
@@ -39,12 +39,30 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
     },
   });
 
+  // `fuse gen` output: modules imported as `#fuse/<package>`, and the tables
+  // that let the compile step treat their components and builders as constant.
+  const genDir = resolve(projectRoot, fuseConfig?.gen?.out ?? "fuse");
+  const compile = { ...fuseConfig?.compile };
+  const tables = join(genDir, "intrinsics.json");
+  if (existsSync(tables)) {
+    const t = JSON.parse(readFileSync(tables, "utf8")) as {
+      intrinsics: Record<string, Record<string, string>>;
+      builders: NonNullable<FuseCompileOptions["builders"]>;
+    };
+    const prefixed = <T>(o: Record<string, T>) => Object.fromEntries(Object.entries(o).map(([k, v]) => [`#fuse/${k}`, v]));
+    compile.intrinsics = { ...prefixed(t.intrinsics), ...compile.intrinsics };
+    compile.builders = { ...prefixed(t.builders), ...compile.builders };
+  }
+
   const fuseDefaults: InlineConfig = {
     configFile: false,
     root: projectRoot,
+    resolve: {
+      alias: [{ find: /^#fuse\/(.*)$/, replacement: `${genDir}/$1.tsx` }],
+    },
     // The compile step goes in front of Solid's compiler (both are "pre").
     plugins: [
-      fuseCompilePlugin({ ...fuseConfig?.compile, moduleName: solidOptions.solid.moduleName }),
+      fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),
     ],
