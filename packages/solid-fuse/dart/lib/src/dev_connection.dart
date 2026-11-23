@@ -24,7 +24,7 @@ class DevServerConnection extends FuseConnection {
   JsEngine? _engine;
   FuseChannels? _channels;
   FuseWsManager? _wsManager;
-  WidgetsBindingObserver? _brightnessObserver;
+  WidgetsBindingObserver? _hostObserver;
   final _modules = <String, String>{};
   WebSocketChannel? _hmrChannel;
 
@@ -66,15 +66,15 @@ class DevServerConnection extends FuseConnection {
     // close its sockets, free its runtime (safe since fjs fixed #8).
     final oldEngine = _engine;
     final oldWsManager = _wsManager;
-    final oldBrightnessObserver = _brightnessObserver;
+    final oldHostObserver = _hostObserver;
     _engine = null;
     if (oldEngine != null &&
         oldWsManager != null &&
-        oldBrightnessObserver != null) {
-      await retireEngine(oldEngine, oldWsManager, oldBrightnessObserver);
+        oldHostObserver != null) {
+      await retireEngine(oldEngine, oldWsManager, oldHostObserver);
     }
 
-    final (:engine, :wsManager, :channels, :brightnessObserver) =
+    final (:engine, :wsManager, :channels, :hostObserver) =
         await createEngine(
       builtins: builtins,
       modules: modules,
@@ -82,7 +82,7 @@ class DevServerConnection extends FuseConnection {
     _engine = engine;
     _channels = channels;
     _wsManager = wsManager;
-    _brightnessObserver = brightnessObserver;
+    _hostObserver = hostObserver;
   }
 
   Future<void> _evalEntry(String entryPath) async {

@@ -64,7 +64,7 @@ export { createHandle } from "./handle";
 export type { Handle, HandleRuntime } from "./handle";
 export { on, send, channels } from "./channels";
 export { host } from "./host";
-export type { Host, Brightness, Platform, BuildMode } from "./host";
+export type { Host, Brightness, Platform, BuildMode, ViewSize, ViewEdges } from "./host";
 export { defineConfig } from "./config";
 export type { FuseConfig } from "./config";
 export type * from "./types";

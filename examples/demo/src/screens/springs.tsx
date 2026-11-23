@@ -1,5 +1,5 @@
 import { For, createSignal } from "solid-js";
-import { Pressable, Text, View, bouncy, createSpring, lerp, lerpColor } from "solid-fuse";
+import { Pressable, Text, View, bouncy, createSpring, host, lerp, lerpColor } from "solid-fuse";
 
 // Springs: follow a signal, an entrance, and set/await.
 export function SpringsScreen() {
@@ -55,6 +55,7 @@ export function SpringsScreen() {
         <View width={40} height={40} decoration={{ color: "#db2777", borderRadius: 8 }} transform={{ translateX: x() }} />
       </Pressable>
       <Text testId="steps">{steps()}</Text>
+      <Text testId="view">{`${host.size().width} x ${host.size().height}, ${host.orientation()}`}</Text>
     </View>
   );
 }

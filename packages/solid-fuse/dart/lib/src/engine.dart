@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,7 @@ typedef EngineResult = ({
   JsEngine engine,
   FuseWsManager wsManager,
   FuseChannels channels,
-  WidgetsBindingObserver brightnessObserver,
+  WidgetsBindingObserver hostObserver,
 });
 
 /// Creates a new engine with the channel system, console shim, and WebSocket
@@ -78,18 +79,20 @@ Future<EngineResult> createEngine({
   // Material/Cupertino — so it survives the design-system package split.
   await engine.eval(
     source: JsCode.code(
-      'globalThis.__fuseHost = {'
-      ' mode: "$mode",'
-      ' platform: "${_fusePlatformName()}",'
-      ' brightness: "${_fuseBrightnessName()}"'
-      ' };',
+      'globalThis.__fuseHost = ${jsonEncode({
+        'mode': mode,
+        'platform': _fusePlatformName(),
+        'brightness': _fuseBrightnessName(),
+        'view': fuseViewMetrics(),
+      })};',
     ),
   );
 
-  // Forward OS light/dark changes to JS so host.brightness() stays reactive.
-  // One observer per engine; retireEngine removes it from the binding.
-  final brightnessObserver = _FuseBrightnessObserver(channels);
-  WidgetsBinding.instance.addObserver(brightnessObserver);
+  // Forward OS light/dark and view changes to JS so host's accessors stay
+  // reactive. One observer per engine; retireEngine removes it from the
+  // binding.
+  final hostObserver = _FuseHostObserver(channels);
+  WidgetsBinding.instance.addObserver(hostObserver);
 
   // NB: the `console` shim lives in the JS package (src/polyfills.ts), not here —
   // it's a standard-global polyfill with no Dart dependency, alongside
@@ -112,13 +115,13 @@ Future<EngineResult> createEngine({
     engine: engine,
     wsManager: wsManager,
     channels: channels,
-    brightnessObserver: brightnessObserver,
+    hostObserver: hostObserver,
   );
 }
 
 /// Creates a minimal engine for testing.
 Future<JsEngine> createTestEngine() async {
-  final (:engine, :wsManager, :channels, :brightnessObserver) =
+  final (:engine, :wsManager, :channels, :hostObserver) =
       await createEngine();
   return engine;
 }
@@ -130,9 +133,9 @@ Future<JsEngine> createTestEngine() async {
 Future<void> retireEngine(
   JsEngine engine,
   FuseWsManager wsManager,
-  WidgetsBindingObserver brightnessObserver,
+  WidgetsBindingObserver hostObserver,
 ) async {
-  WidgetsBinding.instance.removeObserver(brightnessObserver);
+  WidgetsBinding.instance.removeObserver(hostObserver);
   wsManager.dispose();
   await engine.close();
 }
@@ -159,16 +162,42 @@ String _fuseBrightnessName() =>
         ? 'dark'
         : 'light';
 
-/// Forwards OS light/dark changes to its engine's channels so host.brightness()
-/// stays reactive. One per engine; createEngine adds it, retireEngine removes it.
-class _FuseBrightnessObserver with WidgetsBindingObserver {
-  _FuseBrightnessObserver(this._channels);
+/// The app's view as `host` reports it (src/host.ts), in logical pixels: what
+/// `MediaQuery` would say at the root. The implicit view, or the first.
+@visibleForTesting
+Map<String, Object?> fuseViewMetrics() {
+  final dispatcher = WidgetsBinding.instance.platformDispatcher;
+  final view = dispatcher.implicitView ?? dispatcher.views.firstOrNull;
+  if (view == null) return const {};
+  final data = MediaQueryData.fromView(view);
+  Map<String, double> insets(EdgeInsets e) => {'left': e.left, 'top': e.top, 'right': e.right, 'bottom': e.bottom};
+  return {
+    'size': {'width': data.size.width, 'height': data.size.height},
+    'devicePixelRatio': data.devicePixelRatio,
+    'padding': insets(data.padding),
+    'viewInsets': insets(data.viewInsets),
+    'viewPadding': insets(data.viewPadding),
+    'textScale': data.textScaler.scale(1),
+  };
+}
+
+/// Forwards OS light/dark and view changes (size, insets, text scale) to its
+/// engine's channels so `host`'s accessors stay reactive. One per engine;
+/// createEngine adds it, retireEngine removes it.
+class _FuseHostObserver with WidgetsBindingObserver {
+  _FuseHostObserver(this._channels);
 
   final FuseChannels _channels;
 
   @override
   void didChangePlatformBrightness() => _channels
       .send('_brightness', <String, dynamic>{'value': _fuseBrightnessName()});
+
+  @override
+  void didChangeMetrics() => _channels.send('_view', fuseViewMetrics());
+
+  @override
+  void didChangeTextScaleFactor() => _channels.send('_view', fuseViewMetrics());
 }
 
 // --- Job pump ---

@@ -1,15 +1,17 @@
 ---
 title: Host facts
-description: Ambient app facts — brightness, platform, and build mode
+description: Ambient app facts — brightness, view size and insets, platform, and build mode
 ---
 
 `host` is a small, read-only namespace describing the device and build your app is
-running on: the system's light/dark setting, the platform, and the build mode.
+running on: the system's light/dark setting, the view's size and insets, the
+platform, and the build mode.
 
 ```tsx
 import { host } from "solid-fuse";
 
 host.brightness(); // "light" | "dark"   — reactive
+host.size();       // { width, height }   — reactive
 host.platform;     // "ios" | "android" | "macos" | "windows" | "linux" | "fuchsia" | "web"
 host.mode;         // "debug" | "profile" | "release"
 ```
@@ -19,6 +21,13 @@ host.mode;         // "debug" | "profile" | "release"
 | Member | Type | Reactive? | Description |
 |---|---|---|---|
 | `brightness()` | `() => "light" \| "dark"` | ✅ | System light/dark setting. |
+| `size()` | `() => { width, height }` | ✅ | The app's view, in logical pixels. |
+| `orientation()` | `() => "portrait" \| "landscape"` | ✅ | Landscape when wider than tall. |
+| `devicePixelRatio()` | `() => number` | ✅ | Physical pixels per logical pixel. |
+| `padding()` | `() => { left, top, right, bottom }` | ✅ | Space the system UI covers (status bar, notch), less what the keyboard covers. |
+| `viewInsets()` | `() => { left, top, right, bottom }` | ✅ | Space the keyboard covers. |
+| `viewPadding()` | `() => { left, top, right, bottom }` | ✅ | Space the system UI covers, keyboard or not. |
+| `textScale()` | `() => number` | ✅ | The system text size: 14 shows as `14 * textScale()`. |
 | `platform` | `Platform` | — | Target platform, fixed for the session. |
 | `mode` | `"debug" \| "profile" \| "release"` | — | Build mode, fixed for the session. |
 
@@ -47,6 +56,25 @@ function Screen() {
   );
 }
 ```
+
+## View
+
+The view metrics are Flutter's `MediaQuery` at the root of the app, in logical
+pixels. Each is its own signal, compared by value: the keyboard opening updates
+`viewInsets()` and leaves readers of `size()` alone.
+
+```tsx
+import { host, View } from "solid-fuse";
+
+// Two columns on a wide screen.
+const columns = () => (host.size().width > 600 ? 2 : 1);
+
+// Room for the keyboard.
+<View padding={{ bottom: host.viewInsets().bottom }}>...</View>;
+```
+
+These describe the whole app's view. A widget that sizes itself to the space it
+gets should use the generated `LayoutBuilder` (`#fuse/flutter`) instead.
 
 ## Platform & mode
 

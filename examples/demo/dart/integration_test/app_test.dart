@@ -265,6 +265,11 @@ void main() {
     expect(find.text('done'), findsOneWidget);
     expect(furthest, closeTo(160, 1));
 
+    // host.size() follows the view.
+    tester.view.physicalSize = const Size(1600, 900) * tester.view.devicePixelRatio;
+    addTearDown(tester.view.resetPhysicalSize);
+    await pumpUntil(tester, find.text('1600 x 900, landscape'));
+
     // Heroine: the app's Navigator observes with a HeroineController, and a
     // tile flies into a heroinePage and back.
     expect(tester.widget<Navigator>(find.byType(Navigator).last).observers.whereType<HeroineController>(), hasLength(1));
