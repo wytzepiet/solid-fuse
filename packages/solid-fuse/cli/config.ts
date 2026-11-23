@@ -101,7 +101,12 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
       // connects. Without this, Vite discovers these deps from the first
       // request and re-optimizes mid-fetch, invalidating in-flight URLs.
       entries: ["src/index.tsx"],
-      include: ["solid-fuse", "solid-js"],
+      // Both solid-fuse entries in one optimize run, so they share one
+      // renderer. `solid-fuse/generated` is often first imported from a
+      // design package, which is excluded from the scan; found later, it
+      // would be bundled with a renderer of its own (its own node ids and
+      // ops journal).
+      include: ["solid-fuse", "solid-fuse/generated", "solid-js"],
       exclude: fusePackageNames(projectRoot),
     },
     build: {
