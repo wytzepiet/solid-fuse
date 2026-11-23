@@ -145,8 +145,6 @@ export interface Widget {
   params: Param[];
   children?: { param: string; many: boolean };
   textChild?: string;
-  /** A PreferredSizeWidget: its adapter is one too. */
-  preferredSize?: true;
 }
 
 export interface Manifest {

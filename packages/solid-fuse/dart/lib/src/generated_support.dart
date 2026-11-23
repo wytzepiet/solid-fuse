@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'fuse_handle.dart';
 import 'node.dart';
 import 'node_widget.dart';
+import 'runtime.dart';
 
 // ── JS -> Dart ──────────────────────────────────────────────────────────────
 
@@ -72,17 +73,67 @@ Widget? decWidget(FuseNode n, Object? v) {
   return node == null ? null : FuseNodeWidget(node: node);
 }
 
-/// A widget for a `PreferredSizeWidget` slot (Scaffold's `appBar`). The node's
-/// adapter knows the size (generated adapters of PreferredSizeWidgets are
-/// ones too); the child still rebuilds on its own.
-PreferredSizeWidget? decPreferredSize(FuseNode n, Object? v, Map<String, Widget Function(FuseNode)> builders) {
+/// The widget of the node a typed slot points at (Scaffold's `appBar`, a
+/// `List<Tab>`): the node's own widget, built here in
+/// [context], so the slot gets the type it asks for. The widget building it
+/// rebuilds when the node changes ([FuseTypedSlots]).
+S? decTyped<S extends Widget>(FuseNode n, Object? v, BuildContext context) {
   final node = fuseNodeOf(n, v);
   if (node == null) return null;
-  final w = builders[node.type]?.call(node);
-  if (w is! PreferredSizeWidget) {
-    throw ArgumentError('<${node.type}> has no preferred size; this slot takes a widget that does (an app bar)');
+  FuseTypedSlots._collecting?.add(node);
+  final w = FuseRuntimeScope.of(context).makeWidgetForNode(node, context);
+  if (w is S) return w;
+  throw ArgumentError('<${node.type}> is not a $S, which this slot takes');
+}
+
+/// Builds a widget with typed slots, and builds it again when a node one of
+/// them took changes (that node's widget is part of this one).
+class FuseTypedSlots extends StatefulWidget {
+  const FuseTypedSlots({super.key, required this.builder});
+
+  final WidgetBuilder builder;
+
+  /// Nodes [decTyped] reads during the current build.
+  static List<FuseNode>? _collecting;
+
+  @override
+  State<FuseTypedSlots> createState() => _FuseTypedSlotsState();
+}
+
+class _FuseTypedSlotsState extends State<FuseTypedSlots> {
+  Set<FuseNode> _watched = {};
+
+  void _changed() => setState(() {});
+
+  void _unwatch(FuseNode node) {
+    // A disposed node is out of the registry and has no listeners left.
+    if (identical(node.registry.tryGet(node.id), node)) node.removeListener(_changed);
   }
-  return PreferredSize(preferredSize: w.preferredSize, child: FuseNodeWidget(node: node));
+
+  @override
+  Widget build(BuildContext context) {
+    final outer = FuseTypedSlots._collecting;
+    final seen = FuseTypedSlots._collecting = [];
+    try {
+      return widget.builder(context);
+    } finally {
+      FuseTypedSlots._collecting = outer;
+      final now = seen.toSet();
+      for (final node in _watched) {
+        if (!now.contains(node)) _unwatch(node);
+      }
+      for (final node in now) {
+        if (!_watched.contains(node)) node.addListener(_changed);
+      }
+      _watched = now;
+    }
+  }
+
+  @override
+  void dispose() {
+    _watched.forEach(_unwatch);
+    super.dispose();
+  }
 }
 
 /// The object of the handle a value points at, when it is a [T].

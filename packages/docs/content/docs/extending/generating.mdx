@@ -78,7 +78,9 @@ A generic widget is instantiated at its type parameter's bound, `Object?` when i
 <DropdownMenu dropdownMenuEntries={[DropdownMenuEntry({ value: { id: 7 }, label: "Seven" })]} />
 ```
 
-A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it.
+A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function.
+
+Some props take a particular kind of widget: Scaffold's `appBar` is a `PreferredSizeWidget`, `DropdownButton`'s `items` are `DropdownMenuItem`s. Give them that element; anything else is an error that names both. The parent gets the widget itself, built where the parent is, so it can read it (an app bar's height). The parent rebuilds when that element changes. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it.
 
 ### Builders
 

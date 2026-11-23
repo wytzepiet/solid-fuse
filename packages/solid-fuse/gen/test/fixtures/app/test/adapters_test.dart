@@ -189,6 +189,40 @@ void main() {
     ], 1);
     expect(find.text('title'), findsOneWidget);
     expect(t.getSize(find.byType(m.AppBar)).height, m.kToolbarHeight);
+    // The app bar is part of the scaffold's widget: a change rebuilds it.
+    rt.applyOps([...text(6, 'other'), ...setProp(3, 'title', {'_node': 6})]);
+    await t.pump();
+    expect(find.text('other'), findsOneWidget);
+  });
+
+  testWidgets('a typed slot takes the widget itself, and rebuilds with it', (t) async {
+    await pump(t, [
+      create(1, 'fixture_app_Shelf'),
+      create(2, 'fixture_app_Pill', {'label': 'a'}),
+      create(3, 'fixture_app_Pill', {'label': 'b'}),
+      create(4, 'fixture_app_Pill', {'label': 'c'}),
+      setProp(1, 'lead', {'_node': 2}),
+      setProp(1, 'pills', [{'_node': 3}, {'_node': 4}]),
+    ], 1);
+    final shelf = t.widget<Shelf>(find.byType(Shelf));
+    expect(shelf.lead!.label, 'a');
+    expect([for (final p in shelf.pills) p.label], ['b', 'c']);
+    rt.applyOps([...setProp(3, 'label', 'B')]);
+    await t.pump();
+    expect(find.text('pill B'), findsOneWidget);
+    // Once a slot lets go of a node, its changes don't rebuild the shelf.
+    rt.applyOps([...setProp(1, 'pills', <Object?>[])]);
+    await t.pump();
+    expect(find.text('pill B'), findsNothing);
+  });
+
+  testWidgets('a typed slot given another widget is an error naming both', (t) async {
+    await pump(t, [
+      create(1, 'fixture_app_Shelf'),
+      create(2, 'flutter_Text', {'data': 'x'}),
+      setProp(1, 'lead', {'_node': 2}),
+    ], 1);
+    expect(t.takeException(), isA<ArgumentError>().having((e) => '$e', 'message', contains('<flutter_Text> is not a Pill')));
   });
 
   group('a created handle', () {

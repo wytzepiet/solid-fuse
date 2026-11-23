@@ -18,6 +18,10 @@ import 'quickjs_connection.dart';
 /// so you can register with `register('type', MyWidget.new)`.
 typedef FuseWidgetBuilder = Widget Function(FuseNode node);
 
+/// Builds the widget itself for [node] in [context], for a slot that takes a
+/// particular widget type (generated adapters register one).
+typedef FuseWidgetMaker = Widget Function(FuseNode node, BuildContext context);
+
 /// Host for the WebSocket dev server.
 /// Pass via: --dart-define=FUSE_HOST=192.168.x.x
 const _devHost = String.fromEnvironment('FUSE_HOST', defaultValue: 'localhost');
@@ -48,6 +52,7 @@ class FuseRuntime {
   FuseConnection? _connection;
 
   final Map<String, FuseWidgetBuilder> _widgetBuilders = {};
+  final Map<String, FuseWidgetMaker> _widgetMakers = {};
   final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
   late final FuseNodeRegistry registry;
 
@@ -63,8 +68,9 @@ class FuseRuntime {
   }
 
   /// Register a widget type — maps a node type to a Flutter Widget builder.
-  void registerWidget(String type, FuseWidgetBuilder builder) {
+  void registerWidget(String type, FuseWidgetBuilder builder, {FuseWidgetMaker? make}) {
     _widgetBuilders[type] = builder;
+    if (make != null) _widgetMakers[type] = make;
   }
 
   /// Register a handle type — maps a node type to a [FuseHandle] factory.
@@ -506,6 +512,11 @@ class FuseRuntime {
 
     return builder(node);
   }
+
+  /// The widget itself for [node], built in [context]: what its maker
+  /// makes, or else what [buildWidgetForNode] gives.
+  Widget makeWidgetForNode(FuseNode node, BuildContext context) =>
+      _widgetMakers[node.type]?.call(node, context) ?? buildWidgetForNode(node);
 
   Widget devError(FuseNode node, String message) {
     final label = node.component != null

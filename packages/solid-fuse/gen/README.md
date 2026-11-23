@@ -33,8 +33,13 @@ RenderObject, Element).
   interface that isn't a handle declares (WidgetsBindingObserver's).
 - **Supplied** parameters are never props: a TickerProvider (`vsync`) comes
   from the runtime, a BuildContext is the one the adapter builds in (only in
-  widget adapters, and not in a PreferredSizeWidget's, which is also built
-  for its size).
+  widget adapters).
+- **Typed widget slots** (`PreferredSizeWidget appBar`, `List<Tab> tabs`)
+  are `{"k": "widget", "as": "<Dart type>"}`: the adapter builds the child
+  node's own widget in its context (every adapter has a static `make`) and
+  checks its type, and rebuilds when such a child changes. Values and
+  handles are decoded without a context, so they can't take one, and a
+  callback can't return one.
 - **Type parameters** resolve to their bounds (`Object?` when unbounded),
   everywhere: a generic widget is instantiated at them, and a type generic
   over one (`DropdownMenuEntry<T>`) is read as that instantiation.

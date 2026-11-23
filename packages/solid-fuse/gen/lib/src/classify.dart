@@ -141,9 +141,11 @@ class Classifier {
 
     if (el == w.widgetEl) return {'k': 'widget'};
     if (w.isSubtypeOfEl(t, w.widgetEl)) {
-      // The adapter of a PreferredSizeWidget is one too; the slot asks it.
-      if (el == w.preferredSizeWidgetEl) return {'k': 'widget', 'as': 'preferredSize'};
-      throw Skip('widget slot typed ${el.name}');
+      // A typed slot (`PreferredSizeWidget appBar`, `List<Tab> tabs`) takes
+      // the node's own widget, built where the slot is.
+      if (el.isPrivate || !w.isExported(el)) throw Skip('widget slot typed ${el.name} (not exported)');
+      final as = code.type(t);
+      return {'k': 'widget', 'as': as.endsWith('?') ? as.substring(0, as.length - 1) : as};
     }
     if (w.isSubtypeOfEl(t, w.keyEl)) {
       if (el == w.keyEl || el == w.localKeyEl) return {'k': 'key'};
@@ -679,6 +681,9 @@ class Classifier {
     } else {
       ret = input(r);
     }
+    // A typed widget is built where its slot is, during a build; a callback
+    // returns its widget later or in a JS root of its own.
+    if (_typedWidget(ret)) throw Skip('callback returns a typed widget');
     final sync = !isAsync && ret['k'] != 'void';
     return {
       'k': 'fn',
@@ -689,6 +694,15 @@ class Classifier {
       // A synchronous return value needs a synchronous Dart -> JS call.
       if (sync) 'sync': true,
       'dart': code.type(f),
+    };
+  }
+
+  static bool _typedWidget(Object? ref) {
+    if (ref is! Map) return false;
+    return switch (ref['k']) {
+      'widget' => ref['as'] != null,
+      'list' || 'set' || 'iterable' || 'map' => _typedWidget(ref['of']),
+      _ => false,
     };
   }
 

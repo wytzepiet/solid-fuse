@@ -232,7 +232,6 @@ class ManifestBuilder {
       'class': name,
       'ctor': ?cname,
       'dart': code.ref(cls),
-      if (w.isSubtypeOfEl(cls.thisType, w.preferredSizeWidgetEl)) 'preferredSize': true,
       if (sig['deprecated'] == true) 'deprecated': true,
       if (firstParagraph(ctor.documentationComment) ?? firstParagraph(cls.documentationComment) case final d?) 'doc': d,
       if (cls.typeParameters.isNotEmpty)
@@ -324,19 +323,20 @@ class ManifestBuilder {
 
     String? notBuildable(Json p) => bad(p['type']) ? 'type not constructible' : null;
 
-    // A BuildContext is the adapter's own: only a widget built in one has it
-    // (a preferred-size widget is also built without one, for its size).
+    // A BuildContext is the widget adapter's own: a value or a handle is
+    // decoded without one, so it can't take a BuildContext or a typed widget
+    // slot (built where the slot is).
     String? noContext(Json p) {
-      final t = p['type'];
-      return t is Map && t['k'] == 'supplied' && t['of'] == 'context' ? 'BuildContext outside a widget' : null;
+      bool needs(Object? t) => t is Map && switch (t['k']) {
+        'supplied' => t['of'] == 'context',
+        'widget' => t['as'] != null,
+        'list' || 'set' || 'iterable' || 'map' => needs(t['of']),
+        _ => false,
+      };
+      return needs(p['type']) ? 'needs the BuildContext of a widget' : null;
     }
 
     // Limits first: they only ever remove things.
-    _widgets.removeWhere((wj) {
-      final ok = _fix(wj['params']! as List, (p) => wj['preferredSize'] == true ? noContext(p) : null);
-      if (!ok) _skip(wj['id']! as String, 'a required parameter cannot cross the bridge yet');
-      return !ok;
-    });
     for (final d in c.types.values) {
       final variants = d['variants'];
       if (variants is List) {

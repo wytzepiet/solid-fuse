@@ -132,6 +132,13 @@ export interface DartOutput {
   tags: Record<string, string>;
 }
 
+/** Whether [ref] is or holds a typed widget slot. */
+function typedWidget(ref: Ref): boolean {
+  if (ref.k === "widget") return !!ref.as;
+  if (ref.k === "list" || ref.k === "set" || ref.k === "iterable" || ref.k === "map") return typedWidget(ref.of);
+  return false;
+}
+
 export function emitDart(m: Manifest, options: { registerFunction?: string } = {}): DartOutput {
   const registerFunction = options.registerFunction ?? "registerFuseGenerated";
   const hIds = handleIds(m);
@@ -214,7 +221,9 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         if (!cx.context) throw new Error("a BuildContext outside a widget adapter");
         return cx.context;
       case "widget":
-        return ref.as === "preferredSize" ? `decPreferredSize(${cx.n}, ${src}, fuseGeneratedWidgets)` : `decWidget(${cx.n}, ${src})`;
+        if (!ref.as) return `decWidget(${cx.n}, ${src})`;
+        if (!cx.context) throw new Error("a typed widget slot outside a widget adapter");
+        return `decTyped<${cx.sub(ref.as)}>(${cx.n}, ${src}, ${cx.context})`;
       case "handle":
         return `decHandle<${noQ(cx.sub(m.types[ref.id].dart))}>(${cx.n}, ${src})`;
       case "fn":
@@ -420,6 +429,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
 
   const adapters: string[] = [];
   const registrations: string[] = [];
+  const makers: string[] = [];
   const tags: Record<string, string> = {};
   m.widgets.forEach((w, i) => {
     const cls = `_W${i}_${w.component}`;
@@ -437,33 +447,30 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     const typeArgs = tps.length ? `<${tps.map((tp) => bounds.get(tp.name)).join(", ")}>` : "";
     const callee = `${w.dart}${typeArgs}${w.ctor ? `.${w.ctor}` : ""}`;
     const made = call(callee, w.params, (p) => widgetArg(w, p, sub));
+    // A typed slot builds its child's widget in place, so this widget
+    // rebuilds when a child built that way changes.
+    const typed = w.params.some((p) => p.type && w.children?.param !== p.name && typedWidget(p.type));
+    const T = `${noQ(w.dart)}${typeArgs}`;
     adapters.push(
-      (w.preferredSize
-        ? [
-            // Built without a context, so the slot can ask for the size.
-            `class ${cls} extends $fw.StatelessWidget implements $fw.PreferredSizeWidget {`,
-            `  const ${cls}(this.node, {super.key});`,
-            "  final FuseNode node;",
-            `  ${noQ(w.dart)}${typeArgs} _make() => ${made};`,
-            "  @override",
-            "  $fw.Size get preferredSize => _make().preferredSize;",
-            "  @override",
-            "  $fw.Widget build($fw.BuildContext context) => _make();",
-            "}",
-          ]
-        : [
-            `class ${cls} extends $fw.StatelessWidget {`,
-            `  const ${cls}(this.node, {super.key});`,
-            "  final FuseNode node;",
-            "  @override",
-            `  $fw.Widget build($fw.BuildContext context) => ${made};`,
-            "}",
-          ]
-      ).join("\n"),
+      [
+        `class ${cls} extends $fw.StatelessWidget {`,
+        `  const ${cls}(this.node, {super.key});`,
+        "  final FuseNode node;",
+        "",
+        "  /// The widget itself, built in [context] (a typed slot takes it).",
+        `  static ${T} make(FuseNode node, $fw.BuildContext context) => ${made};`,
+        "",
+        "  @override",
+        typed
+          ? `  $fw.Widget build($fw.BuildContext context) => FuseTypedSlots(builder: (context) => make(node, context));`
+          : `  $fw.Widget build($fw.BuildContext context) => make(node, context);`,
+        "}",
+      ].join("\n"),
     );
     const tag = tagOf(w);
     tags[tag] = cls;
     registrations.push(`  ${q(tag)}: ${cls}.new,`);
+    makers.push(`  ${q(tag)}: ${cls}.make,`);
   });
 
   // ── handles ─────────────────────────────────────────────────────────────
@@ -582,13 +589,18 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     ...registrations,
     "};",
     "",
+    "/// Element tag -> the widget itself, for typed slots.",
+    "const fuseGeneratedMakers = <String, FuseWidgetMaker>{",
+    ...makers,
+    "};",
+    "",
     "/// Node type -> handle, for the handles JS creates.",
     "const fuseGeneratedHandles = <String, FuseHandle Function(FuseNode)>{",
     ...handleRegs,
     "};",
     "",
     `void ${registerFunction}(FuseRuntime runtime) {`,
-    "  fuseGeneratedWidgets.forEach(runtime.registerWidget);",
+    "  fuseGeneratedWidgets.forEach((type, b) => runtime.registerWidget(type, b, make: fuseGeneratedMakers[type]));",
     "  fuseGeneratedHandles.forEach(runtime.registerHandle);",
     "}",
     "",

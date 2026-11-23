@@ -19,21 +19,27 @@ const fuseGeneratedWidgets = <String, FuseWidgetBuilder>{
   'flutter_ListViewBuilder': _W0_ListViewBuilder.new,
 };
 
+/// Element tag -> the widget itself, for typed slots.
+const fuseGeneratedMakers = <String, FuseWidgetMaker>{
+  'flutter_ListViewBuilder': _W0_ListViewBuilder.make,
+};
+
 /// Node type -> handle, for the handles JS creates.
 const fuseGeneratedHandles = <String, FuseHandle Function(FuseNode)>{
   'flutter_ScrollController': _H0_ScrollController.new,
 };
 
 void registerFuseGenerated(FuseRuntime runtime) {
-  fuseGeneratedWidgets.forEach(runtime.registerWidget);
+  fuseGeneratedWidgets.forEach((type, b) => runtime.registerWidget(type, b, make: fuseGeneratedMakers[type]));
   fuseGeneratedHandles.forEach(runtime.registerHandle);
 }
 
 class _W0_ListViewBuilder extends $fw.StatelessWidget {
   const _W0_ListViewBuilder(this.node, {super.key});
   final FuseNode node;
-  @override
-  $fw.Widget build($fw.BuildContext context) => widgets.ListView.builder(
+
+  /// The widget itself, built in [context] (a typed slot takes it).
+  static widgets.ListView make(FuseNode node, $fw.BuildContext context) => widgets.ListView.builder(
       key: decKey(node['key']),
       scrollDirection: decEnum(widgets.Axis.values, node['scrollDirection']) ?? widgets.Axis.vertical,
       reverse: decBool(node['reverse']) ?? false,
@@ -69,6 +75,9 @@ class _W0_ListViewBuilder extends $fw.StatelessWidget {
       clipBehavior: decEnum(widgets.Clip.values, node['clipBehavior']) ?? widgets.Clip.hardEdge,
       hitTestBehavior: decEnum(widgets.HitTestBehavior.values, node['hitTestBehavior']) ?? widgets.HitTestBehavior.opaque,
     );
+
+  @override
+  $fw.Widget build($fw.BuildContext context) => make(node, context);
 }
 
 class _H0_ScrollController extends FuseGeneratedHandle<widgets.ScrollController> {

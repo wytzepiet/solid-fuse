@@ -74,6 +74,22 @@ class NeedsSecret extends StatelessWidget {
   Widget build(BuildContext context) => const SizedBox();
 }
 
+/// Typed slots: each takes the node's own widget.
+class Shelf extends StatelessWidget {
+  const Shelf({super.key, this.lead, this.pills = const []});
+  final Pill? lead;
+  final List<Pill> pills;
+  @override
+  Widget build(BuildContext context) => Column(children: [?lead, ...pills]);
+}
+
+class Pill extends StatelessWidget {
+  const Pill({super.key, required this.label});
+  final String label;
+  @override
+  Widget build(BuildContext context) => Text('pill $label', textDirection: TextDirection.ltr);
+}
+
 class Many extends StatelessWidget {
   const Many({super.key, this.children = const []});
   final List<Widget> children;
