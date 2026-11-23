@@ -1,6 +1,7 @@
 // Rule tests over test/fixtures/app (one example of every rule) and
 // package:flutter/widgets.dart. Needs `flutter` on PATH for the fixture's
 // `flutter pub get`.
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
@@ -213,6 +214,28 @@ void main() {
     final a = inputHash(root: fixture, configJson: '{"libraries":{}}');
     expect(inputHash(root: fixture, configJson: '{"libraries":{}}'), a);
     expect(inputHash(root: fixture, configJson: '{"libraries":{"x":{}}}'), isNot(a));
+  });
+
+  test('input hash follows the Dart of fuse packages taken from a path', () {
+    final tmp = Directory.systemTemp.createTempSync('fuse_hash');
+    addTearDown(() => tmp.deleteSync(recursive: true));
+    final app = Directory(p.join(tmp.path, 'app'))..createSync();
+    final pkg = Directory(p.join(tmp.path, 'pkg', 'lib', 'src'))..createSync(recursive: true);
+    File(p.join(tmp.path, 'pkg', 'lib', 'fuse.dart')).writeAsStringSync("export 'src/a.dart';\n");
+    final a = File(p.join(pkg.path, 'a.dart'))..writeAsStringSync('class A {}\n');
+    File(p.join(app.path, '.dart_tool', 'package_config.json'))
+      ..createSync(recursive: true)
+      ..writeAsStringSync(jsonEncode({
+        'configVersion': 2,
+        'packages': [
+          {'name': 'pkg', 'rootUri': '../../pkg/', 'packageUri': 'lib/'},
+          {'name': 'app', 'rootUri': '../', 'packageUri': 'lib/'},
+        ],
+      }));
+    final before = inputHash(root: app.path, configJson: '{}');
+    expect(inputHash(root: app.path, configJson: '{}'), before);
+    a.writeAsStringSync('class A {}\nclass B {}\n');
+    expect(inputHash(root: app.path, configJson: '{}'), isNot(before));
   });
 
   group('config', () {

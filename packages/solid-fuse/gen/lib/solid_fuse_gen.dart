@@ -50,19 +50,22 @@ String inputHash({required String root, required String configJson}) {
     final file = File(p.join(root, f));
     parts.add(file.existsSync() ? file.readAsBytesSync() : const []);
   }
-  // The app's own Dart (its barrel and what it exports): a stat per file is
-  // enough to notice an edit.
-  final lib = Directory(p.join(root, 'lib'));
-  if (lib.existsSync()) {
+  // The app's own Dart (its barrel and what it exports), and that of every
+  // fuse package it takes from a path (a workspace, yalc): those change
+  // without a new version in pubspec.lock. A stat per file is enough to
+  // notice an edit. Packages from pub are fixed by their version.
+  for (final dir in [root, ..._pathFusePackages(root)]) {
+    final lib = Directory(p.join(dir, 'lib'));
+    if (!lib.existsSync()) continue;
     final files = [
       for (final f in lib.listSync(recursive: true))
         // What fuse gen and fuse link write is output, not input.
         if (f is File && f.path.endsWith('.dart') && !_generatedFile(f.path)) f,
     ]..sort((a, b) => a.path.compareTo(b.path));
-    final stats = StringBuffer();
+    final stats = StringBuffer('$dir\n');
     for (final f in files) {
       final st = f.statSync();
-      stats.write('${p.relative(f.path, from: root)}:${st.size}:${st.modified.microsecondsSinceEpoch}\n');
+      stats.write('${p.relative(f.path, from: dir)}:${st.size}:${st.modified.microsecondsSinceEpoch}\n');
     }
     parts.add(utf8.encode(stats.toString()));
   }
@@ -73,6 +76,32 @@ String inputHash({required String root, required String configJson}) {
       ..addByte(0);
   }
   return sha256.convert(b.takeBytes()).toString();
+}
+
+/// The roots of the packages the app at [root] takes from a path, not from
+/// the pub cache, that have a barrel (`lib/fuse.dart`).
+List<String> _pathFusePackages(String root) {
+  final config = File(p.join(root, '.dart_tool', 'package_config.json'));
+  if (!config.existsSync()) return const [];
+  final Object? json;
+  try {
+    json = jsonDecode(config.readAsStringSync());
+  } on FormatException {
+    return const [];
+  }
+  final packages = json is Map ? json['packages'] : null;
+  if (packages is! List) return const [];
+  final self = p.normalize(p.absolute(root));
+  return [
+    for (final pkg in packages)
+      if (pkg is Map && pkg['rootUri'] is String)
+        if (config.parent.uri.resolve(pkg['rootUri'] as String) case final uri when uri.scheme == 'file')
+          if (p.normalize(uri.toFilePath()) case final dir
+              when dir != self &&
+                  !p.split(dir).contains('.pub-cache') &&
+                  File(p.join(dir, 'lib', 'fuse.dart')).existsSync())
+            dir,
+  ]..sort();
 }
 
 bool _generatedFile(String path) =>
