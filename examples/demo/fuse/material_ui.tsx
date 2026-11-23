@@ -27,7 +27,8 @@ export interface AboutDialogProps {
  * Dart: `AboutDialog`
  */
 export function AboutDialog(props: AboutDialogProps): JSX.Element {
-  return <material_ui_AboutDialog {...props} applicationIcon={$slot(props.applicationIcon)} />;
+  const $applicationIcon = $slot(() => props.applicationIcon);
+  return <material_ui_AboutDialog {...props} applicationIcon={$applicationIcon()} />;
 }
 
 export interface AboutDialogAdaptiveProps {
@@ -49,7 +50,8 @@ export interface AboutDialogAdaptiveProps {
  * Dart: `AboutDialog.adaptive`
  */
 export function AboutDialogAdaptive(props: AboutDialogAdaptiveProps): JSX.Element {
-  return <material_ui_AboutDialogAdaptive {...props} applicationIcon={$slot(props.applicationIcon)} />;
+  const $applicationIcon = $slot(() => props.applicationIcon);
+  return <material_ui_AboutDialogAdaptive {...props} applicationIcon={$applicationIcon()} />;
 }
 
 export interface AboutListTileProps {
@@ -76,7 +78,10 @@ export interface AboutListTileProps {
  * Dart: `AboutListTile`
  */
 export function AboutListTile(props: AboutListTileProps): JSX.Element {
-  return <material_ui_AboutListTile {...props} icon={$slot(props.icon)} applicationIcon={$slot(props.applicationIcon)} aboutBoxChildren={$slots(props.aboutBoxChildren)} />;
+  const $icon = $slot(() => props.icon);
+  const $applicationIcon = $slot(() => props.applicationIcon);
+  const $aboutBoxChildren = $slots(() => props.aboutBoxChildren);
+  return <material_ui_AboutListTile {...props} icon={$icon()} applicationIcon={$applicationIcon()} aboutBoxChildren={$aboutBoxChildren()} />;
 }
 
 export interface ActionChipProps {
@@ -119,7 +124,9 @@ export interface ActionChipProps {
  * Dart: `ActionChip`
  */
 export function ActionChip(props: ActionChipProps): JSX.Element {
-  return <material_ui_ActionChip {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  return <material_ui_ActionChip {...props} avatar={$avatar()} label={$label()} />;
 }
 
 export interface ActionChipElevatedProps {
@@ -162,7 +169,9 @@ export interface ActionChipElevatedProps {
  * Dart: `ActionChip.elevated`
  */
 export function ActionChipElevated(props: ActionChipElevatedProps): JSX.Element {
-  return <material_ui_ActionChipElevated {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  return <material_ui_ActionChipElevated {...props} avatar={$avatar()} label={$label()} />;
 }
 
 export interface ActionIconThemeProps {
@@ -311,7 +320,11 @@ export interface AlertDialogProps {
  * Dart: `AlertDialog`
  */
 export function AlertDialog(props: AlertDialogProps): JSX.Element {
-  return <material_ui_AlertDialog {...props} icon={$slot(props.icon)} title={$slot(props.title)} content={$slot(props.content)} actions={$slots(props.actions)} />;
+  const $icon = $slot(() => props.icon);
+  const $title = $slot(() => props.title);
+  const $content = $slot(() => props.content);
+  const $actions = $slots(() => props.actions);
+  return <material_ui_AlertDialog {...props} icon={$icon()} title={$title()} content={$content()} actions={$actions()} />;
 }
 
 export interface AlertDialogAdaptiveProps {
@@ -358,7 +371,11 @@ export interface AlertDialogAdaptiveProps {
  * Dart: `AlertDialog.adaptive`
  */
 export function AlertDialogAdaptive(props: AlertDialogAdaptiveProps): JSX.Element {
-  return <material_ui_AlertDialogAdaptive {...props} icon={$slot(props.icon)} title={$slot(props.title)} content={$slot(props.content)} actions={$slots(props.actions)} />;
+  const $icon = $slot(() => props.icon);
+  const $title = $slot(() => props.title);
+  const $content = $slot(() => props.content);
+  const $actions = $slots(() => props.actions);
+  return <material_ui_AlertDialogAdaptive {...props} icon={$icon()} title={$title()} content={$content()} actions={$actions()} />;
 }
 
 export interface AnimatedIconProps {
@@ -462,7 +479,12 @@ export interface AppBarProps {
  * Dart: `AppBar`
  */
 export function AppBar(props: AppBarProps): JSX.Element {
-  return <material_ui_AppBar {...props} leading={$slot(props.leading)} title={$slot(props.title)} actions={$slots(props.actions)} flexibleSpace={$slot(props.flexibleSpace)} bottom={$slot(props.bottom)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $actions = $slots(() => props.actions);
+  const $flexibleSpace = $slot(() => props.flexibleSpace);
+  const $bottom = $slot(() => props.bottom);
+  return <material_ui_AppBar {...props} leading={$leading()} title={$title()} actions={$actions()} flexibleSpace={$flexibleSpace()} bottom={$bottom()} />;
 }
 
 export interface AppBarThemeProps {
@@ -596,7 +618,8 @@ export interface BadgeProps {
  * Dart: `Badge`
  */
 export function Badge(props: BadgeProps): JSX.Element {
-  return <material_ui_Badge {...props} label={$slot(props.label)} />;
+  const $label = $slot(() => props.label);
+  return <material_ui_Badge {...props} label={$label()} />;
 }
 
 export interface BadgeCountProps {
@@ -1390,7 +1413,10 @@ export interface CheckboxListTileProps {
  * Dart: `CheckboxListTile`
  */
 export function CheckboxListTile(props: CheckboxListTileProps): JSX.Element {
-  return <material_ui_CheckboxListTile {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} secondary={$slot(props.secondary)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $secondary = $slot(() => props.secondary);
+  return <material_ui_CheckboxListTile {...props} title={$title()} subtitle={$subtitle()} secondary={$secondary()} />;
 }
 
 export interface CheckboxListTileAdaptiveProps {
@@ -1452,7 +1478,10 @@ export interface CheckboxListTileAdaptiveProps {
  * Dart: `CheckboxListTile.adaptive`
  */
 export function CheckboxListTileAdaptive(props: CheckboxListTileAdaptiveProps): JSX.Element {
-  return <material_ui_CheckboxListTileAdaptive {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} secondary={$slot(props.secondary)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $secondary = $slot(() => props.secondary);
+  return <material_ui_CheckboxListTileAdaptive {...props} title={$title()} subtitle={$subtitle()} secondary={$secondary()} />;
 }
 
 export interface CheckboxMenuButtonProps {
@@ -1489,7 +1518,8 @@ export interface CheckboxMenuButtonProps {
  * Dart: `CheckboxMenuButton`
  */
 export function CheckboxMenuButton(props: CheckboxMenuButtonProps): JSX.Element {
-  return <material_ui_CheckboxMenuButton {...props} trailingIcon={$slot(props.trailingIcon)} />;
+  const $trailingIcon = $slot(() => props.trailingIcon);
+  return <material_ui_CheckboxMenuButton {...props} trailingIcon={$trailingIcon()} />;
 }
 
 export interface CheckboxThemeProps {
@@ -1585,7 +1615,10 @@ export interface ChipProps {
  * Dart: `Chip`
  */
 export function Chip(props: ChipProps): JSX.Element {
-  return <material_ui_Chip {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} deleteIcon={$slot(props.deleteIcon)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  const $deleteIcon = $slot(() => props.deleteIcon);
+  return <material_ui_Chip {...props} avatar={$avatar()} label={$label()} deleteIcon={$deleteIcon()} />;
 }
 
 export interface ChipThemeProps {
@@ -1655,7 +1688,9 @@ export interface ChoiceChipProps {
  * Dart: `ChoiceChip`
  */
 export function ChoiceChip(props: ChoiceChipProps): JSX.Element {
-  return <material_ui_ChoiceChip {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  return <material_ui_ChoiceChip {...props} avatar={$avatar()} label={$label()} />;
 }
 
 export interface ChoiceChipElevatedProps {
@@ -1704,7 +1739,9 @@ export interface ChoiceChipElevatedProps {
  * Dart: `ChoiceChip.elevated`
  */
 export function ChoiceChipElevated(props: ChoiceChipElevatedProps): JSX.Element {
-  return <material_ui_ChoiceChipElevated {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  return <material_ui_ChoiceChipElevated {...props} avatar={$avatar()} label={$label()} />;
 }
 
 export interface CircleAvatarProps {
@@ -1935,7 +1972,9 @@ export interface DatePickerDialogProps {
  * Dart: `DatePickerDialog`
  */
 export function DatePickerDialog(props: DatePickerDialogProps): JSX.Element {
-  return <material_ui_DatePickerDialog {...props} switchToInputEntryModeIcon={$slot(props.switchToInputEntryModeIcon)} switchToCalendarEntryModeIcon={$slot(props.switchToCalendarEntryModeIcon)} />;
+  const $switchToInputEntryModeIcon = $slot(() => props.switchToInputEntryModeIcon);
+  const $switchToCalendarEntryModeIcon = $slot(() => props.switchToCalendarEntryModeIcon);
+  return <material_ui_DatePickerDialog {...props} switchToInputEntryModeIcon={$switchToInputEntryModeIcon()} switchToCalendarEntryModeIcon={$switchToCalendarEntryModeIcon()} />;
 }
 
 export interface DatePickerThemeProps {
@@ -1995,7 +2034,9 @@ export interface DateRangePickerDialogProps {
  * Dart: `DateRangePickerDialog`
  */
 export function DateRangePickerDialog(props: DateRangePickerDialogProps): JSX.Element {
-  return <material_ui_DateRangePickerDialog {...props} switchToInputEntryModeIcon={$slot(props.switchToInputEntryModeIcon)} switchToCalendarEntryModeIcon={$slot(props.switchToCalendarEntryModeIcon)} />;
+  const $switchToInputEntryModeIcon = $slot(() => props.switchToInputEntryModeIcon);
+  const $switchToCalendarEntryModeIcon = $slot(() => props.switchToCalendarEntryModeIcon);
+  return <material_ui_DateRangePickerDialog {...props} switchToInputEntryModeIcon={$switchToInputEntryModeIcon()} switchToCalendarEntryModeIcon={$switchToCalendarEntryModeIcon()} />;
 }
 
 export interface DefaultTabControllerProps {
@@ -2405,7 +2446,12 @@ export interface DropdownButtonProps {
  * Dart: `DropdownButton`
  */
 export function DropdownButton(props: DropdownButtonProps): JSX.Element {
-  return <material_ui_DropdownButton {...props} items={$slots(props.items)} hint={$slot(props.hint)} disabledHint={$slot(props.disabledHint)} underline={$slot(props.underline)} icon={$slot(props.icon)} />;
+  const $items = $slots(() => props.items);
+  const $hint = $slot(() => props.hint);
+  const $disabledHint = $slot(() => props.disabledHint);
+  const $underline = $slot(() => props.underline);
+  const $icon = $slot(() => props.icon);
+  return <material_ui_DropdownButton {...props} items={$items()} hint={$hint()} disabledHint={$disabledHint()} underline={$underline()} icon={$icon()} />;
 }
 
 export interface DropdownButtonFormFieldProps {
@@ -2466,7 +2512,11 @@ export interface DropdownButtonFormFieldProps {
  * Dart: `DropdownButtonFormField`
  */
 export function DropdownButtonFormField(props: DropdownButtonFormFieldProps): JSX.Element {
-  return <material_ui_DropdownButtonFormField {...props} items={$slots(props.items)} hint={$slot(props.hint)} disabledHint={$slot(props.disabledHint)} icon={$slot(props.icon)} />;
+  const $items = $slots(() => props.items);
+  const $hint = $slot(() => props.hint);
+  const $disabledHint = $slot(() => props.disabledHint);
+  const $icon = $slot(() => props.icon);
+  return <material_ui_DropdownButtonFormField {...props} items={$items()} hint={$hint()} disabledHint={$disabledHint()} icon={$icon()} />;
 }
 
 export interface DropdownButtonHideUnderlineProps {
@@ -2549,7 +2599,11 @@ export interface DropdownMenuProps {
  * Dart: `DropdownMenu`
  */
 export function DropdownMenu(props: DropdownMenuProps): JSX.Element {
-  return <material_ui_DropdownMenu {...props} leadingIcon={$slot(props.leadingIcon)} trailingIcon={$slot(props.trailingIcon)} label={$slot(props.label)} selectedTrailingIcon={$slot(props.selectedTrailingIcon)} />;
+  const $leadingIcon = $slot(() => props.leadingIcon);
+  const $trailingIcon = $slot(() => props.trailingIcon);
+  const $label = $slot(() => props.label);
+  const $selectedTrailingIcon = $slot(() => props.selectedTrailingIcon);
+  return <material_ui_DropdownMenu {...props} leadingIcon={$leadingIcon()} trailingIcon={$trailingIcon()} label={$label()} selectedTrailingIcon={$selectedTrailingIcon()} />;
 }
 
 export interface DropdownMenuFormFieldProps {
@@ -2617,7 +2671,11 @@ export interface DropdownMenuFormFieldProps {
  * Dart: `DropdownMenuFormField`
  */
 export function DropdownMenuFormField(props: DropdownMenuFormFieldProps): JSX.Element {
-  return <material_ui_DropdownMenuFormField {...props} leadingIcon={$slot(props.leadingIcon)} trailingIcon={$slot(props.trailingIcon)} label={$slot(props.label)} selectedTrailingIcon={$slot(props.selectedTrailingIcon)} />;
+  const $leadingIcon = $slot(() => props.leadingIcon);
+  const $trailingIcon = $slot(() => props.trailingIcon);
+  const $label = $slot(() => props.label);
+  const $selectedTrailingIcon = $slot(() => props.selectedTrailingIcon);
+  return <material_ui_DropdownMenuFormField {...props} leadingIcon={$leadingIcon()} trailingIcon={$trailingIcon()} label={$label()} selectedTrailingIcon={$selectedTrailingIcon()} />;
 }
 
 export interface DropdownMenuItemProps {
@@ -2725,7 +2783,9 @@ export interface ElevatedButtonIconProps {
  * Dart: `ElevatedButton.icon`
  */
 export function ElevatedButtonIcon(props: ElevatedButtonIconProps): JSX.Element {
-  return <material_ui_ElevatedButtonIcon {...props} icon={$slot(props.icon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $label = $slot(() => props.label);
+  return <material_ui_ElevatedButtonIcon {...props} icon={$icon()} label={$label()} />;
 }
 
 export interface ElevatedButtonThemeProps {
@@ -2915,7 +2975,11 @@ export interface ExpansionTileProps {
  * Dart: `ExpansionTile`
  */
 export function ExpansionTile(props: ExpansionTileProps): JSX.Element {
-  return <material_ui_ExpansionTile {...props} leading={$slot(props.leading)} title={$slot(props.title)} subtitle={$slot(props.subtitle)} trailing={$slot(props.trailing)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $trailing = $slot(() => props.trailing);
+  return <material_ui_ExpansionTile {...props} leading={$leading()} title={$title()} subtitle={$subtitle()} trailing={$trailing()} />;
 }
 
 export interface ExpansionTileThemeProps {
@@ -2997,7 +3061,9 @@ export interface FilledButtonIconProps {
  * Dart: `FilledButton.icon`
  */
 export function FilledButtonIcon(props: FilledButtonIconProps): JSX.Element {
-  return <material_ui_FilledButtonIcon {...props} icon={$slot(props.icon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $label = $slot(() => props.label);
+  return <material_ui_FilledButtonIcon {...props} icon={$icon()} label={$label()} />;
 }
 
 export interface FilledButtonTonalProps {
@@ -3058,7 +3124,9 @@ export interface FilledButtonTonalIconProps {
  * Dart: `FilledButton.tonalIcon`
  */
 export function FilledButtonTonalIcon(props: FilledButtonTonalIconProps): JSX.Element {
-  return <material_ui_FilledButtonTonalIcon {...props} icon={$slot(props.icon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $label = $slot(() => props.label);
+  return <material_ui_FilledButtonTonalIcon {...props} icon={$icon()} label={$label()} />;
 }
 
 export interface FilledButtonThemeProps {
@@ -3134,7 +3202,10 @@ export interface FilterChipProps {
  * Dart: `FilterChip`
  */
 export function FilterChip(props: FilterChipProps): JSX.Element {
-  return <material_ui_FilterChip {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} deleteIcon={$slot(props.deleteIcon)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  const $deleteIcon = $slot(() => props.deleteIcon);
+  return <material_ui_FilterChip {...props} avatar={$avatar()} label={$label()} deleteIcon={$deleteIcon()} />;
 }
 
 export interface FilterChipElevatedProps {
@@ -3189,7 +3260,10 @@ export interface FilterChipElevatedProps {
  * Dart: `FilterChip.elevated`
  */
 export function FilterChipElevated(props: FilterChipElevatedProps): JSX.Element {
-  return <material_ui_FilterChipElevated {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} deleteIcon={$slot(props.deleteIcon)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  const $deleteIcon = $slot(() => props.deleteIcon);
+  return <material_ui_FilterChipElevated {...props} avatar={$avatar()} label={$label()} deleteIcon={$deleteIcon()} />;
 }
 
 export interface FlexibleSpaceBarProps {
@@ -3214,7 +3288,9 @@ export interface FlexibleSpaceBarProps {
  * Dart: `FlexibleSpaceBar`
  */
 export function FlexibleSpaceBar(props: FlexibleSpaceBarProps): JSX.Element {
-  return <material_ui_FlexibleSpaceBar {...props} title={$slot(props.title)} background={$slot(props.background)} />;
+  const $title = $slot(() => props.title);
+  const $background = $slot(() => props.background);
+  return <material_ui_FlexibleSpaceBar {...props} title={$title()} background={$background()} />;
 }
 
 export interface FlexibleSpaceBarSettingsProps {
@@ -3415,7 +3491,9 @@ export interface FloatingActionButtonExtendedProps {
  * Dart: `FloatingActionButton.extended`
  */
 export function FloatingActionButtonExtended(props: FloatingActionButtonExtendedProps): JSX.Element {
-  return <material_ui_FloatingActionButtonExtended {...props} icon={$slot(props.icon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $label = $slot(() => props.label);
+  return <material_ui_FloatingActionButtonExtended {...props} icon={$icon()} label={$label()} />;
 }
 
 export interface FloatingActionButtonThemeProps {
@@ -3458,7 +3536,9 @@ export interface GridTileProps {
  * Dart: `GridTile`
  */
 export function GridTile(props: GridTileProps): JSX.Element {
-  return <material_ui_GridTile {...props} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <material_ui_GridTile {...props} header={$header()} footer={$footer()} />;
 }
 
 export interface GridTileBarProps {
@@ -3479,7 +3559,11 @@ export interface GridTileBarProps {
  * Dart: `GridTileBar`
  */
 export function GridTileBar(props: GridTileBarProps): JSX.Element {
-  return <material_ui_GridTileBar {...props} leading={$slot(props.leading)} title={$slot(props.title)} subtitle={$slot(props.subtitle)} trailing={$slot(props.trailing)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $trailing = $slot(() => props.trailing);
+  return <material_ui_GridTileBar {...props} leading={$leading()} title={$title()} subtitle={$subtitle()} trailing={$trailing()} />;
 }
 
 export interface IconButtonProps {
@@ -3521,7 +3605,9 @@ export interface IconButtonProps {
  * Dart: `IconButton`
  */
 export function IconButton(props: IconButtonProps): JSX.Element {
-  return <material_ui_IconButton {...props} selectedIcon={$slot(props.selectedIcon)} icon={$slot(props.icon)} />;
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  const $icon = $slot(() => props.icon);
+  return <material_ui_IconButton {...props} selectedIcon={$selectedIcon()} icon={$icon()} />;
 }
 
 export interface IconButtonFilledProps {
@@ -3563,7 +3649,9 @@ export interface IconButtonFilledProps {
  * Dart: `IconButton.filled`
  */
 export function IconButtonFilled(props: IconButtonFilledProps): JSX.Element {
-  return <material_ui_IconButtonFilled {...props} selectedIcon={$slot(props.selectedIcon)} icon={$slot(props.icon)} />;
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  const $icon = $slot(() => props.icon);
+  return <material_ui_IconButtonFilled {...props} selectedIcon={$selectedIcon()} icon={$icon()} />;
 }
 
 export interface IconButtonFilledTonalProps {
@@ -3605,7 +3693,9 @@ export interface IconButtonFilledTonalProps {
  * Dart: `IconButton.filledTonal`
  */
 export function IconButtonFilledTonal(props: IconButtonFilledTonalProps): JSX.Element {
-  return <material_ui_IconButtonFilledTonal {...props} selectedIcon={$slot(props.selectedIcon)} icon={$slot(props.icon)} />;
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  const $icon = $slot(() => props.icon);
+  return <material_ui_IconButtonFilledTonal {...props} selectedIcon={$selectedIcon()} icon={$icon()} />;
 }
 
 export interface IconButtonOutlinedProps {
@@ -3647,7 +3737,9 @@ export interface IconButtonOutlinedProps {
  * Dart: `IconButton.outlined`
  */
 export function IconButtonOutlined(props: IconButtonOutlinedProps): JSX.Element {
-  return <material_ui_IconButtonOutlined {...props} selectedIcon={$slot(props.selectedIcon)} icon={$slot(props.icon)} />;
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  const $icon = $slot(() => props.icon);
+  return <material_ui_IconButtonOutlined {...props} selectedIcon={$selectedIcon()} icon={$icon()} />;
 }
 
 export interface IconButtonThemeProps {
@@ -3902,7 +3994,10 @@ export interface InputChipProps {
  * Dart: `InputChip`
  */
 export function InputChip(props: InputChipProps): JSX.Element {
-  return <material_ui_InputChip {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} deleteIcon={$slot(props.deleteIcon)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  const $deleteIcon = $slot(() => props.deleteIcon);
+  return <material_ui_InputChip {...props} avatar={$avatar()} label={$label()} deleteIcon={$deleteIcon()} />;
 }
 
 export interface InputDatePickerFormFieldProps {
@@ -4045,7 +4140,8 @@ export interface LicensePageProps {
  * Dart: `LicensePage`
  */
 export function LicensePage(props: LicensePageProps): JSX.Element {
-  return <material_ui_LicensePage {...props} applicationIcon={$slot(props.applicationIcon)} />;
+  const $applicationIcon = $slot(() => props.applicationIcon);
+  return <material_ui_LicensePage {...props} applicationIcon={$applicationIcon()} />;
 }
 
 export interface LinearProgressIndicatorProps {
@@ -4132,7 +4228,11 @@ export interface ListTileProps {
  * Dart: `ListTile`
  */
 export function ListTile(props: ListTileProps): JSX.Element {
-  return <material_ui_ListTile {...props} leading={$slot(props.leading)} title={$slot(props.title)} subtitle={$slot(props.subtitle)} trailing={$slot(props.trailing)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $trailing = $slot(() => props.trailing);
+  return <material_ui_ListTile {...props} leading={$leading()} title={$title()} subtitle={$subtitle()} trailing={$trailing()} />;
 }
 
 export interface ListTileThemeProps {
@@ -4291,7 +4391,8 @@ export interface MaterialAppProps {
  * Dart: `MaterialApp`
  */
 export function MaterialApp(props: MaterialAppProps): JSX.Element {
-  return <material_ui_MaterialApp {...props} home={$slot(props.home)} />;
+  const $home = $slot(() => props.home);
+  return <material_ui_MaterialApp {...props} home={$home()} />;
 }
 
 export interface MaterialAppRouterProps {
@@ -4386,7 +4487,10 @@ export interface MaterialBannerProps {
  * Dart: `MaterialBanner`
  */
 export function MaterialBanner(props: MaterialBannerProps): JSX.Element {
-  return <material_ui_MaterialBanner {...props} content={$slot(props.content)} actions={$slots(props.actions)} leading={$slot(props.leading)} />;
+  const $content = $slot(() => props.content);
+  const $actions = $slots(() => props.actions);
+  const $leading = $slot(() => props.leading);
+  return <material_ui_MaterialBanner {...props} content={$content()} actions={$actions()} leading={$leading()} />;
 }
 
 export interface MaterialBannerThemeProps {
@@ -4570,7 +4674,8 @@ export interface MenuAnchorProps {
  * Dart: `MenuAnchor`
  */
 export function MenuAnchor(props: MenuAnchorProps): JSX.Element {
-  return <material_ui_MenuAnchor {...props} menuChildren={$slots(props.menuChildren)} />;
+  const $menuChildren = $slots(() => props.menuChildren);
+  return <material_ui_MenuAnchor {...props} menuChildren={$menuChildren()} />;
 }
 
 export interface MenuBarProps {
@@ -4674,7 +4779,9 @@ export interface MenuItemButtonProps {
  * Dart: `MenuItemButton`
  */
 export function MenuItemButton(props: MenuItemButtonProps): JSX.Element {
-  return <material_ui_MenuItemButton {...props} leadingIcon={$slot(props.leadingIcon)} trailingIcon={$slot(props.trailingIcon)} />;
+  const $leadingIcon = $slot(() => props.leadingIcon);
+  const $trailingIcon = $slot(() => props.trailingIcon);
+  return <material_ui_MenuItemButton {...props} leadingIcon={$leadingIcon()} trailingIcon={$trailingIcon()} />;
 }
 
 export interface MenuThemeProps {
@@ -4752,7 +4859,8 @@ export interface NavigationBarProps {
  * Dart: `NavigationBar`
  */
 export function NavigationBar(props: NavigationBarProps): JSX.Element {
-  return <material_ui_NavigationBar {...props} destinations={$slots(props.destinations)} />;
+  const $destinations = $slots(() => props.destinations);
+  return <material_ui_NavigationBar {...props} destinations={$destinations()} />;
 }
 
 export interface NavigationBarThemeProps {
@@ -4795,7 +4903,9 @@ export interface NavigationDestinationProps {
  * Dart: `NavigationDestination`
  */
 export function NavigationDestination(props: NavigationDestinationProps): JSX.Element {
-  return <material_ui_NavigationDestination {...props} icon={$slot(props.icon)} selectedIcon={$slot(props.selectedIcon)} />;
+  const $icon = $slot(() => props.icon);
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  return <material_ui_NavigationDestination {...props} icon={$icon()} selectedIcon={$selectedIcon()} />;
 }
 
 export interface NavigationDrawerProps {
@@ -4825,7 +4935,9 @@ export interface NavigationDrawerProps {
  * Dart: `NavigationDrawer`
  */
 export function NavigationDrawer(props: NavigationDrawerProps): JSX.Element {
-  return <material_ui_NavigationDrawer {...props} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <material_ui_NavigationDrawer {...props} header={$header()} footer={$footer()} />;
 }
 
 export interface NavigationDrawerDestinationProps {
@@ -4847,7 +4959,10 @@ export interface NavigationDrawerDestinationProps {
  * Dart: `NavigationDrawerDestination`
  */
 export function NavigationDrawerDestination(props: NavigationDrawerDestinationProps): JSX.Element {
-  return <material_ui_NavigationDrawerDestination {...props} icon={$slot(props.icon)} selectedIcon={$slot(props.selectedIcon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  const $label = $slot(() => props.label);
+  return <material_ui_NavigationDrawerDestination {...props} icon={$icon()} selectedIcon={$selectedIcon()} label={$label()} />;
 }
 
 export interface NavigationDrawerThemeProps {
@@ -4935,7 +5050,9 @@ export interface NavigationRailProps {
  * Dart: `NavigationRail`
  */
 export function NavigationRail(props: NavigationRailProps): JSX.Element {
-  return <material_ui_NavigationRail {...props} leading={$slot(props.leading)} trailing={$slot(props.trailing)} />;
+  const $leading = $slot(() => props.leading);
+  const $trailing = $slot(() => props.trailing);
+  return <material_ui_NavigationRail {...props} leading={$leading()} trailing={$trailing()} />;
 }
 
 export interface NavigationRailThemeProps {
@@ -5015,7 +5132,9 @@ export interface OutlinedButtonIconProps {
  * Dart: `OutlinedButton.icon`
  */
 export function OutlinedButtonIcon(props: OutlinedButtonIconProps): JSX.Element {
-  return <material_ui_OutlinedButtonIcon {...props} icon={$slot(props.icon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $label = $slot(() => props.label);
+  return <material_ui_OutlinedButtonIcon {...props} icon={$icon()} label={$label()} />;
 }
 
 export interface OutlinedButtonThemeProps {
@@ -5092,7 +5211,9 @@ export interface PaginatedDataTableProps {
  * Dart: `PaginatedDataTable`
  */
 export function PaginatedDataTable(props: PaginatedDataTableProps): JSX.Element {
-  return <material_ui_PaginatedDataTable {...props} header={$slot(props.header)} actions={$slots(props.actions)} />;
+  const $header = $slot(() => props.header);
+  const $actions = $slots(() => props.actions);
+  return <material_ui_PaginatedDataTable {...props} header={$header()} actions={$actions()} />;
 }
 
 export interface PopupMenuDividerProps {
@@ -5331,7 +5452,10 @@ export interface RadioListTileProps {
  * Dart: `RadioListTile`
  */
 export function RadioListTile(props: RadioListTileProps): JSX.Element {
-  return <material_ui_RadioListTile {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} secondary={$slot(props.secondary)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $secondary = $slot(() => props.secondary);
+  return <material_ui_RadioListTile {...props} title={$title()} subtitle={$subtitle()} secondary={$secondary()} />;
 }
 
 export interface RadioListTileAdaptiveProps {
@@ -5395,7 +5519,10 @@ export interface RadioListTileAdaptiveProps {
  * Dart: `RadioListTile.adaptive`
  */
 export function RadioListTileAdaptive(props: RadioListTileAdaptiveProps): JSX.Element {
-  return <material_ui_RadioListTileAdaptive {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} secondary={$slot(props.secondary)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $secondary = $slot(() => props.secondary);
+  return <material_ui_RadioListTileAdaptive {...props} title={$title()} subtitle={$subtitle()} secondary={$secondary()} />;
 }
 
 export interface RadioMenuButtonProps {
@@ -5431,7 +5558,8 @@ export interface RadioMenuButtonProps {
  * Dart: `RadioMenuButton`
  */
 export function RadioMenuButton(props: RadioMenuButtonProps): JSX.Element {
-  return <material_ui_RadioMenuButton {...props} trailingIcon={$slot(props.trailingIcon)} />;
+  const $trailingIcon = $slot(() => props.trailingIcon);
+  return <material_ui_RadioMenuButton {...props} trailingIcon={$trailingIcon()} />;
 }
 
 export interface RadioThemeProps {
@@ -5547,7 +5675,10 @@ export interface RawChipProps {
  * Dart: `RawChip`
  */
 export function RawChip(props: RawChipProps): JSX.Element {
-  return <material_ui_RawChip {...props} avatar={$slot(props.avatar)} label={$slot(props.label)} deleteIcon={$slot(props.deleteIcon)} />;
+  const $avatar = $slot(() => props.avatar);
+  const $label = $slot(() => props.label);
+  const $deleteIcon = $slot(() => props.deleteIcon);
+  return <material_ui_RawChip {...props} avatar={$avatar()} label={$label()} deleteIcon={$deleteIcon()} />;
 }
 
 export interface RawMaterialButtonProps {
@@ -5786,7 +5917,10 @@ export interface ReorderableListViewProps {
  * Dart: `ReorderableListView`
  */
 export function ReorderableListView(props: ReorderableListViewProps): JSX.Element {
-  return <material_ui_ReorderableListView {...props} prototypeItem={$slot(props.prototypeItem)} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <material_ui_ReorderableListView {...props} prototypeItem={$prototypeItem()} header={$header()} footer={$footer()} />;
 }
 
 export interface ReorderableListViewBuilderProps {
@@ -5841,7 +5975,10 @@ export interface ReorderableListViewBuilderProps {
  * Dart: `ReorderableListView.builder`
  */
 export function ReorderableListViewBuilder(props: ReorderableListViewBuilderProps): JSX.Element {
-  return <material_ui_ReorderableListViewBuilder {...props} prototypeItem={$slot(props.prototypeItem)} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <material_ui_ReorderableListViewBuilder {...props} prototypeItem={$prototypeItem()} header={$header()} footer={$footer()} />;
 }
 
 export interface ScaffoldProps {
@@ -5891,7 +6028,15 @@ export interface ScaffoldProps {
  * Dart: `Scaffold`
  */
 export function Scaffold(props: ScaffoldProps): JSX.Element {
-  return <material_ui_Scaffold {...props} appBar={$slot(props.appBar)} body={$slot(props.body)} floatingActionButton={$slot(props.floatingActionButton)} persistentFooterButtons={$slots(props.persistentFooterButtons)} drawer={$slot(props.drawer)} endDrawer={$slot(props.endDrawer)} bottomNavigationBar={$slot(props.bottomNavigationBar)} bottomSheet={$slot(props.bottomSheet)} />;
+  const $appBar = $slot(() => props.appBar);
+  const $body = $slot(() => props.body);
+  const $floatingActionButton = $slot(() => props.floatingActionButton);
+  const $persistentFooterButtons = $slots(() => props.persistentFooterButtons);
+  const $drawer = $slot(() => props.drawer);
+  const $endDrawer = $slot(() => props.endDrawer);
+  const $bottomNavigationBar = $slot(() => props.bottomNavigationBar);
+  const $bottomSheet = $slot(() => props.bottomSheet);
+  return <material_ui_Scaffold {...props} appBar={$appBar()} body={$body()} floatingActionButton={$floatingActionButton()} persistentFooterButtons={$persistentFooterButtons()} drawer={$drawer()} endDrawer={$endDrawer()} bottomNavigationBar={$bottomNavigationBar()} bottomSheet={$bottomSheet()} />;
 }
 
 export interface ScaffoldMessengerProps {
@@ -6010,7 +6155,9 @@ export interface SearchAnchorProps {
  * Dart: `SearchAnchor`
  */
 export function SearchAnchor(props: SearchAnchorProps): JSX.Element {
-  return <material_ui_SearchAnchor {...props} viewLeading={$slot(props.viewLeading)} viewTrailing={$slots(props.viewTrailing)} />;
+  const $viewLeading = $slot(() => props.viewLeading);
+  const $viewTrailing = $slots(() => props.viewTrailing);
+  return <material_ui_SearchAnchor {...props} viewLeading={$viewLeading()} viewTrailing={$viewTrailing()} />;
 }
 
 export interface SearchAnchorBarProps {
@@ -6069,7 +6216,11 @@ export interface SearchAnchorBarProps {
  * Dart: `SearchAnchor.bar`
  */
 export function SearchAnchorBar(props: SearchAnchorBarProps): JSX.Element {
-  return <material_ui_SearchAnchorBar {...props} barLeading={$slot(props.barLeading)} barTrailing={$slots(props.barTrailing)} viewLeading={$slot(props.viewLeading)} viewTrailing={$slots(props.viewTrailing)} />;
+  const $barLeading = $slot(() => props.barLeading);
+  const $barTrailing = $slots(() => props.barTrailing);
+  const $viewLeading = $slot(() => props.viewLeading);
+  const $viewTrailing = $slots(() => props.viewTrailing);
+  return <material_ui_SearchAnchorBar {...props} barLeading={$barLeading()} barTrailing={$barTrailing()} viewLeading={$viewLeading()} viewTrailing={$viewTrailing()} />;
 }
 
 export interface SearchBarProps {
@@ -6118,7 +6269,9 @@ export interface SearchBarProps {
  * Dart: `SearchBar`
  */
 export function SearchBar(props: SearchBarProps): JSX.Element {
-  return <material_ui_SearchBar {...props} leading={$slot(props.leading)} trailing={$slots(props.trailing)} />;
+  const $leading = $slot(() => props.leading);
+  const $trailing = $slots(() => props.trailing);
+  return <material_ui_SearchBar {...props} leading={$leading()} trailing={$trailing()} />;
 }
 
 export interface SearchBarThemeProps {
@@ -6190,7 +6343,8 @@ export interface SegmentedButtonProps {
  * Dart: `SegmentedButton`
  */
 export function SegmentedButton(props: SegmentedButtonProps): JSX.Element {
-  return <material_ui_SegmentedButton {...props} selectedIcon={$slot(props.selectedIcon)} />;
+  const $selectedIcon = $slot(() => props.selectedIcon);
+  return <material_ui_SegmentedButton {...props} selectedIcon={$selectedIcon()} />;
 }
 
 export interface SegmentedButtonThemeProps {
@@ -6379,7 +6533,8 @@ export interface SimpleDialogProps {
  * Dart: `SimpleDialog`
  */
 export function SimpleDialog(props: SimpleDialogProps): JSX.Element {
-  return <material_ui_SimpleDialog {...props} title={$slot(props.title)} />;
+  const $title = $slot(() => props.title);
+  return <material_ui_SimpleDialog {...props} title={$title()} />;
 }
 
 export interface SimpleDialogOptionProps {
@@ -6572,7 +6727,12 @@ export interface SliverAppBarProps {
  * Dart: `SliverAppBar`
  */
 export function SliverAppBar(props: SliverAppBarProps): JSX.Element {
-  return <material_ui_SliverAppBar {...props} leading={$slot(props.leading)} title={$slot(props.title)} actions={$slots(props.actions)} flexibleSpace={$slot(props.flexibleSpace)} bottom={$slot(props.bottom)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $actions = $slots(() => props.actions);
+  const $flexibleSpace = $slot(() => props.flexibleSpace);
+  const $bottom = $slot(() => props.bottom);
+  return <material_ui_SliverAppBar {...props} leading={$leading()} title={$title()} actions={$actions()} flexibleSpace={$flexibleSpace()} bottom={$bottom()} />;
 }
 
 export interface SliverAppBarMediumProps {
@@ -6639,7 +6799,12 @@ export interface SliverAppBarMediumProps {
  * Dart: `SliverAppBar.medium`
  */
 export function SliverAppBarMedium(props: SliverAppBarMediumProps): JSX.Element {
-  return <material_ui_SliverAppBarMedium {...props} leading={$slot(props.leading)} title={$slot(props.title)} actions={$slots(props.actions)} flexibleSpace={$slot(props.flexibleSpace)} bottom={$slot(props.bottom)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $actions = $slots(() => props.actions);
+  const $flexibleSpace = $slot(() => props.flexibleSpace);
+  const $bottom = $slot(() => props.bottom);
+  return <material_ui_SliverAppBarMedium {...props} leading={$leading()} title={$title()} actions={$actions()} flexibleSpace={$flexibleSpace()} bottom={$bottom()} />;
 }
 
 export interface SliverAppBarLargeProps {
@@ -6706,7 +6871,12 @@ export interface SliverAppBarLargeProps {
  * Dart: `SliverAppBar.large`
  */
 export function SliverAppBarLarge(props: SliverAppBarLargeProps): JSX.Element {
-  return <material_ui_SliverAppBarLarge {...props} leading={$slot(props.leading)} title={$slot(props.title)} actions={$slots(props.actions)} flexibleSpace={$slot(props.flexibleSpace)} bottom={$slot(props.bottom)} />;
+  const $leading = $slot(() => props.leading);
+  const $title = $slot(() => props.title);
+  const $actions = $slots(() => props.actions);
+  const $flexibleSpace = $slot(() => props.flexibleSpace);
+  const $bottom = $slot(() => props.bottom);
+  return <material_ui_SliverAppBarLarge {...props} leading={$leading()} title={$title()} actions={$actions()} flexibleSpace={$flexibleSpace()} bottom={$bottom()} />;
 }
 
 export interface SnackBarProps {
@@ -6742,7 +6912,9 @@ export interface SnackBarProps {
  * Dart: `SnackBar`
  */
 export function SnackBar(props: SnackBarProps): JSX.Element {
-  return <material_ui_SnackBar {...props} content={$slot(props.content)} action={$slot(props.action)} />;
+  const $content = $slot(() => props.content);
+  const $action = $slot(() => props.action);
+  return <material_ui_SnackBar {...props} content={$content()} action={$action()} />;
 }
 
 export interface SnackBarActionProps {
@@ -6884,7 +7056,10 @@ export interface SubmenuButtonProps {
  * Dart: `SubmenuButton`
  */
 export function SubmenuButton(props: SubmenuButtonProps): JSX.Element {
-  return <material_ui_SubmenuButton {...props} leadingIcon={$slot(props.leadingIcon)} trailingIcon={$slot(props.trailingIcon)} menuChildren={$slots(props.menuChildren)} />;
+  const $leadingIcon = $slot(() => props.leadingIcon);
+  const $trailingIcon = $slot(() => props.trailingIcon);
+  const $menuChildren = $slots(() => props.menuChildren);
+  return <material_ui_SubmenuButton {...props} leadingIcon={$leadingIcon()} trailingIcon={$trailingIcon()} menuChildren={$menuChildren()} />;
 }
 
 export interface SwitchProps {
@@ -7041,7 +7216,10 @@ export interface SwitchListTileProps {
  * Dart: `SwitchListTile`
  */
 export function SwitchListTile(props: SwitchListTileProps): JSX.Element {
-  return <material_ui_SwitchListTile {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} secondary={$slot(props.secondary)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $secondary = $slot(() => props.secondary);
+  return <material_ui_SwitchListTile {...props} title={$title()} subtitle={$subtitle()} secondary={$secondary()} />;
 }
 
 export interface SwitchListTileAdaptiveProps {
@@ -7106,7 +7284,10 @@ export interface SwitchListTileAdaptiveProps {
  * Dart: `SwitchListTile.adaptive`
  */
 export function SwitchListTileAdaptive(props: SwitchListTileAdaptiveProps): JSX.Element {
-  return <material_ui_SwitchListTileAdaptive {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} secondary={$slot(props.secondary)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $secondary = $slot(() => props.secondary);
+  return <material_ui_SwitchListTileAdaptive {...props} title={$title()} subtitle={$subtitle()} secondary={$secondary()} />;
 }
 
 export interface SwitchThemeProps {
@@ -7151,7 +7332,8 @@ export interface TabProps {
  * Dart: `Tab`
  */
 export function Tab(props: TabProps): JSX.Element {
-  return <material_ui_Tab {...props} icon={$slot(props.icon)} />;
+  const $icon = $slot(() => props.icon);
+  return <material_ui_Tab {...props} icon={$icon()} />;
 }
 
 export interface TabBarProps {
@@ -7201,7 +7383,8 @@ export interface TabBarProps {
  * Dart: `TabBar`
  */
 export function TabBar(props: TabBarProps): JSX.Element {
-  return <material_ui_TabBar {...props} tabs={$slots(props.tabs)} />;
+  const $tabs = $slots(() => props.tabs);
+  return <material_ui_TabBar {...props} tabs={$tabs()} />;
 }
 
 export interface TabBarSecondaryProps {
@@ -7251,7 +7434,8 @@ export interface TabBarSecondaryProps {
  * Dart: `TabBar.secondary`
  */
 export function TabBarSecondary(props: TabBarSecondaryProps): JSX.Element {
-  return <material_ui_TabBarSecondary {...props} tabs={$slots(props.tabs)} />;
+  const $tabs = $slots(() => props.tabs);
+  return <material_ui_TabBarSecondary {...props} tabs={$tabs()} />;
 }
 
 export interface TabBarThemeProps {
@@ -7447,7 +7631,9 @@ export interface TextButtonIconProps {
  * Dart: `TextButton.icon`
  */
 export function TextButtonIcon(props: TextButtonIconProps): JSX.Element {
-  return <material_ui_TextButtonIcon {...props} icon={$slot(props.icon)} label={$slot(props.label)} />;
+  const $icon = $slot(() => props.icon);
+  const $label = $slot(() => props.label);
+  return <material_ui_TextButtonIcon {...props} icon={$icon()} label={$label()} />;
 }
 
 export interface TextButtonThemeProps {
@@ -7826,7 +8012,9 @@ export interface TimePickerDialogProps {
  * Dart: `TimePickerDialog`
  */
 export function TimePickerDialog(props: TimePickerDialogProps): JSX.Element {
-  return <material_ui_TimePickerDialog {...props} switchToInputEntryModeIcon={$slot(props.switchToInputEntryModeIcon)} switchToTimerEntryModeIcon={$slot(props.switchToTimerEntryModeIcon)} />;
+  const $switchToInputEntryModeIcon = $slot(() => props.switchToInputEntryModeIcon);
+  const $switchToTimerEntryModeIcon = $slot(() => props.switchToTimerEntryModeIcon);
+  return <material_ui_TimePickerDialog {...props} switchToInputEntryModeIcon={$switchToInputEntryModeIcon()} switchToTimerEntryModeIcon={$switchToTimerEntryModeIcon()} />;
 }
 
 export interface TimePickerThemeProps {
@@ -8024,7 +8212,11 @@ export interface UserAccountsDrawerHeaderProps {
  * Dart: `UserAccountsDrawerHeader`
  */
 export function UserAccountsDrawerHeader(props: UserAccountsDrawerHeaderProps): JSX.Element {
-  return <material_ui_UserAccountsDrawerHeader {...props} currentAccountPicture={$slot(props.currentAccountPicture)} otherAccountsPictures={$slots(props.otherAccountsPictures)} accountName={$slot(props.accountName)} accountEmail={$slot(props.accountEmail)} />;
+  const $currentAccountPicture = $slot(() => props.currentAccountPicture);
+  const $otherAccountsPictures = $slots(() => props.otherAccountsPictures);
+  const $accountName = $slot(() => props.accountName);
+  const $accountEmail = $slot(() => props.accountEmail);
+  return <material_ui_UserAccountsDrawerHeader {...props} currentAccountPicture={$currentAccountPicture()} otherAccountsPictures={$otherAccountsPictures()} accountName={$accountName()} accountEmail={$accountEmail()} />;
 }
 
 export interface VerticalDividerProps {

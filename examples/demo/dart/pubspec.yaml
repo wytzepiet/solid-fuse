@@ -17,6 +17,7 @@ dependencies:
 dev_dependencies:
   # The integration test finds Material and Cupertino widgets by type.
   material_ui: ^1.11.1
+  cupertino_ui: ^1.1.7
   flutter_test:
     sdk: flutter
   integration_test:

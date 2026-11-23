@@ -2,18 +2,25 @@ import * as C from "@solid-fuse/cupertino";
 import * as M from "@solid-fuse/material";
 import { Show } from "solid-js";
 import type { TextInputBaseProps } from "solid-fuse";
-import { AdaptiveProvider, useDesign, type Design } from "./platform";
+import { AdaptiveProvider, platformDesign, useDesign, type Design } from "./platform";
 
 /** Material on one side, Cupertino on the other, picked where it renders. */
 function adapt<P>(material: (p: P) => JSX.Element, cupertino: (p: P) => JSX.Element) {
   return (props: P) => {
     const design = useDesign();
-    return <Show when={design === "cupertino"} fallback={material(props)}>{cupertino(props)}</Show>;
+    return <Show when={design() === "cupertino"} fallback={material(props)}>{cupertino(props)}</Show>;
   };
 }
 
 export interface AdaptiveAppProps extends M.MaterialAppProps {
-  /** Force a design. Default: the platform's. */
+  /**
+   * Behave like this platform: the design adaptive components render, plus
+   * Flutter's platform feel (page transitions, scroll physics, text
+   * selection, typography). Change it any time to preview the other platform.
+   * Default: the device's.
+   */
+  platform?: M.MaterialAppProps["platform"];
+  /** Force only the components' design. Default: the `platform`'s. */
   design?: Design;
 }
 
@@ -25,9 +32,7 @@ export interface AdaptiveAppProps extends M.MaterialAppProps {
 export function AdaptiveApp(props: AdaptiveAppProps) {
   return (
     <M.MaterialApp {...props}>
-      <Show when={props.design} fallback={props.children}>
-        {(design) => <AdaptiveProvider design={design()}>{props.children}</AdaptiveProvider>}
-      </Show>
+      <AdaptiveProvider design={props.design ?? platformDesign(props.platform)}>{props.children}</AdaptiveProvider>
     </M.MaterialApp>
   );
 }

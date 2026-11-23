@@ -565,13 +565,20 @@ export function emitTs(m: Manifest): TsOutput {
     // Named widget slots (`appBar`, `actions`) hold whatever JSX gave: a
     // component's reactive result, a list, text. `$slot` makes that a node
     // (or none), so a slot takes what `children` takes. Such a widget is
-    // not a plain forward, so the compile step leaves it a component.
+    // not a plain forward, so the compile step leaves it a component. Each
+    // slot reads in a memo of its own, so another prop changing doesn't
+    // rebuild what the slot holds.
     const slots: string[] = [];
+    const slotDecls: string[] = [];
     for (const p of w.params) {
       if (!p.type || p.name === w.children?.param || p.name === "children") continue;
       const t = p.type;
-      if (t.k === "widget") slots.push(`${p.name}={$slot(props.${p.name})}`);
-      else if ((t.k === "list" || t.k === "iterable") && t.of.k === "widget") slots.push(`${p.name}={$slots(props.${p.name})}`);
+      const fn = t.k === "widget" ? "$slot"
+        : (t.k === "list" || t.k === "iterable") && t.of.k === "widget" ? "$slots"
+        : undefined;
+      if (!fn) continue;
+      slotDecls.push(`  const $${p.name} = ${fn}(() => props.${p.name});`);
+      slots.push(`${p.name}={$${p.name}()}`);
     }
     if (slots.length) module.usesSlot = true;
     else module.intrinsics[name] = tag;
@@ -583,6 +590,7 @@ export function emitTs(m: Manifest): TsOutput {
         "}",
         "",
         `${jsdoc("", w.doc, w.deprecated, [`Dart: \`${w.class}${w.ctor ? `.${w.ctor}` : ""}\``])}export function ${name}(props: ${propsName}): JSX.Element {`,
+        ...slotDecls,
         `  return <${tag} {...props}${slots.map((a) => ` ${a}`).join("")} />;`,
         "}",
       ].join("\n"),

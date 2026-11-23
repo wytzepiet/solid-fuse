@@ -4248,7 +4248,7 @@
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
 		else try {
-			let n = e instanceof Error ? e : Error(String(e)), r = ce$1(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			let n = e instanceof Error ? e : Error(String(e)), r = ce(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
 			fetch(`${t}/__fuse_error`, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
@@ -4262,7 +4262,7 @@
 			console.error(e);
 		}
 	}
-	function ce$1(e) {
+	function ce(e) {
 		let t = /* @__PURE__ */ new Set([e]), n = e;
 		for (;;) {
 			let e = n.cause;
@@ -4275,13 +4275,13 @@
 	function f(e, t) {
 		u.set(e, t);
 	}
-	function p$1(e, t = {}) {
+	function p(e, t = {}) {
 		fjs.bridge_call({
 			channel: e,
 			...t
 		});
 	}
-	function le$1(e, t = {}, n) {
+	function le(e, t = {}, n) {
 		g$1?.();
 		let r = n?.timeout ?? 3e4, i = fjs.bridge_call({
 			channel: e,
@@ -4319,7 +4319,7 @@
 			ops: h$1?.()
 		};
 	};
-	function fe(e) {
+	function fe$1(e) {
 		d = e;
 	}
 	var g$1;
@@ -4335,15 +4335,15 @@
 			d?.(), l(e);
 		}
 	};
-	var me$1 = {
-		send: p$1,
-		call: le$1,
+	var me = {
+		send: p,
+		call: le,
 		on: f
 	};
 	var _$1 = globalThis.__fuseHost;
 	if (!_$1) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [he, ge$1] = createSignal(_$1.brightness);
-	f("_brightness", (e) => ge$1(e.value));
+	var [he, ge] = createSignal(_$1.brightness);
+	f("_brightness", (e) => ge(e.value));
 	var v$1 = {
 		brightness: he,
 		platform: _$1.platform,
@@ -4411,7 +4411,7 @@
 	});
 	function w$1(e) {
 		if (e instanceof x$1 && !e.parent) return e;
-		let t = V$1("__slot__");
+		let t = V("__slot__");
 		return Z$1(t, e), t;
 	}
 	var ve = 0;
@@ -4433,7 +4433,7 @@
 	function A$1(e) {
 		e.tracked || (e.tracked = !0, Ee.register(e, e.id));
 	}
-	var j = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
+	var j$1 = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
 	var M = new x$1("root");
 	var N = !1;
 	var P = !1;
@@ -4447,7 +4447,7 @@
 		fjs.bridge_call({
 			channel: "_ops",
 			v: D$1,
-			g: j,
+			g: j$1,
 			b: e,
 			json: r,
 			...i ? { bytes: i } : {}
@@ -4455,7 +4455,7 @@
 	}
 	function R() {
 		if (flush(), N = !1, O$1.length === 0) return;
-		if (j !== globalThis.__fuseGeneration) {
+		if (j$1 !== globalThis.__fuseGeneration) {
 			O$1.length = 0;
 			return;
 		}
@@ -4483,7 +4483,7 @@
 			t[1]
 		] : [e, t[0]]), {
 			v: D$1,
-			g: j,
+			g: j$1,
 			batches: n
 		};
 	}
@@ -4491,7 +4491,7 @@
 	function z() {
 		N || P || (N = !0, Promise.resolve().then(L));
 	}
-	fe(L), pe(L);
+	fe$1(L), pe(L);
 	var Oe = 0;
 	var B = [];
 	function ke(e, t) {
@@ -4513,7 +4513,7 @@
 		for (let e in t) e !== "$t" && e !== "$i" && q$1(r, e, t[e]);
 		return r;
 	}
-	function V$1(e, t) {
+	function V(e, t) {
 		let n = new x$1(e), r = {};
 		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = k$1, n.slot = O$1.push(ve, n.id, e, r) - 1, t && H$1(n, t), n;
 	}
@@ -4537,7 +4537,7 @@
 		S$1.delete(e.id), O$1.push(E$1, e.id), z();
 	}
 	function Ne(e, t) {
-		let n = V$1(e);
+		let n = V(e);
 		n.tracked = !0;
 		let r = {
 			id: n.id,
@@ -4545,7 +4545,7 @@
 			collected: !1
 		};
 		if (Me.register(n, r), r.owned) {
-			let e = j;
+			let e = j$1;
 			onCleanup(() => {
 				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && U$1(r);
 			});
@@ -4638,7 +4638,7 @@
 	}
 	var { render: Ve, effect: He, memo: Ue, createComponent: We, createElement: Ge, createTextNode: Ke, insertNode: qe, insert: Z$1, spread: Je, setProp: Ye, mergeProps: Xe, ...Ze } = createRenderer({
 		createElement(e, t) {
-			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? je(e, t) : V$1(e, t);
+			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? je(e, t) : V(e, t);
 		},
 		createTextNode(e) {
 			let t = new x$1("__text__");
@@ -4736,30 +4736,30 @@
 		(typeof t == "function" || Array.isArray(t)) && nt(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function V(e) {
+	function H(e) {
 		"@babel/helpers - typeof";
-		return V = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return H = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, V(e);
+		}, H(e);
 	}
-	function H(e, t) {
-		if (V(e) != "object" || !e) return e;
+	function U(e, t) {
+		if (H(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (V(r) != "object") return r;
+			if (H(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function U(e) {
-		var t = H(e, "string");
-		return V(t) == "symbol" ? t : t + "";
+	function W(e) {
+		var t = U(e, "string");
+		return H(t) == "symbol" ? t : t + "";
 	}
-	function W(e, t, n) {
-		return (t = U(t)) in e ? Object.defineProperty(e, t, {
+	function G(e, t, n) {
+		return (t = W(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4782,7 +4782,7 @@
 		let e = /* @__PURE__ */ new Map(), n = 0;
 		class r {
 			constructor(r, i) {
-				W(this, "_id", void 0), W(this, "url", void 0), W(this, "readyState", 0), W(this, "protocol", ""), W(this, "binaryType", "blob"), W(this, "bufferedAmount", 0), W(this, "extensions", ""), W(this, "onopen", null), W(this, "onmessage", null), W(this, "onclose", null), W(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p$1("_ws", {
+				G(this, "_id", void 0), G(this, "url", void 0), G(this, "readyState", 0), G(this, "protocol", ""), G(this, "binaryType", "blob"), G(this, "bufferedAmount", 0), G(this, "extensions", ""), G(this, "onopen", null), G(this, "onmessage", null), G(this, "onclose", null), G(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p("_ws", {
 					op: "open",
 					id: this._id,
 					url: r,
@@ -4791,14 +4791,14 @@
 			}
 			send(e) {
 				if (this.readyState !== 1) throw Error("WebSocket is not open");
-				p$1("_ws", {
+				p("_ws", {
 					op: "send",
 					id: this._id,
 					data: e
 				});
 			}
 			close(e, n) {
-				this.readyState !== 2 && this.readyState !== 3 && (this.readyState = 2, p$1("_ws", {
+				this.readyState !== 2 && this.readyState !== 3 && (this.readyState = 2, p("_ws", {
 					op: "close",
 					id: this._id,
 					code: e ?? 1e3,
@@ -4811,7 +4811,7 @@
 				return !0;
 			}
 		}
-		W(r, "CONNECTING", 0), W(r, "OPEN", 1), W(r, "CLOSING", 2), W(r, "CLOSED", 3), f("_wsEvent", (t) => {
+		G(r, "CONNECTING", 0), G(r, "OPEN", 1), G(r, "CLOSING", 2), G(r, "CLOSED", 3), f("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4841,7 +4841,10 @@
 	{
 		let e = (e) => {
 			if (typeof e == "string") return e;
-			if (e instanceof Error) return e.stack ?? `${e.name}: ${e.message}`;
+			if (e instanceof Error) {
+				let t = `${e.name}: ${e.message}`, n = e.stack ?? "";
+				return n.startsWith(t) ? n : n ? `${t}\n${n}` : t;
+			}
 			if (typeof e == "object" && e) try {
 				return JSON.stringify(e);
 			} catch {
@@ -4867,7 +4870,7 @@
 			});
 			for (; r < t.length; r++) i += " " + e(t[r]);
 			return i;
-		}, r = (e, r) => p$1("_log", { message: e + n(r) }), i = () => {};
+		}, r = (e, r) => p("_log", { message: e + n(r) }), i = () => {};
 		globalThis.console = {
 			log: (...e) => r("", e),
 			info: (...e) => r("", e),
@@ -4890,7 +4893,7 @@
 			timeLog: i
 		};
 	}
-	function G(e, t) {
+	function K(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
@@ -4903,23 +4906,23 @@
 			}
 		});
 	}
-	function K(e) {
-		return G(() => e.component, omit(e, "component"));
+	function q(e) {
+		return K(() => e.component, omit(e, "component"));
 	}
-	function q({ child: e, ...t }) {
+	function J({ child: e, ...t }) {
 		return {
 			type: "page",
 			child: e,
 			props: t
 		};
 	}
-	var J = createContext((e) => q({ child: e }));
-	function Y() {
-		return getOwner() ? useContext(J) : (e) => q({ child: e });
+	var Y = createContext((e) => J({ child: e }));
+	function X() {
+		return getOwner() ? useContext(Y) : (e) => J({ child: e });
 	}
-	var X = createContext();
-	function Z(e = {}) {
-		let t = 0, n = Y(), r = untrack(() => {
+	var Z = createContext();
+	function Q(e = {}) {
+		let t = 0, n = X(), r = untrack(() => {
 			let t = e.initialPage;
 			return typeof t == "function" ? n(t) : t;
 		}), [a, o] = createSignal(r ? [{
@@ -4984,14 +4987,14 @@
 			onDidRemovePage: (e) => c(e, null)
 		};
 	}
-	function re() {
-		let e = useContext(X);
+	function ne() {
+		let e = useContext(Z);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function ie(e) {
-		let t = untrack(() => e.controller ?? Z({ initialPage: e.initialPage }));
-		return $e(X, {
+	function re(e) {
+		let t = untrack(() => e.controller ?? Q({ initialPage: e.initialPage }));
+		return $e(Z, {
 			value: t,
 			get children() {
 				var e = Ge("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
@@ -5000,7 +5003,7 @@
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => $e(K, Xe({
+					children: (e) => $e(q, Xe({
 						get component() {
 							return e().config.type;
 						},
@@ -5014,79 +5017,12 @@
 			}
 		});
 	}
-	var se = {
-		red: "#f44336",
-		blue: "#2196f3",
-		green: "#4caf50",
-		white: "#ffffff",
-		black: "#000000",
-		grey: "#9e9e9e",
-		orange: "#ff9800",
-		purple: "#9c27b0",
-		yellow: "#ffeb3b",
-		teal: "#009688",
-		cyan: "#00bcd4",
-		amber: "#ffc107",
-		indigo: "#3f51b5",
-		pink: "#e91e63",
-		brown: "#795548",
-		transparent: "#00000000"
-	};
-	var Q = (e) => Math.round(Math.min(255, Math.max(0, e))).toString(16).padStart(2, "0");
-	function ce(e, t, n) {
-		e = (e % 360 + 360) % 360, t = Math.min(1, Math.max(0, t / 100)), n = Math.min(1, Math.max(0, n / 100));
-		let r = (1 - Math.abs(2 * n - 1)) * t, i = r * (1 - Math.abs(e / 60 % 2 - 1)), a = n - r / 2, [o, s, c] = e < 60 ? [
-			r,
-			i,
-			0
-		] : e < 120 ? [
-			i,
-			r,
-			0
-		] : e < 180 ? [
-			0,
-			r,
-			i
-		] : e < 240 ? [
-			0,
-			i,
-			r
-		] : e < 300 ? [
-			i,
-			0,
-			r
-		] : [
-			r,
-			0,
-			i
-		];
-		return [
-			(o + a) * 255,
-			(s + a) * 255,
-			(c + a) * 255
-		];
-	}
-	function $(e) {
-		if (e == null) return;
-		if (typeof e == "string") {
-			if (e.startsWith("#")) return e;
-			let t = se[e.toLowerCase()];
-			if (t) return t;
-			throw Error(`[solid-fuse] unknown color ${JSON.stringify(e)}`);
-		}
-		let [t, n, r] = "r" in e ? [
-			e.r,
-			e.g,
-			e.b
-		] : ce(e.h, e.s, e.l), i = e.a ?? 1;
-		return `#${Q(t)}${Q(n)}${Q(r)}${i >= 1 ? "" : Q(i * 255)}`;
-	}
-	function le(e) {
+	function oe(e) {
 		var t = Ge("flutter_Icon");
 		return He(() => ({
 			e: e.icon,
 			t: e.size,
-			a: $(e.color),
+			a: e.color,
 			o: e.semanticLabel,
 			i: e.fill,
 			n: e.weight,
@@ -5097,7 +5033,7 @@
 			e !== d?.e && Ye(t, "icon", e, d?.e), n !== d?.t && Ye(t, "size", n, d?.t), r !== d?.a && Ye(t, "color", r, d?.a), i !== d?.o && Ye(t, "semanticLabel", i, d?.o), a !== d?.i && Ye(t, "fill", a, d?.i), o !== d?.n && Ye(t, "weight", o, d?.n), c !== d?.s && Ye(t, "grade", c, d?.s), l !== d?.h && Ye(t, "opticalSize", l, d?.h), u !== d?.r && Ye(t, "applyTextScaling", u, d?.r);
 		}), t;
 	}
-	function me(e) {
+	function $(e) {
 		let t = untrack(() => e.children);
 		if (typeof t != "function") return (() => {
 			var t = Ge("pressable");
@@ -5115,7 +5051,7 @@
 			focused: s
 		})), d;
 	}
-	function ge(e) {
+	function fe(e) {
 		let [t, r] = createSignal(!1);
 		var i = Ge("modal");
 		return it(i, [e, { onRouteLive: r }], !0), Z$1(i, $e(Show, {
@@ -5127,51 +5063,73 @@
 			}
 		})), i;
 	}
+	// ../../packages/adaptive/src/platform.tsx
+	/** Cupertino on iOS and macOS, Material everywhere else. Default: the device's platform. */
+	function platformDesign(platform = v$1.platform) {
+		const p = platform.toLowerCase();
+		return p === "ios" || p === "macos" ? "cupertino" : "material";
+	}
+	var DesignContext = createContext(void 0);
+	/** Overrides the design below it, e.g. to preview iOS on Android. Reactive. */
+	function AdaptiveProvider(props) {
+		return $e(DesignContext, {
+			value: () => props.design,
+			get children() {
+				return props.children;
+			}
+		});
+	}
+	/** The design adaptive components render here. An accessor: it follows `AdaptiveProvider` and `AdaptiveApp`. */
+	function useDesign() {
+		return useContext(DesignContext) ?? (() => platformDesign());
+	}
 	// ../../packages/solid-fuse/dist/generated.js
-	function p(e, t, n) {
+	function m(e, t, n) {
 		let r = { $: e }, i = t.length;
 		for (let e = 0; e < i && e < n.length; e++) n[e] !== void 0 && (r[t[e]] = n[e]);
 		let a = n[i];
 		return typeof a == "object" && a && Object.assign(r, a), r;
 	}
-	function m(e) {
+	function h(e) {
 		for (; typeof e == "function";) e = e();
 		return e;
 	}
-	function h(e, t) {
-		if (e = m(e), Array.isArray(e)) for (let n of e) h(n, t);
+	function g(e, t) {
+		if (e = h(e), Array.isArray(e)) for (let n of e) g(n, t);
 		else e != null && typeof e != "boolean" && t.push(e);
 		return t;
 	}
-	var g = (e) => e instanceof x$1 && !e.parent ? e : w$1(e);
-	function _(e) {
-		let t = h(e, []);
-		return t.length === 0 ? null : t.length === 1 ? g(t[0]) : w$1(t);
-	}
+	var _ = (e) => e instanceof x$1 && !e.parent ? e : w$1(e);
 	function v(e) {
-		return h(e, []).map(g);
+		return createMemo(() => {
+			let t = g(e(), []);
+			return t.length === 0 ? null : t.length === 1 ? _(t[0]) : w$1(t);
+		});
 	}
-	var y = (e, t) => {
+	function y(e) {
+		return createMemo(() => g(e(), []).map(_));
+	}
+	var b = (e, t) => {
 		if (e === t) return !0;
 		if (typeof e != "object" || typeof t != "object" || e === null || t === null || Array.isArray(e) !== Array.isArray(t)) return !1;
 		let n = Object.keys(e);
 		if (n.length !== Object.keys(t).length) return !1;
-		for (let r of n) if (!y(e[r], t[r])) return !1;
+		for (let r of n) if (!b(e[r], t[r])) return !1;
 		return !0;
 	};
-	var b = (e) => e.catch(l);
-	var x = /* @__PURE__ */ new Map();
-	var S = {
+	var x = (e) => e.catch(l);
+	var S = /* @__PURE__ */ new Map();
+	var C = {
 		s: [],
 		w: [],
 		o: [],
 		m: [],
 		st: []
 	};
-	function C(e, t) {
-		x.set(e, t);
+	function w(e, t) {
+		S.set(e, t);
 	}
-	function w(e, t, n, r) {
+	function T(e, t, n, r) {
 		let i = new Set(r.fns), o = new Set(r.live), s = {}, c = [];
 		if (n) for (let e in n) {
 			let t = n[e];
@@ -5180,19 +5138,19 @@
 		r.ctor && (s.$ctor = r.ctor);
 		let l = {};
 		for (let e of t.s) l[e] = s[e] === void 0 ? r.seeds?.[e] : s[e];
-		let { handle: d, write: p } = O(Ne(e, s), t, l);
+		let { handle: d, write: f } = k(Ne(e, s), t, l);
 		for (let [e, t] of c) createEffect(t, (t, n) => {
-			(n !== void 0 || t !== s[e]) && p(e, t);
+			(n !== void 0 || t !== s[e]) && f(e, t);
 		});
 		return d;
 	}
-	var T = /* @__PURE__ */ new Map();
-	function E(e) {
+	var E = /* @__PURE__ */ new Map();
+	function D(e) {
 		let t = e.$h, i = Le(t)?.handle;
 		if (i) {
 			if (!e.o) {
-				let e = T.get(t);
-				e ? e.n++ : me$1.send("_unborrow", {
+				let e = E.get(t);
+				e ? e.n++ : me.send("_unborrow", {
 					id: t,
 					n: 1
 				});
@@ -5203,36 +5161,36 @@
 			id: t,
 			n: +!e.o
 		};
-		e.o || T.set(t, a);
+		e.o || E.set(t, a);
 		let s = Ie(e.t, t, () => {
-			T.get(a.id) === a && T.delete(a.id), a.n > 0 && me$1.send("_unborrow", {
+			E.get(a.id) === a && E.delete(a.id), a.n > 0 && me.send("_unborrow", {
 				id: a.id,
 				n: a.n
 			});
-		}), c = x.get(e.t) ?? S, { handle: l, call: u } = O(s, c, e.s ? D(e.s) : {});
-		return !e.s && c.s.length && b(u("$sync", null)), l;
+		}), c = S.get(e.t) ?? C, { handle: l, call: u } = k(s, c, e.s ? O(e.s) : {});
+		return !e.s && c.s.length && x(u("$sync", null)), l;
 	}
-	function D(e, t = 0) {
+	function O(e, t = 0) {
 		if (typeof e != "object" || !e || t > 32) return e;
 		let n = e;
-		if (typeof n.$h == "number" && typeof n.t == "string") return E(n);
+		if (typeof n.$h == "number" && typeof n.t == "string") return D(n);
 		let r;
 		if (Array.isArray(e)) for (let n = 0; n < e.length; n++) {
-			let i = D(e[n], t + 1);
+			let i = O(e[n], t + 1);
 			i !== e[n] && ((r ?? (r = e.slice()))[n] = i);
 		}
 		else for (let e in n) {
-			let i = D(n[e], t + 1);
+			let i = O(n[e], t + 1);
 			i !== n[e] && ((r ?? (r = { ...n }))[e] = i);
 		}
 		return r ?? e;
 	}
-	Pe(D);
-	function O(n, i, a) {
+	Pe(O);
+	function k(n, i, a) {
 		let o = 0, s = /* @__PURE__ */ new Map();
 		for (let e of i.s) {
 			let [t, n] = createSignal(a[e], {
-				equals: y,
+				equals: b,
 				ownedWrite: !0
 			});
 			s.set(e, [t, (e) => n(() => e)]);
@@ -5240,33 +5198,33 @@
 		ze(n, "$push", (e) => {
 			if (!(e.v < o)) for (let t in e.s) s.get(t)?.[1](e.s[t]);
 		});
-		let c = (t, i) => me$1.call("_handleCall", {
+		let c = (t, i) => me.call("_handleCall", {
 			node: n.id,
 			method: t,
 			value: Re(i)
-		}, { timeout: 0 }).then(D), l = { node: n };
+		}, { timeout: 0 }).then(O), l = { node: n };
 		n.handle = l;
 		for (let [e, [t]] of s) l[e] = t;
-		let u = new Set(i.o), f = (e, t) => {
-			o++, u.has(e) && s.get(e)?.[1](t), b(c("$set", {
+		let u = new Set(i.o), d = (e, t) => {
+			o++, u.has(e) && s.get(e)?.[1](t), x(c("$set", {
 				n: e,
 				v: t,
 				ver: o
 			}));
 		};
-		for (let e of i.w) l[`set${e[0].toUpperCase()}${e.slice(1)}`] = (t) => f(e, t);
+		for (let e of i.w) l[`set${e[0].toUpperCase()}${e.slice(1)}`] = (t) => d(e, t);
 		for (let e of i.m) l[e] = (...t) => c(e, t);
-		for (let e of i.st) l[e] = () => A(n, c, e);
+		for (let e of i.st) l[e] = () => j(n, c, e);
 		return {
 			handle: l,
-			write: f,
+			write: d,
 			call: c
 		};
 	}
-	var k = 0;
-	function A(e, n, r) {
+	var A = 0;
+	function j(e, n, r) {
 		return { [Symbol.asyncIterator]() {
-			let i = `$s${k++}`, a = [], o = null, s = !1, c, l = !1, u = () => {
+			let i = `$s${A++}`, a = [], o = null, s = !1, c, l = !1, u = () => {
 				l || (l = !0, ze(e, i, void 0));
 			};
 			ze(e, i, (e) => {
@@ -5294,7 +5252,7 @@
 					}
 				},
 				async return() {
-					return s || b(n("$cancel", { fn: i })), s = !0, u(), {
+					return s || x(n("$cancel", { fn: i })), s = !0, u(), {
 						value: void 0,
 						done: !0
 					};
@@ -5302,35 +5260,35 @@
 			};
 		} };
 	}
-	C("listen_ChangeNotifier", {
+	w("listen_ChangeNotifier", {
 		"s": [],
 		"w": [],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("listen_Listenable", {
+	w("listen_Listenable", {
 		"s": [],
 		"w": [],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("listen_ValueNotifier", {
+	w("listen_ValueNotifier", {
 		"s": ["value"],
 		"w": ["value"],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("listen_ValueNotifier2", {
+	w("listen_ValueNotifier2", {
 		"s": ["value"],
 		"w": ["value"],
 		"o": ["value"],
 		"m": [],
 		"st": []
 	});
-	C("vector_math_Matrix4", {
+	w("vector_math_Matrix4", {
 		"s": [],
 		"w": [
 			"row0",
@@ -5429,7 +5387,7 @@
 		],
 		"st": []
 	});
-	C("vector_math_Matrix3", {
+	w("vector_math_Matrix3", {
 		"s": [],
 		"w": [
 			"row0",
@@ -5495,7 +5453,7 @@
 		],
 		"st": []
 	});
-	C("vector_math_Vector2", {
+	w("vector_math_Vector2", {
 		"s": [],
 		"w": [
 			"length",
@@ -5555,7 +5513,7 @@
 		],
 		"st": []
 	});
-	C("vector_math_Vector3", {
+	w("vector_math_Vector3", {
 		"s": [],
 		"w": [
 			"length",
@@ -5653,7 +5611,7 @@
 		],
 		"st": []
 	});
-	C("vector_math_Vector4", {
+	w("vector_math_Vector4", {
 		"s": [],
 		"w": [
 			"length",
@@ -5896,13 +5854,14 @@
 	* Dart: `ListView.builder`
 	*/
 	function ListViewBuilder(props) {
+		const $prototypeItem = v(() => props.prototypeItem);
 		var _el$154 = Ge("flutter_ListViewBuilder");
 		it(_el$154, [props, { get prototypeItem() {
-			return _(props.prototypeItem);
+			return $prototypeItem();
 		} }], false);
 		return _el$154;
 	}
-	C("flutter_AnimationController", {
+	w("flutter_AnimationController", {
 		"s": [
 			"lowerBound",
 			"upperBound",
@@ -5940,7 +5899,7 @@
 		],
 		"st": []
 	});
-	C("flutter_AnimationMean", {
+	w("flutter_AnimationMean", {
 		"s": [
 			"value",
 			"first",
@@ -5956,7 +5915,7 @@
 		"m": ["didStartListening", "didStopListening"],
 		"st": []
 	});
-	C("flutter_BannerPainter", {
+	w("flutter_BannerPainter", {
 		"s": [
 			"message",
 			"textDirection",
@@ -5976,14 +5935,14 @@
 		],
 		"st": []
 	});
-	C("flutter_ClipboardStatusNotifier", {
+	w("flutter_ClipboardStatusNotifier", {
 		"s": ["value"],
 		"w": ["value"],
 		"o": ["value"],
 		"m": ["update", "didChangeAppLifecycleState"],
 		"st": []
 	});
-	C("flutter_CurvedAnimation", {
+	w("flutter_CurvedAnimation", {
 		"s": [
 			"parent",
 			"curve",
@@ -6005,7 +5964,7 @@
 		"m": [],
 		"st": []
 	});
-	C("flutter_DraggableScrollableController", {
+	w("flutter_DraggableScrollableController", {
 		"s": [
 			"size",
 			"pixels",
@@ -6022,7 +5981,7 @@
 		],
 		"st": []
 	});
-	C("flutter_ExpansibleController", {
+	w("flutter_ExpansibleController", {
 		"s": ["isExpanded"],
 		"w": [],
 		"o": [],
@@ -6033,7 +5992,7 @@
 		],
 		"st": []
 	});
-	C("flutter_FixedExtentScrollController", {
+	w("flutter_FixedExtentScrollController", {
 		"s": [
 			"initialItem",
 			"selectedItem",
@@ -6057,7 +6016,7 @@
 		],
 		"st": []
 	});
-	C("flutter_FocusManager", {
+	w("flutter_FocusManager", {
 		"s": [
 			"highlightStrategy",
 			"highlightMode",
@@ -6113,13 +6072,13 @@
 		],
 		"st": []
 	};
-	C("flutter_FocusNode", $FocusNode);
+	w("flutter_FocusNode", $FocusNode);
 	/**
 	* An object that can be used by a stateful widget to obtain the keyboard focus and to handle keyboard events.
 	* Dart: `FocusNode(...)`. Lives while the calling owner does, and after that while JS still holds it.
 	*/
 	function createFocusNode(options) {
-		return w("flutter_FocusNode", $FocusNode, options, {
+		return T("flutter_FocusNode", $FocusNode, options, {
 			"fns": ["onKey", "onKeyEvent"],
 			"live": [
 				"skipTraversal",
@@ -6135,7 +6094,7 @@
 			}
 		});
 	}
-	C("flutter_FocusScopeNode", {
+	w("flutter_FocusScopeNode", {
 		"s": [
 			"nearestScope",
 			"descendantsAreFocusable",
@@ -6190,35 +6149,35 @@
 		],
 		"st": []
 	});
-	C("flutter_InspectorSelection", {
+	w("flutter_InspectorSelection", {
 		"s": ["index", "active"],
 		"w": ["index"],
 		"o": ["index"],
 		"m": ["clear", "clearCandidates"],
 		"st": []
 	});
-	C("flutter_KeepAliveHandle", {
+	w("flutter_KeepAliveHandle", {
 		"s": [],
 		"w": [],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("flutter_LiveTextInputStatusNotifier", {
+	w("flutter_LiveTextInputStatusNotifier", {
 		"s": ["value"],
 		"w": ["value"],
 		"o": ["value"],
 		"m": ["update", "didChangeAppLifecycleState"],
 		"st": []
 	});
-	C("flutter_LocalizationsResolver", {
+	w("flutter_LocalizationsResolver", {
 		"s": ["locale", "supportedLocales"],
 		"w": [],
 		"o": [],
 		"m": ["update", "didChangeLocales"],
 		"st": []
 	});
-	C("flutter_OverlayEntry", {
+	w("flutter_OverlayEntry", {
 		"s": [
 			"opaque",
 			"maintainState",
@@ -6230,7 +6189,7 @@
 		"m": ["remove", "markNeedsBuild"],
 		"st": []
 	});
-	C("flutter_PageController", {
+	w("flutter_PageController", {
 		"s": [
 			"initialPage",
 			"keepPage",
@@ -6258,14 +6217,14 @@
 		],
 		"st": []
 	});
-	C("flutter_PlatformRouteInformationProvider", {
+	w("flutter_PlatformRouteInformationProvider", {
 		"s": ["value"],
 		"w": [],
 		"o": [],
 		"m": ["routerReportsNewRouteInformation", "didPushRouteInformation"],
 		"st": []
 	});
-	C("flutter_ProxyAnimation", {
+	w("flutter_ProxyAnimation", {
 		"s": [
 			"parent",
 			"status",
@@ -6280,7 +6239,7 @@
 		"m": ["didStartListening", "didStopListening"],
 		"st": []
 	});
-	C("flutter_RestorableBool", {
+	w("flutter_RestorableBool", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6293,7 +6252,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableBoolN", {
+	w("flutter_RestorableBoolN", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6306,7 +6265,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableDateTime", {
+	w("flutter_RestorableDateTime", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": [],
@@ -6319,7 +6278,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableDateTimeN", {
+	w("flutter_RestorableDateTimeN", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": [],
@@ -6332,7 +6291,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableDouble", {
+	w("flutter_RestorableDouble", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6345,7 +6304,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableDoubleN", {
+	w("flutter_RestorableDoubleN", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6358,7 +6317,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableInt", {
+	w("flutter_RestorableInt", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6371,7 +6330,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableIntN", {
+	w("flutter_RestorableIntN", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6384,7 +6343,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableString", {
+	w("flutter_RestorableString", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6397,7 +6356,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableStringN", {
+	w("flutter_RestorableStringN", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": ["value"],
@@ -6410,7 +6369,7 @@
 		],
 		"st": []
 	});
-	C("flutter_RestorableTextEditingController", {
+	w("flutter_RestorableTextEditingController", {
 		"s": ["value", "enabled"],
 		"w": [],
 		"o": [],
@@ -6422,7 +6381,7 @@
 		],
 		"st": []
 	});
-	C("flutter_ReverseAnimation", {
+	w("flutter_ReverseAnimation", {
 		"s": [
 			"parent",
 			"status",
@@ -6457,13 +6416,13 @@
 		],
 		"st": []
 	};
-	C("flutter_ScrollController", $ScrollController);
+	w("flutter_ScrollController", $ScrollController);
 	/**
 	* Controls a scrollable widget.
 	* Dart: `ScrollController(...)`. Lives while the calling owner does, and after that while JS still holds it.
 	*/
 	function createScrollController(options) {
-		return w("flutter_ScrollController", $ScrollController, options, {
+		return T("flutter_ScrollController", $ScrollController, options, {
 			"fns": ["onAttach", "onDetach"],
 			"seeds": {
 				"initialScrollOffset": 0,
@@ -6471,7 +6430,7 @@
 			}
 		});
 	}
-	C("flutter_ScrollPositionWithSingleContext", {
+	w("flutter_ScrollPositionWithSingleContext", {
 		"s": [
 			"axisDirection",
 			"userScrollDirection",
@@ -6519,7 +6478,7 @@
 		],
 		"st": []
 	});
-	C("flutter_ScrollbarPainter", {
+	w("flutter_ScrollbarPainter", {
 		"s": [
 			"color",
 			"trackColor",
@@ -6575,14 +6534,14 @@
 		],
 		"st": []
 	});
-	C("flutter_SelectionListenerNotifier", {
+	w("flutter_SelectionListenerNotifier", {
 		"s": ["selection", "registered"],
 		"w": [],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("flutter_ShapeBorderClipper", {
+	w("flutter_ShapeBorderClipper", {
 		"s": ["shape", "textDirection"],
 		"w": [],
 		"o": [],
@@ -6593,35 +6552,35 @@
 		],
 		"st": []
 	});
-	C("flutter_ShortcutManager", {
+	w("flutter_ShortcutManager", {
 		"s": ["modal"],
 		"w": ["shortcuts"],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("flutter_ShortcutRegistry", {
+	w("flutter_ShortcutRegistry", {
 		"s": [],
 		"w": [],
 		"o": [],
 		"m": ["addAll"],
 		"st": []
 	});
-	C("flutter_SliverOverlapAbsorberHandle", {
+	w("flutter_SliverOverlapAbsorberHandle", {
 		"s": ["layoutExtent", "scrollExtent"],
 		"w": [],
 		"o": [],
 		"m": [],
 		"st": []
 	});
-	C("flutter_SnapshotController", {
+	w("flutter_SnapshotController", {
 		"s": ["allowSnapshotting"],
 		"w": ["allowSnapshotting"],
 		"o": ["allowSnapshotting"],
 		"m": ["clear"],
 		"st": []
 	});
-	C("flutter_StaticSelectionContainerDelegate", {
+	w("flutter_StaticSelectionContainerDelegate", {
 		"s": [
 			"selectables",
 			"value",
@@ -6652,7 +6611,7 @@
 		],
 		"st": []
 	});
-	C("flutter_TextEditingController", {
+	w("flutter_TextEditingController", {
 		"s": [
 			"text",
 			"selection",
@@ -6667,7 +6626,7 @@
 		"m": ["clear", "clearComposing"],
 		"st": []
 	});
-	C("flutter_TrackingScrollController", {
+	w("flutter_TrackingScrollController", {
 		"s": [
 			"mostRecentlyUpdatedPosition",
 			"initialScrollOffset",
@@ -6688,7 +6647,7 @@
 		],
 		"st": []
 	});
-	C("flutter_TrainHoppingAnimation", {
+	w("flutter_TrainHoppingAnimation", {
 		"s": [
 			"currentTrain",
 			"status",
@@ -6703,14 +6662,14 @@
 		"m": [],
 		"st": []
 	});
-	C("flutter_TransformationController", {
+	w("flutter_TransformationController", {
 		"s": ["value"],
 		"w": ["value"],
 		"o": [],
 		"m": ["toScene"],
 		"st": []
 	});
-	C("flutter_TwoDimensionalChildBuilderDelegate", {
+	w("flutter_TwoDimensionalChildBuilderDelegate", {
 		"s": [
 			"maxXIndex",
 			"maxYIndex",
@@ -6722,14 +6681,14 @@
 		"m": ["shouldRebuild"],
 		"st": []
 	});
-	C("flutter_TwoDimensionalChildListDelegate", {
+	w("flutter_TwoDimensionalChildListDelegate", {
 		"s": ["addRepaintBoundaries", "addAutomaticKeepAlives"],
 		"w": [],
 		"o": [],
 		"m": ["shouldRebuild"],
 		"st": []
 	});
-	C("flutter_UndoHistoryController", {
+	w("flutter_UndoHistoryController", {
 		"s": [
 			"onUndo",
 			"onRedo",
@@ -6740,14 +6699,14 @@
 		"m": ["undo", "redo"],
 		"st": []
 	});
-	C("flutter_WidgetStatesController", {
+	w("flutter_WidgetStatesController", {
 		"s": ["value"],
 		"w": ["value"],
 		"o": [],
 		"m": ["update"],
 		"st": []
 	});
-	C("flutter_Selectable", {
+	w("flutter_Selectable", {
 		"s": [
 			"size",
 			"boundingBoxes",
@@ -6765,7 +6724,7 @@
 		],
 		"st": []
 	});
-	C("flutter_ViewportOffset", {
+	w("flutter_ViewportOffset", {
 		"s": [
 			"pixels",
 			"hasPixels",
@@ -6784,7 +6743,7 @@
 		],
 		"st": []
 	});
-	C("flutter_HardwareKeyboard", {
+	w("flutter_HardwareKeyboard", {
 		"s": [],
 		"w": [],
 		"o": [],
@@ -6797,7 +6756,7 @@
 		],
 		"st": []
 	});
-	C("flutter_Action", {
+	w("flutter_Action", {
 		"s": [],
 		"w": [],
 		"o": [],
@@ -6808,7 +6767,7 @@
 		],
 		"st": []
 	});
-	C("flutter_Animation", {
+	w("flutter_Animation", {
 		"s": [
 			"status",
 			"value",
@@ -6822,14 +6781,14 @@
 		"m": [],
 		"st": []
 	});
-	C("flutter_MagnifierController", {
+	w("flutter_MagnifierController", {
 		"s": [],
 		"w": ["animationController"],
 		"o": [],
 		"m": ["hide"],
 		"st": []
 	});
-	C("flutter_MenuController", {
+	w("flutter_MenuController", {
 		"s": [],
 		"w": [],
 		"o": [],
@@ -6840,7 +6799,7 @@
 		],
 		"st": []
 	});
-	C("flutter_Paint", {
+	w("flutter_Paint", {
 		"s": [],
 		"w": [
 			"isAntiAlias",
@@ -6859,7 +6818,7 @@
 		"m": [],
 		"st": []
 	});
-	C("flutter_Path", {
+	w("flutter_Path", {
 		"s": [],
 		"w": ["fillType"],
 		"o": [],
@@ -6895,14 +6854,14 @@
 		],
 		"st": []
 	});
-	C("flutter_Route", {
+	w("flutter_Route", {
 		"s": [],
 		"w": [],
 		"o": [],
 		"m": ["onPopInvokedWithResult", "didPop"],
 		"st": []
 	});
-	C("flutter_ScrollPosition", {
+	w("flutter_ScrollPosition", {
 		"s": [
 			"physics",
 			"context",
@@ -6944,13 +6903,645 @@
 		],
 		"st": []
 	});
-	C("flutter_TreeSliverNode", {
+	w("flutter_TreeSliverNode", {
 		"s": [],
 		"w": [],
 		"o": [],
 		"m": [],
 		"st": []
 	});
+	// fuse/cupertino_ui/CupertinoIcons.tsx
+	var info$1 = "CupertinoIcons.info";
+	var bluetooth = "CupertinoIcons.bluetooth";
+	var person$1 = "CupertinoIcons.person";
+	var heart = "CupertinoIcons.heart";
+	var wifi$1 = "CupertinoIcons.wifi";
+	// fuse/cupertino_ui.tsx
+	/**
+	* Creates an iOS-style action sheet.
+	* Dart: `CupertinoActionSheet`
+	*/
+	function CupertinoActionSheet(props) {
+		const $title = v(() => props.title);
+		const $message = v(() => props.message);
+		const $actions = y(() => props.actions);
+		const $cancelButton = v(() => props.cancelButton);
+		var _el$ = Ge("cupertino_ui_CupertinoActionSheet");
+		it(_el$, [props, {
+			get title() {
+				return $title();
+			},
+			get message() {
+				return $message();
+			},
+			get actions() {
+				return $actions();
+			},
+			get cancelButton() {
+				return $cancelButton();
+			}
+		}], false);
+		return _el$;
+	}
+	/**
+	* Creates an iOS-style alert dialog.
+	* Dart: `CupertinoAlertDialog`
+	*/
+	function CupertinoAlertDialog(props) {
+		const $title = v(() => props.title);
+		const $content = v(() => props.content);
+		const $actions = y(() => props.actions);
+		var _el$9 = Ge("cupertino_ui_CupertinoAlertDialog");
+		it(_el$9, [props, {
+			get title() {
+				return $title();
+			},
+			get content() {
+				return $content();
+			},
+			get actions() {
+				return $actions();
+			}
+		}], false);
+		return _el$9;
+	}
+	/**
+	* Creates an iOS-style button.
+	* Dart: `CupertinoButton`
+	*/
+	function CupertinoButton(props) {
+		var _el$12 = Ge("cupertino_ui_CupertinoButton");
+		it(_el$12, props, false);
+		return _el$12;
+	}
+	/**
+	* Creates an iOS-style button with a tinted background.
+	* Dart: `CupertinoButton.tinted`
+	*/
+	function CupertinoButtonTinted(props) {
+		var _el$13 = Ge("cupertino_ui_CupertinoButtonTinted");
+		it(_el$13, props, false);
+		return _el$13;
+	}
+	/**
+	* Creates an iOS-style button with a filled background.
+	* Dart: `CupertinoButton.filled`
+	*/
+	function CupertinoButtonFilled(props) {
+		var _el$14 = Ge("cupertino_ui_CupertinoButtonFilled");
+		it(_el$14, props, false);
+		return _el$14;
+	}
+	/**
+	* Creates a section that mimics standard iOS forms.
+	* Dart: `CupertinoListSection`
+	*/
+	function CupertinoListSection(props) {
+		const $header = v(() => props.header);
+		const $footer = v(() => props.footer);
+		var _el$34 = Ge("cupertino_ui_CupertinoListSection");
+		it(_el$34, [props, {
+			get header() {
+				return $header();
+			},
+			get footer() {
+				return $footer();
+			}
+		}], false);
+		return _el$34;
+	}
+	/**
+	* Creates a section that mimics standard "Inset Grouped" iOS list section.
+	* Dart: `CupertinoListSection.insetGrouped`
+	*/
+	function CupertinoListSectionInsetGrouped(props) {
+		const $header = v(() => props.header);
+		const $footer = v(() => props.footer);
+		var _el$35 = Ge("cupertino_ui_CupertinoListSectionInsetGrouped");
+		it(_el$35, [props, {
+			get header() {
+				return $header();
+			},
+			get footer() {
+				return $footer();
+			}
+		}], false);
+		return _el$35;
+	}
+	/**
+	* Creates an edge-to-edge iOS-style list tile like the tiles in iOS Settings app.
+	* Dart: `CupertinoListTile`
+	*/
+	function CupertinoListTile(props) {
+		const $title = v(() => props.title);
+		const $subtitle = v(() => props.subtitle);
+		const $additionalInfo = v(() => props.additionalInfo);
+		const $leading = v(() => props.leading);
+		const $trailing = v(() => props.trailing);
+		var _el$36 = Ge("cupertino_ui_CupertinoListTile");
+		it(_el$36, [props, {
+			get title() {
+				return $title();
+			},
+			get subtitle() {
+				return $subtitle();
+			},
+			get additionalInfo() {
+				return $additionalInfo();
+			},
+			get leading() {
+				return $leading();
+			},
+			get trailing() {
+				return $trailing();
+			}
+		}], false);
+		return _el$36;
+	}
+	/**
+	* Creates a static iOS style navigation bar, with a centered [middle] title.
+	* Dart: `CupertinoNavigationBar`
+	*/
+	function CupertinoNavigationBar(props) {
+		const $leading = v(() => props.leading);
+		const $middle = v(() => props.middle);
+		const $trailing = v(() => props.trailing);
+		const $bottom = v(() => props.bottom);
+		var _el$43 = Ge("cupertino_ui_CupertinoNavigationBar");
+		it(_el$43, [props, {
+			get leading() {
+				return $leading();
+			},
+			get middle() {
+				return $middle();
+			},
+			get trailing() {
+				return $trailing();
+			},
+			get bottom() {
+				return $bottom();
+			}
+		}], false);
+		return _el$43;
+	}
+	/**
+	* Creates a static iOS style navigation bar, with a left aligned [largeTitle].
+	* Dart: `CupertinoNavigationBar.large`
+	*/
+	function CupertinoNavigationBarLarge(props) {
+		const $largeTitle = v(() => props.largeTitle);
+		const $leading = v(() => props.leading);
+		const $trailing = v(() => props.trailing);
+		const $bottom = v(() => props.bottom);
+		var _el$44 = Ge("cupertino_ui_CupertinoNavigationBarLarge");
+		it(_el$44, [props, {
+			get largeTitle() {
+				return $largeTitle();
+			},
+			get leading() {
+				return $leading();
+			},
+			get trailing() {
+				return $trailing();
+			},
+			get bottom() {
+				return $bottom();
+			}
+		}], false);
+		return _el$44;
+	}
+	/**
+	* Creates a layout for pages with a navigation bar at the top.
+	* Dart: `CupertinoPageScaffold`
+	*/
+	function CupertinoPageScaffold(props) {
+		const $navigationBar = v(() => props.navigationBar);
+		var _el$46 = Ge("cupertino_ui_CupertinoPageScaffold");
+		it(_el$46, [props, { get navigationBar() {
+			return $navigationBar();
+		} }], false);
+		return _el$46;
+	}
+	w("cupertino_ui_CupertinoTabController", {
+		"s": ["index"],
+		"w": ["index"],
+		"o": ["index"],
+		"m": [],
+		"st": []
+	});
+	w("cupertino_ui_RestorableCupertinoTabController", {
+		"s": ["value", "enabled"],
+		"w": [],
+		"o": [],
+		"m": [
+			"createDefaultValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	// ../../packages/cupertino/src/slots.tsx
+	function label$1(v) {
+		return typeof v === "string" || typeof v === "number" ? (() => {
+			var _el$ = Ge("text");
+			Z$1(_el$, () => {
+				return String(v);
+			});
+			return _el$;
+		})() : v;
+	}
+	function icon$1(v, size) {
+		return typeof v === "string" ? $e(oe, {
+			icon: v,
+			size
+		}) : v;
+	}
+	// ../../packages/cupertino/src/scaffold.tsx
+	/** An iOS screen: a navigation bar over the content. */
+	function PageScaffold(props) {
+		return $e(CupertinoPageScaffold, {
+			get navigationBar() {
+				return props.navigationBar;
+			},
+			get backgroundColor() {
+				return props.backgroundColor;
+			},
+			get resizeToAvoidBottomInset() {
+				return props.resizeToAvoidBottomInset;
+			},
+			get children() {
+				return props.children;
+			}
+		});
+	}
+	function NavigationBar$2(props) {
+		return $e(q, {
+			get component() {
+				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
+			},
+			get largeTitle() {
+				return Ue(() => {
+					return !!props.large;
+				})() ? label$1(props.title) : void 0;
+			},
+			get middle() {
+				return Ue(() => {
+					return !!props.large;
+				})() ? void 0 : label$1(props.title);
+			},
+			get leading() {
+				return icon$1(props.leading);
+			},
+			get trailing() {
+				return icon$1(props.trailing);
+			},
+			get previousPageTitle() {
+				return props.previousPageTitle;
+			},
+			get backgroundColor() {
+				return props.backgroundColor;
+			}
+		});
+	}
+	// ../../packages/cupertino/src/controls.tsx
+	var _tpl$1$12 = /*@__PURE__*/ ke(["view", { "layout": {
+		"direction": "horizontal",
+		"gap": 6,
+		"align": "center"
+	} }], 1);
+	var buttons = {
+		plain: CupertinoButton,
+		tinted: CupertinoButtonTinted,
+		filled: CupertinoButtonFilled
+	};
+	/** iOS buttons, one component: pick the look with `variant`. */
+	function Button$3(props) {
+		return $e(q, {
+			get component() {
+				return buttons[props.variant ?? "plain"];
+			},
+			get sizeStyle() {
+				return props.size ?? "large";
+			},
+			get onPressed() {
+				return Ue(() => {
+					return !!props.disabled;
+				})() ? null : props.onPress ?? null;
+			},
+			get onLongPress() {
+				return Ue(() => {
+					return !!props.disabled;
+				})() ? null : props.onLongPress ?? null;
+			},
+			get color() {
+				return props.color;
+			},
+			get children() {
+				return $e(Show, {
+					get when() {
+						return props.icon !== void 0;
+					},
+					get fallback() {
+						return label$1(props.children);
+					},
+					get children() {
+						return ((_at$1) => (() => {
+							var _el$ = Ge("h$view", {
+								$t: _at$1,
+								$i: 0
+							});
+							Z$1(_el$, () => {
+								return icon$1(props.icon);
+							}, null);
+							Z$1(_el$, () => {
+								return label$1(props.children);
+							}, null);
+							return _el$;
+						})())(Ae(_tpl$1$12));
+					}
+				});
+			}
+		});
+	}
+	function Switch$2(props) {
+		var _el$2 = Ge("cupertino_ui_CupertinoSwitch");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.disabled ? null : props.onChange ?? null,
+				a: props.color
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$2, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$2, "onChanged", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$2, "activeTrackColor", a, _p$?.a);
+		});
+		return _el$2;
+	}
+	function Checkbox$2(props) {
+		var _el$3 = Ge("cupertino_ui_CupertinoCheckbox");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.tristate ?? props.value === null,
+				a: props.disabled ? null : props.onChange ?? null,
+				o: props.color,
+				i: props.semanticLabel
+			};
+		}, ({ e, t, a, o, i }, _p$) => {
+			e !== _p$?.e && Ye(_el$3, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$3, "tristate", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$3, "onChanged", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$3, "activeColor", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$3, "semanticLabel", i, _p$?.i);
+		});
+		return _el$3;
+	}
+	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
+	function Radio$1(props) {
+		var _el$4 = Ge("cupertino_ui_CupertinoRadio");
+		He(() => {
+			return {
+				e: props.value,
+				t: !props.disabled,
+				a: props.toggleable,
+				o: props.checkmark,
+				i: props.color
+			};
+		}, ({ e, t, a, o, i }, _p$) => {
+			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$4, "enabled", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$4, "toggleable", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$4, "useCheckmarkStyle", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$4, "activeColor", i, _p$?.i);
+		});
+		return _el$4;
+	}
+	function Slider$2(props) {
+		var _el$5 = Ge("cupertino_ui_CupertinoSlider");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.disabled ? null : props.onChange ?? null,
+				a: props.onChangeEnd ?? null,
+				o: props.min,
+				i: props.max,
+				n: props.steps ?? null,
+				s: props.color
+			};
+		}, ({ e, t, a, o, i, n, s }, _p$) => {
+			e !== _p$?.e && Ye(_el$5, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$5, "onChanged", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$5, "onChangeEnd", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$5, "min", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$5, "max", i, _p$?.i);
+			n !== _p$?.n && Ye(_el$5, "divisions", n, _p$?.n);
+			s !== _p$?.s && Ye(_el$5, "activeColor", s, _p$?.s);
+		});
+		return _el$5;
+	}
+	function ActivityIndicator(props) {
+		var _el$6 = Ge("cupertino_ui_CupertinoActivityIndicator");
+		He(() => {
+			return {
+				e: props.animating,
+				t: props.radius,
+				a: props.color
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$6, "animating", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$6, "radius", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$6, "color", a, _p$?.a);
+		});
+		return _el$6;
+	}
+	/** iOS's sliding segmented control. */
+	function SegmentedControl(props) {
+		var _el$7 = Ge("cupertinoSegmentedControl");
+		Z$1(_el$7, $e(For, {
+			get each() {
+				return props.options;
+			},
+			children: (o) => label$1(o.label)
+		}));
+		He(() => {
+			return {
+				e: props.value,
+				t: props.onChange,
+				a: props.options.map((o) => o.value),
+				o: props.options.filter((o) => o.disabled).map((o) => o.value),
+				i: props.proportional,
+				n: props.backgroundColor,
+				s: props.thumbColor
+			};
+		}, ({ e, t, a, o, i, n, s }, _p$) => {
+			e !== _p$?.e && Ye(_el$7, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$7, "onChange", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$7, "values", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$7, "disabledValues", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$7, "proportionalWidth", i, _p$?.i);
+			n !== _p$?.n && Ye(_el$7, "backgroundColor", n, _p$?.n);
+			s !== _p$?.s && Ye(_el$7, "thumbColor", s, _p$?.s);
+		});
+		return _el$7;
+	}
+	// ../../packages/cupertino/src/list.tsx
+	function ListSection(props) {
+		return $e(q, {
+			get component() {
+				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
+			},
+			get header() {
+				return label$1(props.header);
+			},
+			get footer() {
+				return label$1(props.footer);
+			},
+			get backgroundColor() {
+				return props.backgroundColor;
+			},
+			get children() {
+				return props.children;
+			}
+		});
+	}
+	function ListTile$2(props) {
+		return $e(CupertinoListTile, {
+			get title() {
+				return label$1(props.title);
+			},
+			get subtitle() {
+				return label$1(props.subtitle);
+			},
+			get additionalInfo() {
+				return label$1(props.additionalInfo);
+			},
+			get leading() {
+				return icon$1(props.leading);
+			},
+			get trailing() {
+				return Ue(() => {
+					return props.trailing !== void 0;
+				})() ? icon$1(props.trailing) : Ue(() => {
+					return !!props.onPress;
+				})() ? Ge("cupertino_ui_CupertinoListTileChevron") : void 0;
+			},
+			get onTap() {
+				return props.onPress;
+			},
+			get backgroundColor() {
+				return props.backgroundColor;
+			}
+		});
+	}
+	// ../../packages/cupertino/src/text-field.tsx
+	/** iOS text field. Controlled with `value` + `onChange`. */
+	function TextField$2(props) {
+		var _el$ = Ge("cupertinoTextField");
+		it(_el$, [props, {
+			get prefix() {
+				return icon$1(props.prefix);
+			},
+			get suffix() {
+				return icon$1(props.suffix);
+			}
+		}], false);
+		return _el$;
+	}
+	// ../../packages/cupertino/src/overlays.tsx
+	/** iOS alert, open while `open` is true. */
+	function Dialog$2(props) {
+		return $e(fe, {
+			type: "cupertinoDialog",
+			get open() {
+				return props.open;
+			},
+			get onOpenChange() {
+				return props.onOpenChange;
+			},
+			get dismissible() {
+				return props.dismissible;
+			},
+			get children() {
+				return $e(CupertinoAlertDialog, {
+					get title() {
+						return label$1(props.title);
+					},
+					get content() {
+						return label$1(props.children);
+					},
+					get actions() {
+						return props.actions;
+					}
+				});
+			}
+		});
+	}
+	function DialogAction(props) {
+		var _el$ = Ge("cupertino_ui_CupertinoDialogAction");
+		Z$1(_el$, () => {
+			return label$1(props.children);
+		});
+		He(() => {
+			return {
+				e: props.onPress ?? null,
+				t: props.default,
+				a: props.destructive
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$, "onPressed", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$, "isDefaultAction", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$, "isDestructiveAction", a, _p$?.a);
+		});
+		return _el$;
+	}
+	/** iOS action sheet, sliding up while `open` is true. */
+	function ActionSheet(props) {
+		return $e(fe, {
+			type: "cupertinoActionSheet",
+			get open() {
+				return props.open;
+			},
+			get onOpenChange() {
+				return props.onOpenChange;
+			},
+			get children() {
+				return $e(CupertinoActionSheet, {
+					get title() {
+						return label$1(props.title);
+					},
+					get message() {
+						return label$1(props.message);
+					},
+					get actions() {
+						return props.children;
+					},
+					get cancelButton() {
+						return props.cancel;
+					}
+				});
+			}
+		});
+	}
+	function ActionSheetAction(props) {
+		var _el$2 = Ge("cupertino_ui_CupertinoActionSheetAction");
+		Z$1(_el$2, () => {
+			return label$1(props.children);
+		});
+		He(() => {
+			return {
+				e: props.onPress,
+				t: props.default,
+				a: props.destructive
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$2, "onPressed", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$2, "isDefaultAction", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$2, "isDestructiveAction", a, _p$?.a);
+		});
+		return _el$2;
+	}
 	// fuse/material_ui/Icons.tsx
 	var add = "Icons.add";
 	var arrow_back = "Icons.arrow_back";
@@ -6960,37 +7551,37 @@
 	var favorite_border = "Icons.favorite_border";
 	var home = "Icons.home";
 	var home_outlined = "Icons.home_outlined";
-	var info$1 = "Icons.info";
+	var info = "Icons.info";
 	var lock = "Icons.lock";
 	var notifications = "Icons.notifications";
-	var person$1 = "Icons.person";
+	var person = "Icons.person";
 	var person_outline = "Icons.person_outline";
 	var search = "Icons.search";
 	var send = "Icons.send";
 	var settings = "Icons.settings";
 	var star = "Icons.star";
-	var wifi$1 = "Icons.wifi";
+	var wifi = "Icons.wifi";
 	// fuse/material_ui/ThemeData.tsx
-	function ThemeData$from(...a) {
-		return p("ThemeData.from", [], a);
+	function $ThemeData$from(...a) {
+		return m("ThemeData.from", [], a);
 	}
-	function ThemeData$light(...a) {
-		return p("ThemeData.light", [], a);
+	function $ThemeData$light(...a) {
+		return m("ThemeData.light", [], a);
 	}
-	function ThemeData$dark(...a) {
-		return p("ThemeData.dark", [], a);
+	function $ThemeData$dark(...a) {
+		return m("ThemeData.dark", [], a);
 	}
-	function ThemeData$fallback(...a) {
-		return p("ThemeData.fallback", [], a);
+	function $ThemeData$fallback(...a) {
+		return m("ThemeData.fallback", [], a);
 	}
-	function ThemeData$call(...a) {
-		return p("ThemeData", [], a);
+	function $ThemeData$call(...a) {
+		return m("ThemeData", [], a);
 	}
-	var ThemeData = /* @__PURE__ */ Object.assign(ThemeData$call, {
-		from: ThemeData$from,
-		light: ThemeData$light,
-		dark: ThemeData$dark,
-		fallback: ThemeData$fallback
+	var ThemeData = /* @__PURE__ */ Object.assign($ThemeData$call, {
+		from: $ThemeData$from,
+		light: $ThemeData$light,
+		dark: $ThemeData$dark,
+		fallback: $ThemeData$fallback
 	});
 	// fuse/material_ui.tsx
 	/**
@@ -6998,13 +7589,15 @@
 	* Dart: `ActionChip`
 	*/
 	function ActionChip(props) {
+		const $avatar = v(() => props.avatar);
+		const $label = v(() => props.label);
 		var _el$4 = Ge("material_ui_ActionChip");
 		it(_el$4, [props, {
 			get avatar() {
-				return _(props.avatar);
+				return $avatar();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$4;
@@ -7014,19 +7607,23 @@
 	* Dart: `AlertDialog`
 	*/
 	function AlertDialog(props) {
+		const $icon = v(() => props.icon);
+		const $title = v(() => props.title);
+		const $content = v(() => props.content);
+		const $actions = y(() => props.actions);
 		var _el$11 = Ge("material_ui_AlertDialog");
 		it(_el$11, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get title() {
-				return _(props.title);
+				return $title();
 			},
 			get content() {
-				return _(props.content);
+				return $content();
 			},
 			get actions() {
-				return v(props.actions);
+				return $actions();
 			}
 		}], false);
 		return _el$11;
@@ -7036,22 +7633,27 @@
 	* Dart: `AppBar`
 	*/
 	function AppBar$1(props) {
+		const $leading = v(() => props.leading);
+		const $title = v(() => props.title);
+		const $actions = y(() => props.actions);
+		const $flexibleSpace = v(() => props.flexibleSpace);
+		const $bottom = v(() => props.bottom);
 		var _el$15 = Ge("material_ui_AppBar");
 		it(_el$15, [props, {
 			get leading() {
-				return _(props.leading);
+				return $leading();
 			},
 			get title() {
-				return _(props.title);
+				return $title();
 			},
 			get actions() {
-				return v(props.actions);
+				return $actions();
 			},
 			get flexibleSpace() {
-				return _(props.flexibleSpace);
+				return $flexibleSpace();
 			},
 			get bottom() {
-				return _(props.bottom);
+				return $bottom();
 			}
 		}], false);
 		return _el$15;
@@ -7061,9 +7663,10 @@
 	* Dart: `Badge`
 	*/
 	function Badge$1(props) {
+		const $label = v(() => props.label);
 		var _el$20 = Ge("material_ui_Badge");
 		it(_el$20, [props, { get label() {
-			return _(props.label);
+			return $label();
 		} }], false);
 		return _el$20;
 	}
@@ -7099,16 +7702,19 @@
 	* Dart: `Chip`
 	*/
 	function Chip$1(props) {
+		const $avatar = v(() => props.avatar);
+		const $label = v(() => props.label);
+		const $deleteIcon = v(() => props.deleteIcon);
 		var _el$49 = Ge("material_ui_Chip");
 		it(_el$49, [props, {
 			get avatar() {
-				return _(props.avatar);
+				return $avatar();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			},
 			get deleteIcon() {
-				return _(props.deleteIcon);
+				return $deleteIcon();
 			}
 		}], false);
 		return _el$49;
@@ -7145,13 +7751,15 @@
 	* Dart: `ElevatedButton.icon`
 	*/
 	function ElevatedButtonIcon(props) {
+		const $icon = v(() => props.icon);
+		const $label = v(() => props.label);
 		var _el$86 = Ge("material_ui_ElevatedButtonIcon");
 		it(_el$86, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$86;
@@ -7170,13 +7778,15 @@
 	* Dart: `FilledButton.icon`
 	*/
 	function FilledButtonIcon(props) {
+		const $icon = v(() => props.icon);
+		const $label = v(() => props.label);
 		var _el$96 = Ge("material_ui_FilledButtonIcon");
 		it(_el$96, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$96;
@@ -7195,13 +7805,15 @@
 	* Dart: `FilledButton.tonalIcon`
 	*/
 	function FilledButtonTonalIcon(props) {
+		const $icon = v(() => props.icon);
+		const $label = v(() => props.label);
 		var _el$98 = Ge("material_ui_FilledButtonTonalIcon");
 		it(_el$98, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$98;
@@ -7211,16 +7823,19 @@
 	* Dart: `FilterChip`
 	*/
 	function FilterChip(props) {
+		const $avatar = v(() => props.avatar);
+		const $label = v(() => props.label);
+		const $deleteIcon = v(() => props.deleteIcon);
 		var _el$100 = Ge("material_ui_FilterChip");
 		it(_el$100, [props, {
 			get avatar() {
-				return _(props.avatar);
+				return $avatar();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			},
 			get deleteIcon() {
-				return _(props.deleteIcon);
+				return $deleteIcon();
 			}
 		}], false);
 		return _el$100;
@@ -7257,13 +7872,15 @@
 	* Dart: `FloatingActionButton.extended`
 	*/
 	function FloatingActionButtonExtended(props) {
+		const $icon = v(() => props.icon);
+		const $label = v(() => props.label);
 		var _el$107 = Ge("material_ui_FloatingActionButtonExtended");
 		it(_el$107, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$107;
@@ -7273,13 +7890,15 @@
 	* Dart: `IconButton`
 	*/
 	function IconButton$1(props) {
+		const $selectedIcon = v(() => props.selectedIcon);
+		const $icon = v(() => props.icon);
 		var _el$111 = Ge("material_ui_IconButton");
 		it(_el$111, [props, {
 			get selectedIcon() {
-				return _(props.selectedIcon);
+				return $selectedIcon();
 			},
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			}
 		}], false);
 		return _el$111;
@@ -7289,13 +7908,15 @@
 	* Dart: `IconButton.filled`
 	*/
 	function IconButtonFilled(props) {
+		const $selectedIcon = v(() => props.selectedIcon);
+		const $icon = v(() => props.icon);
 		var _el$112 = Ge("material_ui_IconButtonFilled");
 		it(_el$112, [props, {
 			get selectedIcon() {
-				return _(props.selectedIcon);
+				return $selectedIcon();
 			},
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			}
 		}], false);
 		return _el$112;
@@ -7305,13 +7926,15 @@
 	* Dart: `IconButton.filledTonal`
 	*/
 	function IconButtonFilledTonal(props) {
+		const $selectedIcon = v(() => props.selectedIcon);
+		const $icon = v(() => props.icon);
 		var _el$113 = Ge("material_ui_IconButtonFilledTonal");
 		it(_el$113, [props, {
 			get selectedIcon() {
-				return _(props.selectedIcon);
+				return $selectedIcon();
 			},
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			}
 		}], false);
 		return _el$113;
@@ -7321,13 +7944,15 @@
 	* Dart: `IconButton.outlined`
 	*/
 	function IconButtonOutlined(props) {
+		const $selectedIcon = v(() => props.selectedIcon);
+		const $icon = v(() => props.icon);
 		var _el$114 = Ge("material_ui_IconButtonOutlined");
 		it(_el$114, [props, {
 			get selectedIcon() {
-				return _(props.selectedIcon);
+				return $selectedIcon();
 			},
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			}
 		}], false);
 		return _el$114;
@@ -7345,20 +7970,24 @@
 	* Creates a list tile.
 	* Dart: `ListTile`
 	*/
-	function ListTile$2(props) {
+	function ListTile$1(props) {
+		const $leading = v(() => props.leading);
+		const $title = v(() => props.title);
+		const $subtitle = v(() => props.subtitle);
+		const $trailing = v(() => props.trailing);
 		var _el$126 = Ge("material_ui_ListTile");
 		it(_el$126, [props, {
 			get leading() {
-				return _(props.leading);
+				return $leading();
 			},
 			get title() {
-				return _(props.title);
+				return $title();
 			},
 			get subtitle() {
-				return _(props.subtitle);
+				return $subtitle();
 			},
 			get trailing() {
-				return _(props.trailing);
+				return $trailing();
 			}
 		}], false);
 		return _el$126;
@@ -7368,9 +7997,10 @@
 	* Dart: `MaterialApp`
 	*/
 	function MaterialApp$1(props) {
+		const $home = v(() => props.home);
 		var _el$130 = Ge("material_ui_MaterialApp");
 		it(_el$130, [props, { get home() {
-			return _(props.home);
+			return $home();
 		} }], false);
 		return _el$130;
 	}
@@ -7378,10 +8008,11 @@
 	* Creates a Material 3 Navigation Bar component.
 	* Dart: `NavigationBar`
 	*/
-	function NavigationBar$2(props) {
+	function NavigationBar$1(props) {
+		const $destinations = y(() => props.destinations);
 		var _el$145 = Ge("material_ui_NavigationBar");
 		it(_el$145, [props, { get destinations() {
-			return v(props.destinations);
+			return $destinations();
 		} }], false);
 		return _el$145;
 	}
@@ -7390,13 +8021,15 @@
 	* Dart: `NavigationDestination`
 	*/
 	function NavigationDestination$1(props) {
+		const $icon = v(() => props.icon);
+		const $selectedIcon = v(() => props.selectedIcon);
 		var _el$147 = Ge("material_ui_NavigationDestination");
 		it(_el$147, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get selectedIcon() {
-				return _(props.selectedIcon);
+				return $selectedIcon();
 			}
 		}], false);
 		return _el$147;
@@ -7415,13 +8048,15 @@
 	* Dart: `OutlinedButton.icon`
 	*/
 	function OutlinedButtonIcon(props) {
+		const $icon = v(() => props.icon);
+		const $label = v(() => props.label);
 		var _el$155 = Ge("material_ui_OutlinedButtonIcon");
 		it(_el$155, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$155;
@@ -7431,31 +8066,39 @@
 	* Dart: `Scaffold`
 	*/
 	function Scaffold$1(props) {
+		const $appBar = v(() => props.appBar);
+		const $body = v(() => props.body);
+		const $floatingActionButton = v(() => props.floatingActionButton);
+		const $persistentFooterButtons = y(() => props.persistentFooterButtons);
+		const $drawer = v(() => props.drawer);
+		const $endDrawer = v(() => props.endDrawer);
+		const $bottomNavigationBar = v(() => props.bottomNavigationBar);
+		const $bottomSheet = v(() => props.bottomSheet);
 		var _el$177 = Ge("material_ui_Scaffold");
 		it(_el$177, [props, {
 			get appBar() {
-				return _(props.appBar);
+				return $appBar();
 			},
 			get body() {
-				return _(props.body);
+				return $body();
 			},
 			get floatingActionButton() {
-				return _(props.floatingActionButton);
+				return $floatingActionButton();
 			},
 			get persistentFooterButtons() {
-				return v(props.persistentFooterButtons);
+				return $persistentFooterButtons();
 			},
 			get drawer() {
-				return _(props.drawer);
+				return $drawer();
 			},
 			get endDrawer() {
-				return _(props.endDrawer);
+				return $endDrawer();
 			},
 			get bottomNavigationBar() {
-				return _(props.bottomNavigationBar);
+				return $bottomNavigationBar();
 			},
 			get bottomSheet() {
-				return _(props.bottomSheet);
+				return $bottomSheet();
 			}
 		}], false);
 		return _el$177;
@@ -7474,13 +8117,15 @@
 	* Dart: `TextButton.icon`
 	*/
 	function TextButtonIcon(props) {
+		const $icon = v(() => props.icon);
+		const $label = v(() => props.label);
 		var _el$219 = Ge("material_ui_TextButtonIcon");
 		it(_el$219, [props, {
 			get icon() {
-				return _(props.icon);
+				return $icon();
 			},
 			get label() {
-				return _(props.label);
+				return $label();
 			}
 		}], false);
 		return _el$219;
@@ -7494,7 +8139,7 @@
 		it(_el$236, props, false);
 		return _el$236;
 	}
-	C("material_ui_CarouselController", {
+	w("material_ui_CarouselController", {
 		"s": [
 			"initialItem",
 			"leadingItem",
@@ -7517,7 +8162,7 @@
 		],
 		"st": []
 	});
-	C("material_ui_RestorableTimeOfDay", {
+	w("material_ui_RestorableTimeOfDay", {
 		"s": ["value", "enabled"],
 		"w": ["value"],
 		"o": [],
@@ -7530,7 +8175,7 @@
 		],
 		"st": []
 	});
-	C("material_ui_SearchController", {
+	w("material_ui_SearchController", {
 		"s": [
 			"isAttached",
 			"isOpen",
@@ -7552,7 +8197,7 @@
 		],
 		"st": []
 	});
-	C("material_ui_TabBarScrollController", {
+	w("material_ui_TabBarScrollController", {
 		"s": [
 			"initialScrollOffset",
 			"keepScrollOffset",
@@ -7572,7 +8217,7 @@
 		],
 		"st": []
 	});
-	C("material_ui_TabController", {
+	w("material_ui_TabController", {
 		"s": [
 			"animation",
 			"animationDuration",
@@ -7597,23 +8242,63 @@
 		};
 	}
 	// ../../packages/material/src/app.tsx
-	function themeOf(t, brightness) {
-		if (t == null) return brightness === "dark" ? ThemeData.dark() : void 0;
-		if ("$" in t) return t;
-		const brief = t;
-		return ThemeData({
-			colorSchemeSeed: $(brief.seedColor ?? "#6750a4"),
-			brightness: brief.brightness ?? brightness,
-			fontFamily: brief.fontFamily,
-			contrastLevel: brief.contrast
-		});
+	function themeOf(t, brightness, platform) {
+		if (t == null) {
+			if (platform == null) return brightness === "dark" ? ThemeData.dark() : void 0;
+			return ThemeData({
+				brightness,
+				platform
+			});
+		}
+		if (!("$" in t)) {
+			const brief = t;
+			return ThemeData({
+				colorSchemeSeed: brief.seedColor ?? "#6750a4",
+				brightness: brief.brightness ?? brightness,
+				fontFamily: brief.fontFamily,
+				contrastLevel: brief.contrast,
+				platform
+			});
+		}
+		return platform == null ? t : withPlatform(t, platform);
+	}
+	/**
+	* The platform has to go into the constructor: ThemeData derives its
+	* typography from it, which a later `copyWith` wouldn't redo.
+	*/
+	function withPlatform(t, platform) {
+		const v = t;
+		switch (v.$) {
+			case "ThemeData": return {
+				...v,
+				platform
+			};
+			case "ThemeData.light":
+			case "ThemeData.fallback": return ThemeData({
+				brightness: "light",
+				useMaterial3: v.useMaterial3,
+				platform
+			});
+			case "ThemeData.dark": return ThemeData({
+				brightness: "dark",
+				useMaterial3: v.useMaterial3,
+				platform
+			});
+			case "ThemeData.from": return ThemeData({
+				colorScheme: v.colorScheme,
+				textTheme: v.textTheme,
+				useMaterial3: v.useMaterial3,
+				platform
+			});
+			default: return t;
+		}
 	}
 	/**
 	* The root of a Material app: themes, a root navigator, and pages that
 	* are `materialPage()`s.
 	*/
 	function MaterialApp(props) {
-		return $e(J, {
+		return $e(Y, {
 			value: (child) => materialPage({ child }),
 			get children() {
 				return $e(MaterialApp$1, {
@@ -7621,23 +8306,23 @@
 						return props.title ?? "";
 					},
 					get theme() {
-						return themeOf(props.theme, "light");
+						return themeOf(props.theme, "light", props.platform);
 					},
 					get darkTheme() {
 						return Ue(() => {
 							return props.darkTheme !== void 0;
-						})() ? themeOf(props.darkTheme, "dark") : Ue(() => {
+						})() ? themeOf(props.darkTheme, "dark", props.platform) : Ue(() => {
 							return !!(props.theme && !("$" in props.theme));
 						})() ? themeOf({
 							...props.theme,
 							brightness: "dark"
-						}, "dark") : void 0;
+						}, "dark", props.platform) : void 0;
 					},
 					get themeMode() {
 						return props.themeMode ?? "system";
 					},
 					get color() {
-						return $(props.color);
+						return props.color;
 					},
 					get debugShowCheckedModeBanner() {
 						return props.debugShowCheckedModeBanner ?? false;
@@ -7650,7 +8335,7 @@
 		});
 	}
 	// ../../packages/material/src/slots.tsx
-	function label$1(v) {
+	function label(v) {
 		return typeof v === "string" || typeof v === "number" ? (() => {
 			var _el$ = Ge("text");
 			Z$1(_el$, () => {
@@ -7659,8 +8344,8 @@
 			return _el$;
 		})() : v;
 	}
-	function icon$1(v, size) {
-		return typeof v === "string" ? $e(le, {
+	function icon(v, size) {
+		return typeof v === "string" ? $e(oe, {
 			icon: v,
 			size
 		}) : v;
@@ -7685,7 +8370,7 @@
 				return props.endDrawer;
 			},
 			get backgroundColor() {
-				return $(props.backgroundColor);
+				return props.backgroundColor;
 			},
 			get extendBodyBehindAppBar() {
 				return props.extendBodyBehindAppBar;
@@ -7701,10 +8386,10 @@
 	function AppBar(props) {
 		return $e(AppBar$1, {
 			get title() {
-				return label$1(props.title);
+				return label(props.title);
 			},
 			get leading() {
-				return icon$1(props.leading);
+				return icon(props.leading);
 			},
 			get actions() {
 				return props.actions;
@@ -7713,10 +8398,10 @@
 				return props.centerTitle;
 			},
 			get backgroundColor() {
-				return $(props.backgroundColor);
+				return props.backgroundColor;
 			},
 			get foregroundColor() {
-				return $(props.foregroundColor);
+				return props.foregroundColor;
 			},
 			get elevation() {
 				return props.elevation;
@@ -7742,13 +8427,13 @@
 		elevated: ElevatedButtonIcon
 	};
 	/** Material's buttons, one component: pick the look with `variant`. */
-	function Button$3(props) {
+	function Button$2(props) {
 		const onPressed = () => props.disabled ? null : props.onPress ?? null;
 		const onLongPress = () => props.disabled ? null : props.onLongPress ?? null;
 		return Ue(() => {
 			return Ue(() => {
 				return props.icon !== void 0;
-			})() ? $e(K, {
+			})() ? $e(q, {
 				get component() {
 					return withIcon[props.variant ?? "filled"];
 				},
@@ -7762,12 +8447,12 @@
 					return props.autofocus;
 				},
 				get icon() {
-					return icon$1(props.icon);
+					return icon(props.icon);
 				},
 				get label() {
-					return label$1(props.children) ?? [];
+					return label(props.children) ?? [];
 				}
-			}) : $e(K, {
+			}) : $e(q, {
 				get component() {
 					return plain[props.variant ?? "filled"];
 				},
@@ -7781,7 +8466,7 @@
 					return props.autofocus;
 				},
 				get children() {
-					return label$1(props.children);
+					return label(props.children);
 				}
 			});
 		});
@@ -7793,15 +8478,15 @@
 		outlined: IconButtonOutlined
 	};
 	function IconButton(props) {
-		return $e(K, {
+		return $e(q, {
 			get component() {
 				return iconButtons[props.variant ?? "standard"];
 			},
 			get icon() {
-				return icon$1(props.icon);
+				return icon(props.icon);
 			},
 			get selectedIcon() {
-				return icon$1(props.selectedIcon);
+				return icon(props.selectedIcon);
 			},
 			get isSelected() {
 				return props.selected;
@@ -7820,7 +8505,7 @@
 				return props.tooltip;
 			},
 			get color() {
-				return $(props.color);
+				return props.color;
 			},
 			get iconSize() {
 				return props.size;
@@ -7844,18 +8529,18 @@
 					return props.tooltip;
 				},
 				get backgroundColor() {
-					return $(props.backgroundColor);
+					return props.backgroundColor;
 				},
 				get foregroundColor() {
-					return $(props.foregroundColor);
+					return props.foregroundColor;
 				},
 				get icon() {
-					return icon$1(props.icon);
+					return icon(props.icon);
 				},
 				get label() {
-					return label$1(props.label);
+					return label(props.label);
 				}
-			}) : $e(K, {
+			}) : $e(q, {
 				get component() {
 					return fabs[props.size ?? "regular"];
 				},
@@ -7866,25 +8551,25 @@
 					return props.tooltip;
 				},
 				get backgroundColor() {
-					return $(props.backgroundColor);
+					return props.backgroundColor;
 				},
 				get foregroundColor() {
-					return $(props.foregroundColor);
+					return props.foregroundColor;
 				},
 				get children() {
-					return icon$1(props.icon);
+					return icon(props.icon);
 				}
 			});
 		});
 	}
 	// ../../packages/material/src/controls.tsx
-	function Switch$2(props) {
+	function Switch$1(props) {
 		var _el$ = Ge("material_ui_Switch");
 		He(() => {
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
-				a: $(props.color)
+				a: props.color
 			};
 		}, ({ e, t, a }, _p$) => {
 			e !== _p$?.e && Ye(_el$, "value", e, _p$?.e);
@@ -7893,7 +8578,7 @@
 		});
 		return _el$;
 	}
-	function Checkbox$2(props) {
+	function Checkbox$1(props) {
 		var _el$2 = Ge("material_ui_Checkbox");
 		He(() => {
 			return {
@@ -7901,7 +8586,7 @@
 				t: props.tristate ?? props.value === null,
 				a: props.disabled ? null : props.onChange ?? null,
 				o: props.error,
-				i: $(props.color),
+				i: props.color,
 				n: props.semanticLabel
 			};
 		}, ({ e, t, a, o, i, n }, _p$) => {
@@ -7915,14 +8600,14 @@
 		return _el$2;
 	}
 	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
-	function Radio$1(props) {
+	function Radio(props) {
 		var _el$3 = Ge("material_ui_Radio");
 		He(() => {
 			return {
 				e: props.value,
 				t: !props.disabled,
 				a: props.toggleable,
-				o: $(props.color)
+				o: props.color
 			};
 		}, ({ e, t, a, o }, _p$) => {
 			e !== _p$?.e && Ye(_el$3, "value", e, _p$?.e);
@@ -7932,7 +8617,7 @@
 		});
 		return _el$3;
 	}
-	function Slider$2(props) {
+	function Slider$1(props) {
 		var _el$4 = Ge("material_ui_Slider");
 		He(() => {
 			return {
@@ -7943,7 +8628,7 @@
 				i: props.max,
 				n: props.steps ?? null,
 				s: props.label ?? null,
-				h: $(props.color)
+				h: props.color
 			};
 		}, ({ e, t, a, o, i, n, s, h }, _p$) => {
 			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
@@ -7959,14 +8644,14 @@
 	}
 	// ../../packages/material/src/text-field.tsx
 	/** Material's text field. Controlled with `value` + `onChange`. */
-	function TextField$2(props) {
+	function TextField$1(props) {
 		var _el$ = Ge("materialTextField");
 		it(_el$, [props, {
 			get prefixIcon() {
-				return icon$1(props.prefixIcon);
+				return icon(props.prefixIcon);
 			},
 			get suffixIcon() {
-				return icon$1(props.suffixIcon);
+				return icon(props.suffixIcon);
 			}
 		}], false);
 		return _el$;
@@ -7988,7 +8673,7 @@
 			});
 			return _el$;
 		})();
-		return $e(K, {
+		return $e(q, {
 			get component() {
 				return cards[props.variant ?? "elevated"];
 			},
@@ -7996,7 +8681,7 @@
 				return props.margin;
 			},
 			get color() {
-				return $(props.color);
+				return props.color;
 			},
 			get elevation() {
 				return props.elevation;
@@ -8018,19 +8703,19 @@
 			}
 		});
 	}
-	function ListTile$1(props) {
-		return $e(ListTile$2, {
+	function ListTile(props) {
+		return $e(ListTile$1, {
 			get title() {
-				return label$1(props.title);
+				return label(props.title);
 			},
 			get subtitle() {
-				return label$1(props.subtitle);
+				return label(props.subtitle);
 			},
 			get leading() {
-				return icon$1(props.leading);
+				return icon(props.leading);
 			},
 			get trailing() {
-				return icon$1(props.trailing);
+				return icon(props.trailing);
 			},
 			get onTap() {
 				return props.onPress ?? null;
@@ -8053,7 +8738,7 @@
 		});
 	}
 	function Divider(props) {
-		return $e(K, {
+		return $e(q, {
 			get component() {
 				return props.vertical ? VerticalDivider : Divider$1;
 			},
@@ -8067,7 +8752,7 @@
 				return props.endIndent;
 			},
 			get color() {
-				return $(props.color);
+				return props.color;
 			},
 			get width() {
 				return Ue(() => {
@@ -8087,10 +8772,10 @@
 				return props.selected !== void 0;
 			})() ? $e(FilterChip, {
 				get label() {
-					return label$1(props.label);
+					return label(props.label);
 				},
 				get avatar() {
-					return icon$1(props.icon);
+					return icon(props.icon);
 				},
 				get selected() {
 					return props.selected;
@@ -8110,10 +8795,10 @@
 				get fallback() {
 					return $e(Chip$1, {
 						get label() {
-							return label$1(props.label);
+							return label(props.label);
 						},
 						get avatar() {
-							return icon$1(props.icon);
+							return icon(props.icon);
 						},
 						get onDeleted() {
 							return props.onDelete ?? null;
@@ -8123,10 +8808,10 @@
 				get children() {
 					return $e(ActionChip, {
 						get label() {
-							return label$1(props.label);
+							return label(props.label);
 						},
 						get avatar() {
-							return icon$1(props.icon);
+							return icon(props.icon);
 						},
 						get onPressed() {
 							return Ue(() => {
@@ -8152,7 +8837,7 @@
 						e: props.label,
 						t: props.max,
 						a: props.visible ?? true,
-						o: $(props.color)
+						o: props.color
 					};
 				}, ({ e, t, a, o }, _p$) => {
 					e !== _p$?.e && Ye(_el$3, "count", e, _p$?.e);
@@ -8163,13 +8848,13 @@
 				return _el$3;
 			})() : $e(Badge$1, {
 				get label() {
-					return label$1(props.label);
+					return label(props.label);
 				},
 				get isLabelVisible() {
 					return props.visible ?? true;
 				},
 				get backgroundColor() {
-					return $(props.color);
+					return props.color;
 				},
 				get children() {
 					return props.children;
@@ -8178,7 +8863,7 @@
 		});
 	}
 	function ProgressIndicator$1(props) {
-		return $e(K, {
+		return $e(q, {
 			get component() {
 				return props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator;
 			},
@@ -8186,17 +8871,17 @@
 				return props.value ?? null;
 			},
 			get color() {
-				return $(props.color);
+				return props.color;
 			},
 			get backgroundColor() {
-				return $(props.trackColor);
+				return props.trackColor;
 			}
 		});
 	}
 	// ../../packages/material/src/navigation.tsx
 	/** Material's bottom navigation bar. */
-	function NavigationBar$1(props) {
-		return $e(NavigationBar$2, {
+	function NavigationBar(props) {
+		return $e(NavigationBar$1, {
 			get selectedIndex() {
 				return props.selected;
 			},
@@ -8207,10 +8892,10 @@
 				return props.labels ?? null;
 			},
 			get backgroundColor() {
-				return $(props.backgroundColor);
+				return props.backgroundColor;
 			},
 			get indicatorColor() {
-				return $(props.indicatorColor);
+				return props.indicatorColor;
 			},
 			get destinations() {
 				return props.children;
@@ -8220,10 +8905,10 @@
 	function NavigationDestination(props) {
 		return $e(NavigationDestination$1, {
 			get icon() {
-				return icon$1(props.icon);
+				return icon(props.icon);
 			},
 			get selectedIcon() {
-				return icon$1(props.selectedIcon);
+				return icon(props.selectedIcon);
 			},
 			get label() {
 				return props.label;
@@ -8238,8 +8923,8 @@
 	}
 	// ../../packages/material/src/overlays.tsx
 	/** Material's alert dialog, open while `open` is true. */
-	function Dialog$2(props) {
-		return $e(ge, {
+	function Dialog$1(props) {
+		return $e(fe, {
 			type: "materialDialog",
 			get open() {
 				return props.open;
@@ -8253,13 +8938,13 @@
 			get children() {
 				return $e(AlertDialog, {
 					get title() {
-						return label$1(props.title);
+						return label(props.title);
 					},
 					get icon() {
-						return icon$1(props.icon);
+						return icon(props.icon);
 					},
 					get content() {
-						return label$1(props.children);
+						return label(props.children);
 					},
 					get actions() {
 						return props.actions;
@@ -8273,7 +8958,7 @@
 	}
 	/** A modal sheet from the bottom, open while `open` is true. */
 	function BottomSheet(props) {
-		return $e(ge, {
+		return $e(fe, {
 			type: "materialBottomSheet",
 			get open() {
 				return props.open;
@@ -8301,8 +8986,150 @@
 			}
 		});
 	}
+	// ../../packages/adaptive/src/components.tsx
+	/** Material on one side, Cupertino on the other, picked where it renders. */
+	function adapt(material, cupertino) {
+		return (props) => {
+			const design = useDesign();
+			return $e(Show, {
+				get when() {
+					return design() === "cupertino";
+				},
+				get fallback() {
+					return material(props);
+				},
+				get children() {
+					return cupertino(props);
+				}
+			});
+		};
+	}
+	/**
+	* The root of an adaptive app. A Material app on every platform (so either
+	* design's widgets work inside, and pages slide the iOS way on iOS); the
+	* adaptive components below pick their design from the platform.
+	*/
+	function AdaptiveApp(props) {
+		return $e(MaterialApp, Xe(props, { get children() {
+			return $e(AdaptiveProvider, {
+				get design() {
+					return props.design ?? platformDesign(props.platform);
+				},
+				get children() {
+					return props.children;
+				}
+			});
+		} }));
+	}
+	var Button$1 = adapt((p) => $e(Button$2, {
+		get variant() {
+			return p.variant === "plain" ? "text" : "filled";
+		},
+		get onPress() {
+			return p.onPress;
+		},
+		get disabled() {
+			return p.disabled;
+		},
+		get children() {
+			return p.children;
+		}
+	}), (p) => $e(Button$3, {
+		get variant() {
+			return p.variant === "plain" ? "plain" : "filled";
+		},
+		get onPress() {
+			return p.onPress;
+		},
+		get disabled() {
+			return p.disabled;
+		},
+		get children() {
+			return p.children;
+		}
+	}));
+	var Switch = adapt((p) => $e(Switch$1, p), (p) => $e(Switch$2, p));
+	var Checkbox = adapt((p) => $e(Checkbox$1, p), (p) => $e(Checkbox$2, p));
+	var Slider = adapt((p) => $e(Slider$1, p), (p) => $e(Slider$2, p));
+	var TextField = adapt((p) => $e(TextField$1, Xe(p, {
+		get prefixIcon() {
+			return p.prefix;
+		},
+		get suffixIcon() {
+			return p.suffix;
+		}
+	})), (p) => $e(TextField$2, Xe(p, { get placeholder() {
+		return p.placeholder ?? p.label;
+	} })));
+	/** An indeterminate spinner. */
+	var ProgressIndicator = adapt((p) => $e(ProgressIndicator$1, { get color() {
+		return p.color;
+	} }), (p) => $e(ActivityIndicator, { get color() {
+		return p.color;
+	} }));
+	/** An alert with a title, a message and buttons. */
+	var Dialog = adapt((p) => $e(Dialog$1, {
+		get open() {
+			return p.open;
+		},
+		get onOpenChange() {
+			return p.onOpenChange;
+		},
+		get title() {
+			return p.title;
+		},
+		get dismissible() {
+			return p.dismissible;
+		},
+		get actions() {
+			return (p.actions ?? []).map((a) => $e(Button$2, {
+				variant: "text",
+				get onPress() {
+					return a.onPress;
+				},
+				get children() {
+					return a.label;
+				}
+			}));
+		},
+		get children() {
+			return p.children;
+		}
+	}), (p) => $e(Dialog$2, {
+		get open() {
+			return p.open;
+		},
+		get onOpenChange() {
+			return p.onOpenChange;
+		},
+		get title() {
+			return p.title;
+		},
+		get dismissible() {
+			return p.dismissible;
+		},
+		get actions() {
+			return (p.actions ?? []).map((a) => $e(DialogAction, {
+				get onPress() {
+					return a.onPress;
+				},
+				get "default"() {
+					return a.default;
+				},
+				get destructive() {
+					return a.destructive;
+				},
+				get children() {
+					return a.label;
+				}
+			}));
+		},
+		get children() {
+			return p.children;
+		}
+	}));
 	// src/ui.tsx
-	var _tpl$1$12 = /*@__PURE__*/ ke([
+	var _tpl$1$11 = /*@__PURE__*/ ke([
 		"view",
 		{
 			"padding": {
@@ -8315,23 +9142,27 @@
 			}
 		},
 		["text", {
-			"color": "white",
-			"fontWeight": "semiBold"
+			"color": "#FFFFFF",
+			"fontWeight": 600
 		}]
 	], 2);
 	var _tpl$2$7 = /*@__PURE__*/ ke([
 		"view",
 		{
 			"padding": 16,
-			"decoration": { "border": { "bottom": {
-				"width": 1,
-				"color": "#E5E7EB"
-			} } }
+			"decoration": { "border": {
+				"$": "Border",
+				"bottom": {
+					"$": "BorderSide",
+					"width": 1,
+					"color": "#E5E7EB"
+				}
+			} }
 		},
 		["text", { "fontSize": 16 }]
 	], 2);
-	function Button$2(props) {
-		return $e(me, {
+	function Button(props) {
+		return $e($, {
 			get onPress() {
 				return props.onTap;
 			},
@@ -8350,7 +9181,7 @@
 						return props.children;
 					});
 					return _el$;
-				})())(Ae(_tpl$1$12));
+				})())(Ae(_tpl$1$11));
 			}
 		});
 	}
@@ -8369,7 +9200,7 @@
 		return _el$3;
 	}
 	function MenuItem(props) {
-		return $e(me, {
+		return $e($, {
 			get onPress() {
 				return props.onTap;
 			},
@@ -8393,7 +9224,7 @@
 		});
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$11 = /*@__PURE__*/ ke([
+	var _tpl$1$10 = /*@__PURE__*/ ke([
 		"view",
 		{
 			"layout": {
@@ -8404,8 +9235,9 @@
 			"padding": 24
 		},
 		["text", {
+			"testId": "count",
 			"fontSize": 96,
-			"fontWeight": "bold",
+			"fontWeight": 700,
 			"color": "#2563eb"
 		}],
 		["view", { "layout": {
@@ -8432,7 +9264,7 @@
 			"text",
 			{
 				"fontSize": 28,
-				"fontWeight": "bold",
+				"fontWeight": 700,
 				"color": "#fff"
 			},
 			"−"
@@ -8456,7 +9288,7 @@
 			"text",
 			{
 				"fontSize": 15,
-				"fontWeight": "semiBold",
+				"fontWeight": 600,
 				"color": "#fff"
 			},
 			"Reset"
@@ -8480,7 +9312,7 @@
 			"text",
 			{
 				"fontSize": 28,
-				"fontWeight": "bold",
+				"fontWeight": 700,
 				"color": "#fff"
 			},
 			"+"
@@ -8504,7 +9336,8 @@
 			tt(_el$, _el$2);
 			tt(_el$, _el$3);
 			Z$1(_el$2, count);
-			Z$1(_el$3, $e(me, {
+			Z$1(_el$3, $e($, {
+				testId: "decrement",
 				onPress: () => setCount((c) => c - 1),
 				get children() {
 					return ((_at$2) => Ge("h$view", {
@@ -8513,7 +9346,7 @@
 					}))(Ae(_tpl$2$6));
 				}
 			}), null);
-			Z$1(_el$3, $e(me, {
+			Z$1(_el$3, $e($, {
 				onPress: () => setCount(0),
 				get children() {
 					return ((_at$3) => Ge("h$view", {
@@ -8522,7 +9355,8 @@
 					}))(Ae(_tpl$3$2));
 				}
 			}), null);
-			Z$1(_el$3, $e(me, {
+			Z$1(_el$3, $e($, {
+				testId: "increment",
 				onPress: () => setCount((c) => c + 1),
 				get children() {
 					return ((_at$4) => Ge("h$view", {
@@ -8532,10 +9366,10 @@
 				}
 			}), null);
 			return _el$;
-		})())(Ae(_tpl$1$11));
+		})())(Ae(_tpl$1$10));
 	}
 	// src/screens/text-field.tsx
-	var _tpl$1$10 = /*@__PURE__*/ ke([
+	var _tpl$1$9 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -8552,7 +9386,7 @@
 				"text",
 				{
 					"fontSize": 24,
-					"fontWeight": "bold"
+					"fontWeight": 700
 				},
 				"textField"
 			],
@@ -8582,7 +9416,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Name"
 				],
 				[
@@ -8603,7 +9437,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Focus control"
 				],
 				[
@@ -8623,7 +9457,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Digits only"
 				]
 			],
@@ -8635,7 +9469,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Slot widgets"
 				]
 			],
@@ -8647,7 +9481,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Autofocus"
 				],
 				[
@@ -8663,7 +9497,7 @@
 		["view", { "padding": 16 }]
 	], 30);
 	function TextFieldScreen() {
-		const nav = re();
+		const nav = ne();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
 		const focus = createFocusNode();
@@ -8740,7 +9574,7 @@
 			tt(_el$2, _el$14);
 			tt(_el$3, _el$4);
 			tt(_el$3, _el$5);
-			Z$1(_el$3, $e(TextField$2, {
+			Z$1(_el$3, $e(TextField$1, {
 				get value() {
 					return name();
 				},
@@ -8752,17 +9586,17 @@
 			tt(_el$5, _el$7);
 			Z$1(_el$5, name, _el$7);
 			Z$1(_el$3, $e(Row, { get children() {
-				return [$e(Button$2, {
+				return [$e(Button, {
 					onTap: () => setName("Override!"),
 					children: "external setName"
-				}), $e(Button$2, {
+				}), $e(Button, {
 					onTap: () => setName(""),
 					children: "clear"
 				})];
 			} }), null);
 			tt(_el$8, _el$9);
 			tt(_el$8, _el$10);
-			Z$1(_el$8, $e(TextField$2, {
+			Z$1(_el$8, $e(TextField$1, {
 				focusNode: focus,
 				placeholder: "Controlled by buttons below"
 			}), _el$10);
@@ -8771,16 +9605,16 @@
 				return focus.hasFocus() ? "true" : "false";
 			}, null);
 			Z$1(_el$8, $e(Row, { get children() {
-				return [$e(Button$2, {
+				return [$e(Button, {
 					onTap: () => focus.requestFocus(),
 					children: "focus"
-				}), $e(Button$2, {
+				}), $e(Button, {
 					onTap: () => focus.unfocus(),
 					children: "unfocus"
 				})];
 			} }), null);
 			tt(_el$12, _el$13);
-			Z$1(_el$12, $e(TextField$2, {
+			Z$1(_el$12, $e(TextField$1, {
 				get value() {
 					return digits();
 				},
@@ -8790,28 +9624,28 @@
 				allowPattern: "[0-9]"
 			}), null);
 			tt(_el$14, _el$15);
-			Z$1(_el$14, $e(TextField$2, {
+			Z$1(_el$14, $e(TextField$1, {
 				placeholder: "Search…",
 				get prefixIcon() {
 					return search;
 				}
 			}), null);
-			Z$1(_el$14, $e(TextField$2, {
+			Z$1(_el$14, $e(TextField$1, {
 				placeholder: "Password",
 				obscureText: true,
 				get prefixIcon() {
 					return lock;
 				}
 			}), null);
-			Z$1(_el$16, $e(Button$2, {
+			Z$1(_el$16, $e(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$10));
+		})())(Ae(_tpl$1$9));
 	}
 	// src/screens/icon.tsx
-	var _tpl$1$9 = /*@__PURE__*/ ke([
+	var _tpl$1$8 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -8828,7 +9662,7 @@
 				"text",
 				{
 					"fontSize": 24,
-					"fontWeight": "bold"
+					"fontWeight": 700
 				},
 				"icon"
 			],
@@ -8858,7 +9692,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Static grid"
 				],
 				["view", { "layout": {
@@ -8875,7 +9709,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Reactive props"
 				],
 				[
@@ -8907,7 +9741,7 @@
 				} },
 				[
 					"text",
-					{ "fontWeight": "semiBold" },
+					{ "fontWeight": 600 },
 					"Icon + text row"
 				],
 				[
@@ -8931,7 +9765,7 @@
 		["view", { "padding": 16 }]
 	], 25);
 	function IconScreen() {
-		const nav = re();
+		const nav = ne();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
@@ -8997,38 +9831,38 @@
 			tt(_el$2, _el$5);
 			tt(_el$2, _el$11);
 			tt(_el$3, _el$4);
-			Z$1(_el$4, $e(le, {
+			Z$1(_el$4, $e(oe, {
 				get icon() {
 					return search;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(le, {
+			Z$1(_el$4, $e(oe, {
 				get icon() {
 					return lock;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(le, {
+			Z$1(_el$4, $e(oe, {
 				get icon() {
 					return home;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(le, {
+			Z$1(_el$4, $e(oe, {
 				get icon() {
 					return settings;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(le, {
+			Z$1(_el$4, $e(oe, {
 				get icon() {
 					return favorite;
 				},
 				size: 32,
 				color: "#EF4444"
 			}), null);
-			Z$1(_el$4, $e(le, {
+			Z$1(_el$4, $e(oe, {
 				get icon() {
 					return star;
 				},
@@ -9038,7 +9872,7 @@
 			tt(_el$5, _el$6);
 			tt(_el$5, _el$7);
 			tt(_el$7, _el$8);
-			Z$1(_el$7, $e(le, {
+			Z$1(_el$7, $e(oe, {
 				get icon() {
 					return favorite;
 				},
@@ -9055,15 +9889,15 @@
 			Z$1(_el$8, color, null);
 			Z$1(_el$5, $e(Row, { get children() {
 				return [
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setSize(16),
 						children: "16"
 					}),
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setSize(32),
 						children: "32"
 					}),
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setSize(64),
 						children: "64"
 					})
@@ -9071,15 +9905,15 @@
 			} }), null);
 			Z$1(_el$5, $e(Row, { get children() {
 				return [
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setColor("#EF4444"),
 						children: "red"
 					}),
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setColor("#10B981"),
 						children: "green"
 					}),
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setColor("#3B82F6"),
 						children: "blue"
 					})
@@ -9087,22 +9921,22 @@
 			} }), null);
 			tt(_el$11, _el$12);
 			tt(_el$12, _el$13);
-			Z$1(_el$12, $e(le, {
+			Z$1(_el$12, $e(oe, {
 				get icon() {
-					return info$1;
+					return info;
 				},
 				size: 20,
 				color: "#3B82F6"
 			}), _el$13);
-			Z$1(_el$14, $e(Button$2, {
+			Z$1(_el$14, $e(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$9));
+		})())(Ae(_tpl$1$8));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$8 = /*@__PURE__*/ ke([
+	var _tpl$1$7 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -9125,7 +9959,7 @@
 				"text",
 				{
 					"fontSize": 24,
-					"fontWeight": "bold"
+					"fontWeight": 700
 				},
 				"scrollController"
 			],
@@ -9149,7 +9983,7 @@
 			},
 			[
 				"text",
-				{ "fontWeight": "semiBold" },
+				{ "fontWeight": 600 },
 				"offset = "
 			],
 			["scrollView", {
@@ -9180,7 +10014,7 @@
 		]
 	], 3);
 	function ScrollScreen() {
-		const nav = re();
+		const nav = ne();
 		const scroll = createScrollController({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
@@ -9221,11 +10055,11 @@
 			Z$1(_el$3, () => {
 				return (scroll.offset() ?? 0).toFixed(1);
 			}, null);
-			Z$1(_el$5, $e(Button$2, {
+			Z$1(_el$5, $e(Button, {
 				onTap: () => scroll.jumpTo(0),
 				children: "jumpTo(0)"
 			}), null);
-			Z$1(_el$5, $e(Button$2, {
+			Z$1(_el$5, $e(Button, {
 				onTap: () => scroll.animateTo(1200, {
 					duration: 800,
 					curve: easeInOut
@@ -9256,15 +10090,15 @@
 					return _el$7;
 				})())(Ae(_tpl$2$5)));
 			});
-			Z$1(_el$10, $e(Button$2, {
+			Z$1(_el$10, $e(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$8));
+		})())(Ae(_tpl$1$7));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$7 = /*@__PURE__*/ ke(["view", {
+	var _tpl$1$6 = /*@__PURE__*/ ke(["view", {
 		"layout": {
 			"direction": "vertical",
 			"gap": 12
@@ -9291,15 +10125,15 @@
 			});
 			Z$1(_el$, $e(Row, { get children() {
 				return [
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setRows((r) => r.slice().reverse()),
 						children: "Reverse"
 					}),
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setRows((r) => r.slice().sort()),
 						children: "Sort"
 					}),
-					$e(Button$2, {
+					$e(Button, {
 						onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
 						children: "Thin"
 					})
@@ -9324,10 +10158,10 @@
 				})())(Ae(_tpl$2$4))
 			}), null);
 			return _el$;
-		})())(Ae(_tpl$1$7));
+		})())(Ae(_tpl$1$6));
 	}
 	// src/screens/builder.tsx
-	var _tpl$1$6 = /*@__PURE__*/ ke([
+	var _tpl$1$5 = /*@__PURE__*/ ke([
 		"view",
 		{ "layout": {
 			"direction": "vertical",
@@ -9344,7 +10178,7 @@
 				"text",
 				{
 					"fontSize": 24,
-					"fontWeight": "bold"
+					"fontWeight": 700
 				},
 				"builder"
 			],
@@ -9411,7 +10245,7 @@
 				controller: scroll,
 				itemCount: 1e4,
 				itemExtent: 48,
-				itemBuilder: (index) => $e(me, {
+				itemBuilder: (index) => $e($, {
 					onPress: () => setPicked(index),
 					get children() {
 						return ((_at$2) => (() => {
@@ -9434,10 +10268,10 @@
 				})
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$6));
+		})())(Ae(_tpl$1$5));
 	}
 	// src/screens/core.tsx
-	var _tpl$1$5 = /*@__PURE__*/ ke([
+	var _tpl$1$4 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
 			"layout": {
@@ -9450,7 +10284,7 @@
 			"text",
 			{
 				"fontSize": 24,
-				"fontWeight": "bold"
+				"fontWeight": 700
 			},
 			"core widgets"
 		]
@@ -9461,7 +10295,7 @@
 			"horizontal": 16,
 			"vertical": 12
 		} },
-		["text", { "color": "white" }]
+		["text", { "color": "#FFFFFF" }]
 	], 2);
 	var _tpl$3$1 = /*@__PURE__*/ ke([
 		"view",
@@ -9484,7 +10318,7 @@
 			"padding": 24,
 			"width": 280,
 			"decoration": {
-				"color": "white",
+				"color": "#FFFFFF",
 				"borderRadius": 16
 			},
 			"layout": { "gap": 16 }
@@ -9493,7 +10327,7 @@
 			"text",
 			{
 				"fontSize": 18,
-				"fontWeight": "bold"
+				"fontWeight": 700
 			},
 			"Core dialog"
 		],
@@ -9506,12 +10340,12 @@
 	var _tpl$6 = /*@__PURE__*/ ke(["view", {
 		"width": 160,
 		"decoration": {
-			"color": "white",
+			"color": "#FFFFFF",
 			"borderRadius": 8,
-			"shadow": {
+			"boxShadow": [{
 				"blurRadius": 8,
 				"color": "#00000033"
-			}
+			}]
 		}
 	}], 1);
 	var _tpl$7 = /*@__PURE__*/ ke([
@@ -9544,7 +10378,7 @@
 		},
 		[
 			"text",
-			{ "color": "white" },
+			{ "color": "#FFFFFF" },
 			"A tooltip"
 		]
 	], 3);
@@ -9579,7 +10413,7 @@
 			"direction": "vertical",
 			"gap": 8
 		} },
-		["text", { "fontWeight": "semiBold" }]
+		["text", { "fontWeight": 600 }]
 	], 2);
 	function CoreScreen() {
 		const [presses, setPresses] = createSignal(0);
@@ -9600,7 +10434,7 @@
 			Z$1(_el$, $e(Section, {
 				title: "Pressable",
 				get children() {
-					return $e(me, {
+					return $e($, {
 						onPress: () => setPresses((n) => n + 1),
 						semanticLabel: "Press me",
 						children: (state) => ((_at$2) => (() => {
@@ -9662,7 +10496,7 @@
 							})())(Ae(_tpl$4));
 						}),
 						$e(Row, { get children() {
-							return $e(Button$2, {
+							return $e(Button, {
 								onTap: () => setText("from JS"),
 								children: "set from JS"
 							});
@@ -9674,11 +10508,11 @@
 				title: "Modal",
 				get children() {
 					return [$e(Row, { get children() {
-						return $e(Button$2, {
+						return $e(Button, {
 							onTap: () => setOpen(true),
 							children: "open dialog"
 						});
-					} }), $e(ge, {
+					} }), $e(fe, {
 						get open() {
 							return open();
 						},
@@ -9699,7 +10533,7 @@
 								});
 								tt(_el$9, _el$10);
 								tt(_el$9, _el$11);
-								Z$1(_el$9, $e(Button$2, {
+								Z$1(_el$9, $e(Button, {
 									onTap: () => setOpen(false),
 									children: "close"
 								}), null);
@@ -9713,7 +10547,7 @@
 				title: "Menu",
 				get children() {
 					var _el$3 = Ge("menu", { onOpenChange: setMenu });
-					Z$1(_el$3, $e(Button$2, {
+					Z$1(_el$3, $e(Button, {
 						onTap: () => setMenu(!menu()),
 						get children() {
 							return `fruit: ${fruit()}`;
@@ -9733,7 +10567,7 @@
 										"banana",
 										"cherry"
 									],
-									children: (f) => $e(me, {
+									children: (f) => $e($, {
 										onPress: () => (setFruit(f), setMenu(false)),
 										get children() {
 											return ((_at$7) => (() => {
@@ -9821,7 +10655,7 @@
 				}
 			}), null);
 			return _el$;
-		})())(Ae(_tpl$1$5));
+		})())(Ae(_tpl$1$4));
 	}
 	function Section(props) {
 		return ((_at$13) => (() => {
@@ -9844,7 +10678,7 @@
 		})())(Ae(_tpl$13));
 	}
 	// src/screens/material.tsx
-	var _tpl$1$4 = /*@__PURE__*/ ke([
+	var _tpl$1$3 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
 			"layout": {
@@ -9913,7 +10747,7 @@
 		]
 	], 3);
 	function MaterialScreen() {
-		const nav = re();
+		const nav = ne();
 		const [on, setOn] = createSignal(true);
 		const [checked, setChecked] = createSignal(false);
 		const [volume, setVolume] = createSignal(.4);
@@ -9957,7 +10791,7 @@
 				});
 			},
 			get bottomNavigationBar() {
-				return $e(NavigationBar$1, {
+				return $e(NavigationBar, {
 					get selected() {
 						return tab();
 					},
@@ -9987,7 +10821,7 @@
 									return person_outline;
 								},
 								get selectedIcon() {
-									return person$1;
+									return person;
 								},
 								label: "Profile"
 							})
@@ -10056,43 +10890,43 @@
 					Z$1(_el$2, () => {
 						return `Tab ${tab()}, FAB pressed ${taps()} times`;
 					});
-					Z$1(_el$3, $e(Button$3, {
+					Z$1(_el$3, $e(Button$2, {
 						onPress: () => setDialog(true),
 						children: "Dialog"
 					}), null);
-					Z$1(_el$3, $e(Button$3, {
+					Z$1(_el$3, $e(Button$2, {
 						variant: "tonal",
 						onPress: () => setSheet(true),
 						children: "Sheet"
 					}), null);
-					Z$1(_el$3, $e(Button$3, {
+					Z$1(_el$3, $e(Button$2, {
 						variant: "outlined",
 						get icon() {
 							return send;
 						},
 						children: "Send"
 					}), null);
-					Z$1(_el$4, $e(Button$3, {
+					Z$1(_el$4, $e(Button$2, {
 						variant: "text",
 						children: "Text"
 					}), null);
-					Z$1(_el$4, $e(Button$3, {
+					Z$1(_el$4, $e(Button$2, {
 						variant: "elevated",
 						children: "Elevated"
 					}), null);
-					Z$1(_el$4, $e(Button$3, {
+					Z$1(_el$4, $e(Button$2, {
 						disabled: true,
 						children: "Disabled"
 					}), null);
 					Z$1(_el$, $e(Divider, {}), _el$5);
 					tt(_el$5, _el$6);
-					Z$1(_el$5, $e(Switch$2, {
+					Z$1(_el$5, $e(Switch$1, {
 						get value() {
 							return on();
 						},
 						onChange: setOn
 					}), _el$6);
-					Z$1(_el$5, $e(Checkbox$2, {
+					Z$1(_el$5, $e(Checkbox$1, {
 						get value() {
 							return checked();
 						},
@@ -10102,7 +10936,7 @@
 					Z$1(_el$6, () => {
 						return `switch ${on() ? "on" : "off"}, checkbox ${String(checked())}`;
 					});
-					Z$1(_el$, $e(Slider$2, {
+					Z$1(_el$, $e(Slider$1, {
 						get value() {
 							return volume();
 						},
@@ -10111,12 +10945,12 @@
 					tt(_el$7, _el$8);
 					tt(_el$8, _el$9);
 					tt(_el$8, _el$10);
-					Z$1(_el$8, $e(Radio$1, { value: "free" }), _el$9);
-					Z$1(_el$8, $e(Radio$1, { value: "pro" }), _el$10);
+					Z$1(_el$8, $e(Radio, { value: "free" }), _el$9);
+					Z$1(_el$8, $e(Radio, { value: "pro" }), _el$10);
 					Z$1(_el$11, () => {
 						return `plan = ${plan()}`;
 					});
-					Z$1(_el$, $e(TextField$2, {
+					Z$1(_el$, $e(TextField$1, {
 						label: "Email",
 						get value() {
 							return email$1();
@@ -10159,14 +10993,14 @@
 							}))(Ae(_tpl$2$1));
 						}
 					}), null);
-					Z$1(_el$, $e(ListTile$1, {
+					Z$1(_el$, $e(ListTile, {
 						get leading() {
-							return wifi$1;
+							return wifi;
 						},
 						title: "Wi-Fi",
 						subtitle: "Connected",
 						get trailing() {
-							return $e(Switch$2, {
+							return $e(Switch$1, {
 								get value() {
 									return on();
 								},
@@ -10181,7 +11015,7 @@
 						}
 					}), null);
 					Z$1(_el$, $e(ProgressIndicator$1, {}), null);
-					Z$1(_el$, $e(Dialog$2, {
+					Z$1(_el$, $e(Dialog$1, {
 						get open() {
 							return dialog();
 						},
@@ -10191,11 +11025,11 @@
 							return delete_;
 						},
 						get actions() {
-							return [$e(Button$3, {
+							return [$e(Button$2, {
 								variant: "text",
 								onPress: () => setDialog(false),
 								children: "Cancel"
-							}), $e(Button$3, {
+							}), $e(Button$2, {
 								variant: "text",
 								onPress: () => setDialog(false),
 								children: "Discard"
@@ -10220,616 +11054,9 @@
 						Ye(_el$7, "value", _v$, _$p);
 					});
 					return _el$;
-				})())(Ae(_tpl$1$4));
+				})())(Ae(_tpl$1$3));
 			}
 		});
-	}
-	// fuse/cupertino_ui/CupertinoIcons.tsx
-	var info = "CupertinoIcons.info";
-	var bluetooth = "CupertinoIcons.bluetooth";
-	var person = "CupertinoIcons.person";
-	var heart = "CupertinoIcons.heart";
-	var wifi = "CupertinoIcons.wifi";
-	// fuse/cupertino_ui.tsx
-	/**
-	* Creates an iOS-style action sheet.
-	* Dart: `CupertinoActionSheet`
-	*/
-	function CupertinoActionSheet(props) {
-		var _el$ = Ge("cupertino_ui_CupertinoActionSheet");
-		it(_el$, [props, {
-			get title() {
-				return _(props.title);
-			},
-			get message() {
-				return _(props.message);
-			},
-			get actions() {
-				return v(props.actions);
-			},
-			get cancelButton() {
-				return _(props.cancelButton);
-			}
-		}], false);
-		return _el$;
-	}
-	/**
-	* Creates an iOS-style alert dialog.
-	* Dart: `CupertinoAlertDialog`
-	*/
-	function CupertinoAlertDialog(props) {
-		var _el$9 = Ge("cupertino_ui_CupertinoAlertDialog");
-		it(_el$9, [props, {
-			get title() {
-				return _(props.title);
-			},
-			get content() {
-				return _(props.content);
-			},
-			get actions() {
-				return v(props.actions);
-			}
-		}], false);
-		return _el$9;
-	}
-	/**
-	* Creates an iOS-style button.
-	* Dart: `CupertinoButton`
-	*/
-	function CupertinoButton(props) {
-		var _el$12 = Ge("cupertino_ui_CupertinoButton");
-		it(_el$12, props, false);
-		return _el$12;
-	}
-	/**
-	* Creates an iOS-style button with a tinted background.
-	* Dart: `CupertinoButton.tinted`
-	*/
-	function CupertinoButtonTinted(props) {
-		var _el$13 = Ge("cupertino_ui_CupertinoButtonTinted");
-		it(_el$13, props, false);
-		return _el$13;
-	}
-	/**
-	* Creates an iOS-style button with a filled background.
-	* Dart: `CupertinoButton.filled`
-	*/
-	function CupertinoButtonFilled(props) {
-		var _el$14 = Ge("cupertino_ui_CupertinoButtonFilled");
-		it(_el$14, props, false);
-		return _el$14;
-	}
-	/**
-	* Creates a section that mimics standard iOS forms.
-	* Dart: `CupertinoListSection`
-	*/
-	function CupertinoListSection(props) {
-		var _el$34 = Ge("cupertino_ui_CupertinoListSection");
-		it(_el$34, [props, {
-			get header() {
-				return _(props.header);
-			},
-			get footer() {
-				return _(props.footer);
-			}
-		}], false);
-		return _el$34;
-	}
-	/**
-	* Creates a section that mimics standard "Inset Grouped" iOS list section.
-	* Dart: `CupertinoListSection.insetGrouped`
-	*/
-	function CupertinoListSectionInsetGrouped(props) {
-		var _el$35 = Ge("cupertino_ui_CupertinoListSectionInsetGrouped");
-		it(_el$35, [props, {
-			get header() {
-				return _(props.header);
-			},
-			get footer() {
-				return _(props.footer);
-			}
-		}], false);
-		return _el$35;
-	}
-	/**
-	* Creates an edge-to-edge iOS-style list tile like the tiles in iOS Settings app.
-	* Dart: `CupertinoListTile`
-	*/
-	function CupertinoListTile(props) {
-		var _el$36 = Ge("cupertino_ui_CupertinoListTile");
-		it(_el$36, [props, {
-			get title() {
-				return _(props.title);
-			},
-			get subtitle() {
-				return _(props.subtitle);
-			},
-			get additionalInfo() {
-				return _(props.additionalInfo);
-			},
-			get leading() {
-				return _(props.leading);
-			},
-			get trailing() {
-				return _(props.trailing);
-			}
-		}], false);
-		return _el$36;
-	}
-	/**
-	* Creates a static iOS style navigation bar, with a centered [middle] title.
-	* Dart: `CupertinoNavigationBar`
-	*/
-	function CupertinoNavigationBar(props) {
-		var _el$43 = Ge("cupertino_ui_CupertinoNavigationBar");
-		it(_el$43, [props, {
-			get leading() {
-				return _(props.leading);
-			},
-			get middle() {
-				return _(props.middle);
-			},
-			get trailing() {
-				return _(props.trailing);
-			},
-			get bottom() {
-				return _(props.bottom);
-			}
-		}], false);
-		return _el$43;
-	}
-	/**
-	* Creates a static iOS style navigation bar, with a left aligned [largeTitle].
-	* Dart: `CupertinoNavigationBar.large`
-	*/
-	function CupertinoNavigationBarLarge(props) {
-		var _el$44 = Ge("cupertino_ui_CupertinoNavigationBarLarge");
-		it(_el$44, [props, {
-			get largeTitle() {
-				return _(props.largeTitle);
-			},
-			get leading() {
-				return _(props.leading);
-			},
-			get trailing() {
-				return _(props.trailing);
-			},
-			get bottom() {
-				return _(props.bottom);
-			}
-		}], false);
-		return _el$44;
-	}
-	/**
-	* Creates a layout for pages with a navigation bar at the top.
-	* Dart: `CupertinoPageScaffold`
-	*/
-	function CupertinoPageScaffold(props) {
-		var _el$46 = Ge("cupertino_ui_CupertinoPageScaffold");
-		it(_el$46, [props, { get navigationBar() {
-			return _(props.navigationBar);
-		} }], false);
-		return _el$46;
-	}
-	C("cupertino_ui_CupertinoTabController", {
-		"s": ["index"],
-		"w": ["index"],
-		"o": ["index"],
-		"m": [],
-		"st": []
-	});
-	C("cupertino_ui_RestorableCupertinoTabController", {
-		"s": ["value", "enabled"],
-		"w": [],
-		"o": [],
-		"m": [
-			"createDefaultValue",
-			"fromPrimitives",
-			"toPrimitives",
-			"initWithValue"
-		],
-		"st": []
-	});
-	// ../../packages/cupertino/src/slots.tsx
-	function label(v) {
-		return typeof v === "string" || typeof v === "number" ? (() => {
-			var _el$ = Ge("text");
-			Z$1(_el$, () => {
-				return String(v);
-			});
-			return _el$;
-		})() : v;
-	}
-	function icon(v, size) {
-		return typeof v === "string" ? $e(le, {
-			icon: v,
-			size
-		}) : v;
-	}
-	// ../../packages/cupertino/src/scaffold.tsx
-	/** An iOS screen: a navigation bar over the content. */
-	function PageScaffold(props) {
-		return $e(CupertinoPageScaffold, {
-			get navigationBar() {
-				return props.navigationBar;
-			},
-			get backgroundColor() {
-				return $(props.backgroundColor);
-			},
-			get resizeToAvoidBottomInset() {
-				return props.resizeToAvoidBottomInset;
-			},
-			get children() {
-				return props.children;
-			}
-		});
-	}
-	function NavigationBar(props) {
-		return $e(K, {
-			get component() {
-				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
-			},
-			get largeTitle() {
-				return Ue(() => {
-					return !!props.large;
-				})() ? label(props.title) : void 0;
-			},
-			get middle() {
-				return Ue(() => {
-					return !!props.large;
-				})() ? void 0 : label(props.title);
-			},
-			get leading() {
-				return icon(props.leading);
-			},
-			get trailing() {
-				return icon(props.trailing);
-			},
-			get previousPageTitle() {
-				return props.previousPageTitle;
-			},
-			get backgroundColor() {
-				return $(props.backgroundColor);
-			}
-		});
-	}
-	// ../../packages/cupertino/src/controls.tsx
-	var _tpl$1$3 = /*@__PURE__*/ ke(["view", { "layout": {
-		"direction": "horizontal",
-		"gap": 6,
-		"align": "center"
-	} }], 1);
-	var buttons = {
-		plain: CupertinoButton,
-		tinted: CupertinoButtonTinted,
-		filled: CupertinoButtonFilled
-	};
-	/** iOS buttons, one component: pick the look with `variant`. */
-	function Button$1(props) {
-		return $e(K, {
-			get component() {
-				return buttons[props.variant ?? "plain"];
-			},
-			get sizeStyle() {
-				return props.size ?? "large";
-			},
-			get onPressed() {
-				return Ue(() => {
-					return !!props.disabled;
-				})() ? null : props.onPress ?? null;
-			},
-			get onLongPress() {
-				return Ue(() => {
-					return !!props.disabled;
-				})() ? null : props.onLongPress ?? null;
-			},
-			get color() {
-				return $(props.color);
-			},
-			get children() {
-				return $e(Show, {
-					get when() {
-						return props.icon !== void 0;
-					},
-					get fallback() {
-						return label(props.children);
-					},
-					get children() {
-						return ((_at$1) => (() => {
-							var _el$ = Ge("h$view", {
-								$t: _at$1,
-								$i: 0
-							});
-							Z$1(_el$, () => {
-								return icon(props.icon);
-							}, null);
-							Z$1(_el$, () => {
-								return label(props.children);
-							}, null);
-							return _el$;
-						})())(Ae(_tpl$1$3));
-					}
-				});
-			}
-		});
-	}
-	function Switch$1(props) {
-		var _el$2 = Ge("cupertino_ui_CupertinoSwitch");
-		He(() => {
-			return {
-				e: props.value,
-				t: props.disabled ? null : props.onChange ?? null,
-				a: $(props.color)
-			};
-		}, ({ e, t, a }, _p$) => {
-			e !== _p$?.e && Ye(_el$2, "value", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$2, "onChanged", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$2, "activeTrackColor", a, _p$?.a);
-		});
-		return _el$2;
-	}
-	function Checkbox$1(props) {
-		var _el$3 = Ge("cupertino_ui_CupertinoCheckbox");
-		He(() => {
-			return {
-				e: props.value,
-				t: props.tristate ?? props.value === null,
-				a: props.disabled ? null : props.onChange ?? null,
-				o: $(props.color),
-				i: props.semanticLabel
-			};
-		}, ({ e, t, a, o, i }, _p$) => {
-			e !== _p$?.e && Ye(_el$3, "value", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$3, "tristate", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$3, "onChanged", a, _p$?.a);
-			o !== _p$?.o && Ye(_el$3, "activeColor", o, _p$?.o);
-			i !== _p$?.i && Ye(_el$3, "semanticLabel", i, _p$?.i);
-		});
-		return _el$3;
-	}
-	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
-	function Radio(props) {
-		var _el$4 = Ge("cupertino_ui_CupertinoRadio");
-		He(() => {
-			return {
-				e: props.value,
-				t: !props.disabled,
-				a: props.toggleable,
-				o: props.checkmark,
-				i: $(props.color)
-			};
-		}, ({ e, t, a, o, i }, _p$) => {
-			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$4, "enabled", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$4, "toggleable", a, _p$?.a);
-			o !== _p$?.o && Ye(_el$4, "useCheckmarkStyle", o, _p$?.o);
-			i !== _p$?.i && Ye(_el$4, "activeColor", i, _p$?.i);
-		});
-		return _el$4;
-	}
-	function Slider$1(props) {
-		var _el$5 = Ge("cupertino_ui_CupertinoSlider");
-		He(() => {
-			return {
-				e: props.value,
-				t: props.disabled ? null : props.onChange ?? null,
-				a: props.onChangeEnd ?? null,
-				o: props.min,
-				i: props.max,
-				n: props.steps ?? null,
-				s: $(props.color)
-			};
-		}, ({ e, t, a, o, i, n, s }, _p$) => {
-			e !== _p$?.e && Ye(_el$5, "value", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$5, "onChanged", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$5, "onChangeEnd", a, _p$?.a);
-			o !== _p$?.o && Ye(_el$5, "min", o, _p$?.o);
-			i !== _p$?.i && Ye(_el$5, "max", i, _p$?.i);
-			n !== _p$?.n && Ye(_el$5, "divisions", n, _p$?.n);
-			s !== _p$?.s && Ye(_el$5, "activeColor", s, _p$?.s);
-		});
-		return _el$5;
-	}
-	function ActivityIndicator(props) {
-		var _el$6 = Ge("cupertino_ui_CupertinoActivityIndicator");
-		He(() => {
-			return {
-				e: props.animating,
-				t: props.radius,
-				a: $(props.color)
-			};
-		}, ({ e, t, a }, _p$) => {
-			e !== _p$?.e && Ye(_el$6, "animating", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$6, "radius", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$6, "color", a, _p$?.a);
-		});
-		return _el$6;
-	}
-	/** iOS's sliding segmented control. */
-	function SegmentedControl(props) {
-		var _el$7 = Ge("cupertinoSegmentedControl");
-		Z$1(_el$7, $e(For, {
-			get each() {
-				return props.options;
-			},
-			children: (o) => label(o.label)
-		}));
-		He(() => {
-			return {
-				e: props.value,
-				t: props.onChange,
-				a: props.options.map((o) => o.value),
-				o: props.options.filter((o) => o.disabled).map((o) => o.value),
-				i: props.proportional,
-				n: props.backgroundColor,
-				s: props.thumbColor
-			};
-		}, ({ e, t, a, o, i, n, s }, _p$) => {
-			e !== _p$?.e && Ye(_el$7, "value", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$7, "onChange", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$7, "values", a, _p$?.a);
-			o !== _p$?.o && Ye(_el$7, "disabledValues", o, _p$?.o);
-			i !== _p$?.i && Ye(_el$7, "proportionalWidth", i, _p$?.i);
-			n !== _p$?.n && Ye(_el$7, "backgroundColor", n, _p$?.n);
-			s !== _p$?.s && Ye(_el$7, "thumbColor", s, _p$?.s);
-		});
-		return _el$7;
-	}
-	// ../../packages/cupertino/src/list.tsx
-	function ListSection(props) {
-		return $e(K, {
-			get component() {
-				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
-			},
-			get header() {
-				return label(props.header);
-			},
-			get footer() {
-				return label(props.footer);
-			},
-			get backgroundColor() {
-				return $(props.backgroundColor);
-			},
-			get children() {
-				return props.children;
-			}
-		});
-	}
-	function ListTile(props) {
-		return $e(CupertinoListTile, {
-			get title() {
-				return label(props.title);
-			},
-			get subtitle() {
-				return label(props.subtitle);
-			},
-			get additionalInfo() {
-				return label(props.additionalInfo);
-			},
-			get leading() {
-				return icon(props.leading);
-			},
-			get trailing() {
-				return Ue(() => {
-					return props.trailing !== void 0;
-				})() ? icon(props.trailing) : Ue(() => {
-					return !!props.onPress;
-				})() ? Ge("cupertino_ui_CupertinoListTileChevron") : void 0;
-			},
-			get onTap() {
-				return props.onPress;
-			},
-			get backgroundColor() {
-				return $(props.backgroundColor);
-			}
-		});
-	}
-	// ../../packages/cupertino/src/text-field.tsx
-	/** iOS text field. Controlled with `value` + `onChange`. */
-	function TextField$1(props) {
-		var _el$ = Ge("cupertinoTextField");
-		it(_el$, [props, {
-			get prefix() {
-				return icon(props.prefix);
-			},
-			get suffix() {
-				return icon(props.suffix);
-			}
-		}], false);
-		return _el$;
-	}
-	// ../../packages/cupertino/src/overlays.tsx
-	/** iOS alert, open while `open` is true. */
-	function Dialog$1(props) {
-		return $e(ge, {
-			type: "cupertinoDialog",
-			get open() {
-				return props.open;
-			},
-			get onOpenChange() {
-				return props.onOpenChange;
-			},
-			get dismissible() {
-				return props.dismissible;
-			},
-			get children() {
-				return $e(CupertinoAlertDialog, {
-					get title() {
-						return label(props.title);
-					},
-					get content() {
-						return label(props.children);
-					},
-					get actions() {
-						return props.actions;
-					}
-				});
-			}
-		});
-	}
-	function DialogAction(props) {
-		var _el$ = Ge("cupertino_ui_CupertinoDialogAction");
-		Z$1(_el$, () => {
-			return label(props.children);
-		});
-		He(() => {
-			return {
-				e: props.onPress ?? null,
-				t: props.default,
-				a: props.destructive
-			};
-		}, ({ e, t, a }, _p$) => {
-			e !== _p$?.e && Ye(_el$, "onPressed", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$, "isDefaultAction", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$, "isDestructiveAction", a, _p$?.a);
-		});
-		return _el$;
-	}
-	/** iOS action sheet, sliding up while `open` is true. */
-	function ActionSheet(props) {
-		return $e(ge, {
-			type: "cupertinoActionSheet",
-			get open() {
-				return props.open;
-			},
-			get onOpenChange() {
-				return props.onOpenChange;
-			},
-			get children() {
-				return $e(CupertinoActionSheet, {
-					get title() {
-						return label(props.title);
-					},
-					get message() {
-						return label(props.message);
-					},
-					get actions() {
-						return props.children;
-					},
-					get cancelButton() {
-						return props.cancel;
-					}
-				});
-			}
-		});
-	}
-	function ActionSheetAction(props) {
-		var _el$2 = Ge("cupertino_ui_CupertinoActionSheetAction");
-		Z$1(_el$2, () => {
-			return label(props.children);
-		});
-		He(() => {
-			return {
-				e: props.onPress,
-				t: props.default,
-				a: props.destructive
-			};
-		}, ({ e, t, a }, _p$) => {
-			e !== _p$?.e && Ye(_el$2, "onPressed", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$2, "isDefaultAction", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$2, "isDestructiveAction", a, _p$?.a);
-		});
-		return _el$2;
 	}
 	// src/screens/cupertino.tsx
 	var _tpl$1$2 = /*@__PURE__*/ ke([
@@ -10890,10 +11117,10 @@
 		const [last, setLast] = createSignal("nothing yet");
 		return $e(PageScaffold, {
 			get navigationBar() {
-				return $e(NavigationBar, {
+				return $e(NavigationBar$2, {
 					title: "Cupertino",
 					get trailing() {
-						return info;
+						return info$1;
 					}
 				});
 			},
@@ -10959,23 +11186,23 @@
 					Z$1(_el$2, () => {
 						return `view = ${view()}, last action: ${last()}`;
 					});
-					Z$1(_el$3, $e(Button$1, {
+					Z$1(_el$3, $e(Button$3, {
 						variant: "filled",
 						onPress: () => setAlert(true),
 						children: "Alert"
 					}), null);
-					Z$1(_el$3, $e(Button$1, {
+					Z$1(_el$3, $e(Button$3, {
 						variant: "tinted",
 						onPress: () => setSheet(true),
 						children: "Sheet"
 					}), null);
-					Z$1(_el$3, $e(Button$1, {
+					Z$1(_el$3, $e(Button$3, {
 						get icon() {
 							return heart;
 						},
 						children: "Like"
 					}), null);
-					Z$1(_el$, $e(TextField$1, {
+					Z$1(_el$, $e(TextField$2, {
 						get value() {
 							return name();
 						},
@@ -10983,16 +11210,16 @@
 						placeholder: "Name",
 						clearButton: true,
 						get prefix() {
-							return person;
+							return person$1;
 						}
 					}), _el$4);
-					Z$1(_el$4, $e(Switch$1, {
+					Z$1(_el$4, $e(Switch$2, {
 						get value() {
 							return on();
 						},
 						onChange: setOn
 					}), null);
-					Z$1(_el$4, $e(Checkbox$1, {
+					Z$1(_el$4, $e(Checkbox$2, {
 						get value() {
 							return checked();
 						},
@@ -11001,7 +11228,7 @@
 					Z$1(_el$4, $e(ActivityIndicator, { get animating() {
 						return on();
 					} }), null);
-					Z$1(_el$, $e(Slider$1, {
+					Z$1(_el$, $e(Slider$2, {
 						get value() {
 							return brightness();
 						},
@@ -11010,25 +11237,25 @@
 					tt(_el$5, _el$6);
 					tt(_el$6, _el$7);
 					tt(_el$6, _el$8);
-					Z$1(_el$6, $e(Radio, { value: 1 }), _el$7);
-					Z$1(_el$6, $e(Radio, { value: 2 }), _el$8);
+					Z$1(_el$6, $e(Radio$1, { value: 1 }), _el$7);
+					Z$1(_el$6, $e(Radio$1, { value: 2 }), _el$8);
 					Z$1(_el$, $e(ListSection, {
 						header: "Settings",
 						get children() {
-							return [$e(ListTile, {
+							return [$e(ListTile$2, {
 								get leading() {
-									return wifi;
+									return wifi$1;
 								},
 								title: "Wi-Fi",
 								additionalInfo: "Home",
 								onPress: () => setLast("wi-fi")
-							}), $e(ListTile, {
+							}), $e(ListTile$2, {
 								get leading() {
 									return bluetooth;
 								},
 								title: "Bluetooth",
 								get trailing() {
-									return $e(Switch$1, {
+									return $e(Switch$2, {
 										get value() {
 											return on();
 										},
@@ -11038,7 +11265,7 @@
 							})];
 						}
 					}), null);
-					Z$1(_el$, $e(Dialog$1, {
+					Z$1(_el$, $e(Dialog$2, {
 						get open() {
 							return alert();
 						},
@@ -11087,149 +11314,9 @@
 			}
 		});
 	}
-	// ../../packages/adaptive/src/platform.tsx
-	/** Cupertino on iOS and macOS, Material everywhere else. */
-	function platformDesign() {
-		return v$1.platform === "ios" || v$1.platform === "macos" ? "cupertino" : "material";
-	}
-	var DesignContext = createContext(void 0);
-	/** Overrides the design below it, e.g. to preview iOS on Android. */
-	function AdaptiveProvider(props) {
-		return $e(DesignContext, {
-			get value() {
-				return props.design;
-			},
-			get children() {
-				return props.children;
-			}
-		});
-	}
-	/** The design adaptive components render here. */
-	function useDesign() {
-		return useContext(DesignContext) ?? platformDesign();
-	}
-	// ../../packages/adaptive/src/components.tsx
-	/** Material on one side, Cupertino on the other, picked where it renders. */
-	function adapt(material, cupertino) {
-		return (props) => {
-			return $e(Show, {
-				when: useDesign() === "cupertino",
-				get fallback() {
-					return material(props);
-				},
-				get children() {
-					return cupertino(props);
-				}
-			});
-		};
-	}
-	var Button = adapt((p) => $e(Button$3, {
-		get variant() {
-			return p.variant === "plain" ? "text" : "filled";
-		},
-		get onPress() {
-			return p.onPress;
-		},
-		get disabled() {
-			return p.disabled;
-		},
-		get children() {
-			return p.children;
-		}
-	}), (p) => $e(Button$1, {
-		get variant() {
-			return p.variant === "plain" ? "plain" : "filled";
-		},
-		get onPress() {
-			return p.onPress;
-		},
-		get disabled() {
-			return p.disabled;
-		},
-		get children() {
-			return p.children;
-		}
-	}));
-	var Switch = adapt((p) => $e(Switch$2, p), (p) => $e(Switch$1, p));
-	var Checkbox = adapt((p) => $e(Checkbox$2, p), (p) => $e(Checkbox$1, p));
-	var Slider = adapt((p) => $e(Slider$2, p), (p) => $e(Slider$1, p));
-	var TextField = adapt((p) => $e(TextField$2, Xe(p, {
-		get prefixIcon() {
-			return p.prefix;
-		},
-		get suffixIcon() {
-			return p.suffix;
-		}
-	})), (p) => $e(TextField$1, Xe(p, { get placeholder() {
-		return p.placeholder ?? p.label;
-	} })));
-	/** An indeterminate spinner. */
-	var ProgressIndicator = adapt((p) => $e(ProgressIndicator$1, { get color() {
-		return p.color;
-	} }), (p) => $e(ActivityIndicator, { get color() {
-		return p.color;
-	} }));
-	/** An alert with a title, a message and buttons. */
-	var Dialog = adapt((p) => $e(Dialog$2, {
-		get open() {
-			return p.open;
-		},
-		get onOpenChange() {
-			return p.onOpenChange;
-		},
-		get title() {
-			return p.title;
-		},
-		get dismissible() {
-			return p.dismissible;
-		},
-		get actions() {
-			return (p.actions ?? []).map((a) => $e(Button$3, {
-				variant: "text",
-				get onPress() {
-					return a.onPress;
-				},
-				get children() {
-					return a.label;
-				}
-			}));
-		},
-		get children() {
-			return p.children;
-		}
-	}), (p) => $e(Dialog$1, {
-		get open() {
-			return p.open;
-		},
-		get onOpenChange() {
-			return p.onOpenChange;
-		},
-		get title() {
-			return p.title;
-		},
-		get dismissible() {
-			return p.dismissible;
-		},
-		get actions() {
-			return (p.actions ?? []).map((a) => $e(DialogAction, {
-				get onPress() {
-					return a.onPress;
-				},
-				get "default"() {
-					return a.default;
-				},
-				get destructive() {
-					return a.destructive;
-				},
-				get children() {
-					return a.label;
-				}
-			}));
-		},
-		get children() {
-			return p.children;
-		}
-	}));
+	// src/platform.ts
+	/** The platform the whole demo behaves like. `undefined`: the device's. */
+	var [platform, setPlatform] = createSignal(void 0);
 	// src/screens/adaptive.tsx
 	var _tpl$1$1 = /*@__PURE__*/ ke([
 		"scrollView",
@@ -11247,7 +11334,7 @@
 			"text",
 			{
 				"fontSize": 24,
-				"fontWeight": "bold"
+				"fontWeight": 700
 			},
 			"adaptive"
 		]
@@ -11269,7 +11356,7 @@
 		} }]
 	], 3);
 	function AdaptiveScreen() {
-		const [design, setDesign] = createSignal("material");
+		const design = useDesign();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -11279,24 +11366,13 @@
 				$t: _at$1,
 				$i: 1
 			}));
-			Z$1(_el$, $e(Button$2, {
-				onTap: () => setDesign(design() === "material" ? "cupertino" : "material"),
+			Z$1(_el$, $e(Button, {
+				onTap: () => setPlatform(design() === "material" ? "iOS" : "android"),
 				get children() {
 					return `design: ${design()}`;
 				}
 			}), null);
-			Z$1(_el$, $e(Show, {
-				get when() {
-					return design();
-				},
-				keyed: true,
-				children: (d) => $e(AdaptiveProvider, {
-					design: d,
-					get children() {
-						return $e(Gallery, {});
-					}
-				})
-			}), null);
+			Z$1(_el$, $e(Gallery, {}), null);
 			return _el$;
 		})())(Ae(_tpl$1$1));
 	}
@@ -11347,11 +11423,11 @@
 				},
 				onChange: setText
 			}), _el$5);
-			Z$1(_el$5, $e(Button, {
+			Z$1(_el$5, $e(Button$1, {
 				onPress: () => setOpen(true),
 				children: "Delete"
 			}), null);
-			Z$1(_el$5, $e(Button, {
+			Z$1(_el$5, $e(Button$1, {
 				variant: "plain",
 				children: "Later"
 			}), null);
@@ -11389,7 +11465,7 @@
 				"text",
 				{
 					"fontSize": 28,
-					"fontWeight": "bold"
+					"fontWeight": 700
 				},
 				"solid-fuse demos"
 			],
@@ -11404,7 +11480,7 @@
 		]
 	], 6);
 	function HomeScreen() {
-		const nav = re();
+		const nav = ne();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -11458,12 +11534,15 @@
 		})())(Ae(_tpl$1));
 	}
 	// src/index.tsx
-	var App = () => $e(MaterialApp, {
+	var App = () => $e(AdaptiveApp, {
 		title: "solid-fuse demo",
 		theme: { seedColor: "#2563eb" },
 		themeMode: "light",
+		get platform() {
+			return platform();
+		},
 		get children() {
-			return $e(ie, { initialPage: () => $e(HomeScreen, {}) });
+			return $e(re, { initialPage: () => $e(HomeScreen, {}) });
 		}
 	});
 	et(App);

@@ -1,23 +1,18 @@
 import { createSignal } from "solid-js";
 import { ScrollView, Text, View } from "solid-fuse";
-import { AdaptiveProvider, Button, Checkbox, Dialog, ProgressIndicator, Slider, Switch, TextField, type Design } from "@solid-fuse/adaptive";
-import { Show } from "solid-js";
+import { Button, Checkbox, Dialog, ProgressIndicator, Slider, Switch, TextField, useDesign } from "@solid-fuse/adaptive";
 import { Button as Toggle } from "../ui";
+import { setPlatform } from "../platform";
 
-// The same JSX in either design: the platform picks, or the toggle here.
+// The same JSX in either design. The toggle switches the whole app's
+// platform; the components restyle in place and keep their state.
 export function AdaptiveScreen() {
-  const [design, setDesign] = createSignal<Design>("material");
+  const design = useDesign();
   return (
     <ScrollView layout={{ direction: "vertical", gap: 16 }} padding={{ horizontal: 16, top: 48 }}>
       <Text fontSize={24} fontWeight={700}>adaptive</Text>
-      <Toggle onTap={() => setDesign(design() === "material" ? "cupertino" : "material")}>{`design: ${design()}`}</Toggle>
-      <Show when={design()} keyed>
-        {(d) => (
-          <AdaptiveProvider design={d}>
-            <Gallery />
-          </AdaptiveProvider>
-        )}
-      </Show>
+      <Toggle onTap={() => setPlatform(design() === "material" ? "iOS" : "android")}>{`design: ${design()}`}</Toggle>
+      <Gallery />
     </ScrollView>
   );
 }

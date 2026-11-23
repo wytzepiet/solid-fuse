@@ -1,7 +1,7 @@
 /**
  * Runtime support for the modules `fuse gen` writes. Not for app code.
  */
-import { createEffect, createSignal, untrack } from "solid-js";
+import { createEffect, createMemo, createSignal, untrack } from "solid-js";
 import { channels } from "./channels";
 import { reportDevError } from "./dev-error";
 import { FuseNode, _setDecodeIn, adoptNode, asNode, createOwnedNode, nodeById, setHandler, wireOf } from "./renderer";
@@ -43,20 +43,23 @@ function flatten(v: unknown, out: unknown[]): unknown[] {
 const one = (v: unknown): FuseNode => (v instanceof FuseNode && !v.parent ? v : asNode(v));
 
 /**
- * A named widget slot's value (`appBar={...}`) as one node, or null when
- * it holds nothing. JSX can give a component's reactive result, a list or
- * text there; it is read here, in the prop's own tracking, so the slot
- * follows it. More than one element shows as `children` does.
+ * A named widget slot (`appBar={...}`) as one node, or null when it holds
+ * nothing. JSX can give a component's reactive result, a list or text
+ * there. The slot reads it in a memo of its own: it follows what it holds,
+ * but doesn't rebuild when another prop of the widget changes (a spread's
+ * props share one effect). More than one element shows as `children` does.
  */
-export function $slot(v: unknown): FuseNode | null {
-  const items = flatten(v, []);
-  if (items.length === 0) return null;
-  return items.length === 1 ? one(items[0]) : asNode(items);
+export function $slot(read: () => unknown): () => FuseNode | null {
+  return createMemo(() => {
+    const items = flatten(read(), []);
+    if (items.length === 0) return null;
+    return items.length === 1 ? one(items[0]) : asNode(items);
+  });
 }
 
-/** A list slot's value (`actions={[...]}`): one node per element. */
-export function $slots(v: unknown): FuseNode[] {
-  return flatten(v, []).map(one);
+/** A list slot (`actions={[...]}`): one node per element, read as `$slot` reads. */
+export function $slots(read: () => unknown): () => FuseNode[] {
+  return createMemo(() => flatten(read(), []).map(one));
 }
 
 declare const constName: unique symbol;

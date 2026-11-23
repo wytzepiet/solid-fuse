@@ -6,6 +6,7 @@
 //   cd examples/demo && bun run build   # writes dart/assets/js/bundle.js
 //   cd dart && flutter test integration_test/app_test.dart -d <device>
 
+import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -227,5 +228,34 @@ void main() {
       await settle(tester);
     }
     expect(find.text('Core dialog'), findsNothing);
+
+    // Adaptive: flipping AdaptiveApp's platform restyles the screen in
+    // place (state kept) and switches Flutter's platform with it.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('adaptive'));
+    await settle(tester);
+    await tester.tap(find.text('adaptive'));
+    await pumpUntil(tester, find.text('design: material'));
+    await settle(tester);
+    expect(find.byType(Switch), findsOneWidget);
+    await tester.tap(find.byType(Switch));
+    for (var i = 0; i < 100 && tester.widget<Switch>(find.byType(Switch)).value; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump();
+    }
+    expect(tester.widget<Switch>(find.byType(Switch)).value, false);
+
+    await tester.tap(find.text('design: material'));
+    await pumpUntil(tester, find.byType(CupertinoSwitch));
+    await settle(tester);
+    expect(find.text('design: cupertino'), findsOneWidget);
+    expect(find.byType(Switch), findsNothing);
+    expect(tester.widget<CupertinoSwitch>(find.byType(CupertinoSwitch)).value, false);
+    expect(Theme.of(tester.element(find.byType(CupertinoSwitch))).platform, TargetPlatform.iOS);
+
+    await tester.tap(find.text('design: cupertino'));
+    await pumpUntil(tester, find.byType(Switch));
+    await settle(tester);
+    expect(Theme.of(tester.element(find.byType(Switch))).platform, TargetPlatform.android);
   });
 }

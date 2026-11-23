@@ -104,7 +104,22 @@ import { AdaptiveApp, Switch, Dialog } from "@solid-fuse/adaptive";
 ]} />
 ```
 
-To preview the other platform, wrap a subtree in `<AdaptiveProvider design="cupertino">`, or pass `design` to `AdaptiveApp`.
+### Previewing the other platform
+
+`platform` makes the whole app behave like another platform: the adaptive components' design and Flutter's own platform feel (page transitions and the iOS back swipe, scroll physics, text selection, typography). It's reactive, so a debug toggle can flip a running app; screens already showing restyle in place and keep their state.
+
+```tsx
+const [platform, setPlatform] = createSignal<TargetPlatform>();
+
+<AdaptiveApp theme={{ seedColor: "#2563eb" }} platform={platform()}>
+  <Navigator initialPage={() => <Home />} />
+</AdaptiveApp>
+
+// somewhere in a debug menu
+<Button onPress={() => setPlatform(platform() === "iOS" ? "android" : "iOS")}>Switch platform</Button>
+```
+
+Leave it `undefined` for the device's platform. `MaterialApp` takes the same `platform` (the feel only, it has no adaptive components). To restyle only the components, pass `design` instead, or wrap a subtree in `<AdaptiveProvider design="cupertino">`, say for a side-by-side preview. `useDesign()` returns the design in effect, as an accessor, for code of your own that branches on it.
 
 ## Mixing
 

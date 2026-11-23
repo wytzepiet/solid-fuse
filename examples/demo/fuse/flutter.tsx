@@ -257,7 +257,9 @@ export interface AnimatedCrossFadeProps {
  * Dart: `AnimatedCrossFade`
  */
 export function AnimatedCrossFade(props: AnimatedCrossFadeProps): JSX.Element {
-  return <flutter_AnimatedCrossFade {...props} firstChild={$slot(props.firstChild)} secondChild={$slot(props.secondChild)} />;
+  const $firstChild = $slot(() => props.firstChild);
+  const $secondChild = $slot(() => props.secondChild);
+  return <flutter_AnimatedCrossFade {...props} firstChild={$firstChild()} secondChild={$secondChild()} />;
 }
 
 export interface AnimatedDefaultTextStyleProps {
@@ -1882,7 +1884,9 @@ export interface DismissibleProps {
  * Dart: `Dismissible`
  */
 export function Dismissible(props: DismissibleProps): JSX.Element {
-  return <flutter_Dismissible {...props} background={$slot(props.background)} secondaryBackground={$slot(props.secondaryBackground)} />;
+  const $background = $slot(() => props.background);
+  const $secondaryBackground = $slot(() => props.secondaryBackground);
+  return <flutter_Dismissible {...props} background={$background()} secondaryBackground={$secondaryBackground()} />;
 }
 
 export interface DisplayFeatureSubScreenProps {
@@ -1992,7 +1996,9 @@ export interface DraggableProps {
  * Dart: `Draggable`
  */
 export function Draggable(props: DraggableProps): JSX.Element {
-  return <flutter_Draggable {...props} feedback={$slot(props.feedback)} childWhenDragging={$slot(props.childWhenDragging)} />;
+  const $feedback = $slot(() => props.feedback);
+  const $childWhenDragging = $slot(() => props.childWhenDragging);
+  return <flutter_Draggable {...props} feedback={$feedback()} childWhenDragging={$childWhenDragging()} />;
 }
 
 export interface DraggableScrollableActuatorProps {
@@ -4237,7 +4243,8 @@ export interface ListViewProps {
  * Dart: `ListView`
  */
 export function ListView(props: ListViewProps): JSX.Element {
-  return <flutter_ListView {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_ListView {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface ListViewBuilderProps {
@@ -4287,7 +4294,8 @@ export interface ListViewBuilderProps {
  * Dart: `ListView.builder`
  */
 export function ListViewBuilder(props: ListViewBuilderProps): JSX.Element {
-  return <flutter_ListViewBuilder {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_ListViewBuilder {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface ListViewSeparatedProps {
@@ -4379,7 +4387,8 @@ export interface ListViewCustomProps {
  * Dart: `ListView.custom`
  */
 export function ListViewCustom(props: ListViewCustomProps): JSX.Element {
-  return <flutter_ListViewCustom {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_ListViewCustom {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface ListWheelScrollViewProps {
@@ -4654,7 +4663,9 @@ export interface LongPressDraggableProps {
  * Dart: `LongPressDraggable`
  */
 export function LongPressDraggable(props: LongPressDraggableProps): JSX.Element {
-  return <flutter_LongPressDraggable {...props} feedback={$slot(props.feedback)} childWhenDragging={$slot(props.childWhenDragging)} />;
+  const $feedback = $slot(() => props.feedback);
+  const $childWhenDragging = $slot(() => props.childWhenDragging);
+  return <flutter_LongPressDraggable {...props} feedback={$feedback()} childWhenDragging={$childWhenDragging()} />;
 }
 
 export interface LookupBoundaryProps {
@@ -4921,7 +4932,10 @@ export interface NavigationToolbarProps {
  * Dart: `NavigationToolbar`
  */
 export function NavigationToolbar(props: NavigationToolbarProps): JSX.Element {
-  return <flutter_NavigationToolbar {...props} leading={$slot(props.leading)} middle={$slot(props.middle)} trailing={$slot(props.trailing)} />;
+  const $leading = $slot(() => props.leading);
+  const $middle = $slot(() => props.middle);
+  const $trailing = $slot(() => props.trailing);
+  return <flutter_NavigationToolbar {...props} leading={$leading()} middle={$middle()} trailing={$trailing()} />;
 }
 
 export interface NavigatorProps {
@@ -5017,7 +5031,8 @@ export interface NestedScrollViewProps {
  * Dart: `NestedScrollView`
  */
 export function NestedScrollView(props: NestedScrollViewProps): JSX.Element {
-  return <flutter_NestedScrollView {...props} body={$slot(props.body)} />;
+  const $body = $slot(() => props.body);
+  return <flutter_NestedScrollView {...props} body={$body()} />;
 }
 
 export interface NestedScrollViewViewportProps {
@@ -6351,7 +6366,8 @@ export interface ReorderableListProps {
  * Dart: `ReorderableList`
  */
 export function ReorderableList(props: ReorderableListProps): JSX.Element {
-  return <flutter_ReorderableList {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_ReorderableList {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface RepaintBoundaryProps {
@@ -8210,7 +8226,8 @@ export interface SliverPrototypeExtentListProps {
  * Dart: `SliverPrototypeExtentList`
  */
 export function SliverPrototypeExtentList(props: SliverPrototypeExtentListProps): JSX.Element {
-  return <flutter_SliverPrototypeExtentList {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_SliverPrototypeExtentList {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface SliverPrototypeExtentListBuilderProps {
@@ -8236,7 +8253,8 @@ export interface SliverPrototypeExtentListBuilderProps {
  * Dart: `SliverPrototypeExtentList.builder`
  */
 export function SliverPrototypeExtentListBuilder(props: SliverPrototypeExtentListBuilderProps): JSX.Element {
-  return <flutter_SliverPrototypeExtentListBuilder {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_SliverPrototypeExtentListBuilder {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface SliverPrototypeExtentListListProps {
@@ -8261,7 +8279,8 @@ export interface SliverPrototypeExtentListListProps {
  * Dart: `SliverPrototypeExtentList.list`
  */
 export function SliverPrototypeExtentListList(props: SliverPrototypeExtentListListProps): JSX.Element {
-  return <flutter_SliverPrototypeExtentListList {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_SliverPrototypeExtentListList {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface SliverReorderableListProps {
@@ -8291,7 +8310,8 @@ export interface SliverReorderableListProps {
  * Dart: `SliverReorderableList`
  */
 export function SliverReorderableList(props: SliverReorderableListProps): JSX.Element {
-  return <flutter_SliverReorderableList {...props} prototypeItem={$slot(props.prototypeItem)} />;
+  const $prototypeItem = $slot(() => props.prototypeItem);
+  return <flutter_SliverReorderableList {...props} prototypeItem={$prototypeItem()} />;
 }
 
 export interface SliverResizingHeaderProps {
@@ -8313,7 +8333,9 @@ export interface SliverResizingHeaderProps {
  * Dart: `SliverResizingHeader`
  */
 export function SliverResizingHeader(props: SliverResizingHeaderProps): JSX.Element {
-  return <flutter_SliverResizingHeader {...props} minExtentPrototype={$slot(props.minExtentPrototype)} maxExtentPrototype={$slot(props.maxExtentPrototype)} />;
+  const $minExtentPrototype = $slot(() => props.minExtentPrototype);
+  const $maxExtentPrototype = $slot(() => props.maxExtentPrototype);
+  return <flutter_SliverResizingHeader {...props} minExtentPrototype={$minExtentPrototype()} maxExtentPrototype={$maxExtentPrototype()} />;
 }
 
 export interface SliverSafeAreaProps {
@@ -8601,7 +8623,8 @@ export interface SliverVisibilityProps {
  * Dart: `SliverVisibility`
  */
 export function SliverVisibility(props: SliverVisibilityProps): JSX.Element {
-  return <flutter_SliverVisibility {...props} replacementSliver={$slot(props.replacementSliver)} />;
+  const $replacementSliver = $slot(() => props.replacementSliver);
+  return <flutter_SliverVisibility {...props} replacementSliver={$replacementSliver()} />;
 }
 
 export interface SliverVisibilityMaintainProps {
@@ -8624,7 +8647,8 @@ export interface SliverVisibilityMaintainProps {
  * Dart: `SliverVisibility.maintain`
  */
 export function SliverVisibilityMaintain(props: SliverVisibilityMaintainProps): JSX.Element {
-  return <flutter_SliverVisibilityMaintain {...props} replacementSliver={$slot(props.replacementSliver)} />;
+  const $replacementSliver = $slot(() => props.replacementSliver);
+  return <flutter_SliverVisibilityMaintain {...props} replacementSliver={$replacementSliver()} />;
 }
 
 export interface SnapshotWidgetProps {
@@ -9458,7 +9482,8 @@ export interface ViewAnchorProps {
  * Dart: `ViewAnchor`
  */
 export function ViewAnchor(props: ViewAnchorProps): JSX.Element {
-  return <flutter_ViewAnchor {...props} view={$slot(props.view)} />;
+  const $view = $slot(() => props.view);
+  return <flutter_ViewAnchor {...props} view={$view()} />;
 }
 
 export interface ViewCollectionProps {
@@ -9475,7 +9500,8 @@ export interface ViewCollectionProps {
  * Dart: `ViewCollection`
  */
 export function ViewCollection(props: ViewCollectionProps): JSX.Element {
-  return <flutter_ViewCollection {...props} views={$slots(props.views)} />;
+  const $views = $slots(() => props.views);
+  return <flutter_ViewCollection {...props} views={$views()} />;
 }
 
 export interface ViewportProps {
@@ -9547,7 +9573,8 @@ export interface VisibilityProps {
  * Dart: `Visibility`
  */
 export function Visibility(props: VisibilityProps): JSX.Element {
-  return <flutter_Visibility {...props} replacement={$slot(props.replacement)} />;
+  const $replacement = $slot(() => props.replacement);
+  return <flutter_Visibility {...props} replacement={$replacement()} />;
 }
 
 export interface VisibilityMaintainProps {
@@ -9642,7 +9669,8 @@ export interface WidgetsAppProps {
  * Dart: `WidgetsApp`
  */
 export function WidgetsApp(props: WidgetsAppProps): JSX.Element {
-  return <flutter_WidgetsApp {...props} home={$slot(props.home)} />;
+  const $home = $slot(() => props.home);
+  return <flutter_WidgetsApp {...props} home={$home()} />;
 }
 
 export interface WidgetsAppRouterProps {

@@ -53,6 +53,15 @@ fuse drive tap --identifier submit
 
 `testId` is the element's semantics identifier, so Appium and the platform accessibility tools find it by the same id.
 
+## Both platforms
+
+A Linux machine renders the app as Linux does, which is Android's Material look. To check the iOS look too, build the app on `AdaptiveApp` and give it a debug toggle for `platform` ([Previewing the other platform](/docs/building/design-packages#previewing-the-other-platform)), with a `testId`:
+
+```bash
+fuse drive tap --identifier platform-toggle
+fuse drive take-screenshots -o ios.png
+```
+
 ## MCP
 
 Agents that prefer MCP get the same commands as tools:

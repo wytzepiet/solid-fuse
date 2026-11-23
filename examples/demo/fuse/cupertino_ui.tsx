@@ -26,7 +26,11 @@ export interface CupertinoActionSheetProps {
  * Dart: `CupertinoActionSheet`
  */
 export function CupertinoActionSheet(props: CupertinoActionSheetProps): JSX.Element {
-  return <cupertino_ui_CupertinoActionSheet {...props} title={$slot(props.title)} message={$slot(props.message)} actions={$slots(props.actions)} cancelButton={$slot(props.cancelButton)} />;
+  const $title = $slot(() => props.title);
+  const $message = $slot(() => props.message);
+  const $actions = $slots(() => props.actions);
+  const $cancelButton = $slot(() => props.cancelButton);
+  return <cupertino_ui_CupertinoActionSheet {...props} title={$title()} message={$message()} actions={$actions()} cancelButton={$cancelButton()} />;
 }
 
 export interface CupertinoActionSheetActionProps {
@@ -202,7 +206,10 @@ export interface CupertinoAlertDialogProps {
  * Dart: `CupertinoAlertDialog`
  */
 export function CupertinoAlertDialog(props: CupertinoAlertDialogProps): JSX.Element {
-  return <cupertino_ui_CupertinoAlertDialog {...props} title={$slot(props.title)} content={$slot(props.content)} actions={$slots(props.actions)} />;
+  const $title = $slot(() => props.title);
+  const $content = $slot(() => props.content);
+  const $actions = $slots(() => props.actions);
+  return <cupertino_ui_CupertinoAlertDialog {...props} title={$title()} content={$content()} actions={$actions()} />;
 }
 
 export interface CupertinoAppProps {
@@ -254,7 +261,8 @@ export interface CupertinoAppProps {
  * Dart: `CupertinoApp`
  */
 export function CupertinoApp(props: CupertinoAppProps): JSX.Element {
-  return <cupertino_ui_CupertinoApp {...props} home={$slot(props.home)} />;
+  const $home = $slot(() => props.home);
+  return <cupertino_ui_CupertinoApp {...props} home={$home()} />;
 }
 
 export interface CupertinoAppRouterProps {
@@ -483,7 +491,8 @@ export interface CupertinoContextMenuProps {
  * Dart: `CupertinoContextMenu`
  */
 export function CupertinoContextMenu(props: CupertinoContextMenuProps): JSX.Element {
-  return <cupertino_ui_CupertinoContextMenu {...props} actions={$slots(props.actions)} />;
+  const $actions = $slots(() => props.actions);
+  return <cupertino_ui_CupertinoContextMenu {...props} actions={$actions()} />;
 }
 
 export interface CupertinoContextMenuBuilderProps {
@@ -503,7 +512,8 @@ export interface CupertinoContextMenuBuilderProps {
  * Dart: `CupertinoContextMenu.builder`
  */
 export function CupertinoContextMenuBuilder(props: CupertinoContextMenuBuilderProps): JSX.Element {
-  return <cupertino_ui_CupertinoContextMenuBuilder {...props} actions={$slots(props.actions)} />;
+  const $actions = $slots(() => props.actions);
+  return <cupertino_ui_CupertinoContextMenuBuilder {...props} actions={$actions()} />;
 }
 
 export interface CupertinoContextMenuActionProps {
@@ -696,7 +706,8 @@ export interface CupertinoExpansionTileProps {
  * Dart: `CupertinoExpansionTile`
  */
 export function CupertinoExpansionTile(props: CupertinoExpansionTileProps): JSX.Element {
-  return <cupertino_ui_CupertinoExpansionTile {...props} title={$slot(props.title)} />;
+  const $title = $slot(() => props.title);
+  return <cupertino_ui_CupertinoExpansionTile {...props} title={$title()} />;
 }
 
 export interface CupertinoFocusHaloWithRectProps {
@@ -782,7 +793,10 @@ export interface CupertinoFormRowProps {
  * Dart: `CupertinoFormRow`
  */
 export function CupertinoFormRow(props: CupertinoFormRowProps): JSX.Element {
-  return <cupertino_ui_CupertinoFormRow {...props} prefix={$slot(props.prefix)} helper={$slot(props.helper)} error={$slot(props.error)} />;
+  const $prefix = $slot(() => props.prefix);
+  const $helper = $slot(() => props.helper);
+  const $error = $slot(() => props.error);
+  return <cupertino_ui_CupertinoFormRow {...props} prefix={$prefix()} helper={$helper()} error={$error()} />;
 }
 
 export interface CupertinoFormSectionProps {
@@ -807,7 +821,9 @@ export interface CupertinoFormSectionProps {
  * Dart: `CupertinoFormSection`
  */
 export function CupertinoFormSection(props: CupertinoFormSectionProps): JSX.Element {
-  return <cupertino_ui_CupertinoFormSection {...props} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <cupertino_ui_CupertinoFormSection {...props} header={$header()} footer={$footer()} />;
 }
 
 export interface CupertinoFormSectionInsetGroupedProps {
@@ -832,7 +848,9 @@ export interface CupertinoFormSectionInsetGroupedProps {
  * Dart: `CupertinoFormSection.insetGrouped`
  */
 export function CupertinoFormSectionInsetGrouped(props: CupertinoFormSectionInsetGroupedProps): JSX.Element {
-  return <cupertino_ui_CupertinoFormSectionInsetGrouped {...props} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <cupertino_ui_CupertinoFormSectionInsetGrouped {...props} header={$header()} footer={$footer()} />;
 }
 
 export interface CupertinoFullscreenDialogTransitionProps {
@@ -908,7 +926,9 @@ export interface CupertinoListSectionProps {
  * Dart: `CupertinoListSection`
  */
 export function CupertinoListSection(props: CupertinoListSectionProps): JSX.Element {
-  return <cupertino_ui_CupertinoListSection {...props} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <cupertino_ui_CupertinoListSection {...props} header={$header()} footer={$footer()} />;
 }
 
 export interface CupertinoListSectionInsetGroupedProps {
@@ -940,7 +960,9 @@ export interface CupertinoListSectionInsetGroupedProps {
  * Dart: `CupertinoListSection.insetGrouped`
  */
 export function CupertinoListSectionInsetGrouped(props: CupertinoListSectionInsetGroupedProps): JSX.Element {
-  return <cupertino_ui_CupertinoListSectionInsetGrouped {...props} header={$slot(props.header)} footer={$slot(props.footer)} />;
+  const $header = $slot(() => props.header);
+  const $footer = $slot(() => props.footer);
+  return <cupertino_ui_CupertinoListSectionInsetGrouped {...props} header={$header()} footer={$footer()} />;
 }
 
 export interface CupertinoListTileProps {
@@ -969,7 +991,12 @@ export interface CupertinoListTileProps {
  * Dart: `CupertinoListTile`
  */
 export function CupertinoListTile(props: CupertinoListTileProps): JSX.Element {
-  return <cupertino_ui_CupertinoListTile {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} additionalInfo={$slot(props.additionalInfo)} leading={$slot(props.leading)} trailing={$slot(props.trailing)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $additionalInfo = $slot(() => props.additionalInfo);
+  const $leading = $slot(() => props.leading);
+  const $trailing = $slot(() => props.trailing);
+  return <cupertino_ui_CupertinoListTile {...props} title={$title()} subtitle={$subtitle()} additionalInfo={$additionalInfo()} leading={$leading()} trailing={$trailing()} />;
 }
 
 export interface CupertinoListTileNotchedProps {
@@ -998,7 +1025,12 @@ export interface CupertinoListTileNotchedProps {
  * Dart: `CupertinoListTile.notched`
  */
 export function CupertinoListTileNotched(props: CupertinoListTileNotchedProps): JSX.Element {
-  return <cupertino_ui_CupertinoListTileNotched {...props} title={$slot(props.title)} subtitle={$slot(props.subtitle)} additionalInfo={$slot(props.additionalInfo)} leading={$slot(props.leading)} trailing={$slot(props.trailing)} />;
+  const $title = $slot(() => props.title);
+  const $subtitle = $slot(() => props.subtitle);
+  const $additionalInfo = $slot(() => props.additionalInfo);
+  const $leading = $slot(() => props.leading);
+  const $trailing = $slot(() => props.trailing);
+  return <cupertino_ui_CupertinoListTileNotched {...props} title={$title()} subtitle={$subtitle()} additionalInfo={$additionalInfo()} leading={$leading()} trailing={$trailing()} />;
 }
 
 export interface CupertinoListTileChevronProps {
@@ -1079,7 +1111,8 @@ export interface CupertinoMenuAnchorProps {
  * Dart: `CupertinoMenuAnchor`
  */
 export function CupertinoMenuAnchor(props: CupertinoMenuAnchorProps): JSX.Element {
-  return <cupertino_ui_CupertinoMenuAnchor {...props} menuChildren={$slots(props.menuChildren)} />;
+  const $menuChildren = $slots(() => props.menuChildren);
+  return <cupertino_ui_CupertinoMenuAnchor {...props} menuChildren={$menuChildren()} />;
 }
 
 export interface CupertinoMenuDividerProps {
@@ -1141,7 +1174,10 @@ export interface CupertinoMenuItemProps {
  * Dart: `CupertinoMenuItem`
  */
 export function CupertinoMenuItem(props: CupertinoMenuItemProps): JSX.Element {
-  return <cupertino_ui_CupertinoMenuItem {...props} subtitle={$slot(props.subtitle)} leading={$slot(props.leading)} trailing={$slot(props.trailing)} />;
+  const $subtitle = $slot(() => props.subtitle);
+  const $leading = $slot(() => props.leading);
+  const $trailing = $slot(() => props.trailing);
+  return <cupertino_ui_CupertinoMenuItem {...props} subtitle={$subtitle()} leading={$leading()} trailing={$trailing()} />;
 }
 
 export interface CupertinoNavigationBarProps {
@@ -1177,7 +1213,11 @@ export interface CupertinoNavigationBarProps {
  * Dart: `CupertinoNavigationBar`
  */
 export function CupertinoNavigationBar(props: CupertinoNavigationBarProps): JSX.Element {
-  return <cupertino_ui_CupertinoNavigationBar {...props} leading={$slot(props.leading)} middle={$slot(props.middle)} trailing={$slot(props.trailing)} bottom={$slot(props.bottom)} />;
+  const $leading = $slot(() => props.leading);
+  const $middle = $slot(() => props.middle);
+  const $trailing = $slot(() => props.trailing);
+  const $bottom = $slot(() => props.bottom);
+  return <cupertino_ui_CupertinoNavigationBar {...props} leading={$leading()} middle={$middle()} trailing={$trailing()} bottom={$bottom()} />;
 }
 
 export interface CupertinoNavigationBarLargeProps {
@@ -1213,7 +1253,11 @@ export interface CupertinoNavigationBarLargeProps {
  * Dart: `CupertinoNavigationBar.large`
  */
 export function CupertinoNavigationBarLarge(props: CupertinoNavigationBarLargeProps): JSX.Element {
-  return <cupertino_ui_CupertinoNavigationBarLarge {...props} largeTitle={$slot(props.largeTitle)} leading={$slot(props.leading)} trailing={$slot(props.trailing)} bottom={$slot(props.bottom)} />;
+  const $largeTitle = $slot(() => props.largeTitle);
+  const $leading = $slot(() => props.leading);
+  const $trailing = $slot(() => props.trailing);
+  const $bottom = $slot(() => props.bottom);
+  return <cupertino_ui_CupertinoNavigationBarLarge {...props} largeTitle={$largeTitle()} leading={$leading()} trailing={$trailing()} bottom={$bottom()} />;
 }
 
 export interface CupertinoNavigationBarBackButtonProps {
@@ -1256,7 +1300,8 @@ export interface CupertinoPageScaffoldProps {
  * Dart: `CupertinoPageScaffold`
  */
 export function CupertinoPageScaffold(props: CupertinoPageScaffoldProps): JSX.Element {
-  return <cupertino_ui_CupertinoPageScaffold {...props} navigationBar={$slot(props.navigationBar)} />;
+  const $navigationBar = $slot(() => props.navigationBar);
+  return <cupertino_ui_CupertinoPageScaffold {...props} navigationBar={$navigationBar()} />;
 }
 
 export interface CupertinoPageScaffoldBackgroundColorProps {
@@ -1337,7 +1382,8 @@ export interface CupertinoPickerProps {
  * Dart: `CupertinoPicker`
  */
 export function CupertinoPicker(props: CupertinoPickerProps): JSX.Element {
-  return <cupertino_ui_CupertinoPicker {...props} selectionOverlay={$slot(props.selectionOverlay)} />;
+  const $selectionOverlay = $slot(() => props.selectionOverlay);
+  return <cupertino_ui_CupertinoPicker {...props} selectionOverlay={$selectionOverlay()} />;
 }
 
 export interface CupertinoPickerBuilderProps {
@@ -1372,7 +1418,8 @@ export interface CupertinoPickerBuilderProps {
  * Dart: `CupertinoPicker.builder`
  */
 export function CupertinoPickerBuilder(props: CupertinoPickerBuilderProps): JSX.Element {
-  return <cupertino_ui_CupertinoPickerBuilder {...props} selectionOverlay={$slot(props.selectionOverlay)} />;
+  const $selectionOverlay = $slot(() => props.selectionOverlay);
+  return <cupertino_ui_CupertinoPickerBuilder {...props} selectionOverlay={$selectionOverlay()} />;
 }
 
 export interface CupertinoPickerDefaultSelectionOverlayProps {
@@ -1540,7 +1587,9 @@ export interface CupertinoSearchTextFieldProps {
  * Dart: `CupertinoSearchTextField`
  */
 export function CupertinoSearchTextField(props: CupertinoSearchTextFieldProps): JSX.Element {
-  return <cupertino_ui_CupertinoSearchTextField {...props} prefixIcon={$slot(props.prefixIcon)} suffixIcon={$slot(props.suffixIcon)} />;
+  const $prefixIcon = $slot(() => props.prefixIcon);
+  const $suffixIcon = $slot(() => props.suffixIcon);
+  return <cupertino_ui_CupertinoSearchTextField {...props} prefixIcon={$prefixIcon()} suffixIcon={$suffixIcon()} />;
 }
 
 export interface CupertinoSegmentedControlProps {
@@ -1688,7 +1737,12 @@ export interface CupertinoSliverNavigationBarProps {
  * Dart: `CupertinoSliverNavigationBar`
  */
 export function CupertinoSliverNavigationBar(props: CupertinoSliverNavigationBarProps): JSX.Element {
-  return <cupertino_ui_CupertinoSliverNavigationBar {...props} largeTitle={$slot(props.largeTitle)} leading={$slot(props.leading)} middle={$slot(props.middle)} trailing={$slot(props.trailing)} bottom={$slot(props.bottom)} />;
+  const $largeTitle = $slot(() => props.largeTitle);
+  const $leading = $slot(() => props.leading);
+  const $middle = $slot(() => props.middle);
+  const $trailing = $slot(() => props.trailing);
+  const $bottom = $slot(() => props.bottom);
+  return <cupertino_ui_CupertinoSliverNavigationBar {...props} largeTitle={$largeTitle()} leading={$leading()} middle={$middle()} trailing={$trailing()} bottom={$bottom()} />;
 }
 
 export interface CupertinoSliverNavigationBarSearchProps {
@@ -1732,7 +1786,12 @@ export interface CupertinoSliverNavigationBarSearchProps {
  * Dart: `CupertinoSliverNavigationBar.search`
  */
 export function CupertinoSliverNavigationBarSearch(props: CupertinoSliverNavigationBarSearchProps): JSX.Element {
-  return <cupertino_ui_CupertinoSliverNavigationBarSearch {...props} searchField={$slot(props.searchField)} largeTitle={$slot(props.largeTitle)} leading={$slot(props.leading)} middle={$slot(props.middle)} trailing={$slot(props.trailing)} />;
+  const $searchField = $slot(() => props.searchField);
+  const $largeTitle = $slot(() => props.largeTitle);
+  const $leading = $slot(() => props.leading);
+  const $middle = $slot(() => props.middle);
+  const $trailing = $slot(() => props.trailing);
+  return <cupertino_ui_CupertinoSliverNavigationBarSearch {...props} searchField={$searchField()} largeTitle={$largeTitle()} leading={$leading()} middle={$middle()} trailing={$trailing()} />;
 }
 
 export interface CupertinoSliverRefreshControlProps {
@@ -1867,7 +1926,8 @@ export interface CupertinoTabScaffoldProps {
  * Dart: `CupertinoTabScaffold`
  */
 export function CupertinoTabScaffold(props: CupertinoTabScaffoldProps): JSX.Element {
-  return <cupertino_ui_CupertinoTabScaffold {...props} tabBar={$slot(props.tabBar)} />;
+  const $tabBar = $slot(() => props.tabBar);
+  return <cupertino_ui_CupertinoTabScaffold {...props} tabBar={$tabBar()} />;
 }
 
 export interface CupertinoTabViewProps {
@@ -2004,7 +2064,9 @@ export interface CupertinoTextFieldProps {
  * Dart: `CupertinoTextField`
  */
 export function CupertinoTextField(props: CupertinoTextFieldProps): JSX.Element {
-  return <cupertino_ui_CupertinoTextField {...props} prefix={$slot(props.prefix)} suffix={$slot(props.suffix)} />;
+  const $prefix = $slot(() => props.prefix);
+  const $suffix = $slot(() => props.suffix);
+  return <cupertino_ui_CupertinoTextField {...props} prefix={$prefix()} suffix={$suffix()} />;
 }
 
 export interface CupertinoTextFieldBorderlessProps {
@@ -2117,7 +2179,9 @@ export interface CupertinoTextFieldBorderlessProps {
  * Dart: `CupertinoTextField.borderless`
  */
 export function CupertinoTextFieldBorderless(props: CupertinoTextFieldBorderlessProps): JSX.Element {
-  return <cupertino_ui_CupertinoTextFieldBorderless {...props} prefix={$slot(props.prefix)} suffix={$slot(props.suffix)} />;
+  const $prefix = $slot(() => props.prefix);
+  const $suffix = $slot(() => props.suffix);
+  return <cupertino_ui_CupertinoTextFieldBorderless {...props} prefix={$prefix()} suffix={$suffix()} />;
 }
 
 export interface CupertinoTextFormFieldRowProps {
@@ -2200,7 +2264,8 @@ export interface CupertinoTextFormFieldRowProps {
  * Dart: `CupertinoTextFormFieldRow`
  */
 export function CupertinoTextFormFieldRow(props: CupertinoTextFormFieldRowProps): JSX.Element {
-  return <cupertino_ui_CupertinoTextFormFieldRow {...props} prefix={$slot(props.prefix)} />;
+  const $prefix = $slot(() => props.prefix);
+  return <cupertino_ui_CupertinoTextFormFieldRow {...props} prefix={$prefix()} />;
 }
 
 export interface CupertinoTextMagnifierProps {
@@ -2418,7 +2483,8 @@ export interface InheritedCupertinoThemeProps {
  * Dart: `InheritedCupertinoTheme`
  */
 export function InheritedCupertinoTheme(props: InheritedCupertinoThemeProps): JSX.Element {
-  return <cupertino_ui_InheritedCupertinoTheme {...props} theme={$slot(props.theme)} />;
+  const $theme = $slot(() => props.theme);
+  return <cupertino_ui_InheritedCupertinoTheme {...props} theme={$theme()} />;
 }
 
 /**
