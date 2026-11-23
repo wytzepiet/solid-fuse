@@ -80,7 +80,6 @@ export const FUSE_INTRINSICS: Record<string, string> = {
   GestureDetector: "gestureDetector",
   ScrollView: "scrollView",
   TextInput: "textInput",
-  Modal: "modal",
   RadioGroup: "radioGroup",
   Tooltip: "tooltip",
   Menu: "menu",

@@ -165,7 +165,35 @@ class FuseNode extends FuseMap with ChangeNotifier {
         .toList();
   }
 
+  /// Whether this node takes part in its parent's layout. A node that
+  /// draws elsewhere (a `<modal>` shows in a route) is mounted with its
+  /// parent but never laid out as one of its children.
+  core.bool get inFlow => !registry.elsewhere.contains(type);
+
+  /// The children laid out with [flex] (a column by default), as one
+  /// widget. Children that draw elsewhere are mounted beside the layout
+  /// without taking part in it.
   Widget get flexChildren {
+    final all = childWidgets;
+    final kids = children;
+    final flow = <Widget>[], elsewhere = <Widget>[];
+    for (var i = 0; i < kids.length; i++) {
+      (kids[i].inFlow ? flow : elsewhere).add(all[i]);
+    }
+    final layout = _layout(flow);
+    if (elsewhere.isEmpty) return layout;
+    return Stack(
+      fit: StackFit.passthrough,
+      clipBehavior: Clip.none,
+      children: [
+        layout,
+        for (final w in elsewhere) Positioned(left: 0, top: 0, width: 0, height: 0, child: w),
+      ],
+    );
+  }
+
+  Widget _layout(List<Widget> c) {
+    if (c.isEmpty) return const SizedBox.shrink();
     final flex = map('flex');
 
     final direction = flex?.string('direction');
@@ -195,7 +223,6 @@ class FuseNode extends FuseMap with ChangeNotifier {
         ? MainAxisSize.max
         : MainAxisSize.min;
 
-    final c = childWidgets;
     if (c.length == 1 &&
         mainAxisSize == MainAxisSize.min &&
         mainAxis == MainAxisAlignment.start &&
@@ -356,6 +383,10 @@ class FuseNodeRegistry {
   final void Function(core.int root)? unbuild;
 
   final _nodes = <int, FuseNode>{};
+
+  /// Node types that draw elsewhere and take no part in layout
+  /// (`registerWidget(..., inFlow: false)`).
+  final elsewhere = <String>{};
 
   // Handles by object, for references Dart sends to JS ([lend]). A handle
   // JS created is found by its object; one Dart hands out is borrowed, once

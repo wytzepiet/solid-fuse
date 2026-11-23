@@ -3,7 +3,7 @@
 /* eslint-disable */
 import { $handle, $handleType, $slot, $slots } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
-import type { Handle } from "solid-fuse";
+import type { Handle, FlexInput } from "solid-fuse";
 import type { ChangeNotifier, ValueNotifier, ValueNotifier2 } from "./listen";
 import type { InputBorder, RoundedPolygon, ThemeData } from "./material_ui";
 import type { Matrix4, QuadOut } from "./vector_math";
@@ -16,6 +16,8 @@ export interface AbsorbPointerProps {
   absorbing?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -32,6 +34,8 @@ export interface ActionListenerProps {
   action: Handle<"flutter_Action">;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -49,6 +53,8 @@ export interface AlignProps {
   heightFactor?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -66,6 +72,8 @@ export interface AlignTransitionProps {
   heightFactor?: number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -123,6 +131,8 @@ export interface AnimatedAlignProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -139,6 +149,8 @@ export interface AnimatedBuilderProps {
   builder: (child: undefined) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -169,6 +181,8 @@ export interface AnimatedContainerProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -223,6 +237,8 @@ export interface AnimatedDefaultTextStyleProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -243,6 +259,8 @@ export interface AnimatedFractionallySizedBoxProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -368,6 +386,8 @@ export interface AnimatedOpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -386,6 +406,8 @@ export interface AnimatedPaddingProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -416,6 +438,8 @@ export interface AnimatedPhysicalModelProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -439,6 +463,8 @@ export interface AnimatedPositionedProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -457,6 +483,8 @@ export interface AnimatedPositionedFromRectProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -480,6 +508,8 @@ export interface AnimatedPositionedDirectionalProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -500,6 +530,8 @@ export interface AnimatedRotationProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -520,6 +552,8 @@ export interface AnimatedScaleProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -541,6 +575,8 @@ export interface AnimatedSizeProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -559,6 +595,8 @@ export interface AnimatedSlideProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -579,6 +617,8 @@ export interface AnimatedSwitcherProps {
   layoutBuilder?: (currentChild: undefined, previousChildren: undefined) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -596,6 +636,8 @@ export interface AnnotatedRegionProps {
   sized?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -631,6 +673,8 @@ export interface AspectRatioProps {
   aspectRatio: number;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -646,6 +690,8 @@ export interface AutocompleteHighlightedOptionProps {
   highlightIndexNotifier: Handle<string>;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -662,6 +708,8 @@ export interface AutofillGroupProps {
   onDisposeAction?: AutofillContextAction;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -676,6 +724,8 @@ export interface AutomaticKeepAliveProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -691,6 +741,8 @@ export interface BackButtonListenerProps {
   onBackButtonPressed: () => boolean | Promise<boolean>;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -712,6 +764,8 @@ export interface BackdropFilterProps {
   backdropGroupKey?: BackdropKey | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -732,6 +786,8 @@ export interface BackdropFilterGroupedProps {
   enabled?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -747,6 +803,8 @@ export interface BackdropGroupProps {
   backdropKey?: BackdropKey | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -768,6 +826,8 @@ export interface BannerProps {
   shadow?: BoxShadow;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -784,6 +844,8 @@ export interface BaselineProps {
   baselineType: TextBaseline;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -800,6 +862,8 @@ export interface BlockSemanticsProps {
   blocking?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -828,6 +892,8 @@ export interface CallbackShortcutsProps {
   bindings: [ShortcutActivator, () => void][];
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -844,6 +910,8 @@ export interface CenterProps {
   heightFactor?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -858,6 +926,8 @@ export interface CheckedModeBannerProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -875,6 +945,8 @@ export interface ClipOvalProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -892,6 +964,8 @@ export interface ClipPathProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -910,6 +984,8 @@ export interface ClipRRectProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -928,6 +1004,8 @@ export interface ClipRSuperellipseProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -945,6 +1023,8 @@ export interface ClipRectProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -960,6 +1040,8 @@ export interface ColorFilteredProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -977,6 +1059,8 @@ export interface ColoredBoxProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1023,6 +1107,8 @@ export interface CompositedTransformFollowerProps {
   followerAnchor?: Alignment;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1038,6 +1124,8 @@ export interface CompositedTransformTargetProps {
   link: Handle<string>;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1053,6 +1141,8 @@ export interface ConstrainedBoxProps {
   constraints: BoxConstraints;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1074,6 +1164,8 @@ export interface ConstraintsTransformBoxProps {
   debugTransformType?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1103,6 +1195,8 @@ export interface ContainerProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1139,6 +1233,8 @@ export interface CustomPaintProps {
   willChange?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1195,6 +1291,8 @@ export interface CustomSingleChildLayoutProps {
   delegate: SingleChildLayoutDelegate;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1212,6 +1310,8 @@ export interface DecoratedBoxProps {
   position?: DecorationPosition;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1229,6 +1329,8 @@ export interface DecoratedBoxTransitionProps {
   position?: DecorationPosition;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1246,6 +1348,8 @@ export interface DecoratedSliverProps {
   position?: DecorationPosition;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1261,6 +1365,8 @@ export interface DefaultAssetBundleProps {
   bundle: AssetBundle;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1278,6 +1384,8 @@ export interface DefaultSelectionStyleProps {
   mouseCursor?: MouseCursor | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1304,6 +1412,8 @@ export interface DefaultTextEditingShortcutsProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1319,6 +1429,8 @@ export interface DefaultTextHeightBehaviorProps {
   textHeightBehavior: TextHeightBehavior;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1343,6 +1455,8 @@ export interface DefaultTextStyleProps {
   textHeightBehavior?: TextHeightBehavior | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1376,6 +1490,8 @@ export interface DefaultTextStyleTransitionProps {
   maxLines?: number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1404,6 +1520,8 @@ export interface DirectionalityProps {
   textDirection: TextDirection;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1418,6 +1536,8 @@ export interface DisableWidgetInspectorScopeProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1449,6 +1569,8 @@ export interface DismissibleProps {
   behavior?: HitTestBehavior;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1464,6 +1586,8 @@ export interface DisplayFeatureSubScreenProps {
   anchorPoint?: Offset | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1478,6 +1602,8 @@ export interface DragBoundaryProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1537,6 +1663,8 @@ export interface DraggableProps {
   allowedButtonsFilter?: ((buttons: number) => boolean) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1551,6 +1679,8 @@ export interface DraggableScrollableActuatorProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1596,6 +1726,8 @@ export interface DualTransitionBuilderProps {
   reverseBuilder: (animation: Animation, child: undefined) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1725,6 +1857,8 @@ export interface EnableWidgetInspectorScopeProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1767,6 +1901,8 @@ export interface ExcludeFocusProps {
   excluding?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1783,6 +1919,8 @@ export interface ExcludeFocusTraversalProps {
   excluding?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1799,6 +1937,8 @@ export interface ExcludeSemanticsProps {
   excluding?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2000,6 +2140,8 @@ export interface FadeTransitionProps {
   alwaysIncludeSemantics?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2019,6 +2161,8 @@ export interface FittedBoxProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2147,6 +2291,8 @@ export interface FocusProps {
   debugLabel?: string | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2168,6 +2314,8 @@ export interface FocusWithExternalFocusNodeProps {
   includeSemantics?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2196,6 +2344,8 @@ export interface FocusScopeProps {
   descendantsAreTraversable?: boolean | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2217,6 +2367,8 @@ export interface FocusScopeWithExternalFocusNodeProps {
   onFocusChange?: ((value: boolean) => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2238,6 +2390,8 @@ export interface FocusTraversalGroupProps {
   parentNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2253,6 +2407,8 @@ export interface FocusTraversalOrderProps {
   order: FocusOrder;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2284,6 +2440,8 @@ export interface FocusableActionDetectorProps {
   includeFocusSemantics?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2306,6 +2464,8 @@ export interface FormProps {
   autovalidateMode?: AutovalidateMode | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2346,6 +2506,8 @@ export interface FractionalTranslationProps {
   transformHitTests?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2363,6 +2525,8 @@ export interface FractionallySizedBoxProps {
   heightFactor?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2458,6 +2622,8 @@ export interface GestureDetectorProps {
   supportedDevices?: PointerDeviceKind[] | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2479,6 +2645,8 @@ export interface GlowingOverscrollIndicatorProps {
   notificationPredicate?: (notification: ScrollNotificationOut) => boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2500,6 +2668,8 @@ export interface GridPaperProps {
   subdivisions?: number;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2745,6 +2915,8 @@ export interface HeroProps {
   reverseCurve?: Curve | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2760,6 +2932,8 @@ export interface HeroControllerScopeProps {
   controller: HeroController;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2774,6 +2948,8 @@ export interface HeroControllerScopeNoneProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2790,6 +2966,8 @@ export interface HeroModeProps {
   enabled?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2865,6 +3043,8 @@ export interface IconThemeProps {
   data: IconThemeData;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2879,6 +3059,8 @@ export interface IgnoreBaselineProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2895,6 +3077,8 @@ export interface IgnorePointerProps {
   ignoring?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3080,6 +3264,8 @@ export interface ImageFilteredProps {
   enabled?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3113,6 +3299,8 @@ export interface IndexedSemanticsProps {
   index: number;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3175,6 +3363,8 @@ export interface InteractiveViewerProps {
   trackpadScrollCausesScale?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3226,6 +3416,8 @@ export interface IntrinsicHeightProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3242,6 +3434,8 @@ export interface IntrinsicWidthProps {
   stepHeight?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3257,6 +3451,8 @@ export interface KeepAliveProps {
   keepAlive: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3277,6 +3473,8 @@ export interface KeyboardListenerProps {
   onKeyEvent?: ((value: KeyEventOut) => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3291,6 +3489,8 @@ export interface KeyedSubtreeProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3305,6 +3505,8 @@ export interface KeyedSubtreeWrapProps {
   childIndex: number;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3333,6 +3535,8 @@ export interface LayoutIdProps {
   id: unknown;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3349,6 +3553,8 @@ export interface LimitedBoxProps {
   maxHeight?: number;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3678,6 +3884,8 @@ export interface ListenableBuilderProps {
   builder: (child: undefined) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3703,6 +3911,8 @@ export interface ListenerProps {
   behavior?: HitTestBehavior;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3721,6 +3931,8 @@ export interface LocalizationsProps {
   isApplicationLevel?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3737,6 +3949,8 @@ export interface LocalizationsOverrideProps {
   delegates?: LocalizationsDelegateOfdynamic[] | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3775,6 +3989,8 @@ export interface LongPressDraggableProps {
   rootOverlay?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3789,6 +4005,8 @@ export interface LookupBoundaryProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3807,6 +4025,8 @@ export interface MatrixTransitionProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3822,6 +4042,8 @@ export interface MediaQueryProps {
   data: MediaQueryData;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3844,6 +4066,8 @@ export interface MediaQueryRemovePaddingProps {
   removeBottom?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3866,6 +4090,8 @@ export interface MediaQueryRemoveViewInsetsProps {
   removeBottom?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3888,6 +4114,8 @@ export interface MediaQueryRemoveViewPaddingProps {
   removeBottom?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3902,6 +4130,8 @@ export interface MergeSemanticsProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3919,6 +4149,8 @@ export interface MetaDataProps {
   behavior?: HitTestBehavior;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -3961,6 +4193,8 @@ export interface MouseRegionProps {
   hitTestBehavior?: HitTestBehavior | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4032,6 +4266,8 @@ export interface NavigatorPopHandlerProps {
   enabled?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4101,6 +4337,8 @@ export interface NotificationListenerProps {
   onNotification?: ((notification: unknown) => boolean) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4117,6 +4355,8 @@ export interface OffstageProps {
   offstage?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4134,6 +4374,8 @@ export interface OpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4192,6 +4434,8 @@ export interface OverflowBoxProps {
   fit?: OverflowBoxFit;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4227,6 +4471,8 @@ export interface OverlayPortalProps {
   overlayLocation?: OverlayChildLocation;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4243,6 +4489,8 @@ export interface OverlayPortalTargetsRootOverlayProps {
   overlayChildBuilder: () => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4262,6 +4510,8 @@ export interface OverlayPortalOverlayChildLayoutBuilderProps {
   overlayLocation?: OverlayChildLocation;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4277,6 +4527,8 @@ export interface PaddingProps {
   padding: EdgeInsetsGeometry;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4292,6 +4544,8 @@ export interface PageStorageProps {
   bucket: Handle<string>;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4449,6 +4703,8 @@ export interface PhysicalModelProps {
   shadowColor?: Color;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4470,6 +4726,8 @@ export interface PhysicalShapeProps {
   shadowColor?: Color;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4484,6 +4742,8 @@ export interface PinnedHeaderSliverProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4505,6 +4765,8 @@ export interface PlaceholderProps {
   fallbackHeight?: number;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4520,6 +4782,8 @@ export interface PlatformMenuBarProps {
   menus: PlatformMenuItem[];
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4534,6 +4798,8 @@ export interface PlatformSelectableRegionContextMenuProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4583,6 +4849,8 @@ export interface PopScopeProps {
   onPopInvoked?: ((value: boolean) => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4603,6 +4871,8 @@ export interface PositionedProps {
   height?: number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4618,6 +4888,8 @@ export interface PositionedFromRectProps {
   rect: Rect;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4633,6 +4905,8 @@ export interface PositionedFromRelativeRectProps {
   rect: RelativeRect;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4655,6 +4929,8 @@ export interface PositionedFillProps {
   bottom?: number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4675,6 +4951,8 @@ export interface PositionedDirectionalProps {
   height?: number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4690,6 +4968,8 @@ export interface PositionedTransitionProps {
   rect: Handle<string>;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4705,6 +4985,8 @@ export interface PreferredSizeProps {
   preferredSize: Size;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4723,6 +5005,8 @@ export interface PrimaryScrollControllerProps {
   scrollDirection?: Axis | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4737,6 +5021,8 @@ export interface PrimaryScrollControllerNoneProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4753,6 +5039,8 @@ export interface RadioGroupProps {
   onChanged: (data: unknown) => void;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4793,6 +5081,8 @@ export interface RawGestureDetectorProps {
   semantics?: SemanticsGestureDelegate | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4849,6 +5139,8 @@ export interface RawKeyboardListenerProps {
   onKey?: ((value: RawKeyEventOut) => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4871,6 +5163,8 @@ export interface RawMagnifierProps {
   size: Size;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4897,6 +5191,8 @@ export interface RawMenuAnchorProps {
   overlayBuilder: (info: RawMenuOverlayInfoOut) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4912,6 +5208,8 @@ export interface RawMenuAnchorGroupProps {
   controller: Handle<"flutter_MenuController">;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -4971,6 +5269,8 @@ export interface RawScrollbarProps {
   mouseCursor?: WidgetStatePropertyOfMouseCursorN | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5001,6 +5301,8 @@ export interface RawTooltipProps {
   ignorePointer?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5018,6 +5320,8 @@ export interface RawViewProps {
   deprecatedDoNotUseWillBeRemovedWithoutNoticePipelineOwner?: Handle<string> | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5034,6 +5338,8 @@ export interface RelativePositionedTransitionProps {
   size: Size;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5051,6 +5357,8 @@ export interface ReorderableDelayedDragStartListenerProps {
   enabled?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5068,6 +5376,8 @@ export interface ReorderableDragStartListenerProps {
   enabled?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5128,6 +5438,8 @@ export interface RepaintBoundaryProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5142,6 +5454,8 @@ export interface RepaintBoundaryWrapProps {
   childIndex: number;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5164,6 +5478,8 @@ export interface RepeatingAnimationBuilderProps {
   builder: (value: unknown, child: undefined) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5179,6 +5495,8 @@ export interface RestorationScopeProps {
   restorationId?: string | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5230,6 +5548,8 @@ export interface RootRestorationScopeProps {
   restorationId?: string | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5245,6 +5565,8 @@ export interface RootWidgetProps {
   debugShortDescription?: string | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5260,6 +5582,8 @@ export interface RotatedBoxProps {
   quarterTurns: number;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5277,6 +5601,8 @@ export interface RotationTransitionProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5358,6 +5684,8 @@ export interface SafeAreaProps {
   maintainBottomViewPadding?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5375,6 +5703,8 @@ export interface ScaleTransitionProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5390,6 +5720,8 @@ export interface ScrollConfigurationProps {
   behavior: ScrollBehavior;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5404,6 +5736,8 @@ export interface ScrollNotificationObserverProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5452,6 +5786,8 @@ export interface SelectableRegionProps {
   selectionControls: TextSelectionControls;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5468,6 +5804,8 @@ export interface SelectionContainerProps {
   delegate: Handle<"flutter_StaticSelectionContainerDelegate">;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5482,6 +5820,8 @@ export interface SelectionContainerDisabledProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5497,6 +5837,8 @@ export interface SelectionListenerProps {
   selectionNotifier: Handle<"flutter_SelectionListenerNotifier">;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5512,6 +5854,8 @@ export interface SelectionRegistrarScopeProps {
   registrar: SelectionRegistrar;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5613,6 +5957,8 @@ export interface SemanticsProps {
   maxValue?: string | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5637,6 +5983,8 @@ export interface SemanticsFromPropertiesProps {
   properties: SemanticsProperties;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5652,6 +6000,8 @@ export interface SemanticsDebuggerProps {
   labelStyle?: TextStyle;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5667,6 +6017,8 @@ export interface SensitiveContentProps {
   sensitivity: ContentSensitivity;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5684,6 +6036,8 @@ export interface ShaderMaskProps {
   blendMode?: BlendMode;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5698,6 +6052,8 @@ export interface SharedAppDataProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5712,6 +6068,8 @@ export interface ShortcutRegistrarProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5730,6 +6088,8 @@ export interface ShortcutsProps {
   includeSemantics?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5748,6 +6108,8 @@ export interface ShortcutsManagerProps {
   includeSemantics?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5808,6 +6170,8 @@ export interface SingleChildScrollViewProps {
   keyboardDismissBehavior?: ScrollViewKeyboardDismissBehavior | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5822,6 +6186,8 @@ export interface SizeChangedLayoutNotifierProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5843,6 +6209,8 @@ export interface SizeTransitionProps {
   fixedCrossAxisSizeFactor?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5859,6 +6227,8 @@ export interface SizedBoxProps {
   height?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5873,6 +6243,8 @@ export interface SizedBoxExpandProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5887,6 +6259,8 @@ export interface SizedBoxShrinkProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5902,6 +6276,8 @@ export interface SizedBoxFromSizeProps {
   size?: Size | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5917,6 +6293,8 @@ export interface SizedBoxSquareProps {
   dimension?: number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5933,6 +6311,8 @@ export interface SizedOverflowBoxProps {
   alignment?: AlignmentGeometry;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -5951,6 +6331,8 @@ export interface SlideTransitionProps {
   textDirection?: TextDirection | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6004,6 +6386,8 @@ export interface SliverAnimatedOpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6024,6 +6408,8 @@ export interface SliverClipRRectProps {
   clipOverlap?: ClipOverlapBehavior;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6043,6 +6429,8 @@ export interface SliverClipRectProps {
   clipOverlap?: ClipOverlapBehavior;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6058,6 +6446,8 @@ export interface SliverConstrainedCrossAxisProps {
   maxExtent: number;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6101,6 +6491,8 @@ export interface SliverEnsureSemanticsProps {
   key?: string | number | null;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6118,6 +6510,8 @@ export interface SliverFadeTransitionProps {
   alwaysIncludeSemantics?: boolean;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6136,6 +6530,8 @@ export interface SliverFillRemainingProps {
   fillOverscroll?: boolean;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6230,6 +6626,8 @@ export interface SliverFloatingHeaderProps {
   snapMode?: FloatingHeaderSnapMode | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6349,6 +6747,8 @@ export interface SliverIgnorePointerProps {
   ignoring?: boolean;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6472,6 +6872,8 @@ export interface SliverOffstageProps {
   offstage?: boolean;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6489,6 +6891,8 @@ export interface SliverOpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6504,6 +6908,8 @@ export interface SliverOverlapAbsorberProps {
   handle: Handle<"flutter_SliverOverlapAbsorberHandle">;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6519,6 +6925,8 @@ export interface SliverOverlapInjectorProps {
   handle: Handle<"flutter_SliverOverlapAbsorberHandle">;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6534,6 +6942,8 @@ export interface SliverPaddingProps {
   padding: EdgeInsetsGeometry;
   /** Dart: `sliver`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6650,6 +7060,8 @@ export interface SliverResizingHeaderProps {
   maxExtentPrototype?: JSX.Element | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6673,6 +7085,8 @@ export interface SliverSafeAreaProps {
   minimum?: EdgeInsets;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6774,6 +7188,8 @@ export interface SliverSemanticsProps {
   maxValue?: string | null;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6798,6 +7214,8 @@ export interface SliverSemanticsFromPropertiesProps {
   properties: SemanticsProperties;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6812,6 +7230,8 @@ export interface SliverToBoxAdapterProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6896,6 +7316,8 @@ export interface SliverVisibilityProps {
   maintainInteractivity?: boolean;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6913,6 +7335,8 @@ export interface SliverVisibilityMaintainProps {
   visible?: boolean;
   /** Dart: `sliver`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -6933,6 +7357,8 @@ export interface SnapshotWidgetProps {
   controller: Handle<"flutter_SnapshotController">;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7011,6 +7437,8 @@ export interface StretchEffectProps {
   axis: Axis;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7029,6 +7457,8 @@ export interface StretchingOverscrollIndicatorProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7063,6 +7493,8 @@ export interface TableCellProps {
   verticalAlignment?: TableCellVerticalAlignment | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7089,6 +7521,8 @@ export interface TapRegionProps {
   debugLabel?: string | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7103,6 +7537,8 @@ export interface TapRegionSurfaceProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7187,6 +7623,8 @@ export interface TextFieldTapRegionProps {
   groupId?: unknown;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7223,6 +7661,8 @@ export interface TextSelectionGestureDetectorProps {
   behavior?: HitTestBehavior | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7257,6 +7697,8 @@ export interface TickerModeProps {
   forceFrames?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7274,6 +7716,8 @@ export interface TitleProps {
   color: Color;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7294,6 +7738,8 @@ export interface TransformProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7314,6 +7760,8 @@ export interface TransformRotateProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7332,6 +7780,8 @@ export interface TransformTranslateProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7354,6 +7804,8 @@ export interface TransformScaleProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7376,6 +7828,8 @@ export interface TransformFlipProps {
   filterQuality?: FilterQuality | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7424,6 +7878,8 @@ export interface TweenAnimationBuilderProps {
   onEnd?: (() => void) | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7490,6 +7946,8 @@ export interface UnconstrainedBoxProps {
   clipBehavior?: Clip;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7510,6 +7968,8 @@ export interface UndoHistoryProps {
   controller?: Handle<"flutter_UndoHistoryController"> | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7525,6 +7985,8 @@ export interface UnmanagedRestorationScopeProps {
   bucket?: Handle<string> | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7541,6 +8003,8 @@ export interface ValueListenableBuilderProps {
   builder: (value: unknown, child: undefined) => JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7558,6 +8022,8 @@ export interface ViewProps {
   deprecatedDoNotUseWillBeRemovedWithoutNoticePipelineOwner?: Handle<string> | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7573,6 +8039,8 @@ export interface ViewAnchorProps {
   view?: JSX.Element | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7648,6 +8116,8 @@ export interface VisibilityProps {
   maintainFocusability?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7664,6 +8134,8 @@ export interface VisibilityMaintainProps {
   visible?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7680,6 +8152,8 @@ export interface WidgetInspectorProps {
   exitWidgetSelectionButtonBuilder?: ((named: { key: undefined; onPressed: undefined; semanticsLabel: string }) => JSX.Element) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -7786,6 +8260,8 @@ export interface WillPopScopeProps {
   onWillPop?: (() => boolean | Promise<boolean>) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**

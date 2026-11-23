@@ -75,9 +75,19 @@ class FuseRuntime {
   }
 
   /// Register a widget type — maps a node type to a Flutter Widget builder.
-  void registerWidget(String type, FuseWidgetBuilder builder, {FuseWidgetMaker? make}) {
+  ///
+  /// With `inFlow: false` the widget draws elsewhere (a route, an overlay):
+  /// it is mounted with its parent but never laid out as one of its
+  /// children, so `<modal>` next to a `<scrollView>` leaves the scroll view
+  /// the only child.
+  void registerWidget(String type, FuseWidgetBuilder builder, {FuseWidgetMaker? make, bool inFlow = true}) {
     _widgetBuilders[type] = builder;
     if (make != null) _widgetMakers[type] = make;
+    if (inFlow) {
+      registry.elsewhere.remove(type);
+    } else {
+      registry.elsewhere.add(type);
+    }
   }
 
   /// Register a handle type — maps a node type to a [FuseHandle] factory.
@@ -290,6 +300,10 @@ class FuseRuntime {
     _connection?.channels?.send('_unbuild', {'root': root});
   }
 
+  /// Stands in for JS in [callFunction] (tests).
+  @visibleForTesting
+  void Function(int nodeId, String name, Object? value)? debugCallFunction;
+
   /// Stands in for JS in [callFunctionSync] and [unbuild] (tests).
   @visibleForTesting
   Object? Function(String channel, Map<String, dynamic> data)? debugCallSync;
@@ -302,6 +316,7 @@ class FuseRuntime {
   /// Call a JS function via the bridge. A [FuseCallArgs] value is spread
   /// into the handler's parameters.
   void callFunction(int nodeId, String name, [dynamic value]) {
+    if (debugCallFunction case final fake?) return fake(nodeId, name, value);
     _connection?.channels?.send('_functionCall', {
       'nodeId': nodeId,
       'name': name,

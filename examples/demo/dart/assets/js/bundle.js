@@ -4248,7 +4248,7 @@
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
 		else try {
-			let n = e instanceof Error ? e : Error(String(e)), r = ce$1(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			let n = e instanceof Error ? e : Error(String(e)), r = ce(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
 			fetch(`${t}/__fuse_error`, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
@@ -4262,7 +4262,7 @@
 			console.error(e);
 		}
 	}
-	function ce$1(e) {
+	function ce(e) {
 		let t = /* @__PURE__ */ new Set([e]), n = e;
 		for (;;) {
 			let e = n.cause;
@@ -4304,7 +4304,7 @@
 		m$1.set(e, t);
 	}
 	var h$1;
-	function de(e) {
+	function de$1(e) {
 		h$1 = e;
 	}
 	globalThis.__dispatchSync = (e, t) => {
@@ -4342,10 +4342,10 @@
 	};
 	var _$1 = globalThis.__fuseHost;
 	if (!_$1) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [he$1, ge] = createSignal(_$1.brightness);
-	f("_brightness", (e) => ge(e.value));
+	var [he, ge$1] = createSignal(_$1.brightness);
+	f("_brightness", (e) => ge$1(e.value));
 	var v$1 = {
-		brightness: he$1,
+		brightness: he,
 		platform: _$1.platform,
 		mode: _$1.mode
 	};
@@ -4414,15 +4414,15 @@
 		let t = V$1("__slot__");
 		return Z$1(t, e), t;
 	}
-	var ve = 0;
+	var ve$1 = 0;
 	var ye = 1;
 	var T$1 = 2;
 	var be = 3;
 	var xe = 4;
-	var Se$1 = 5;
+	var Se = 5;
 	var E$1 = 6;
 	var Ce$1 = 7;
-	var we = 8;
+	var we$1 = 8;
 	var Te = 9;
 	var D$1 = 4;
 	var O$1 = [];
@@ -4440,7 +4440,7 @@
 	var F = /* @__PURE__ */ new Map();
 	var I = [];
 	function L() {
-		let e = k$1, t = R$1();
+		let e = k$1, t = R();
 		if (t === void 0) return;
 		F.set(e, t);
 		let n = () => F.delete(e), [r, i] = t;
@@ -4453,7 +4453,7 @@
 			...i ? { bytes: i } : {}
 		})?.then?.(n, n);
 	}
-	function R$1() {
+	function R() {
 		if (flush(), N = !1, O$1.length === 0) return;
 		if (j !== globalThis.__fuseGeneration) {
 			O$1.length = 0;
@@ -4471,7 +4471,7 @@
 		return t && (I = []), e === void 0 ? void 0 : [e, t];
 	}
 	function De() {
-		let e = k$1, t = R$1(), n = [];
+		let e = k$1, t = R(), n = [];
 		for (let [e, [t, r]] of F) n.push(r ? [
 			e,
 			t,
@@ -4487,7 +4487,7 @@
 			batches: n
 		};
 	}
-	de(De);
+	de$1(De);
 	function z$1() {
 		N || P || (N = !0, Promise.resolve().then(L));
 	}
@@ -4505,7 +4505,7 @@
 	function Ae(e) {
 		e.batch < 0 && (e.batch = k$1, B$1.push(e), O$1.push(Ce$1, e.id, e.shape));
 		let t = y$1;
-		return y$1 += e.size, O$1.push(we, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
+		return y$1 += e.size, O$1.push(we$1, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
 	}
 	function je(e, t) {
 		let n = t.$i, r = new x$1(e.slice(2), t.$t + n);
@@ -4515,7 +4515,7 @@
 	}
 	function V$1(e, t) {
 		let n = new x$1(e), r = {};
-		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = k$1, n.slot = O$1.push(ve, n.id, e, r) - 1, t && H$1(n, t), n;
+		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = k$1, n.slot = O$1.push(ve$1, n.id, e, r) - 1, t && H$1(n, t), n;
 	}
 	function H$1(e, t) {
 		let n;
@@ -4664,7 +4664,7 @@
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (Q(t), A$1(t), O$1.push(Se$1, t.id), z$1());
+			t.parent === e && (Q(t), A$1(t), O$1.push(Se, t.id), z$1());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4739,30 +4739,30 @@
 		(typeof t == "function" || Array.isArray(t)) && nt(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function R(e) {
+	function z(e) {
 		"@babel/helpers - typeof";
-		return R = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return z = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, R(e);
+		}, z(e);
 	}
-	function z(e, t) {
-		if (R(e) != "object" || !e) return e;
+	function B(e, t) {
+		if (z(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (R(r) != "object") return r;
+			if (z(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function B(e) {
-		var t = z(e, "string");
-		return R(t) == "symbol" ? t : t + "";
+	function V(e) {
+		var t = B(e, "string");
+		return z(t) == "symbol" ? t : t + "";
 	}
-	function V(e, t, n) {
-		return (t = B(t)) in e ? Object.defineProperty(e, t, {
+	function H(e, t, n) {
+		return (t = V(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4785,7 +4785,7 @@
 		let e = /* @__PURE__ */ new Map(), n = 0;
 		class r {
 			constructor(r, i) {
-				V(this, "_id", void 0), V(this, "url", void 0), V(this, "readyState", 0), V(this, "protocol", ""), V(this, "binaryType", "blob"), V(this, "bufferedAmount", 0), V(this, "extensions", ""), V(this, "onopen", null), V(this, "onmessage", null), V(this, "onclose", null), V(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p$1("_ws", {
+				H(this, "_id", void 0), H(this, "url", void 0), H(this, "readyState", 0), H(this, "protocol", ""), H(this, "binaryType", "blob"), H(this, "bufferedAmount", 0), H(this, "extensions", ""), H(this, "onopen", null), H(this, "onmessage", null), H(this, "onclose", null), H(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p$1("_ws", {
 					op: "open",
 					id: this._id,
 					url: r,
@@ -4814,7 +4814,7 @@
 				return !0;
 			}
 		}
-		V(r, "CONNECTING", 0), V(r, "OPEN", 1), V(r, "CLOSING", 2), V(r, "CLOSED", 3), f("_wsEvent", (t) => {
+		H(r, "CONNECTING", 0), H(r, "OPEN", 1), H(r, "CLOSING", 2), H(r, "CLOSED", 3), f("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4893,7 +4893,7 @@
 			timeLog: i
 		};
 	}
-	function H(e, t) {
+	function U(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
@@ -4906,23 +4906,23 @@
 			}
 		});
 	}
-	function U(e) {
-		return H(() => e.component, omit(e, "component"));
+	function W(e) {
+		return U(() => e.component, omit(e, "component"));
 	}
-	function W({ child: e, ...t }) {
+	function G({ child: e, ...t }) {
 		return {
 			type: "page",
 			child: e,
 			props: t
 		};
 	}
-	var G = createContext((e) => W({ child: e }));
-	function K() {
-		return getOwner() ? useContext(G) : (e) => W({ child: e });
+	var K = createContext((e) => G({ child: e }));
+	function q() {
+		return getOwner() ? useContext(K) : (e) => G({ child: e });
 	}
-	var q = createContext();
-	function J(e = {}) {
-		let t = 0, n = K(), r = untrack(() => {
+	var J = createContext();
+	function Y(e = {}) {
+		let t = 0, n = q(), r = untrack(() => {
 			let t = e.initialPage;
 			return typeof t == "function" ? n(t) : t;
 		}), [a, o] = createSignal(r ? [{
@@ -4987,14 +4987,14 @@
 			onDidRemovePage: (e) => c(e, null)
 		};
 	}
-	function Y() {
-		let e = useContext(q);
+	function ae() {
+		let e = useContext(J);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function ae(e) {
-		let t = untrack(() => e.controller ?? J({ initialPage: e.initialPage }));
-		return $e(q, {
+	function oe(e) {
+		let t = untrack(() => e.controller ?? Y({ initialPage: e.initialPage }));
+		return $e(J, {
 			value: t,
 			get children() {
 				var e = Ge("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
@@ -5003,7 +5003,7 @@
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => $e(U, Xe({
+					children: (e) => $e(W, Xe({
 						get component() {
 							return e().config.type;
 						},
@@ -5017,7 +5017,7 @@
 			}
 		});
 	}
-	var ce = {
+	var le = {
 		red: "#f44336",
 		blue: "#2196f3",
 		green: "#4caf50",
@@ -5036,7 +5036,7 @@
 		transparent: "#00000000"
 	};
 	var X = (e) => Math.round(Math.min(255, Math.max(0, e))).toString(16).padStart(2, "0");
-	function le(e, t, n) {
+	function ue(e, t, n) {
 		e = (e % 360 + 360) % 360, t = Math.min(1, Math.max(0, t / 100)), n = Math.min(1, Math.max(0, n / 100));
 		let r = (1 - Math.abs(2 * n - 1)) * t, i = r * (1 - Math.abs(e / 60 % 2 - 1)), a = n - r / 2, [o, s, c] = e < 60 ? [
 			r,
@@ -5073,7 +5073,7 @@
 		if (e == null) return;
 		if (typeof e == "string") {
 			if (e.startsWith("#")) return e;
-			let t = ce[e.toLowerCase()];
+			let t = le[e.toLowerCase()];
 			if (t) return t;
 			throw Error(`[solid-fuse] unknown color ${JSON.stringify(e)}`);
 		}
@@ -5081,10 +5081,10 @@
 			e.r,
 			e.g,
 			e.b
-		] : le(e.h, e.s, e.l), i = e.a ?? 1;
+		] : ue(e.h, e.s, e.l), i = e.a ?? 1;
 		return `#${X(t)}${X(n)}${X(r)}${i >= 1 ? "" : X(i * 255)}`;
 	}
-	function ue(e) {
+	function de(e) {
 		var t = Ge("flutter_Icon");
 		return He(() => ({
 			e: e.icon,
@@ -5100,7 +5100,7 @@
 			e !== d?.e && Ye(t, "icon", e, d?.e), n !== d?.t && Ye(t, "size", n, d?.t), r !== d?.a && Ye(t, "color", r, d?.a), i !== d?.o && Ye(t, "semanticLabel", i, d?.o), a !== d?.i && Ye(t, "fill", a, d?.i), o !== d?.n && Ye(t, "weight", o, d?.n), c !== d?.s && Ye(t, "grade", c, d?.s), l !== d?.h && Ye(t, "opticalSize", l, d?.h), u !== d?.r && Ye(t, "applyTextScaling", u, d?.r);
 		}), t;
 	}
-	function he(e) {
+	function ge(e) {
 		let t = untrack(() => e.children);
 		if (typeof t != "function") return (() => {
 			var t = Ge("pressable");
@@ -5118,6 +5118,18 @@
 			focused: s
 		})), d;
 	}
+	function ve(e) {
+		let [t, r] = createSignal(!1);
+		var i = Ge("modal");
+		return it(i, [e, { onRouteLive: r }], !0), Z$1(i, $e(Show, {
+			get when() {
+				return e.open || t();
+			},
+			get children() {
+				return e.children;
+			}
+		})), i;
+	}
 	function $(e, t = {}) {
 		let n = V$1(e, t);
 		z$1();
@@ -5134,7 +5146,7 @@
 			dispose: i
 		};
 	}
-	function Se(e = {}) {
+	function Ce(e = {}) {
 		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
 			...e,
 			setScrollOffset: n
@@ -5150,7 +5162,7 @@
 			dispose: a
 		};
 	}
-	function Ce() {
+	function we() {
 		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
 		return {
 			node: n,
@@ -7622,7 +7634,7 @@
 	* are `materialPage()`s.
 	*/
 	function MaterialApp(props) {
-		return $e(G, {
+		return $e(K, {
 			value: (child) => materialPage({ child }),
 			get children() {
 				return $e(MaterialApp$1, {
@@ -7669,7 +7681,7 @@
 		})() : v;
 	}
 	function icon$1(v, size) {
-		return typeof v === "string" ? $e(ue, {
+		return typeof v === "string" ? $e(de, {
 			icon: v,
 			size
 		}) : v;
@@ -7757,7 +7769,7 @@
 		return Ue(() => {
 			return Ue(() => {
 				return props.icon !== void 0;
-			})() ? $e(U, {
+			})() ? $e(W, {
 				get component() {
 					return withIcon[props.variant ?? "filled"];
 				},
@@ -7776,7 +7788,7 @@
 				get label() {
 					return label$1(props.children) ?? [];
 				}
-			}) : $e(U, {
+			}) : $e(W, {
 				get component() {
 					return plain[props.variant ?? "filled"];
 				},
@@ -7802,7 +7814,7 @@
 		outlined: IconButtonOutlined
 	};
 	function IconButton(props) {
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return iconButtons[props.variant ?? "standard"];
 			},
@@ -7864,7 +7876,7 @@
 				get label() {
 					return label$1(props.label);
 				}
-			}) : $e(U, {
+			}) : $e(W, {
 				get component() {
 					return fabs[props.size ?? "regular"];
 				},
@@ -7997,7 +8009,7 @@
 			});
 			return _el$;
 		})();
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return cards[props.variant ?? "elevated"];
 			},
@@ -8062,7 +8074,7 @@
 		});
 	}
 	function Divider(props) {
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return props.vertical ? VerticalDivider : Divider$1;
 			},
@@ -8187,7 +8199,7 @@
 		});
 	}
 	function ProgressIndicator$1(props) {
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator;
 			},
@@ -8246,80 +8258,72 @@
 		});
 	}
 	// ../../packages/material/src/overlays.tsx
-	var _tpl$1$14 = /*@__PURE__*/ ke(["modal", { "type": "materialDialog" }], 1);
-	var _tpl$2$8 = /*@__PURE__*/ ke(["modal", { "type": "materialBottomSheet" }], 1);
 	/** Material's alert dialog, open while `open` is true. */
 	function Dialog$2(props) {
-		return ((_at$1) => (() => {
-			var _el$ = Ge("h$modal", {
-				$t: _at$1,
-				$i: 0
-			});
-			Z$1(_el$, $e(AlertDialog, {
-				get title() {
-					return label$1(props.title);
-				},
-				get icon() {
-					return icon$1(props.icon);
-				},
-				get content() {
-					return label$1(props.children);
-				},
-				get actions() {
-					return props.actions;
-				},
-				get scrollable() {
-					return props.scrollable;
-				}
-			}));
-			He(() => {
-				return {
-					e: props.open,
-					t: props.onOpenChange,
-					a: props.dismissible
-				};
-			}, ({ e, t, a }, _p$) => {
-				e !== _p$?.e && Ye(_el$, "open", e, _p$?.e);
-				t !== _p$?.t && Ye(_el$, "onOpenChange", t, _p$?.t);
-				a !== _p$?.a && Ye(_el$, "dismissible", a, _p$?.a);
-			});
-			return _el$;
-		})())(Ae(_tpl$1$14));
+		return $e(ve, {
+			type: "materialDialog",
+			get open() {
+				return props.open;
+			},
+			get onOpenChange() {
+				return props.onOpenChange;
+			},
+			get dismissible() {
+				return props.dismissible;
+			},
+			get children() {
+				return $e(AlertDialog, {
+					get title() {
+						return label$1(props.title);
+					},
+					get icon() {
+						return icon$1(props.icon);
+					},
+					get content() {
+						return label$1(props.children);
+					},
+					get actions() {
+						return props.actions;
+					},
+					get scrollable() {
+						return props.scrollable;
+					}
+				});
+			}
+		});
 	}
 	/** A modal sheet from the bottom, open while `open` is true. */
 	function BottomSheet(props) {
-		return ((_at$2) => (() => {
-			var _el$2 = Ge("h$modal", {
-				$t: _at$2,
-				$i: 0
-			});
-			Z$1(_el$2, () => {
+		return $e(ve, {
+			type: "materialBottomSheet",
+			get open() {
+				return props.open;
+			},
+			get onOpenChange() {
+				return props.onOpenChange;
+			},
+			get dismissible() {
+				return props.dismissible;
+			},
+			get enableDrag() {
+				return props.enableDrag;
+			},
+			get showDragHandle() {
+				return props.showDragHandle;
+			},
+			get scrollControlled() {
+				return props.fullHeight;
+			},
+			get backgroundColor() {
+				return props.backgroundColor;
+			},
+			get children() {
 				return props.children;
-			});
-			He(() => {
-				return {
-					e: props.open,
-					t: props.onOpenChange,
-					a: props.dismissible,
-					o: props.enableDrag,
-					i: props.showDragHandle,
-					n: props.fullHeight,
-					s: props.backgroundColor
-				};
-			}, ({ e, t, a, o, i, n, s }, _p$) => {
-				e !== _p$?.e && Ye(_el$2, "open", e, _p$?.e);
-				t !== _p$?.t && Ye(_el$2, "onOpenChange", t, _p$?.t);
-				a !== _p$?.a && Ye(_el$2, "dismissible", a, _p$?.a);
-				o !== _p$?.o && Ye(_el$2, "enableDrag", o, _p$?.o);
-				i !== _p$?.i && Ye(_el$2, "showDragHandle", i, _p$?.i);
-				n !== _p$?.n && Ye(_el$2, "scrollControlled", n, _p$?.n);
-				s !== _p$?.s && Ye(_el$2, "backgroundColor", s, _p$?.s);
-			});
-			return _el$2;
-		})())(Ae(_tpl$2$8));
+			}
+		});
 	}
 	// src/ui.tsx
-	var _tpl$1$13 = /*@__PURE__*/ ke([
+	var _tpl$1$12 = /*@__PURE__*/ ke([
 		"gestureDetector",
 		0,
 		[
@@ -8340,7 +8344,7 @@
 			}]
 		]
 	], 3);
-	var _tpl$2$7 = /*@__PURE__*/ ke([
+	var _tpl$2$6 = /*@__PURE__*/ ke([
 		"gestureDetector",
 		0,
 		[
@@ -8378,7 +8382,7 @@
 				Ye(_el$, "onTap", _v$, _$p);
 			});
 			return _el$;
-		})())(Ae(_tpl$1$13));
+		})())(Ae(_tpl$1$12));
 	}
 	function Row(props) {
 		var _el$4 = Ge("view");
@@ -8417,10 +8421,10 @@
 				Ye(_el$5, "onTap", _v$, _$p);
 			});
 			return _el$5;
-		})())(Ae(_tpl$2$7));
+		})())(Ae(_tpl$2$6));
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$12 = /*@__PURE__*/ ke([
+	var _tpl$1$11 = /*@__PURE__*/ ke([
 		"view",
 		{
 			"flex": {
@@ -8565,10 +8569,10 @@
 			tt(_el$3, _el$5);
 			tt(_el$3, _el$6);
 			return _el$;
-		})())(Ae(_tpl$1$12));
+		})())(Ae(_tpl$1$11));
 	}
 	// src/screens/text-field.tsx
-	var _tpl$1$11 = /*@__PURE__*/ ke([
+	var _tpl$1$10 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -8696,10 +8700,10 @@
 		["view", { "padding": 16 }]
 	], 30);
 	function TextFieldScreen() {
-		const nav = Y();
+		const nav = ae();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = Ce();
+		const focus = we();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -8841,10 +8845,10 @@
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$11));
+		})())(Ae(_tpl$1$10));
 	}
 	// src/screens/icon.tsx
-	var _tpl$1$10 = /*@__PURE__*/ ke([
+	var _tpl$1$9 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -8964,7 +8968,7 @@
 		["view", { "padding": 16 }]
 	], 25);
 	function IconScreen() {
-		const nav = Y();
+		const nav = ae();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
@@ -9030,38 +9034,38 @@
 			tt(_el$2, _el$5);
 			tt(_el$2, _el$11);
 			tt(_el$3, _el$4);
-			Z$1(_el$4, $e(ue, {
+			Z$1(_el$4, $e(de, {
 				get icon() {
 					return search;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(ue, {
+			Z$1(_el$4, $e(de, {
 				get icon() {
 					return lock;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(ue, {
+			Z$1(_el$4, $e(de, {
 				get icon() {
 					return home;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(ue, {
+			Z$1(_el$4, $e(de, {
 				get icon() {
 					return settings;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(ue, {
+			Z$1(_el$4, $e(de, {
 				get icon() {
 					return favorite;
 				},
 				size: 32,
 				color: "#EF4444"
 			}), null);
-			Z$1(_el$4, $e(ue, {
+			Z$1(_el$4, $e(de, {
 				get icon() {
 					return star;
 				},
@@ -9071,7 +9075,7 @@
 			tt(_el$5, _el$6);
 			tt(_el$5, _el$7);
 			tt(_el$7, _el$8);
-			Z$1(_el$7, $e(ue, {
+			Z$1(_el$7, $e(de, {
 				get icon() {
 					return favorite;
 				},
@@ -9120,7 +9124,7 @@
 			} }), null);
 			tt(_el$11, _el$12);
 			tt(_el$12, _el$13);
-			Z$1(_el$12, $e(ue, {
+			Z$1(_el$12, $e(de, {
 				get icon() {
 					return info$1;
 				},
@@ -9132,10 +9136,10 @@
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$10));
+		})())(Ae(_tpl$1$9));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$9 = /*@__PURE__*/ ke([
+	var _tpl$1$8 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -9203,7 +9207,7 @@
 		}],
 		["view", { "padding": 16 }]
 	], 12);
-	var _tpl$2$6 = /*@__PURE__*/ ke([
+	var _tpl$2$5 = /*@__PURE__*/ ke([
 		"view",
 		{ "padding": 16 },
 		[
@@ -9213,8 +9217,8 @@
 		]
 	], 3);
 	function ScrollScreen() {
-		const nav = Y();
-		const scroll = Se({ initialScrollOffset: 120 });
+		const nav = ae();
+		const scroll = Ce({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -9284,24 +9288,24 @@
 					tt(_el$8, _el$9);
 					Z$1(_el$8, i, null);
 					return _el$7;
-				})())(Ae(_tpl$2$6)));
+				})())(Ae(_tpl$2$5)));
 			});
 			Z$1(_el$10, $e(Button$2, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$9));
+		})())(Ae(_tpl$1$8));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$8 = /*@__PURE__*/ ke(["view", {
+	var _tpl$1$7 = /*@__PURE__*/ ke(["view", {
 		"flex": {
 			"direction": "vertical",
 			"gap": 12
 		},
 		"padding": 24
 	}], 1);
-	var _tpl$2$5 = /*@__PURE__*/ ke([
+	var _tpl$2$4 = /*@__PURE__*/ ke([
 		"view",
 		{ "height": 40 },
 		["text", { "fontSize": 16 }]
@@ -9351,13 +9355,13 @@
 					tt(_el$2, _el$3);
 					Z$1(_el$3, row);
 					return _el$2;
-				})())(Ae(_tpl$2$5))
+				})())(Ae(_tpl$2$4))
 			}), null);
 			return _el$;
-		})())(Ae(_tpl$1$8));
+		})())(Ae(_tpl$1$7));
 	}
 	// src/screens/builder.tsx
-	var _tpl$1$7 = /*@__PURE__*/ ke([
+	var _tpl$1$6 = /*@__PURE__*/ ke([
 		"view",
 		{ "flex": {
 			"direction": "vertical",
@@ -9389,7 +9393,7 @@
 		],
 		["view", { "grow": 1 }]
 	], 7);
-	var _tpl$2$4 = /*@__PURE__*/ ke([
+	var _tpl$2$3 = /*@__PURE__*/ ke([
 		"gestureDetector",
 		0,
 		[
@@ -9466,13 +9470,13 @@
 						Ye(_el$7, "decoration", _v$, _$p);
 					});
 					return _el$6;
-				})())(Ae(_tpl$2$4))
+				})())(Ae(_tpl$2$3))
 			}));
 			return _el$;
-		})())(Ae(_tpl$1$7));
+		})())(Ae(_tpl$1$6));
 	}
 	// src/screens/core.tsx
-	var _tpl$1$6 = /*@__PURE__*/ ke([
+	var _tpl$1$5 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
 			"flex": {
@@ -9490,7 +9494,7 @@
 			"core widgets"
 		]
 	], 3);
-	var _tpl$2$3 = /*@__PURE__*/ ke([
+	var _tpl$2$2 = /*@__PURE__*/ ke([
 		"view",
 		{ "padding": {
 			"horizontal": 16,
@@ -9514,34 +9518,30 @@
 	], 2);
 	var _tpl$4 = /*@__PURE__*/ ke(["text", { "color": "#6B7280" }], 1);
 	var _tpl$5 = /*@__PURE__*/ ke([
-		"modal",
-		0,
-		[
-			"view",
-			{
-				"padding": 24,
-				"width": 280,
-				"decoration": {
-					"color": "white",
-					"borderRadius": 16
-				},
-				"flex": { "gap": 16 }
+		"view",
+		{
+			"padding": 24,
+			"width": 280,
+			"decoration": {
+				"color": "white",
+				"borderRadius": 16
 			},
-			[
-				"text",
-				{
-					"fontSize": 18,
-					"fontWeight": "bold"
-				},
-				"Core dialog"
-			],
-			[
-				"text",
-				0,
-				"No design: the content brings its own surface."
-			]
+			"flex": { "gap": 16 }
+		},
+		[
+			"text",
+			{
+				"fontSize": 18,
+				"fontWeight": "bold"
+			},
+			"Core dialog"
+		],
+		[
+			"text",
+			0,
+			"No design: the content brings its own surface."
 		]
-	], 6);
+	], 5);
 	var _tpl$6 = /*@__PURE__*/ ke(["view", {
 		"width": 160,
 		"decoration": {
@@ -9639,7 +9639,7 @@
 			Z$1(_el$, $e(Section, {
 				title: "Pressable",
 				get children() {
-					return $e(he, {
+					return $e(ge, {
 						onPress: () => setPresses((n) => n + 1),
 						semanticLabel: "Press me",
 						children: (state) => ((_at$2) => (() => {
@@ -9662,7 +9662,7 @@
 								Ye(_el$4, "decoration", _v$, _$p);
 							});
 							return _el$4;
-						})())(Ae(_tpl$2$3))
+						})())(Ae(_tpl$2$2))
 					});
 				}
 			}), null);
@@ -9717,37 +9717,34 @@
 							onTap: () => setOpen(true),
 							children: "open dialog"
 						});
-					} }), Ue(() => {
-						return ((_at$5) => (() => {
-							var _el$9 = Ge("h$modal", {
-								$t: _at$5,
-								$i: 0,
-								onOpenChange: setOpen
-							});
-							var _el$10 = Ge("h$view", {
-								$t: _at$5,
-								$i: 1
-							});
-							var _el$11 = Ge("h$text", {
-								$t: _at$5,
-								$i: 2
-							});
-							var _el$12 = Ge("h$text", {
-								$t: _at$5,
-								$i: 4
-							});
-							tt(_el$9, _el$10);
-							tt(_el$10, _el$11);
-							tt(_el$10, _el$12);
-							Z$1(_el$10, $e(Button$2, {
-								onTap: () => setOpen(false),
-								children: "close"
-							}), null);
-							He(() => open(), (_v$, _$p) => {
-								Ye(_el$9, "open", _v$, _$p);
-							});
-							return _el$9;
-						})())(Ae(_tpl$5));
+					} }), $e(ve, {
+						get open() {
+							return open();
+						},
+						onOpenChange: setOpen,
+						get children() {
+							return ((_at$5) => (() => {
+								var _el$9 = Ge("h$view", {
+									$t: _at$5,
+									$i: 0
+								});
+								var _el$10 = Ge("h$text", {
+									$t: _at$5,
+									$i: 1
+								});
+								var _el$11 = Ge("h$text", {
+									$t: _at$5,
+									$i: 3
+								});
+								tt(_el$9, _el$10);
+								tt(_el$9, _el$11);
+								Z$1(_el$9, $e(Button$2, {
+									onTap: () => setOpen(false),
+									children: "close"
+								}), null);
+								return _el$9;
+							})())(Ae(_tpl$5));
+						}
 					})];
 				}
 			}), null);
@@ -9765,36 +9762,36 @@
 						return {
 							e: menu(),
 							t: ((_at$6) => (() => {
-								var _el$13 = Ge("h$view", {
+								var _el$12 = Ge("h$view", {
 									$t: _at$6,
 									$i: 0
 								});
-								Z$1(_el$13, $e(For, {
+								Z$1(_el$12, $e(For, {
 									each: [
 										"apple",
 										"banana",
 										"cherry"
 									],
-									children: (f) => $e(he, {
+									children: (f) => $e(ge, {
 										onPress: () => (setFruit(f), setMenu(false)),
 										get children() {
 											return ((_at$7) => (() => {
-												var _el$14 = Ge("h$view", {
+												var _el$13 = Ge("h$view", {
 													$t: _at$7,
 													$i: 0
 												});
-												var _el$15 = Ge("h$text", {
+												var _el$14 = Ge("h$text", {
 													$t: _at$7,
 													$i: 1
 												});
-												tt(_el$14, _el$15);
-												Z$1(_el$15, f);
-												return _el$14;
+												tt(_el$13, _el$14);
+												Z$1(_el$14, f);
+												return _el$13;
 											})())(Ae(_tpl$7));
 										}
 									})
 								}));
-								return _el$13;
+								return _el$12;
 							})())(Ae(_tpl$6))
 						};
 					}, ({ e, t }, _p$) => {
@@ -9809,27 +9806,27 @@
 				get children() {
 					return [Ue(() => {
 						return ((_at$8) => (() => {
-							var _el$16 = Ge("h$radioGroup", {
+							var _el$15 = Ge("h$radioGroup", {
 								$t: _at$8,
 								$i: 0,
 								onChange: setSize
 							});
-							var _el$17 = Ge("h$text", {
+							var _el$16 = Ge("h$text", {
 								$t: _at$8,
 								$i: 1
 							});
-							tt(_el$16, _el$17);
-							Z$1(_el$17, () => {
+							tt(_el$15, _el$16);
+							Z$1(_el$16, () => {
 								return `size = ${size()}`;
 							});
 							He(() => size(), (_v$, _$p) => {
-								Ye(_el$16, "value", _v$, _$p);
+								Ye(_el$15, "value", _v$, _$p);
 							});
-							return _el$16;
+							return _el$15;
 						})())(Ae(_tpl$8));
 					}), Ue(() => {
 						return ((_at$9) => (() => {
-							var _el$18 = Ge("h$tooltip", {
+							var _el$17 = Ge("h$tooltip", {
 								$t: _at$9,
 								$i: 0
 							});
@@ -9837,9 +9834,9 @@
 								$t: _at$10,
 								$i: 0
 							}))(Ae(_tpl$10)), (_v$, _$p) => {
-								Ye(_el$18, "content", _v$, _$p);
+								Ye(_el$17, "content", _v$, _$p);
 							});
-							return _el$18;
+							return _el$17;
 						})())(Ae(_tpl$9));
 					})];
 				}
@@ -9848,7 +9845,7 @@
 				title: "Expandable",
 				get children() {
 					return ((_at$11) => (() => {
-						var _el$20 = Ge("h$expandable", {
+						var _el$19 = Ge("h$expandable", {
 							$t: _at$11,
 							$i: 0
 						});
@@ -9856,37 +9853,37 @@
 							$t: _at$12,
 							$i: 0
 						}))(Ae(_tpl$12)), (_v$, _$p) => {
-							Ye(_el$20, "header", _v$, _$p);
+							Ye(_el$19, "header", _v$, _$p);
 						});
-						return _el$20;
+						return _el$19;
 					})())(Ae(_tpl$11));
 				}
 			}), null);
 			return _el$;
-		})())(Ae(_tpl$1$6));
+		})())(Ae(_tpl$1$5));
 	}
 	function Section(props) {
 		return ((_at$13) => (() => {
-			var _el$22 = Ge("h$view", {
+			var _el$21 = Ge("h$view", {
 				$t: _at$13,
 				$i: 0
 			});
-			var _el$23 = Ge("h$text", {
+			var _el$22 = Ge("h$text", {
 				$t: _at$13,
 				$i: 1
 			});
-			tt(_el$22, _el$23);
-			Z$1(_el$23, () => {
+			tt(_el$21, _el$22);
+			Z$1(_el$22, () => {
 				return props.title;
 			});
-			Z$1(_el$22, () => {
+			Z$1(_el$21, () => {
 				return props.children;
 			}, null);
-			return _el$22;
+			return _el$21;
 		})())(Ae(_tpl$13));
 	}
 	// src/screens/material.tsx
-	var _tpl$1$5 = /*@__PURE__*/ ke([
+	var _tpl$1$4 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
 			"flex": {
@@ -9940,7 +9937,7 @@
 			"gap": 8
 		} }]
 	], 14);
-	var _tpl$2$2 = /*@__PURE__*/ ke([
+	var _tpl$2$1 = /*@__PURE__*/ ke([
 		"text",
 		0,
 		"An outlined card. Tap it."
@@ -9955,7 +9952,7 @@
 		]
 	], 3);
 	function MaterialScreen() {
-		const nav = Y();
+		const nav = ae();
 		const [on, setOn] = createSignal(true);
 		const [checked, setChecked] = createSignal(false);
 		const [volume, setVolume] = createSignal(.4);
@@ -10198,7 +10195,7 @@
 							return ((_at$2) => Ge("h$text", {
 								$t: _at$2,
 								$i: 0
-							}))(Ae(_tpl$2$2));
+							}))(Ae(_tpl$2$1));
 						}
 					}), null);
 					Z$1(_el$, $e(ListTile$1, {
@@ -10262,7 +10259,7 @@
 						Ye(_el$7, "value", _v$, _$p);
 					});
 					return _el$;
-				})())(Ae(_tpl$1$5));
+				})())(Ae(_tpl$1$4));
 			}
 		});
 	}
@@ -10483,7 +10480,7 @@
 		})() : v;
 	}
 	function icon(v, size) {
-		return typeof v === "string" ? $e(ue, {
+		return typeof v === "string" ? $e(de, {
 			icon: v,
 			size
 		}) : v;
@@ -10507,7 +10504,7 @@
 		});
 	}
 	function NavigationBar(props) {
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
 			},
@@ -10536,7 +10533,7 @@
 		});
 	}
 	// ../../packages/cupertino/src/controls.tsx
-	var _tpl$1$4 = /*@__PURE__*/ ke(["view", { "flex": {
+	var _tpl$1$3 = /*@__PURE__*/ ke(["view", { "flex": {
 		"direction": "horizontal",
 		"gap": 6,
 		"align": "center"
@@ -10548,7 +10545,7 @@
 	};
 	/** iOS buttons, one component: pick the look with `variant`. */
 	function Button$1(props) {
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return buttons[props.variant ?? "plain"];
 			},
@@ -10589,7 +10586,7 @@
 								return label(props.children);
 							}, null);
 							return _el$;
-						})())(Ae(_tpl$1$4));
+						})())(Ae(_tpl$1$3));
 					}
 				});
 			}
@@ -10719,7 +10716,7 @@
 	}
 	// ../../packages/cupertino/src/list.tsx
 	function ListSection(props) {
-		return $e(U, {
+		return $e(W, {
 			get component() {
 				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
 			},
@@ -10781,43 +10778,37 @@
 		return _el$;
 	}
 	// ../../packages/cupertino/src/overlays.tsx
-	var _tpl$1$3 = /*@__PURE__*/ ke(["modal", { "type": "cupertinoDialog" }], 1);
-	var _tpl$2$1 = /*@__PURE__*/ ke(["modal", { "type": "cupertinoActionSheet" }], 1);
 	/** iOS alert, open while `open` is true. */
 	function Dialog$1(props) {
-		return ((_at$1) => (() => {
-			var _el$ = Ge("h$modal", {
-				$t: _at$1,
-				$i: 0
-			});
-			Z$1(_el$, $e(CupertinoAlertDialog, {
-				get title() {
-					return label(props.title);
-				},
-				get content() {
-					return label(props.children);
-				},
-				get actions() {
-					return props.actions;
-				}
-			}));
-			He(() => {
-				return {
-					e: props.open,
-					t: props.onOpenChange,
-					a: props.dismissible
-				};
-			}, ({ e, t, a }, _p$) => {
-				e !== _p$?.e && Ye(_el$, "open", e, _p$?.e);
-				t !== _p$?.t && Ye(_el$, "onOpenChange", t, _p$?.t);
-				a !== _p$?.a && Ye(_el$, "dismissible", a, _p$?.a);
-			});
-			return _el$;
-		})())(Ae(_tpl$1$3));
+		return $e(ve, {
+			type: "cupertinoDialog",
+			get open() {
+				return props.open;
+			},
+			get onOpenChange() {
+				return props.onOpenChange;
+			},
+			get dismissible() {
+				return props.dismissible;
+			},
+			get children() {
+				return $e(CupertinoAlertDialog, {
+					get title() {
+						return label(props.title);
+					},
+					get content() {
+						return label(props.children);
+					},
+					get actions() {
+						return props.actions;
+					}
+				});
+			}
+		});
 	}
 	function DialogAction(props) {
-		var _el$2 = Ge("cupertino_ui_CupertinoDialogAction");
-		Z$1(_el$2, () => {
+		var _el$ = Ge("cupertino_ui_CupertinoDialogAction");
+		Z$1(_el$, () => {
 			return label(props.children);
 		});
 		He(() => {
@@ -10827,48 +10818,43 @@
 				a: props.destructive
 			};
 		}, ({ e, t, a }, _p$) => {
-			e !== _p$?.e && Ye(_el$2, "onPressed", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$2, "isDefaultAction", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$2, "isDestructiveAction", a, _p$?.a);
+			e !== _p$?.e && Ye(_el$, "onPressed", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$, "isDefaultAction", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$, "isDestructiveAction", a, _p$?.a);
 		});
-		return _el$2;
+		return _el$;
 	}
 	/** iOS action sheet, sliding up while `open` is true. */
 	function ActionSheet(props) {
-		return ((_at$2) => (() => {
-			var _el$3 = Ge("h$modal", {
-				$t: _at$2,
-				$i: 0
-			});
-			Z$1(_el$3, $e(CupertinoActionSheet, {
-				get title() {
-					return label(props.title);
-				},
-				get message() {
-					return label(props.message);
-				},
-				get actions() {
-					return props.children;
-				},
-				get cancelButton() {
-					return props.cancel;
-				}
-			}));
-			He(() => {
-				return {
-					e: props.open,
-					t: props.onOpenChange
-				};
-			}, ({ e, t }, _p$) => {
-				e !== _p$?.e && Ye(_el$3, "open", e, _p$?.e);
-				t !== _p$?.t && Ye(_el$3, "onOpenChange", t, _p$?.t);
-			});
-			return _el$3;
-		})())(Ae(_tpl$2$1));
+		return $e(ve, {
+			type: "cupertinoActionSheet",
+			get open() {
+				return props.open;
+			},
+			get onOpenChange() {
+				return props.onOpenChange;
+			},
+			get children() {
+				return $e(CupertinoActionSheet, {
+					get title() {
+						return label(props.title);
+					},
+					get message() {
+						return label(props.message);
+					},
+					get actions() {
+						return props.children;
+					},
+					get cancelButton() {
+						return props.cancel;
+					}
+				});
+			}
+		});
 	}
 	function ActionSheetAction(props) {
-		var _el$4 = Ge("cupertino_ui_CupertinoActionSheetAction");
-		Z$1(_el$4, () => {
+		var _el$2 = Ge("cupertino_ui_CupertinoActionSheetAction");
+		Z$1(_el$2, () => {
 			return label(props.children);
 		});
 		He(() => {
@@ -10878,11 +10864,11 @@
 				a: props.destructive
 			};
 		}, ({ e, t, a }, _p$) => {
-			e !== _p$?.e && Ye(_el$4, "onPressed", e, _p$?.e);
-			t !== _p$?.t && Ye(_el$4, "isDefaultAction", t, _p$?.t);
-			a !== _p$?.a && Ye(_el$4, "isDestructiveAction", a, _p$?.a);
+			e !== _p$?.e && Ye(_el$2, "onPressed", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$2, "isDefaultAction", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$2, "isDestructiveAction", a, _p$?.a);
 		});
-		return _el$4;
+		return _el$2;
 	}
 	// src/screens/cupertino.tsx
 	var _tpl$1$2 = /*@__PURE__*/ ke([
@@ -11457,7 +11443,7 @@
 		]
 	], 6);
 	function HomeScreen() {
-		const nav = Y();
+		const nav = ae();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -11516,7 +11502,7 @@
 		theme: { seedColor: "#2563eb" },
 		themeMode: "light",
 		get children() {
-			return $e(ae, { initialPage: () => $e(HomeScreen, {}) });
+			return $e(oe, { initialPage: () => $e(HomeScreen, {}) });
 		}
 	});
 	et(App);

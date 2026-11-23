@@ -124,7 +124,7 @@ import { ScrollView, Text, View } from "solid-fuse";
 
 ## Flex
 
-Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `Row` and `Column` components, Fuse uses `flex` as a universal layout config.
+Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `Row` and `Column` components, Fuse uses `flex` as a universal layout config. That includes generated widgets with a single `child` (`Card`, `Padding`, `DecoratedBox`...). A `<Modal>` among the children takes no part in the layout.
 
 ```tsx
 {/* Horizontal row with spacing */}

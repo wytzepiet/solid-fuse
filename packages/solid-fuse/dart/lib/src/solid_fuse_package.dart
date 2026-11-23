@@ -33,7 +33,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('scrollView', FuseScrollView.new);
   runtime.registerWidget('stack', FuseStack.new);
   runtime.registerWidget('positioned', FusePositioned.new);
-  runtime.registerWidget('modal', FuseModal.new);
+  runtime.registerWidget('modal', FuseModal.new, inFlow: false);
   runtime.registerWidget('radioGroup', FuseRadioGroup.new);
   runtime.registerWidget('tooltip', FuseTooltip.new);
   runtime.registerWidget('menu', FuseMenu.new);

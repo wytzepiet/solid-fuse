@@ -114,6 +114,8 @@ The design packages' `TextField`s take the same props.
 
 A dialog, sheet or popup, shown while `open` is true. When the user dismisses it (barrier tap, back button, a drag), `onOpenChange(false)` is called. `type` picks the route: core has `"dialog"`, which has no surface, so the content brings one. The design packages add their own (`"materialDialog"`, `"materialBottomSheet"`, `"cupertinoDialog"`, `"cupertinoActionSheet"`) and wrap them in components like `<Dialog>`.
 
+As with Flutter's `showDialog(builder: ...)`, the content exists only while it is shown: it is made when `open` turns true and let go once the route has finished closing. The modal takes no part in its parent's layout, so it can sit anywhere, next to a `ScrollView` too.
+
 ```tsx
 const [open, setOpen] = createSignal(false);
 

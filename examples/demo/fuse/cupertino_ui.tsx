@@ -2,7 +2,7 @@
 // Manifest fingerprint: 7cf2d83772e4c17d
 /* eslint-disable */
 import { $handle, $handleType, $slot, $slots } from "solid-fuse/generated";
-import type { Handle } from "solid-fuse";
+import type { Handle, FlexInput } from "solid-fuse";
 import type { AlignmentGeometry, Animation, AnimationStatus, AutovalidateMode, BackButtonDispatcher, Border, BorderRadius, BorderRadiusGeometry, BorderSide, BottomNavigationBarItem, BoxConstraints, BoxDecoration, BoxHeightStyle, BoxShadow, BoxWidthStyle, Brightness, ChangeReportingBehavior, Clip, ClipboardStatus, Color, ContentInsertionConfiguration, ContextMenuButtonItem, CrossAxisAlignment, Curve, DateTime, DateTimeOut, DragStartBehavior, Duration, DurationOut, EdgeInsets, EdgeInsetsDirectional, EdgeInsetsGeometry, HitTestBehavior, IconData, ImageProviderOfObject, Intent, Locale, LocaleOut, LocalizationsDelegateOfdynamic, MaxLengthEnforcement, MenuController, MouseCursor, NavigationNotificationOut, NavigatorObserver, Offset, OffsetOut, OutlinedBorder, PointerDownEventOut, RadioGroupRegistryOfObjectN, Radius, RouteSettingsOut, RouterConfigOfObject, ScrollBehavior, ScrollNotificationOut, ScrollPhysics, ScrollbarOrientation, SelectionGeometry, ShortcutActivator, Size, SmartDashesType, SmartQuotesType, SpellCheckConfiguration, StrutStyle, TextAlign, TextAlignVertical, TextCapitalization, TextDirection, TextInputAction, TextInputFormatter, TextInputType, TextMagnifierConfiguration, TextSelectionControls, TextSelectionToolbarAnchors, TextStyle, ToolbarOptions, WidgetStatePropertyOfBoxDecoration, WidgetStatePropertyOfColorN, WidgetStatePropertyOfIconN, WidgetStatePropertyOfMouseCursor, WidgetStatePropertyOfdoubleN } from "./flutter";
 import type { ThemeData } from "./material_ui";
 import "./flutter";
@@ -37,6 +37,8 @@ export interface CupertinoActionSheetActionProps {
   focusColor?: Color | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -285,6 +287,8 @@ export interface CupertinoButtonProps {
   onPressed?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -320,6 +324,8 @@ export interface CupertinoButtonTintedProps {
   onPressed?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -355,6 +361,8 @@ export interface CupertinoButtonFilledProps {
   onPressed?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -402,6 +410,8 @@ export interface CupertinoContextMenuProps {
   enableHapticFeedback?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -438,6 +448,8 @@ export interface CupertinoContextMenuActionProps {
   trailingIcon?: IconData | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -505,6 +517,8 @@ export interface CupertinoDesktopTextSelectionToolbarButtonProps {
   onPressed?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -553,6 +567,8 @@ export interface CupertinoDialogActionProps {
   mouseCursor?: MouseCursor | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -571,6 +587,8 @@ export interface CupertinoExpansionTileProps {
   transitionMode?: ExpansionTileTransitionMode;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -585,6 +603,8 @@ export interface CupertinoFocusHaloWithRectProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -600,6 +620,8 @@ export interface CupertinoFocusHaloWithRRectProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -615,6 +637,8 @@ export interface CupertinoFocusHaloWithRoundedSuperellipseProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -633,6 +657,8 @@ export interface CupertinoFormRowProps {
   error?: JSX.Element | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -692,6 +718,8 @@ export interface CupertinoFullscreenDialogTransitionProps {
   linearTransition: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -882,6 +910,8 @@ export interface CupertinoMenuAnchorProps {
   childFocusNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   /** Dart: `child`. */
   children?: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -934,6 +964,8 @@ export interface CupertinoMenuItemProps {
   isDestructiveAction?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1031,6 +1063,8 @@ export interface CupertinoPageScaffoldProps {
   resizeToAvoidBottomInset?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1046,6 +1080,8 @@ export interface CupertinoPageScaffoldBackgroundColorProps {
   key?: string | number | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1063,6 +1099,8 @@ export interface CupertinoPageTransitionProps {
   linearTransition: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1162,6 +1200,8 @@ export interface CupertinoPopupSurfaceProps {
   isSurfacePainted?: boolean;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1219,6 +1259,8 @@ export interface CupertinoScrollbarProps {
   mainAxisMargin?: number;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1314,6 +1356,8 @@ export interface CupertinoSheetTransitionProps {
   topGap?: number;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1922,6 +1966,8 @@ export interface CupertinoTextSelectionToolbarButtonProps {
   onPressed?: (() => void) | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -1964,6 +2010,8 @@ export interface CupertinoThemeProps {
   data: CupertinoThemeData;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2006,6 +2054,8 @@ export interface CupertinoUiCompatibilityBridgeProps {
   delegates?: LocalizationsDelegateOfdynamic[] | null;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2022,6 +2072,8 @@ export interface CupertinoUserInterfaceLevelProps {
   data: CupertinoUserInterfaceLevelData;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**
@@ -2037,6 +2089,8 @@ export interface InheritedCupertinoThemeProps {
   theme: JSX.Element;
   /** Dart: `child`. */
   children: JSX.Element;
+  /** How several children lay out (a column by default), as on `View`. */
+  flex?: FlexInput;
 }
 
 /**

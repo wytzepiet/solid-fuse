@@ -64,6 +64,8 @@ import { Padding, Text, EdgeInsets } from "#fuse/flutter";
 </Padding>;
 ```
 
+A widget with one `child` takes several children too, laid out like a `View`'s: a column, or what its `flex` prop says (`<Card flex={{ direction: "horizontal", gap: 8 }}>`). A widget that has a `flex` parameter of its own (`Expanded`, `Flexible`) keeps Flutter's meaning.
+
 Some parameters are never props, because Dart supplies them: a `TickerProvider` (`vsync`) gets one from the runtime, and a `BuildContext` (`MediaQuery.removePadding`'s `context`) is the context the widget is built in.
 
 A generic widget is instantiated at its type parameter's bound, `Object?` when it has none, and so is everything generic over that parameter. `DropdownMenu<T>`'s entries take any value:

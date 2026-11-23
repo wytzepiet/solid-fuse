@@ -75,6 +75,7 @@ class Module {
   usesHandle = false;
   usesHandleType = false;
   usesSlot = false;
+  usesFlex = false;
   /** Modules loaded for what they register (a handle type that arrives from Dart). */
   readonly loads = new Set<string>();
   usesBuild = false;
@@ -528,6 +529,13 @@ export function emitTs(m: Manifest): TsOutput {
       const required = mustSupply(childParam) && !w.children!.many;
       const doc = `Dart: \`${childParam.name}\`.`;
       fields.push(`${jsdoc("  ", doc)}  children${required ? "" : "?"}: JSX.Element;`);
+      // Several children in a single `child` slot are laid out like a
+      // View's (a column by default); `flex` says how. Not where the widget
+      // has a `flex` of its own (Expanded, Flexible).
+      if (!w.children!.many && !w.params.some((p) => p.name === "flex")) {
+        module.usesFlex = true;
+        fields.push(`  /** How several children lay out (a column by default), as on \`View\`. */\n  flex?: FlexInput;`);
+      }
     }
     const tag = tagOf(w);
     // Named widget slots (`appBar`, `actions`) hold whatever JSX gave: a
@@ -703,7 +711,8 @@ export function emitTs(m: Manifest): TsOutput {
     const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : []), ...(module.usesSlot ? ["$slot", "$slots"] : [])];
     if (fromFuse.length) head.push(`import { ${fromFuse.join(", ")} } from "solid-fuse/generated";`);
     if (module.usesConst) head.push('import type { Const } from "solid-fuse/generated";');
-    if (module.usesHandle) head.push('import type { Handle } from "solid-fuse";');
+    const fromCore = [...(module.usesHandle ? ["Handle"] : []), ...(module.usesFlex ? ["FlexInput"] : [])];
+    if (fromCore.length) head.push(`import type { ${fromCore.join(", ")} } from "solid-fuse";`);
     // Owner modules sit one directory down.
     const up = module.name.includes("/") ? "../" : "./";
     for (const [other, names] of [...module.typeImports].sort()) {

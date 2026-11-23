@@ -1,3 +1,4 @@
+import { Show, createSignal } from "solid-js";
 import type { AlignmentString, ColorInput } from "../types";
 
 export interface ModalProps {
@@ -26,7 +27,18 @@ export interface ModalProps {
 /**
  * A dialog, sheet or popup, open while `open` is true. The children are
  * its content; core's `"dialog"` gives no surface, so bring one.
+ *
+ * Like Flutter's `showDialog(builder: ...)`, the content exists only while
+ * shown: it is made when `open` turns true and let go once the route has
+ * finished closing. The element takes no part in its parent's layout.
  */
 export function Modal(props: ModalProps) {
-  return <modal {...props} />;
+  // Dart reports the route's life: true once pushed, false once it is
+  // gone, closing animation included.
+  const [live, setLive] = createSignal(false);
+  return (
+    <modal {...props} onRouteLive={setLive}>
+      <Show when={props.open || live()}>{props.children}</Show>
+    </modal>
+  );
 }

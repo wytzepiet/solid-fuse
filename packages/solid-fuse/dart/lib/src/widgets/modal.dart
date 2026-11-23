@@ -7,7 +7,9 @@ import '../runtime.dart';
 /// `open` is true. The route is made by the factory registered for `type`
 /// ([FuseRuntime.registerRoute]) and shows the node's children. When the
 /// route goes away on its own (barrier tap, back button, a drag), JS hears
-/// `onOpenChange(false)`. The element itself takes no space.
+/// `onOpenChange(false)`. It reports the route's life as `onRouteLive`
+/// (true once pushed, false once fully gone), so JS holds the content just
+/// that long. Registered `inFlow: false`: no part in the parent's layout.
 class FuseModal extends StatefulWidget {
   const FuseModal(this.node, {super.key});
 
@@ -65,13 +67,21 @@ class _FuseModalState extends State<FuseModal> {
     final route = factory(context, node, content);
     _route = route;
     final navigator = Navigator.of(context, rootNavigator: node.bool('useRootNavigator') ?? true);
+    node.callback('onRouteLive')?.call(true);
     navigator.push(route).whenComplete(() {
-      if (!identical(_route, route)) return;
-      _route = null;
-      // Gone without JS asking: tell it.
-      if (mounted && (node.bool('open') ?? false)) {
-        node.callback('onOpenChange')?.call(false);
+      if (identical(_route, route)) {
+        _route = null;
+        // Gone without JS asking: tell it.
+        if (mounted && (node.bool('open') ?? false)) {
+          node.callback('onOpenChange')?.call(false);
+        }
       }
+    });
+    // JS keeps the content until the route is fully gone, so the closing
+    // animation still shows it.
+    final gone = route is TransitionRoute<Object?> ? route.completed : route.popped;
+    gone.whenComplete(() {
+      if (mounted && _route == null) node.callback('onRouteLive')?.call(false);
     });
   }
 
