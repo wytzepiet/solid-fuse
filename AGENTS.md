@@ -24,6 +24,7 @@ packages/
   material/        ← @solid-fuse/material (TS source + Dart solid_fuse_material)
   cupertino/       ← @solid-fuse/cupertino (TS source + Dart solid_fuse_cupertino)
   adaptive/        ← @solid-fuse/adaptive (TS only)
+  create-solid-fuse/ ← `bun create solid-fuse`: a wrapper over `fuse create` (template in solid-fuse/templates/app)
   docs/            ← Fumadocs site — source of truth for user-facing behaviour
 examples/
   demo/            ← local demo app
@@ -44,6 +45,8 @@ examples/
 - **One vocabulary for values.** Core widgets take Flutter's generated types (`Color`, `EdgeInsetsGeometry`, `BoxDecoration`...) and read them in Dart with `node.value<T>`: `fuse gen` registers a decoder for every class a barrel names with `show` (`fuseGeneratedDecoders`). Don't add hand-written parsers; add a `@fuseShorthand` in `dart/lib/shorthands.dart` instead.
 - **Generated named widget slots go through `$slot` / `$slots`** (`src/generated.ts`): a slot holds whatever JSX gave (a component's memo, a `<Show>`, a list), each read in a memo of its own. A spread's props share one effect, so a slot read there would rebuild whenever any other prop changes. Widgets with such slots are not compile-plugin intrinsics.
 - **Agents drive apps through Marionette.** `FuseBinding.ensureInitialized()` installs `MarionetteBinding` in debug/profile (its `debugPrint` feeds `get-logs`); `FuseView` mounts `MarionetteDeviceConfig`; `testId` on any node is a `Semantics(identifier:)` (`node_widget.dart`). `fuse dev` saves the VM service URI to `dart/.dart_tool/fuse/drive.json`; `fuse drive` runs `marionette_cli` (same version as the app's `marionette_flutter`) with it. `--headless` = Xvfb + private dbus + keyring (`cli/headless.ts`). marionette_flutter imports `material.dart`; that's its own code, core's stays widgets-only.
+- **Platform folders are Flutter's, made on demand.** `fuse create` and `fuse dev`/`fuse build` run `flutter create` for a platform in `fuse.config.ts` `platforms` (or the build target, or linux for `--headless`) whose folder is missing, and undo everything else it writes (`cli/runners.ts`). After that the folder is the app's; fuse never regenerates it.
+- **Fuse packages are found through the dependency graph** (`fuseDependencies` in `cli/config.ts`), not by listing `node_modules`: bun and pnpm install a package's own dependencies (adaptive → material, cupertino) out of the app's `node_modules`.
 - The `solid-fuse` dist is an ESM bundle with `solid-js` and `@solidjs/universal` externalised — Vite in consumer apps resolves them to its pre-bundled deps at serve time.
 - `fuse dev` / `fuse build` auto-configure `@solidjs/vite-plugin` with `generate: "universal"` and `moduleName: "solid-fuse"` — consumer apps don't need their own `vite.config.ts`.
 

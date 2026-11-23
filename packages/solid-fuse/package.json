@@ -17,6 +17,9 @@
     "./generated": {
       "import": "./dist/generated.js",
       "types": "./dist/generated.d.ts"
+    },
+    "./cli/create": {
+      "import": "./cli/create.ts"
     }
   },
   "sideEffects": true,

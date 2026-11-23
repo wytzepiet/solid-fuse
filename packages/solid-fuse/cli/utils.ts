@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { dirname, join, resolve } from "path";
-import { loadFuseConfig, CONFIG_FILES } from "./config";
+import { loadFuseConfig, CONFIG_FILES, fuseDependencies } from "./config";
 import type { FuseConfig } from "../src/config";
 
 /**
@@ -50,24 +50,11 @@ export interface FusePackageInfo {
 }
 
 /**
- * Scan node_modules for packages with a `fuse.config.{ts,mjs,js}` file.
+ * The fuse packages the app depends on (`fuseDependencies`), with their Dart.
  */
 export async function scanFusePackages(projectRoot: string): Promise<FusePackageInfo[]> {
-  const nodeModules = join(projectRoot, "node_modules");
-  if (!existsSync(nodeModules)) return [];
-
   const packages: FusePackageInfo[] = [];
-
-  // Scan top-level packages
-  await scanDir(nodeModules, packages);
-
-  // Scan scoped packages (@org/*)
-  const entries = readdirSafe(nodeModules);
-  for (const entry of entries) {
-    if (entry.startsWith("@")) {
-      await scanDir(join(nodeModules, entry), packages);
-    }
-  }
+  for (const { dir } of fuseDependencies(projectRoot)) await scanPackage(dir, packages);
 
   // Sort: solid-fuse first, then alphabetically
   packages.sort((a, b) => {
@@ -79,28 +66,23 @@ export async function scanFusePackages(projectRoot: string): Promise<FusePackage
   return packages;
 }
 
-async function scanDir(dir: string, results: FusePackageInfo[]) {
-  const entries = readdirSafe(dir);
-  for (const entry of entries) {
-    if (entry.startsWith(".")) continue;
-    const pkgDir = join(dir, entry);
+async function scanPackage(pkgDir: string, results: FusePackageInfo[]) {
+  {
     const pkgJsonPath = join(pkgDir, "package.json");
-    if (!existsSync(pkgJsonPath)) continue;
-
     try {
       const config = await loadFuseConfig(pkgDir);
-      if (!config) continue;
+      if (!config) return;
 
       const pkgJson = JSON.parse(readFileSync(pkgJsonPath, "utf-8"));
       const dartPath = config.dart ?? "dart";
       const pubspecPath = join(pkgDir, dartPath, "pubspec.yaml");
       if (!existsSync(pubspecPath)) {
         // A JS-only package (components over other packages' widgets).
-        if (config.register === undefined && config.dart === undefined) continue;
+        if (config.register === undefined && config.dart === undefined) return;
         console.warn(
           `[fuse] ${pkgJson.name}: fuse.config register set but no pubspec.yaml at ${dartPath}/`
         );
-        continue;
+        return;
       }
 
       const dartName = readPubspecName(pubspecPath);
@@ -108,7 +90,7 @@ async function scanDir(dir: string, results: FusePackageInfo[]) {
         console.warn(
           `[fuse] ${pkgJson.name}: could not read name from ${pubspecPath}`
         );
-        continue;
+        return;
       }
 
       results.push({
@@ -165,14 +147,6 @@ export function pubspecAddDependency(
     writeFileSync(pubspecPath, updated);
   } else {
     writeFileSync(pubspecPath, content.trimEnd() + "\n\ndependencies:\n" + entry + "\n");
-  }
-}
-
-function readdirSafe(dir: string): string[] {
-  try {
-    return readdirSync(dir);
-  } catch {
-    return [];
   }
 }
 

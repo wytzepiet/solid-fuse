@@ -57,6 +57,8 @@ Fuse auto-configures the Solid plugin with `generate: "universal"` and `moduleNa
 | `library` | `boolean` | `false` | Mark this package as a Fuse library. Enables `fuse build`'s library mode (ESM with externalised peers). |
 | `register` | `string` | none | Name of the Dart top-level registration function; leave out when the package has no hand-written Dart |
 | `dart` | `string` | `"dart"` | Path to the Dart/Flutter package directory |
+| `platforms` | `string[]` | `[]` | The app's platforms (`android`, `ios`, `macos`, `linux`, `windows`). `fuse dev` and `fuse build` add a missing one's folder (`dart/android/`...) with `flutter create`. Commit it: then it's yours, and fuse doesn't touch it again |
+| `org` | `string` | `"com.example"` | Reverse domain for the bundle id of the folders fuse adds: `com.example` gives `com.example.<pubspec name>` |
 | `solid` | `object` | `{}` | `@solidjs/vite-plugin` option overrides |
 | `compile` | `object` | `{}` | Fuse's compile step: `templates: false` turns [templates](/docs/architecture#templates-the-constant-part-is-sent-once) off; `intrinsics` declares wrapper components of other packages (below); `builders` lists value builders whose calls with literal arguments fold into templates (`fuse gen` writes these tables) |
 | `gen` | `object` | none | [Generated components](/docs/extending/generating): `libraries` to export (with `allow` / `deny`), `out` directory (default `"fuse"`) |
@@ -74,7 +76,7 @@ It does two things:
 
 ### 1. Generates pubspec_overrides.yaml
 
-Adds Dart path dependencies for each Fuse package found in `node_modules`:
+Adds Dart path dependencies for each Fuse package the app depends on, directly or through another package (`@solid-fuse/adaptive` brings material and cupertino). It follows the dependencies the way Node resolves them, so it works with any package manager's layout:
 
 ```yaml title="dart/pubspec_overrides.yaml"
 dependency_overrides:
@@ -136,6 +138,7 @@ my-fuse-package/
 
 | Command | Description |
 |---|---|
+| `fuse create [dir]` | Create an app (`--design material\|cupertino\|adaptive\|none`, `--platforms android,ios`, `--org`, `--template <dir or github:owner/repo[/path][#ref]>`, `--no-install`, `--no-git`, `-y`). `bun create solid-fuse` runs the same |
 | `fuse dev` | Start Vite dev server + Flutter app with HMR |
 | `fuse build` | Production build (Vite IIFE bundle + Flutter release) |
 | `fuse build --js-only` | Build only the JS bundle and skip the Flutter build |

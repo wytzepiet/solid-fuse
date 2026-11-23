@@ -34,6 +34,8 @@ export interface FuseGenOptions {
   out?: string;
 }
 
+export type FusePlatform = "android" | "ios" | "macos" | "linux" | "windows";
+
 export interface FuseConfig {
   /** Mark this package as a Fuse library. Enables `fuse build` library mode. */
   library?: boolean;
@@ -43,6 +45,15 @@ export interface FuseConfig {
   register?: string;
   /** Path to Dart package directory, defaults to "dart" (for libraries) */
   dart?: string;
+  /**
+   * The platforms the app runs on. `fuse dev` and `fuse build` add the
+   * folder of a missing one (`dart/android/`...) with `flutter create`.
+   * Commit it: from then on it's the app's own, and fuse doesn't touch it.
+   */
+  platforms?: FusePlatform[];
+  /** Reverse domain for the bundle id of the platform folders fuse adds:
+   *  "com.example" gives com.example.<pubspec name>. Default "com.example". */
+  org?: string;
   /** @solidjs/vite-plugin options. Fuse sets generate: "universal" and moduleName: "solid-fuse" as defaults. */
   solid?: Partial<SolidOptions>;
   /** Options of Fuse's own compile step (templates, wrapper components). */

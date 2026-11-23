@@ -8,7 +8,7 @@ function Home() {
   return (
     <View width={Infinity} height={Infinity} layout={{ align: "center", justify: "center", gap: 16 }}>
       <Text fontSize={48}>{count()}</Text>
-      <Button testId="add" onPress={() => setCount(count() + 1)}>
+      <Button onPress={() => setCount(count() + 1)}>
         Add one
       </Button>
     </View>

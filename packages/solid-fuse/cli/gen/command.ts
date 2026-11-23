@@ -20,7 +20,8 @@ export function genOutDir(config: FuseConfig | null): string {
 
 /**
  * Whether there is anything to generate: the app's `lib/fuse.dart`, or a
- * package's other than solid_fuse (whose barrel only adds shorthands).
+ * package's. solid_fuse's counts: it brings the value types core's props
+ * take, and their decoders, so an app with no design package needs it too.
  */
 export function hasBarrels(dartRoot: string): boolean {
   if (existsSync(join(dartRoot, "lib", "fuse.dart"))) return true;
@@ -29,7 +30,6 @@ export function hasBarrels(dartRoot: string): boolean {
   const base = pathToFileURL(join(dartRoot, ".dart_tool", "/"));
   const packages = (JSON.parse(readFileSync(configPath, "utf8")).packages ?? []) as { name: string; rootUri: string; packageUri?: string }[];
   return packages.some((p) => {
-    if (p.name === "solid_fuse") return false;
     const lib = new URL(p.packageUri ?? "lib/", new URL(p.rootUri.endsWith("/") ? p.rootUri : `${p.rootUri}/`, base));
     return existsSync(fileURLToPath(new URL("fuse.dart", lib)));
   });

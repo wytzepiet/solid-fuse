@@ -1,0 +1,14 @@
+{
+  "name": "create-solid-fuse",
+  "version": "0.1.0",
+  "description": "Create a solid-fuse app: `bun create solid-fuse` / `npm create solid-fuse@latest`.",
+  "type": "module",
+  "bin": {
+    "create-solid-fuse": "./index.ts"
+  },
+  "files": ["index.ts"],
+  "dependencies": {
+    "citty": "^0.2.2",
+    "solid-fuse": "workspace:*"
+  }
+}

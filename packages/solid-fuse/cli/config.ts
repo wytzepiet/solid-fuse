@@ -1,5 +1,5 @@
-import { existsSync, readdirSync } from "fs";
-import { join, resolve } from "path";
+import { existsSync, readFileSync, realpathSync } from "fs";
+import { dirname, join, resolve } from "path";
 import { mergeConfig, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
@@ -29,32 +29,57 @@ export async function loadFuseConfig(
 }
 
 /**
- * The npm names of the fuse packages the app depends on (a package with a
- * fuse.config next to its package.json), solid-fuse aside. They ship
- * TypeScript source that imports the app's generated modules
- * (`#fuse/<package>`), so the app's own plugins compile them and Vite must
- * not pre-bundle them.
+ * The fuse packages the app depends on, directly or through other packages
+ * (a package with a fuse.config next to its package.json), solid-fuse
+ * included. Follows the dependency graph the way Node resolves it, so it
+ * finds them under any linker: hoisted (npm), or nested and isolated (bun,
+ * pnpm), where `@solid-fuse/adaptive`'s material is not in the app's own
+ * node_modules.
  */
-export function fusePackageNames(projectRoot: string): string[] {
-  const nm = join(projectRoot, "node_modules");
-  const list = (d: string) => {
+export function fuseDependencies(projectRoot: string): { name: string; dir: string }[] {
+  const found = new Map<string, string>();
+  const seen = new Set<string>();
+  const deps = (dir: string, root: boolean): string[] => {
     try {
-      return readdirSync(d);
+      const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf-8"));
+      return Object.keys({ ...pkg.dependencies, ...pkg.optionalDependencies, ...pkg.peerDependencies, ...(root ? pkg.devDependencies : {}) });
     } catch {
       return [];
     }
   };
-  const names: string[] = [];
-  const visit = (dir: string, name: string) => {
-    if (name === "solid-fuse") return;
-    if (existsSync(join(dir, "package.json")) && CONFIG_FILES.some((f) => existsSync(join(dir, f)))) names.push(name);
+  const resolveFrom = (from: string, name: string): string | null => {
+    for (let dir = from; ; dir = dirname(dir)) {
+      const candidate = join(dir, "node_modules", name);
+      if (existsSync(join(candidate, "package.json"))) return candidate;
+      if (dirname(dir) === dir) return null;
+    }
   };
-  for (const e of list(nm)) {
-    if (e.startsWith(".")) continue;
-    if (e.startsWith("@")) for (const s of list(join(nm, e))) visit(join(nm, e, s), `${e}/${s}`);
-    else visit(join(nm, e), e);
-  }
-  return names;
+  const visit = (dir: string, root: boolean) => {
+    for (const name of deps(dir, root)) {
+      const pkgDir = resolveFrom(dir, name);
+      if (!pkgDir) continue;
+      // Its own dependencies resolve from where it really is (an isolated
+      // linker's store); the app keeps the path it sees it at.
+      const real = realpathSync(pkgDir);
+      if (seen.has(real)) continue;
+      seen.add(real);
+      if (!CONFIG_FILES.some((f) => existsSync(join(real, f)))) continue;
+      if (!found.has(name)) found.set(name, pkgDir);
+      visit(real, false);
+    }
+  };
+  visit(resolve(projectRoot), true);
+  return [...found].map(([name, dir]) => ({ name, dir }));
+}
+
+/**
+ * The npm names of the fuse packages the app depends on, solid-fuse aside.
+ * They ship TypeScript source that imports the app's generated modules
+ * (`#fuse/<package>`), so the app's own plugins compile them and Vite must
+ * not pre-bundle them.
+ */
+export function fusePackageNames(projectRoot: string): string[] {
+  return fuseDependencies(projectRoot).map((d) => d.name).filter((n) => n !== "solid-fuse");
 }
 
 /**

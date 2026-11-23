@@ -5,10 +5,11 @@ import { basename, dirname, join, relative, resolve } from "path";
 import { createInterface } from "readline/promises";
 import { defineCommand } from "citty";
 import { runLink } from "./link";
+import { PLATFORMS, ensureRunners } from "./runners";
+import type { FusePlatform } from "../src/config";
 
 const DESIGNS = ["material", "cupertino", "adaptive", "none"] as const;
 type Design = (typeof DESIGNS)[number];
-const PLATFORMS = ["android", "ios", "macos", "linux", "windows"];
 
 const packageRoot = resolve(import.meta.dirname, "..");
 const ownPackage = JSON.parse(readFileSync(join(packageRoot, "package.json"), "utf-8")) as { version: string };
@@ -16,7 +17,7 @@ const ownPackage = JSON.parse(readFileSync(join(packageRoot, "package.json"), "u
 export interface CreateOptions {
   dir: string;
   design: Design;
-  platforms: string[];
+  platforms: FusePlatform[];
   org: string;
   /** A template directory or `github:owner/repo[/path][#ref]`. Default: the built-in app. */
   template?: string;
@@ -103,7 +104,9 @@ function copyTemplate(from: string, to: string, design: Design, vars: Record<str
     }
   }
   // npm drops .gitignore from published packages.
-  if (existsSync(join(to, "_gitignore"))) renameSync(join(to, "_gitignore"), join(to, ".gitignore"));
+  for (const dir of [to, join(to, "dart")]) {
+    if (existsSync(join(dir, "_gitignore"))) renameSync(join(dir, "_gitignore"), join(dir, ".gitignore"));
+  }
   substitute(to, vars);
 }
 
@@ -138,20 +141,6 @@ function writePackageJson(target: string, name: string, design: Design, depVersi
   writeFileSync(path, JSON.stringify(pkg, null, 2) + "\n");
 }
 
-/**
- * The platform runners (android/, ios/...) are Flutter's: `flutter create`
- * writes them with the app's name and bundle id. It also writes a sample
- * app, which ours replaces.
- */
-function createRunners(dart: string, name: string, org: string, platforms: string[]) {
-  const ours = new Map<string, string>();
-  for (const f of ["pubspec.yaml", "lib/main.dart"]) ours.set(f, readFileSync(join(dart, f), "utf-8"));
-  run("flutter", ["create", "--project-name", name, "--org", org, `--platforms=${platforms.join(",")}`, "--no-pub", "."], dart, true);
-  for (const [f, text] of ours) writeFileSync(join(dart, f), text);
-  rmSync(join(dart, "test"), { recursive: true, force: true });
-  rmSync(join(dart, "README.md"), { force: true });
-}
-
 export async function create(opts: CreateOptions) {
   const target = resolve(opts.dir);
   const name = basename(target);
@@ -160,7 +149,16 @@ export async function create(opts: CreateOptions) {
   const workspace = workspaceRoot(target);
   const pm = workspace ? "bun" : packageManager();
   const runCmd = pm === "npm" ? "npm run" : pm;
-  const vars = { name, dartName: dartName(name), title: title(name), run: runCmd };
+  const vars = {
+    name,
+    dartName: dartName(name),
+    title: title(name),
+    run: runCmd,
+    platforms: `[${opts.platforms.map((p) => `"${p}"`).join(", ")}]`,
+    // Material's icon font, which material_ui's Icons need.
+    materialFonts: opts.design === "material" || opts.design === "adaptive" ? "  uses-material-design: true\n" : "",
+    org: opts.org,
+  };
 
   console.log(`Creating ${vars.title} in ${target}`);
   const template = fetchTemplate(opts.template ?? join(packageRoot, "templates", "app"));
@@ -171,11 +169,9 @@ export async function create(opts: CreateOptions) {
   }
   writePackageJson(target, name, opts.design, workspace ? "workspace:*" : `^${ownPackage.version}`);
 
-  const dart = join(target, "dart");
-  if (opts.platforms.length > 0) {
-    console.log(`Adding Flutter runners: ${opts.platforms.join(", ")}`);
-    createRunners(dart, vars.dartName, opts.org, opts.platforms);
-  }
+  // The platform folders, so the first commit has them. Later ones come
+  // from `fuse dev` / `fuse build` (cli/runners.ts).
+  ensureRunners(join(target, "dart"), opts.platforms, { org: opts.org });
 
   if (opts.install) {
     console.log(`Installing with ${pm}...`);
@@ -228,7 +224,7 @@ export const createCommand = defineCommand({
     const design = (await pick(args.design, `Design? ${DESIGNS.join(", ")}`, "material")) as Design;
     if (!DESIGNS.includes(design)) fail(`Unknown design "${design}". Pick one of: ${DESIGNS.join(", ")}.`);
     const platforms = (await pick(args.platforms, `Platforms? ${PLATFORMS.join(", ")}`, "android,ios"))
-      .split(",").map((p) => p.trim()).filter(Boolean);
+      .split(",").map((p) => p.trim()).filter(Boolean) as FusePlatform[];
     const unknown = platforms.filter((p) => !PLATFORMS.includes(p));
     if (unknown.length) fail(`Unknown platform: ${unknown.join(", ")}. Fuse runs on ${PLATFORMS.join(", ")}.`);
     const org = args.org ?? "com.example";

@@ -3,6 +3,7 @@ import { build as viteBuild } from "vite";
 import { getDartRoot } from "../utils";
 import { buildViteConfig } from "../config";
 import { runLink } from "../link";
+import { buildTargetPlatform, ensureRunners } from "../runners";
 import type { FuseConfig } from "../../src/config";
 
 /**
@@ -37,6 +38,9 @@ export async function buildApp(
     console.log("\nDone! (--js-only: skipped the Flutter build)");
     return;
   }
+
+  const target = buildTargetPlatform(flutterArgs);
+  ensureRunners(dartRoot, target ? [target] : [], fuseConfig);
 
   console.log("\nBuilding Flutter app...");
   const flutter = spawnSync("flutter", ["build", ...flutterArgs], {

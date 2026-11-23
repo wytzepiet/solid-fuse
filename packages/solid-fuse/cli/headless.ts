@@ -101,20 +101,3 @@ export async function startHeadless(stateDir: string): Promise<Headless> {
     throw e;
   }
 }
-
-/**
- * Add the Linux runner when the app has none (`flutter create` for just that
- * platform), and nothing else `flutter create` would change.
- */
-export function ensureLinuxRunner(dartRoot: string) {
-  if (existsSync(join(dartRoot, "linux"))) return;
-  console.log("No linux/ runner yet: adding one with `flutter create --platforms=linux .`");
-  const hadTest = existsSync(join(dartRoot, "test"));
-  const analysis = join(dartRoot, "analysis_options.yaml");
-  const analysisBefore = existsSync(analysis) ? readFileSync(analysis, "utf-8") : null;
-  const r = spawnSync("flutter", ["create", "--platforms=linux", "."], { cwd: dartRoot, stdio: "ignore" });
-  if (r.status !== 0) throw new Error("`flutter create --platforms=linux .` failed.");
-  if (!hadTest) rmSync(join(dartRoot, "test"), { recursive: true, force: true });
-  // It also rewrites analysis_options.yaml; that's the app's own.
-  if (analysisBefore !== null) writeFileSync(analysis, analysisBefore);
-}

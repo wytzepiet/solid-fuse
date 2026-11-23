@@ -6,7 +6,8 @@ import { defineCommand } from "citty";
 import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
 import { loadFuseConfig, buildViteConfig } from "./config";
 import { runLink } from "./link";
-import { startHeadless, ensureLinuxRunner, type Headless } from "./headless";
+import { startHeadless, type Headless } from "./headless";
+import { ensureRunners } from "./runners";
 import { clearDriveSession, vmServiceUri, writeDriveSession } from "./drive";
 
 const DEV_PORT = 24680;
@@ -33,9 +34,10 @@ export const devCommand = defineCommand({
     // except --headless: the Linux app on a virtual display (cloud machines, CI).
     const headlessMode = rawArgs.includes("--headless");
     const flutterArgs = rawArgs.filter((a) => a !== "--headless");
+    // The app's platforms, and Linux for --headless.
+    ensureRunners(dartRoot, [...(fuseConfig?.platforms ?? []), ...(headlessMode ? (["linux"] as const) : [])], fuseConfig);
     let headless: Headless | undefined;
     if (headlessMode) {
-      ensureLinuxRunner(dartRoot);
       if (!flutterArgs.some((a) => a === "-d" || a.startsWith("--device-id"))) flutterArgs.push("-d", "linux");
       headless = await startHeadless(join(dartRoot, ".dart_tool", "fuse", "headless"));
     }
