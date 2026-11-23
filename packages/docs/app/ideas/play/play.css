@@ -1,0 +1,672 @@
+/* Idea "Play": the hero is a component you can adjust. Shares Dither's type
+   and sections; the marks only appear behind the phone, never behind words. */
+
+.pl-hero {
+  padding: clamp(16px, 2.4vw, 40px) var(--pad) clamp(40px, 5vw, 72px);
+}
+
+.pl-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 64px);
+  align-items: end;
+  margin-bottom: clamp(24px, 3.4vw, 52px);
+}
+
+.pl-head h1 {
+  font-size: clamp(40px, 5.6vw, 92px);
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+}
+
+.pl-head p {
+  max-width: 38ch;
+  margin: 0 0 20px;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.4;
+  color: #c9c9c5;
+}
+
+.pl-play {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  border: 1px solid var(--rule);
+}
+
+.pl-code {
+  margin: 0;
+  padding: clamp(20px, 2.6vw, 40px);
+  overflow-x: auto;
+  border-right: 1px solid var(--rule);
+  font-size: clamp(12.5px, 1.12vw, 16.5px);
+  line-height: 1.85;
+  color: #b9b9b4;
+}
+
+.pl-code b {
+  font-weight: 400;
+  color: #fff;
+}
+
+.pl-k {
+  font-style: normal;
+  color: #7c7c77;
+}
+
+.pl-line {
+  display: inline;
+  transition: color 150ms;
+}
+
+.pl-line.is-hot,
+.pl-line.is-hot b {
+  color: var(--warm);
+}
+
+/* A value you can grab. */
+.pl-knob,
+.pl-swatch,
+.pl-input {
+  color: var(--warm);
+  border-bottom: 1px dashed rgba(255, 122, 31, 0.6);
+}
+
+.pl-knob {
+  padding: 1px 3px;
+  cursor: ew-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+.pl-knob:hover,
+.pl-knob:active,
+.pl-swatch:hover {
+  background: rgba(255, 122, 31, 0.16);
+}
+
+.pl-swatch {
+  padding: 1px 3px;
+  border-width: 0 0 1px;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.pl-swatch::before {
+  content: '';
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  margin-right: 0.4em;
+  background: var(--c);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.pl-input {
+  padding: 1px 3px;
+  border-width: 0 0 1px;
+  background: none;
+  font: inherit;
+  min-width: 2ch;
+}
+
+.pl-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 460px;
+  overflow: hidden;
+}
+
+/* The marks sit low and fade out before they reach the phone's screen. */
+.pl-stage .dt-canvas {
+  opacity: 0.75;
+  mask-image: linear-gradient(0deg, #000 10%, transparent 70%);
+}
+
+.pl-phone {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 250px;
+  height: min(470px, 86%);
+  border: 1px solid #45453f;
+  border-radius: 40px;
+  background: #000;
+  box-shadow: inset 0 0 0 6px #000, inset 0 0 0 7px #1c1c1a, 0 30px 80px rgba(0, 0, 0, 0.8);
+}
+
+.pl-pressable {
+  padding: 14px;
+  outline: 1px dashed transparent;
+  outline-offset: 0;
+  transition: outline-color 150ms;
+}
+
+.pl-pressable.is-hot {
+  outline-color: var(--warm);
+}
+
+.pl-card {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  color: #000;
+  font: 600 16px var(--dt-font), sans-serif;
+  cursor: pointer;
+  touch-action: none;
+  will-change: transform;
+}
+
+.pl-card.is-hot {
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--warm);
+}
+
+.pl-card span {
+  padding: 2px 4px;
+}
+
+.pl-card span.is-hot {
+  box-shadow: 0 0 0 2px #000;
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.pl-hint {
+  margin: 16px 0 0;
+  font-size: 15px;
+  color: var(--soft);
+}
+
+.pl .dt-names {
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 960px) {
+  .pl-head,
+  .pl-play {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pl-code {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .pl-stage {
+    min-height: 400px;
+  }
+
+  .pl-phone {
+    height: 360px;
+  }
+}
+
+/* ── The frame ───────────────────────────────────────────
+   A centred column with a rail down each side. Every block is ruled off with
+   a line that runs the full width of the window, and the gaps between blocks
+   show the hatching behind them. */
+
+.pl {
+  --rule: #262624;
+  --pad: clamp(18px, 3vw, 44px);
+  overflow-x: clip;
+}
+
+.pl-frame {
+  max-width: 1320px;
+  margin: 0 auto;
+  border-inline: 1px solid var(--rule);
+  background: repeating-linear-gradient(
+    315deg,
+    transparent 0 7px,
+    rgba(255, 255, 255, 0.075) 7px 8px
+  );
+}
+
+.pl-frame > * {
+  position: relative;
+  margin: 0;
+  border: 0;
+  background: #000;
+}
+
+/* The full-width rules, above and below each block. */
+.pl-frame > *::before,
+.pl-frame > section::after,
+.pl-frame > footer::after {
+  content: '';
+  position: absolute;
+  left: -100vw;
+  right: -100vw;
+  top: -1px;
+  height: 1px;
+  background: var(--rule);
+  pointer-events: none;
+}
+
+.pl-frame > section::after,
+.pl-frame > footer::after {
+  top: auto;
+  bottom: -1px;
+}
+
+.pl-frame > header::before {
+  display: none;
+}
+
+/* Hatched gaps between the big blocks. */
+.pl-frame > section + section,
+.pl-frame > footer {
+  margin-top: clamp(28px, 4vw, 56px);
+}
+
+.pl-frame > .dt-basics + .dt-why,
+.pl-frame > .dt-names + .dt-why {
+  margin-top: 0;
+}
+
+.pl .dt-nav {
+  padding: 18px var(--pad);
+}
+
+/* Hero: the playground sits flush against the rails. */
+.pl-hero {
+  padding: clamp(28px, 4vw, 64px) 0 0;
+}
+
+.pl-head {
+  padding: 0 var(--pad);
+}
+
+.pl-play {
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.pl-hint {
+  margin: 0;
+  padding: 14px var(--pad);
+  border-top: 1px solid var(--rule);
+  font-family: var(--dt-mono), monospace;
+  font-size: 13px;
+}
+
+/* Blocks divided into cells by rules instead of gaps. */
+.pl .dt-names,
+.pl .dt-agent {
+  gap: 0;
+}
+
+.pl .dt-names {
+  padding: 0;
+}
+
+.pl .dt-names article {
+  padding: clamp(32px, 5vw, 80px) var(--pad);
+}
+
+.pl .dt-names article + article {
+  border-left: 1px solid var(--rule);
+}
+
+.pl .dt-why {
+  padding: clamp(32px, 5vw, 80px) 0 0;
+}
+
+.pl .dt-why h2 {
+  padding: 0 var(--pad);
+}
+
+.pl .dt-compare > div:last-child {
+  border-bottom: 0;
+}
+
+.pl .dt-compare span {
+  padding-left: var(--pad);
+}
+
+.pl .dt-compare span + span {
+  border-left: 1px solid var(--rule);
+}
+
+.pl .dt-tour {
+  padding: 0;
+}
+
+.pl .dt-chapter {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.4fr) minmax(0, 0.65fr);
+  gap: 0;
+  padding: 0;
+}
+
+.pl .dt-chapter:first-child {
+  border-top: 0;
+}
+
+.pl .dt-chapter > * {
+  padding: clamp(22px, 2.8vw, 40px) var(--pad);
+}
+
+.pl .dt-chapter > * + * {
+  border-left: 1px solid var(--rule);
+}
+
+.pl .dt-chapter .dt-picture {
+  padding: 0;
+}
+
+.pl .dt-agent {
+  padding: 0;
+}
+
+.pl .dt-agent-head {
+  margin: 0;
+  padding: clamp(32px, 5vw, 80px) var(--pad);
+  border-bottom: 1px solid var(--rule);
+}
+
+.pl .dt-term,
+.pl .dt-handoff {
+  border: 0;
+  background: #000;
+  padding: clamp(22px, 2.8vw, 40px) var(--pad);
+}
+
+.pl .dt-handoff {
+  border-left: 1px solid var(--rule);
+}
+
+.pl .dt-handoff .cx-handoff {
+  border: 0;
+  background: #000;
+}
+
+.pl .dt-handoff .cx-handoff figcaption,
+.pl .dt-handoff .cx-handoff pre {
+  padding-inline: 0;
+}
+
+.pl .dt-ready {
+  gap: 0;
+  padding: 0;
+}
+
+.pl .dt-ready > * {
+  padding: clamp(28px, 4vw, 64px) var(--pad);
+}
+
+.pl .dt-ready figure {
+  border-left: 1px solid var(--rule);
+}
+
+.pl .dt-end {
+  min-height: 62vh;
+}
+
+.pl .dt-foot {
+  padding: 22px var(--pad) 84px;
+}
+
+@media (max-width: 960px) {
+  .pl .dt-chapter {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pl .dt-names article + article,
+  .pl .dt-chapter > * + *,
+  .pl .dt-handoff,
+  .pl .dt-ready figure {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .pl .dt-chapter .dt-picture {
+    min-height: 200px;
+  }
+}
+
+/* ── Cards in the frame ──────────────────────────────────
+   The frame stays square. Each block is a tray, a shade lighter than black,
+   and what sits in it is rounded: a card holding the words, and inside the
+   card an inset panel for the thing being shown (code, a picture, the phone). */
+
+.pl {
+  --tray: #171716;
+  --card: #060607;
+  --edge: #2b2b29;
+  --gutter: 8px;
+  --inner: clamp(20px, 2.6vw, 40px);
+  --dots: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1.4px) 0 0 / 12px 12px;
+}
+
+.pl-frame > section:not(.dt-end) {
+  padding: var(--gutter);
+  background: var(--tray);
+}
+
+.pl-frame > .pl-hero,
+.pl-frame > .dt-why,
+.pl-frame > .dt-agent,
+.pl-frame > .dt-ready {
+  display: block;
+}
+
+.pl-frame > .dt-names,
+.pl-frame > .dt-tour {
+  gap: var(--gutter);
+}
+
+.pl .dt-card,
+.pl .dt-names article,
+.pl .dt-names article + article,
+.pl .dt-chapter,
+.pl .dt-chapter:first-child {
+  border: 1px solid var(--edge);
+  border-radius: 24px;
+  background: var(--card);
+}
+
+/* Inset panels. */
+.pl .pl-stage,
+.pl .dt-fig,
+.pl .dt-compare,
+.pl .dt-chapter > * + *,
+.pl .dt-term,
+.pl .dt-handoff,
+.pl .dt-ready figure {
+  border: 1px solid var(--edge);
+  border-radius: 17px;
+  background: #000;
+}
+
+.pl .pl-stage,
+.pl .dt-fig,
+.pl .dt-chapter .dt-picture {
+  background: var(--dots), #000;
+}
+
+/* Hero */
+.pl .pl-hero .dt-card {
+  display: block;
+  padding: var(--inner) var(--gutter) var(--gutter);
+}
+
+.pl .pl-head {
+  padding: 0 calc(var(--inner) - var(--gutter));
+}
+
+.pl .pl-play {
+  border: 0;
+}
+
+.pl .pl-code {
+  border: 0;
+  padding: var(--inner) calc(var(--inner) - var(--gutter));
+}
+
+.pl .pl-hint {
+  padding: 14px calc(var(--inner) - var(--gutter)) 8px;
+  border: 0;
+}
+
+/* The two names */
+.pl .dt-names {
+  display: grid;
+  gap: var(--gutter);
+}
+
+.pl .dt-names article {
+  padding: var(--inner);
+}
+
+.pl .dt-fig {
+  margin-top: clamp(28px, 4vw, 56px);
+  padding: 22px;
+}
+
+.pl .dt-fig-code {
+  width: auto;
+}
+
+/* The comparison */
+.pl .dt-why .dt-card {
+  display: block;
+  padding: var(--inner) var(--gutter) var(--gutter);
+}
+
+.pl .dt-why h2 {
+  padding: 0 calc(var(--inner) - var(--gutter));
+}
+
+.pl .dt-compare {
+  margin-top: var(--inner);
+  overflow: hidden;
+}
+
+.pl .dt-compare > div,
+.pl .dt-compare span + span {
+  border-color: var(--edge);
+}
+
+.pl .dt-compare span {
+  padding-left: calc(var(--inner) - var(--gutter));
+}
+
+/* Chapters */
+.pl .dt-tour {
+  display: grid;
+  gap: var(--gutter);
+}
+
+.pl .dt-chapter,
+.pl .dt-chapter:first-child {
+  gap: var(--gutter);
+  padding: var(--gutter);
+}
+
+.pl .dt-chapter-text {
+  padding: calc(var(--inner) - var(--gutter));
+}
+
+.pl .dt-chapter .dt-code {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--inner) - var(--gutter));
+}
+
+/* Agent */
+.pl .dt-agent .dt-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--gutter);
+  padding: var(--gutter);
+}
+
+.pl .dt-agent-head {
+  margin: 0;
+  padding: calc(var(--inner) - var(--gutter));
+  border: 0;
+}
+
+.pl .dt-term,
+.pl .dt-handoff {
+  padding: calc(var(--inner) - var(--gutter));
+}
+
+.pl .dt-handoff .cx-handoff {
+  border: 0;
+  background: transparent;
+}
+
+.pl .dt-handoff .cx-handoff figcaption,
+.pl .dt-handoff .cx-handoff pre {
+  padding-inline: 0;
+}
+
+/* Ready */
+.pl .dt-ready .dt-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--gutter);
+  align-items: center;
+  padding: var(--gutter);
+}
+
+.pl .dt-ready .dt-card > div {
+  padding: calc(var(--inner) - var(--gutter));
+}
+
+.pl .dt-ready figure {
+  padding: calc(var(--inner) - var(--gutter));
+}
+
+/* Rounded things inside rounded things. */
+.pl .dt-btn,
+.pl .dt-phone button,
+.pl .dt-handoff .cx-handoff button {
+  border-radius: 999px;
+}
+
+@media (max-width: 960px) {
+  .pl .dt-agent .dt-card,
+  .pl .dt-ready .dt-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pl .dt-names article + article,
+  .pl .dt-chapter > * + *,
+  .pl .dt-handoff,
+  .pl .dt-ready figure {
+    border: 1px solid var(--edge);
+  }
+}
+
+/* Two blocks with no hatched gap between them share one tray: a single
+   gutter between their cards, and no rule cutting through it. */
+.pl-frame > .dt-names + .dt-why {
+  padding-top: 0;
+}
+
+.pl-frame > .dt-names::after,
+.pl-frame > .dt-names + .dt-why::before {
+  display: none;
+}
+
+/* The hint belongs to the code: it sits under it, in the same column. */
+.pl-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pl .pl-left .pl-code {
+  flex: 1;
+}
+
+.pl .pl-left .pl-hint {
+  margin: 0;
+  padding: 0 calc(var(--inner) - var(--gutter)) calc(var(--inner) - var(--gutter));
+}
