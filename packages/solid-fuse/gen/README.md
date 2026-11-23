@@ -34,6 +34,14 @@ RenderObject, Element).
 - **Supplied** parameters are never props: a TickerProvider (`vsync`) comes
   from the runtime, a BuildContext is the one the adapter builds in (only in
   widget adapters).
+- **Implementations**: an abstract data type that can be extended from
+  outside its library (not sealed, final or interface, with a constructor
+  without required parameters, not F-bounded, no unnamed constructor of
+  its own) gets `implement`: the superclass constructor and each abstract
+  member as a callback (`fn`), with the override's Dart signature. JS
+  passes an object of functions (no `$`); a generated subclass calls them.
+  An abstract setter, or a member no callback can stand for, leaves it out
+  (`implementSkipped`).
 - **Typed widget slots** (`PreferredSizeWidget appBar`, `List<Tab> tabs`)
   are `{"k": "widget", "as": "<Dart type>"}`: the adapter builds the child
   node's own widget in its context (every adapter has a static `make`) and

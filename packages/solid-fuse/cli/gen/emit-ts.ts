@@ -324,6 +324,11 @@ export function emitTs(m: Manifest): TsOutput {
       arms.push(variantShape(v, decl.name, module));
       builderFor(v);
     }
+    if (decl.implement) {
+      // JS's own implementation: a plain object with a function per member.
+      const members = decl.implement.members.map((mb) => `${prop(mb.name)}: ${tsFn(mb.fn, module)}`);
+      arms.push(`{ ${members.join("; ")} }`);
+    }
     for (const c of decl.consts ?? []) constFor(c.name, c.dart, c.deprecated);
     module.parts.push(
       `${jsdoc("", decl.doc, decl.deprecated, [`Dart: \`${id.slice(id.indexOf("#") + 1)}\`. Build one with its builders.`])}export type ${t.name} =\n${arms.map((a) => `  | ${a}`).join("\n")};`,

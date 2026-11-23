@@ -8,6 +8,7 @@ import 'package:fixture_app/generated/fuse.generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart' as m;
+import 'package:solid_fuse/generated.dart' show FuseCallbackError;
 import 'package:solid_fuse/solid_fuse.dart';
 
 List<Object?> create(int id, String type, [Map<String, dynamic>? props]) => [0, id, type, props ?? <String, dynamic>{}];
@@ -339,6 +340,46 @@ void main() {
       await t.pump();
       expect(counter.disposed, true);
     });
+  });
+
+  testWidgets('JS implements an abstract class: each member calls its function', (t) async {
+    final sync = <(String, Object?)>[];
+    final async = <String>[];
+    final reg = FuseNodeRegistry(
+      callFunction: (id, name, [v]) => async.add(name),
+      callFunctionSync: (id, name, value, {widget = false}) {
+        sync.add((name, value));
+        return (name == 'scorer#1' ? 'js' : 7, null);
+      },
+    );
+    final box = reg.create(1, 'fixture_app_FixtureBox', {
+      'at': {r'$': 'Point', 'x': 0},
+      'scorer': {
+        'score': {r'$fn': 'scorer#0'},
+        'name': {r'$fn': 'scorer#1'},
+        'reset': {r'$fn': 'scorer#2'},
+      },
+    });
+    await t.pumpWidget(Builder(builder: (_) => fuseGeneratedWidgets['fixture_app_FixtureBox']!(box)));
+    final scorer = t.widget<FixtureBox>(find.byType(FixtureBox)).scorer!;
+    expect(scorer.describe(const Point(1, 2)), 'js: 7');
+    expect(sync.map((c) => c.$1), ['scorer#1', 'scorer#0']);
+    expect(sync[1].$2, {'x': 1.0, 'y': 2.0});
+    scorer.reset();
+    expect(async, ['scorer#2']);
+
+    // A tagged value is still a Dart variant.
+    box.setPropSilent('scorer', {r'$': 'FixedScorer', 'value': 3});
+    box.markDirty();
+    await t.pumpWidget(Builder(builder: (_) => fuseGeneratedWidgets['fixture_app_FixtureBox']!(box)), duration: Duration.zero);
+    expect(t.widget<FixtureBox>(find.byType(FixtureBox)).scorer, isA<FixedScorer>());
+
+    // A member the object left out is an error naming it.
+    box.setPropSilent('scorer', {'score': {r'$fn': 'scorer#0'}});
+    await t.pumpWidget(const SizedBox());
+    await t.pumpWidget(Builder(builder: (_) => fuseGeneratedWidgets['fixture_app_FixtureBox']!(box)));
+    final partial = t.widget<FixtureBox>(find.byType(FixtureBox)).scorer!;
+    expect(() => partial.name, throwsA(isA<FuseCallbackError>().having((e) => '$e', 'message', contains('"name"'))));
   });
 
   testWidgets('a missing required prop is an error naming it', (t) async {

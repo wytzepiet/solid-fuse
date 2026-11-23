@@ -22,9 +22,9 @@ async function run(cmd: string[], cwd: string): Promise<{ code: number; output: 
 
 const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
-import { Colors, ElevatedButton, Slider, Scaffold, AppBar } from "./out/material_ui";
-import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter, type Tracker, Badge, createTally, Choice, Option, NeedsContext } from "./out/fixture_app";
-import { createScrollController, createTextEditingController, createAnimationController, ListView, ListViewBuilder, EditableText } from "./out/flutter";
+import { Colors, ElevatedButton, Slider, Scaffold, AppBar, TextField } from "./out/material_ui";
+import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter, type Tracker, Badge, createTally, Choice, Option, NeedsContext, FixedScorer } from "./out/fixture_app";
+import { createScrollController, createTextEditingController, createAnimationController, ListView, ListViewBuilder, EditableText, LengthLimitingTextInputFormatter } from "./out/flutter";
 import { createSignal } from "solid-js";
 
 export const a = (
@@ -95,6 +95,23 @@ export const list = (
 export const choice = <Choice options={[Option({ id: 7 }, "seven")]} onPick={(v) => v} />;
 export const ctx = <NeedsContext />;
 export const box = <FixtureBox at={Point(1, 2)} measure={(i) => i * 2} builder={() => <Text>b</Text>} />;
+export const scored = (
+  <FixtureBox
+    at={Point(0, 0)}
+    scorer={{ score: (at) => at.x + at.y, name: () => "sum", reset: () => {} }}
+  />
+);
+export const fixed = <FixtureBox at={Point(0, 0)} scorer={FixedScorer(3)} />;
+export const formatted = (
+  <TextField
+    inputFormatters={[
+      LengthLimitingTextInputFormatter(20),
+      { formatEditUpdate: (oldValue, newValue) => ({ ...newValue, text: newValue.text.toUpperCase() }) },
+    ]}
+  />
+);
+// @ts-expect-error every abstract member is implemented
+export const partial = <FixtureBox at={Point(0, 0)} scorer={{ score: () => 1 }} />;
 // @ts-expect-error a color is a "#..." string
 export const f = <Container color="red" />;
 // @ts-expect-error not a MainAxisAlignment

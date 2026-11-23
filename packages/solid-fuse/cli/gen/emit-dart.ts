@@ -57,6 +57,7 @@ export function lentHandles(m: Manifest): Set<string> {
         const d = m.types[r.id] as DataType;
         d.variants?.forEach((v) => params(v.params));
         d.shorthands?.forEach((sh) => walkIn(sh.type));
+        d.implement?.members.forEach((mb) => walkIn(mb.fn));
         return;
       }
     }
@@ -262,6 +263,17 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     return "null" in ref && ref.null ? e : `${e}!`;
   }
 
+  /** A JS result Dart takes as it is ([RAW] refs), typed for the callback. */
+  function raw(ret: Ref, got: string, cx: Cx): string {
+    const nullable = "null" in ret && ret.null;
+    if (ret.k === "typeParam") {
+      const t = cx.sub(ret.name);
+      return `${got} as ${nullable && !t.endsWith("?") ? `${t}?` : t}`;
+    }
+    if (ret.k === "Object" && !nullable) return `${got}!`;
+    return got;
+  }
+
   /**
    * A Dart closure of the callback's type that calls the JS function: the
    * arguments are encoded (a BuildContext stays in Dart), several are spread
@@ -282,11 +294,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       }
       const got = `f(${payload})`;
       body = RAW.has(fn.ret.k)
-        ? fn.ret.k === "typeParam"
-          ? `${got} as ${((t) => (nullable && !t.endsWith("?") ? `${t}?` : t))(cx.sub((fn.ret as any).name))}`
-          : fn.ret.k === "Object" && !nullable
-            ? `${got}!`
-            : got
+        ? raw(fn.ret, got, cx)
         : nullable
           ? dec(fn.ret, got, cx)
           : `fuseReq(${dec(fn.ret, got, cx)}, ${q(cx.prop)}, 'result')`;
@@ -302,7 +310,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     } else {
       const got = `(await f(${payload}))`;
       body = RAW.has(fn.ret.k)
-        ? `async => ${got} as dynamic`
+        ? `async => ${raw(fn.ret, got, cx)}`
         : `async => ${"null" in fn.ret && fn.ret.null ? dec(fn.ret, got, cx) : `fuseReq(${dec(fn.ret, got, cx)}, ${q(cx.prop)}, 'result')`}`;
     }
     return `switch (${read}) {\n        final f? => (${params.join(", ")}) ${body},\n        null => null,\n      }`;
@@ -359,6 +367,10 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       lines.push(`  if (v is String) return ${shortCall("string")};`);
     }
     const variants = t.variants ?? [];
+    if (t.implement) {
+      // No tag: an object of functions, JS's own implementation.
+      lines.push(`  if (v is Map && v[r'$'] == null) return ${implClass(id)}(v, n);`);
+    }
     if (variants.length > 0) {
       lines.push(`  if (v is! Map) return fuseBad(${q(t.name)}, v);`);
       lines.push(`  switch (fuseTag(v, ${q(t.name)})) {`);
@@ -373,6 +385,37 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     lines.push(`  return fuseBad(${q(t.name)}, v);`);
     lines.push("}");
     return lines.join("\n");
+  }
+
+  const implCode: string[] = [];
+  const implNames = new Map<string, string>();
+
+  /** The subclass that calls JS's implementation of abstract class [id]. */
+  function implClass(id: string): string {
+    let name = implNames.get(id);
+    if (name) return name;
+    name = ident("_Js", id);
+    implNames.set(id, name);
+    const t = m.types[id] as DataType;
+    const impl = t.implement!;
+    const T = noQ(t.dart);
+    const lines = [
+      `/// JS's implementation of \`${t.name}\`: each member calls the function of`,
+      "/// the same name on the object JS passed.",
+      `final class ${name} extends ${T} {`,
+    ];
+    const inits = impl.members.map((mb) => `_${mb.name} = ${fnExpr(mb.fn, `v[${q(mb.name)}]`, { n: "n", prop: mb.name, sub: (d) => d })}`);
+    lines.push(`  ${name}(Map<Object?, Object?> v, FuseNode n)`);
+    lines.push(`      : ${[...inits, impl.ctor ? `super.${impl.ctor}()` : "super()"].join(",\n        ")};`);
+    for (const mb of impl.members) {
+      lines.push("", `  final ${mb.fn.dart}? _${mb.name};`, "", "  @override");
+      const call = `fuseImpl(_${mb.name}, ${q(mb.name)})(${mb.params.map((_, i) => `a${i}`).join(", ")})`;
+      if (mb.getter) lines.push(`  ${mb.ret} get ${mb.name} => ${call};`);
+      else lines.push(`  ${mb.ret} ${mb.name}(${mb.params.map((p, i) => `${p.dart} a${i}`).join(", ")}) => ${call};`);
+    }
+    lines.push("}");
+    implCode.push(lines.join("\n"));
+    return name;
   }
 
   // ── Dart -> JS ──────────────────────────────────────────────────────────
@@ -606,7 +649,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     "",
   ];
   return {
-    code: [...header, ...adapters, "", ...handleCode, "", ...decoderCode, "", ...encoderCode, ""].join("\n"),
+    code: [...header, ...adapters, "", ...handleCode, "", ...decoderCode, "", ...implCode, "", ...encoderCode, ""].join("\n"),
     tags,
   };
 }

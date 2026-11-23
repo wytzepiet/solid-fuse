@@ -90,9 +90,27 @@ export interface DataType {
   /** Short forms: a value of `kind` that `fn` (Dart) turns into this type. */
   shorthands?: { kind: "bool" | "number" | "string" | "list"; fn: string; type: Ref; dart: string; ts?: string }[];
   inputSkipped?: string;
+  /** An abstract class JS implements: an object with a function per
+   *  abstract member, which a generated subclass calls. */
+  implement?: Implement;
+  implementSkipped?: string;
   /** Output side (Dart -> JS). */
   fields?: Field[];
   outputSkipped?: string;
+}
+
+export interface Implement {
+  /** The superclass constructor the subclass calls; none is the unnamed one. */
+  ctor?: string;
+  members: {
+    name: string;
+    getter?: true;
+    /** The override's parameters (all required and positional). */
+    params: { name: string; dart: string }[];
+    /** The override's return type. */
+    ret: string;
+    fn: FnRef;
+  }[];
 }
 
 export interface EnumType {

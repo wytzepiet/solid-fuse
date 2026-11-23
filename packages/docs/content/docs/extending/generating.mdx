@@ -130,6 +130,21 @@ Offset offsetSquare(double v) => Offset(v, v);
 
 A type has at most one shorthand per kind of input. `@FuseShorthand(ts: ...)` narrows the TypeScript type: solid-fuse's color shorthand gives `` r'`#${string}`' ``.
 
+### Implementing a Dart class
+
+Where Dart takes an abstract class (a formatter, a delegate), you can implement it in JS: pass an object literal with a function for each abstract member. Its Dart subclasses still work as values, with their builders:
+
+```tsx
+<TextField
+  inputFormatters={[
+    LengthLimitingTextInputFormatter(20),
+    { formatEditUpdate: (oldValue, newValue) => ({ ...newValue, text: newValue.text.toUpperCase() }) },
+  ]}
+/>
+```
+
+Dart calls each function when it needs the member. One that returns a value is called synchronously, like a builder, so it must return at once. A getter is a function without arguments. The object must be a plain object whose functions don't use `this`: a class instance's methods aren't found.
+
 ## Controllers: createX
 
 A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, or an `@fuse` class with mutable state) gets a `createX` function per constructor:

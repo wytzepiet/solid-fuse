@@ -505,7 +505,10 @@ class Classifier {
       final consts = _consts(t, el, decl);
       final shorthands = _shorthandsFor(t, decl);
       if (shorthands.isNotEmpty) decl['shorthands'] = shorthands;
-      if (variants.isEmpty && consts.isEmpty && shorthands.isEmpty) {
+      // A plain object is the unnamed constructor's when there is one.
+      final implement = variants.any((v) => v['tag'] == el.name) ? null : _implement(t, el, decl);
+      if (implement != null) decl['implement'] = implement;
+      if (variants.isEmpty && consts.isEmpty && shorthands.isEmpty && implement == null) {
         final why = rejected.isEmpty
             ? (el is ClassElement && el.isAbstract ? 'abstract, no constructible subtype' : 'no public constructor')
             : 'no usable constructor (${rejected.entries.map((e) => '${e.key}: ${e.value}').join('; ')})';
@@ -519,6 +522,95 @@ class Classifier {
     } finally {
       _filling.remove(id);
     }
+  }
+
+  /// How JS implements abstract class [t] (a delegate, a formatter): an
+  /// object with a function per abstract member, which a generated subclass
+  /// calls. Null when it can't: the class can't be extended from another
+  /// library, has no constructor without required parameters, or has an
+  /// abstract member no callback can stand for (a setter, a generic or
+  /// private one, a parameter that isn't required and positional).
+  Json? _implement(InterfaceType t, InterfaceElement el, Json decl) {
+    if (el is! ClassElement || !el.isAbstract || el.isSealed || el.isFinal || el.isInterface) return null;
+    if (el.isPrivate || !w.isExported(el)) return null;
+    // F-bounded (`ThemeExtension<T extends ThemeExtension<T>>`): no bound to
+    // instantiate the subclass at.
+    for (final tp in el.typeParameters) {
+      final b = tp.bound;
+      if (b != null && el.typeParameters.any((o) => _mentions(b, o))) return null;
+    }
+    ConstructorElement? ctor;
+    for (final c in el.constructors) {
+      if (c.isFactory || c.isPrivate || _hidden(c)) continue;
+      if (c.formalParameters.any((p) => p.isRequired)) continue;
+      final named = c.name != null && c.name != 'new';
+      if (ctor == null || !named) ctor = c;
+    }
+    if (ctor == null) return null;
+    final lib = el.library;
+    final members = <Json>[];
+    final seen = <String>{};
+    String? why;
+    for (final st in [t, ...t.allSupertypes]) {
+      if (st.isDartCoreObject) continue;
+      for (final m in st.setters) {
+        if (!m.isStatic && t.lookUpSetter(m.name!, lib, concrete: true) == null) why ??= 'abstract setter ${m.name}';
+      }
+      for (final g in st.getters) {
+        final n = g.name!;
+        if (g.isStatic || !seen.add('get $n') || t.lookUpGetter(n, lib, concrete: true) != null) continue;
+        if (n.startsWith('_')) {
+          why ??= 'private member $n';
+          continue;
+        }
+        try {
+          final ret = input(g.returnType);
+          if (_typedWidget(ret)) throw Skip('returns a typed widget');
+          if (ret['k'] == 'supplied') throw Skip('returns a ${ret['of']}');
+          members.add({
+            'name': n,
+            'getter': true,
+            'params': <Json>[],
+            'ret': code.type(g.returnType),
+            'fn': {'k': 'fn', 'args': <Json>[], 'ret': ret, 'sync': true, 'dart': '${code.type(g.returnType)} Function()'},
+          });
+        } on Skip catch (s) {
+          why ??= '$n: ${s.reason}';
+        } on NotNameable catch (e) {
+          why ??= '$n: $e';
+        }
+      }
+      for (final m in st.methods) {
+        final n = m.name!;
+        if (m.isStatic || !seen.add(n) || t.lookUpMethod(n, lib, concrete: true) != null) continue;
+        if (n.startsWith('_')) {
+          why ??= 'private member $n';
+          continue;
+        }
+        try {
+          if (m.typeParameters.isNotEmpty) throw Skip('generic method');
+          members.add({
+            'name': n,
+            'params': [
+              for (final p in m.formalParameters) {'name': p.name ?? 'arg', 'dart': code.type(p.type)},
+            ],
+            'ret': code.type(m.returnType),
+            'fn': _callback(m.type),
+          });
+        } on Skip catch (s) {
+          why ??= '$n: ${s.reason}';
+        } on NotNameable catch (e) {
+          why ??= '$n: $e';
+        }
+      }
+    }
+    if (why != null) {
+      decl['implementSkipped'] = why;
+      return null;
+    }
+    if (members.isEmpty) return null;
+    final cname = ctor.name == null || ctor.name == 'new' ? null : ctor.name;
+    return {'ctor': ?cname, 'members': members};
   }
 
   InterfaceType? _instantiateSub(InterfaceElement c, InterfaceType target) {
@@ -684,6 +776,7 @@ class Classifier {
     // A typed widget is built where its slot is, during a build; a callback
     // returns its widget later or in a JS root of its own.
     if (_typedWidget(ret)) throw Skip('callback returns a typed widget');
+    if (ret['k'] == 'supplied') throw Skip('callback returns a ${ret['of']}');
     final sync = !isAsync && ret['k'] != 'void';
     return {
       'k': 'fn',
@@ -696,6 +789,12 @@ class Classifier {
       'dart': code.type(f),
     };
   }
+
+  static bool _mentions(DartType t, TypeParameterElement p) => switch (t) {
+    TypeParameterType() => t.element == p,
+    InterfaceType() => t.typeArguments.any((a) => _mentions(a, p)),
+    _ => false,
+  };
 
   static bool _typedWidget(Object? ref) {
     if (ref is! Map) return false;

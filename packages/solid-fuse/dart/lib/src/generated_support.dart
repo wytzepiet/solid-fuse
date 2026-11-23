@@ -238,6 +238,11 @@ class _FuseBuiltState extends State<FuseBuiltWidget> {
   Widget build(BuildContext context) => FuseNodeWidget(node: widget.node);
 }
 
+/// A member of an abstract class JS implements: the function JS gave, or an
+/// error naming the one it left out.
+T fuseImpl<T extends Function>(T? f, String name) =>
+    f ?? (throw FuseCallbackError(name, 'the JS object has no "$name"'));
+
 /// A JS callback threw or its Promise rejected.
 class FuseCallbackError implements Exception {
   FuseCallbackError(this.name, this.message);

@@ -96,6 +96,29 @@ class Counter extends ChangeNotifier {
   }
 }
 
+/// An abstract class JS can implement: a function per abstract member.
+abstract class Scorer {
+  const Scorer();
+  int score(Point at);
+  String get name;
+  void reset();
+
+  /// Concrete: stays Dart's.
+  String describe(Point at) => '$name: ${score(at)}';
+}
+
+/// A Dart implementation, still a variant.
+class FixedScorer extends Scorer {
+  const FixedScorer(this.value);
+  final int value;
+  @override
+  int score(Point at) => value;
+  @override
+  String get name => 'fixed';
+  @override
+  void reset() {}
+}
+
 /// A handle only Dart makes: JS borrows it.
 class Tracker extends ChangeNotifier {
   Tracker._();

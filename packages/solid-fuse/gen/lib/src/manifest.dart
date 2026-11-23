@@ -264,6 +264,8 @@ class ManifestBuilder {
         final id = ref['id']! as String;
         seen ??= {};
         if (!seen.add(id)) return false;
+        // Implemented in JS: an object of functions.
+        if (kinds.contains('fn') && c.types[id]?['implement'] != null) return true;
         final variants = c.types[id]?['variants'];
         if (variants is! List) return false;
         for (final v in variants) {
@@ -384,7 +386,15 @@ class ManifestBuilder {
         final before = variants.length;
         variants.removeWhere((v) => !_fix((v as Json)['params']! as List, notBuildable));
         if (variants.length != before) changed = true;
-        if (variants.isEmpty && (d['consts'] as List? ?? const []).isEmpty && d['shorthands'] == null) {
+        if (d['implement'] case final Map impl) {
+          final members = (impl['members']! as List).cast<Json>();
+          if (members.any((mb) => bad(mb['fn']))) {
+            d.remove('implement');
+            d['implementSkipped'] = 'a member\'s type is not constructible';
+            changed = true;
+          }
+        }
+        if (variants.isEmpty && (d['consts'] as List? ?? const []).isEmpty && d['shorthands'] == null && d['implement'] == null) {
           d['inputSkipped'] = 'no usable constructor after pruning';
           changed = true;
         }
