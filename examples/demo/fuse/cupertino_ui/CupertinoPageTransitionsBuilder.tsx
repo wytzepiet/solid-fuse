@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function CupertinoPageTransitionsBuilder$call(): { $: "CupertinoPageTransitionsBuilder" };
-function CupertinoPageTransitionsBuilder$call(...a: any[]): any {
+function $CupertinoPageTransitionsBuilder$call(): { $: "CupertinoPageTransitionsBuilder" };
+function $CupertinoPageTransitionsBuilder$call(...a: any[]): any {
   return $build("CupertinoPageTransitionsBuilder", [], a);
 }
-export const CupertinoPageTransitionsBuilder = /* @__PURE__ */ Object.assign(CupertinoPageTransitionsBuilder$call, {
+export const CupertinoPageTransitionsBuilder = /* @__PURE__ */ Object.assign($CupertinoPageTransitionsBuilder$call, {
 
 });

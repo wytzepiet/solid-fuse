@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { Offset, Rect } from "../flutter";
 
-function MagnifierInfo$call(named: { globalGesturePosition: Offset; caretRect: Rect; fieldBounds: Rect; currentLineBoundaries: Rect }): { $: "MagnifierInfo"; globalGesturePosition: Offset; caretRect: Rect; fieldBounds: Rect; currentLineBoundaries: Rect };
-function MagnifierInfo$call(...a: any[]): any {
+function $MagnifierInfo$call(named: { globalGesturePosition: Offset; caretRect: Rect; fieldBounds: Rect; currentLineBoundaries: Rect }): { $: "MagnifierInfo"; globalGesturePosition: Offset; caretRect: Rect; fieldBounds: Rect; currentLineBoundaries: Rect };
+function $MagnifierInfo$call(...a: any[]): any {
   return $build("MagnifierInfo", [], a);
 }
-export const MagnifierInfo = /* @__PURE__ */ Object.assign(MagnifierInfo$call, {
+export const MagnifierInfo = /* @__PURE__ */ Object.assign($MagnifierInfo$call, {
   empty: "MagnifierInfo.empty" as Const<"MagnifierInfo.empty">,
 });

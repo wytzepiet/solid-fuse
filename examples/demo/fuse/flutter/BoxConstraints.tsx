@@ -4,39 +4,39 @@
 import { $build } from "solid-fuse/generated";
 import type { Size, ViewConstraints } from "../flutter";
 
-function BoxConstraints$tight(size: Size): { $: "BoxConstraints.tight"; size: Size };
-function BoxConstraints$tight(...a: any[]): any {
+function $BoxConstraints$tight(size: Size): { $: "BoxConstraints.tight"; size: Size };
+function $BoxConstraints$tight(...a: any[]): any {
   return $build("BoxConstraints.tight", ["size"], a);
 }
-function BoxConstraints$tightFor(named?: { width?: number | null; height?: number | null }): { $: "BoxConstraints.tightFor"; width?: number | null; height?: number | null };
-function BoxConstraints$tightFor(...a: any[]): any {
+function $BoxConstraints$tightFor(named?: { width?: number | null; height?: number | null }): { $: "BoxConstraints.tightFor"; width?: number | null; height?: number | null };
+function $BoxConstraints$tightFor(...a: any[]): any {
   return $build("BoxConstraints.tightFor", [], a);
 }
-function BoxConstraints$tightForFinite(named?: { width?: number; height?: number }): { $: "BoxConstraints.tightForFinite"; width?: number; height?: number };
-function BoxConstraints$tightForFinite(...a: any[]): any {
+function $BoxConstraints$tightForFinite(named?: { width?: number; height?: number }): { $: "BoxConstraints.tightForFinite"; width?: number; height?: number };
+function $BoxConstraints$tightForFinite(...a: any[]): any {
   return $build("BoxConstraints.tightForFinite", [], a);
 }
-function BoxConstraints$loose(size: Size): { $: "BoxConstraints.loose"; size: Size };
-function BoxConstraints$loose(...a: any[]): any {
+function $BoxConstraints$loose(size: Size): { $: "BoxConstraints.loose"; size: Size };
+function $BoxConstraints$loose(...a: any[]): any {
   return $build("BoxConstraints.loose", ["size"], a);
 }
-function BoxConstraints$expand(named?: { width?: number | null; height?: number | null }): { $: "BoxConstraints.expand"; width?: number | null; height?: number | null };
-function BoxConstraints$expand(...a: any[]): any {
+function $BoxConstraints$expand(named?: { width?: number | null; height?: number | null }): { $: "BoxConstraints.expand"; width?: number | null; height?: number | null };
+function $BoxConstraints$expand(...a: any[]): any {
   return $build("BoxConstraints.expand", [], a);
 }
-function BoxConstraints$fromViewConstraints(constraints: ViewConstraints): { $: "BoxConstraints.fromViewConstraints"; constraints: ViewConstraints };
-function BoxConstraints$fromViewConstraints(...a: any[]): any {
+function $BoxConstraints$fromViewConstraints(constraints: ViewConstraints): { $: "BoxConstraints.fromViewConstraints"; constraints: ViewConstraints };
+function $BoxConstraints$fromViewConstraints(...a: any[]): any {
   return $build("BoxConstraints.fromViewConstraints", ["constraints"], a);
 }
-function BoxConstraints$call(named?: { minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number }): { $: "BoxConstraints"; minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number };
-function BoxConstraints$call(...a: any[]): any {
+function $BoxConstraints$call(named?: { minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number }): { $: "BoxConstraints"; minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number };
+function $BoxConstraints$call(...a: any[]): any {
   return $build("BoxConstraints", [], a);
 }
-export const BoxConstraints = /* @__PURE__ */ Object.assign(BoxConstraints$call, {
-  tight: BoxConstraints$tight,
-  tightFor: BoxConstraints$tightFor,
-  tightForFinite: BoxConstraints$tightForFinite,
-  loose: BoxConstraints$loose,
-  expand: BoxConstraints$expand,
-  fromViewConstraints: BoxConstraints$fromViewConstraints,
+export const BoxConstraints = /* @__PURE__ */ Object.assign($BoxConstraints$call, {
+  tight: $BoxConstraints$tight,
+  tightFor: $BoxConstraints$tightFor,
+  tightForFinite: $BoxConstraints$tightForFinite,
+  loose: $BoxConstraints$loose,
+  expand: $BoxConstraints$expand,
+  fromViewConstraints: $BoxConstraints$fromViewConstraints,
 });

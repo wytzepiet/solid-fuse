@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadius, BorderSide, BorderStyle, Color } from "../flutter";
 
-function TableBorder$all(named?: { color?: Color; width?: number; style?: BorderStyle; borderRadius?: BorderRadius }): { $: "TableBorder.all"; color?: Color; width?: number; style?: BorderStyle; borderRadius?: BorderRadius };
-function TableBorder$all(...a: any[]): any {
+function $TableBorder$all(named?: { color?: Color; width?: number; style?: BorderStyle; borderRadius?: BorderRadius }): { $: "TableBorder.all"; color?: Color; width?: number; style?: BorderStyle; borderRadius?: BorderRadius };
+function $TableBorder$all(...a: any[]): any {
   return $build("TableBorder.all", [], a);
 }
-function TableBorder$symmetric(named?: { inside?: BorderSide; outside?: BorderSide; borderRadius?: BorderRadius }): { $: "TableBorder.symmetric"; inside?: BorderSide; outside?: BorderSide; borderRadius?: BorderRadius };
-function TableBorder$symmetric(...a: any[]): any {
+function $TableBorder$symmetric(named?: { inside?: BorderSide; outside?: BorderSide; borderRadius?: BorderRadius }): { $: "TableBorder.symmetric"; inside?: BorderSide; outside?: BorderSide; borderRadius?: BorderRadius };
+function $TableBorder$symmetric(...a: any[]): any {
   return $build("TableBorder.symmetric", [], a);
 }
-function TableBorder$call(named?: { top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide; horizontalInside?: BorderSide; verticalInside?: BorderSide; borderRadius?: BorderRadius }): { $: "TableBorder"; top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide; horizontalInside?: BorderSide; verticalInside?: BorderSide; borderRadius?: BorderRadius };
-function TableBorder$call(...a: any[]): any {
+function $TableBorder$call(named?: { top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide; horizontalInside?: BorderSide; verticalInside?: BorderSide; borderRadius?: BorderRadius }): { $: "TableBorder"; top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide; horizontalInside?: BorderSide; verticalInside?: BorderSide; borderRadius?: BorderRadius };
+function $TableBorder$call(...a: any[]): any {
   return $build("TableBorder", [], a);
 }
-export const TableBorder = /* @__PURE__ */ Object.assign(TableBorder$call, {
-  all: TableBorder$all,
-  symmetric: TableBorder$symmetric,
+export const TableBorder = /* @__PURE__ */ Object.assign($TableBorder$call, {
+  all: $TableBorder$all,
+  symmetric: $TableBorder$symmetric,
 });

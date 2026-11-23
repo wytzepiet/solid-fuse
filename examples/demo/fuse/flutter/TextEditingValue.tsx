@@ -5,15 +5,15 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { TextRange, TextSelection } from "../flutter";
 
-function TextEditingValue$fromJSON(encoded: Record<string, unknown>): { $: "TextEditingValue.fromJSON"; encoded: Record<string, unknown> };
-function TextEditingValue$fromJSON(...a: any[]): any {
+function $TextEditingValue$fromJSON(encoded: Record<string, unknown>): { $: "TextEditingValue.fromJSON"; encoded: Record<string, unknown> };
+function $TextEditingValue$fromJSON(...a: any[]): any {
   return $build("TextEditingValue.fromJSON", ["encoded"], a);
 }
-function TextEditingValue$call(named?: { text?: string; selection?: TextSelection; composing?: TextRange }): { $: "TextEditingValue"; text?: string; selection?: TextSelection; composing?: TextRange };
-function TextEditingValue$call(...a: any[]): any {
+function $TextEditingValue$call(named?: { text?: string; selection?: TextSelection; composing?: TextRange }): { $: "TextEditingValue"; text?: string; selection?: TextSelection; composing?: TextRange };
+function $TextEditingValue$call(...a: any[]): any {
   return $build("TextEditingValue", [], a);
 }
-export const TextEditingValue = /* @__PURE__ */ Object.assign(TextEditingValue$call, {
-  fromJSON: TextEditingValue$fromJSON,
+export const TextEditingValue = /* @__PURE__ */ Object.assign($TextEditingValue$call, {
+  fromJSON: $TextEditingValue$fromJSON,
   empty: "TextEditingValue.empty" as Const<"TextEditingValue.empty">,
 });

@@ -8,10 +8,10 @@ import type { ValueNotifier } from "../listen";
 import "../flutter";
 import "../listen";
 
-function TextMagnifierConfiguration$call(named?: { magnifierBuilder?: ((controller: MagnifierController, magnifierInfo: ValueNotifier) => JSX.Element | null) | null; shouldDisplayHandlesInMagnifier?: boolean }): { $: "TextMagnifierConfiguration"; magnifierBuilder?: ((controller: MagnifierController, magnifierInfo: ValueNotifier) => JSX.Element | null) | null; shouldDisplayHandlesInMagnifier?: boolean };
-function TextMagnifierConfiguration$call(...a: any[]): any {
+function $TextMagnifierConfiguration$call(named?: { magnifierBuilder?: ((controller: MagnifierController, magnifierInfo: ValueNotifier) => JSX.Element | null) | null; shouldDisplayHandlesInMagnifier?: boolean }): { $: "TextMagnifierConfiguration"; magnifierBuilder?: ((controller: MagnifierController, magnifierInfo: ValueNotifier) => JSX.Element | null) | null; shouldDisplayHandlesInMagnifier?: boolean };
+function $TextMagnifierConfiguration$call(...a: any[]): any {
   return $build("TextMagnifierConfiguration", [], a);
 }
-export const TextMagnifierConfiguration = /* @__PURE__ */ Object.assign(TextMagnifierConfiguration$call, {
+export const TextMagnifierConfiguration = /* @__PURE__ */ Object.assign($TextMagnifierConfiguration$call, {
   disabled: "TextMagnifierConfiguration.disabled" as Const<"TextMagnifierConfiguration.disabled">,
 });

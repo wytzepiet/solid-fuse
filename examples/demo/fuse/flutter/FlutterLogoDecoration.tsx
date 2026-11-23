@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsets, FlutterLogoStyle } from "../flutter";
 
-function FlutterLogoDecoration$call(named?: { textColor?: Color; style?: FlutterLogoStyle; margin?: EdgeInsets }): { $: "FlutterLogoDecoration"; textColor?: Color; style?: FlutterLogoStyle; margin?: EdgeInsets };
-function FlutterLogoDecoration$call(...a: any[]): any {
+function $FlutterLogoDecoration$call(named?: { textColor?: Color; style?: FlutterLogoStyle; margin?: EdgeInsets }): { $: "FlutterLogoDecoration"; textColor?: Color; style?: FlutterLogoStyle; margin?: EdgeInsets };
+function $FlutterLogoDecoration$call(...a: any[]): any {
   return $build("FlutterLogoDecoration", [], a);
 }
-export const FlutterLogoDecoration = /* @__PURE__ */ Object.assign(FlutterLogoDecoration$call, {
+export const FlutterLogoDecoration = /* @__PURE__ */ Object.assign($FlutterLogoDecoration$call, {
 
 });

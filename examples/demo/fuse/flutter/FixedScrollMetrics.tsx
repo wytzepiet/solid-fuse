@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AxisDirection } from "../flutter";
 
-function FixedScrollMetrics$call(named: { minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; devicePixelRatio: number }): { $: "FixedScrollMetrics"; minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; devicePixelRatio: number };
-function FixedScrollMetrics$call(...a: any[]): any {
+function $FixedScrollMetrics$call(named: { minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; devicePixelRatio: number }): { $: "FixedScrollMetrics"; minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; devicePixelRatio: number };
+function $FixedScrollMetrics$call(...a: any[]): any {
   return $build("FixedScrollMetrics", [], a);
 }
-export const FixedScrollMetrics = /* @__PURE__ */ Object.assign(FixedScrollMetrics$call, {
+export const FixedScrollMetrics = /* @__PURE__ */ Object.assign($FixedScrollMetrics$call, {
 
 });

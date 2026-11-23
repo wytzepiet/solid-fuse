@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function CupertinoPage$call(named: { child: JSX.Element; maintainState?: boolean; title?: string | null; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; key?: string | number | null; name?: string | null; arguments?: unknown; restorationId?: string | null }): { $: "CupertinoPage"; child: JSX.Element; maintainState?: boolean; title?: string | null; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; key?: string | number | null; name?: string | null; arguments?: unknown; restorationId?: string | null };
-function CupertinoPage$call(...a: any[]): any {
+function $CupertinoPage$call(named: { child: JSX.Element; maintainState?: boolean; title?: string | null; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; key?: string | number | null; name?: string | null; arguments?: unknown; restorationId?: string | null }): { $: "CupertinoPage"; child: JSX.Element; maintainState?: boolean; title?: string | null; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; key?: string | number | null; name?: string | null; arguments?: unknown; restorationId?: string | null };
+function $CupertinoPage$call(...a: any[]): any {
   return $build("CupertinoPage", [], a);
 }
-export const CupertinoPage = /* @__PURE__ */ Object.assign(CupertinoPage$call, {
+export const CupertinoPage = /* @__PURE__ */ Object.assign($CupertinoPage$call, {
 
 });

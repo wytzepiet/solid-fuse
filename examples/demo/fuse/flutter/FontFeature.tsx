@@ -3,144 +3,144 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function FontFeature$enable(feature: string): { $: "FontFeature.enable"; feature: string };
-function FontFeature$enable(...a: any[]): any {
+function $FontFeature$enable(feature: string): { $: "FontFeature.enable"; feature: string };
+function $FontFeature$enable(...a: any[]): any {
   return $build("FontFeature.enable", ["feature"], a);
 }
-function FontFeature$disable(feature: string): { $: "FontFeature.disable"; feature: string };
-function FontFeature$disable(...a: any[]): any {
+function $FontFeature$disable(feature: string): { $: "FontFeature.disable"; feature: string };
+function $FontFeature$disable(...a: any[]): any {
   return $build("FontFeature.disable", ["feature"], a);
 }
-function FontFeature$alternative(value: number): { $: "FontFeature.alternative"; value: number };
-function FontFeature$alternative(...a: any[]): any {
+function $FontFeature$alternative(value: number): { $: "FontFeature.alternative"; value: number };
+function $FontFeature$alternative(...a: any[]): any {
   return $build("FontFeature.alternative", ["value"], a);
 }
-function FontFeature$alternativeFractions(): { $: "FontFeature.alternativeFractions" };
-function FontFeature$alternativeFractions(...a: any[]): any {
+function $FontFeature$alternativeFractions(): { $: "FontFeature.alternativeFractions" };
+function $FontFeature$alternativeFractions(...a: any[]): any {
   return $build("FontFeature.alternativeFractions", [], a);
 }
-function FontFeature$contextualAlternates(): { $: "FontFeature.contextualAlternates" };
-function FontFeature$contextualAlternates(...a: any[]): any {
+function $FontFeature$contextualAlternates(): { $: "FontFeature.contextualAlternates" };
+function $FontFeature$contextualAlternates(...a: any[]): any {
   return $build("FontFeature.contextualAlternates", [], a);
 }
-function FontFeature$caseSensitiveForms(): { $: "FontFeature.caseSensitiveForms" };
-function FontFeature$caseSensitiveForms(...a: any[]): any {
+function $FontFeature$caseSensitiveForms(): { $: "FontFeature.caseSensitiveForms" };
+function $FontFeature$caseSensitiveForms(...a: any[]): any {
   return $build("FontFeature.caseSensitiveForms", [], a);
 }
-function FontFeature$characterVariant(value: number): { $: "FontFeature.characterVariant"; value: number };
-function FontFeature$characterVariant(...a: any[]): any {
+function $FontFeature$characterVariant(value: number): { $: "FontFeature.characterVariant"; value: number };
+function $FontFeature$characterVariant(...a: any[]): any {
   return $build("FontFeature.characterVariant", ["value"], a);
 }
-function FontFeature$denominator(): { $: "FontFeature.denominator" };
-function FontFeature$denominator(...a: any[]): any {
+function $FontFeature$denominator(): { $: "FontFeature.denominator" };
+function $FontFeature$denominator(...a: any[]): any {
   return $build("FontFeature.denominator", [], a);
 }
-function FontFeature$fractions(): { $: "FontFeature.fractions" };
-function FontFeature$fractions(...a: any[]): any {
+function $FontFeature$fractions(): { $: "FontFeature.fractions" };
+function $FontFeature$fractions(...a: any[]): any {
   return $build("FontFeature.fractions", [], a);
 }
-function FontFeature$historicalForms(): { $: "FontFeature.historicalForms" };
-function FontFeature$historicalForms(...a: any[]): any {
+function $FontFeature$historicalForms(): { $: "FontFeature.historicalForms" };
+function $FontFeature$historicalForms(...a: any[]): any {
   return $build("FontFeature.historicalForms", [], a);
 }
-function FontFeature$historicalLigatures(): { $: "FontFeature.historicalLigatures" };
-function FontFeature$historicalLigatures(...a: any[]): any {
+function $FontFeature$historicalLigatures(): { $: "FontFeature.historicalLigatures" };
+function $FontFeature$historicalLigatures(...a: any[]): any {
   return $build("FontFeature.historicalLigatures", [], a);
 }
-function FontFeature$liningFigures(): { $: "FontFeature.liningFigures" };
-function FontFeature$liningFigures(...a: any[]): any {
+function $FontFeature$liningFigures(): { $: "FontFeature.liningFigures" };
+function $FontFeature$liningFigures(...a: any[]): any {
   return $build("FontFeature.liningFigures", [], a);
 }
-function FontFeature$localeAware(named?: { enable?: boolean }): { $: "FontFeature.localeAware"; enable?: boolean };
-function FontFeature$localeAware(...a: any[]): any {
+function $FontFeature$localeAware(named?: { enable?: boolean }): { $: "FontFeature.localeAware"; enable?: boolean };
+function $FontFeature$localeAware(...a: any[]): any {
   return $build("FontFeature.localeAware", [], a);
 }
-function FontFeature$notationalForms(value?: number): { $: "FontFeature.notationalForms"; value?: number };
-function FontFeature$notationalForms(...a: any[]): any {
+function $FontFeature$notationalForms(value?: number): { $: "FontFeature.notationalForms"; value?: number };
+function $FontFeature$notationalForms(...a: any[]): any {
   return $build("FontFeature.notationalForms", ["value"], a);
 }
-function FontFeature$numerators(): { $: "FontFeature.numerators" };
-function FontFeature$numerators(...a: any[]): any {
+function $FontFeature$numerators(): { $: "FontFeature.numerators" };
+function $FontFeature$numerators(...a: any[]): any {
   return $build("FontFeature.numerators", [], a);
 }
-function FontFeature$oldstyleFigures(): { $: "FontFeature.oldstyleFigures" };
-function FontFeature$oldstyleFigures(...a: any[]): any {
+function $FontFeature$oldstyleFigures(): { $: "FontFeature.oldstyleFigures" };
+function $FontFeature$oldstyleFigures(...a: any[]): any {
   return $build("FontFeature.oldstyleFigures", [], a);
 }
-function FontFeature$ordinalForms(): { $: "FontFeature.ordinalForms" };
-function FontFeature$ordinalForms(...a: any[]): any {
+function $FontFeature$ordinalForms(): { $: "FontFeature.ordinalForms" };
+function $FontFeature$ordinalForms(...a: any[]): any {
   return $build("FontFeature.ordinalForms", [], a);
 }
-function FontFeature$proportionalFigures(): { $: "FontFeature.proportionalFigures" };
-function FontFeature$proportionalFigures(...a: any[]): any {
+function $FontFeature$proportionalFigures(): { $: "FontFeature.proportionalFigures" };
+function $FontFeature$proportionalFigures(...a: any[]): any {
   return $build("FontFeature.proportionalFigures", [], a);
 }
-function FontFeature$randomize(): { $: "FontFeature.randomize" };
-function FontFeature$randomize(...a: any[]): any {
+function $FontFeature$randomize(): { $: "FontFeature.randomize" };
+function $FontFeature$randomize(...a: any[]): any {
   return $build("FontFeature.randomize", [], a);
 }
-function FontFeature$stylisticAlternates(): { $: "FontFeature.stylisticAlternates" };
-function FontFeature$stylisticAlternates(...a: any[]): any {
+function $FontFeature$stylisticAlternates(): { $: "FontFeature.stylisticAlternates" };
+function $FontFeature$stylisticAlternates(...a: any[]): any {
   return $build("FontFeature.stylisticAlternates", [], a);
 }
-function FontFeature$scientificInferiors(): { $: "FontFeature.scientificInferiors" };
-function FontFeature$scientificInferiors(...a: any[]): any {
+function $FontFeature$scientificInferiors(): { $: "FontFeature.scientificInferiors" };
+function $FontFeature$scientificInferiors(...a: any[]): any {
   return $build("FontFeature.scientificInferiors", [], a);
 }
-function FontFeature$stylisticSet(value: number): { $: "FontFeature.stylisticSet"; value: number };
-function FontFeature$stylisticSet(...a: any[]): any {
+function $FontFeature$stylisticSet(value: number): { $: "FontFeature.stylisticSet"; value: number };
+function $FontFeature$stylisticSet(...a: any[]): any {
   return $build("FontFeature.stylisticSet", ["value"], a);
 }
-function FontFeature$subscripts(): { $: "FontFeature.subscripts" };
-function FontFeature$subscripts(...a: any[]): any {
+function $FontFeature$subscripts(): { $: "FontFeature.subscripts" };
+function $FontFeature$subscripts(...a: any[]): any {
   return $build("FontFeature.subscripts", [], a);
 }
-function FontFeature$superscripts(): { $: "FontFeature.superscripts" };
-function FontFeature$superscripts(...a: any[]): any {
+function $FontFeature$superscripts(): { $: "FontFeature.superscripts" };
+function $FontFeature$superscripts(...a: any[]): any {
   return $build("FontFeature.superscripts", [], a);
 }
-function FontFeature$swash(value?: number): { $: "FontFeature.swash"; value?: number };
-function FontFeature$swash(...a: any[]): any {
+function $FontFeature$swash(value?: number): { $: "FontFeature.swash"; value?: number };
+function $FontFeature$swash(...a: any[]): any {
   return $build("FontFeature.swash", ["value"], a);
 }
-function FontFeature$tabularFigures(): { $: "FontFeature.tabularFigures" };
-function FontFeature$tabularFigures(...a: any[]): any {
+function $FontFeature$tabularFigures(): { $: "FontFeature.tabularFigures" };
+function $FontFeature$tabularFigures(...a: any[]): any {
   return $build("FontFeature.tabularFigures", [], a);
 }
-function FontFeature$slashedZero(): { $: "FontFeature.slashedZero" };
-function FontFeature$slashedZero(...a: any[]): any {
+function $FontFeature$slashedZero(): { $: "FontFeature.slashedZero" };
+function $FontFeature$slashedZero(...a: any[]): any {
   return $build("FontFeature.slashedZero", [], a);
 }
-function FontFeature$call(feature: string, value?: number): { $: "FontFeature"; feature: string; value?: number };
-function FontFeature$call(...a: any[]): any {
+function $FontFeature$call(feature: string, value?: number): { $: "FontFeature"; feature: string; value?: number };
+function $FontFeature$call(...a: any[]): any {
   return $build("FontFeature", ["feature","value"], a);
 }
-export const FontFeature = /* @__PURE__ */ Object.assign(FontFeature$call, {
-  enable: FontFeature$enable,
-  disable: FontFeature$disable,
-  alternative: FontFeature$alternative,
-  alternativeFractions: FontFeature$alternativeFractions,
-  contextualAlternates: FontFeature$contextualAlternates,
-  caseSensitiveForms: FontFeature$caseSensitiveForms,
-  characterVariant: FontFeature$characterVariant,
-  denominator: FontFeature$denominator,
-  fractions: FontFeature$fractions,
-  historicalForms: FontFeature$historicalForms,
-  historicalLigatures: FontFeature$historicalLigatures,
-  liningFigures: FontFeature$liningFigures,
-  localeAware: FontFeature$localeAware,
-  notationalForms: FontFeature$notationalForms,
-  numerators: FontFeature$numerators,
-  oldstyleFigures: FontFeature$oldstyleFigures,
-  ordinalForms: FontFeature$ordinalForms,
-  proportionalFigures: FontFeature$proportionalFigures,
-  randomize: FontFeature$randomize,
-  stylisticAlternates: FontFeature$stylisticAlternates,
-  scientificInferiors: FontFeature$scientificInferiors,
-  stylisticSet: FontFeature$stylisticSet,
-  subscripts: FontFeature$subscripts,
-  superscripts: FontFeature$superscripts,
-  swash: FontFeature$swash,
-  tabularFigures: FontFeature$tabularFigures,
-  slashedZero: FontFeature$slashedZero,
+export const FontFeature = /* @__PURE__ */ Object.assign($FontFeature$call, {
+  enable: $FontFeature$enable,
+  disable: $FontFeature$disable,
+  alternative: $FontFeature$alternative,
+  alternativeFractions: $FontFeature$alternativeFractions,
+  contextualAlternates: $FontFeature$contextualAlternates,
+  caseSensitiveForms: $FontFeature$caseSensitiveForms,
+  characterVariant: $FontFeature$characterVariant,
+  denominator: $FontFeature$denominator,
+  fractions: $FontFeature$fractions,
+  historicalForms: $FontFeature$historicalForms,
+  historicalLigatures: $FontFeature$historicalLigatures,
+  liningFigures: $FontFeature$liningFigures,
+  localeAware: $FontFeature$localeAware,
+  notationalForms: $FontFeature$notationalForms,
+  numerators: $FontFeature$numerators,
+  oldstyleFigures: $FontFeature$oldstyleFigures,
+  ordinalForms: $FontFeature$ordinalForms,
+  proportionalFigures: $FontFeature$proportionalFigures,
+  randomize: $FontFeature$randomize,
+  stylisticAlternates: $FontFeature$stylisticAlternates,
+  scientificInferiors: $FontFeature$scientificInferiors,
+  stylisticSet: $FontFeature$stylisticSet,
+  subscripts: $FontFeature$subscripts,
+  superscripts: $FontFeature$superscripts,
+  swash: $FontFeature$swash,
+  tabularFigures: $FontFeature$tabularFigures,
+  slashedZero: $FontFeature$slashedZero,
 });

@@ -3,11 +3,11 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function Tween$call(named?: { begin?: unknown; end?: unknown }): { $: "Tween"; begin?: unknown; end?: unknown };
-function Tween$call(named?: { begin?: number | null; end?: number | null }): { $: "Tween"; begin?: number | null; end?: number | null };
-function Tween$call(...a: any[]): any {
+function $Tween$call(named?: { begin?: unknown; end?: unknown }): { $: "Tween"; begin?: unknown; end?: unknown };
+function $Tween$call(named?: { begin?: number | null; end?: number | null }): { $: "Tween"; begin?: number | null; end?: number | null };
+function $Tween$call(...a: any[]): any {
   return $build("Tween", [], a);
 }
-export const Tween = /* @__PURE__ */ Object.assign(Tween$call, {
+export const Tween = /* @__PURE__ */ Object.assign($Tween$call, {
 
 });

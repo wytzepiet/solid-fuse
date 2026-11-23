@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function ZoomPageTransitionsBuilder$call(named?: { allowSnapshotting?: boolean; allowEnterRouteSnapshotting?: boolean; backgroundColor?: Color | null }): { $: "ZoomPageTransitionsBuilder"; allowSnapshotting?: boolean; allowEnterRouteSnapshotting?: boolean; backgroundColor?: Color | null };
-function ZoomPageTransitionsBuilder$call(...a: any[]): any {
+function $ZoomPageTransitionsBuilder$call(named?: { allowSnapshotting?: boolean; allowEnterRouteSnapshotting?: boolean; backgroundColor?: Color | null }): { $: "ZoomPageTransitionsBuilder"; allowSnapshotting?: boolean; allowEnterRouteSnapshotting?: boolean; backgroundColor?: Color | null };
+function $ZoomPageTransitionsBuilder$call(...a: any[]): any {
   return $build("ZoomPageTransitionsBuilder", [], a);
 }
-export const ZoomPageTransitionsBuilder = /* @__PURE__ */ Object.assign(ZoomPageTransitionsBuilder$call, {
+export const ZoomPageTransitionsBuilder = /* @__PURE__ */ Object.assign($ZoomPageTransitionsBuilder$call, {
 
 });

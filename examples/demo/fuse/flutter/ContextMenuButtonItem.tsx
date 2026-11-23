@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ContextMenuButtonKind, ContextMenuButtonType } from "../flutter";
 
-function ContextMenuButtonItem$call(named?: { onPressed?: (() => void) | null; type?: ContextMenuButtonType | null; kind?: ContextMenuButtonKind | null; label?: string | null }): { $: "ContextMenuButtonItem"; onPressed?: (() => void) | null; type?: ContextMenuButtonType | null; kind?: ContextMenuButtonKind | null; label?: string | null };
-function ContextMenuButtonItem$call(...a: any[]): any {
+function $ContextMenuButtonItem$call(named?: { onPressed?: (() => void) | null; type?: ContextMenuButtonType | null; kind?: ContextMenuButtonKind | null; label?: string | null }): { $: "ContextMenuButtonItem"; onPressed?: (() => void) | null; type?: ContextMenuButtonType | null; kind?: ContextMenuButtonKind | null; label?: string | null };
+function $ContextMenuButtonItem$call(...a: any[]): any {
   return $build("ContextMenuButtonItem", [], a);
 }
-export const ContextMenuButtonItem = /* @__PURE__ */ Object.assign(ContextMenuButtonItem$call, {
+export const ContextMenuButtonItem = /* @__PURE__ */ Object.assign($ContextMenuButtonItem$call, {
 
 });

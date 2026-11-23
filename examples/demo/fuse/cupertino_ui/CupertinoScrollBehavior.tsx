@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function CupertinoScrollBehavior$call(): { $: "CupertinoScrollBehavior" };
-function CupertinoScrollBehavior$call(...a: any[]): any {
+function $CupertinoScrollBehavior$call(): { $: "CupertinoScrollBehavior" };
+function $CupertinoScrollBehavior$call(...a: any[]): any {
   return $build("CupertinoScrollBehavior", [], a);
 }
-export const CupertinoScrollBehavior = /* @__PURE__ */ Object.assign(CupertinoScrollBehavior$call, {
+export const CupertinoScrollBehavior = /* @__PURE__ */ Object.assign($CupertinoScrollBehavior$call, {
 
 });

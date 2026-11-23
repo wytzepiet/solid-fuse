@@ -4,6 +4,7 @@ import { linkCommand } from "./link";
 import { devCommand } from "./dev";
 import { buildCommand } from "./build";
 import { genCommand } from "./gen/command";
+import { driveCommand } from "./drive";
 
 const main = defineCommand({
   meta: {
@@ -16,6 +17,7 @@ const main = defineCommand({
     dev: devCommand,
     build: buildCommand,
     gen: genCommand,
+    drive: driveCommand,
   },
 });
 

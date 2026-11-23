@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AxisDirection } from "../flutter";
 
-function PageMetrics$call(named: { minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; viewportFraction: number; devicePixelRatio: number }): { $: "PageMetrics"; minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; viewportFraction: number; devicePixelRatio: number };
-function PageMetrics$call(...a: any[]): any {
+function $PageMetrics$call(named: { minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; viewportFraction: number; devicePixelRatio: number }): { $: "PageMetrics"; minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; viewportFraction: number; devicePixelRatio: number };
+function $PageMetrics$call(...a: any[]): any {
   return $build("PageMetrics", [], a);
 }
-export const PageMetrics = /* @__PURE__ */ Object.assign(PageMetrics$call, {
+export const PageMetrics = /* @__PURE__ */ Object.assign($PageMetrics$call, {
 
 });

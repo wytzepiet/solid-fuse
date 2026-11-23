@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 
-function DeviceGestureSettings$fromView(view: Handle<string>): { $: "DeviceGestureSettings.fromView"; view: Handle<string> };
-function DeviceGestureSettings$fromView(...a: any[]): any {
+function $DeviceGestureSettings$fromView(view: Handle<string>): { $: "DeviceGestureSettings.fromView"; view: Handle<string> };
+function $DeviceGestureSettings$fromView(...a: any[]): any {
   return $build("DeviceGestureSettings.fromView", ["view"], a);
 }
-function DeviceGestureSettings$call(named?: { touchSlop?: number | null }): { $: "DeviceGestureSettings"; touchSlop?: number | null };
-function DeviceGestureSettings$call(...a: any[]): any {
+function $DeviceGestureSettings$call(named?: { touchSlop?: number | null }): { $: "DeviceGestureSettings"; touchSlop?: number | null };
+function $DeviceGestureSettings$call(...a: any[]): any {
   return $build("DeviceGestureSettings", [], a);
 }
-export const DeviceGestureSettings = /* @__PURE__ */ Object.assign(DeviceGestureSettings$call, {
-  fromView: DeviceGestureSettings$fromView,
+export const DeviceGestureSettings = /* @__PURE__ */ Object.assign($DeviceGestureSettings$call, {
+  fromView: $DeviceGestureSettings$fromView,
 });

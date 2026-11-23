@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function OrdinalSortKey$call(order: number, named?: { name?: string | null }): { $: "OrdinalSortKey"; order: number; name?: string | null };
-function OrdinalSortKey$call(...a: any[]): any {
+function $OrdinalSortKey$call(order: number, named?: { name?: string | null }): { $: "OrdinalSortKey"; order: number; name?: string | null };
+function $OrdinalSortKey$call(...a: any[]): any {
   return $build("OrdinalSortKey", ["order"], a);
 }
-export const OrdinalSortKey = /* @__PURE__ */ Object.assign(OrdinalSortKey$call, {
+export const OrdinalSortKey = /* @__PURE__ */ Object.assign($OrdinalSortKey$call, {
 
 });

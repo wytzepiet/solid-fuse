@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { Duration } from "../flutter";
 
-function SpringDescription$withDampingRatio(named: { mass: number; stiffness: number; ratio?: number }): { $: "SpringDescription.withDampingRatio"; mass: number; stiffness: number; ratio?: number };
-function SpringDescription$withDampingRatio(...a: any[]): any {
+function $SpringDescription$withDampingRatio(named: { mass: number; stiffness: number; ratio?: number }): { $: "SpringDescription.withDampingRatio"; mass: number; stiffness: number; ratio?: number };
+function $SpringDescription$withDampingRatio(...a: any[]): any {
   return $build("SpringDescription.withDampingRatio", [], a);
 }
-function SpringDescription$withDurationAndBounce(named?: { duration?: Duration; bounce?: number }): { $: "SpringDescription.withDurationAndBounce"; duration?: Duration; bounce?: number };
-function SpringDescription$withDurationAndBounce(...a: any[]): any {
+function $SpringDescription$withDurationAndBounce(named?: { duration?: Duration; bounce?: number }): { $: "SpringDescription.withDurationAndBounce"; duration?: Duration; bounce?: number };
+function $SpringDescription$withDurationAndBounce(...a: any[]): any {
   return $build("SpringDescription.withDurationAndBounce", [], a);
 }
-function SpringDescription$call(named: { mass: number; stiffness: number; damping: number }): { $: "SpringDescription"; mass: number; stiffness: number; damping: number };
-function SpringDescription$call(...a: any[]): any {
+function $SpringDescription$call(named: { mass: number; stiffness: number; damping: number }): { $: "SpringDescription"; mass: number; stiffness: number; damping: number };
+function $SpringDescription$call(...a: any[]): any {
   return $build("SpringDescription", [], a);
 }
-export const SpringDescription = /* @__PURE__ */ Object.assign(SpringDescription$call, {
-  withDampingRatio: SpringDescription$withDampingRatio,
-  withDurationAndBounce: SpringDescription$withDurationAndBounce,
+export const SpringDescription = /* @__PURE__ */ Object.assign($SpringDescription$call, {
+  withDampingRatio: $SpringDescription$withDampingRatio,
+  withDurationAndBounce: $SpringDescription$withDurationAndBounce,
 });

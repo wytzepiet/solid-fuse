@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { TapDownDetailsOut } from "../flutter";
 
-function DataCell$call(child: JSX.Element, named?: { placeholder?: boolean; showEditIcon?: boolean; onTap?: (() => void) | null; onLongPress?: (() => void) | null; onTapDown?: ((details: TapDownDetailsOut) => void) | null; onDoubleTap?: (() => void) | null; onTapCancel?: (() => void) | null }): { $: "DataCell"; child: JSX.Element; placeholder?: boolean; showEditIcon?: boolean; onTap?: (() => void) | null; onLongPress?: (() => void) | null; onTapDown?: ((details: TapDownDetailsOut) => void) | null; onDoubleTap?: (() => void) | null; onTapCancel?: (() => void) | null };
-function DataCell$call(...a: any[]): any {
+function $DataCell$call(child: JSX.Element, named?: { placeholder?: boolean; showEditIcon?: boolean; onTap?: (() => void) | null; onLongPress?: (() => void) | null; onTapDown?: ((details: TapDownDetailsOut) => void) | null; onDoubleTap?: (() => void) | null; onTapCancel?: (() => void) | null }): { $: "DataCell"; child: JSX.Element; placeholder?: boolean; showEditIcon?: boolean; onTap?: (() => void) | null; onLongPress?: (() => void) | null; onTapDown?: ((details: TapDownDetailsOut) => void) | null; onDoubleTap?: (() => void) | null; onTapCancel?: (() => void) | null };
+function $DataCell$call(...a: any[]): any {
   return $build("DataCell", ["child"], a);
 }
-export const DataCell = /* @__PURE__ */ Object.assign(DataCell$call, {
+export const DataCell = /* @__PURE__ */ Object.assign($DataCell$call, {
   empty: "DataCell.empty" as Const<"DataCell.empty">,
 });

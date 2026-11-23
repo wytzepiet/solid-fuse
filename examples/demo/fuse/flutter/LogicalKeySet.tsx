@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { LogicalKeyboardKey } from "../flutter";
 
-function LogicalKeySet$fromSet(keys: LogicalKeyboardKey[]): { $: "LogicalKeySet.fromSet"; keys: LogicalKeyboardKey[] };
-function LogicalKeySet$fromSet(...a: any[]): any {
+function $LogicalKeySet$fromSet(keys: LogicalKeyboardKey[]): { $: "LogicalKeySet.fromSet"; keys: LogicalKeyboardKey[] };
+function $LogicalKeySet$fromSet(...a: any[]): any {
   return $build("LogicalKeySet.fromSet", ["keys"], a);
 }
-function LogicalKeySet$call(key1: LogicalKeyboardKey, key2?: LogicalKeyboardKey | null, key3?: LogicalKeyboardKey | null, key4?: LogicalKeyboardKey | null): { $: "LogicalKeySet"; key1: LogicalKeyboardKey; key2?: LogicalKeyboardKey | null; key3?: LogicalKeyboardKey | null; key4?: LogicalKeyboardKey | null };
-function LogicalKeySet$call(...a: any[]): any {
+function $LogicalKeySet$call(key1: LogicalKeyboardKey, key2?: LogicalKeyboardKey | null, key3?: LogicalKeyboardKey | null, key4?: LogicalKeyboardKey | null): { $: "LogicalKeySet"; key1: LogicalKeyboardKey; key2?: LogicalKeyboardKey | null; key3?: LogicalKeyboardKey | null; key4?: LogicalKeyboardKey | null };
+function $LogicalKeySet$call(...a: any[]): any {
   return $build("LogicalKeySet", ["key1","key2","key3","key4"], a);
 }
-export const LogicalKeySet = /* @__PURE__ */ Object.assign(LogicalKeySet$call, {
-  fromSet: LogicalKeySet$fromSet,
+export const LogicalKeySet = /* @__PURE__ */ Object.assign($LogicalKeySet$call, {
+  fromSet: $LogicalKeySet$fromSet,
 });

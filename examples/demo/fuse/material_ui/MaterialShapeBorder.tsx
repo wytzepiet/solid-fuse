@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { BorderSide } from "../flutter";
 import type { RoundedPolygon } from "../material_ui";
 
-function MaterialShapeBorder$call(named: { shape: RoundedPolygon; side?: BorderSide; squash?: number }): { $: "MaterialShapeBorder"; shape: RoundedPolygon; side?: BorderSide; squash?: number };
-function MaterialShapeBorder$call(...a: any[]): any {
+function $MaterialShapeBorder$call(named: { shape: RoundedPolygon; side?: BorderSide; squash?: number }): { $: "MaterialShapeBorder"; shape: RoundedPolygon; side?: BorderSide; squash?: number };
+function $MaterialShapeBorder$call(...a: any[]): any {
   return $build("MaterialShapeBorder", [], a);
 }
-export const MaterialShapeBorder = /* @__PURE__ */ Object.assign(MaterialShapeBorder$call, {
+export const MaterialShapeBorder = /* @__PURE__ */ Object.assign($MaterialShapeBorder$call, {
 
 });

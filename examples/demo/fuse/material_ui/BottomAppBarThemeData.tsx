@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsetsGeometry, NotchedShape } from "../flutter";
 
-function BottomAppBarThemeData$call(named?: { color?: Color | null; elevation?: number | null; shape?: NotchedShape | null; height?: number | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; padding?: EdgeInsetsGeometry | null }): { $: "BottomAppBarThemeData"; color?: Color | null; elevation?: number | null; shape?: NotchedShape | null; height?: number | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; padding?: EdgeInsetsGeometry | null };
-function BottomAppBarThemeData$call(...a: any[]): any {
+function $BottomAppBarThemeData$call(named?: { color?: Color | null; elevation?: number | null; shape?: NotchedShape | null; height?: number | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; padding?: EdgeInsetsGeometry | null }): { $: "BottomAppBarThemeData"; color?: Color | null; elevation?: number | null; shape?: NotchedShape | null; height?: number | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; padding?: EdgeInsetsGeometry | null };
+function $BottomAppBarThemeData$call(...a: any[]): any {
   return $build("BottomAppBarThemeData", [], a);
 }
-export const BottomAppBarThemeData = /* @__PURE__ */ Object.assign(BottomAppBarThemeData$call, {
+export const BottomAppBarThemeData = /* @__PURE__ */ Object.assign($BottomAppBarThemeData$call, {
 
 });

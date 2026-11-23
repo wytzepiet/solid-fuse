@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Curve } from "../flutter";
 
-function Interval$call(begin: number, end: number, named?: { curve?: Curve }): { $: "Interval"; begin: number; end: number; curve?: Curve };
-function Interval$call(...a: any[]): any {
+function $Interval$call(begin: number, end: number, named?: { curve?: Curve }): { $: "Interval"; begin: number; end: number; curve?: Curve };
+function $Interval$call(...a: any[]): any {
   return $build("Interval", ["begin","end"], a);
 }
-export const Interval = /* @__PURE__ */ Object.assign(Interval$call, {
+export const Interval = /* @__PURE__ */ Object.assign($Interval$call, {
 
 });

@@ -1,4 +1,5 @@
 export 'src/annotations.dart';
+export 'src/binding.dart';
 export 'src/channels.dart';
 export 'src/connection.dart';
 export 'src/dev_connection.dart';

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { StringAttribute } from "../flutter";
 
-function AttributedString$call(string: string, named?: { attributes?: StringAttribute[] }): { $: "AttributedString"; string: string; attributes?: StringAttribute[] };
-function AttributedString$call(...a: any[]): any {
+function $AttributedString$call(string: string, named?: { attributes?: StringAttribute[] }): { $: "AttributedString"; string: string; attributes?: StringAttribute[] };
+function $AttributedString$call(...a: any[]): any {
   return $build("AttributedString", ["string"], a);
 }
-export const AttributedString = /* @__PURE__ */ Object.assign(AttributedString$call, {
+export const AttributedString = /* @__PURE__ */ Object.assign($AttributedString$call, {
 
 });

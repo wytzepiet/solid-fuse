@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SliverGridRegularTileLayout$call(named: { crossAxisCount: number; mainAxisStride: number; crossAxisStride: number; childMainAxisExtent: number; childCrossAxisExtent: number; reverseCrossAxis: boolean }): { $: "SliverGridRegularTileLayout"; crossAxisCount: number; mainAxisStride: number; crossAxisStride: number; childMainAxisExtent: number; childCrossAxisExtent: number; reverseCrossAxis: boolean };
-function SliverGridRegularTileLayout$call(...a: any[]): any {
+function $SliverGridRegularTileLayout$call(named: { crossAxisCount: number; mainAxisStride: number; crossAxisStride: number; childMainAxisExtent: number; childCrossAxisExtent: number; reverseCrossAxis: boolean }): { $: "SliverGridRegularTileLayout"; crossAxisCount: number; mainAxisStride: number; crossAxisStride: number; childMainAxisExtent: number; childCrossAxisExtent: number; reverseCrossAxis: boolean };
+function $SliverGridRegularTileLayout$call(...a: any[]): any {
   return $build("SliverGridRegularTileLayout", [], a);
 }
-export const SliverGridRegularTileLayout = /* @__PURE__ */ Object.assign(SliverGridRegularTileLayout$call, {
+export const SliverGridRegularTileLayout = /* @__PURE__ */ Object.assign($SliverGridRegularTileLayout$call, {
 
 });

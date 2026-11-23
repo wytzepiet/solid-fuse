@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, Shadow } from "../flutter";
 
-function IconThemeData$fallback(): { $: "IconThemeData.fallback" };
-function IconThemeData$fallback(...a: any[]): any {
+function $IconThemeData$fallback(): { $: "IconThemeData.fallback" };
+function $IconThemeData$fallback(...a: any[]): any {
   return $build("IconThemeData.fallback", [], a);
 }
-function IconThemeData$call(named?: { size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null }): { $: "IconThemeData"; size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null };
-function IconThemeData$call(...a: any[]): any {
+function $IconThemeData$call(named?: { size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null }): { $: "IconThemeData"; size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null };
+function $IconThemeData$call(...a: any[]): any {
   return $build("IconThemeData", [], a);
 }
-export const IconThemeData = /* @__PURE__ */ Object.assign(IconThemeData$call, {
-  fallback: IconThemeData$fallback,
+export const IconThemeData = /* @__PURE__ */ Object.assign($IconThemeData$call, {
+  fallback: $IconThemeData$fallback,
 });

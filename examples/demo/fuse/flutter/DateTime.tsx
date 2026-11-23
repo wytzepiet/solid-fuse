@@ -3,34 +3,34 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function DateTime$utc(year: number): { $: "DateTime.utc"; year: number };
-function DateTime$utc(...a: any[]): any {
+function $DateTime$utc(year: number): { $: "DateTime.utc"; year: number };
+function $DateTime$utc(...a: any[]): any {
   return $build("DateTime.utc", ["year"], a);
 }
-function DateTime$now(): { $: "DateTime.now" };
-function DateTime$now(...a: any[]): any {
+function $DateTime$now(): { $: "DateTime.now" };
+function $DateTime$now(...a: any[]): any {
   return $build("DateTime.now", [], a);
 }
-function DateTime$timestamp(): { $: "DateTime.timestamp" };
-function DateTime$timestamp(...a: any[]): any {
+function $DateTime$timestamp(): { $: "DateTime.timestamp" };
+function $DateTime$timestamp(...a: any[]): any {
   return $build("DateTime.timestamp", [], a);
 }
-function DateTime$fromMillisecondsSinceEpoch(millisecondsSinceEpoch: number, named?: { isUtc?: boolean }): { $: "DateTime.fromMillisecondsSinceEpoch"; millisecondsSinceEpoch: number; isUtc?: boolean };
-function DateTime$fromMillisecondsSinceEpoch(...a: any[]): any {
+function $DateTime$fromMillisecondsSinceEpoch(millisecondsSinceEpoch: number, named?: { isUtc?: boolean }): { $: "DateTime.fromMillisecondsSinceEpoch"; millisecondsSinceEpoch: number; isUtc?: boolean };
+function $DateTime$fromMillisecondsSinceEpoch(...a: any[]): any {
   return $build("DateTime.fromMillisecondsSinceEpoch", ["millisecondsSinceEpoch"], a);
 }
-function DateTime$fromMicrosecondsSinceEpoch(microsecondsSinceEpoch: number, named?: { isUtc?: boolean }): { $: "DateTime.fromMicrosecondsSinceEpoch"; microsecondsSinceEpoch: number; isUtc?: boolean };
-function DateTime$fromMicrosecondsSinceEpoch(...a: any[]): any {
+function $DateTime$fromMicrosecondsSinceEpoch(microsecondsSinceEpoch: number, named?: { isUtc?: boolean }): { $: "DateTime.fromMicrosecondsSinceEpoch"; microsecondsSinceEpoch: number; isUtc?: boolean };
+function $DateTime$fromMicrosecondsSinceEpoch(...a: any[]): any {
   return $build("DateTime.fromMicrosecondsSinceEpoch", ["microsecondsSinceEpoch"], a);
 }
-function DateTime$call(year: number): { $: "DateTime"; year: number };
-function DateTime$call(...a: any[]): any {
+function $DateTime$call(year: number): { $: "DateTime"; year: number };
+function $DateTime$call(...a: any[]): any {
   return $build("DateTime", ["year"], a);
 }
-export const DateTime = /* @__PURE__ */ Object.assign(DateTime$call, {
-  utc: DateTime$utc,
-  now: DateTime$now,
-  timestamp: DateTime$timestamp,
-  fromMillisecondsSinceEpoch: DateTime$fromMillisecondsSinceEpoch,
-  fromMicrosecondsSinceEpoch: DateTime$fromMicrosecondsSinceEpoch,
+export const DateTime = /* @__PURE__ */ Object.assign($DateTime$call, {
+  utc: $DateTime$utc,
+  now: $DateTime$now,
+  timestamp: $DateTime$timestamp,
+  fromMillisecondsSinceEpoch: $DateTime$fromMillisecondsSinceEpoch,
+  fromMicrosecondsSinceEpoch: $DateTime$fromMicrosecondsSinceEpoch,
 });

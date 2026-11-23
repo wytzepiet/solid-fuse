@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ButtonSegment$call(named?: { value?: unknown; icon?: JSX.Element | null; label?: JSX.Element | null; tooltip?: string | null; enabled?: boolean }): { $: "ButtonSegment"; value?: unknown; icon?: JSX.Element | null; label?: JSX.Element | null; tooltip?: string | null; enabled?: boolean };
-function ButtonSegment$call(...a: any[]): any {
+function $ButtonSegment$call(named?: { value?: unknown; icon?: JSX.Element | null; label?: JSX.Element | null; tooltip?: string | null; enabled?: boolean }): { $: "ButtonSegment"; value?: unknown; icon?: JSX.Element | null; label?: JSX.Element | null; tooltip?: string | null; enabled?: boolean };
+function $ButtonSegment$call(...a: any[]): any {
   return $build("ButtonSegment", [], a);
 }
-export const ButtonSegment = /* @__PURE__ */ Object.assign(ButtonSegment$call, {
+export const ButtonSegment = /* @__PURE__ */ Object.assign($ButtonSegment$call, {
 
 });

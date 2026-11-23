@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function LogicalKeyboardKey$call(keyId: number): { $: "LogicalKeyboardKey"; keyId: number };
-function LogicalKeyboardKey$call(...a: any[]): any {
+function $LogicalKeyboardKey$call(keyId: number): { $: "LogicalKeyboardKey"; keyId: number };
+function $LogicalKeyboardKey$call(...a: any[]): any {
   return $build("LogicalKeyboardKey", ["keyId"], a);
 }
-export const LogicalKeyboardKey = /* @__PURE__ */ Object.assign(LogicalKeyboardKey$call, {
+export const LogicalKeyboardKey = /* @__PURE__ */ Object.assign($LogicalKeyboardKey$call, {
   space: "LogicalKeyboardKey.space" as Const<"LogicalKeyboardKey.space">,
   exclamation: "LogicalKeyboardKey.exclamation" as Const<"LogicalKeyboardKey.exclamation">,
   quote: "LogicalKeyboardKey.quote" as Const<"LogicalKeyboardKey.quote">,

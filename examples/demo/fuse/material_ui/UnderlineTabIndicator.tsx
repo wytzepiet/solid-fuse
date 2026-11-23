@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadius, BorderSide, EdgeInsetsGeometry } from "../flutter";
 
-function UnderlineTabIndicator$call(named?: { borderRadius?: BorderRadius | null; borderSide?: BorderSide; insets?: EdgeInsetsGeometry }): { $: "UnderlineTabIndicator"; borderRadius?: BorderRadius | null; borderSide?: BorderSide; insets?: EdgeInsetsGeometry };
-function UnderlineTabIndicator$call(...a: any[]): any {
+function $UnderlineTabIndicator$call(named?: { borderRadius?: BorderRadius | null; borderSide?: BorderSide; insets?: EdgeInsetsGeometry }): { $: "UnderlineTabIndicator"; borderRadius?: BorderRadius | null; borderSide?: BorderSide; insets?: EdgeInsetsGeometry };
+function $UnderlineTabIndicator$call(...a: any[]): any {
   return $build("UnderlineTabIndicator", [], a);
 }
-export const UnderlineTabIndicator = /* @__PURE__ */ Object.assign(UnderlineTabIndicator$call, {
+export const UnderlineTabIndicator = /* @__PURE__ */ Object.assign($UnderlineTabIndicator$call, {
 
 });

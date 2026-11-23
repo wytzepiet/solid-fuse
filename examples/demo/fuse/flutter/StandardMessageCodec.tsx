@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function StandardMessageCodec$call(): { $: "StandardMessageCodec" };
-function StandardMessageCodec$call(...a: any[]): any {
+function $StandardMessageCodec$call(): { $: "StandardMessageCodec" };
+function $StandardMessageCodec$call(...a: any[]): any {
   return $build("StandardMessageCodec", [], a);
 }
-export const StandardMessageCodec = /* @__PURE__ */ Object.assign(StandardMessageCodec$call, {
+export const StandardMessageCodec = /* @__PURE__ */ Object.assign($StandardMessageCodec$call, {
 
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SemanticsTag$call(name: string): { $: "SemanticsTag"; name: string };
-function SemanticsTag$call(...a: any[]): any {
+function $SemanticsTag$call(name: string): { $: "SemanticsTag"; name: string };
+function $SemanticsTag$call(...a: any[]): any {
   return $build("SemanticsTag", ["name"], a);
 }
-export const SemanticsTag = /* @__PURE__ */ Object.assign(SemanticsTag$call, {
+export const SemanticsTag = /* @__PURE__ */ Object.assign($SemanticsTag$call, {
 
 });

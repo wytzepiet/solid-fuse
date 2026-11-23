@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function BottomNavigationBarItem$call(named: { key?: string | number | null; icon: JSX.Element; label?: string | null; activeIcon?: JSX.Element | null; backgroundColor?: Color | null; tooltip?: string | null; semanticsLabel?: string | null }): { $: "BottomNavigationBarItem"; key?: string | number | null; icon: JSX.Element; label?: string | null; activeIcon?: JSX.Element | null; backgroundColor?: Color | null; tooltip?: string | null; semanticsLabel?: string | null };
-function BottomNavigationBarItem$call(...a: any[]): any {
+function $BottomNavigationBarItem$call(named: { key?: string | number | null; icon: JSX.Element; label?: string | null; activeIcon?: JSX.Element | null; backgroundColor?: Color | null; tooltip?: string | null; semanticsLabel?: string | null }): { $: "BottomNavigationBarItem"; key?: string | number | null; icon: JSX.Element; label?: string | null; activeIcon?: JSX.Element | null; backgroundColor?: Color | null; tooltip?: string | null; semanticsLabel?: string | null };
+function $BottomNavigationBarItem$call(...a: any[]): any {
   return $build("BottomNavigationBarItem", [], a);
 }
-export const BottomNavigationBarItem = /* @__PURE__ */ Object.assign(BottomNavigationBarItem$call, {
+export const BottomNavigationBarItem = /* @__PURE__ */ Object.assign($BottomNavigationBarItem$call, {
 
 });

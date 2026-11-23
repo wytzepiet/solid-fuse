@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function TextSelectionToolbarAnchors$call(named: { primaryAnchor: Offset; secondaryAnchor?: Offset | null }): { $: "TextSelectionToolbarAnchors"; primaryAnchor: Offset; secondaryAnchor?: Offset | null };
-function TextSelectionToolbarAnchors$call(...a: any[]): any {
+function $TextSelectionToolbarAnchors$call(named: { primaryAnchor: Offset; secondaryAnchor?: Offset | null }): { $: "TextSelectionToolbarAnchors"; primaryAnchor: Offset; secondaryAnchor?: Offset | null };
+function $TextSelectionToolbarAnchors$call(...a: any[]): any {
   return $build("TextSelectionToolbarAnchors", [], a);
 }
-export const TextSelectionToolbarAnchors = /* @__PURE__ */ Object.assign(TextSelectionToolbarAnchors$call, {
+export const TextSelectionToolbarAnchors = /* @__PURE__ */ Object.assign($TextSelectionToolbarAnchors$call, {
 
 });

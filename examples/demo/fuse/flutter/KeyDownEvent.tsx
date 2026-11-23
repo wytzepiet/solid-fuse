@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Duration, KeyEventDeviceType, LogicalKeyboardKey, PhysicalKeyboardKey } from "../flutter";
 
-function KeyDownEvent$call(named: { physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; synthesized?: boolean; deviceType?: KeyEventDeviceType }): { $: "KeyDownEvent"; physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; synthesized?: boolean; deviceType?: KeyEventDeviceType };
-function KeyDownEvent$call(...a: any[]): any {
+function $KeyDownEvent$call(named: { physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; synthesized?: boolean; deviceType?: KeyEventDeviceType }): { $: "KeyDownEvent"; physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; synthesized?: boolean; deviceType?: KeyEventDeviceType };
+function $KeyDownEvent$call(...a: any[]): any {
   return $build("KeyDownEvent", [], a);
 }
-export const KeyDownEvent = /* @__PURE__ */ Object.assign(KeyDownEvent$call, {
+export const KeyDownEvent = /* @__PURE__ */ Object.assign($KeyDownEvent$call, {
 
 });

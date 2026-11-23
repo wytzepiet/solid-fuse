@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SliverChildBuilderDelegate$call(builder: (index: number) => JSX.Element | null, named?: { findChildIndexCallback?: ((key: undefined) => number | null) | null; childCount?: number | null; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number }): { $: "SliverChildBuilderDelegate"; builder: (index: number) => JSX.Element | null; findChildIndexCallback?: ((key: undefined) => number | null) | null; childCount?: number | null; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number };
-function SliverChildBuilderDelegate$call(...a: any[]): any {
+function $SliverChildBuilderDelegate$call(builder: (index: number) => JSX.Element | null, named?: { findChildIndexCallback?: ((key: undefined) => number | null) | null; childCount?: number | null; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number }): { $: "SliverChildBuilderDelegate"; builder: (index: number) => JSX.Element | null; findChildIndexCallback?: ((key: undefined) => number | null) | null; childCount?: number | null; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number };
+function $SliverChildBuilderDelegate$call(...a: any[]): any {
   return $build("SliverChildBuilderDelegate", ["builder"], a);
 }
-export const SliverChildBuilderDelegate = /* @__PURE__ */ Object.assign(SliverChildBuilderDelegate$call, {
+export const SliverChildBuilderDelegate = /* @__PURE__ */ Object.assign($SliverChildBuilderDelegate$call, {
 
 });

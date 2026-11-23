@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Alignment } from "../flutter";
 
-function AlignmentTween$call(named?: { begin?: Alignment | null; end?: Alignment | null }): { $: "AlignmentTween"; begin?: Alignment | null; end?: Alignment | null };
-function AlignmentTween$call(...a: any[]): any {
+function $AlignmentTween$call(named?: { begin?: Alignment | null; end?: Alignment | null }): { $: "AlignmentTween"; begin?: Alignment | null; end?: Alignment | null };
+function $AlignmentTween$call(...a: any[]): any {
   return $build("AlignmentTween", [], a);
 }
-export const AlignmentTween = /* @__PURE__ */ Object.assign(AlignmentTween$call, {
+export const AlignmentTween = /* @__PURE__ */ Object.assign($AlignmentTween$call, {
 
 });

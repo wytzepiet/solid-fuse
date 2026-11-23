@@ -5,11 +5,11 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { Brightness, Color } from "../flutter";
 
-function SystemUiOverlayStyle$call(named?: { systemNavigationBarColor?: Color | null; systemNavigationBarDividerColor?: Color | null; systemNavigationBarIconBrightness?: Brightness | null; systemNavigationBarContrastEnforced?: boolean | null; statusBarColor?: Color | null; statusBarBrightness?: Brightness | null; statusBarIconBrightness?: Brightness | null; systemStatusBarContrastEnforced?: boolean | null }): { $: "SystemUiOverlayStyle"; systemNavigationBarColor?: Color | null; systemNavigationBarDividerColor?: Color | null; systemNavigationBarIconBrightness?: Brightness | null; systemNavigationBarContrastEnforced?: boolean | null; statusBarColor?: Color | null; statusBarBrightness?: Brightness | null; statusBarIconBrightness?: Brightness | null; systemStatusBarContrastEnforced?: boolean | null };
-function SystemUiOverlayStyle$call(...a: any[]): any {
+function $SystemUiOverlayStyle$call(named?: { systemNavigationBarColor?: Color | null; systemNavigationBarDividerColor?: Color | null; systemNavigationBarIconBrightness?: Brightness | null; systemNavigationBarContrastEnforced?: boolean | null; statusBarColor?: Color | null; statusBarBrightness?: Brightness | null; statusBarIconBrightness?: Brightness | null; systemStatusBarContrastEnforced?: boolean | null }): { $: "SystemUiOverlayStyle"; systemNavigationBarColor?: Color | null; systemNavigationBarDividerColor?: Color | null; systemNavigationBarIconBrightness?: Brightness | null; systemNavigationBarContrastEnforced?: boolean | null; statusBarColor?: Color | null; statusBarBrightness?: Brightness | null; statusBarIconBrightness?: Brightness | null; systemStatusBarContrastEnforced?: boolean | null };
+function $SystemUiOverlayStyle$call(...a: any[]): any {
   return $build("SystemUiOverlayStyle", [], a);
 }
-export const SystemUiOverlayStyle = /* @__PURE__ */ Object.assign(SystemUiOverlayStyle$call, {
+export const SystemUiOverlayStyle = /* @__PURE__ */ Object.assign($SystemUiOverlayStyle$call, {
   light: "SystemUiOverlayStyle.light" as Const<"SystemUiOverlayStyle.light">,
   dark: "SystemUiOverlayStyle.dark" as Const<"SystemUiOverlayStyle.dark">,
 });

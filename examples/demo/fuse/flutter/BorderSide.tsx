@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { BorderStyle, Color } from "../flutter";
 
-function BorderSide$call(named?: { color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number }): { $: "BorderSide"; color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number };
-function BorderSide$call(...a: any[]): any {
+function $BorderSide$call(named?: { color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number }): { $: "BorderSide"; color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number };
+function $BorderSide$call(...a: any[]): any {
   return $build("BorderSide", [], a);
 }
-export const BorderSide = /* @__PURE__ */ Object.assign(BorderSide$call, {
+export const BorderSide = /* @__PURE__ */ Object.assign($BorderSide$call, {
   none: "BorderSide.none" as Const<"BorderSide.none">,
 });

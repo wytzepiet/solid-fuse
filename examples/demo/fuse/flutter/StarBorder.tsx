@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide } from "../flutter";
 
-function StarBorder$polygon(named?: { side?: BorderSide; sides?: number; pointRounding?: number; rotation?: number; squash?: number }): { $: "StarBorder.polygon"; side?: BorderSide; sides?: number; pointRounding?: number; rotation?: number; squash?: number };
-function StarBorder$polygon(...a: any[]): any {
+function $StarBorder$polygon(named?: { side?: BorderSide; sides?: number; pointRounding?: number; rotation?: number; squash?: number }): { $: "StarBorder.polygon"; side?: BorderSide; sides?: number; pointRounding?: number; rotation?: number; squash?: number };
+function $StarBorder$polygon(...a: any[]): any {
   return $build("StarBorder.polygon", [], a);
 }
-function StarBorder$call(named?: { side?: BorderSide; points?: number; innerRadiusRatio?: number; pointRounding?: number; valleyRounding?: number; rotation?: number; squash?: number }): { $: "StarBorder"; side?: BorderSide; points?: number; innerRadiusRatio?: number; pointRounding?: number; valleyRounding?: number; rotation?: number; squash?: number };
-function StarBorder$call(...a: any[]): any {
+function $StarBorder$call(named?: { side?: BorderSide; points?: number; innerRadiusRatio?: number; pointRounding?: number; valleyRounding?: number; rotation?: number; squash?: number }): { $: "StarBorder"; side?: BorderSide; points?: number; innerRadiusRatio?: number; pointRounding?: number; valleyRounding?: number; rotation?: number; squash?: number };
+function $StarBorder$call(...a: any[]): any {
   return $build("StarBorder", [], a);
 }
-export const StarBorder = /* @__PURE__ */ Object.assign(StarBorder$call, {
-  polygon: StarBorder$polygon,
+export const StarBorder = /* @__PURE__ */ Object.assign($StarBorder$call, {
+  polygon: $StarBorder$polygon,
 });

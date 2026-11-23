@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RoundRangeSliderTickMarkShape$call(named?: { tickMarkRadius?: number | null }): { $: "RoundRangeSliderTickMarkShape"; tickMarkRadius?: number | null };
-function RoundRangeSliderTickMarkShape$call(...a: any[]): any {
+function $RoundRangeSliderTickMarkShape$call(named?: { tickMarkRadius?: number | null }): { $: "RoundRangeSliderTickMarkShape"; tickMarkRadius?: number | null };
+function $RoundRangeSliderTickMarkShape$call(...a: any[]): any {
   return $build("RoundRangeSliderTickMarkShape", [], a);
 }
-export const RoundRangeSliderTickMarkShape = /* @__PURE__ */ Object.assign(RoundRangeSliderTickMarkShape$call, {
+export const RoundRangeSliderTickMarkShape = /* @__PURE__ */ Object.assign($RoundRangeSliderTickMarkShape$call, {
 
 });

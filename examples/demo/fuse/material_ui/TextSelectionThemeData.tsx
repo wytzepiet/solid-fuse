@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function TextSelectionThemeData$call(named?: { cursorColor?: Color | null; selectionColor?: Color | null; selectionHandleColor?: Color | null }): { $: "TextSelectionThemeData"; cursorColor?: Color | null; selectionColor?: Color | null; selectionHandleColor?: Color | null };
-function TextSelectionThemeData$call(...a: any[]): any {
+function $TextSelectionThemeData$call(named?: { cursorColor?: Color | null; selectionColor?: Color | null; selectionHandleColor?: Color | null }): { $: "TextSelectionThemeData"; cursorColor?: Color | null; selectionColor?: Color | null; selectionHandleColor?: Color | null };
+function $TextSelectionThemeData$call(...a: any[]): any {
   return $build("TextSelectionThemeData", [], a);
 }
-export const TextSelectionThemeData = /* @__PURE__ */ Object.assign(TextSelectionThemeData$call, {
+export const TextSelectionThemeData = /* @__PURE__ */ Object.assign($TextSelectionThemeData$call, {
 
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ScrollBehavior$call(): { $: "ScrollBehavior" };
-function ScrollBehavior$call(...a: any[]): any {
+function $ScrollBehavior$call(): { $: "ScrollBehavior" };
+function $ScrollBehavior$call(...a: any[]): any {
   return $build("ScrollBehavior", [], a);
 }
-export const ScrollBehavior = /* @__PURE__ */ Object.assign(ScrollBehavior$call, {
+export const ScrollBehavior = /* @__PURE__ */ Object.assign($ScrollBehavior$call, {
 
 });

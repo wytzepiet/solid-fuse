@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ListWheelChildBuilderDelegate$call(named: { builder: (index: number) => JSX.Element | null; childCount?: number | null }): { $: "ListWheelChildBuilderDelegate"; builder: (index: number) => JSX.Element | null; childCount?: number | null };
-function ListWheelChildBuilderDelegate$call(...a: any[]): any {
+function $ListWheelChildBuilderDelegate$call(named: { builder: (index: number) => JSX.Element | null; childCount?: number | null }): { $: "ListWheelChildBuilderDelegate"; builder: (index: number) => JSX.Element | null; childCount?: number | null };
+function $ListWheelChildBuilderDelegate$call(...a: any[]): any {
   return $build("ListWheelChildBuilderDelegate", [], a);
 }
-export const ListWheelChildBuilderDelegate = /* @__PURE__ */ Object.assign(ListWheelChildBuilderDelegate$call, {
+export const ListWheelChildBuilderDelegate = /* @__PURE__ */ Object.assign($ListWheelChildBuilderDelegate$call, {
 
 });

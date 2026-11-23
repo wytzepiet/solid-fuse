@@ -4,15 +4,15 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function TextRange$collapsed(offset: number): { $: "TextRange.collapsed"; offset: number };
-function TextRange$collapsed(...a: any[]): any {
+function $TextRange$collapsed(offset: number): { $: "TextRange.collapsed"; offset: number };
+function $TextRange$collapsed(...a: any[]): any {
   return $build("TextRange.collapsed", ["offset"], a);
 }
-function TextRange$call(named: { start: number; end: number }): { $: "TextRange"; start: number; end: number };
-function TextRange$call(...a: any[]): any {
+function $TextRange$call(named: { start: number; end: number }): { $: "TextRange"; start: number; end: number };
+function $TextRange$call(...a: any[]): any {
   return $build("TextRange", [], a);
 }
-export const TextRange = /* @__PURE__ */ Object.assign(TextRange$call, {
-  collapsed: TextRange$collapsed,
+export const TextRange = /* @__PURE__ */ Object.assign($TextRange$call, {
+  collapsed: $TextRange$collapsed,
   empty: "TextRange.empty" as Const<"TextRange.empty">,
 });

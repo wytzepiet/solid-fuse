@@ -4,34 +4,34 @@
 import { $build } from "solid-fuse/generated";
 import type { ScrollDecelerationRate, ScrollPhysics as ScrollPhysics$ } from "../flutter";
 
-function ScrollPhysics$alwaysScrollable(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.alwaysScrollable"; parent?: ScrollPhysics$ | null };
-function ScrollPhysics$alwaysScrollable(...a: any[]): any {
+function $ScrollPhysics$alwaysScrollable(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.alwaysScrollable"; parent?: ScrollPhysics$ | null };
+function $ScrollPhysics$alwaysScrollable(...a: any[]): any {
   return $build("ScrollPhysics.alwaysScrollable", [], a);
 }
-function ScrollPhysics$bouncing(named?: { parent?: ScrollPhysics$ | null; decelerationRate?: ScrollDecelerationRate }): { $: "ScrollPhysics.bouncing"; parent?: ScrollPhysics$ | null; decelerationRate?: ScrollDecelerationRate };
-function ScrollPhysics$bouncing(...a: any[]): any {
+function $ScrollPhysics$bouncing(named?: { parent?: ScrollPhysics$ | null; decelerationRate?: ScrollDecelerationRate }): { $: "ScrollPhysics.bouncing"; parent?: ScrollPhysics$ | null; decelerationRate?: ScrollDecelerationRate };
+function $ScrollPhysics$bouncing(...a: any[]): any {
   return $build("ScrollPhysics.bouncing", [], a);
 }
-function ScrollPhysics$clamping(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.clamping"; parent?: ScrollPhysics$ | null };
-function ScrollPhysics$clamping(...a: any[]): any {
+function $ScrollPhysics$clamping(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.clamping"; parent?: ScrollPhysics$ | null };
+function $ScrollPhysics$clamping(...a: any[]): any {
   return $build("ScrollPhysics.clamping", [], a);
 }
-function ScrollPhysics$neverScrollable(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.neverScrollable"; parent?: ScrollPhysics$ | null };
-function ScrollPhysics$neverScrollable(...a: any[]): any {
+function $ScrollPhysics$neverScrollable(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.neverScrollable"; parent?: ScrollPhysics$ | null };
+function $ScrollPhysics$neverScrollable(...a: any[]): any {
   return $build("ScrollPhysics.neverScrollable", [], a);
 }
-function ScrollPhysics$rangeMaintaining(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.rangeMaintaining"; parent?: ScrollPhysics$ | null };
-function ScrollPhysics$rangeMaintaining(...a: any[]): any {
+function $ScrollPhysics$rangeMaintaining(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics.rangeMaintaining"; parent?: ScrollPhysics$ | null };
+function $ScrollPhysics$rangeMaintaining(...a: any[]): any {
   return $build("ScrollPhysics.rangeMaintaining", [], a);
 }
-function ScrollPhysics$call(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics"; parent?: ScrollPhysics$ | null };
-function ScrollPhysics$call(...a: any[]): any {
+function $ScrollPhysics$call(named?: { parent?: ScrollPhysics$ | null }): { $: "ScrollPhysics"; parent?: ScrollPhysics$ | null };
+function $ScrollPhysics$call(...a: any[]): any {
   return $build("ScrollPhysics", [], a);
 }
-export const ScrollPhysics = /* @__PURE__ */ Object.assign(ScrollPhysics$call, {
-  alwaysScrollable: ScrollPhysics$alwaysScrollable,
-  bouncing: ScrollPhysics$bouncing,
-  clamping: ScrollPhysics$clamping,
-  neverScrollable: ScrollPhysics$neverScrollable,
-  rangeMaintaining: ScrollPhysics$rangeMaintaining,
+export const ScrollPhysics = /* @__PURE__ */ Object.assign($ScrollPhysics$call, {
+  alwaysScrollable: $ScrollPhysics$alwaysScrollable,
+  bouncing: $ScrollPhysics$bouncing,
+  clamping: $ScrollPhysics$clamping,
+  neverScrollable: $ScrollPhysics$neverScrollable,
+  rangeMaintaining: $ScrollPhysics$rangeMaintaining,
 });

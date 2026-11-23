@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function Threshold$call(threshold: number): { $: "Threshold"; threshold: number };
-function Threshold$call(...a: any[]): any {
+function $Threshold$call(threshold: number): { $: "Threshold"; threshold: number };
+function $Threshold$call(...a: any[]): any {
   return $build("Threshold", ["threshold"], a);
 }
-export const Threshold = /* @__PURE__ */ Object.assign(Threshold$call, {
+export const Threshold = /* @__PURE__ */ Object.assign($Threshold$call, {
 
 });

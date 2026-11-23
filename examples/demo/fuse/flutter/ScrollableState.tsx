@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ScrollableState$call(): { $: "ScrollableState" };
-function ScrollableState$call(...a: any[]): any {
+function $ScrollableState$call(): { $: "ScrollableState" };
+function $ScrollableState$call(...a: any[]): any {
   return $build("ScrollableState", [], a);
 }
-export const ScrollableState = /* @__PURE__ */ Object.assign(ScrollableState$call, {
+export const ScrollableState = /* @__PURE__ */ Object.assign($ScrollableState$call, {
 
 });

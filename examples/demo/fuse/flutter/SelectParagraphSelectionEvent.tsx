@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function SelectParagraphSelectionEvent$call(named: { globalPosition: Offset; absorb?: boolean }): { $: "SelectParagraphSelectionEvent"; globalPosition: Offset; absorb?: boolean };
-function SelectParagraphSelectionEvent$call(...a: any[]): any {
+function $SelectParagraphSelectionEvent$call(named: { globalPosition: Offset; absorb?: boolean }): { $: "SelectParagraphSelectionEvent"; globalPosition: Offset; absorb?: boolean };
+function $SelectParagraphSelectionEvent$call(...a: any[]): any {
   return $build("SelectParagraphSelectionEvent", [], a);
 }
-export const SelectParagraphSelectionEvent = /* @__PURE__ */ Object.assign(SelectParagraphSelectionEvent$call, {
+export const SelectParagraphSelectionEvent = /* @__PURE__ */ Object.assign($SelectParagraphSelectionEvent$call, {
 
 });

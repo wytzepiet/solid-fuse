@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Radius, WidgetStatePropertyOfColorN, WidgetStatePropertyOfboolN, WidgetStatePropertyOfdoubleN } from "../flutter";
 
-function ScrollbarThemeData$call(named?: { thumbVisibility?: WidgetStatePropertyOfboolN | null; thickness?: WidgetStatePropertyOfdoubleN | null; trackVisibility?: WidgetStatePropertyOfboolN | null; radius?: Radius | null; thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackBorderColor?: WidgetStatePropertyOfColorN | null; crossAxisMargin?: number | null; mainAxisMargin?: number | null; minThumbLength?: number | null; interactive?: boolean | null }): { $: "ScrollbarThemeData"; thumbVisibility?: WidgetStatePropertyOfboolN | null; thickness?: WidgetStatePropertyOfdoubleN | null; trackVisibility?: WidgetStatePropertyOfboolN | null; radius?: Radius | null; thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackBorderColor?: WidgetStatePropertyOfColorN | null; crossAxisMargin?: number | null; mainAxisMargin?: number | null; minThumbLength?: number | null; interactive?: boolean | null };
-function ScrollbarThemeData$call(...a: any[]): any {
+function $ScrollbarThemeData$call(named?: { thumbVisibility?: WidgetStatePropertyOfboolN | null; thickness?: WidgetStatePropertyOfdoubleN | null; trackVisibility?: WidgetStatePropertyOfboolN | null; radius?: Radius | null; thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackBorderColor?: WidgetStatePropertyOfColorN | null; crossAxisMargin?: number | null; mainAxisMargin?: number | null; minThumbLength?: number | null; interactive?: boolean | null }): { $: "ScrollbarThemeData"; thumbVisibility?: WidgetStatePropertyOfboolN | null; thickness?: WidgetStatePropertyOfdoubleN | null; trackVisibility?: WidgetStatePropertyOfboolN | null; radius?: Radius | null; thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackBorderColor?: WidgetStatePropertyOfColorN | null; crossAxisMargin?: number | null; mainAxisMargin?: number | null; minThumbLength?: number | null; interactive?: boolean | null };
+function $ScrollbarThemeData$call(...a: any[]): any {
   return $build("ScrollbarThemeData", [], a);
 }
-export const ScrollbarThemeData = /* @__PURE__ */ Object.assign(ScrollbarThemeData$call, {
+export const ScrollbarThemeData = /* @__PURE__ */ Object.assign($ScrollbarThemeData$call, {
 
 });

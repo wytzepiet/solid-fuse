@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function FadeUpwardsPageTransitionsBuilder$call(): { $: "FadeUpwardsPageTransitionsBuilder" };
-function FadeUpwardsPageTransitionsBuilder$call(...a: any[]): any {
+function $FadeUpwardsPageTransitionsBuilder$call(): { $: "FadeUpwardsPageTransitionsBuilder" };
+function $FadeUpwardsPageTransitionsBuilder$call(...a: any[]): any {
   return $build("FadeUpwardsPageTransitionsBuilder", [], a);
 }
-export const FadeUpwardsPageTransitionsBuilder = /* @__PURE__ */ Object.assign(FadeUpwardsPageTransitionsBuilder$call, {
+export const FadeUpwardsPageTransitionsBuilder = /* @__PURE__ */ Object.assign($FadeUpwardsPageTransitionsBuilder$call, {
 
 });

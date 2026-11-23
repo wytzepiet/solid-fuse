@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { RectOut } from "../flutter";
 
-function HeroController$call(named?: { createRectTween?: ((begin: RectOut | null, end: RectOut | null) => Handle<string>) | null }): { $: "HeroController"; createRectTween?: ((begin: RectOut | null, end: RectOut | null) => Handle<string>) | null };
-function HeroController$call(...a: any[]): any {
+function $HeroController$call(named?: { createRectTween?: ((begin: RectOut | null, end: RectOut | null) => Handle<string>) | null }): { $: "HeroController"; createRectTween?: ((begin: RectOut | null, end: RectOut | null) => Handle<string>) | null };
+function $HeroController$call(...a: any[]): any {
   return $build("HeroController", [], a);
 }
-export const HeroController = /* @__PURE__ */ Object.assign(HeroController$call, {
+export const HeroController = /* @__PURE__ */ Object.assign($HeroController$call, {
 
 });

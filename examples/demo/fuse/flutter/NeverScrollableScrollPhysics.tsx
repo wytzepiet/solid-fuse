@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ScrollPhysics } from "../flutter";
 
-function NeverScrollableScrollPhysics$call(named?: { parent?: ScrollPhysics | null }): { $: "NeverScrollableScrollPhysics"; parent?: ScrollPhysics | null };
-function NeverScrollableScrollPhysics$call(...a: any[]): any {
+function $NeverScrollableScrollPhysics$call(named?: { parent?: ScrollPhysics | null }): { $: "NeverScrollableScrollPhysics"; parent?: ScrollPhysics | null };
+function $NeverScrollableScrollPhysics$call(...a: any[]): any {
   return $build("NeverScrollableScrollPhysics", [], a);
 }
-export const NeverScrollableScrollPhysics = /* @__PURE__ */ Object.assign(NeverScrollableScrollPhysics$call, {
+export const NeverScrollableScrollPhysics = /* @__PURE__ */ Object.assign($NeverScrollableScrollPhysics$call, {
 
 });

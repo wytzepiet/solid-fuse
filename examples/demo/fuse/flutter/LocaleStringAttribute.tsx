@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Locale, TextRange } from "../flutter";
 
-function LocaleStringAttribute$call(named: { range: TextRange; locale: Locale }): { $: "LocaleStringAttribute"; range: TextRange; locale: Locale };
-function LocaleStringAttribute$call(...a: any[]): any {
+function $LocaleStringAttribute$call(named: { range: TextRange; locale: Locale }): { $: "LocaleStringAttribute"; range: TextRange; locale: Locale };
+function $LocaleStringAttribute$call(...a: any[]): any {
   return $build("LocaleStringAttribute", [], a);
 }
-export const LocaleStringAttribute = /* @__PURE__ */ Object.assign(LocaleStringAttribute$call, {
+export const LocaleStringAttribute = /* @__PURE__ */ Object.assign($LocaleStringAttribute$call, {
 
 });

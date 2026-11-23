@@ -5,21 +5,21 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { Offset, Rect, Size } from "../flutter";
 
-function FractionalOffset$fromOffsetAndSize(offset: Offset, size: Size): { $: "FractionalOffset.fromOffsetAndSize"; offset: Offset; size: Size };
-function FractionalOffset$fromOffsetAndSize(...a: any[]): any {
+function $FractionalOffset$fromOffsetAndSize(offset: Offset, size: Size): { $: "FractionalOffset.fromOffsetAndSize"; offset: Offset; size: Size };
+function $FractionalOffset$fromOffsetAndSize(...a: any[]): any {
   return $build("FractionalOffset.fromOffsetAndSize", ["offset","size"], a);
 }
-function FractionalOffset$fromOffsetAndRect(offset: Offset, rect: Rect): { $: "FractionalOffset.fromOffsetAndRect"; offset: Offset; rect: Rect };
-function FractionalOffset$fromOffsetAndRect(...a: any[]): any {
+function $FractionalOffset$fromOffsetAndRect(offset: Offset, rect: Rect): { $: "FractionalOffset.fromOffsetAndRect"; offset: Offset; rect: Rect };
+function $FractionalOffset$fromOffsetAndRect(...a: any[]): any {
   return $build("FractionalOffset.fromOffsetAndRect", ["offset","rect"], a);
 }
-function FractionalOffset$call(dx: number, dy: number): { $: "FractionalOffset"; dx: number; dy: number };
-function FractionalOffset$call(...a: any[]): any {
+function $FractionalOffset$call(dx: number, dy: number): { $: "FractionalOffset"; dx: number; dy: number };
+function $FractionalOffset$call(...a: any[]): any {
   return $build("FractionalOffset", ["dx","dy"], a);
 }
-export const FractionalOffset = /* @__PURE__ */ Object.assign(FractionalOffset$call, {
-  fromOffsetAndSize: FractionalOffset$fromOffsetAndSize,
-  fromOffsetAndRect: FractionalOffset$fromOffsetAndRect,
+export const FractionalOffset = /* @__PURE__ */ Object.assign($FractionalOffset$call, {
+  fromOffsetAndSize: $FractionalOffset$fromOffsetAndSize,
+  fromOffsetAndRect: $FractionalOffset$fromOffsetAndRect,
   topLeft: "FractionalOffset.topLeft" as Const<"FractionalOffset.topLeft">,
   topCenter: "FractionalOffset.topCenter" as Const<"FractionalOffset.topCenter">,
   topRight: "FractionalOffset.topRight" as Const<"FractionalOffset.topRight">,

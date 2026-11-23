@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function GradientRotation$call(radians: number): { $: "GradientRotation"; radians: number };
-function GradientRotation$call(...a: any[]): any {
+function $GradientRotation$call(radians: number): { $: "GradientRotation"; radians: number };
+function $GradientRotation$call(...a: any[]): any {
   return $build("GradientRotation", ["radians"], a);
 }
-export const GradientRotation = /* @__PURE__ */ Object.assign(GradientRotation$call, {
+export const GradientRotation = /* @__PURE__ */ Object.assign($GradientRotation$call, {
 
 });

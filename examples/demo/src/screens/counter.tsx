@@ -6,11 +6,11 @@ export function CounterScreen() {
 
   return (
     <View layout={{ direction: "vertical", align: "center", gap: 32 }} padding={24}>
-      <Text fontSize={96} fontWeight={700} color="#2563eb">
+      <Text testId="count" fontSize={96} fontWeight={700} color="#2563eb">
         {count()}
       </Text>
       <View layout={{ direction: "horizontal", gap: 16, align: "center" }}>
-        <Pressable onPress={() => setCount((c) => c - 1)}>
+        <Pressable testId="decrement" onPress={() => setCount((c) => c - 1)}>
           <View
             width={64}
             height={64}
@@ -34,7 +34,7 @@ export function CounterScreen() {
             </Text>
           </View>
         </Pressable>
-        <Pressable onPress={() => setCount((c) => c + 1)}>
+        <Pressable testId="increment" onPress={() => setCount((c) => c + 1)}>
           <View
             width={64}
             height={64}

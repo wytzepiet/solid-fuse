@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Clip, Color, ShapeBorder } from "../flutter";
 
-function DrawerThemeData$call(named?: { backgroundColor?: Color | null; scrimColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; endShape?: ShapeBorder | null; width?: number | null; clipBehavior?: Clip | null }): { $: "DrawerThemeData"; backgroundColor?: Color | null; scrimColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; endShape?: ShapeBorder | null; width?: number | null; clipBehavior?: Clip | null };
-function DrawerThemeData$call(...a: any[]): any {
+function $DrawerThemeData$call(named?: { backgroundColor?: Color | null; scrimColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; endShape?: ShapeBorder | null; width?: number | null; clipBehavior?: Clip | null }): { $: "DrawerThemeData"; backgroundColor?: Color | null; scrimColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; endShape?: ShapeBorder | null; width?: number | null; clipBehavior?: Clip | null };
+function $DrawerThemeData$call(...a: any[]): any {
   return $build("DrawerThemeData", [], a);
 }
-export const DrawerThemeData = /* @__PURE__ */ Object.assign(DrawerThemeData$call, {
+export const DrawerThemeData = /* @__PURE__ */ Object.assign($DrawerThemeData$call, {
 
 });

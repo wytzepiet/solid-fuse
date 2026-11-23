@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function GappedRangeSliderTrackShape$call(): { $: "GappedRangeSliderTrackShape" };
-function GappedRangeSliderTrackShape$call(...a: any[]): any {
+function $GappedRangeSliderTrackShape$call(): { $: "GappedRangeSliderTrackShape" };
+function $GappedRangeSliderTrackShape$call(...a: any[]): any {
   return $build("GappedRangeSliderTrackShape", [], a);
 }
-export const GappedRangeSliderTrackShape = /* @__PURE__ */ Object.assign(GappedRangeSliderTrackShape$call, {
+export const GappedRangeSliderTrackShape = /* @__PURE__ */ Object.assign($GappedRangeSliderTrackShape$call, {
 
 });

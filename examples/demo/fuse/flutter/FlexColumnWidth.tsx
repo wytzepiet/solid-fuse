@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function FlexColumnWidth$call(value?: number): { $: "FlexColumnWidth"; value?: number };
-function FlexColumnWidth$call(...a: any[]): any {
+function $FlexColumnWidth$call(value?: number): { $: "FlexColumnWidth"; value?: number };
+function $FlexColumnWidth$call(...a: any[]): any {
   return $build("FlexColumnWidth", ["value"], a);
 }
-export const FlexColumnWidth = /* @__PURE__ */ Object.assign(FlexColumnWidth$call, {
+export const FlexColumnWidth = /* @__PURE__ */ Object.assign($FlexColumnWidth$call, {
 
 });

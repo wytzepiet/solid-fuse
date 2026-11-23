@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticsNode } from "../flutter";
 
-function FlutterError$fromParts(diagnostics: DiagnosticsNode[]): { $: "FlutterError.fromParts"; diagnostics: DiagnosticsNode[] };
-function FlutterError$fromParts(...a: any[]): any {
+function $FlutterError$fromParts(diagnostics: DiagnosticsNode[]): { $: "FlutterError.fromParts"; diagnostics: DiagnosticsNode[] };
+function $FlutterError$fromParts(...a: any[]): any {
   return $build("FlutterError.fromParts", ["diagnostics"], a);
 }
-function FlutterError$call(message: string): { $: "FlutterError"; message: string };
-function FlutterError$call(...a: any[]): any {
+function $FlutterError$call(message: string): { $: "FlutterError"; message: string };
+function $FlutterError$call(...a: any[]): any {
   return $build("FlutterError", ["message"], a);
 }
-export const FlutterError = /* @__PURE__ */ Object.assign(FlutterError$call, {
-  fromParts: FlutterError$fromParts,
+export const FlutterError = /* @__PURE__ */ Object.assign($FlutterError$call, {
+  fromParts: $FlutterError$fromParts,
 });

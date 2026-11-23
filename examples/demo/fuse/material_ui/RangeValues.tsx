@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RangeValues$call(start: number, end: number): { $: "RangeValues"; start: number; end: number };
-function RangeValues$call(...a: any[]): any {
+function $RangeValues$call(start: number, end: number): { $: "RangeValues"; start: number; end: number };
+function $RangeValues$call(...a: any[]): any {
   return $build("RangeValues", ["start","end"], a);
 }
-export const RangeValues = /* @__PURE__ */ Object.assign(RangeValues$call, {
+export const RangeValues = /* @__PURE__ */ Object.assign($RangeValues$call, {
 
 });

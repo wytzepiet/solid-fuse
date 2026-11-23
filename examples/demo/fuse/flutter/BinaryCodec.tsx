@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function BinaryCodec$call(): { $: "BinaryCodec" };
-function BinaryCodec$call(...a: any[]): any {
+function $BinaryCodec$call(): { $: "BinaryCodec" };
+function $BinaryCodec$call(...a: any[]): any {
   return $build("BinaryCodec", [], a);
 }
-export const BinaryCodec = /* @__PURE__ */ Object.assign(BinaryCodec$call, {
+export const BinaryCodec = /* @__PURE__ */ Object.assign($BinaryCodec$call, {
 
 });

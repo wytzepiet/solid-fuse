@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function Cubic$call(a: number, b: number, c: number, d: number): { $: "Cubic"; a: number; b: number; c: number; d: number };
-function Cubic$call(...a: any[]): any {
+function $Cubic$call(a: number, b: number, c: number, d: number): { $: "Cubic"; a: number; b: number; c: number; d: number };
+function $Cubic$call(...a: any[]): any {
   return $build("Cubic", ["a","b","c","d"], a);
 }
-export const Cubic = /* @__PURE__ */ Object.assign(Cubic$call, {
+export const Cubic = /* @__PURE__ */ Object.assign($Cubic$call, {
 
 });

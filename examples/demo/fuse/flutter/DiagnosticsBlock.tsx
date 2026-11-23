@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticLevel, DiagnosticsNode, DiagnosticsTreeStyle } from "../flutter";
 
-function DiagnosticsBlock$call(named?: { name?: string | null; style?: DiagnosticsTreeStyle; showName?: boolean; showSeparator?: boolean; linePrefix?: string | null; value?: unknown; description?: string | null; level?: DiagnosticLevel; allowTruncate?: boolean; children?: DiagnosticsNode[]; properties?: DiagnosticsNode[] }): { $: "DiagnosticsBlock"; name?: string | null; style?: DiagnosticsTreeStyle; showName?: boolean; showSeparator?: boolean; linePrefix?: string | null; value?: unknown; description?: string | null; level?: DiagnosticLevel; allowTruncate?: boolean; children?: DiagnosticsNode[]; properties?: DiagnosticsNode[] };
-function DiagnosticsBlock$call(...a: any[]): any {
+function $DiagnosticsBlock$call(named?: { name?: string | null; style?: DiagnosticsTreeStyle; showName?: boolean; showSeparator?: boolean; linePrefix?: string | null; value?: unknown; description?: string | null; level?: DiagnosticLevel; allowTruncate?: boolean; children?: DiagnosticsNode[]; properties?: DiagnosticsNode[] }): { $: "DiagnosticsBlock"; name?: string | null; style?: DiagnosticsTreeStyle; showName?: boolean; showSeparator?: boolean; linePrefix?: string | null; value?: unknown; description?: string | null; level?: DiagnosticLevel; allowTruncate?: boolean; children?: DiagnosticsNode[]; properties?: DiagnosticsNode[] };
+function $DiagnosticsBlock$call(...a: any[]): any {
   return $build("DiagnosticsBlock", [], a);
 }
-export const DiagnosticsBlock = /* @__PURE__ */ Object.assign(DiagnosticsBlock$call, {
+export const DiagnosticsBlock = /* @__PURE__ */ Object.assign($DiagnosticsBlock$call, {
 
 });

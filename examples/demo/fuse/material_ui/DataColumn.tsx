@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { MainAxisAlignment, TableColumnWidth, WidgetStatePropertyOfMouseCursorN } from "../flutter";
 
-function DataColumn$call(named: { label: JSX.Element; columnWidth?: TableColumnWidth | null; tooltip?: string | null; numeric?: boolean; onSort?: ((columnIndex: number, ascending: boolean) => void) | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; headingRowAlignment?: MainAxisAlignment | null }): { $: "DataColumn"; label: JSX.Element; columnWidth?: TableColumnWidth | null; tooltip?: string | null; numeric?: boolean; onSort?: ((columnIndex: number, ascending: boolean) => void) | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; headingRowAlignment?: MainAxisAlignment | null };
-function DataColumn$call(...a: any[]): any {
+function $DataColumn$call(named: { label: JSX.Element; columnWidth?: TableColumnWidth | null; tooltip?: string | null; numeric?: boolean; onSort?: ((columnIndex: number, ascending: boolean) => void) | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; headingRowAlignment?: MainAxisAlignment | null }): { $: "DataColumn"; label: JSX.Element; columnWidth?: TableColumnWidth | null; tooltip?: string | null; numeric?: boolean; onSort?: ((columnIndex: number, ascending: boolean) => void) | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; headingRowAlignment?: MainAxisAlignment | null };
+function $DataColumn$call(...a: any[]): any {
   return $build("DataColumn", [], a);
 }
-export const DataColumn = /* @__PURE__ */ Object.assign(DataColumn$call, {
+export const DataColumn = /* @__PURE__ */ Object.assign($DataColumn$call, {
 
 });

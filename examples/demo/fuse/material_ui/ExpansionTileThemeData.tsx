@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, AnimationStyle, Clip, Color, EdgeInsetsGeometry, ShapeBorder } from "../flutter";
 
-function ExpansionTileThemeData$call(named?: { backgroundColor?: Color | null; collapsedBackgroundColor?: Color | null; tilePadding?: EdgeInsetsGeometry | null; expandedAlignment?: AlignmentGeometry | null; childrenPadding?: EdgeInsetsGeometry | null; iconColor?: Color | null; collapsedIconColor?: Color | null; textColor?: Color | null; collapsedTextColor?: Color | null; shape?: ShapeBorder | null; collapsedShape?: ShapeBorder | null; clipBehavior?: Clip | null; expansionAnimationStyle?: AnimationStyle | null }): { $: "ExpansionTileThemeData"; backgroundColor?: Color | null; collapsedBackgroundColor?: Color | null; tilePadding?: EdgeInsetsGeometry | null; expandedAlignment?: AlignmentGeometry | null; childrenPadding?: EdgeInsetsGeometry | null; iconColor?: Color | null; collapsedIconColor?: Color | null; textColor?: Color | null; collapsedTextColor?: Color | null; shape?: ShapeBorder | null; collapsedShape?: ShapeBorder | null; clipBehavior?: Clip | null; expansionAnimationStyle?: AnimationStyle | null };
-function ExpansionTileThemeData$call(...a: any[]): any {
+function $ExpansionTileThemeData$call(named?: { backgroundColor?: Color | null; collapsedBackgroundColor?: Color | null; tilePadding?: EdgeInsetsGeometry | null; expandedAlignment?: AlignmentGeometry | null; childrenPadding?: EdgeInsetsGeometry | null; iconColor?: Color | null; collapsedIconColor?: Color | null; textColor?: Color | null; collapsedTextColor?: Color | null; shape?: ShapeBorder | null; collapsedShape?: ShapeBorder | null; clipBehavior?: Clip | null; expansionAnimationStyle?: AnimationStyle | null }): { $: "ExpansionTileThemeData"; backgroundColor?: Color | null; collapsedBackgroundColor?: Color | null; tilePadding?: EdgeInsetsGeometry | null; expandedAlignment?: AlignmentGeometry | null; childrenPadding?: EdgeInsetsGeometry | null; iconColor?: Color | null; collapsedIconColor?: Color | null; textColor?: Color | null; collapsedTextColor?: Color | null; shape?: ShapeBorder | null; collapsedShape?: ShapeBorder | null; clipBehavior?: Clip | null; expansionAnimationStyle?: AnimationStyle | null };
+function $ExpansionTileThemeData$call(...a: any[]): any {
   return $build("ExpansionTileThemeData", [], a);
 }
-export const ExpansionTileThemeData = /* @__PURE__ */ Object.assign(ExpansionTileThemeData$call, {
+export const ExpansionTileThemeData = /* @__PURE__ */ Object.assign($ExpansionTileThemeData$call, {
 
 });

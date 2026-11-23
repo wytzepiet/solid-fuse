@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function MaterialScrollBehavior$call(): { $: "MaterialScrollBehavior" };
-function MaterialScrollBehavior$call(...a: any[]): any {
+function $MaterialScrollBehavior$call(): { $: "MaterialScrollBehavior" };
+function $MaterialScrollBehavior$call(...a: any[]): any {
   return $build("MaterialScrollBehavior", [], a);
 }
-export const MaterialScrollBehavior = /* @__PURE__ */ Object.assign(MaterialScrollBehavior$call, {
+export const MaterialScrollBehavior = /* @__PURE__ */ Object.assign($MaterialScrollBehavior$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { PlaceholderAlignment, TextBaseline, TextStyle } from "../flutter";
 
-function WidgetSpan$call(named: { child: JSX.Element; alignment?: PlaceholderAlignment; baseline?: TextBaseline | null; style?: TextStyle | null }): { $: "WidgetSpan"; child: JSX.Element; alignment?: PlaceholderAlignment; baseline?: TextBaseline | null; style?: TextStyle | null };
-function WidgetSpan$call(...a: any[]): any {
+function $WidgetSpan$call(named: { child: JSX.Element; alignment?: PlaceholderAlignment; baseline?: TextBaseline | null; style?: TextStyle | null }): { $: "WidgetSpan"; child: JSX.Element; alignment?: PlaceholderAlignment; baseline?: TextBaseline | null; style?: TextStyle | null };
+function $WidgetSpan$call(...a: any[]): any {
   return $build("WidgetSpan", [], a);
 }
-export const WidgetSpan = /* @__PURE__ */ Object.assign(WidgetSpan$call, {
+export const WidgetSpan = /* @__PURE__ */ Object.assign($WidgetSpan$call, {
 
 });

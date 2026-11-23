@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextRange } from "../flutter";
 
-function SuggestionSpan$call(range: TextRange, suggestions: string[]): { $: "SuggestionSpan"; range: TextRange; suggestions: string[] };
-function SuggestionSpan$call(...a: any[]): any {
+function $SuggestionSpan$call(range: TextRange, suggestions: string[]): { $: "SuggestionSpan"; range: TextRange; suggestions: string[] };
+function $SuggestionSpan$call(...a: any[]): any {
   return $build("SuggestionSpan", ["range","suggestions"], a);
 }
-export const SuggestionSpan = /* @__PURE__ */ Object.assign(SuggestionSpan$call, {
+export const SuggestionSpan = /* @__PURE__ */ Object.assign($SuggestionSpan$call, {
 
 });

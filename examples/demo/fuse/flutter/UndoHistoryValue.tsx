@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function UndoHistoryValue$call(named?: { canUndo?: boolean; canRedo?: boolean }): { $: "UndoHistoryValue"; canUndo?: boolean; canRedo?: boolean };
-function UndoHistoryValue$call(...a: any[]): any {
+function $UndoHistoryValue$call(named?: { canUndo?: boolean; canRedo?: boolean }): { $: "UndoHistoryValue"; canUndo?: boolean; canRedo?: boolean };
+function $UndoHistoryValue$call(...a: any[]): any {
   return $build("UndoHistoryValue", [], a);
 }
-export const UndoHistoryValue = /* @__PURE__ */ Object.assign(UndoHistoryValue$call, {
+export const UndoHistoryValue = /* @__PURE__ */ Object.assign($UndoHistoryValue$call, {
   empty: "UndoHistoryValue.empty" as Const<"UndoHistoryValue.empty">,
 });

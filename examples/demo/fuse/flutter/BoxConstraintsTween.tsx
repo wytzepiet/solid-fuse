@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BoxConstraints } from "../flutter";
 
-function BoxConstraintsTween$call(named?: { begin?: BoxConstraints | null; end?: BoxConstraints | null }): { $: "BoxConstraintsTween"; begin?: BoxConstraints | null; end?: BoxConstraints | null };
-function BoxConstraintsTween$call(...a: any[]): any {
+function $BoxConstraintsTween$call(named?: { begin?: BoxConstraints | null; end?: BoxConstraints | null }): { $: "BoxConstraintsTween"; begin?: BoxConstraints | null; end?: BoxConstraints | null };
+function $BoxConstraintsTween$call(...a: any[]): any {
   return $build("BoxConstraintsTween", [], a);
 }
-export const BoxConstraintsTween = /* @__PURE__ */ Object.assign(BoxConstraintsTween$call, {
+export const BoxConstraintsTween = /* @__PURE__ */ Object.assign($BoxConstraintsTween$call, {
 
 });

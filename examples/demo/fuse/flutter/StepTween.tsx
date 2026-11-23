@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function StepTween$call(named?: { begin?: number | null; end?: number | null }): { $: "StepTween"; begin?: number | null; end?: number | null };
-function StepTween$call(...a: any[]): any {
+function $StepTween$call(named?: { begin?: number | null; end?: number | null }): { $: "StepTween"; begin?: number | null; end?: number | null };
+function $StepTween$call(...a: any[]): any {
   return $build("StepTween", [], a);
 }
-export const StepTween = /* @__PURE__ */ Object.assign(StepTween$call, {
+export const StepTween = /* @__PURE__ */ Object.assign($StepTween$call, {
 
 });

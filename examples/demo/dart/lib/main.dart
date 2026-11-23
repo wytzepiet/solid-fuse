@@ -4,7 +4,7 @@ import 'package:solid_fuse/solid_fuse.dart';
 import '_generated/fuse_packages.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  FuseBinding.ensureInitialized();
 
   final runtime = await FuseRuntime.create();
   registerFusePackages(runtime);

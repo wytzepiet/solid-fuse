@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { EdgeInsets } from "../flutter";
 
-function EdgeInsetsTween$call(named?: { begin?: EdgeInsets | null; end?: EdgeInsets | null }): { $: "EdgeInsetsTween"; begin?: EdgeInsets | null; end?: EdgeInsets | null };
-function EdgeInsetsTween$call(...a: any[]): any {
+function $EdgeInsetsTween$call(named?: { begin?: EdgeInsets | null; end?: EdgeInsets | null }): { $: "EdgeInsetsTween"; begin?: EdgeInsets | null; end?: EdgeInsets | null };
+function $EdgeInsetsTween$call(...a: any[]): any {
   return $build("EdgeInsetsTween", [], a);
 }
-export const EdgeInsetsTween = /* @__PURE__ */ Object.assign(EdgeInsetsTween$call, {
+export const EdgeInsetsTween = /* @__PURE__ */ Object.assign($EdgeInsetsTween$call, {
 
 });

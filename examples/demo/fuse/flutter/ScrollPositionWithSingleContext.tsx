@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { ScrollContext, ScrollPhysics } from "../flutter";
 
-function ScrollPositionWithSingleContext$call(named: { physics: ScrollPhysics; context: ScrollContext; initialPixels?: number | null; keepScrollOffset?: boolean; oldPosition?: Handle<"flutter_ScrollPositionWithSingleContext" | "flutter_ScrollPosition"> | null; debugLabel?: string | null }): { $: "ScrollPositionWithSingleContext"; physics: ScrollPhysics; context: ScrollContext; initialPixels?: number | null; keepScrollOffset?: boolean; oldPosition?: Handle<"flutter_ScrollPositionWithSingleContext" | "flutter_ScrollPosition"> | null; debugLabel?: string | null };
-function ScrollPositionWithSingleContext$call(...a: any[]): any {
+function $ScrollPositionWithSingleContext$call(named: { physics: ScrollPhysics; context: ScrollContext; initialPixels?: number | null; keepScrollOffset?: boolean; oldPosition?: Handle<"flutter_ScrollPositionWithSingleContext" | "flutter_ScrollPosition"> | null; debugLabel?: string | null }): { $: "ScrollPositionWithSingleContext"; physics: ScrollPhysics; context: ScrollContext; initialPixels?: number | null; keepScrollOffset?: boolean; oldPosition?: Handle<"flutter_ScrollPositionWithSingleContext" | "flutter_ScrollPosition"> | null; debugLabel?: string | null };
+function $ScrollPositionWithSingleContext$call(...a: any[]): any {
   return $build("ScrollPositionWithSingleContext", [], a);
 }
-export const ScrollPositionWithSingleContext = /* @__PURE__ */ Object.assign(ScrollPositionWithSingleContext$call, {
+export const ScrollPositionWithSingleContext = /* @__PURE__ */ Object.assign($ScrollPositionWithSingleContext$call, {
 
 });

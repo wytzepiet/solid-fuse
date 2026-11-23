@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function StringCodec$call(): { $: "StringCodec" };
-function StringCodec$call(...a: any[]): any {
+function $StringCodec$call(): { $: "StringCodec" };
+function $StringCodec$call(...a: any[]): any {
   return $build("StringCodec", [], a);
 }
-export const StringCodec = /* @__PURE__ */ Object.assign(StringCodec$call, {
+export const StringCodec = /* @__PURE__ */ Object.assign($StringCodec$call, {
 
 });

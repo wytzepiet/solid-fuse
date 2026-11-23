@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function HandleRangeSliderThumbShape$call(): { $: "HandleRangeSliderThumbShape" };
-function HandleRangeSliderThumbShape$call(...a: any[]): any {
+function $HandleRangeSliderThumbShape$call(): { $: "HandleRangeSliderThumbShape" };
+function $HandleRangeSliderThumbShape$call(...a: any[]): any {
   return $build("HandleRangeSliderThumbShape", [], a);
 }
-export const HandleRangeSliderThumbShape = /* @__PURE__ */ Object.assign(HandleRangeSliderThumbShape$call, {
+export const HandleRangeSliderThumbShape = /* @__PURE__ */ Object.assign($HandleRangeSliderThumbShape$call, {
 
 });

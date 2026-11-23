@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BlurStyle, Color, Offset } from "../flutter";
 
-function BoxShadow$call(named?: { color?: Color; offset?: Offset; blurRadius?: number; spreadRadius?: number; blurStyle?: BlurStyle }): { $: "BoxShadow"; color?: Color; offset?: Offset; blurRadius?: number; spreadRadius?: number; blurStyle?: BlurStyle };
-function BoxShadow$call(...a: any[]): any {
+function $BoxShadow$call(named?: { color?: Color; offset?: Offset; blurRadius?: number; spreadRadius?: number; blurStyle?: BlurStyle }): { $: "BoxShadow"; color?: Color; offset?: Offset; blurRadius?: number; spreadRadius?: number; blurStyle?: BlurStyle };
+function $BoxShadow$call(...a: any[]): any {
   return $build("BoxShadow", [], a);
 }
-export const BoxShadow = /* @__PURE__ */ Object.assign(BoxShadow$call, {
+export const BoxShadow = /* @__PURE__ */ Object.assign($BoxShadow$call, {
 
 });

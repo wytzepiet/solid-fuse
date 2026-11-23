@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RoundedRectRangeSliderValueIndicatorShape$call(): { $: "RoundedRectRangeSliderValueIndicatorShape" };
-function RoundedRectRangeSliderValueIndicatorShape$call(...a: any[]): any {
+function $RoundedRectRangeSliderValueIndicatorShape$call(): { $: "RoundedRectRangeSliderValueIndicatorShape" };
+function $RoundedRectRangeSliderValueIndicatorShape$call(...a: any[]): any {
   return $build("RoundedRectRangeSliderValueIndicatorShape", [], a);
 }
-export const RoundedRectRangeSliderValueIndicatorShape = /* @__PURE__ */ Object.assign(RoundedRectRangeSliderValueIndicatorShape$call, {
+export const RoundedRectRangeSliderValueIndicatorShape = /* @__PURE__ */ Object.assign($RoundedRectRangeSliderValueIndicatorShape$call, {
 
 });

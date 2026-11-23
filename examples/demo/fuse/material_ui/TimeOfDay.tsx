@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { DateTime } from "../flutter";
 
-function TimeOfDay$fromDateTime(time: DateTime): { $: "TimeOfDay.fromDateTime"; time: DateTime };
-function TimeOfDay$fromDateTime(...a: any[]): any {
+function $TimeOfDay$fromDateTime(time: DateTime): { $: "TimeOfDay.fromDateTime"; time: DateTime };
+function $TimeOfDay$fromDateTime(...a: any[]): any {
   return $build("TimeOfDay.fromDateTime", ["time"], a);
 }
-function TimeOfDay$now(): { $: "TimeOfDay.now" };
-function TimeOfDay$now(...a: any[]): any {
+function $TimeOfDay$now(): { $: "TimeOfDay.now" };
+function $TimeOfDay$now(...a: any[]): any {
   return $build("TimeOfDay.now", [], a);
 }
-function TimeOfDay$call(named: { hour: number; minute: number }): { $: "TimeOfDay"; hour: number; minute: number };
-function TimeOfDay$call(...a: any[]): any {
+function $TimeOfDay$call(named: { hour: number; minute: number }): { $: "TimeOfDay"; hour: number; minute: number };
+function $TimeOfDay$call(...a: any[]): any {
   return $build("TimeOfDay", [], a);
 }
-export const TimeOfDay = /* @__PURE__ */ Object.assign(TimeOfDay$call, {
-  fromDateTime: TimeOfDay$fromDateTime,
-  now: TimeOfDay$now,
+export const TimeOfDay = /* @__PURE__ */ Object.assign($TimeOfDay$call, {
+  fromDateTime: $TimeOfDay$fromDateTime,
+  now: $TimeOfDay$now,
 });

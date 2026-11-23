@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { CupertinoTextThemeData } from "../cupertino_ui";
 import type { Brightness, Color } from "../flutter";
 
-function CupertinoThemeData$call(named?: { brightness?: Brightness | null; primaryColor?: Color | null; primaryContrastingColor?: Color | null; textTheme?: CupertinoTextThemeData | null; barBackgroundColor?: Color | null; scaffoldBackgroundColor?: Color | null; selectionHandleColor?: Color | null; applyThemeToAll?: boolean | null }): { $: "CupertinoThemeData"; brightness?: Brightness | null; primaryColor?: Color | null; primaryContrastingColor?: Color | null; textTheme?: CupertinoTextThemeData | null; barBackgroundColor?: Color | null; scaffoldBackgroundColor?: Color | null; selectionHandleColor?: Color | null; applyThemeToAll?: boolean | null };
-function CupertinoThemeData$call(...a: any[]): any {
+function $CupertinoThemeData$call(named?: { brightness?: Brightness | null; primaryColor?: Color | null; primaryContrastingColor?: Color | null; textTheme?: CupertinoTextThemeData | null; barBackgroundColor?: Color | null; scaffoldBackgroundColor?: Color | null; selectionHandleColor?: Color | null; applyThemeToAll?: boolean | null }): { $: "CupertinoThemeData"; brightness?: Brightness | null; primaryColor?: Color | null; primaryContrastingColor?: Color | null; textTheme?: CupertinoTextThemeData | null; barBackgroundColor?: Color | null; scaffoldBackgroundColor?: Color | null; selectionHandleColor?: Color | null; applyThemeToAll?: boolean | null };
+function $CupertinoThemeData$call(...a: any[]): any {
   return $build("CupertinoThemeData", [], a);
 }
-export const CupertinoThemeData = /* @__PURE__ */ Object.assign(CupertinoThemeData$call, {
+export const CupertinoThemeData = /* @__PURE__ */ Object.assign($CupertinoThemeData$call, {
 
 });

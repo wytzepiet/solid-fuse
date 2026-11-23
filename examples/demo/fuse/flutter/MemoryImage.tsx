@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function MemoryImage$call(bytes: ArrayBuffer | ArrayBufferView, named?: { scale?: number }): { $: "MemoryImage"; bytes: ArrayBuffer | ArrayBufferView; scale?: number };
-function MemoryImage$call(...a: any[]): any {
+function $MemoryImage$call(bytes: ArrayBuffer | ArrayBufferView, named?: { scale?: number }): { $: "MemoryImage"; bytes: ArrayBuffer | ArrayBufferView; scale?: number };
+function $MemoryImage$call(...a: any[]): any {
   return $build("MemoryImage", ["bytes"], a);
 }
-export const MemoryImage = /* @__PURE__ */ Object.assign(MemoryImage$call, {
+export const MemoryImage = /* @__PURE__ */ Object.assign($MemoryImage$call, {
 
 });

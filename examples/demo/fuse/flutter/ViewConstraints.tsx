@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { Size } from "../flutter";
 
-function ViewConstraints$tight(size: Size): { $: "ViewConstraints.tight"; size: Size };
-function ViewConstraints$tight(...a: any[]): any {
+function $ViewConstraints$tight(size: Size): { $: "ViewConstraints.tight"; size: Size };
+function $ViewConstraints$tight(...a: any[]): any {
   return $build("ViewConstraints.tight", ["size"], a);
 }
-function ViewConstraints$call(named?: { minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number }): { $: "ViewConstraints"; minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number };
-function ViewConstraints$call(...a: any[]): any {
+function $ViewConstraints$call(named?: { minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number }): { $: "ViewConstraints"; minWidth?: number; maxWidth?: number; minHeight?: number; maxHeight?: number };
+function $ViewConstraints$call(...a: any[]): any {
   return $build("ViewConstraints", [], a);
 }
-export const ViewConstraints = /* @__PURE__ */ Object.assign(ViewConstraints$call, {
-  tight: ViewConstraints$tight,
+export const ViewConstraints = /* @__PURE__ */ Object.assign($ViewConstraints$call, {
+  tight: $ViewConstraints$tight,
 });

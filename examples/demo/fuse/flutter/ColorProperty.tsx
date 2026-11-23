@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, DiagnosticLevel, DiagnosticsTreeStyle } from "../flutter";
 
-function ColorProperty$call(name: string, value: Color | null, named?: { showName?: boolean; defaultValue?: unknown; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "ColorProperty"; name: string; value?: Color | null; showName?: boolean; defaultValue?: unknown; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
-function ColorProperty$call(...a: any[]): any {
+function $ColorProperty$call(name: string, value: Color | null, named?: { showName?: boolean; defaultValue?: unknown; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "ColorProperty"; name: string; value?: Color | null; showName?: boolean; defaultValue?: unknown; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
+function $ColorProperty$call(...a: any[]): any {
   return $build("ColorProperty", ["name","value"], a);
 }
-export const ColorProperty = /* @__PURE__ */ Object.assign(ColorProperty$call, {
+export const ColorProperty = /* @__PURE__ */ Object.assign($ColorProperty$call, {
 
 });

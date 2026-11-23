@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function PaddleSliderValueIndicatorShape$call(): { $: "PaddleSliderValueIndicatorShape" };
-function PaddleSliderValueIndicatorShape$call(...a: any[]): any {
+function $PaddleSliderValueIndicatorShape$call(): { $: "PaddleSliderValueIndicatorShape" };
+function $PaddleSliderValueIndicatorShape$call(...a: any[]): any {
   return $build("PaddleSliderValueIndicatorShape", [], a);
 }
-export const PaddleSliderValueIndicatorShape = /* @__PURE__ */ Object.assign(PaddleSliderValueIndicatorShape$call, {
+export const PaddleSliderValueIndicatorShape = /* @__PURE__ */ Object.assign($PaddleSliderValueIndicatorShape$call, {
 
 });

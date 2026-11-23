@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function PredictiveBackFullscreenPageTransitionsBuilder$call(named?: { fallbackColor?: Color | null }): { $: "PredictiveBackFullscreenPageTransitionsBuilder"; fallbackColor?: Color | null };
-function PredictiveBackFullscreenPageTransitionsBuilder$call(...a: any[]): any {
+function $PredictiveBackFullscreenPageTransitionsBuilder$call(named?: { fallbackColor?: Color | null }): { $: "PredictiveBackFullscreenPageTransitionsBuilder"; fallbackColor?: Color | null };
+function $PredictiveBackFullscreenPageTransitionsBuilder$call(...a: any[]): any {
   return $build("PredictiveBackFullscreenPageTransitionsBuilder", [], a);
 }
-export const PredictiveBackFullscreenPageTransitionsBuilder = /* @__PURE__ */ Object.assign(PredictiveBackFullscreenPageTransitionsBuilder$call, {
+export const PredictiveBackFullscreenPageTransitionsBuilder = /* @__PURE__ */ Object.assign($PredictiveBackFullscreenPageTransitionsBuilder$call, {
 
 });

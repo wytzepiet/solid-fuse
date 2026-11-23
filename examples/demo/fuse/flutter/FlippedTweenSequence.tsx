@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TweenSequenceItemOfdouble } from "../flutter";
 
-function FlippedTweenSequence$call(items: TweenSequenceItemOfdouble[]): { $: "FlippedTweenSequence"; items: TweenSequenceItemOfdouble[] };
-function FlippedTweenSequence$call(...a: any[]): any {
+function $FlippedTweenSequence$call(items: TweenSequenceItemOfdouble[]): { $: "FlippedTweenSequence"; items: TweenSequenceItemOfdouble[] };
+function $FlippedTweenSequence$call(...a: any[]): any {
   return $build("FlippedTweenSequence", ["items"], a);
 }
-export const FlippedTweenSequence = /* @__PURE__ */ Object.assign(FlippedTweenSequence$call, {
+export const FlippedTweenSequence = /* @__PURE__ */ Object.assign($FlippedTweenSequence$call, {
 
 });

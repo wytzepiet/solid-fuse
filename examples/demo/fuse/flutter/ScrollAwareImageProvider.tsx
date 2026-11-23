@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { ImageProviderOfObject } from "../flutter";
 
-function ScrollAwareImageProvider$call(named: { context: Handle<string>; imageProvider: ImageProviderOfObject }): { $: "ScrollAwareImageProvider"; context: Handle<string>; imageProvider: ImageProviderOfObject };
-function ScrollAwareImageProvider$call(...a: any[]): any {
+function $ScrollAwareImageProvider$call(named: { context: Handle<string>; imageProvider: ImageProviderOfObject }): { $: "ScrollAwareImageProvider"; context: Handle<string>; imageProvider: ImageProviderOfObject };
+function $ScrollAwareImageProvider$call(...a: any[]): any {
   return $build("ScrollAwareImageProvider", [], a);
 }
-export const ScrollAwareImageProvider = /* @__PURE__ */ Object.assign(ScrollAwareImageProvider$call, {
+export const ScrollAwareImageProvider = /* @__PURE__ */ Object.assign($ScrollAwareImageProvider$call, {
 
 });

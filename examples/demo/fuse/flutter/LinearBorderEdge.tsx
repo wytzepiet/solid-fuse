@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function LinearBorderEdge$call(named?: { size?: number; alignment?: number }): { $: "LinearBorderEdge"; size?: number; alignment?: number };
-function LinearBorderEdge$call(...a: any[]): any {
+function $LinearBorderEdge$call(named?: { size?: number; alignment?: number }): { $: "LinearBorderEdge"; size?: number; alignment?: number };
+function $LinearBorderEdge$call(...a: any[]): any {
   return $build("LinearBorderEdge", [], a);
 }
-export const LinearBorderEdge = /* @__PURE__ */ Object.assign(LinearBorderEdge$call, {
+export const LinearBorderEdge = /* @__PURE__ */ Object.assign($LinearBorderEdge$call, {
 
 });

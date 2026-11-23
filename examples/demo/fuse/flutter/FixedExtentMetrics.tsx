@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AxisDirection } from "../flutter";
 
-function FixedExtentMetrics$call(named: { minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; itemIndex: number; devicePixelRatio: number }): { $: "FixedExtentMetrics"; minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; itemIndex: number; devicePixelRatio: number };
-function FixedExtentMetrics$call(...a: any[]): any {
+function $FixedExtentMetrics$call(named: { minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; itemIndex: number; devicePixelRatio: number }): { $: "FixedExtentMetrics"; minScrollExtent?: number | null; maxScrollExtent?: number | null; pixels?: number | null; viewportDimension?: number | null; axisDirection: AxisDirection; itemIndex: number; devicePixelRatio: number };
+function $FixedExtentMetrics$call(...a: any[]): any {
   return $build("FixedExtentMetrics", [], a);
 }
-export const FixedExtentMetrics = /* @__PURE__ */ Object.assign(FixedExtentMetrics$call, {
+export const FixedExtentMetrics = /* @__PURE__ */ Object.assign($FixedExtentMetrics$call, {
 
 });

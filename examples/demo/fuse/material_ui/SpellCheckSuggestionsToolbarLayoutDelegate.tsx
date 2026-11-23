@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function SpellCheckSuggestionsToolbarLayoutDelegate$call(named: { anchor: Offset }): { $: "SpellCheckSuggestionsToolbarLayoutDelegate"; anchor: Offset };
-function SpellCheckSuggestionsToolbarLayoutDelegate$call(...a: any[]): any {
+function $SpellCheckSuggestionsToolbarLayoutDelegate$call(named: { anchor: Offset }): { $: "SpellCheckSuggestionsToolbarLayoutDelegate"; anchor: Offset };
+function $SpellCheckSuggestionsToolbarLayoutDelegate$call(...a: any[]): any {
   return $build("SpellCheckSuggestionsToolbarLayoutDelegate", [], a);
 }
-export const SpellCheckSuggestionsToolbarLayoutDelegate = /* @__PURE__ */ Object.assign(SpellCheckSuggestionsToolbarLayoutDelegate$call, {
+export const SpellCheckSuggestionsToolbarLayoutDelegate = /* @__PURE__ */ Object.assign($SpellCheckSuggestionsToolbarLayoutDelegate$call, {
 
 });

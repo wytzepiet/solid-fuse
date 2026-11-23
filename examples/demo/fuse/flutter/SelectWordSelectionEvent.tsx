@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function SelectWordSelectionEvent$call(named: { globalPosition: Offset }): { $: "SelectWordSelectionEvent"; globalPosition: Offset };
-function SelectWordSelectionEvent$call(...a: any[]): any {
+function $SelectWordSelectionEvent$call(named: { globalPosition: Offset }): { $: "SelectWordSelectionEvent"; globalPosition: Offset };
+function $SelectWordSelectionEvent$call(...a: any[]): any {
   return $build("SelectWordSelectionEvent", [], a);
 }
-export const SelectWordSelectionEvent = /* @__PURE__ */ Object.assign(SelectWordSelectionEvent$call, {
+export const SelectWordSelectionEvent = /* @__PURE__ */ Object.assign($SelectWordSelectionEvent$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide } from "../flutter";
 
-function StadiumBorder$call(named?: { side?: BorderSide }): { $: "StadiumBorder"; side?: BorderSide };
-function StadiumBorder$call(...a: any[]): any {
+function $StadiumBorder$call(named?: { side?: BorderSide }): { $: "StadiumBorder"; side?: BorderSide };
+function $StadiumBorder$call(...a: any[]): any {
   return $build("StadiumBorder", [], a);
 }
-export const StadiumBorder = /* @__PURE__ */ Object.assign(StadiumBorder$call, {
+export const StadiumBorder = /* @__PURE__ */ Object.assign($StadiumBorder$call, {
 
 });

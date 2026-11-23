@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function StaticSelectionContainerDelegate$call(): { $: "StaticSelectionContainerDelegate" };
-function StaticSelectionContainerDelegate$call(...a: any[]): any {
+function $StaticSelectionContainerDelegate$call(): { $: "StaticSelectionContainerDelegate" };
+function $StaticSelectionContainerDelegate$call(...a: any[]): any {
   return $build("StaticSelectionContainerDelegate", [], a);
 }
-export const StaticSelectionContainerDelegate = /* @__PURE__ */ Object.assign(StaticSelectionContainerDelegate$call, {
+export const StaticSelectionContainerDelegate = /* @__PURE__ */ Object.assign($StaticSelectionContainerDelegate$call, {
 
 });

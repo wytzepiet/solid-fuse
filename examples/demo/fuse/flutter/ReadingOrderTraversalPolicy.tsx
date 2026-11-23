@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { CurveOut, DurationOut, FocusNode, ScrollPositionAlignmentPolicy } from "../flutter";
 import "../flutter";
 
-function ReadingOrderTraversalPolicy$call(named?: { requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null }): { $: "ReadingOrderTraversalPolicy"; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null };
-function ReadingOrderTraversalPolicy$call(...a: any[]): any {
+function $ReadingOrderTraversalPolicy$call(named?: { requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null }): { $: "ReadingOrderTraversalPolicy"; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null };
+function $ReadingOrderTraversalPolicy$call(...a: any[]): any {
   return $build("ReadingOrderTraversalPolicy", [], a);
 }
-export const ReadingOrderTraversalPolicy = /* @__PURE__ */ Object.assign(ReadingOrderTraversalPolicy$call, {
+export const ReadingOrderTraversalPolicy = /* @__PURE__ */ Object.assign($ReadingOrderTraversalPolicy$call, {
 
 });

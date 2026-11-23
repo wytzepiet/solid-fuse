@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Clip, Color, EdgeInsetsGeometry, ShapeBorder } from "../flutter";
 
-function CardThemeData$call(named?: { clipBehavior?: Clip | null; color?: Color | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; margin?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null }): { $: "CardThemeData"; clipBehavior?: Clip | null; color?: Color | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; margin?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null };
-function CardThemeData$call(...a: any[]): any {
+function $CardThemeData$call(named?: { clipBehavior?: Clip | null; color?: Color | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; margin?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null }): { $: "CardThemeData"; clipBehavior?: Clip | null; color?: Color | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; margin?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null };
+function $CardThemeData$call(...a: any[]): any {
   return $build("CardThemeData", [], a);
 }
-export const CardThemeData = /* @__PURE__ */ Object.assign(CardThemeData$call, {
+export const CardThemeData = /* @__PURE__ */ Object.assign($CardThemeData$call, {
 
 });

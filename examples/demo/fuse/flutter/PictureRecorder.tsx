@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function PictureRecorder$call(): { $: "PictureRecorder" };
-function PictureRecorder$call(...a: any[]): any {
+function $PictureRecorder$call(): { $: "PictureRecorder" };
+function $PictureRecorder$call(...a: any[]): any {
   return $build("PictureRecorder", [], a);
 }
-export const PictureRecorder = /* @__PURE__ */ Object.assign(PictureRecorder$call, {
+export const PictureRecorder = /* @__PURE__ */ Object.assign($PictureRecorder$call, {
 
 });

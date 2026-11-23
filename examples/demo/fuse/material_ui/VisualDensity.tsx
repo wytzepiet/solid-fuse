@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function VisualDensity$call(named?: { horizontal?: number; vertical?: number }): { $: "VisualDensity"; horizontal?: number; vertical?: number };
-function VisualDensity$call(...a: any[]): any {
+function $VisualDensity$call(named?: { horizontal?: number; vertical?: number }): { $: "VisualDensity"; horizontal?: number; vertical?: number };
+function $VisualDensity$call(...a: any[]): any {
   return $build("VisualDensity", [], a);
 }
-export const VisualDensity = /* @__PURE__ */ Object.assign(VisualDensity$call, {
+export const VisualDensity = /* @__PURE__ */ Object.assign($VisualDensity$call, {
   standard: "VisualDensity.standard" as Const<"VisualDensity.standard">,
   comfortable: "VisualDensity.comfortable" as Const<"VisualDensity.comfortable">,
   compact: "VisualDensity.compact" as Const<"VisualDensity.compact">,

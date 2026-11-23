@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadius, BorderSide } from "../flutter";
 
-function OutlineInputBorder$call(named?: { borderSide?: BorderSide; borderRadius?: BorderRadius; gapPadding?: number }): { $: "OutlineInputBorder"; borderSide?: BorderSide; borderRadius?: BorderRadius; gapPadding?: number };
-function OutlineInputBorder$call(...a: any[]): any {
+function $OutlineInputBorder$call(named?: { borderSide?: BorderSide; borderRadius?: BorderRadius; gapPadding?: number }): { $: "OutlineInputBorder"; borderSide?: BorderSide; borderRadius?: BorderRadius; gapPadding?: number };
+function $OutlineInputBorder$call(...a: any[]): any {
   return $build("OutlineInputBorder", [], a);
 }
-export const OutlineInputBorder = /* @__PURE__ */ Object.assign(OutlineInputBorder$call, {
+export const OutlineInputBorder = /* @__PURE__ */ Object.assign($OutlineInputBorder$call, {
 
 });

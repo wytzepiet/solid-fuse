@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function IntTween$call(named?: { begin?: number | null; end?: number | null }): { $: "IntTween"; begin?: number | null; end?: number | null };
-function IntTween$call(...a: any[]): any {
+function $IntTween$call(named?: { begin?: number | null; end?: number | null }): { $: "IntTween"; begin?: number | null; end?: number | null };
+function $IntTween$call(...a: any[]): any {
   return $build("IntTween", [], a);
 }
-export const IntTween = /* @__PURE__ */ Object.assign(IntTween$call, {
+export const IntTween = /* @__PURE__ */ Object.assign($IntTween$call, {
 
 });

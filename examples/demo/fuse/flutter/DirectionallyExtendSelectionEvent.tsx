@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { SelectionExtendDirection } from "../flutter";
 
-function DirectionallyExtendSelectionEvent$call(named: { dx: number; isEnd: boolean; direction: SelectionExtendDirection }): { $: "DirectionallyExtendSelectionEvent"; dx: number; isEnd: boolean; direction: SelectionExtendDirection };
-function DirectionallyExtendSelectionEvent$call(...a: any[]): any {
+function $DirectionallyExtendSelectionEvent$call(named: { dx: number; isEnd: boolean; direction: SelectionExtendDirection }): { $: "DirectionallyExtendSelectionEvent"; dx: number; isEnd: boolean; direction: SelectionExtendDirection };
+function $DirectionallyExtendSelectionEvent$call(...a: any[]): any {
   return $build("DirectionallyExtendSelectionEvent", [], a);
 }
-export const DirectionallyExtendSelectionEvent = /* @__PURE__ */ Object.assign(DirectionallyExtendSelectionEvent$call, {
+export const DirectionallyExtendSelectionEvent = /* @__PURE__ */ Object.assign($DirectionallyExtendSelectionEvent$call, {
 
 });

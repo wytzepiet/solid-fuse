@@ -6,10 +6,10 @@ import type { EdgeInsetsGeometry, MainAxisAlignment, MainAxisSize, VerticalDirec
 import type { ButtonBarLayoutBehavior, ButtonTextTheme } from "../material_ui";
 
 /** @deprecated */
-function ButtonBarThemeData$call(named?: { alignment?: MainAxisAlignment | null; mainAxisSize?: MainAxisSize | null; buttonTextTheme?: ButtonTextTheme | null; buttonMinWidth?: number | null; buttonHeight?: number | null; buttonPadding?: EdgeInsetsGeometry | null; buttonAlignedDropdown?: boolean | null; layoutBehavior?: ButtonBarLayoutBehavior | null; overflowDirection?: VerticalDirection | null }): { $: "ButtonBarThemeData"; alignment?: MainAxisAlignment | null; mainAxisSize?: MainAxisSize | null; buttonTextTheme?: ButtonTextTheme | null; buttonMinWidth?: number | null; buttonHeight?: number | null; buttonPadding?: EdgeInsetsGeometry | null; buttonAlignedDropdown?: boolean | null; layoutBehavior?: ButtonBarLayoutBehavior | null; overflowDirection?: VerticalDirection | null };
-function ButtonBarThemeData$call(...a: any[]): any {
+function $ButtonBarThemeData$call(named?: { alignment?: MainAxisAlignment | null; mainAxisSize?: MainAxisSize | null; buttonTextTheme?: ButtonTextTheme | null; buttonMinWidth?: number | null; buttonHeight?: number | null; buttonPadding?: EdgeInsetsGeometry | null; buttonAlignedDropdown?: boolean | null; layoutBehavior?: ButtonBarLayoutBehavior | null; overflowDirection?: VerticalDirection | null }): { $: "ButtonBarThemeData"; alignment?: MainAxisAlignment | null; mainAxisSize?: MainAxisSize | null; buttonTextTheme?: ButtonTextTheme | null; buttonMinWidth?: number | null; buttonHeight?: number | null; buttonPadding?: EdgeInsetsGeometry | null; buttonAlignedDropdown?: boolean | null; layoutBehavior?: ButtonBarLayoutBehavior | null; overflowDirection?: VerticalDirection | null };
+function $ButtonBarThemeData$call(...a: any[]): any {
   return $build("ButtonBarThemeData", [], a);
 }
-export const ButtonBarThemeData = /* @__PURE__ */ Object.assign(ButtonBarThemeData$call, {
+export const ButtonBarThemeData = /* @__PURE__ */ Object.assign($ButtonBarThemeData$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticLevel, DiagnosticsTreeStyle, IconData } from "../flutter";
 
-function IconDataProperty$call(name: string, value: IconData | null, named?: { ifNull?: string | null; showName?: boolean; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "IconDataProperty"; name: string; value?: IconData | null; ifNull?: string | null; showName?: boolean; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
-function IconDataProperty$call(...a: any[]): any {
+function $IconDataProperty$call(name: string, value: IconData | null, named?: { ifNull?: string | null; showName?: boolean; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "IconDataProperty"; name: string; value?: IconData | null; ifNull?: string | null; showName?: boolean; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
+function $IconDataProperty$call(...a: any[]): any {
   return $build("IconDataProperty", ["name","value"], a);
 }
-export const IconDataProperty = /* @__PURE__ */ Object.assign(IconDataProperty$call, {
+export const IconDataProperty = /* @__PURE__ */ Object.assign($IconDataProperty$call, {
 
 });

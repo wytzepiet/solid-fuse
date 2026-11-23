@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Color, IconThemeData, ShapeBorder, TextStyle } from "../flutter";
 import type { NavigationRailLabelType } from "../material_ui";
 
-function NavigationRailThemeData$call(named?: { backgroundColor?: Color | null; elevation?: number | null; unselectedLabelTextStyle?: TextStyle | null; selectedLabelTextStyle?: TextStyle | null; unselectedIconTheme?: IconThemeData | null; selectedIconTheme?: IconThemeData | null; groupAlignment?: number | null; labelType?: NavigationRailLabelType | null; useIndicator?: boolean | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; minWidth?: number | null; minExtendedWidth?: number | null }): { $: "NavigationRailThemeData"; backgroundColor?: Color | null; elevation?: number | null; unselectedLabelTextStyle?: TextStyle | null; selectedLabelTextStyle?: TextStyle | null; unselectedIconTheme?: IconThemeData | null; selectedIconTheme?: IconThemeData | null; groupAlignment?: number | null; labelType?: NavigationRailLabelType | null; useIndicator?: boolean | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; minWidth?: number | null; minExtendedWidth?: number | null };
-function NavigationRailThemeData$call(...a: any[]): any {
+function $NavigationRailThemeData$call(named?: { backgroundColor?: Color | null; elevation?: number | null; unselectedLabelTextStyle?: TextStyle | null; selectedLabelTextStyle?: TextStyle | null; unselectedIconTheme?: IconThemeData | null; selectedIconTheme?: IconThemeData | null; groupAlignment?: number | null; labelType?: NavigationRailLabelType | null; useIndicator?: boolean | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; minWidth?: number | null; minExtendedWidth?: number | null }): { $: "NavigationRailThemeData"; backgroundColor?: Color | null; elevation?: number | null; unselectedLabelTextStyle?: TextStyle | null; selectedLabelTextStyle?: TextStyle | null; unselectedIconTheme?: IconThemeData | null; selectedIconTheme?: IconThemeData | null; groupAlignment?: number | null; labelType?: NavigationRailLabelType | null; useIndicator?: boolean | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; minWidth?: number | null; minExtendedWidth?: number | null };
+function $NavigationRailThemeData$call(...a: any[]): any {
   return $build("NavigationRailThemeData", [], a);
 }
-export const NavigationRailThemeData = /* @__PURE__ */ Object.assign(NavigationRailThemeData$call, {
+export const NavigationRailThemeData = /* @__PURE__ */ Object.assign($NavigationRailThemeData$call, {
 
 });

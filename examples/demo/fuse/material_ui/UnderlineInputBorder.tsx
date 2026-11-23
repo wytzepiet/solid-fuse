@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadius, BorderSide } from "../flutter";
 
-function UnderlineInputBorder$call(named?: { borderSide?: BorderSide; borderRadius?: BorderRadius }): { $: "UnderlineInputBorder"; borderSide?: BorderSide; borderRadius?: BorderRadius };
-function UnderlineInputBorder$call(...a: any[]): any {
+function $UnderlineInputBorder$call(named?: { borderSide?: BorderSide; borderRadius?: BorderRadius }): { $: "UnderlineInputBorder"; borderSide?: BorderSide; borderRadius?: BorderRadius };
+function $UnderlineInputBorder$call(...a: any[]): any {
   return $build("UnderlineInputBorder", [], a);
 }
-export const UnderlineInputBorder = /* @__PURE__ */ Object.assign(UnderlineInputBorder$call, {
+export const UnderlineInputBorder = /* @__PURE__ */ Object.assign($UnderlineInputBorder$call, {
 
 });

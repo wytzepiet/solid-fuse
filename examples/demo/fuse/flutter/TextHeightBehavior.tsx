@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextLeadingDistribution } from "../flutter";
 
-function TextHeightBehavior$call(named?: { applyHeightToFirstAscent?: boolean; applyHeightToLastDescent?: boolean; leadingDistribution?: TextLeadingDistribution }): { $: "TextHeightBehavior"; applyHeightToFirstAscent?: boolean; applyHeightToLastDescent?: boolean; leadingDistribution?: TextLeadingDistribution };
-function TextHeightBehavior$call(...a: any[]): any {
+function $TextHeightBehavior$call(named?: { applyHeightToFirstAscent?: boolean; applyHeightToLastDescent?: boolean; leadingDistribution?: TextLeadingDistribution }): { $: "TextHeightBehavior"; applyHeightToFirstAscent?: boolean; applyHeightToLastDescent?: boolean; leadingDistribution?: TextLeadingDistribution };
+function $TextHeightBehavior$call(...a: any[]): any {
   return $build("TextHeightBehavior", [], a);
 }
-export const TextHeightBehavior = /* @__PURE__ */ Object.assign(TextHeightBehavior$call, {
+export const TextHeightBehavior = /* @__PURE__ */ Object.assign($TextHeightBehavior$call, {
 
 });

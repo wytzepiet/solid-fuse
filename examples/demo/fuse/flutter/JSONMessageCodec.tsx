@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function JSONMessageCodec$call(): { $: "JSONMessageCodec" };
-function JSONMessageCodec$call(...a: any[]): any {
+function $JSONMessageCodec$call(): { $: "JSONMessageCodec" };
+function $JSONMessageCodec$call(...a: any[]): any {
   return $build("JSONMessageCodec", [], a);
 }
-export const JSONMessageCodec = /* @__PURE__ */ Object.assign(JSONMessageCodec$call, {
+export const JSONMessageCodec = /* @__PURE__ */ Object.assign($JSONMessageCodec$call, {
 
 });

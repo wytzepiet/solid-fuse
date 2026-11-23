@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset, TextSelectionHandleType } from "../flutter";
 
-function SelectionPoint$call(named: { localPosition: Offset; lineHeight: number; handleType: TextSelectionHandleType }): { $: "SelectionPoint"; localPosition: Offset; lineHeight: number; handleType: TextSelectionHandleType };
-function SelectionPoint$call(...a: any[]): any {
+function $SelectionPoint$call(named: { localPosition: Offset; lineHeight: number; handleType: TextSelectionHandleType }): { $: "SelectionPoint"; localPosition: Offset; lineHeight: number; handleType: TextSelectionHandleType };
+function $SelectionPoint$call(...a: any[]): any {
   return $build("SelectionPoint", [], a);
 }
-export const SelectionPoint = /* @__PURE__ */ Object.assign(SelectionPoint$call, {
+export const SelectionPoint = /* @__PURE__ */ Object.assign($SelectionPoint$call, {
 
 });

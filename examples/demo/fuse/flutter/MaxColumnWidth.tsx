@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TableColumnWidth } from "../flutter";
 
-function MaxColumnWidth$call(a: TableColumnWidth, b: TableColumnWidth): { $: "MaxColumnWidth"; a: TableColumnWidth; b: TableColumnWidth };
-function MaxColumnWidth$call(...a: any[]): any {
+function $MaxColumnWidth$call(a: TableColumnWidth, b: TableColumnWidth): { $: "MaxColumnWidth"; a: TableColumnWidth; b: TableColumnWidth };
+function $MaxColumnWidth$call(...a: any[]): any {
   return $build("MaxColumnWidth", ["a","b"], a);
 }
-export const MaxColumnWidth = /* @__PURE__ */ Object.assign(MaxColumnWidth$call, {
+export const MaxColumnWidth = /* @__PURE__ */ Object.assign($MaxColumnWidth$call, {
 
 });

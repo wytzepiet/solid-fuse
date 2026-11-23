@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, Color, GradientTransform, TileMode } from "../flutter";
 
-function LinearGradient$call(named: { begin?: AlignmentGeometry; end?: AlignmentGeometry; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null }): { $: "LinearGradient"; begin?: AlignmentGeometry; end?: AlignmentGeometry; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null };
-function LinearGradient$call(...a: any[]): any {
+function $LinearGradient$call(named: { begin?: AlignmentGeometry; end?: AlignmentGeometry; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null }): { $: "LinearGradient"; begin?: AlignmentGeometry; end?: AlignmentGeometry; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null };
+function $LinearGradient$call(...a: any[]): any {
   return $build("LinearGradient", [], a);
 }
-export const LinearGradient = /* @__PURE__ */ Object.assign(LinearGradient$call, {
+export const LinearGradient = /* @__PURE__ */ Object.assign($LinearGradient$call, {
 
 });

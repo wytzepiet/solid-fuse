@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, Shadow } from "../flutter";
 
-function CupertinoIconThemeData$call(named?: { size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null }): { $: "CupertinoIconThemeData"; size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null };
-function CupertinoIconThemeData$call(...a: any[]): any {
+function $CupertinoIconThemeData$call(named?: { size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null }): { $: "CupertinoIconThemeData"; size?: number | null; fill?: number | null; weight?: number | null; grade?: number | null; opticalSize?: number | null; color?: Color | null; opacity?: number | null; shadows?: Shadow[] | null; applyTextScaling?: boolean | null };
+function $CupertinoIconThemeData$call(...a: any[]): any {
   return $build("CupertinoIconThemeData", [], a);
 }
-export const CupertinoIconThemeData = /* @__PURE__ */ Object.assign(CupertinoIconThemeData$call, {
+export const CupertinoIconThemeData = /* @__PURE__ */ Object.assign($CupertinoIconThemeData$call, {
 
 });

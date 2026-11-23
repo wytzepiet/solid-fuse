@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function DevToolsDeepLinkProperty$call(description: string, url: string): { $: "DevToolsDeepLinkProperty"; description: string; url: string };
-function DevToolsDeepLinkProperty$call(...a: any[]): any {
+function $DevToolsDeepLinkProperty$call(description: string, url: string): { $: "DevToolsDeepLinkProperty"; description: string; url: string };
+function $DevToolsDeepLinkProperty$call(...a: any[]): any {
   return $build("DevToolsDeepLinkProperty", ["description","url"], a);
 }
-export const DevToolsDeepLinkProperty = /* @__PURE__ */ Object.assign(DevToolsDeepLinkProperty$call, {
+export const DevToolsDeepLinkProperty = /* @__PURE__ */ Object.assign($DevToolsDeepLinkProperty$call, {
 
 });

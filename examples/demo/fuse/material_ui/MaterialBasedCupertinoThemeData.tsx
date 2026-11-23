@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ThemeData } from "../material_ui";
 
-function MaterialBasedCupertinoThemeData$call(named: { materialTheme: ThemeData }): { $: "MaterialBasedCupertinoThemeData"; materialTheme: ThemeData };
-function MaterialBasedCupertinoThemeData$call(...a: any[]): any {
+function $MaterialBasedCupertinoThemeData$call(named: { materialTheme: ThemeData }): { $: "MaterialBasedCupertinoThemeData"; materialTheme: ThemeData };
+function $MaterialBasedCupertinoThemeData$call(...a: any[]): any {
   return $build("MaterialBasedCupertinoThemeData", [], a);
 }
-export const MaterialBasedCupertinoThemeData = /* @__PURE__ */ Object.assign(MaterialBasedCupertinoThemeData$call, {
+export const MaterialBasedCupertinoThemeData = /* @__PURE__ */ Object.assign($MaterialBasedCupertinoThemeData$call, {
 
 });

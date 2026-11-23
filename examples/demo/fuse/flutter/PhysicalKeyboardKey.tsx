@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function PhysicalKeyboardKey$call(usbHidUsage: number): { $: "PhysicalKeyboardKey"; usbHidUsage: number };
-function PhysicalKeyboardKey$call(...a: any[]): any {
+function $PhysicalKeyboardKey$call(usbHidUsage: number): { $: "PhysicalKeyboardKey"; usbHidUsage: number };
+function $PhysicalKeyboardKey$call(...a: any[]): any {
   return $build("PhysicalKeyboardKey", ["usbHidUsage"], a);
 }
-export const PhysicalKeyboardKey = /* @__PURE__ */ Object.assign(PhysicalKeyboardKey$call, {
+export const PhysicalKeyboardKey = /* @__PURE__ */ Object.assign($PhysicalKeyboardKey$call, {
   hyper: "PhysicalKeyboardKey.hyper" as Const<"PhysicalKeyboardKey.hyper">,
   superKey: "PhysicalKeyboardKey.superKey" as Const<"PhysicalKeyboardKey.superKey">,
   fn: "PhysicalKeyboardKey.fn" as Const<"PhysicalKeyboardKey.fn">,

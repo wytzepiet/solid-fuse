@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { BorderSide, EdgeInsets, OutlinedBorder, WidgetStatePropertyOfColorN, WidgetStatePropertyOfMouseCursorN } from "../flutter";
 import type { MaterialTapTargetSize, VisualDensity } from "../material_ui";
 
-function CheckboxThemeData$call(named?: { mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; checkColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; shape?: OutlinedBorder | null; side?: BorderSide | null; markInsets?: EdgeInsets | null }): { $: "CheckboxThemeData"; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; checkColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; shape?: OutlinedBorder | null; side?: BorderSide | null; markInsets?: EdgeInsets | null };
-function CheckboxThemeData$call(...a: any[]): any {
+function $CheckboxThemeData$call(named?: { mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; checkColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; shape?: OutlinedBorder | null; side?: BorderSide | null; markInsets?: EdgeInsets | null }): { $: "CheckboxThemeData"; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; checkColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; shape?: OutlinedBorder | null; side?: BorderSide | null; markInsets?: EdgeInsets | null };
+function $CheckboxThemeData$call(...a: any[]): any {
   return $build("CheckboxThemeData", [], a);
 }
-export const CheckboxThemeData = /* @__PURE__ */ Object.assign(CheckboxThemeData$call, {
+export const CheckboxThemeData = /* @__PURE__ */ Object.assign($CheckboxThemeData$call, {
 
 });

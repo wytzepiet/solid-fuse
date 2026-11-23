@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function PlaceholderSpanIndexSemanticsTag$call(index: number): { $: "PlaceholderSpanIndexSemanticsTag"; index: number };
-function PlaceholderSpanIndexSemanticsTag$call(...a: any[]): any {
+function $PlaceholderSpanIndexSemanticsTag$call(index: number): { $: "PlaceholderSpanIndexSemanticsTag"; index: number };
+function $PlaceholderSpanIndexSemanticsTag$call(...a: any[]): any {
   return $build("PlaceholderSpanIndexSemanticsTag", ["index"], a);
 }
-export const PlaceholderSpanIndexSemanticsTag = /* @__PURE__ */ Object.assign(PlaceholderSpanIndexSemanticsTag$call, {
+export const PlaceholderSpanIndexSemanticsTag = /* @__PURE__ */ Object.assign($PlaceholderSpanIndexSemanticsTag$call, {
 
 });

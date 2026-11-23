@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { MaxLengthEnforcement } from "../flutter";
 
-function LengthLimitingTextInputFormatter$call(maxLength: number | null, named?: { maxLengthEnforcement?: MaxLengthEnforcement | null }): { $: "LengthLimitingTextInputFormatter"; maxLength?: number | null; maxLengthEnforcement?: MaxLengthEnforcement | null };
-function LengthLimitingTextInputFormatter$call(...a: any[]): any {
+function $LengthLimitingTextInputFormatter$call(maxLength: number | null, named?: { maxLengthEnforcement?: MaxLengthEnforcement | null }): { $: "LengthLimitingTextInputFormatter"; maxLength?: number | null; maxLengthEnforcement?: MaxLengthEnforcement | null };
+function $LengthLimitingTextInputFormatter$call(...a: any[]): any {
   return $build("LengthLimitingTextInputFormatter", ["maxLength"], a);
 }
-export const LengthLimitingTextInputFormatter = /* @__PURE__ */ Object.assign(LengthLimitingTextInputFormatter$call, {
+export const LengthLimitingTextInputFormatter = /* @__PURE__ */ Object.assign($LengthLimitingTextInputFormatter$call, {
 
 });

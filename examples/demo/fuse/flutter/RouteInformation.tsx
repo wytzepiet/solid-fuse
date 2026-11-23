@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Uri } from "../flutter";
 
-function RouteInformation$call(named?: { location?: string | null; uri?: Uri | null; state?: unknown }): { $: "RouteInformation"; location?: string | null; uri?: Uri | null; state?: unknown };
-function RouteInformation$call(...a: any[]): any {
+function $RouteInformation$call(named?: { location?: string | null; uri?: Uri | null; state?: unknown }): { $: "RouteInformation"; location?: string | null; uri?: Uri | null; state?: unknown };
+function $RouteInformation$call(...a: any[]): any {
   return $build("RouteInformation", [], a);
 }
-export const RouteInformation = /* @__PURE__ */ Object.assign(RouteInformation$call, {
+export const RouteInformation = /* @__PURE__ */ Object.assign($RouteInformation$call, {
 
 });

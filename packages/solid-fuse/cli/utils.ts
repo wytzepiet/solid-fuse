@@ -186,7 +186,7 @@ export function detectLanIp(): string {
   const { execSync } = require("child_process") as typeof import("child_process");
   for (const iface of ["en0", "en1"]) {
     try {
-      const ip = execSync(`ipconfig getifaddr ${iface}`, { encoding: "utf-8" }).trim();
+      const ip = execSync(`ipconfig getifaddr ${iface}`, { encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] }).trim();
       if (ip) return ip;
     } catch {
       // interface not available

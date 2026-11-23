@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Rect, SelectionPoint, SelectionStatus } from "../flutter";
 
-function SelectionGeometry$call(named: { startSelectionPoint?: SelectionPoint | null; endSelectionPoint?: SelectionPoint | null; selectionRects?: Rect[]; status: SelectionStatus; hasContent: boolean }): { $: "SelectionGeometry"; startSelectionPoint?: SelectionPoint | null; endSelectionPoint?: SelectionPoint | null; selectionRects?: Rect[]; status: SelectionStatus; hasContent: boolean };
-function SelectionGeometry$call(...a: any[]): any {
+function $SelectionGeometry$call(named: { startSelectionPoint?: SelectionPoint | null; endSelectionPoint?: SelectionPoint | null; selectionRects?: Rect[]; status: SelectionStatus; hasContent: boolean }): { $: "SelectionGeometry"; startSelectionPoint?: SelectionPoint | null; endSelectionPoint?: SelectionPoint | null; selectionRects?: Rect[]; status: SelectionStatus; hasContent: boolean };
+function $SelectionGeometry$call(...a: any[]): any {
   return $build("SelectionGeometry", [], a);
 }
-export const SelectionGeometry = /* @__PURE__ */ Object.assign(SelectionGeometry$call, {
+export const SelectionGeometry = /* @__PURE__ */ Object.assign($SelectionGeometry$call, {
 
 });

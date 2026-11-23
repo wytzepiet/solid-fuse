@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function DesktopTextSelectionToolbarLayoutDelegate$call(named: { anchor: Offset }): { $: "DesktopTextSelectionToolbarLayoutDelegate"; anchor: Offset };
-function DesktopTextSelectionToolbarLayoutDelegate$call(...a: any[]): any {
+function $DesktopTextSelectionToolbarLayoutDelegate$call(named: { anchor: Offset }): { $: "DesktopTextSelectionToolbarLayoutDelegate"; anchor: Offset };
+function $DesktopTextSelectionToolbarLayoutDelegate$call(...a: any[]): any {
   return $build("DesktopTextSelectionToolbarLayoutDelegate", [], a);
 }
-export const DesktopTextSelectionToolbarLayoutDelegate = /* @__PURE__ */ Object.assign(DesktopTextSelectionToolbarLayoutDelegate$call, {
+export const DesktopTextSelectionToolbarLayoutDelegate = /* @__PURE__ */ Object.assign($DesktopTextSelectionToolbarLayoutDelegate$call, {
 
 });

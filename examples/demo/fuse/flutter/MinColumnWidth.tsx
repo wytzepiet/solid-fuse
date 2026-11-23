@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TableColumnWidth } from "../flutter";
 
-function MinColumnWidth$call(a: TableColumnWidth, b: TableColumnWidth): { $: "MinColumnWidth"; a: TableColumnWidth; b: TableColumnWidth };
-function MinColumnWidth$call(...a: any[]): any {
+function $MinColumnWidth$call(a: TableColumnWidth, b: TableColumnWidth): { $: "MinColumnWidth"; a: TableColumnWidth; b: TableColumnWidth };
+function $MinColumnWidth$call(...a: any[]): any {
   return $build("MinColumnWidth", ["a","b"], a);
 }
-export const MinColumnWidth = /* @__PURE__ */ Object.assign(MinColumnWidth$call, {
+export const MinColumnWidth = /* @__PURE__ */ Object.assign($MinColumnWidth$call, {
 
 });

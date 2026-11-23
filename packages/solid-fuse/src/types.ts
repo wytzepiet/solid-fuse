@@ -29,6 +29,12 @@ export interface BaseProps {
    * the main axis, like CSS `flex: 1` or Flutter's `Expanded(flex: 1)`.
    */
   flex?: number;
+  /**
+   * Finds this element in tests and tools: `fuse drive tap --identifier <id>`.
+   * It is the element's semantics identifier, so Appium and the platform
+   * accessibility tools see it too.
+   */
+  testId?: string;
   ref?: import("./renderer").FuseNode | ((el: import("./renderer").FuseNode) => void);
 }
 

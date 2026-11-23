@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, BoxFit, ColorFilter, FilterQuality, ImageProviderOfObject, ImageRepeat, Rect } from "../flutter";
 
-function DecorationImage$call(named: { image: ImageProviderOfObject; placeholder?: ImageProviderOfObject | null; onError?: ((exception: unknown, stackTrace: undefined) => void) | null; colorFilter?: ColorFilter | null; fit?: BoxFit | null; alignment?: AlignmentGeometry; centerSlice?: Rect | null; repeat?: ImageRepeat; matchTextDirection?: boolean; scale?: number; opacity?: number; filterQuality?: FilterQuality; invertColors?: boolean; isAntiAlias?: boolean }): { $: "DecorationImage"; image: ImageProviderOfObject; placeholder?: ImageProviderOfObject | null; onError?: ((exception: unknown, stackTrace: undefined) => void) | null; colorFilter?: ColorFilter | null; fit?: BoxFit | null; alignment?: AlignmentGeometry; centerSlice?: Rect | null; repeat?: ImageRepeat; matchTextDirection?: boolean; scale?: number; opacity?: number; filterQuality?: FilterQuality; invertColors?: boolean; isAntiAlias?: boolean };
-function DecorationImage$call(...a: any[]): any {
+function $DecorationImage$call(named: { image: ImageProviderOfObject; placeholder?: ImageProviderOfObject | null; onError?: ((exception: unknown, stackTrace: undefined) => void) | null; colorFilter?: ColorFilter | null; fit?: BoxFit | null; alignment?: AlignmentGeometry; centerSlice?: Rect | null; repeat?: ImageRepeat; matchTextDirection?: boolean; scale?: number; opacity?: number; filterQuality?: FilterQuality; invertColors?: boolean; isAntiAlias?: boolean }): { $: "DecorationImage"; image: ImageProviderOfObject; placeholder?: ImageProviderOfObject | null; onError?: ((exception: unknown, stackTrace: undefined) => void) | null; colorFilter?: ColorFilter | null; fit?: BoxFit | null; alignment?: AlignmentGeometry; centerSlice?: Rect | null; repeat?: ImageRepeat; matchTextDirection?: boolean; scale?: number; opacity?: number; filterQuality?: FilterQuality; invertColors?: boolean; isAntiAlias?: boolean };
+function $DecorationImage$call(...a: any[]): any {
   return $build("DecorationImage", [], a);
 }
-export const DecorationImage = /* @__PURE__ */ Object.assign(DecorationImage$call, {
+export const DecorationImage = /* @__PURE__ */ Object.assign($DecorationImage$call, {
 
 });

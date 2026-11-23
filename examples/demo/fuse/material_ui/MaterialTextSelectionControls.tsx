@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function MaterialTextSelectionControls$call(): { $: "MaterialTextSelectionControls" };
-function MaterialTextSelectionControls$call(...a: any[]): any {
+function $MaterialTextSelectionControls$call(): { $: "MaterialTextSelectionControls" };
+function $MaterialTextSelectionControls$call(...a: any[]): any {
   return $build("MaterialTextSelectionControls", [], a);
 }
-export const MaterialTextSelectionControls = /* @__PURE__ */ Object.assign(MaterialTextSelectionControls$call, {
+export const MaterialTextSelectionControls = /* @__PURE__ */ Object.assign($MaterialTextSelectionControls$call, {
 
 });

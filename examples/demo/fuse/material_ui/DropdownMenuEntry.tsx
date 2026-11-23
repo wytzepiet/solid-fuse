@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ButtonStyle } from "../material_ui";
 
-function DropdownMenuEntry$call(named: { value?: unknown; label: string; labelWidget?: JSX.Element | null; leadingIcon?: JSX.Element | null; trailingIcon?: JSX.Element | null; enabled?: boolean; style?: ButtonStyle | null }): { $: "DropdownMenuEntry"; value?: unknown; label: string; labelWidget?: JSX.Element | null; leadingIcon?: JSX.Element | null; trailingIcon?: JSX.Element | null; enabled?: boolean; style?: ButtonStyle | null };
-function DropdownMenuEntry$call(...a: any[]): any {
+function $DropdownMenuEntry$call(named: { value?: unknown; label: string; labelWidget?: JSX.Element | null; leadingIcon?: JSX.Element | null; trailingIcon?: JSX.Element | null; enabled?: boolean; style?: ButtonStyle | null }): { $: "DropdownMenuEntry"; value?: unknown; label: string; labelWidget?: JSX.Element | null; leadingIcon?: JSX.Element | null; trailingIcon?: JSX.Element | null; enabled?: boolean; style?: ButtonStyle | null };
+function $DropdownMenuEntry$call(...a: any[]): any {
   return $build("DropdownMenuEntry", [], a);
 }
-export const DropdownMenuEntry = /* @__PURE__ */ Object.assign(DropdownMenuEntry$call, {
+export const DropdownMenuEntry = /* @__PURE__ */ Object.assign($DropdownMenuEntry$call, {
 
 });

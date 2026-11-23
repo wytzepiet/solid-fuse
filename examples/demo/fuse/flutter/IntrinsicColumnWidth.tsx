@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function IntrinsicColumnWidth$call(named?: { flex?: number | null }): { $: "IntrinsicColumnWidth"; flex?: number | null };
-function IntrinsicColumnWidth$call(...a: any[]): any {
+function $IntrinsicColumnWidth$call(named?: { flex?: number | null }): { $: "IntrinsicColumnWidth"; flex?: number | null };
+function $IntrinsicColumnWidth$call(...a: any[]): any {
   return $build("IntrinsicColumnWidth", [], a);
 }
-export const IntrinsicColumnWidth = /* @__PURE__ */ Object.assign(IntrinsicColumnWidth$call, {
+export const IntrinsicColumnWidth = /* @__PURE__ */ Object.assign($IntrinsicColumnWidth$call, {
 
 });

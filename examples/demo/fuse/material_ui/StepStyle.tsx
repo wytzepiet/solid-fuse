@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BoxBorder, BoxShadow, Color, Gradient, TextStyle } from "../flutter";
 
-function StepStyle$call(named?: { color?: Color | null; errorColor?: Color | null; connectorColor?: Color | null; connectorThickness?: number | null; border?: BoxBorder | null; boxShadow?: BoxShadow | null; gradient?: Gradient | null; indexStyle?: TextStyle | null }): { $: "StepStyle"; color?: Color | null; errorColor?: Color | null; connectorColor?: Color | null; connectorThickness?: number | null; border?: BoxBorder | null; boxShadow?: BoxShadow | null; gradient?: Gradient | null; indexStyle?: TextStyle | null };
-function StepStyle$call(...a: any[]): any {
+function $StepStyle$call(named?: { color?: Color | null; errorColor?: Color | null; connectorColor?: Color | null; connectorThickness?: number | null; border?: BoxBorder | null; boxShadow?: BoxShadow | null; gradient?: Gradient | null; indexStyle?: TextStyle | null }): { $: "StepStyle"; color?: Color | null; errorColor?: Color | null; connectorColor?: Color | null; connectorThickness?: number | null; border?: BoxBorder | null; boxShadow?: BoxShadow | null; gradient?: Gradient | null; indexStyle?: TextStyle | null };
+function $StepStyle$call(...a: any[]): any {
   return $build("StepStyle", [], a);
 }
-export const StepStyle = /* @__PURE__ */ Object.assign(StepStyle$call, {
+export const StepStyle = /* @__PURE__ */ Object.assign($StepStyle$call, {
 
 });

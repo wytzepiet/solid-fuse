@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 
-function Matrix4Tween$call(named?: { begin?: Handle<"vector_math_Matrix4"> | null; end?: Handle<"vector_math_Matrix4"> | null }): { $: "Matrix4Tween"; begin?: Handle<"vector_math_Matrix4"> | null; end?: Handle<"vector_math_Matrix4"> | null };
-function Matrix4Tween$call(...a: any[]): any {
+function $Matrix4Tween$call(named?: { begin?: Handle<"vector_math_Matrix4"> | null; end?: Handle<"vector_math_Matrix4"> | null }): { $: "Matrix4Tween"; begin?: Handle<"vector_math_Matrix4"> | null; end?: Handle<"vector_math_Matrix4"> | null };
+function $Matrix4Tween$call(...a: any[]): any {
   return $build("Matrix4Tween", [], a);
 }
-export const Matrix4Tween = /* @__PURE__ */ Object.assign(Matrix4Tween$call, {
+export const Matrix4Tween = /* @__PURE__ */ Object.assign($Matrix4Tween$call, {
 
 });

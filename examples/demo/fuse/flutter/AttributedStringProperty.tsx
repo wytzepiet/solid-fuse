@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AttributedString, DiagnosticLevel } from "../flutter";
 
-function AttributedStringProperty$call(name: string, value: AttributedString | null, named?: { showName?: boolean; showWhenEmpty?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null }): { $: "AttributedStringProperty"; name: string; value?: AttributedString | null; showName?: boolean; showWhenEmpty?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null };
-function AttributedStringProperty$call(...a: any[]): any {
+function $AttributedStringProperty$call(name: string, value: AttributedString | null, named?: { showName?: boolean; showWhenEmpty?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null }): { $: "AttributedStringProperty"; name: string; value?: AttributedString | null; showName?: boolean; showWhenEmpty?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null };
+function $AttributedStringProperty$call(...a: any[]): any {
   return $build("AttributedStringProperty", ["name","value"], a);
 }
-export const AttributedStringProperty = /* @__PURE__ */ Object.assign(AttributedStringProperty$call, {
+export const AttributedStringProperty = /* @__PURE__ */ Object.assign($AttributedStringProperty$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Decoration } from "../flutter";
 
-function DecorationTween$call(named?: { begin?: Decoration | null; end?: Decoration | null }): { $: "DecorationTween"; begin?: Decoration | null; end?: Decoration | null };
-function DecorationTween$call(...a: any[]): any {
+function $DecorationTween$call(named?: { begin?: Decoration | null; end?: Decoration | null }): { $: "DecorationTween"; begin?: Decoration | null; end?: Decoration | null };
+function $DecorationTween$call(...a: any[]): any {
   return $build("DecorationTween", [], a);
 }
-export const DecorationTween = /* @__PURE__ */ Object.assign(DecorationTween$call, {
+export const DecorationTween = /* @__PURE__ */ Object.assign($DecorationTween$call, {
 
 });

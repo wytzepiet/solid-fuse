@@ -17,6 +17,8 @@ export interface CupertinoActionSheetProps {
   cancelButton?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -39,6 +41,8 @@ export interface CupertinoActionSheetActionProps {
   focusColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -62,6 +66,8 @@ export interface CupertinoActivityIndicatorProps {
   radius?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -81,6 +87,8 @@ export interface CupertinoActivityIndicatorPartiallyRevealedProps {
   progress?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -96,6 +104,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarProps {
   anchors: TextSelectionToolbarAnchors;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -114,6 +124,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarButtonItemsProps {
   anchors: TextSelectionToolbarAnchors;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -138,6 +150,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarEditableProps {
   anchors: TextSelectionToolbarAnchors;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -156,6 +170,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarSelectableProps {
   anchors: TextSelectionToolbarAnchors;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -177,6 +193,8 @@ export interface CupertinoAlertDialogProps {
   insetAnimationCurve?: Curve;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -227,6 +245,8 @@ export interface CupertinoAppProps {
   useInheritedMediaQuery?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -274,6 +294,8 @@ export interface CupertinoAppRouterProps {
   useInheritedMediaQuery?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -309,6 +331,8 @@ export interface CupertinoButtonProps {
   onPressed?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -348,6 +372,8 @@ export interface CupertinoButtonTintedProps {
   onPressed?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -387,6 +413,8 @@ export interface CupertinoButtonFilledProps {
   onPressed?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -423,6 +451,8 @@ export interface CupertinoCheckboxProps {
   semanticLabel?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -440,6 +470,8 @@ export interface CupertinoContextMenuProps {
   enableHapticFeedback?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -462,6 +494,8 @@ export interface CupertinoContextMenuBuilderProps {
   enableHapticFeedback?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -482,6 +516,8 @@ export interface CupertinoContextMenuActionProps {
   trailingIcon?: IconData | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -525,6 +561,8 @@ export interface CupertinoDatePickerProps {
   changeReportingBehavior?: ChangeReportingBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -540,6 +578,8 @@ export interface CupertinoDesktopTextSelectionToolbarProps {
   anchor: Offset;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -557,6 +597,8 @@ export interface CupertinoDesktopTextSelectionToolbarButtonProps {
   onPressed?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -577,6 +619,8 @@ export interface CupertinoDesktopTextSelectionToolbarButtonTextProps {
   text?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -592,6 +636,8 @@ export interface CupertinoDesktopTextSelectionToolbarButtonButtonItemProps {
   buttonItem: ContextMenuButtonItem;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -613,6 +659,8 @@ export interface CupertinoDialogActionProps {
   mouseCursor?: MouseCursor | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -635,6 +683,8 @@ export interface CupertinoExpansionTileProps {
   transitionMode?: ExpansionTileTransitionMode;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -653,6 +703,8 @@ export interface CupertinoFocusHaloWithRectProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -672,6 +724,8 @@ export interface CupertinoFocusHaloWithRRectProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -691,6 +745,8 @@ export interface CupertinoFocusHaloWithRoundedSuperellipseProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -713,6 +769,8 @@ export interface CupertinoFormRowProps {
   error?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -738,6 +796,8 @@ export interface CupertinoFormSectionProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -761,6 +821,8 @@ export interface CupertinoFormSectionInsetGroupedProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -780,6 +842,8 @@ export interface CupertinoFullscreenDialogTransitionProps {
   linearTransition: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -802,6 +866,8 @@ export interface CupertinoLinearActivityIndicatorProps {
   color?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -831,6 +897,8 @@ export interface CupertinoListSectionProps {
   separatorColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -861,6 +929,8 @@ export interface CupertinoListSectionInsetGroupedProps {
   separatorColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -890,6 +960,8 @@ export interface CupertinoListTileProps {
   leadingToTitle?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -917,6 +989,8 @@ export interface CupertinoListTileNotchedProps {
   leadingToTitle?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -931,6 +1005,8 @@ export interface CupertinoListTileChevronProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -955,6 +1031,8 @@ export interface CupertinoMagnifierProps {
   magnificationScale?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -988,6 +1066,8 @@ export interface CupertinoMenuAnchorProps {
   childFocusNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1007,6 +1087,8 @@ export interface CupertinoMenuDividerProps {
   color?: Color;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1046,6 +1128,8 @@ export interface CupertinoMenuItemProps {
   isDestructiveAction?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1084,6 +1168,8 @@ export interface CupertinoNavigationBarProps {
   bottom?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1118,6 +1204,8 @@ export interface CupertinoNavigationBarLargeProps {
   bottom?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1135,6 +1223,8 @@ export interface CupertinoNavigationBarBackButtonProps {
   onPressed?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1153,6 +1243,8 @@ export interface CupertinoPageScaffoldProps {
   resizeToAvoidBottomInset?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1172,6 +1264,8 @@ export interface CupertinoPageScaffoldBackgroundColorProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1193,6 +1287,8 @@ export interface CupertinoPageTransitionProps {
   linearTransition: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1230,6 +1326,8 @@ export interface CupertinoPickerProps {
   looping?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -1265,6 +1363,8 @@ export interface CupertinoPickerBuilderProps {
   selectionOverlay?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1284,6 +1384,8 @@ export interface CupertinoPickerDefaultSelectionOverlayProps {
   capEndEdge?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1302,6 +1404,8 @@ export interface CupertinoPopupSurfaceProps {
   isSurfacePainted?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1339,6 +1443,8 @@ export interface CupertinoRadioProps {
   groupRegistry?: RadioGroupRegistryOfObjectN | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1365,6 +1471,8 @@ export interface CupertinoScrollbarProps {
   mainAxisMargin?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1423,6 +1531,8 @@ export interface CupertinoSearchTextFieldProps {
   cursorColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1447,6 +1557,8 @@ export interface CupertinoSegmentedControlProps {
   disabledChildren?: unknown[];
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1468,6 +1580,8 @@ export interface CupertinoSheetTransitionProps {
   topGap?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1497,6 +1611,8 @@ export interface CupertinoSliderProps {
   thumbColor?: Color;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1521,6 +1637,8 @@ export interface CupertinoSlidingSegmentedControlProps {
   isMomentary?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1561,6 +1679,8 @@ export interface CupertinoSliverNavigationBarProps {
   bottomMode?: NavigationBarBottomMode | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1603,6 +1723,8 @@ export interface CupertinoSliverNavigationBarSearchProps {
   onSearchableBottomTap?: ((value: boolean) => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1623,6 +1745,8 @@ export interface CupertinoSliverRefreshControlProps {
   onRefresh?: (() => void | Promise<void>) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1639,6 +1763,8 @@ export interface CupertinoSpellCheckSuggestionsToolbarProps {
   buttonItems: ContextMenuButtonItem[];
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1681,6 +1807,8 @@ export interface CupertinoSwitchProps {
   dragStartBehavior?: DragStartBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1707,6 +1835,8 @@ export interface CupertinoTabBarProps {
   border?: Border | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1728,6 +1858,8 @@ export interface CupertinoTabScaffoldProps {
   restorationId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1749,6 +1881,8 @@ export interface CupertinoTabViewProps {
   restorationScopeId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1861,6 +1995,8 @@ export interface CupertinoTextFieldProps {
   magnifierConfiguration?: TextMagnifierConfiguration | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1972,6 +2108,8 @@ export interface CupertinoTextFieldBorderlessProps {
   magnifierConfiguration?: TextMagnifierConfiguration | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2053,6 +2191,8 @@ export interface CupertinoTextFormFieldRowProps {
   restorationId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2076,6 +2216,8 @@ export interface CupertinoTextMagnifierProps {
   magnifierInfo: Handle<"listen_ValueNotifier">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2093,6 +2235,8 @@ export interface CupertinoTextSelectionToolbarProps {
   toolbarBuilder?: (anchorAbove: OffsetOut, anchorBelow: OffsetOut, child: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -2110,6 +2254,8 @@ export interface CupertinoTextSelectionToolbarButtonProps {
   onPressed?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2130,6 +2276,8 @@ export interface CupertinoTextSelectionToolbarButtonTextProps {
   text?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2145,6 +2293,8 @@ export interface CupertinoTextSelectionToolbarButtonButtonItemProps {
   buttonItem: ContextMenuButtonItem;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2160,6 +2310,8 @@ export interface CupertinoThemeProps {
   data: CupertinoThemeData;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2193,6 +2345,8 @@ export interface CupertinoTimerPickerProps {
   selectionOverlayBuilder?: ((named: { columnCount: number; selectedIndex: number }) => JSX.Element | null) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2208,6 +2362,8 @@ export interface CupertinoUiCompatibilityBridgeProps {
   delegates?: LocalizationsDelegateOfdynamic[] | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2228,6 +2384,8 @@ export interface CupertinoUserInterfaceLevelProps {
   data: CupertinoUserInterfaceLevelData;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2247,6 +2405,8 @@ export interface InheritedCupertinoThemeProps {
   theme: JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */

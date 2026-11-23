@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function PlatformAssetBundle$call(): { $: "PlatformAssetBundle" };
-function PlatformAssetBundle$call(...a: any[]): any {
+function $PlatformAssetBundle$call(): { $: "PlatformAssetBundle" };
+function $PlatformAssetBundle$call(...a: any[]): any {
   return $build("PlatformAssetBundle", [], a);
 }
-export const PlatformAssetBundle = /* @__PURE__ */ Object.assign(PlatformAssetBundle$call, {
+export const PlatformAssetBundle = /* @__PURE__ */ Object.assign($PlatformAssetBundle$call, {
 
 });

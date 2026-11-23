@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function LexicalFocusOrder$call(order: string): { $: "LexicalFocusOrder"; order: string };
-function LexicalFocusOrder$call(...a: any[]): any {
+function $LexicalFocusOrder$call(order: string): { $: "LexicalFocusOrder"; order: string };
+function $LexicalFocusOrder$call(...a: any[]): any {
   return $build("LexicalFocusOrder", ["order"], a);
 }
-export const LexicalFocusOrder = /* @__PURE__ */ Object.assign(LexicalFocusOrder$call, {
+export const LexicalFocusOrder = /* @__PURE__ */ Object.assign($LexicalFocusOrder$call, {
 
 });

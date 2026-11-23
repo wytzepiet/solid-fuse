@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SliverGridGeometry$call(named: { scrollOffset: number; crossAxisOffset: number; mainAxisExtent: number; crossAxisExtent: number }): { $: "SliverGridGeometry"; scrollOffset: number; crossAxisOffset: number; mainAxisExtent: number; crossAxisExtent: number };
-function SliverGridGeometry$call(...a: any[]): any {
+function $SliverGridGeometry$call(named: { scrollOffset: number; crossAxisOffset: number; mainAxisExtent: number; crossAxisExtent: number }): { $: "SliverGridGeometry"; scrollOffset: number; crossAxisOffset: number; mainAxisExtent: number; crossAxisExtent: number };
+function $SliverGridGeometry$call(...a: any[]): any {
   return $build("SliverGridGeometry", [], a);
 }
-export const SliverGridGeometry = /* @__PURE__ */ Object.assign(SliverGridGeometry$call, {
+export const SliverGridGeometry = /* @__PURE__ */ Object.assign($SliverGridGeometry$call, {
 
 });

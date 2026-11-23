@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Intent, MenuSerializableShortcut } from "../flutter";
 
-function PlatformMenuItem$call(named: { label: string; tooltip?: string | null; shortcut?: MenuSerializableShortcut | null; onSelected?: (() => void) | null; onSelectedIntent?: Intent | null }): { $: "PlatformMenuItem"; label: string; tooltip?: string | null; shortcut?: MenuSerializableShortcut | null; onSelected?: (() => void) | null; onSelectedIntent?: Intent | null };
-function PlatformMenuItem$call(...a: any[]): any {
+function $PlatformMenuItem$call(named: { label: string; tooltip?: string | null; shortcut?: MenuSerializableShortcut | null; onSelected?: (() => void) | null; onSelectedIntent?: Intent | null }): { $: "PlatformMenuItem"; label: string; tooltip?: string | null; shortcut?: MenuSerializableShortcut | null; onSelected?: (() => void) | null; onSelectedIntent?: Intent | null };
+function $PlatformMenuItem$call(...a: any[]): any {
   return $build("PlatformMenuItem", [], a);
 }
-export const PlatformMenuItem = /* @__PURE__ */ Object.assign(PlatformMenuItem$call, {
+export const PlatformMenuItem = /* @__PURE__ */ Object.assign($PlatformMenuItem$call, {
 
 });

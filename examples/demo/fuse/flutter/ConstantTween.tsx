@@ -3,11 +3,11 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ConstantTween$call(value: unknown): { $: "ConstantTween"; value: unknown };
-function ConstantTween$call(value: number): { $: "ConstantTween"; value: number };
-function ConstantTween$call(...a: any[]): any {
+function $ConstantTween$call(value: unknown): { $: "ConstantTween"; value: unknown };
+function $ConstantTween$call(value: number): { $: "ConstantTween"; value: number };
+function $ConstantTween$call(...a: any[]): any {
   return $build("ConstantTween", ["value"], a);
 }
-export const ConstantTween = /* @__PURE__ */ Object.assign(ConstantTween$call, {
+export const ConstantTween = /* @__PURE__ */ Object.assign($ConstantTween$call, {
 
 });

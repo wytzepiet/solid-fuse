@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextStyle } from "../flutter";
 
-function TextTheme$call(named?: { displayLarge?: TextStyle | null; displayMedium?: TextStyle | null; displaySmall?: TextStyle | null; headlineLarge?: TextStyle | null; headlineMedium?: TextStyle | null; headlineSmall?: TextStyle | null; titleLarge?: TextStyle | null; titleMedium?: TextStyle | null; titleSmall?: TextStyle | null; bodyLarge?: TextStyle | null; bodyMedium?: TextStyle | null; bodySmall?: TextStyle | null; labelLarge?: TextStyle | null; labelMedium?: TextStyle | null; labelSmall?: TextStyle | null }): { $: "TextTheme"; displayLarge?: TextStyle | null; displayMedium?: TextStyle | null; displaySmall?: TextStyle | null; headlineLarge?: TextStyle | null; headlineMedium?: TextStyle | null; headlineSmall?: TextStyle | null; titleLarge?: TextStyle | null; titleMedium?: TextStyle | null; titleSmall?: TextStyle | null; bodyLarge?: TextStyle | null; bodyMedium?: TextStyle | null; bodySmall?: TextStyle | null; labelLarge?: TextStyle | null; labelMedium?: TextStyle | null; labelSmall?: TextStyle | null };
-function TextTheme$call(...a: any[]): any {
+function $TextTheme$call(named?: { displayLarge?: TextStyle | null; displayMedium?: TextStyle | null; displaySmall?: TextStyle | null; headlineLarge?: TextStyle | null; headlineMedium?: TextStyle | null; headlineSmall?: TextStyle | null; titleLarge?: TextStyle | null; titleMedium?: TextStyle | null; titleSmall?: TextStyle | null; bodyLarge?: TextStyle | null; bodyMedium?: TextStyle | null; bodySmall?: TextStyle | null; labelLarge?: TextStyle | null; labelMedium?: TextStyle | null; labelSmall?: TextStyle | null }): { $: "TextTheme"; displayLarge?: TextStyle | null; displayMedium?: TextStyle | null; displaySmall?: TextStyle | null; headlineLarge?: TextStyle | null; headlineMedium?: TextStyle | null; headlineSmall?: TextStyle | null; titleLarge?: TextStyle | null; titleMedium?: TextStyle | null; titleSmall?: TextStyle | null; bodyLarge?: TextStyle | null; bodyMedium?: TextStyle | null; bodySmall?: TextStyle | null; labelLarge?: TextStyle | null; labelMedium?: TextStyle | null; labelSmall?: TextStyle | null };
+function $TextTheme$call(...a: any[]): any {
   return $build("TextTheme", [], a);
 }
-export const TextTheme = /* @__PURE__ */ Object.assign(TextTheme$call, {
+export const TextTheme = /* @__PURE__ */ Object.assign($TextTheme$call, {
 
 });

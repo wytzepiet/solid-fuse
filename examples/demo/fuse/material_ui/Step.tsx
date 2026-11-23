@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { StepState, StepStyle } from "../material_ui";
 
-function Step$call(named: { title: JSX.Element; subtitle?: JSX.Element | null; content: JSX.Element; state?: StepState; isActive?: boolean; label?: JSX.Element | null; stepStyle?: StepStyle | null }): { $: "Step"; title: JSX.Element; subtitle?: JSX.Element | null; content: JSX.Element; state?: StepState; isActive?: boolean; label?: JSX.Element | null; stepStyle?: StepStyle | null };
-function Step$call(...a: any[]): any {
+function $Step$call(named: { title: JSX.Element; subtitle?: JSX.Element | null; content: JSX.Element; state?: StepState; isActive?: boolean; label?: JSX.Element | null; stepStyle?: StepStyle | null }): { $: "Step"; title: JSX.Element; subtitle?: JSX.Element | null; content: JSX.Element; state?: StepState; isActive?: boolean; label?: JSX.Element | null; stepStyle?: StepStyle | null };
+function $Step$call(...a: any[]): any {
   return $build("Step", [], a);
 }
-export const Step = /* @__PURE__ */ Object.assign(Step$call, {
+export const Step = /* @__PURE__ */ Object.assign($Step$call, {
 
 });

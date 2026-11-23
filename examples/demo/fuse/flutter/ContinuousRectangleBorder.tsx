@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadiusGeometry, BorderSide } from "../flutter";
 
-function ContinuousRectangleBorder$call(named?: { side?: BorderSide; borderRadius?: BorderRadiusGeometry }): { $: "ContinuousRectangleBorder"; side?: BorderSide; borderRadius?: BorderRadiusGeometry };
-function ContinuousRectangleBorder$call(...a: any[]): any {
+function $ContinuousRectangleBorder$call(named?: { side?: BorderSide; borderRadius?: BorderRadiusGeometry }): { $: "ContinuousRectangleBorder"; side?: BorderSide; borderRadius?: BorderRadiusGeometry };
+function $ContinuousRectangleBorder$call(...a: any[]): any {
   return $build("ContinuousRectangleBorder", [], a);
 }
-export const ContinuousRectangleBorder = /* @__PURE__ */ Object.assign(ContinuousRectangleBorder$call, {
+export const ContinuousRectangleBorder = /* @__PURE__ */ Object.assign($ContinuousRectangleBorder$call, {
 
 });

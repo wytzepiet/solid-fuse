@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BoxShadow, ShapeBorder } from "../flutter";
 
-function MagnifierDecoration$call(named?: { opacity?: number; shadows?: BoxShadow[] | null; shape?: ShapeBorder }): { $: "MagnifierDecoration"; opacity?: number; shadows?: BoxShadow[] | null; shape?: ShapeBorder };
-function MagnifierDecoration$call(...a: any[]): any {
+function $MagnifierDecoration$call(named?: { opacity?: number; shadows?: BoxShadow[] | null; shape?: ShapeBorder }): { $: "MagnifierDecoration"; opacity?: number; shadows?: BoxShadow[] | null; shape?: ShapeBorder };
+function $MagnifierDecoration$call(...a: any[]): any {
   return $build("MagnifierDecoration", [], a);
 }
-export const MagnifierDecoration = /* @__PURE__ */ Object.assign(MagnifierDecoration$call, {
+export const MagnifierDecoration = /* @__PURE__ */ Object.assign($MagnifierDecoration$call, {
 
 });

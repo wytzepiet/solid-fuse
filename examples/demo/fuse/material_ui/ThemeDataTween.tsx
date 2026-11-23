@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ThemeData } from "../material_ui";
 
-function ThemeDataTween$call(named?: { begin?: ThemeData | null; end?: ThemeData | null }): { $: "ThemeDataTween"; begin?: ThemeData | null; end?: ThemeData | null };
-function ThemeDataTween$call(...a: any[]): any {
+function $ThemeDataTween$call(named?: { begin?: ThemeData | null; end?: ThemeData | null }): { $: "ThemeDataTween"; begin?: ThemeData | null; end?: ThemeData | null };
+function $ThemeDataTween$call(...a: any[]): any {
   return $build("ThemeDataTween", [], a);
 }
-export const ThemeDataTween = /* @__PURE__ */ Object.assign(ThemeDataTween$call, {
+export const ThemeDataTween = /* @__PURE__ */ Object.assign($ThemeDataTween$call, {
 
 });

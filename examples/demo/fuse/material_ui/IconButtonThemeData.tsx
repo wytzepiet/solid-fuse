@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ButtonStyle, StyleVariant } from "../material_ui";
 
-function IconButtonThemeData$call(named?: { style?: ButtonStyle | null; variant?: StyleVariant | null }): { $: "IconButtonThemeData"; style?: ButtonStyle | null; variant?: StyleVariant | null };
-function IconButtonThemeData$call(...a: any[]): any {
+function $IconButtonThemeData$call(named?: { style?: ButtonStyle | null; variant?: StyleVariant | null }): { $: "IconButtonThemeData"; style?: ButtonStyle | null; variant?: StyleVariant | null };
+function $IconButtonThemeData$call(...a: any[]): any {
   return $build("IconButtonThemeData", [], a);
 }
-export const IconButtonThemeData = /* @__PURE__ */ Object.assign(IconButtonThemeData$call, {
+export const IconButtonThemeData = /* @__PURE__ */ Object.assign($IconButtonThemeData$call, {
 
 });

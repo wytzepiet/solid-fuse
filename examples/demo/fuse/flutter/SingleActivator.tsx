@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { LockState, LogicalKeyboardKey } from "../flutter";
 
-function SingleActivator$call(trigger: LogicalKeyboardKey, named?: { control?: boolean; shift?: boolean; alt?: boolean; meta?: boolean; numLock?: LockState; includeRepeats?: boolean }): { $: "SingleActivator"; trigger: LogicalKeyboardKey; control?: boolean; shift?: boolean; alt?: boolean; meta?: boolean; numLock?: LockState; includeRepeats?: boolean };
-function SingleActivator$call(...a: any[]): any {
+function $SingleActivator$call(trigger: LogicalKeyboardKey, named?: { control?: boolean; shift?: boolean; alt?: boolean; meta?: boolean; numLock?: LockState; includeRepeats?: boolean }): { $: "SingleActivator"; trigger: LogicalKeyboardKey; control?: boolean; shift?: boolean; alt?: boolean; meta?: boolean; numLock?: LockState; includeRepeats?: boolean };
+function $SingleActivator$call(...a: any[]): any {
   return $build("SingleActivator", ["trigger"], a);
 }
-export const SingleActivator = /* @__PURE__ */ Object.assign(SingleActivator$call, {
+export const SingleActivator = /* @__PURE__ */ Object.assign($SingleActivator$call, {
 
 });

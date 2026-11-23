@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { InlineSpan, Locale, MouseCursor, PointerEnterEventOut, PointerExitEventOut, TextStyle } from "../flutter";
 
-function TextSpan$call(named?: { text?: string | null; children?: InlineSpan[] | null; style?: TextStyle | null; recognizer?: Handle<string> | null; mouseCursor?: MouseCursor | null; onEnter?: ((event: PointerEnterEventOut) => void) | null; onExit?: ((event: PointerExitEventOut) => void) | null; semanticsLabel?: string | null; semanticsIdentifier?: string | null; locale?: Locale | null; spellOut?: boolean | null }): { $: "TextSpan"; text?: string | null; children?: InlineSpan[] | null; style?: TextStyle | null; recognizer?: Handle<string> | null; mouseCursor?: MouseCursor | null; onEnter?: ((event: PointerEnterEventOut) => void) | null; onExit?: ((event: PointerExitEventOut) => void) | null; semanticsLabel?: string | null; semanticsIdentifier?: string | null; locale?: Locale | null; spellOut?: boolean | null };
-function TextSpan$call(...a: any[]): any {
+function $TextSpan$call(named?: { text?: string | null; children?: InlineSpan[] | null; style?: TextStyle | null; recognizer?: Handle<string> | null; mouseCursor?: MouseCursor | null; onEnter?: ((event: PointerEnterEventOut) => void) | null; onExit?: ((event: PointerExitEventOut) => void) | null; semanticsLabel?: string | null; semanticsIdentifier?: string | null; locale?: Locale | null; spellOut?: boolean | null }): { $: "TextSpan"; text?: string | null; children?: InlineSpan[] | null; style?: TextStyle | null; recognizer?: Handle<string> | null; mouseCursor?: MouseCursor | null; onEnter?: ((event: PointerEnterEventOut) => void) | null; onExit?: ((event: PointerExitEventOut) => void) | null; semanticsLabel?: string | null; semanticsIdentifier?: string | null; locale?: Locale | null; spellOut?: boolean | null };
+function $TextSpan$call(...a: any[]): any {
   return $build("TextSpan", [], a);
 }
-export const TextSpan = /* @__PURE__ */ Object.assign(TextSpan$call, {
+export const TextSpan = /* @__PURE__ */ Object.assign($TextSpan$call, {
 
 });

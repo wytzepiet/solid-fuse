@@ -492,16 +492,19 @@ export function emitTs(m: Manifest): TsOutput {
     }
     if (b.callable) {
       // Callable (`Offset(1, 2)` and `Offset.zero`): a function with its
-      // members as properties, kept or dropped as a whole.
+      // members as properties, kept or dropped as a whole. The local
+      // functions start with `$`: Solid's dev refresh takes a capitalised
+      // function for a component and redeclares it, breaking the overloads.
       sub.usesBuild = true;
-      for (const [k, e] of b.members) if (!("const" in e)) out.push(functionBlock(`${b.name}$${k}`, e, false));
-      out.push(functionBlock(`${b.name}$call`, b.callable, false));
+      const local = (k: string) => `$${b.name}$${k}`;
+      for (const [k, e] of b.members) if (!("const" in e)) out.push(functionBlock(local(k), e, false));
+      out.push(functionBlock(local("call"), b.callable, false));
       module.builders[name] = { tag: b.callable.tag, positional: b.callable.positional };
       // Pure, so the bundler drops the whole owner when nothing uses it.
       const entries = [...b.members].map(
-        ([k, e]) => `${jsdoc("  ", undefined, "const" in e ? e.deprecated : undefined)}  ${prop(k)}: ${"const" in e ? constOf(e.const) : `${b.name}$${k}`},`,
+        ([k, e]) => `${jsdoc("  ", undefined, "const" in e ? e.deprecated : undefined)}  ${prop(k)}: ${"const" in e ? constOf(e.const) : local(k)},`,
       );
-      out.push(`export const ${b.name} = /* @__PURE__ */ Object.assign(${b.name}$call, {\n${entries.join("\n")}\n});`);
+      out.push(`export const ${b.name} = /* @__PURE__ */ Object.assign(${local("call")}, {\n${entries.join("\n")}\n});`);
       sub.uses[b.name] = { consts: [...b.members.values()].flatMap((e) => ("const" in e ? [e.const] : [])) };
       module.reexports.push(`export { ${b.name}${name === b.name ? "" : ` as ${name}`} } from "${from}";`);
     } else {
@@ -541,6 +544,10 @@ export function emitTs(m: Manifest): TsOutput {
     // the widget has a `flex` of its own (Expanded, Flexible).
     if (!w.params.some((p) => p.name === "flex")) {
       fields.push(`  /** This element's share of a layout's free space, like CSS \`flex: 1\`. */\n  flex?: number;`);
+    }
+    // Finds the element in tests and tools, as on every element.
+    if (!w.params.some((p) => p.name === "testId")) {
+      fields.push(`  /** Finds this element in tests and tools (its semantics identifier). */\n  testId?: string;`);
     }
     const childParam = w.children && w.params.find((p) => p.name === w.children!.param);
     if (childParam) {

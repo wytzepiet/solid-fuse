@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function ThreePointCubic$call(a1: Offset, b1: Offset, midpoint: Offset, a2: Offset, b2: Offset): { $: "ThreePointCubic"; a1: Offset; b1: Offset; midpoint: Offset; a2: Offset; b2: Offset };
-function ThreePointCubic$call(...a: any[]): any {
+function $ThreePointCubic$call(a1: Offset, b1: Offset, midpoint: Offset, a2: Offset, b2: Offset): { $: "ThreePointCubic"; a1: Offset; b1: Offset; midpoint: Offset; a2: Offset; b2: Offset };
+function $ThreePointCubic$call(...a: any[]): any {
   return $build("ThreePointCubic", ["a1","b1","midpoint","a2","b2"], a);
 }
-export const ThreePointCubic = /* @__PURE__ */ Object.assign(ThreePointCubic$call, {
+export const ThreePointCubic = /* @__PURE__ */ Object.assign($ThreePointCubic$call, {
 
 });

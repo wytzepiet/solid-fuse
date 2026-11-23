@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ClearSelectionEvent$call(): { $: "ClearSelectionEvent" };
-function ClearSelectionEvent$call(...a: any[]): any {
+function $ClearSelectionEvent$call(): { $: "ClearSelectionEvent" };
+function $ClearSelectionEvent$call(...a: any[]): any {
   return $build("ClearSelectionEvent", [], a);
 }
-export const ClearSelectionEvent = /* @__PURE__ */ Object.assign(ClearSelectionEvent$call, {
+export const ClearSelectionEvent = /* @__PURE__ */ Object.assign($ClearSelectionEvent$call, {
 
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function NumericFocusOrder$call(order: number): { $: "NumericFocusOrder"; order: number };
-function NumericFocusOrder$call(...a: any[]): any {
+function $NumericFocusOrder$call(order: number): { $: "NumericFocusOrder"; order: number };
+function $NumericFocusOrder$call(...a: any[]): any {
   return $build("NumericFocusOrder", ["order"], a);
 }
-export const NumericFocusOrder = /* @__PURE__ */ Object.assign(NumericFocusOrder$call, {
+export const NumericFocusOrder = /* @__PURE__ */ Object.assign($NumericFocusOrder$call, {
 
 });

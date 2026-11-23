@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Curve } from "../flutter";
 
-function CurveTween$call(named: { curve: Curve }): { $: "CurveTween"; curve: Curve };
-function CurveTween$call(...a: any[]): any {
+function $CurveTween$call(named: { curve: Curve }): { $: "CurveTween"; curve: Curve };
+function $CurveTween$call(...a: any[]): any {
   return $build("CurveTween", [], a);
 }
-export const CurveTween = /* @__PURE__ */ Object.assign(CurveTween$call, {
+export const CurveTween = /* @__PURE__ */ Object.assign($CurveTween$call, {
 
 });

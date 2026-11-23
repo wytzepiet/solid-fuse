@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { PictureRecorder, Rect } from "../flutter";
 
-function Canvas$call(recorder: PictureRecorder, cullRect?: Rect | null): { $: "Canvas"; recorder: PictureRecorder; cullRect?: Rect | null };
-function Canvas$call(...a: any[]): any {
+function $Canvas$call(recorder: PictureRecorder, cullRect?: Rect | null): { $: "Canvas"; recorder: PictureRecorder; cullRect?: Rect | null };
+function $Canvas$call(...a: any[]): any {
   return $build("Canvas", ["recorder","cullRect"], a);
 }
-export const Canvas = /* @__PURE__ */ Object.assign(Canvas$call, {
+export const Canvas = /* @__PURE__ */ Object.assign($Canvas$call, {
 
 });

@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { CurveOut, DurationOut, FocusNode, ScrollPositionAlignmentPolicy } from "../flutter";
 import "../flutter";
 
-function WidgetOrderTraversalPolicy$call(named?: { requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null }): { $: "WidgetOrderTraversalPolicy"; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null };
-function WidgetOrderTraversalPolicy$call(...a: any[]): any {
+function $WidgetOrderTraversalPolicy$call(named?: { requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null }): { $: "WidgetOrderTraversalPolicy"; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null };
+function $WidgetOrderTraversalPolicy$call(...a: any[]): any {
   return $build("WidgetOrderTraversalPolicy", [], a);
 }
-export const WidgetOrderTraversalPolicy = /* @__PURE__ */ Object.assign(WidgetOrderTraversalPolicy$call, {
+export const WidgetOrderTraversalPolicy = /* @__PURE__ */ Object.assign($WidgetOrderTraversalPolicy$call, {
 
 });

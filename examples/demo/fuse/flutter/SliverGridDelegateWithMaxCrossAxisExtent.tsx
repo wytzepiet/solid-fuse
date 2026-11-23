@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SliverGridDelegateWithMaxCrossAxisExtent$call(named: { maxCrossAxisExtent: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null }): { $: "SliverGridDelegateWithMaxCrossAxisExtent"; maxCrossAxisExtent: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null };
-function SliverGridDelegateWithMaxCrossAxisExtent$call(...a: any[]): any {
+function $SliverGridDelegateWithMaxCrossAxisExtent$call(named: { maxCrossAxisExtent: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null }): { $: "SliverGridDelegateWithMaxCrossAxisExtent"; maxCrossAxisExtent: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null };
+function $SliverGridDelegateWithMaxCrossAxisExtent$call(...a: any[]): any {
   return $build("SliverGridDelegateWithMaxCrossAxisExtent", [], a);
 }
-export const SliverGridDelegateWithMaxCrossAxisExtent = /* @__PURE__ */ Object.assign(SliverGridDelegateWithMaxCrossAxisExtent$call, {
+export const SliverGridDelegateWithMaxCrossAxisExtent = /* @__PURE__ */ Object.assign($SliverGridDelegateWithMaxCrossAxisExtent$call, {
 
 });

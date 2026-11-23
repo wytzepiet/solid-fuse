@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsetsGeometry, ShapeBorder, TextStyle, WidgetStatePropertyOfMouseCursorN, WidgetStatePropertyOfTextStyleN } from "../flutter";
 import type { PopupMenuPosition } from "../material_ui";
 
-function PopupMenuThemeData$call(named?: { color?: Color | null; shape?: ShapeBorder | null; menuPadding?: EdgeInsetsGeometry | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; textStyle?: TextStyle | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; enableFeedback?: boolean | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; position?: PopupMenuPosition | null; iconColor?: Color | null; iconSize?: number | null }): { $: "PopupMenuThemeData"; color?: Color | null; shape?: ShapeBorder | null; menuPadding?: EdgeInsetsGeometry | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; textStyle?: TextStyle | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; enableFeedback?: boolean | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; position?: PopupMenuPosition | null; iconColor?: Color | null; iconSize?: number | null };
-function PopupMenuThemeData$call(...a: any[]): any {
+function $PopupMenuThemeData$call(named?: { color?: Color | null; shape?: ShapeBorder | null; menuPadding?: EdgeInsetsGeometry | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; textStyle?: TextStyle | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; enableFeedback?: boolean | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; position?: PopupMenuPosition | null; iconColor?: Color | null; iconSize?: number | null }): { $: "PopupMenuThemeData"; color?: Color | null; shape?: ShapeBorder | null; menuPadding?: EdgeInsetsGeometry | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; textStyle?: TextStyle | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; enableFeedback?: boolean | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; position?: PopupMenuPosition | null; iconColor?: Color | null; iconSize?: number | null };
+function $PopupMenuThemeData$call(...a: any[]): any {
   return $build("PopupMenuThemeData", [], a);
 }
-export const PopupMenuThemeData = /* @__PURE__ */ Object.assign(PopupMenuThemeData$call, {
+export const PopupMenuThemeData = /* @__PURE__ */ Object.assign($PopupMenuThemeData$call, {
 
 });

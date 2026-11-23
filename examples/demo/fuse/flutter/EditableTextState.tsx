@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function EditableTextState$call(): { $: "EditableTextState" };
-function EditableTextState$call(...a: any[]): any {
+function $EditableTextState$call(): { $: "EditableTextState" };
+function $EditableTextState$call(...a: any[]): any {
   return $build("EditableTextState", [], a);
 }
-export const EditableTextState = /* @__PURE__ */ Object.assign(EditableTextState$call, {
+export const EditableTextState = /* @__PURE__ */ Object.assign($EditableTextState$call, {
 
 });

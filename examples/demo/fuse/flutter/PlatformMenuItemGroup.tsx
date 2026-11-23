@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { PlatformMenuItem } from "../flutter";
 
-function PlatformMenuItemGroup$call(named: { members: PlatformMenuItem[] }): { $: "PlatformMenuItemGroup"; members: PlatformMenuItem[] };
-function PlatformMenuItemGroup$call(...a: any[]): any {
+function $PlatformMenuItemGroup$call(named: { members: PlatformMenuItem[] }): { $: "PlatformMenuItemGroup"; members: PlatformMenuItem[] };
+function $PlatformMenuItemGroup$call(...a: any[]): any {
   return $build("PlatformMenuItemGroup", [], a);
 }
-export const PlatformMenuItemGroup = /* @__PURE__ */ Object.assign(PlatformMenuItemGroup$call, {
+export const PlatformMenuItemGroup = /* @__PURE__ */ Object.assign($PlatformMenuItemGroup$call, {
 
 });

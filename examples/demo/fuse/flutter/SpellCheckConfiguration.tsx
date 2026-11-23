@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, SpellCheckService, TextStyle } from "../flutter";
 
-function SpellCheckConfiguration$disabled(): { $: "SpellCheckConfiguration.disabled" };
-function SpellCheckConfiguration$disabled(...a: any[]): any {
+function $SpellCheckConfiguration$disabled(): { $: "SpellCheckConfiguration.disabled" };
+function $SpellCheckConfiguration$disabled(...a: any[]): any {
   return $build("SpellCheckConfiguration.disabled", [], a);
 }
-function SpellCheckConfiguration$call(named?: { spellCheckService?: SpellCheckService | null; misspelledSelectionColor?: Color | null; misspelledTextStyle?: TextStyle | null; spellCheckSuggestionsToolbarBuilder?: ((editableTextState: undefined) => JSX.Element) | null }): { $: "SpellCheckConfiguration"; spellCheckService?: SpellCheckService | null; misspelledSelectionColor?: Color | null; misspelledTextStyle?: TextStyle | null; spellCheckSuggestionsToolbarBuilder?: ((editableTextState: undefined) => JSX.Element) | null };
-function SpellCheckConfiguration$call(...a: any[]): any {
+function $SpellCheckConfiguration$call(named?: { spellCheckService?: SpellCheckService | null; misspelledSelectionColor?: Color | null; misspelledTextStyle?: TextStyle | null; spellCheckSuggestionsToolbarBuilder?: ((editableTextState: undefined) => JSX.Element) | null }): { $: "SpellCheckConfiguration"; spellCheckService?: SpellCheckService | null; misspelledSelectionColor?: Color | null; misspelledTextStyle?: TextStyle | null; spellCheckSuggestionsToolbarBuilder?: ((editableTextState: undefined) => JSX.Element) | null };
+function $SpellCheckConfiguration$call(...a: any[]): any {
   return $build("SpellCheckConfiguration", [], a);
 }
-export const SpellCheckConfiguration = /* @__PURE__ */ Object.assign(SpellCheckConfiguration$call, {
-  disabled: SpellCheckConfiguration$disabled,
+export const SpellCheckConfiguration = /* @__PURE__ */ Object.assign($SpellCheckConfiguration$call, {
+  disabled: $SpellCheckConfiguration$disabled,
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function CharacterActivator$call(character: string, named?: { alt?: boolean; control?: boolean; meta?: boolean; includeRepeats?: boolean }): { $: "CharacterActivator"; character: string; alt?: boolean; control?: boolean; meta?: boolean; includeRepeats?: boolean };
-function CharacterActivator$call(...a: any[]): any {
+function $CharacterActivator$call(character: string, named?: { alt?: boolean; control?: boolean; meta?: boolean; includeRepeats?: boolean }): { $: "CharacterActivator"; character: string; alt?: boolean; control?: boolean; meta?: boolean; includeRepeats?: boolean };
+function $CharacterActivator$call(...a: any[]): any {
   return $build("CharacterActivator", ["character"], a);
 }
-export const CharacterActivator = /* @__PURE__ */ Object.assign(CharacterActivator$call, {
+export const CharacterActivator = /* @__PURE__ */ Object.assign($CharacterActivator$call, {
 
 });

@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function CatmullRomCurve$precompute(controlPoints: Offset[], named?: { tension?: number }): { $: "CatmullRomCurve.precompute"; controlPoints: Offset[]; tension?: number };
-function CatmullRomCurve$precompute(...a: any[]): any {
+function $CatmullRomCurve$precompute(controlPoints: Offset[], named?: { tension?: number }): { $: "CatmullRomCurve.precompute"; controlPoints: Offset[]; tension?: number };
+function $CatmullRomCurve$precompute(...a: any[]): any {
   return $build("CatmullRomCurve.precompute", ["controlPoints"], a);
 }
-function CatmullRomCurve$call(controlPoints: Offset[], named?: { tension?: number }): { $: "CatmullRomCurve"; controlPoints: Offset[]; tension?: number };
-function CatmullRomCurve$call(...a: any[]): any {
+function $CatmullRomCurve$call(controlPoints: Offset[], named?: { tension?: number }): { $: "CatmullRomCurve"; controlPoints: Offset[]; tension?: number };
+function $CatmullRomCurve$call(...a: any[]): any {
   return $build("CatmullRomCurve", ["controlPoints"], a);
 }
-export const CatmullRomCurve = /* @__PURE__ */ Object.assign(CatmullRomCurve$call, {
-  precompute: CatmullRomCurve$precompute,
+export const CatmullRomCurve = /* @__PURE__ */ Object.assign($CatmullRomCurve$call, {
+  precompute: $CatmullRomCurve$precompute,
 });

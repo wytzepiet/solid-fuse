@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide } from "../flutter";
 
-function OvalBorder$call(named?: { side?: BorderSide; eccentricity?: number }): { $: "OvalBorder"; side?: BorderSide; eccentricity?: number };
-function OvalBorder$call(...a: any[]): any {
+function $OvalBorder$call(named?: { side?: BorderSide; eccentricity?: number }): { $: "OvalBorder"; side?: BorderSide; eccentricity?: number };
+function $OvalBorder$call(...a: any[]): any {
   return $build("OvalBorder", [], a);
 }
-export const OvalBorder = /* @__PURE__ */ Object.assign(OvalBorder$call, {
+export const OvalBorder = /* @__PURE__ */ Object.assign($OvalBorder$call, {
 
 });

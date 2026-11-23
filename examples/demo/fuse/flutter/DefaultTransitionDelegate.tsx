@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function DefaultTransitionDelegate$call(): { $: "DefaultTransitionDelegate" };
-function DefaultTransitionDelegate$call(...a: any[]): any {
+function $DefaultTransitionDelegate$call(): { $: "DefaultTransitionDelegate" };
+function $DefaultTransitionDelegate$call(...a: any[]): any {
   return $build("DefaultTransitionDelegate", [], a);
 }
-export const DefaultTransitionDelegate = /* @__PURE__ */ Object.assign(DefaultTransitionDelegate$call, {
+export const DefaultTransitionDelegate = /* @__PURE__ */ Object.assign($DefaultTransitionDelegate$call, {
 
 });

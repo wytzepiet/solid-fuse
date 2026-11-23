@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function MaterialPage$call(named: { child: JSX.Element; maintainState?: boolean; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; key?: string | number | null; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; name?: string | null; arguments?: unknown; restorationId?: string | null }): { $: "MaterialPage"; child: JSX.Element; maintainState?: boolean; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; key?: string | number | null; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; name?: string | null; arguments?: unknown; restorationId?: string | null };
-function MaterialPage$call(...a: any[]): any {
+function $MaterialPage$call(named: { child: JSX.Element; maintainState?: boolean; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; key?: string | number | null; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; name?: string | null; arguments?: unknown; restorationId?: string | null }): { $: "MaterialPage"; child: JSX.Element; maintainState?: boolean; fullscreenDialog?: boolean; allowSnapshotting?: boolean; includeRouteSemantics?: boolean; key?: string | number | null; canPop?: boolean; onPopInvoked?: (didPop: boolean, result: unknown) => void; name?: string | null; arguments?: unknown; restorationId?: string | null };
+function $MaterialPage$call(...a: any[]): any {
   return $build("MaterialPage", [], a);
 }
-export const MaterialPage = /* @__PURE__ */ Object.assign(MaterialPage$call, {
+export const MaterialPage = /* @__PURE__ */ Object.assign($MaterialPage$call, {
 
 });

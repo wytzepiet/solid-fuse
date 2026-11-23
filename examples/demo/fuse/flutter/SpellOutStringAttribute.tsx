@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextRange } from "../flutter";
 
-function SpellOutStringAttribute$call(named: { range: TextRange }): { $: "SpellOutStringAttribute"; range: TextRange };
-function SpellOutStringAttribute$call(...a: any[]): any {
+function $SpellOutStringAttribute$call(named: { range: TextRange }): { $: "SpellOutStringAttribute"; range: TextRange };
+function $SpellOutStringAttribute$call(...a: any[]): any {
   return $build("SpellOutStringAttribute", [], a);
 }
-export const SpellOutStringAttribute = /* @__PURE__ */ Object.assign(SpellOutStringAttribute$call, {
+export const SpellOutStringAttribute = /* @__PURE__ */ Object.assign($SpellOutStringAttribute$call, {
 
 });

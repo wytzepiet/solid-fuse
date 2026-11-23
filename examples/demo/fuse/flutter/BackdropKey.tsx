@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function BackdropKey$call(): { $: "BackdropKey" };
-function BackdropKey$call(...a: any[]): any {
+function $BackdropKey$call(): { $: "BackdropKey" };
+function $BackdropKey$call(...a: any[]): any {
   return $build("BackdropKey", [], a);
 }
-export const BackdropKey = /* @__PURE__ */ Object.assign(BackdropKey$call, {
+export const BackdropKey = /* @__PURE__ */ Object.assign($BackdropKey$call, {
 
 });

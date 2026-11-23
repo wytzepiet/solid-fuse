@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextStyle } from "../flutter";
 
-function TextStyleTween$call(named?: { begin?: TextStyle | null; end?: TextStyle | null }): { $: "TextStyleTween"; begin?: TextStyle | null; end?: TextStyle | null };
-function TextStyleTween$call(...a: any[]): any {
+function $TextStyleTween$call(named?: { begin?: TextStyle | null; end?: TextStyle | null }): { $: "TextStyleTween"; begin?: TextStyle | null; end?: TextStyle | null };
+function $TextStyleTween$call(...a: any[]): any {
   return $build("TextStyleTween", [], a);
 }
-export const TextStyleTween = /* @__PURE__ */ Object.assign(TextStyleTween$call, {
+export const TextStyleTween = /* @__PURE__ */ Object.assign($TextStyleTween$call, {
 
 });

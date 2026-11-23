@@ -5,15 +5,15 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { FontStyle, FontWeight, TextLeadingDistribution, TextStyle } from "../flutter";
 
-function StrutStyle$fromTextStyle(textStyle: TextStyle, named?: { fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null }): { $: "StrutStyle.fromTextStyle"; textStyle: TextStyle; fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null };
-function StrutStyle$fromTextStyle(...a: any[]): any {
+function $StrutStyle$fromTextStyle(textStyle: TextStyle, named?: { fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null }): { $: "StrutStyle.fromTextStyle"; textStyle: TextStyle; fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null };
+function $StrutStyle$fromTextStyle(...a: any[]): any {
   return $build("StrutStyle.fromTextStyle", ["textStyle"], a);
 }
-function StrutStyle$call(named?: { fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null }): { $: "StrutStyle"; fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null };
-function StrutStyle$call(...a: any[]): any {
+function $StrutStyle$call(named?: { fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null }): { $: "StrutStyle"; fontFamily?: string | null; fontFamilyFallback?: string[] | null; fontSize?: number | null; height?: number | null; leadingDistribution?: TextLeadingDistribution | null; leading?: number | null; fontWeight?: FontWeight | null; fontStyle?: FontStyle | null; forceStrutHeight?: boolean | null; debugLabel?: string | null; package?: string | null };
+function $StrutStyle$call(...a: any[]): any {
   return $build("StrutStyle", [], a);
 }
-export const StrutStyle = /* @__PURE__ */ Object.assign(StrutStyle$call, {
-  fromTextStyle: StrutStyle$fromTextStyle,
+export const StrutStyle = /* @__PURE__ */ Object.assign($StrutStyle$call, {
+  fromTextStyle: $StrutStyle$fromTextStyle,
   disabled: "StrutStyle.disabled" as Const<"StrutStyle.disabled">,
 });

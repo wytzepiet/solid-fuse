@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function FontWeight$call(value: number): { $: "FontWeight"; value: number };
-function FontWeight$call(...a: any[]): any {
+function $FontWeight$call(value: number): { $: "FontWeight"; value: number };
+function $FontWeight$call(...a: any[]): any {
   return $build("FontWeight", ["value"], a);
 }
-export const FontWeight = /* @__PURE__ */ Object.assign(FontWeight$call, {
+export const FontWeight = /* @__PURE__ */ Object.assign($FontWeight$call, {
   w100: "FontWeight.w100" as Const<"FontWeight.w100">,
   w200: "FontWeight.w200" as Const<"FontWeight.w200">,
   w300: "FontWeight.w300" as Const<"FontWeight.w300">,

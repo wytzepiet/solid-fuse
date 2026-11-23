@@ -5,13 +5,16 @@ import { defineCommand } from "citty";
 import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
 import { loadFuseConfig, buildViteConfig } from "./config";
 import { runLink } from "./link";
+import { startHeadless, ensureLinuxRunner, type Headless } from "./headless";
+import { clearDriveSession, vmServiceUri, writeDriveSession } from "./drive";
 
 const DEV_PORT = 24680;
 
 export const devCommand = defineCommand({
   meta: {
     name: "dev",
-    description: "Start Vite dev server + Flutter run with hot reload",
+    description:
+      "Start Vite dev server + Flutter run with hot reload. --headless: run the Linux app with no screen, for `fuse drive`.",
   },
   run: async ({ rawArgs }) => {
     const projectRoot = findProjectRoot();
@@ -25,8 +28,17 @@ export const devCommand = defineCommand({
     const dartRoot = getDartRoot(projectRoot, fuseConfig);
     const viteConfig = buildViteConfig(projectRoot, fuseConfig);
 
-    // Step 3: Everything in rawArgs is a flutter passthrough arg (citty strips the subcommand)
-    const flutterArgs = rawArgs;
+    // Step 3: Everything in rawArgs is a flutter passthrough arg (citty strips the subcommand),
+    // except --headless: the Linux app on a virtual display (cloud machines, CI).
+    const headlessMode = rawArgs.includes("--headless");
+    const flutterArgs = rawArgs.filter((a) => a !== "--headless");
+    let headless: Headless | undefined;
+    if (headlessMode) {
+      ensureLinuxRunner(dartRoot);
+      if (!flutterArgs.some((a) => a === "-d" || a.startsWith("--device-id"))) flutterArgs.push("-d", "linux");
+      headless = await startHeadless();
+    }
+    const flutterEnv = headless?.env ?? process.env;
 
     // Step 4: If --release or --profile, build JS bundle instead of dev server
     const isRelease = flutterArgs.includes("--release") || flutterArgs.includes("--profile");
@@ -37,9 +49,15 @@ export const devCommand = defineCommand({
 
       const flutter = spawn("flutter", ["run", ...flutterArgs], {
         cwd: dartRoot,
-        stdio: "inherit",
+        env: flutterEnv,
+        stdio: ["inherit", "pipe", "inherit"],
       });
-      flutter.on("close", (code) => process.exit(code ?? 0));
+      watchVmService(flutter.stdout!, dartRoot);
+      flutter.on("close", (code) => {
+        clearDriveSession(dartRoot);
+        headless?.stop();
+        process.exit(code ?? 0);
+      });
       return;
     }
 
@@ -86,6 +104,8 @@ export const devCommand = defineCommand({
       if (cleaning) return;
       cleaning = true;
       viteServer.close();
+      clearDriveSession(dartRoot);
+      headless?.stop();
       if (process.stdin.isTTY) process.stdin.setRawMode(false);
     };
     process.on("SIGINT", cleanup);
@@ -101,8 +121,10 @@ export const devCommand = defineCommand({
 
     const flutter = spawn("flutter", allFlutterArgs, {
       cwd: dartRoot,
-      stdio: ["pipe", "inherit", "inherit"],
+      env: flutterEnv,
+      stdio: ["pipe", "pipe", "inherit"],
     });
+    watchVmService(flutter.stdout!, dartRoot);
 
     flutter.on("close", (code) => {
       cleanup();
@@ -137,3 +159,21 @@ export const devCommand = defineCommand({
     }
   },
 });
+
+// Pass flutter's output through, and note where the app's VM service is so
+// `fuse drive` can reach the app.
+function watchVmService(out: NodeJS.ReadableStream, dartRoot: string) {
+  let pending = "";
+  out.on("data", (d: Buffer) => {
+    process.stdout.write(d);
+    pending += d.toString();
+    const lines = pending.split("\n");
+    pending = lines.pop()!;
+    for (const line of lines) {
+      const uri = vmServiceUri(line);
+      if (!uri) continue;
+      writeDriveSession(dartRoot, uri);
+      console.log("\nReady for `fuse drive`, e.g. `fuse drive take-screenshots -o screen.png`.");
+    }
+  });
+}

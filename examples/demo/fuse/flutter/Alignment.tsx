@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function Alignment$call(x: number, y: number): { $: "Alignment"; x: number; y: number };
-function Alignment$call(...a: any[]): any {
+function $Alignment$call(x: number, y: number): { $: "Alignment"; x: number; y: number };
+function $Alignment$call(...a: any[]): any {
   return $build("Alignment", ["x","y"], a);
 }
-export const Alignment = /* @__PURE__ */ Object.assign(Alignment$call, {
+export const Alignment = /* @__PURE__ */ Object.assign($Alignment$call, {
   topLeft: "Alignment.topLeft" as Const<"Alignment.topLeft">,
   topCenter: "Alignment.topCenter" as Const<"Alignment.topCenter">,
   topRight: "Alignment.topRight" as Const<"Alignment.topRight">,

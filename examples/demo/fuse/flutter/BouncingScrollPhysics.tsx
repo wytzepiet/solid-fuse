@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ScrollDecelerationRate, ScrollPhysics } from "../flutter";
 
-function BouncingScrollPhysics$call(named?: { decelerationRate?: ScrollDecelerationRate; parent?: ScrollPhysics | null }): { $: "BouncingScrollPhysics"; decelerationRate?: ScrollDecelerationRate; parent?: ScrollPhysics | null };
-function BouncingScrollPhysics$call(...a: any[]): any {
+function $BouncingScrollPhysics$call(named?: { decelerationRate?: ScrollDecelerationRate; parent?: ScrollPhysics | null }): { $: "BouncingScrollPhysics"; decelerationRate?: ScrollDecelerationRate; parent?: ScrollPhysics | null };
+function $BouncingScrollPhysics$call(...a: any[]): any {
   return $build("BouncingScrollPhysics", [], a);
 }
-export const BouncingScrollPhysics = /* @__PURE__ */ Object.assign(BouncingScrollPhysics$call, {
+export const BouncingScrollPhysics = /* @__PURE__ */ Object.assign($BouncingScrollPhysics$call, {
 
 });

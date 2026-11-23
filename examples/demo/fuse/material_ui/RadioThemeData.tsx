@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { BorderSide, WidgetStatePropertyOfColorN, WidgetStatePropertyOfMouseCursorN, WidgetStatePropertyOfdoubleN } from "../flutter";
 import type { MaterialTapTargetSize, VisualDensity } from "../material_ui";
 
-function RadioThemeData$call(named?: { mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; backgroundColor?: WidgetStatePropertyOfColorN | null; side?: BorderSide | null; innerRadius?: WidgetStatePropertyOfdoubleN | null }): { $: "RadioThemeData"; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; backgroundColor?: WidgetStatePropertyOfColorN | null; side?: BorderSide | null; innerRadius?: WidgetStatePropertyOfdoubleN | null };
-function RadioThemeData$call(...a: any[]): any {
+function $RadioThemeData$call(named?: { mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; backgroundColor?: WidgetStatePropertyOfColorN | null; side?: BorderSide | null; innerRadius?: WidgetStatePropertyOfdoubleN | null }): { $: "RadioThemeData"; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; fillColor?: WidgetStatePropertyOfColorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; materialTapTargetSize?: MaterialTapTargetSize | null; visualDensity?: VisualDensity | null; backgroundColor?: WidgetStatePropertyOfColorN | null; side?: BorderSide | null; innerRadius?: WidgetStatePropertyOfdoubleN | null };
+function $RadioThemeData$call(...a: any[]): any {
   return $build("RadioThemeData", [], a);
 }
-export const RadioThemeData = /* @__PURE__ */ Object.assign(RadioThemeData$call, {
+export const RadioThemeData = /* @__PURE__ */ Object.assign($RadioThemeData$call, {
 
 });

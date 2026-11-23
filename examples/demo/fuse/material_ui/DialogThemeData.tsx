@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, BoxConstraints, Clip, Color, EdgeInsets, EdgeInsetsGeometry, ShapeBorder, TextStyle } from "../flutter";
 
-function DialogThemeData$call(named?: { backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; alignment?: AlignmentGeometry | null; iconColor?: Color | null; titleTextStyle?: TextStyle | null; contentTextStyle?: TextStyle | null; actionsPadding?: EdgeInsetsGeometry | null; barrierColor?: Color | null; insetPadding?: EdgeInsets | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null }): { $: "DialogThemeData"; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; alignment?: AlignmentGeometry | null; iconColor?: Color | null; titleTextStyle?: TextStyle | null; contentTextStyle?: TextStyle | null; actionsPadding?: EdgeInsetsGeometry | null; barrierColor?: Color | null; insetPadding?: EdgeInsets | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null };
-function DialogThemeData$call(...a: any[]): any {
+function $DialogThemeData$call(named?: { backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; alignment?: AlignmentGeometry | null; iconColor?: Color | null; titleTextStyle?: TextStyle | null; contentTextStyle?: TextStyle | null; actionsPadding?: EdgeInsetsGeometry | null; barrierColor?: Color | null; insetPadding?: EdgeInsets | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null }): { $: "DialogThemeData"; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; shape?: ShapeBorder | null; alignment?: AlignmentGeometry | null; iconColor?: Color | null; titleTextStyle?: TextStyle | null; contentTextStyle?: TextStyle | null; actionsPadding?: EdgeInsetsGeometry | null; barrierColor?: Color | null; insetPadding?: EdgeInsets | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null };
+function $DialogThemeData$call(...a: any[]): any {
   return $build("DialogThemeData", [], a);
 }
-export const DialogThemeData = /* @__PURE__ */ Object.assign(DialogThemeData$call, {
+export const DialogThemeData = /* @__PURE__ */ Object.assign($DialogThemeData$call, {
 
 });

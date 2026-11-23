@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 
-function ReverseTween$call(parent: Handle<string>): { $: "ReverseTween"; parent: Handle<string> };
-function ReverseTween$call(...a: any[]): any {
+function $ReverseTween$call(parent: Handle<string>): { $: "ReverseTween"; parent: Handle<string> };
+function $ReverseTween$call(...a: any[]): any {
   return $build("ReverseTween", ["parent"], a);
 }
-export const ReverseTween = /* @__PURE__ */ Object.assign(ReverseTween$call, {
+export const ReverseTween = /* @__PURE__ */ Object.assign($ReverseTween$call, {
 
 });

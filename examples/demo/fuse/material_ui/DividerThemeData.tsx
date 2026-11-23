@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadiusGeometry, Color } from "../flutter";
 
-function DividerThemeData$call(named?: { color?: Color | null; space?: number | null; thickness?: number | null; indent?: number | null; endIndent?: number | null; radius?: BorderRadiusGeometry | null }): { $: "DividerThemeData"; color?: Color | null; space?: number | null; thickness?: number | null; indent?: number | null; endIndent?: number | null; radius?: BorderRadiusGeometry | null };
-function DividerThemeData$call(...a: any[]): any {
+function $DividerThemeData$call(named?: { color?: Color | null; space?: number | null; thickness?: number | null; indent?: number | null; endIndent?: number | null; radius?: BorderRadiusGeometry | null }): { $: "DividerThemeData"; color?: Color | null; space?: number | null; thickness?: number | null; indent?: number | null; endIndent?: number | null; radius?: BorderRadiusGeometry | null };
+function $DividerThemeData$call(...a: any[]): any {
   return $build("DividerThemeData", [], a);
 }
-export const DividerThemeData = /* @__PURE__ */ Object.assign(DividerThemeData$call, {
+export const DividerThemeData = /* @__PURE__ */ Object.assign($DividerThemeData$call, {
 
 });

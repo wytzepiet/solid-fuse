@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BoxConstraints, Clip, Color, ShapeBorder, Size } from "../flutter";
 
-function BottomSheetThemeData$call(named?: { backgroundColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; modalBackgroundColor?: Color | null; modalBarrierColor?: Color | null; shadowColor?: Color | null; modalElevation?: number | null; shape?: ShapeBorder | null; showDragHandle?: boolean | null; dragHandleColor?: Color | null; dragHandleSize?: Size | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null }): { $: "BottomSheetThemeData"; backgroundColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; modalBackgroundColor?: Color | null; modalBarrierColor?: Color | null; shadowColor?: Color | null; modalElevation?: number | null; shape?: ShapeBorder | null; showDragHandle?: boolean | null; dragHandleColor?: Color | null; dragHandleSize?: Size | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null };
-function BottomSheetThemeData$call(...a: any[]): any {
+function $BottomSheetThemeData$call(named?: { backgroundColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; modalBackgroundColor?: Color | null; modalBarrierColor?: Color | null; shadowColor?: Color | null; modalElevation?: number | null; shape?: ShapeBorder | null; showDragHandle?: boolean | null; dragHandleColor?: Color | null; dragHandleSize?: Size | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null }): { $: "BottomSheetThemeData"; backgroundColor?: Color | null; surfaceTintColor?: Color | null; elevation?: number | null; modalBackgroundColor?: Color | null; modalBarrierColor?: Color | null; shadowColor?: Color | null; modalElevation?: number | null; shape?: ShapeBorder | null; showDragHandle?: boolean | null; dragHandleColor?: Color | null; dragHandleSize?: Size | null; clipBehavior?: Clip | null; constraints?: BoxConstraints | null };
+function $BottomSheetThemeData$call(...a: any[]): any {
   return $build("BottomSheetThemeData", [], a);
 }
-export const BottomSheetThemeData = /* @__PURE__ */ Object.assign(BottomSheetThemeData$call, {
+export const BottomSheetThemeData = /* @__PURE__ */ Object.assign($BottomSheetThemeData$call, {
 
 });

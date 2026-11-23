@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { TextAffinity, TextPosition } from "../flutter";
 
-function TextSelection$collapsed(named: { offset: number; affinity?: TextAffinity }): { $: "TextSelection.collapsed"; offset: number; affinity?: TextAffinity };
-function TextSelection$collapsed(...a: any[]): any {
+function $TextSelection$collapsed(named: { offset: number; affinity?: TextAffinity }): { $: "TextSelection.collapsed"; offset: number; affinity?: TextAffinity };
+function $TextSelection$collapsed(...a: any[]): any {
   return $build("TextSelection.collapsed", [], a);
 }
-function TextSelection$fromPosition(position: TextPosition): { $: "TextSelection.fromPosition"; position: TextPosition };
-function TextSelection$fromPosition(...a: any[]): any {
+function $TextSelection$fromPosition(position: TextPosition): { $: "TextSelection.fromPosition"; position: TextPosition };
+function $TextSelection$fromPosition(...a: any[]): any {
   return $build("TextSelection.fromPosition", ["position"], a);
 }
-function TextSelection$call(named: { baseOffset: number; extentOffset: number; affinity?: TextAffinity; isDirectional?: boolean }): { $: "TextSelection"; baseOffset: number; extentOffset: number; affinity?: TextAffinity; isDirectional?: boolean };
-function TextSelection$call(...a: any[]): any {
+function $TextSelection$call(named: { baseOffset: number; extentOffset: number; affinity?: TextAffinity; isDirectional?: boolean }): { $: "TextSelection"; baseOffset: number; extentOffset: number; affinity?: TextAffinity; isDirectional?: boolean };
+function $TextSelection$call(...a: any[]): any {
   return $build("TextSelection", [], a);
 }
-export const TextSelection = /* @__PURE__ */ Object.assign(TextSelection$call, {
-  collapsed: TextSelection$collapsed,
-  fromPosition: TextSelection$fromPosition,
+export const TextSelection = /* @__PURE__ */ Object.assign($TextSelection$call, {
+  collapsed: $TextSelection$collapsed,
+  fromPosition: $TextSelection$fromPosition,
 });

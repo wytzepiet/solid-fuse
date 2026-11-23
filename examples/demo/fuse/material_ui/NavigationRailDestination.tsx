@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsetsGeometry, ShapeBorder } from "../flutter";
 
-function NavigationRailDestination$call(named: { icon: JSX.Element; selectedIcon?: JSX.Element | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; label: JSX.Element; padding?: EdgeInsetsGeometry | null; disabled?: boolean }): { $: "NavigationRailDestination"; icon: JSX.Element; selectedIcon?: JSX.Element | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; label: JSX.Element; padding?: EdgeInsetsGeometry | null; disabled?: boolean };
-function NavigationRailDestination$call(...a: any[]): any {
+function $NavigationRailDestination$call(named: { icon: JSX.Element; selectedIcon?: JSX.Element | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; label: JSX.Element; padding?: EdgeInsetsGeometry | null; disabled?: boolean }): { $: "NavigationRailDestination"; icon: JSX.Element; selectedIcon?: JSX.Element | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; label: JSX.Element; padding?: EdgeInsetsGeometry | null; disabled?: boolean };
+function $NavigationRailDestination$call(...a: any[]): any {
   return $build("NavigationRailDestination", [], a);
 }
-export const NavigationRailDestination = /* @__PURE__ */ Object.assign(NavigationRailDestination$call, {
+export const NavigationRailDestination = /* @__PURE__ */ Object.assign($NavigationRailDestination$call, {
 
 });

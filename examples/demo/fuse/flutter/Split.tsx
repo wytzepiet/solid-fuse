@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Curve } from "../flutter";
 
-function Split$call(split: number, named?: { beginCurve?: Curve; endCurve?: Curve }): { $: "Split"; split: number; beginCurve?: Curve; endCurve?: Curve };
-function Split$call(...a: any[]): any {
+function $Split$call(split: number, named?: { beginCurve?: Curve; endCurve?: Curve }): { $: "Split"; split: number; beginCurve?: Curve; endCurve?: Curve };
+function $Split$call(...a: any[]): any {
   return $build("Split", ["split"], a);
 }
-export const Split = /* @__PURE__ */ Object.assign(Split$call, {
+export const Split = /* @__PURE__ */ Object.assign($Split$call, {
 
 });

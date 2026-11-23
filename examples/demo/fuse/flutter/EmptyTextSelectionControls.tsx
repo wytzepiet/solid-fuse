@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function EmptyTextSelectionControls$call(): { $: "EmptyTextSelectionControls" };
-function EmptyTextSelectionControls$call(...a: any[]): any {
+function $EmptyTextSelectionControls$call(): { $: "EmptyTextSelectionControls" };
+function $EmptyTextSelectionControls$call(...a: any[]): any {
   return $build("EmptyTextSelectionControls", [], a);
 }
-export const EmptyTextSelectionControls = /* @__PURE__ */ Object.assign(EmptyTextSelectionControls$call, {
+export const EmptyTextSelectionControls = /* @__PURE__ */ Object.assign($EmptyTextSelectionControls$call, {
 
 });

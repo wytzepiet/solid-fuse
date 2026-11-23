@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { PlatformProvidedMenuItemType } from "../flutter";
 
-function PlatformProvidedMenuItem$call(named: { type: PlatformProvidedMenuItemType; enabled?: boolean }): { $: "PlatformProvidedMenuItem"; type: PlatformProvidedMenuItemType; enabled?: boolean };
-function PlatformProvidedMenuItem$call(...a: any[]): any {
+function $PlatformProvidedMenuItem$call(named: { type: PlatformProvidedMenuItemType; enabled?: boolean }): { $: "PlatformProvidedMenuItem"; type: PlatformProvidedMenuItemType; enabled?: boolean };
+function $PlatformProvidedMenuItem$call(...a: any[]): any {
   return $build("PlatformProvidedMenuItem", [], a);
 }
-export const PlatformProvidedMenuItem = /* @__PURE__ */ Object.assign(PlatformProvidedMenuItem$call, {
+export const PlatformProvidedMenuItem = /* @__PURE__ */ Object.assign($PlatformProvidedMenuItem$call, {
 
 });

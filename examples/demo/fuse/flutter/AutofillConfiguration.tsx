@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { TextEditingValue } from "../flutter";
 
-function AutofillConfiguration$call(named: { uniqueIdentifier: string; autofillHints: string[]; currentEditingValue: TextEditingValue; hintText?: string | null }): { $: "AutofillConfiguration"; uniqueIdentifier: string; autofillHints: string[]; currentEditingValue: TextEditingValue; hintText?: string | null };
-function AutofillConfiguration$call(...a: any[]): any {
+function $AutofillConfiguration$call(named: { uniqueIdentifier: string; autofillHints: string[]; currentEditingValue: TextEditingValue; hintText?: string | null }): { $: "AutofillConfiguration"; uniqueIdentifier: string; autofillHints: string[]; currentEditingValue: TextEditingValue; hintText?: string | null };
+function $AutofillConfiguration$call(...a: any[]): any {
   return $build("AutofillConfiguration", [], a);
 }
-export const AutofillConfiguration = /* @__PURE__ */ Object.assign(AutofillConfiguration$call, {
+export const AutofillConfiguration = /* @__PURE__ */ Object.assign($AutofillConfiguration$call, {
   disabled: "AutofillConfiguration.disabled" as Const<"AutofillConfiguration.disabled">,
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { KeyboardInsertedContentOut } from "../flutter";
 
-function ContentInsertionConfiguration$call(named: { onContentInserted: (value: KeyboardInsertedContentOut) => void; allowedMimeTypes?: string[] }): { $: "ContentInsertionConfiguration"; onContentInserted: (value: KeyboardInsertedContentOut) => void; allowedMimeTypes?: string[] };
-function ContentInsertionConfiguration$call(...a: any[]): any {
+function $ContentInsertionConfiguration$call(named: { onContentInserted: (value: KeyboardInsertedContentOut) => void; allowedMimeTypes?: string[] }): { $: "ContentInsertionConfiguration"; onContentInserted: (value: KeyboardInsertedContentOut) => void; allowedMimeTypes?: string[] };
+function $ContentInsertionConfiguration$call(...a: any[]): any {
   return $build("ContentInsertionConfiguration", [], a);
 }
-export const ContentInsertionConfiguration = /* @__PURE__ */ Object.assign(ContentInsertionConfiguration$call, {
+export const ContentInsertionConfiguration = /* @__PURE__ */ Object.assign($ContentInsertionConfiguration$call, {
 
 });

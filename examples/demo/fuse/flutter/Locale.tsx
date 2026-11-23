@@ -3,14 +3,14 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function Locale$fromSubtags(named?: { languageCode?: string; scriptCode?: string | null; countryCode?: string | null }): { $: "Locale.fromSubtags"; languageCode?: string; scriptCode?: string | null; countryCode?: string | null };
-function Locale$fromSubtags(...a: any[]): any {
+function $Locale$fromSubtags(named?: { languageCode?: string; scriptCode?: string | null; countryCode?: string | null }): { $: "Locale.fromSubtags"; languageCode?: string; scriptCode?: string | null; countryCode?: string | null };
+function $Locale$fromSubtags(...a: any[]): any {
   return $build("Locale.fromSubtags", [], a);
 }
-function Locale$call(_languageCode: string, _countryCode?: string | null): { $: "Locale"; _languageCode: string; _countryCode?: string | null };
-function Locale$call(...a: any[]): any {
+function $Locale$call(_languageCode: string, _countryCode?: string | null): { $: "Locale"; _languageCode: string; _countryCode?: string | null };
+function $Locale$call(...a: any[]): any {
   return $build("Locale", ["_languageCode","_countryCode"], a);
 }
-export const Locale = /* @__PURE__ */ Object.assign(Locale$call, {
-  fromSubtags: Locale$fromSubtags,
+export const Locale = /* @__PURE__ */ Object.assign($Locale$call, {
+  fromSubtags: $Locale$fromSubtags,
 });

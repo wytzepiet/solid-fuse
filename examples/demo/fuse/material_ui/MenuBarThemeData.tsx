@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { MenuStyle } from "../material_ui";
 
-function MenuBarThemeData$call(named?: { style?: MenuStyle | null }): { $: "MenuBarThemeData"; style?: MenuStyle | null };
-function MenuBarThemeData$call(...a: any[]): any {
+function $MenuBarThemeData$call(named?: { style?: MenuStyle | null }): { $: "MenuBarThemeData"; style?: MenuStyle | null };
+function $MenuBarThemeData$call(...a: any[]): any {
   return $build("MenuBarThemeData", [], a);
 }
-export const MenuBarThemeData = /* @__PURE__ */ Object.assign(MenuBarThemeData$call, {
+export const MenuBarThemeData = /* @__PURE__ */ Object.assign($MenuBarThemeData$call, {
 
 });

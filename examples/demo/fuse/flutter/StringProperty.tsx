@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticLevel, DiagnosticsTreeStyle } from "../flutter";
 
-function StringProperty$call(name: string, value: string | null, named?: { description?: string | null; tooltip?: string | null; showName?: boolean; defaultValue?: unknown; quoted?: boolean; ifEmpty?: string | null; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "StringProperty"; name: string; value?: string | null; description?: string | null; tooltip?: string | null; showName?: boolean; defaultValue?: unknown; quoted?: boolean; ifEmpty?: string | null; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
-function StringProperty$call(...a: any[]): any {
+function $StringProperty$call(name: string, value: string | null, named?: { description?: string | null; tooltip?: string | null; showName?: boolean; defaultValue?: unknown; quoted?: boolean; ifEmpty?: string | null; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "StringProperty"; name: string; value?: string | null; description?: string | null; tooltip?: string | null; showName?: boolean; defaultValue?: unknown; quoted?: boolean; ifEmpty?: string | null; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
+function $StringProperty$call(...a: any[]): any {
   return $build("StringProperty", ["name","value"], a);
 }
-export const StringProperty = /* @__PURE__ */ Object.assign(StringProperty$call, {
+export const StringProperty = /* @__PURE__ */ Object.assign($StringProperty$call, {
 
 });

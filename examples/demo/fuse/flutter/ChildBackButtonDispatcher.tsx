@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BackButtonDispatcher } from "../flutter";
 
-function ChildBackButtonDispatcher$call(parent: BackButtonDispatcher): { $: "ChildBackButtonDispatcher"; parent: BackButtonDispatcher };
-function ChildBackButtonDispatcher$call(...a: any[]): any {
+function $ChildBackButtonDispatcher$call(parent: BackButtonDispatcher): { $: "ChildBackButtonDispatcher"; parent: BackButtonDispatcher };
+function $ChildBackButtonDispatcher$call(...a: any[]): any {
   return $build("ChildBackButtonDispatcher", ["parent"], a);
 }
-export const ChildBackButtonDispatcher = /* @__PURE__ */ Object.assign(ChildBackButtonDispatcher$call, {
+export const ChildBackButtonDispatcher = /* @__PURE__ */ Object.assign($ChildBackButtonDispatcher$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { PageTransitionsBuilder, TargetPlatform } from "../flutter";
 
-function PageTransitionsTheme$call(named?: { builders?: Partial<Record<TargetPlatform, PageTransitionsBuilder>> }): { $: "PageTransitionsTheme"; builders?: Partial<Record<TargetPlatform, PageTransitionsBuilder>> };
-function PageTransitionsTheme$call(...a: any[]): any {
+function $PageTransitionsTheme$call(named?: { builders?: Partial<Record<TargetPlatform, PageTransitionsBuilder>> }): { $: "PageTransitionsTheme"; builders?: Partial<Record<TargetPlatform, PageTransitionsBuilder>> };
+function $PageTransitionsTheme$call(...a: any[]): any {
   return $build("PageTransitionsTheme", [], a);
 }
-export const PageTransitionsTheme = /* @__PURE__ */ Object.assign(PageTransitionsTheme$call, {
+export const PageTransitionsTheme = /* @__PURE__ */ Object.assign($PageTransitionsTheme$call, {
 
 });

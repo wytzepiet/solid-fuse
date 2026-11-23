@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, ShapeBorder, Size, WidgetStatePropertyOfIconThemeDataN, WidgetStatePropertyOfTextStyleN } from "../flutter";
 
-function NavigationDrawerThemeData$call(named?: { tileHeight?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; indicatorSize?: Size | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null }): { $: "NavigationDrawerThemeData"; tileHeight?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; indicatorSize?: Size | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null };
-function NavigationDrawerThemeData$call(...a: any[]): any {
+function $NavigationDrawerThemeData$call(named?: { tileHeight?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; indicatorSize?: Size | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null }): { $: "NavigationDrawerThemeData"; tileHeight?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; indicatorSize?: Size | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null };
+function $NavigationDrawerThemeData$call(...a: any[]): any {
   return $build("NavigationDrawerThemeData", [], a);
 }
-export const NavigationDrawerThemeData = /* @__PURE__ */ Object.assign(NavigationDrawerThemeData$call, {
+export const NavigationDrawerThemeData = /* @__PURE__ */ Object.assign($NavigationDrawerThemeData$call, {
 
 });

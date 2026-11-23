@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { Pattern } from "../flutter";
 
-function FilteringTextInputFormatter$allow(filterPattern: Pattern, named?: { replacementString?: string }): { $: "FilteringTextInputFormatter.allow"; filterPattern: Pattern; replacementString?: string };
-function FilteringTextInputFormatter$allow(...a: any[]): any {
+function $FilteringTextInputFormatter$allow(filterPattern: Pattern, named?: { replacementString?: string }): { $: "FilteringTextInputFormatter.allow"; filterPattern: Pattern; replacementString?: string };
+function $FilteringTextInputFormatter$allow(...a: any[]): any {
   return $build("FilteringTextInputFormatter.allow", ["filterPattern"], a);
 }
-function FilteringTextInputFormatter$deny(filterPattern: Pattern, named?: { replacementString?: string }): { $: "FilteringTextInputFormatter.deny"; filterPattern: Pattern; replacementString?: string };
-function FilteringTextInputFormatter$deny(...a: any[]): any {
+function $FilteringTextInputFormatter$deny(filterPattern: Pattern, named?: { replacementString?: string }): { $: "FilteringTextInputFormatter.deny"; filterPattern: Pattern; replacementString?: string };
+function $FilteringTextInputFormatter$deny(...a: any[]): any {
   return $build("FilteringTextInputFormatter.deny", ["filterPattern"], a);
 }
-function FilteringTextInputFormatter$call(filterPattern: Pattern, named: { allow: boolean; replacementString?: string }): { $: "FilteringTextInputFormatter"; filterPattern: Pattern; allow: boolean; replacementString?: string };
-function FilteringTextInputFormatter$call(...a: any[]): any {
+function $FilteringTextInputFormatter$call(filterPattern: Pattern, named: { allow: boolean; replacementString?: string }): { $: "FilteringTextInputFormatter"; filterPattern: Pattern; allow: boolean; replacementString?: string };
+function $FilteringTextInputFormatter$call(...a: any[]): any {
   return $build("FilteringTextInputFormatter", ["filterPattern"], a);
 }
-export const FilteringTextInputFormatter = /* @__PURE__ */ Object.assign(FilteringTextInputFormatter$call, {
-  allow: FilteringTextInputFormatter$allow,
-  deny: FilteringTextInputFormatter$deny,
+export const FilteringTextInputFormatter = /* @__PURE__ */ Object.assign($FilteringTextInputFormatter$call, {
+  allow: $FilteringTextInputFormatter$allow,
+  deny: $FilteringTextInputFormatter$deny,
 });

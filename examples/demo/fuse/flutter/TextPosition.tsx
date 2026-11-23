@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextAffinity } from "../flutter";
 
-function TextPosition$call(named: { offset: number; affinity?: TextAffinity }): { $: "TextPosition"; offset: number; affinity?: TextAffinity };
-function TextPosition$call(...a: any[]): any {
+function $TextPosition$call(named: { offset: number; affinity?: TextAffinity }): { $: "TextPosition"; offset: number; affinity?: TextAffinity };
+function $TextPosition$call(...a: any[]): any {
   return $build("TextPosition", [], a);
 }
-export const TextPosition = /* @__PURE__ */ Object.assign(TextPosition$call, {
+export const TextPosition = /* @__PURE__ */ Object.assign($TextPosition$call, {
 
 });

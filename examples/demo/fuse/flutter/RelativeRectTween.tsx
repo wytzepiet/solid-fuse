@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { RelativeRect } from "../flutter";
 
-function RelativeRectTween$call(named?: { begin?: RelativeRect | null; end?: RelativeRect | null }): { $: "RelativeRectTween"; begin?: RelativeRect | null; end?: RelativeRect | null };
-function RelativeRectTween$call(...a: any[]): any {
+function $RelativeRectTween$call(named?: { begin?: RelativeRect | null; end?: RelativeRect | null }): { $: "RelativeRectTween"; begin?: RelativeRect | null; end?: RelativeRect | null };
+function $RelativeRectTween$call(...a: any[]): any {
   return $build("RelativeRectTween", [], a);
 }
-export const RelativeRectTween = /* @__PURE__ */ Object.assign(RelativeRectTween$call, {
+export const RelativeRectTween = /* @__PURE__ */ Object.assign($RelativeRectTween$call, {
 
 });

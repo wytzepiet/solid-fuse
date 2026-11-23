@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, Color, EdgeInsetsGeometry, Offset, TextStyle } from "../flutter";
 
-function BadgeThemeData$call(named?: { backgroundColor?: Color | null; textColor?: Color | null; smallSize?: number | null; largeSize?: number | null; textStyle?: TextStyle | null; padding?: EdgeInsetsGeometry | null; alignment?: AlignmentGeometry | null; offset?: Offset | null }): { $: "BadgeThemeData"; backgroundColor?: Color | null; textColor?: Color | null; smallSize?: number | null; largeSize?: number | null; textStyle?: TextStyle | null; padding?: EdgeInsetsGeometry | null; alignment?: AlignmentGeometry | null; offset?: Offset | null };
-function BadgeThemeData$call(...a: any[]): any {
+function $BadgeThemeData$call(named?: { backgroundColor?: Color | null; textColor?: Color | null; smallSize?: number | null; largeSize?: number | null; textStyle?: TextStyle | null; padding?: EdgeInsetsGeometry | null; alignment?: AlignmentGeometry | null; offset?: Offset | null }): { $: "BadgeThemeData"; backgroundColor?: Color | null; textColor?: Color | null; smallSize?: number | null; largeSize?: number | null; textStyle?: TextStyle | null; padding?: EdgeInsetsGeometry | null; alignment?: AlignmentGeometry | null; offset?: Offset | null };
+function $BadgeThemeData$call(...a: any[]): any {
   return $build("BadgeThemeData", [], a);
 }
-export const BadgeThemeData = /* @__PURE__ */ Object.assign(BadgeThemeData$call, {
+export const BadgeThemeData = /* @__PURE__ */ Object.assign($BadgeThemeData$call, {
 
 });

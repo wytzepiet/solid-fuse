@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BlendMode, BorderRadiusGeometry, BoxBorder, BoxShadow, BoxShape, Color, DecorationImage, Gradient } from "../flutter";
 
-function BoxDecoration$call(named?: { color?: Color | null; image?: DecorationImage | null; border?: BoxBorder | null; borderRadius?: BorderRadiusGeometry | null; boxShadow?: BoxShadow[] | null; gradient?: Gradient | null; backgroundBlendMode?: BlendMode | null; shape?: BoxShape }): { $: "BoxDecoration"; color?: Color | null; image?: DecorationImage | null; border?: BoxBorder | null; borderRadius?: BorderRadiusGeometry | null; boxShadow?: BoxShadow[] | null; gradient?: Gradient | null; backgroundBlendMode?: BlendMode | null; shape?: BoxShape };
-function BoxDecoration$call(...a: any[]): any {
+function $BoxDecoration$call(named?: { color?: Color | null; image?: DecorationImage | null; border?: BoxBorder | null; borderRadius?: BorderRadiusGeometry | null; boxShadow?: BoxShadow[] | null; gradient?: Gradient | null; backgroundBlendMode?: BlendMode | null; shape?: BoxShape }): { $: "BoxDecoration"; color?: Color | null; image?: DecorationImage | null; border?: BoxBorder | null; borderRadius?: BorderRadiusGeometry | null; boxShadow?: BoxShadow[] | null; gradient?: Gradient | null; backgroundBlendMode?: BlendMode | null; shape?: BoxShape };
+function $BoxDecoration$call(...a: any[]): any {
   return $build("BoxDecoration", [], a);
 }
-export const BoxDecoration = /* @__PURE__ */ Object.assign(BoxDecoration$call, {
+export const BoxDecoration = /* @__PURE__ */ Object.assign($BoxDecoration$call, {
 
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ErrorSpacer$call(): { $: "ErrorSpacer" };
-function ErrorSpacer$call(...a: any[]): any {
+function $ErrorSpacer$call(): { $: "ErrorSpacer" };
+function $ErrorSpacer$call(...a: any[]): any {
   return $build("ErrorSpacer", [], a);
 }
-export const ErrorSpacer = /* @__PURE__ */ Object.assign(ErrorSpacer$call, {
+export const ErrorSpacer = /* @__PURE__ */ Object.assign($ErrorSpacer$call, {
 
 });

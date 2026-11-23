@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ScrollPhysics } from "../flutter";
 
-function CarouselScrollPhysics$call(named?: { parent?: ScrollPhysics | null }): { $: "CarouselScrollPhysics"; parent?: ScrollPhysics | null };
-function CarouselScrollPhysics$call(...a: any[]): any {
+function $CarouselScrollPhysics$call(named?: { parent?: ScrollPhysics | null }): { $: "CarouselScrollPhysics"; parent?: ScrollPhysics | null };
+function $CarouselScrollPhysics$call(...a: any[]): any {
   return $build("CarouselScrollPhysics", [], a);
 }
-export const CarouselScrollPhysics = /* @__PURE__ */ Object.assign(CarouselScrollPhysics$call, {
+export const CarouselScrollPhysics = /* @__PURE__ */ Object.assign($CarouselScrollPhysics$call, {
 
 });

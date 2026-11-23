@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SelectableRegionState$call(): { $: "SelectableRegionState" };
-function SelectableRegionState$call(...a: any[]): any {
+function $SelectableRegionState$call(): { $: "SelectableRegionState" };
+function $SelectableRegionState$call(...a: any[]): any {
   return $build("SelectableRegionState", [], a);
 }
-export const SelectableRegionState = /* @__PURE__ */ Object.assign(SelectableRegionState$call, {
+export const SelectableRegionState = /* @__PURE__ */ Object.assign($SelectableRegionState$call, {
 
 });

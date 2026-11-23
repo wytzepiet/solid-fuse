@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function CircularNotchedRectangle$call(named?: { inverted?: boolean }): { $: "CircularNotchedRectangle"; inverted?: boolean };
-function CircularNotchedRectangle$call(...a: any[]): any {
+function $CircularNotchedRectangle$call(named?: { inverted?: boolean }): { $: "CircularNotchedRectangle"; inverted?: boolean };
+function $CircularNotchedRectangle$call(...a: any[]): any {
   return $build("CircularNotchedRectangle", [], a);
 }
-export const CircularNotchedRectangle = /* @__PURE__ */ Object.assign(CircularNotchedRectangle$call, {
+export const CircularNotchedRectangle = /* @__PURE__ */ Object.assign($CircularNotchedRectangle$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { TextGranularity } from "../flutter";
 
-function GranularlyExtendSelectionEvent$call(named: { forward: boolean; isEnd: boolean; granularity: TextGranularity }): { $: "GranularlyExtendSelectionEvent"; forward: boolean; isEnd: boolean; granularity: TextGranularity };
-function GranularlyExtendSelectionEvent$call(...a: any[]): any {
+function $GranularlyExtendSelectionEvent$call(named: { forward: boolean; isEnd: boolean; granularity: TextGranularity }): { $: "GranularlyExtendSelectionEvent"; forward: boolean; isEnd: boolean; granularity: TextGranularity };
+function $GranularlyExtendSelectionEvent$call(...a: any[]): any {
   return $build("GranularlyExtendSelectionEvent", [], a);
 }
-export const GranularlyExtendSelectionEvent = /* @__PURE__ */ Object.assign(GranularlyExtendSelectionEvent$call, {
+export const GranularlyExtendSelectionEvent = /* @__PURE__ */ Object.assign($GranularlyExtendSelectionEvent$call, {
 
 });

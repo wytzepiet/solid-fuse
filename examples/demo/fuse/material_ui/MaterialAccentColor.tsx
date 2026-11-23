@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function MaterialAccentColor$call(primary: number, swatch: Record<string, Color>): { $: "MaterialAccentColor"; primary: number; swatch: Record<string, Color> };
-function MaterialAccentColor$call(...a: any[]): any {
+function $MaterialAccentColor$call(primary: number, swatch: Record<string, Color>): { $: "MaterialAccentColor"; primary: number; swatch: Record<string, Color> };
+function $MaterialAccentColor$call(...a: any[]): any {
   return $build("MaterialAccentColor", ["primary","swatch"], a);
 }
-export const MaterialAccentColor = /* @__PURE__ */ Object.assign(MaterialAccentColor$call, {
+export const MaterialAccentColor = /* @__PURE__ */ Object.assign($MaterialAccentColor$call, {
 
 });

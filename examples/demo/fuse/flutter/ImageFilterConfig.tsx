@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { ImageFilter, ImageFilterConfig as ImageFilterConfig$, TileMode } from "../flutter";
 
-function ImageFilterConfig$blur(named?: { sigmaX?: number; sigmaY?: number; tileMode?: TileMode; bounded?: boolean }): { $: "ImageFilterConfig.blur"; sigmaX?: number; sigmaY?: number; tileMode?: TileMode; bounded?: boolean };
-function ImageFilterConfig$blur(...a: any[]): any {
+function $ImageFilterConfig$blur(named?: { sigmaX?: number; sigmaY?: number; tileMode?: TileMode; bounded?: boolean }): { $: "ImageFilterConfig.blur"; sigmaX?: number; sigmaY?: number; tileMode?: TileMode; bounded?: boolean };
+function $ImageFilterConfig$blur(...a: any[]): any {
   return $build("ImageFilterConfig.blur", [], a);
 }
-function ImageFilterConfig$compose(named: { outer: ImageFilterConfig$; inner: ImageFilterConfig$ }): { $: "ImageFilterConfig.compose"; outer: ImageFilterConfig$; inner: ImageFilterConfig$ };
-function ImageFilterConfig$compose(...a: any[]): any {
+function $ImageFilterConfig$compose(named: { outer: ImageFilterConfig$; inner: ImageFilterConfig$ }): { $: "ImageFilterConfig.compose"; outer: ImageFilterConfig$; inner: ImageFilterConfig$ };
+function $ImageFilterConfig$compose(...a: any[]): any {
   return $build("ImageFilterConfig.compose", [], a);
 }
-function ImageFilterConfig$call(filter: ImageFilter): { $: "ImageFilterConfig"; filter: ImageFilter };
-function ImageFilterConfig$call(...a: any[]): any {
+function $ImageFilterConfig$call(filter: ImageFilter): { $: "ImageFilterConfig"; filter: ImageFilter };
+function $ImageFilterConfig$call(...a: any[]): any {
   return $build("ImageFilterConfig", ["filter"], a);
 }
-export const ImageFilterConfig = /* @__PURE__ */ Object.assign(ImageFilterConfig$call, {
-  blur: ImageFilterConfig$blur,
-  compose: ImageFilterConfig$compose,
+export const ImageFilterConfig = /* @__PURE__ */ Object.assign($ImageFilterConfig$call, {
+  blur: $ImageFilterConfig$blur,
+  compose: $ImageFilterConfig$compose,
 });

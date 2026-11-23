@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RegExp$call(source: string, named?: { multiLine?: boolean; caseSensitive?: boolean; unicode?: boolean; dotAll?: boolean }): { $: "RegExp"; source: string; multiLine?: boolean; caseSensitive?: boolean; unicode?: boolean; dotAll?: boolean };
-function RegExp$call(...a: any[]): any {
+function $RegExp$call(source: string, named?: { multiLine?: boolean; caseSensitive?: boolean; unicode?: boolean; dotAll?: boolean }): { $: "RegExp"; source: string; multiLine?: boolean; caseSensitive?: boolean; unicode?: boolean; dotAll?: boolean };
+function $RegExp$call(...a: any[]): any {
   return $build("RegExp", ["source"], a);
 }
-export const RegExp = /* @__PURE__ */ Object.assign(RegExp$call, {
+export const RegExp = /* @__PURE__ */ Object.assign($RegExp$call, {
 
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SawTooth$call(count: number): { $: "SawTooth"; count: number };
-function SawTooth$call(...a: any[]): any {
+function $SawTooth$call(count: number): { $: "SawTooth"; count: number };
+function $SawTooth$call(...a: any[]): any {
   return $build("SawTooth", ["count"], a);
 }
-export const SawTooth = /* @__PURE__ */ Object.assign(SawTooth$call, {
+export const SawTooth = /* @__PURE__ */ Object.assign($SawTooth$call, {
 
 });

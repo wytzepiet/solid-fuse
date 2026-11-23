@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadius, BoxConstraints, Color, TextStyle } from "../flutter";
 
-function ToggleButtonsThemeData$call(named?: { textStyle?: TextStyle | null; constraints?: BoxConstraints | null; color?: Color | null; selectedColor?: Color | null; disabledColor?: Color | null; fillColor?: Color | null; focusColor?: Color | null; highlightColor?: Color | null; hoverColor?: Color | null; splashColor?: Color | null; borderColor?: Color | null; selectedBorderColor?: Color | null; disabledBorderColor?: Color | null; borderRadius?: BorderRadius | null; borderWidth?: number | null }): { $: "ToggleButtonsThemeData"; textStyle?: TextStyle | null; constraints?: BoxConstraints | null; color?: Color | null; selectedColor?: Color | null; disabledColor?: Color | null; fillColor?: Color | null; focusColor?: Color | null; highlightColor?: Color | null; hoverColor?: Color | null; splashColor?: Color | null; borderColor?: Color | null; selectedBorderColor?: Color | null; disabledBorderColor?: Color | null; borderRadius?: BorderRadius | null; borderWidth?: number | null };
-function ToggleButtonsThemeData$call(...a: any[]): any {
+function $ToggleButtonsThemeData$call(named?: { textStyle?: TextStyle | null; constraints?: BoxConstraints | null; color?: Color | null; selectedColor?: Color | null; disabledColor?: Color | null; fillColor?: Color | null; focusColor?: Color | null; highlightColor?: Color | null; hoverColor?: Color | null; splashColor?: Color | null; borderColor?: Color | null; selectedBorderColor?: Color | null; disabledBorderColor?: Color | null; borderRadius?: BorderRadius | null; borderWidth?: number | null }): { $: "ToggleButtonsThemeData"; textStyle?: TextStyle | null; constraints?: BoxConstraints | null; color?: Color | null; selectedColor?: Color | null; disabledColor?: Color | null; fillColor?: Color | null; focusColor?: Color | null; highlightColor?: Color | null; hoverColor?: Color | null; splashColor?: Color | null; borderColor?: Color | null; selectedBorderColor?: Color | null; disabledBorderColor?: Color | null; borderRadius?: BorderRadius | null; borderWidth?: number | null };
+function $ToggleButtonsThemeData$call(...a: any[]): any {
   return $build("ToggleButtonsThemeData", [], a);
 }
-export const ToggleButtonsThemeData = /* @__PURE__ */ Object.assign(ToggleButtonsThemeData$call, {
+export const ToggleButtonsThemeData = /* @__PURE__ */ Object.assign($ToggleButtonsThemeData$call, {
 
 });

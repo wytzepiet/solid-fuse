@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SemanticsHintOverrides$call(named?: { onTapHint?: string | null; onLongPressHint?: string | null }): { $: "SemanticsHintOverrides"; onTapHint?: string | null; onLongPressHint?: string | null };
-function SemanticsHintOverrides$call(...a: any[]): any {
+function $SemanticsHintOverrides$call(named?: { onTapHint?: string | null; onLongPressHint?: string | null }): { $: "SemanticsHintOverrides"; onTapHint?: string | null; onLongPressHint?: string | null };
+function $SemanticsHintOverrides$call(...a: any[]): any {
   return $build("SemanticsHintOverrides", [], a);
 }
-export const SemanticsHintOverrides = /* @__PURE__ */ Object.assign(SemanticsHintOverrides$call, {
+export const SemanticsHintOverrides = /* @__PURE__ */ Object.assign($SemanticsHintOverrides$call, {
 
 });

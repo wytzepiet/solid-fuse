@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsetsGeometry, ShapeBorder, WidgetStatePropertyOfColorN, WidgetStatePropertyOfIconThemeDataN, WidgetStatePropertyOfTextStyleN } from "../flutter";
 import type { NavigationDestinationLabelBehavior } from "../material_ui";
 
-function NavigationBarThemeData$call(named?: { height?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null; labelBehavior?: NavigationDestinationLabelBehavior | null; overlayColor?: WidgetStatePropertyOfColorN | null; labelPadding?: EdgeInsetsGeometry | null }): { $: "NavigationBarThemeData"; height?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null; labelBehavior?: NavigationDestinationLabelBehavior | null; overlayColor?: WidgetStatePropertyOfColorN | null; labelPadding?: EdgeInsetsGeometry | null };
-function NavigationBarThemeData$call(...a: any[]): any {
+function $NavigationBarThemeData$call(named?: { height?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null; labelBehavior?: NavigationDestinationLabelBehavior | null; overlayColor?: WidgetStatePropertyOfColorN | null; labelPadding?: EdgeInsetsGeometry | null }): { $: "NavigationBarThemeData"; height?: number | null; backgroundColor?: Color | null; elevation?: number | null; shadowColor?: Color | null; surfaceTintColor?: Color | null; indicatorColor?: Color | null; indicatorShape?: ShapeBorder | null; labelTextStyle?: WidgetStatePropertyOfTextStyleN | null; iconTheme?: WidgetStatePropertyOfIconThemeDataN | null; labelBehavior?: NavigationDestinationLabelBehavior | null; overlayColor?: WidgetStatePropertyOfColorN | null; labelPadding?: EdgeInsetsGeometry | null };
+function $NavigationBarThemeData$call(...a: any[]): any {
   return $build("NavigationBarThemeData", [], a);
 }
-export const NavigationBarThemeData = /* @__PURE__ */ Object.assign(NavigationBarThemeData$call, {
+export const NavigationBarThemeData = /* @__PURE__ */ Object.assign($NavigationBarThemeData$call, {
 
 });

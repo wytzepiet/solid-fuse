@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, TextStyle } from "../flutter";
 
-function CupertinoTextThemeData$call(named?: { primaryColor?: Color; textStyle?: TextStyle | null; actionTextStyle?: TextStyle | null; actionSmallTextStyle?: TextStyle | null; tabLabelTextStyle?: TextStyle | null; navTitleTextStyle?: TextStyle | null; navLargeTitleTextStyle?: TextStyle | null; navActionTextStyle?: TextStyle | null; pickerTextStyle?: TextStyle | null; dateTimePickerTextStyle?: TextStyle | null }): { $: "CupertinoTextThemeData"; primaryColor?: Color; textStyle?: TextStyle | null; actionTextStyle?: TextStyle | null; actionSmallTextStyle?: TextStyle | null; tabLabelTextStyle?: TextStyle | null; navTitleTextStyle?: TextStyle | null; navLargeTitleTextStyle?: TextStyle | null; navActionTextStyle?: TextStyle | null; pickerTextStyle?: TextStyle | null; dateTimePickerTextStyle?: TextStyle | null };
-function CupertinoTextThemeData$call(...a: any[]): any {
+function $CupertinoTextThemeData$call(named?: { primaryColor?: Color; textStyle?: TextStyle | null; actionTextStyle?: TextStyle | null; actionSmallTextStyle?: TextStyle | null; tabLabelTextStyle?: TextStyle | null; navTitleTextStyle?: TextStyle | null; navLargeTitleTextStyle?: TextStyle | null; navActionTextStyle?: TextStyle | null; pickerTextStyle?: TextStyle | null; dateTimePickerTextStyle?: TextStyle | null }): { $: "CupertinoTextThemeData"; primaryColor?: Color; textStyle?: TextStyle | null; actionTextStyle?: TextStyle | null; actionSmallTextStyle?: TextStyle | null; tabLabelTextStyle?: TextStyle | null; navTitleTextStyle?: TextStyle | null; navLargeTitleTextStyle?: TextStyle | null; navActionTextStyle?: TextStyle | null; pickerTextStyle?: TextStyle | null; dateTimePickerTextStyle?: TextStyle | null };
+function $CupertinoTextThemeData$call(...a: any[]): any {
   return $build("CupertinoTextThemeData", [], a);
 }
-export const CupertinoTextThemeData = /* @__PURE__ */ Object.assign(CupertinoTextThemeData$call, {
+export const CupertinoTextThemeData = /* @__PURE__ */ Object.assign($CupertinoTextThemeData$call, {
 
 });

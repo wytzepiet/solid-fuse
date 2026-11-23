@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RootBackButtonDispatcher$call(): { $: "RootBackButtonDispatcher" };
-function RootBackButtonDispatcher$call(...a: any[]): any {
+function $RootBackButtonDispatcher$call(): { $: "RootBackButtonDispatcher" };
+function $RootBackButtonDispatcher$call(...a: any[]): any {
   return $build("RootBackButtonDispatcher", [], a);
 }
-export const RootBackButtonDispatcher = /* @__PURE__ */ Object.assign(RootBackButtonDispatcher$call, {
+export const RootBackButtonDispatcher = /* @__PURE__ */ Object.assign($RootBackButtonDispatcher$call, {
 
 });

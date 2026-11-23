@@ -6,19 +6,19 @@ import type { Handle } from "solid-fuse";
 import type { BorderRadius, Brightness, DeviceGestureSettings, DisplayFeature, EdgeInsets, MediaQueryData as MediaQueryData$, NavigationMode, Size, TextScaler } from "../flutter";
 
 /** @deprecated */
-function MediaQueryData$fromWindow(window: Handle<string>): { $: "MediaQueryData.fromWindow"; window: Handle<string> };
-function MediaQueryData$fromWindow(...a: any[]): any {
+function $MediaQueryData$fromWindow(window: Handle<string>): { $: "MediaQueryData.fromWindow"; window: Handle<string> };
+function $MediaQueryData$fromWindow(...a: any[]): any {
   return $build("MediaQueryData.fromWindow", ["window"], a);
 }
-function MediaQueryData$fromView(view: Handle<string>, named?: { platformData?: MediaQueryData$ | null }): { $: "MediaQueryData.fromView"; view: Handle<string>; platformData?: MediaQueryData$ | null };
-function MediaQueryData$fromView(...a: any[]): any {
+function $MediaQueryData$fromView(view: Handle<string>, named?: { platformData?: MediaQueryData$ | null }): { $: "MediaQueryData.fromView"; view: Handle<string>; platformData?: MediaQueryData$ | null };
+function $MediaQueryData$fromView(...a: any[]): any {
   return $build("MediaQueryData.fromView", ["view"], a);
 }
-function MediaQueryData$call(named?: { size?: Size; devicePixelRatio?: number; textScaleFactor?: number; textScaler?: TextScaler; platformBrightness?: Brightness; padding?: EdgeInsets; viewInsets?: EdgeInsets; systemGestureInsets?: EdgeInsets; viewPadding?: EdgeInsets; alwaysUse24HourFormat?: boolean; accessibleNavigation?: boolean; invertColors?: boolean; highContrast?: boolean; onOffSwitchLabels?: boolean; disableAnimations?: boolean; reduceMotion?: boolean; boldText?: boolean; supportsAnnounce?: boolean; navigationMode?: NavigationMode; gestureSettings?: DeviceGestureSettings; displayFeatures?: DisplayFeature[]; supportsShowingSystemContextMenu?: boolean; lineHeightScaleFactorOverride?: number | null; letterSpacingOverride?: number | null; wordSpacingOverride?: number | null; paragraphSpacingOverride?: number | null; displayCornerRadii?: BorderRadius | null }): { $: "MediaQueryData"; size?: Size; devicePixelRatio?: number; textScaleFactor?: number; textScaler?: TextScaler; platformBrightness?: Brightness; padding?: EdgeInsets; viewInsets?: EdgeInsets; systemGestureInsets?: EdgeInsets; viewPadding?: EdgeInsets; alwaysUse24HourFormat?: boolean; accessibleNavigation?: boolean; invertColors?: boolean; highContrast?: boolean; onOffSwitchLabels?: boolean; disableAnimations?: boolean; reduceMotion?: boolean; boldText?: boolean; supportsAnnounce?: boolean; navigationMode?: NavigationMode; gestureSettings?: DeviceGestureSettings; displayFeatures?: DisplayFeature[]; supportsShowingSystemContextMenu?: boolean; lineHeightScaleFactorOverride?: number | null; letterSpacingOverride?: number | null; wordSpacingOverride?: number | null; paragraphSpacingOverride?: number | null; displayCornerRadii?: BorderRadius | null };
-function MediaQueryData$call(...a: any[]): any {
+function $MediaQueryData$call(named?: { size?: Size; devicePixelRatio?: number; textScaleFactor?: number; textScaler?: TextScaler; platformBrightness?: Brightness; padding?: EdgeInsets; viewInsets?: EdgeInsets; systemGestureInsets?: EdgeInsets; viewPadding?: EdgeInsets; alwaysUse24HourFormat?: boolean; accessibleNavigation?: boolean; invertColors?: boolean; highContrast?: boolean; onOffSwitchLabels?: boolean; disableAnimations?: boolean; reduceMotion?: boolean; boldText?: boolean; supportsAnnounce?: boolean; navigationMode?: NavigationMode; gestureSettings?: DeviceGestureSettings; displayFeatures?: DisplayFeature[]; supportsShowingSystemContextMenu?: boolean; lineHeightScaleFactorOverride?: number | null; letterSpacingOverride?: number | null; wordSpacingOverride?: number | null; paragraphSpacingOverride?: number | null; displayCornerRadii?: BorderRadius | null }): { $: "MediaQueryData"; size?: Size; devicePixelRatio?: number; textScaleFactor?: number; textScaler?: TextScaler; platformBrightness?: Brightness; padding?: EdgeInsets; viewInsets?: EdgeInsets; systemGestureInsets?: EdgeInsets; viewPadding?: EdgeInsets; alwaysUse24HourFormat?: boolean; accessibleNavigation?: boolean; invertColors?: boolean; highContrast?: boolean; onOffSwitchLabels?: boolean; disableAnimations?: boolean; reduceMotion?: boolean; boldText?: boolean; supportsAnnounce?: boolean; navigationMode?: NavigationMode; gestureSettings?: DeviceGestureSettings; displayFeatures?: DisplayFeature[]; supportsShowingSystemContextMenu?: boolean; lineHeightScaleFactorOverride?: number | null; letterSpacingOverride?: number | null; wordSpacingOverride?: number | null; paragraphSpacingOverride?: number | null; displayCornerRadii?: BorderRadius | null };
+function $MediaQueryData$call(...a: any[]): any {
   return $build("MediaQueryData", [], a);
 }
-export const MediaQueryData = /* @__PURE__ */ Object.assign(MediaQueryData$call, {
-  fromWindow: MediaQueryData$fromWindow,
-  fromView: MediaQueryData$fromView,
+export const MediaQueryData = /* @__PURE__ */ Object.assign($MediaQueryData$call, {
+  fromWindow: $MediaQueryData$fromWindow,
+  fromView: $MediaQueryData$fromView,
 });

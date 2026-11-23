@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ButtonStyle } from "../material_ui";
 
-function SegmentedButtonThemeData$call(named?: { style?: ButtonStyle | null; selectedIcon?: JSX.Element | null }): { $: "SegmentedButtonThemeData"; style?: ButtonStyle | null; selectedIcon?: JSX.Element | null };
-function SegmentedButtonThemeData$call(...a: any[]): any {
+function $SegmentedButtonThemeData$call(named?: { style?: ButtonStyle | null; selectedIcon?: JSX.Element | null }): { $: "SegmentedButtonThemeData"; style?: ButtonStyle | null; selectedIcon?: JSX.Element | null };
+function $SegmentedButtonThemeData$call(...a: any[]): any {
   return $build("SegmentedButtonThemeData", [], a);
 }
-export const SegmentedButtonThemeData = /* @__PURE__ */ Object.assign(SegmentedButtonThemeData$call, {
+export const SegmentedButtonThemeData = /* @__PURE__ */ Object.assign($SegmentedButtonThemeData$call, {
 
 });

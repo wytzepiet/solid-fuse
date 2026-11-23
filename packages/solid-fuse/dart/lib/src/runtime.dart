@@ -4,6 +4,7 @@ import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:marionette_flutter/marionette_flutter.dart' show MarionetteDeviceConfig;
 
 import 'channels.dart';
 import 'connection.dart';
@@ -650,6 +651,9 @@ class FuseView extends StatelessWidget {
     if (Directionality.maybeOf(context) == null) {
       view = Directionality(textDirection: TextDirection.ltr, child: view);
     }
+    // Lets `fuse drive set-device-config` switch dark mode, text scale and
+    // bold text. Left out of release builds.
+    if (!kReleaseMode) view = MarionetteDeviceConfig(child: view);
     return view;
   }
 }

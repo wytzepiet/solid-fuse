@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { WebHtmlElementStrategy } from "../flutter";
 
-function NetworkImage$call(url: string, named?: { scale?: number; headers?: Record<string, string> | null; webHtmlElementStrategy?: WebHtmlElementStrategy }): { $: "NetworkImage"; url: string; scale?: number; headers?: Record<string, string> | null; webHtmlElementStrategy?: WebHtmlElementStrategy };
-function NetworkImage$call(...a: any[]): any {
+function $NetworkImage$call(url: string, named?: { scale?: number; headers?: Record<string, string> | null; webHtmlElementStrategy?: WebHtmlElementStrategy }): { $: "NetworkImage"; url: string; scale?: number; headers?: Record<string, string> | null; webHtmlElementStrategy?: WebHtmlElementStrategy };
+function $NetworkImage$call(...a: any[]): any {
   return $build("NetworkImage", ["url"], a);
 }
-export const NetworkImage = /* @__PURE__ */ Object.assign(NetworkImage$call, {
+export const NetworkImage = /* @__PURE__ */ Object.assign($NetworkImage$call, {
 
 });

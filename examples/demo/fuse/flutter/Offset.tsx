@@ -4,16 +4,16 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function Offset$fromDirection(direction: number, distance?: number): { $: "Offset.fromDirection"; direction: number; distance?: number };
-function Offset$fromDirection(...a: any[]): any {
+function $Offset$fromDirection(direction: number, distance?: number): { $: "Offset.fromDirection"; direction: number; distance?: number };
+function $Offset$fromDirection(...a: any[]): any {
   return $build("Offset.fromDirection", ["direction","distance"], a);
 }
-function Offset$call(dx: number, dy: number): { $: "Offset"; dx: number; dy: number };
-function Offset$call(...a: any[]): any {
+function $Offset$call(dx: number, dy: number): { $: "Offset"; dx: number; dy: number };
+function $Offset$call(...a: any[]): any {
   return $build("Offset", ["dx","dy"], a);
 }
-export const Offset = /* @__PURE__ */ Object.assign(Offset$call, {
-  fromDirection: Offset$fromDirection,
+export const Offset = /* @__PURE__ */ Object.assign($Offset$call, {
+  fromDirection: $Offset$fromDirection,
   zero: "Offset.zero" as Const<"Offset.zero">,
   infinite: "Offset.infinite" as Const<"Offset.infinite">,
 });

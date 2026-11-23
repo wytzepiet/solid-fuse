@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function GregorianCalendarDelegate$call(): { $: "GregorianCalendarDelegate" };
-function GregorianCalendarDelegate$call(...a: any[]): any {
+function $GregorianCalendarDelegate$call(): { $: "GregorianCalendarDelegate" };
+function $GregorianCalendarDelegate$call(...a: any[]): any {
   return $build("GregorianCalendarDelegate", [], a);
 }
-export const GregorianCalendarDelegate = /* @__PURE__ */ Object.assign(GregorianCalendarDelegate$call, {
+export const GregorianCalendarDelegate = /* @__PURE__ */ Object.assign($GregorianCalendarDelegate$call, {
 
 });

@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { SemanticsAction } from "../flutter";
 
-function CustomSemanticsAction$overridingAction(named: { hint: string; action: SemanticsAction }): { $: "CustomSemanticsAction.overridingAction"; hint: string; action: SemanticsAction };
-function CustomSemanticsAction$overridingAction(...a: any[]): any {
+function $CustomSemanticsAction$overridingAction(named: { hint: string; action: SemanticsAction }): { $: "CustomSemanticsAction.overridingAction"; hint: string; action: SemanticsAction };
+function $CustomSemanticsAction$overridingAction(...a: any[]): any {
   return $build("CustomSemanticsAction.overridingAction", [], a);
 }
-function CustomSemanticsAction$call(named: { label: string }): { $: "CustomSemanticsAction"; label: string };
-function CustomSemanticsAction$call(...a: any[]): any {
+function $CustomSemanticsAction$call(named: { label: string }): { $: "CustomSemanticsAction"; label: string };
+function $CustomSemanticsAction$call(...a: any[]): any {
   return $build("CustomSemanticsAction", [], a);
 }
-export const CustomSemanticsAction = /* @__PURE__ */ Object.assign(CustomSemanticsAction$call, {
-  overridingAction: CustomSemanticsAction$overridingAction,
+export const CustomSemanticsAction = /* @__PURE__ */ Object.assign($CustomSemanticsAction$call, {
+  overridingAction: $CustomSemanticsAction$overridingAction,
 });

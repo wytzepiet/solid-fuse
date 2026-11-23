@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function FadeForwardsPageTransitionsBuilder$call(named?: { allowSnapshotting?: boolean; backgroundColor?: Color | null }): { $: "FadeForwardsPageTransitionsBuilder"; allowSnapshotting?: boolean; backgroundColor?: Color | null };
-function FadeForwardsPageTransitionsBuilder$call(...a: any[]): any {
+function $FadeForwardsPageTransitionsBuilder$call(named?: { allowSnapshotting?: boolean; backgroundColor?: Color | null }): { $: "FadeForwardsPageTransitionsBuilder"; allowSnapshotting?: boolean; backgroundColor?: Color | null };
+function $FadeForwardsPageTransitionsBuilder$call(...a: any[]): any {
   return $build("FadeForwardsPageTransitionsBuilder", [], a);
 }
-export const FadeForwardsPageTransitionsBuilder = /* @__PURE__ */ Object.assign(FadeForwardsPageTransitionsBuilder$call, {
+export const FadeForwardsPageTransitionsBuilder = /* @__PURE__ */ Object.assign($FadeForwardsPageTransitionsBuilder$call, {
 
 });

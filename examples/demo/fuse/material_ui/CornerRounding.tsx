@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function CornerRounding$call(named?: { radius?: number; smoothing?: number }): { $: "CornerRounding"; radius?: number; smoothing?: number };
-function CornerRounding$call(...a: any[]): any {
+function $CornerRounding$call(named?: { radius?: number; smoothing?: number }): { $: "CornerRounding"; radius?: number; smoothing?: number };
+function $CornerRounding$call(...a: any[]): any {
   return $build("CornerRounding", [], a);
 }
-export const CornerRounding = /* @__PURE__ */ Object.assign(CornerRounding$call, {
+export const CornerRounding = /* @__PURE__ */ Object.assign($CornerRounding$call, {
   unrounded: "CornerRounding.unrounded" as Const<"CornerRounding.unrounded">,
 });

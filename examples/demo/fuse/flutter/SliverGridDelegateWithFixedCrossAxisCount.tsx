@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SliverGridDelegateWithFixedCrossAxisCount$call(named: { crossAxisCount: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null }): { $: "SliverGridDelegateWithFixedCrossAxisCount"; crossAxisCount: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null };
-function SliverGridDelegateWithFixedCrossAxisCount$call(...a: any[]): any {
+function $SliverGridDelegateWithFixedCrossAxisCount$call(named: { crossAxisCount: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null }): { $: "SliverGridDelegateWithFixedCrossAxisCount"; crossAxisCount: number; mainAxisSpacing?: number; crossAxisSpacing?: number; childAspectRatio?: number; mainAxisExtent?: number | null };
+function $SliverGridDelegateWithFixedCrossAxisCount$call(...a: any[]): any {
   return $build("SliverGridDelegateWithFixedCrossAxisCount", [], a);
 }
-export const SliverGridDelegateWithFixedCrossAxisCount = /* @__PURE__ */ Object.assign(SliverGridDelegateWithFixedCrossAxisCount$call, {
+export const SliverGridDelegateWithFixedCrossAxisCount = /* @__PURE__ */ Object.assign($SliverGridDelegateWithFixedCrossAxisCount$call, {
 
 });

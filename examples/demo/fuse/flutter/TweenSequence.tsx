@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { TweenSequenceItemOfObject, TweenSequenceItemOfdouble } from "../flutter";
 
-function TweenSequence$call(items: TweenSequenceItemOfObject[]): { $: "TweenSequence"; items: TweenSequenceItemOfObject[] };
-function TweenSequence$call(items: TweenSequenceItemOfdouble[]): { $: "TweenSequence"; items: TweenSequenceItemOfdouble[] };
-function TweenSequence$call(...a: any[]): any {
+function $TweenSequence$call(items: TweenSequenceItemOfObject[]): { $: "TweenSequence"; items: TweenSequenceItemOfObject[] };
+function $TweenSequence$call(items: TweenSequenceItemOfdouble[]): { $: "TweenSequence"; items: TweenSequenceItemOfdouble[] };
+function $TweenSequence$call(...a: any[]): any {
   return $build("TweenSequence", ["items"], a);
 }
-export const TweenSequence = /* @__PURE__ */ Object.assign(TweenSequence$call, {
+export const TweenSequence = /* @__PURE__ */ Object.assign($TweenSequence$call, {
 
 });

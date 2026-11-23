@@ -5,19 +5,19 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { AxisDirection, Clip, ScrollPhysics } from "../flutter";
 
-function ScrollableDetails$vertical(named?: { reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null }): { $: "ScrollableDetails.vertical"; reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null };
-function ScrollableDetails$vertical(...a: any[]): any {
+function $ScrollableDetails$vertical(named?: { reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null }): { $: "ScrollableDetails.vertical"; reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null };
+function $ScrollableDetails$vertical(...a: any[]): any {
   return $build("ScrollableDetails.vertical", [], a);
 }
-function ScrollableDetails$horizontal(named?: { reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null }): { $: "ScrollableDetails.horizontal"; reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null };
-function ScrollableDetails$horizontal(...a: any[]): any {
+function $ScrollableDetails$horizontal(named?: { reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null }): { $: "ScrollableDetails.horizontal"; reverse?: boolean; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; decorationClipBehavior?: Clip | null };
+function $ScrollableDetails$horizontal(...a: any[]): any {
   return $build("ScrollableDetails.horizontal", [], a);
 }
-function ScrollableDetails$call(named: { direction: AxisDirection; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; clipBehavior?: Clip | null; decorationClipBehavior?: Clip | null }): { $: "ScrollableDetails"; direction: AxisDirection; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; clipBehavior?: Clip | null; decorationClipBehavior?: Clip | null };
-function ScrollableDetails$call(...a: any[]): any {
+function $ScrollableDetails$call(named: { direction: AxisDirection; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; clipBehavior?: Clip | null; decorationClipBehavior?: Clip | null }): { $: "ScrollableDetails"; direction: AxisDirection; controller?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null; physics?: ScrollPhysics | null; clipBehavior?: Clip | null; decorationClipBehavior?: Clip | null };
+function $ScrollableDetails$call(...a: any[]): any {
   return $build("ScrollableDetails", [], a);
 }
-export const ScrollableDetails = /* @__PURE__ */ Object.assign(ScrollableDetails$call, {
-  vertical: ScrollableDetails$vertical,
-  horizontal: ScrollableDetails$horizontal,
+export const ScrollableDetails = /* @__PURE__ */ Object.assign($ScrollableDetails$call, {
+  vertical: $ScrollableDetails$vertical,
+  horizontal: $ScrollableDetails$horizontal,
 });

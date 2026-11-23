@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ElasticInCurve$call(period?: number): { $: "ElasticInCurve"; period?: number };
-function ElasticInCurve$call(...a: any[]): any {
+function $ElasticInCurve$call(period?: number): { $: "ElasticInCurve"; period?: number };
+function $ElasticInCurve$call(...a: any[]): any {
   return $build("ElasticInCurve", ["period"], a);
 }
-export const ElasticInCurve = /* @__PURE__ */ Object.assign(ElasticInCurve$call, {
+export const ElasticInCurve = /* @__PURE__ */ Object.assign($ElasticInCurve$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, Offset } from "../flutter";
 
-function Shadow$call(named?: { color?: Color; offset?: Offset; blurRadius?: number }): { $: "Shadow"; color?: Color; offset?: Offset; blurRadius?: number };
-function Shadow$call(...a: any[]): any {
+function $Shadow$call(named?: { color?: Color; offset?: Offset; blurRadius?: number }): { $: "Shadow"; color?: Color; offset?: Offset; blurRadius?: number };
+function $Shadow$call(...a: any[]): any {
   return $build("Shadow", [], a);
 }
-export const Shadow = /* @__PURE__ */ Object.assign(Shadow$call, {
+export const Shadow = /* @__PURE__ */ Object.assign($Shadow$call, {
 
 });

@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function DiagnosticsDebugCreator$call(value: unknown): { $: "DiagnosticsDebugCreator"; value: unknown };
-function DiagnosticsDebugCreator$call(...a: any[]): any {
+function $DiagnosticsDebugCreator$call(value: unknown): { $: "DiagnosticsDebugCreator"; value: unknown };
+function $DiagnosticsDebugCreator$call(...a: any[]): any {
   return $build("DiagnosticsDebugCreator", ["value"], a);
 }
-export const DiagnosticsDebugCreator = /* @__PURE__ */ Object.assign(DiagnosticsDebugCreator$call, {
+export const DiagnosticsDebugCreator = /* @__PURE__ */ Object.assign($DiagnosticsDebugCreator$call, {
 
 });

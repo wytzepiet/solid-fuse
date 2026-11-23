@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { BoxDecoration, BoxShadow, Color, DecorationImage, Gradient, ShapeBorder } from "../flutter";
 
-function ShapeDecoration$fromBoxDecoration(source: BoxDecoration): { $: "ShapeDecoration.fromBoxDecoration"; source: BoxDecoration };
-function ShapeDecoration$fromBoxDecoration(...a: any[]): any {
+function $ShapeDecoration$fromBoxDecoration(source: BoxDecoration): { $: "ShapeDecoration.fromBoxDecoration"; source: BoxDecoration };
+function $ShapeDecoration$fromBoxDecoration(...a: any[]): any {
   return $build("ShapeDecoration.fromBoxDecoration", ["source"], a);
 }
-function ShapeDecoration$call(named: { color?: Color | null; image?: DecorationImage | null; gradient?: Gradient | null; shadows?: BoxShadow[] | null; shape: ShapeBorder }): { $: "ShapeDecoration"; color?: Color | null; image?: DecorationImage | null; gradient?: Gradient | null; shadows?: BoxShadow[] | null; shape: ShapeBorder };
-function ShapeDecoration$call(...a: any[]): any {
+function $ShapeDecoration$call(named: { color?: Color | null; image?: DecorationImage | null; gradient?: Gradient | null; shadows?: BoxShadow[] | null; shape: ShapeBorder }): { $: "ShapeDecoration"; color?: Color | null; image?: DecorationImage | null; gradient?: Gradient | null; shadows?: BoxShadow[] | null; shape: ShapeBorder };
+function $ShapeDecoration$call(...a: any[]): any {
   return $build("ShapeDecoration", [], a);
 }
-export const ShapeDecoration = /* @__PURE__ */ Object.assign(ShapeDecoration$call, {
-  fromBoxDecoration: ShapeDecoration$fromBoxDecoration,
+export const ShapeDecoration = /* @__PURE__ */ Object.assign($ShapeDecoration$call, {
+  fromBoxDecoration: $ShapeDecoration$fromBoxDecoration,
 });

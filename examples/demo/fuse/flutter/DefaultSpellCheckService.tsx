@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function DefaultSpellCheckService$call(): { $: "DefaultSpellCheckService" };
-function DefaultSpellCheckService$call(...a: any[]): any {
+function $DefaultSpellCheckService$call(): { $: "DefaultSpellCheckService" };
+function $DefaultSpellCheckService$call(...a: any[]): any {
   return $build("DefaultSpellCheckService", [], a);
 }
-export const DefaultSpellCheckService = /* @__PURE__ */ Object.assign(DefaultSpellCheckService$call, {
+export const DefaultSpellCheckService = /* @__PURE__ */ Object.assign($DefaultSpellCheckService$call, {
 
 });

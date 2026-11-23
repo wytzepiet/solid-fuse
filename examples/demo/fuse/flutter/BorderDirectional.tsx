@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide } from "../flutter";
 
-function BorderDirectional$call(named?: { top?: BorderSide; start?: BorderSide; end?: BorderSide; bottom?: BorderSide }): { $: "BorderDirectional"; top?: BorderSide; start?: BorderSide; end?: BorderSide; bottom?: BorderSide };
-function BorderDirectional$call(...a: any[]): any {
+function $BorderDirectional$call(named?: { top?: BorderSide; start?: BorderSide; end?: BorderSide; bottom?: BorderSide }): { $: "BorderDirectional"; top?: BorderSide; start?: BorderSide; end?: BorderSide; bottom?: BorderSide };
+function $BorderDirectional$call(...a: any[]): any {
   return $build("BorderDirectional", [], a);
 }
-export const BorderDirectional = /* @__PURE__ */ Object.assign(BorderDirectional$call, {
+export const BorderDirectional = /* @__PURE__ */ Object.assign($BorderDirectional$call, {
 
 });

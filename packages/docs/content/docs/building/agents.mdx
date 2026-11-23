@@ -1,0 +1,89 @@
+---
+title: Developing with agents
+description: Let an agent run your app, tap through it and take screenshots, on your machine or in the cloud
+---
+
+An agent that writes your app can also run it, use it, and look at it. Every solid-fuse app can be driven out of the box: tap, type, scroll, take screenshots and read logs, from the command line. It works on a machine with no screen too, so a cloud agent can check its own work.
+
+This is [Marionette](https://pub.dev/packages/marionette_flutter), built in. It's on in debug and profile builds and compiled out of release builds.
+
+## Run the app
+
+```bash
+fuse dev            # as usual: a simulator, a device, or the desktop
+fuse dev --headless # Linux, no screen: a cloud machine or CI
+```
+
+`--headless` runs the Linux desktop app on a virtual display, with its own session bus and keyring, and adds the `linux/` runner if the app has none. Hot reload works as usual: edit a file and the running app updates.
+
+Once the app is up, `fuse dev` prints `Ready for fuse drive`. Agents usually start it in the background.
+
+## Drive it
+
+`fuse drive` sends a command to the running app:
+
+```bash
+fuse drive get-interactive-elements      # what's on screen, and where
+fuse drive tap --text "Send code"
+fuse drive enter-text --identifier phone --input "0612345678"
+fuse drive scroll-to --text "Settings"
+fuse drive take-screenshots -o screen.png
+fuse drive get-logs                      # console.log output and errors
+fuse drive set-device-config --platform-brightness dark
+fuse drive hot-restart
+```
+
+`fuse drive help-ai` prints every command, written for agents. Point your agent at it.
+
+## Find elements
+
+By text, which needs nothing from you: `--text "Send code"` finds the element showing that text.
+
+By `testId`, for elements without unique text. Every element takes one, core and generated:
+
+```tsx
+<Pressable testId="submit" onPress={submit}>
+  <Icon icon={Icons.send} />
+</Pressable>
+```
+
+```bash
+fuse drive tap --identifier submit
+```
+
+`testId` is the element's semantics identifier, so Appium and the platform accessibility tools find it by the same id.
+
+## MCP
+
+Agents that prefer MCP get the same commands as tools:
+
+```bash
+claude mcp add fuse -- bunx fuse drive mcp
+```
+
+The agent connects to the URI `fuse dev` saved in `dart/.dart_tool/fuse/drive.json`.
+
+## In the cloud
+
+A cloud machine needs Flutter's Linux toolchain and the tools `--headless` uses. On Debian or Ubuntu, as the environment's setup script:
+
+```bash
+apt-get update
+apt-get install -y libgtk-3-dev clang cmake ninja-build pkg-config \
+  xvfb dbus gnome-keyring libsecret-1-dev
+curl -sSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.50.1-stable.tar.xz \
+  | tar -xJ -C /opt
+echo 'export PATH=/opt/flutter/bin:$PATH' >> ~/.bashrc
+/opt/flutter/bin/flutter precache --linux
+/opt/flutter/bin/dart pub global activate marionette_cli
+```
+
+Then `fuse dev --headless` and `fuse drive` work as above. The first build compiles the JS engine (a few minutes); set `CARGO_TARGET_DIR` to a shared folder to keep that build between apps and clean builds.
+
+Put the workflow in your agent's instructions (`AGENTS.md`, `CLAUDE.md`):
+
+```md
+To check a change in the running app: start `fuse dev --headless` in the
+background, wait for "Ready for fuse drive", then use `fuse drive`
+(`fuse drive help-ai` lists the commands). Look at screenshots after changes.
+```

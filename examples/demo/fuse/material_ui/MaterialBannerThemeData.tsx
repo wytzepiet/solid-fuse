@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsetsGeometry, TextStyle } from "../flutter";
 
-function MaterialBannerThemeData$call(named?: { backgroundColor?: Color | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; dividerColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; padding?: EdgeInsetsGeometry | null; leadingPadding?: EdgeInsetsGeometry | null }): { $: "MaterialBannerThemeData"; backgroundColor?: Color | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; dividerColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; padding?: EdgeInsetsGeometry | null; leadingPadding?: EdgeInsetsGeometry | null };
-function MaterialBannerThemeData$call(...a: any[]): any {
+function $MaterialBannerThemeData$call(named?: { backgroundColor?: Color | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; dividerColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; padding?: EdgeInsetsGeometry | null; leadingPadding?: EdgeInsetsGeometry | null }): { $: "MaterialBannerThemeData"; backgroundColor?: Color | null; surfaceTintColor?: Color | null; shadowColor?: Color | null; dividerColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; padding?: EdgeInsetsGeometry | null; leadingPadding?: EdgeInsetsGeometry | null };
+function $MaterialBannerThemeData$call(...a: any[]): any {
   return $build("MaterialBannerThemeData", [], a);
 }
-export const MaterialBannerThemeData = /* @__PURE__ */ Object.assign(MaterialBannerThemeData$call, {
+export const MaterialBannerThemeData = /* @__PURE__ */ Object.assign($MaterialBannerThemeData$call, {
 
 });

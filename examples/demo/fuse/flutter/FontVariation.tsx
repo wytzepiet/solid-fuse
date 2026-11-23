@@ -3,34 +3,34 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function FontVariation$italic(value: number): { $: "FontVariation.italic"; value: number };
-function FontVariation$italic(...a: any[]): any {
+function $FontVariation$italic(value: number): { $: "FontVariation.italic"; value: number };
+function $FontVariation$italic(...a: any[]): any {
   return $build("FontVariation.italic", ["value"], a);
 }
-function FontVariation$opticalSize(value: number): { $: "FontVariation.opticalSize"; value: number };
-function FontVariation$opticalSize(...a: any[]): any {
+function $FontVariation$opticalSize(value: number): { $: "FontVariation.opticalSize"; value: number };
+function $FontVariation$opticalSize(...a: any[]): any {
   return $build("FontVariation.opticalSize", ["value"], a);
 }
-function FontVariation$slant(value: number): { $: "FontVariation.slant"; value: number };
-function FontVariation$slant(...a: any[]): any {
+function $FontVariation$slant(value: number): { $: "FontVariation.slant"; value: number };
+function $FontVariation$slant(...a: any[]): any {
   return $build("FontVariation.slant", ["value"], a);
 }
-function FontVariation$width(value: number): { $: "FontVariation.width"; value: number };
-function FontVariation$width(...a: any[]): any {
+function $FontVariation$width(value: number): { $: "FontVariation.width"; value: number };
+function $FontVariation$width(...a: any[]): any {
   return $build("FontVariation.width", ["value"], a);
 }
-function FontVariation$weight(value: number): { $: "FontVariation.weight"; value: number };
-function FontVariation$weight(...a: any[]): any {
+function $FontVariation$weight(value: number): { $: "FontVariation.weight"; value: number };
+function $FontVariation$weight(...a: any[]): any {
   return $build("FontVariation.weight", ["value"], a);
 }
-function FontVariation$call(axis: string, value: number): { $: "FontVariation"; axis: string; value: number };
-function FontVariation$call(...a: any[]): any {
+function $FontVariation$call(axis: string, value: number): { $: "FontVariation"; axis: string; value: number };
+function $FontVariation$call(...a: any[]): any {
   return $build("FontVariation", ["axis","value"], a);
 }
-export const FontVariation = /* @__PURE__ */ Object.assign(FontVariation$call, {
-  italic: FontVariation$italic,
-  opticalSize: FontVariation$opticalSize,
-  slant: FontVariation$slant,
-  width: FontVariation$width,
-  weight: FontVariation$weight,
+export const FontVariation = /* @__PURE__ */ Object.assign($FontVariation$call, {
+  italic: $FontVariation$italic,
+  opticalSize: $FontVariation$opticalSize,
+  slant: $FontVariation$slant,
+  width: $FontVariation$width,
+  weight: $FontVariation$weight,
 });

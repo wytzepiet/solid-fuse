@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function NavigatorObserver$call(): { $: "NavigatorObserver" };
-function NavigatorObserver$call(...a: any[]): any {
+function $NavigatorObserver$call(): { $: "NavigatorObserver" };
+function $NavigatorObserver$call(...a: any[]): any {
   return $build("NavigatorObserver", [], a);
 }
-export const NavigatorObserver = /* @__PURE__ */ Object.assign(NavigatorObserver$call, {
+export const NavigatorObserver = /* @__PURE__ */ Object.assign($NavigatorObserver$call, {
 
 });

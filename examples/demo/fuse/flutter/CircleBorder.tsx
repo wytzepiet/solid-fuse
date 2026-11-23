@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide } from "../flutter";
 
-function CircleBorder$call(named?: { side?: BorderSide; eccentricity?: number }): { $: "CircleBorder"; side?: BorderSide; eccentricity?: number };
-function CircleBorder$call(...a: any[]): any {
+function $CircleBorder$call(named?: { side?: BorderSide; eccentricity?: number }): { $: "CircleBorder"; side?: BorderSide; eccentricity?: number };
+function $CircleBorder$call(...a: any[]): any {
   return $build("CircleBorder", [], a);
 }
-export const CircleBorder = /* @__PURE__ */ Object.assign(CircleBorder$call, {
+export const CircleBorder = /* @__PURE__ */ Object.assign($CircleBorder$call, {
 
 });

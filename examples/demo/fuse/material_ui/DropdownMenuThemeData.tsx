@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Color, TextStyle } from "../flutter";
 import type { MenuStyle } from "../material_ui";
 
-function DropdownMenuThemeData$call(named?: { textStyle?: TextStyle | null; inputDecorationTheme?: unknown; menuStyle?: MenuStyle | null; disabledColor?: Color | null }): { $: "DropdownMenuThemeData"; textStyle?: TextStyle | null; inputDecorationTheme?: unknown; menuStyle?: MenuStyle | null; disabledColor?: Color | null };
-function DropdownMenuThemeData$call(...a: any[]): any {
+function $DropdownMenuThemeData$call(named?: { textStyle?: TextStyle | null; inputDecorationTheme?: unknown; menuStyle?: MenuStyle | null; disabledColor?: Color | null }): { $: "DropdownMenuThemeData"; textStyle?: TextStyle | null; inputDecorationTheme?: unknown; menuStyle?: MenuStyle | null; disabledColor?: Color | null };
+function $DropdownMenuThemeData$call(...a: any[]): any {
   return $build("DropdownMenuThemeData", [], a);
 }
-export const DropdownMenuThemeData = /* @__PURE__ */ Object.assign(DropdownMenuThemeData$call, {
+export const DropdownMenuThemeData = /* @__PURE__ */ Object.assign($DropdownMenuThemeData$call, {
 
 });

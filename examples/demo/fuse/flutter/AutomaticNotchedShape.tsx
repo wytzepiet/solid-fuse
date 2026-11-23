@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ShapeBorder } from "../flutter";
 
-function AutomaticNotchedShape$call(host: ShapeBorder, guest?: ShapeBorder | null): { $: "AutomaticNotchedShape"; host: ShapeBorder; guest?: ShapeBorder | null };
-function AutomaticNotchedShape$call(...a: any[]): any {
+function $AutomaticNotchedShape$call(host: ShapeBorder, guest?: ShapeBorder | null): { $: "AutomaticNotchedShape"; host: ShapeBorder; guest?: ShapeBorder | null };
+function $AutomaticNotchedShape$call(...a: any[]): any {
   return $build("AutomaticNotchedShape", ["host","guest"], a);
 }
-export const AutomaticNotchedShape = /* @__PURE__ */ Object.assign(AutomaticNotchedShape$call, {
+export const AutomaticNotchedShape = /* @__PURE__ */ Object.assign($AutomaticNotchedShape$call, {
 
 });

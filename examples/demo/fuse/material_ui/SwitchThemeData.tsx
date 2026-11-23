@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { EdgeInsetsGeometry, WidgetStatePropertyOfColorN, WidgetStatePropertyOfIconN, WidgetStatePropertyOfMouseCursorN, WidgetStatePropertyOfdoubleN } from "../flutter";
 import type { MaterialTapTargetSize } from "../material_ui";
 
-function SwitchThemeData$call(named?: { thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackOutlineColor?: WidgetStatePropertyOfColorN | null; trackOutlineWidth?: WidgetStatePropertyOfdoubleN | null; materialTapTargetSize?: MaterialTapTargetSize | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; thumbIcon?: WidgetStatePropertyOfIconN | null; padding?: EdgeInsetsGeometry | null }): { $: "SwitchThemeData"; thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackOutlineColor?: WidgetStatePropertyOfColorN | null; trackOutlineWidth?: WidgetStatePropertyOfdoubleN | null; materialTapTargetSize?: MaterialTapTargetSize | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; thumbIcon?: WidgetStatePropertyOfIconN | null; padding?: EdgeInsetsGeometry | null };
-function SwitchThemeData$call(...a: any[]): any {
+function $SwitchThemeData$call(named?: { thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackOutlineColor?: WidgetStatePropertyOfColorN | null; trackOutlineWidth?: WidgetStatePropertyOfdoubleN | null; materialTapTargetSize?: MaterialTapTargetSize | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; thumbIcon?: WidgetStatePropertyOfIconN | null; padding?: EdgeInsetsGeometry | null }): { $: "SwitchThemeData"; thumbColor?: WidgetStatePropertyOfColorN | null; trackColor?: WidgetStatePropertyOfColorN | null; trackOutlineColor?: WidgetStatePropertyOfColorN | null; trackOutlineWidth?: WidgetStatePropertyOfdoubleN | null; materialTapTargetSize?: MaterialTapTargetSize | null; mouseCursor?: WidgetStatePropertyOfMouseCursorN | null; overlayColor?: WidgetStatePropertyOfColorN | null; splashRadius?: number | null; thumbIcon?: WidgetStatePropertyOfIconN | null; padding?: EdgeInsetsGeometry | null };
+function $SwitchThemeData$call(...a: any[]): any {
   return $build("SwitchThemeData", [], a);
 }
-export const SwitchThemeData = /* @__PURE__ */ Object.assign(SwitchThemeData$call, {
+export const SwitchThemeData = /* @__PURE__ */ Object.assign($SwitchThemeData$call, {
 
 });

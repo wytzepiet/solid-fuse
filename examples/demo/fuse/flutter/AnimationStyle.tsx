@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { Curve, Duration } from "../flutter";
 
-function AnimationStyle$call(named?: { curve?: Curve | null; duration?: Duration | null; reverseCurve?: Curve | null; reverseDuration?: Duration | null }): { $: "AnimationStyle"; curve?: Curve | null; duration?: Duration | null; reverseCurve?: Curve | null; reverseDuration?: Duration | null };
-function AnimationStyle$call(...a: any[]): any {
+function $AnimationStyle$call(named?: { curve?: Curve | null; duration?: Duration | null; reverseCurve?: Curve | null; reverseDuration?: Duration | null }): { $: "AnimationStyle"; curve?: Curve | null; duration?: Duration | null; reverseCurve?: Curve | null; reverseDuration?: Duration | null };
+function $AnimationStyle$call(...a: any[]): any {
   return $build("AnimationStyle", [], a);
 }
-export const AnimationStyle = /* @__PURE__ */ Object.assign(AnimationStyle$call, {
+export const AnimationStyle = /* @__PURE__ */ Object.assign($AnimationStyle$call, {
   noAnimation: "AnimationStyle.noAnimation" as Const<"AnimationStyle.noAnimation">,
 });

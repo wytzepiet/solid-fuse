@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 
-function MaterialPointArcTween$call(named?: { begin?: Offset | null; end?: Offset | null }): { $: "MaterialPointArcTween"; begin?: Offset | null; end?: Offset | null };
-function MaterialPointArcTween$call(...a: any[]): any {
+function $MaterialPointArcTween$call(named?: { begin?: Offset | null; end?: Offset | null }): { $: "MaterialPointArcTween"; begin?: Offset | null; end?: Offset | null };
+function $MaterialPointArcTween$call(...a: any[]): any {
   return $build("MaterialPointArcTween", [], a);
 }
-export const MaterialPointArcTween = /* @__PURE__ */ Object.assign(MaterialPointArcTween$call, {
+export const MaterialPointArcTween = /* @__PURE__ */ Object.assign($MaterialPointArcTween$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function Duration$call(named?: { days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number; microseconds?: number }): { $: "Duration"; days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number; microseconds?: number };
-function Duration$call(...a: any[]): any {
+function $Duration$call(named?: { days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number; microseconds?: number }): { $: "Duration"; days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number; microseconds?: number };
+function $Duration$call(...a: any[]): any {
   return $build("Duration", [], a);
 }
-export const Duration = /* @__PURE__ */ Object.assign(Duration$call, {
+export const Duration = /* @__PURE__ */ Object.assign($Duration$call, {
   zero: "Duration.zero" as Const<"Duration.zero">,
 });

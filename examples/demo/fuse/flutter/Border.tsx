@@ -4,24 +4,24 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide, BorderStyle, Color } from "../flutter";
 
-function Border$fromBorderSide(side: BorderSide): { $: "Border.fromBorderSide"; side: BorderSide };
-function Border$fromBorderSide(...a: any[]): any {
+function $Border$fromBorderSide(side: BorderSide): { $: "Border.fromBorderSide"; side: BorderSide };
+function $Border$fromBorderSide(...a: any[]): any {
   return $build("Border.fromBorderSide", ["side"], a);
 }
-function Border$symmetric(named?: { vertical?: BorderSide; horizontal?: BorderSide }): { $: "Border.symmetric"; vertical?: BorderSide; horizontal?: BorderSide };
-function Border$symmetric(...a: any[]): any {
+function $Border$symmetric(named?: { vertical?: BorderSide; horizontal?: BorderSide }): { $: "Border.symmetric"; vertical?: BorderSide; horizontal?: BorderSide };
+function $Border$symmetric(...a: any[]): any {
   return $build("Border.symmetric", [], a);
 }
-function Border$all(named?: { color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number }): { $: "Border.all"; color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number };
-function Border$all(...a: any[]): any {
+function $Border$all(named?: { color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number }): { $: "Border.all"; color?: Color; width?: number; style?: BorderStyle; strokeAlign?: number };
+function $Border$all(...a: any[]): any {
   return $build("Border.all", [], a);
 }
-function Border$call(named?: { top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide }): { $: "Border"; top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide };
-function Border$call(...a: any[]): any {
+function $Border$call(named?: { top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide }): { $: "Border"; top?: BorderSide; right?: BorderSide; bottom?: BorderSide; left?: BorderSide };
+function $Border$call(...a: any[]): any {
   return $build("Border", [], a);
 }
-export const Border = /* @__PURE__ */ Object.assign(Border$call, {
-  fromBorderSide: Border$fromBorderSide,
-  symmetric: Border$symmetric,
-  all: Border$all,
+export const Border = /* @__PURE__ */ Object.assign($Border$call, {
+  fromBorderSide: $Border$fromBorderSide,
+  symmetric: $Border$symmetric,
+  all: $Border$all,
 });

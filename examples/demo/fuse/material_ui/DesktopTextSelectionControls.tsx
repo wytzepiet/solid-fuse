@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function DesktopTextSelectionControls$call(): { $: "DesktopTextSelectionControls" };
-function DesktopTextSelectionControls$call(...a: any[]): any {
+function $DesktopTextSelectionControls$call(): { $: "DesktopTextSelectionControls" };
+function $DesktopTextSelectionControls$call(...a: any[]): any {
   return $build("DesktopTextSelectionControls", [], a);
 }
-export const DesktopTextSelectionControls = /* @__PURE__ */ Object.assign(DesktopTextSelectionControls$call, {
+export const DesktopTextSelectionControls = /* @__PURE__ */ Object.assign($DesktopTextSelectionControls$call, {
 
 });

@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Color, DismissDirection, EdgeInsets, ShapeBorder, TextStyle } from "../flutter";
 import type { SnackBarBehavior } from "../material_ui";
 
-function SnackBarThemeData$call(named?: { backgroundColor?: Color | null; actionTextColor?: Color | null; disabledActionTextColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; shape?: ShapeBorder | null; behavior?: SnackBarBehavior | null; width?: number | null; insetPadding?: EdgeInsets | null; showCloseIcon?: boolean | null; closeIconColor?: Color | null; actionOverflowThreshold?: number | null; actionBackgroundColor?: Color | null; disabledActionBackgroundColor?: Color | null; dismissDirection?: DismissDirection | null }): { $: "SnackBarThemeData"; backgroundColor?: Color | null; actionTextColor?: Color | null; disabledActionTextColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; shape?: ShapeBorder | null; behavior?: SnackBarBehavior | null; width?: number | null; insetPadding?: EdgeInsets | null; showCloseIcon?: boolean | null; closeIconColor?: Color | null; actionOverflowThreshold?: number | null; actionBackgroundColor?: Color | null; disabledActionBackgroundColor?: Color | null; dismissDirection?: DismissDirection | null };
-function SnackBarThemeData$call(...a: any[]): any {
+function $SnackBarThemeData$call(named?: { backgroundColor?: Color | null; actionTextColor?: Color | null; disabledActionTextColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; shape?: ShapeBorder | null; behavior?: SnackBarBehavior | null; width?: number | null; insetPadding?: EdgeInsets | null; showCloseIcon?: boolean | null; closeIconColor?: Color | null; actionOverflowThreshold?: number | null; actionBackgroundColor?: Color | null; disabledActionBackgroundColor?: Color | null; dismissDirection?: DismissDirection | null }): { $: "SnackBarThemeData"; backgroundColor?: Color | null; actionTextColor?: Color | null; disabledActionTextColor?: Color | null; contentTextStyle?: TextStyle | null; elevation?: number | null; shape?: ShapeBorder | null; behavior?: SnackBarBehavior | null; width?: number | null; insetPadding?: EdgeInsets | null; showCloseIcon?: boolean | null; closeIconColor?: Color | null; actionOverflowThreshold?: number | null; actionBackgroundColor?: Color | null; disabledActionBackgroundColor?: Color | null; dismissDirection?: DismissDirection | null };
+function $SnackBarThemeData$call(...a: any[]): any {
   return $build("SnackBarThemeData", [], a);
 }
-export const SnackBarThemeData = /* @__PURE__ */ Object.assign(SnackBarThemeData$call, {
+export const SnackBarThemeData = /* @__PURE__ */ Object.assign($SnackBarThemeData$call, {
 
 });

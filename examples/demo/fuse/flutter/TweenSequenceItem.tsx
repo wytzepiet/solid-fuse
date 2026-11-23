@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { AnimatableOfObject, AnimatableOfdouble } from "../flutter";
 
-function TweenSequenceItem$call(named: { tween: AnimatableOfObject; weight: number }): { $: "TweenSequenceItem"; tween: AnimatableOfObject; weight: number };
-function TweenSequenceItem$call(named: { tween: AnimatableOfdouble; weight: number }): { $: "TweenSequenceItem"; tween: AnimatableOfdouble; weight: number };
-function TweenSequenceItem$call(...a: any[]): any {
+function $TweenSequenceItem$call(named: { tween: AnimatableOfObject; weight: number }): { $: "TweenSequenceItem"; tween: AnimatableOfObject; weight: number };
+function $TweenSequenceItem$call(named: { tween: AnimatableOfdouble; weight: number }): { $: "TweenSequenceItem"; tween: AnimatableOfdouble; weight: number };
+function $TweenSequenceItem$call(...a: any[]): any {
   return $build("TweenSequenceItem", [], a);
 }
-export const TweenSequenceItem = /* @__PURE__ */ Object.assign(TweenSequenceItem$call, {
+export const TweenSequenceItem = /* @__PURE__ */ Object.assign($TweenSequenceItem$call, {
 
 });

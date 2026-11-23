@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { WidgetStatePropertyOfWidgetN } from "../flutter";
 import type { MenuStyle } from "../material_ui";
 
-function MenuThemeData$call(named?: { style?: MenuStyle | null; submenuIcon?: WidgetStatePropertyOfWidgetN | null }): { $: "MenuThemeData"; style?: MenuStyle | null; submenuIcon?: WidgetStatePropertyOfWidgetN | null };
-function MenuThemeData$call(...a: any[]): any {
+function $MenuThemeData$call(named?: { style?: MenuStyle | null; submenuIcon?: WidgetStatePropertyOfWidgetN | null }): { $: "MenuThemeData"; style?: MenuStyle | null; submenuIcon?: WidgetStatePropertyOfWidgetN | null };
+function $MenuThemeData$call(...a: any[]): any {
   return $build("MenuThemeData", [], a);
 }
-export const MenuThemeData = /* @__PURE__ */ Object.assign(MenuThemeData$call, {
+export const MenuThemeData = /* @__PURE__ */ Object.assign($MenuThemeData$call, {
 
 });

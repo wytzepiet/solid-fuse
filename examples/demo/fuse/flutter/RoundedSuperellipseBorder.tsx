@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderRadiusGeometry, BorderSide } from "../flutter";
 
-function RoundedSuperellipseBorder$call(named?: { side?: BorderSide; borderRadius?: BorderRadiusGeometry | null }): { $: "RoundedSuperellipseBorder"; side?: BorderSide; borderRadius?: BorderRadiusGeometry | null };
-function RoundedSuperellipseBorder$call(...a: any[]): any {
+function $RoundedSuperellipseBorder$call(named?: { side?: BorderSide; borderRadius?: BorderRadiusGeometry | null }): { $: "RoundedSuperellipseBorder"; side?: BorderSide; borderRadius?: BorderRadiusGeometry | null };
+function $RoundedSuperellipseBorder$call(...a: any[]): any {
   return $build("RoundedSuperellipseBorder", [], a);
 }
-export const RoundedSuperellipseBorder = /* @__PURE__ */ Object.assign(RoundedSuperellipseBorder$call, {
+export const RoundedSuperellipseBorder = /* @__PURE__ */ Object.assign($RoundedSuperellipseBorder$call, {
 
 });

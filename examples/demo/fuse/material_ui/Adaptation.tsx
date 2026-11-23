@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function Adaptation$call(): { $: "Adaptation" };
-function Adaptation$call(...a: any[]): any {
+function $Adaptation$call(): { $: "Adaptation" };
+function $Adaptation$call(...a: any[]): any {
   return $build("Adaptation", [], a);
 }
-export const Adaptation = /* @__PURE__ */ Object.assign(Adaptation$call, {
+export const Adaptation = /* @__PURE__ */ Object.assign($Adaptation$call, {
 
 });

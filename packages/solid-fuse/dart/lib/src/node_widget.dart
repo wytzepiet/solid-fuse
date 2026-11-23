@@ -18,8 +18,19 @@ class FuseNodeWidget extends StatelessWidget {
     final runtime = FuseRuntimeScope.of(context);
     return ListenableBuilder(
       listenable: node,
-      builder: (context, _) => _flexItem(runtime.buildWidgetForNode(node)),
+      builder: (context, _) =>
+          _flexItem(_testId(runtime.buildWidgetForNode(node))),
     );
+  }
+
+  // `testId` on any element: a semantics identifier, which `fuse drive`
+  // (Marionette), Appium and the platform accessibility tools find it by.
+  // Not on a widget that only positions its child in the parent (Expanded,
+  // Positioned): that must stay the parent's direct child.
+  Widget _testId(Widget built) {
+    final id = node['testId'];
+    if (id is! String || built is ParentDataWidget) return built;
+    return Semantics(identifier: id, child: built);
   }
 
   // `flex` on any element: its share of a Flex parent's free space. Not

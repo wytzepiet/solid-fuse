@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Color, EdgeInsetsGeometry, ShapeBorder } from "../flutter";
 import type { ButtonBarLayoutBehavior, ButtonTextTheme, ColorScheme, MaterialTapTargetSize } from "../material_ui";
 
-function ButtonThemeData$call(named?: { textTheme?: ButtonTextTheme; minWidth?: number; height?: number; padding?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null; layoutBehavior?: ButtonBarLayoutBehavior; alignedDropdown?: boolean; buttonColor?: Color | null; disabledColor?: Color | null; focusColor?: Color | null; hoverColor?: Color | null; highlightColor?: Color | null; splashColor?: Color | null; colorScheme?: ColorScheme | null; materialTapTargetSize?: MaterialTapTargetSize | null }): { $: "ButtonThemeData"; textTheme?: ButtonTextTheme; minWidth?: number; height?: number; padding?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null; layoutBehavior?: ButtonBarLayoutBehavior; alignedDropdown?: boolean; buttonColor?: Color | null; disabledColor?: Color | null; focusColor?: Color | null; hoverColor?: Color | null; highlightColor?: Color | null; splashColor?: Color | null; colorScheme?: ColorScheme | null; materialTapTargetSize?: MaterialTapTargetSize | null };
-function ButtonThemeData$call(...a: any[]): any {
+function $ButtonThemeData$call(named?: { textTheme?: ButtonTextTheme; minWidth?: number; height?: number; padding?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null; layoutBehavior?: ButtonBarLayoutBehavior; alignedDropdown?: boolean; buttonColor?: Color | null; disabledColor?: Color | null; focusColor?: Color | null; hoverColor?: Color | null; highlightColor?: Color | null; splashColor?: Color | null; colorScheme?: ColorScheme | null; materialTapTargetSize?: MaterialTapTargetSize | null }): { $: "ButtonThemeData"; textTheme?: ButtonTextTheme; minWidth?: number; height?: number; padding?: EdgeInsetsGeometry | null; shape?: ShapeBorder | null; layoutBehavior?: ButtonBarLayoutBehavior; alignedDropdown?: boolean; buttonColor?: Color | null; disabledColor?: Color | null; focusColor?: Color | null; hoverColor?: Color | null; highlightColor?: Color | null; splashColor?: Color | null; colorScheme?: ColorScheme | null; materialTapTargetSize?: MaterialTapTargetSize | null };
+function $ButtonThemeData$call(...a: any[]): any {
   return $build("ButtonThemeData", [], a);
 }
-export const ButtonThemeData = /* @__PURE__ */ Object.assign(ButtonThemeData$call, {
+export const ButtonThemeData = /* @__PURE__ */ Object.assign($ButtonThemeData$call, {
 
 });

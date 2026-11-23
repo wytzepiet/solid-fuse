@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 
 /** @deprecated */
-function ToolbarOptions$call(named?: { copy?: boolean; cut?: boolean; paste?: boolean; selectAll?: boolean }): { $: "ToolbarOptions"; copy?: boolean; cut?: boolean; paste?: boolean; selectAll?: boolean };
-function ToolbarOptions$call(...a: any[]): any {
+function $ToolbarOptions$call(named?: { copy?: boolean; cut?: boolean; paste?: boolean; selectAll?: boolean }): { $: "ToolbarOptions"; copy?: boolean; cut?: boolean; paste?: boolean; selectAll?: boolean };
+function $ToolbarOptions$call(...a: any[]): any {
   return $build("ToolbarOptions", [], a);
 }
-export const ToolbarOptions = /* @__PURE__ */ Object.assign(ToolbarOptions$call, {
+export const ToolbarOptions = /* @__PURE__ */ Object.assign($ToolbarOptions$call, {
 
 });

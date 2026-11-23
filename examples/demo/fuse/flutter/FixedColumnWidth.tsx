@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function FixedColumnWidth$call(value: number): { $: "FixedColumnWidth"; value: number };
-function FixedColumnWidth$call(...a: any[]): any {
+function $FixedColumnWidth$call(value: number): { $: "FixedColumnWidth"; value: number };
+function $FixedColumnWidth$call(...a: any[]): any {
   return $build("FixedColumnWidth", ["value"], a);
 }
-export const FixedColumnWidth = /* @__PURE__ */ Object.assign(FixedColumnWidth$call, {
+export const FixedColumnWidth = /* @__PURE__ */ Object.assign($FixedColumnWidth$call, {
 
 });

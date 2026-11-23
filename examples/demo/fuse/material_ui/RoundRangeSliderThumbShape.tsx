@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RoundRangeSliderThumbShape$call(named?: { enabledThumbRadius?: number; disabledThumbRadius?: number | null; elevation?: number; pressedElevation?: number }): { $: "RoundRangeSliderThumbShape"; enabledThumbRadius?: number; disabledThumbRadius?: number | null; elevation?: number; pressedElevation?: number };
-function RoundRangeSliderThumbShape$call(...a: any[]): any {
+function $RoundRangeSliderThumbShape$call(named?: { enabledThumbRadius?: number; disabledThumbRadius?: number | null; elevation?: number; pressedElevation?: number }): { $: "RoundRangeSliderThumbShape"; enabledThumbRadius?: number; disabledThumbRadius?: number | null; elevation?: number; pressedElevation?: number };
+function $RoundRangeSliderThumbShape$call(...a: any[]): any {
   return $build("RoundRangeSliderThumbShape", [], a);
 }
-export const RoundRangeSliderThumbShape = /* @__PURE__ */ Object.assign(RoundRangeSliderThumbShape$call, {
+export const RoundRangeSliderThumbShape = /* @__PURE__ */ Object.assign($RoundRangeSliderThumbShape$call, {
 
 });

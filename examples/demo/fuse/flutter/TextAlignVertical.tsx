@@ -4,11 +4,11 @@
 import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 
-function TextAlignVertical$call(named: { y: number }): { $: "TextAlignVertical"; y: number };
-function TextAlignVertical$call(...a: any[]): any {
+function $TextAlignVertical$call(named: { y: number }): { $: "TextAlignVertical"; y: number };
+function $TextAlignVertical$call(...a: any[]): any {
   return $build("TextAlignVertical", [], a);
 }
-export const TextAlignVertical = /* @__PURE__ */ Object.assign(TextAlignVertical$call, {
+export const TextAlignVertical = /* @__PURE__ */ Object.assign($TextAlignVertical$call, {
   top: "TextAlignVertical.top" as Const<"TextAlignVertical.top">,
   center: "TextAlignVertical.center" as Const<"TextAlignVertical.center">,
   bottom: "TextAlignVertical.bottom" as Const<"TextAlignVertical.bottom">,

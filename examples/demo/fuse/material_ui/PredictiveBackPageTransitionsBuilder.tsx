@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function PredictiveBackPageTransitionsBuilder$call(named?: { fallbackColor?: Color | null; allowSnapshotting?: boolean }): { $: "PredictiveBackPageTransitionsBuilder"; fallbackColor?: Color | null; allowSnapshotting?: boolean };
-function PredictiveBackPageTransitionsBuilder$call(...a: any[]): any {
+function $PredictiveBackPageTransitionsBuilder$call(named?: { fallbackColor?: Color | null; allowSnapshotting?: boolean }): { $: "PredictiveBackPageTransitionsBuilder"; fallbackColor?: Color | null; allowSnapshotting?: boolean };
+function $PredictiveBackPageTransitionsBuilder$call(...a: any[]): any {
   return $build("PredictiveBackPageTransitionsBuilder", [], a);
 }
-export const PredictiveBackPageTransitionsBuilder = /* @__PURE__ */ Object.assign(PredictiveBackPageTransitionsBuilder$call, {
+export const PredictiveBackPageTransitionsBuilder = /* @__PURE__ */ Object.assign($PredictiveBackPageTransitionsBuilder$call, {
 
 });

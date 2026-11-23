@@ -5,24 +5,24 @@ import { $build } from "solid-fuse/generated";
 import type { TargetPlatform } from "../flutter";
 import type { ColorScheme, TextTheme } from "../material_ui";
 
-function Typography$material2014(named?: { platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography.material2014"; platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
-function Typography$material2014(...a: any[]): any {
+function $Typography$material2014(named?: { platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography.material2014"; platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
+function $Typography$material2014(...a: any[]): any {
   return $build("Typography.material2014", [], a);
 }
-function Typography$material2018(named?: { platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography.material2018"; platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
-function Typography$material2018(...a: any[]): any {
+function $Typography$material2018(named?: { platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography.material2018"; platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
+function $Typography$material2018(...a: any[]): any {
   return $build("Typography.material2018", [], a);
 }
-function Typography$material2021(named?: { platform?: TargetPlatform | null; colorScheme?: ColorScheme; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography.material2021"; platform?: TargetPlatform | null; colorScheme?: ColorScheme; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
-function Typography$material2021(...a: any[]): any {
+function $Typography$material2021(named?: { platform?: TargetPlatform | null; colorScheme?: ColorScheme; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography.material2021"; platform?: TargetPlatform | null; colorScheme?: ColorScheme; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
+function $Typography$material2021(...a: any[]): any {
   return $build("Typography.material2021", [], a);
 }
-function Typography$call(named?: { platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography"; platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
-function Typography$call(...a: any[]): any {
+function $Typography$call(named?: { platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null }): { $: "Typography"; platform?: TargetPlatform | null; black?: TextTheme | null; white?: TextTheme | null; englishLike?: TextTheme | null; dense?: TextTheme | null; tall?: TextTheme | null };
+function $Typography$call(...a: any[]): any {
   return $build("Typography", [], a);
 }
-export const Typography = /* @__PURE__ */ Object.assign(Typography$call, {
-  material2014: Typography$material2014,
-  material2018: Typography$material2018,
-  material2021: Typography$material2021,
+export const Typography = /* @__PURE__ */ Object.assign($Typography$call, {
+  material2014: $Typography$material2014,
+  material2018: $Typography$material2018,
+  material2021: $Typography$material2021,
 });

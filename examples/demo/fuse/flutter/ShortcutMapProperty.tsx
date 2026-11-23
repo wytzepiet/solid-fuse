@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticLevel, Intent, ShortcutActivator } from "../flutter";
 
-function ShortcutMapProperty$call(name: string, value: [ShortcutActivator, Intent][], named?: { showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null }): { $: "ShortcutMapProperty"; name: string; value: [ShortcutActivator, Intent][]; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null };
-function ShortcutMapProperty$call(...a: any[]): any {
+function $ShortcutMapProperty$call(name: string, value: [ShortcutActivator, Intent][], named?: { showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null }): { $: "ShortcutMapProperty"; name: string; value: [ShortcutActivator, Intent][]; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel; description?: string | null };
+function $ShortcutMapProperty$call(...a: any[]): any {
   return $build("ShortcutMapProperty", ["name","value"], a);
 }
-export const ShortcutMapProperty = /* @__PURE__ */ Object.assign(ShortcutMapProperty$call, {
+export const ShortcutMapProperty = /* @__PURE__ */ Object.assign($ShortcutMapProperty$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { PlatformMenuItem } from "../flutter";
 
-function PlatformMenu$call(named: { label: string; tooltip?: string | null; onOpen?: (() => void) | null; onClose?: (() => void) | null; menus: PlatformMenuItem[] }): { $: "PlatformMenu"; label: string; tooltip?: string | null; onOpen?: (() => void) | null; onClose?: (() => void) | null; menus: PlatformMenuItem[] };
-function PlatformMenu$call(...a: any[]): any {
+function $PlatformMenu$call(named: { label: string; tooltip?: string | null; onOpen?: (() => void) | null; onClose?: (() => void) | null; menus: PlatformMenuItem[] }): { $: "PlatformMenu"; label: string; tooltip?: string | null; onOpen?: (() => void) | null; onClose?: (() => void) | null; menus: PlatformMenuItem[] };
+function $PlatformMenu$call(...a: any[]): any {
   return $build("PlatformMenu", [], a);
 }
-export const PlatformMenu = /* @__PURE__ */ Object.assign(PlatformMenu$call, {
+export const PlatformMenu = /* @__PURE__ */ Object.assign($PlatformMenu$call, {
 
 });

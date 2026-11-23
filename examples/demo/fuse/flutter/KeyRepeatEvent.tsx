@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Duration, KeyEventDeviceType, LogicalKeyboardKey, PhysicalKeyboardKey } from "../flutter";
 
-function KeyRepeatEvent$call(named: { physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; deviceType?: KeyEventDeviceType }): { $: "KeyRepeatEvent"; physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; deviceType?: KeyEventDeviceType };
-function KeyRepeatEvent$call(...a: any[]): any {
+function $KeyRepeatEvent$call(named: { physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; deviceType?: KeyEventDeviceType }): { $: "KeyRepeatEvent"; physicalKey: PhysicalKeyboardKey; logicalKey: LogicalKeyboardKey; character?: string | null; timeStamp: Duration; deviceType?: KeyEventDeviceType };
+function $KeyRepeatEvent$call(...a: any[]): any {
   return $build("KeyRepeatEvent", [], a);
 }
-export const KeyRepeatEvent = /* @__PURE__ */ Object.assign(KeyRepeatEvent$call, {
+export const KeyRepeatEvent = /* @__PURE__ */ Object.assign($KeyRepeatEvent$call, {
 
 });

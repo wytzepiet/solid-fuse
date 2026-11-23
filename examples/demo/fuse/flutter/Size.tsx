@@ -5,36 +5,36 @@ import { $build } from "solid-fuse/generated";
 import type { Const } from "solid-fuse/generated";
 import type { Size as Size$ } from "../flutter";
 
-function Size$copy(source: Size$): { $: "Size.copy"; source: Size$ };
-function Size$copy(...a: any[]): any {
+function $Size$copy(source: Size$): { $: "Size.copy"; source: Size$ };
+function $Size$copy(...a: any[]): any {
   return $build("Size.copy", ["source"], a);
 }
-function Size$square(dimension: number): { $: "Size.square"; dimension: number };
-function Size$square(...a: any[]): any {
+function $Size$square(dimension: number): { $: "Size.square"; dimension: number };
+function $Size$square(...a: any[]): any {
   return $build("Size.square", ["dimension"], a);
 }
-function Size$fromWidth(width: number): { $: "Size.fromWidth"; width: number };
-function Size$fromWidth(...a: any[]): any {
+function $Size$fromWidth(width: number): { $: "Size.fromWidth"; width: number };
+function $Size$fromWidth(...a: any[]): any {
   return $build("Size.fromWidth", ["width"], a);
 }
-function Size$fromHeight(height: number): { $: "Size.fromHeight"; height: number };
-function Size$fromHeight(...a: any[]): any {
+function $Size$fromHeight(height: number): { $: "Size.fromHeight"; height: number };
+function $Size$fromHeight(...a: any[]): any {
   return $build("Size.fromHeight", ["height"], a);
 }
-function Size$fromRadius(radius: number): { $: "Size.fromRadius"; radius: number };
-function Size$fromRadius(...a: any[]): any {
+function $Size$fromRadius(radius: number): { $: "Size.fromRadius"; radius: number };
+function $Size$fromRadius(...a: any[]): any {
   return $build("Size.fromRadius", ["radius"], a);
 }
-function Size$call(width: number, height: number): { $: "Size"; width: number; height: number };
-function Size$call(...a: any[]): any {
+function $Size$call(width: number, height: number): { $: "Size"; width: number; height: number };
+function $Size$call(...a: any[]): any {
   return $build("Size", ["width","height"], a);
 }
-export const Size = /* @__PURE__ */ Object.assign(Size$call, {
-  copy: Size$copy,
-  square: Size$square,
-  fromWidth: Size$fromWidth,
-  fromHeight: Size$fromHeight,
-  fromRadius: Size$fromRadius,
+export const Size = /* @__PURE__ */ Object.assign($Size$call, {
+  copy: $Size$copy,
+  square: $Size$square,
+  fromWidth: $Size$fromWidth,
+  fromHeight: $Size$fromHeight,
+  fromRadius: $Size$fromRadius,
   zero: "Size.zero" as Const<"Size.zero">,
   infinite: "Size.infinite" as Const<"Size.infinite">,
 });

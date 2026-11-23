@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Uri } from "../flutter";
 
-function NetworkAssetBundle$call(baseUrl: Uri): { $: "NetworkAssetBundle"; baseUrl: Uri };
-function NetworkAssetBundle$call(...a: any[]): any {
+function $NetworkAssetBundle$call(baseUrl: Uri): { $: "NetworkAssetBundle"; baseUrl: Uri };
+function $NetworkAssetBundle$call(...a: any[]): any {
   return $build("NetworkAssetBundle", ["baseUrl"], a);
 }
-export const NetworkAssetBundle = /* @__PURE__ */ Object.assign(NetworkAssetBundle$call, {
+export const NetworkAssetBundle = /* @__PURE__ */ Object.assign($NetworkAssetBundle$call, {
 
 });

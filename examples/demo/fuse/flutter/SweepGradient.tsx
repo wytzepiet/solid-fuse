@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, Color, GradientTransform, TileMode } from "../flutter";
 
-function SweepGradient$call(named: { center?: AlignmentGeometry; startAngle?: number; endAngle?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null }): { $: "SweepGradient"; center?: AlignmentGeometry; startAngle?: number; endAngle?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null };
-function SweepGradient$call(...a: any[]): any {
+function $SweepGradient$call(named: { center?: AlignmentGeometry; startAngle?: number; endAngle?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null }): { $: "SweepGradient"; center?: AlignmentGeometry; startAngle?: number; endAngle?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; transform?: GradientTransform | null };
+function $SweepGradient$call(...a: any[]): any {
   return $build("SweepGradient", [], a);
 }
-export const SweepGradient = /* @__PURE__ */ Object.assign(SweepGradient$call, {
+export const SweepGradient = /* @__PURE__ */ Object.assign($SweepGradient$call, {
 
 });

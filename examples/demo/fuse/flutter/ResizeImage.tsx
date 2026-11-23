@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ImageProviderOfObject, ResizeImagePolicy } from "../flutter";
 
-function ResizeImage$call(imageProvider: ImageProviderOfObject, named?: { width?: number | null; height?: number | null; policy?: ResizeImagePolicy; allowUpscaling?: boolean; useLogicalSize?: boolean }): { $: "ResizeImage"; imageProvider: ImageProviderOfObject; width?: number | null; height?: number | null; policy?: ResizeImagePolicy; allowUpscaling?: boolean; useLogicalSize?: boolean };
-function ResizeImage$call(...a: any[]): any {
+function $ResizeImage$call(imageProvider: ImageProviderOfObject, named?: { width?: number | null; height?: number | null; policy?: ResizeImagePolicy; allowUpscaling?: boolean; useLogicalSize?: boolean }): { $: "ResizeImage"; imageProvider: ImageProviderOfObject; width?: number | null; height?: number | null; policy?: ResizeImagePolicy; allowUpscaling?: boolean; useLogicalSize?: boolean };
+function $ResizeImage$call(...a: any[]): any {
   return $build("ResizeImage", ["imageProvider"], a);
 }
-export const ResizeImage = /* @__PURE__ */ Object.assign(ResizeImage$call, {
+export const ResizeImage = /* @__PURE__ */ Object.assign($ResizeImage$call, {
 
 });

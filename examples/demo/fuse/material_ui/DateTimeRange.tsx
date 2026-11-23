@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DateTime } from "../flutter";
 
-function DateTimeRange$call(named: { start: DateTime; end: DateTime }): { $: "DateTimeRange"; start: DateTime; end: DateTime };
-function DateTimeRange$call(...a: any[]): any {
+function $DateTimeRange$call(named: { start: DateTime; end: DateTime }): { $: "DateTimeRange"; start: DateTime; end: DateTime };
+function $DateTimeRange$call(...a: any[]): any {
   return $build("DateTimeRange", [], a);
 }
-export const DateTimeRange = /* @__PURE__ */ Object.assign(DateTimeRange$call, {
+export const DateTimeRange = /* @__PURE__ */ Object.assign($DateTimeRange$call, {
 
 });

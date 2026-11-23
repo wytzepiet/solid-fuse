@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function HandleThumbShape$call(): { $: "HandleThumbShape" };
-function HandleThumbShape$call(...a: any[]): any {
+function $HandleThumbShape$call(): { $: "HandleThumbShape" };
+function $HandleThumbShape$call(...a: any[]): any {
   return $build("HandleThumbShape", [], a);
 }
-export const HandleThumbShape = /* @__PURE__ */ Object.assign(HandleThumbShape$call, {
+export const HandleThumbShape = /* @__PURE__ */ Object.assign($HandleThumbShape$call, {
 
 });

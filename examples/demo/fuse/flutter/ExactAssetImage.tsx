@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AssetBundle } from "../flutter";
 
-function ExactAssetImage$call(assetName: string, named?: { scale?: number; bundle?: AssetBundle | null; package?: string | null }): { $: "ExactAssetImage"; assetName: string; scale?: number; bundle?: AssetBundle | null; package?: string | null };
-function ExactAssetImage$call(...a: any[]): any {
+function $ExactAssetImage$call(assetName: string, named?: { scale?: number; bundle?: AssetBundle | null; package?: string | null }): { $: "ExactAssetImage"; assetName: string; scale?: number; bundle?: AssetBundle | null; package?: string | null };
+function $ExactAssetImage$call(...a: any[]): any {
   return $build("ExactAssetImage", ["assetName"], a);
 }
-export const ExactAssetImage = /* @__PURE__ */ Object.assign(ExactAssetImage$call, {
+export const ExactAssetImage = /* @__PURE__ */ Object.assign($ExactAssetImage$call, {
 
 });

@@ -16,6 +16,8 @@ export interface AbsorbPointerProps {
   absorbing?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -36,6 +38,8 @@ export interface ActionListenerProps {
   action: Handle<"flutter_Action">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -57,6 +61,8 @@ export interface AlignProps {
   heightFactor?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -78,6 +84,8 @@ export interface AlignTransitionProps {
   heightFactor?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -106,6 +114,8 @@ export interface AndroidViewProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -123,6 +133,8 @@ export interface AndroidViewSurfaceProps {
   gestureRecognizers: FactoryOfOneSequenceGestureRecognizer[];
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -143,6 +155,8 @@ export interface AnimatedAlignProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -163,6 +177,8 @@ export interface AnimatedBuilderProps {
   builder: (child: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -197,6 +213,8 @@ export interface AnimatedContainerProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -230,6 +248,8 @@ export interface AnimatedCrossFadeProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -257,6 +277,8 @@ export interface AnimatedDefaultTextStyleProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -281,6 +303,8 @@ export interface AnimatedFractionallySizedBoxProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -314,6 +338,8 @@ export interface AnimatedGridProps {
   scrollCacheExtent?: ScrollCacheExtent | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -344,6 +370,8 @@ export interface AnimatedListProps {
   scrollCacheExtent?: ScrollCacheExtent | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -376,6 +404,8 @@ export interface AnimatedListSeparatedProps {
   scrollCacheExtent?: ScrollCacheExtent | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -398,6 +428,8 @@ export interface AnimatedModalBarrierProps {
   semanticsOnTapHint?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -418,6 +450,8 @@ export interface AnimatedOpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -440,6 +474,8 @@ export interface AnimatedPaddingProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -474,6 +510,8 @@ export interface AnimatedPhysicalModelProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -501,6 +539,8 @@ export interface AnimatedPositionedProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -523,6 +563,8 @@ export interface AnimatedPositionedFromRectProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -550,6 +592,8 @@ export interface AnimatedPositionedDirectionalProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -574,6 +618,8 @@ export interface AnimatedRotationProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -598,6 +644,8 @@ export interface AnimatedScaleProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -623,6 +671,8 @@ export interface AnimatedSizeProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -645,6 +695,8 @@ export interface AnimatedSlideProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -669,6 +721,8 @@ export interface AnimatedSwitcherProps {
   layoutBuilder?: (currentChild: undefined, previousChildren: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -690,6 +744,8 @@ export interface AnnotatedRegionProps {
   sized?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -716,6 +772,8 @@ export interface AppKitViewProps {
   gestureRecognizers?: FactoryOfOneSequenceGestureRecognizer[] | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -731,6 +789,8 @@ export interface AspectRatioProps {
   aspectRatio: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -750,6 +810,8 @@ export interface AutocompleteHighlightedOptionProps {
   highlightIndexNotifier: Handle<string>;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -770,6 +832,8 @@ export interface AutofillGroupProps {
   onDisposeAction?: AutofillContextAction;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -788,6 +852,8 @@ export interface AutomaticKeepAliveProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -807,6 +873,8 @@ export interface BackButtonListenerProps {
   onBackButtonPressed: () => boolean | Promise<boolean>;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -832,6 +900,8 @@ export interface BackdropFilterProps {
   backdropGroupKey?: BackdropKey | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -856,6 +926,8 @@ export interface BackdropFilterGroupedProps {
   enabled?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -875,6 +947,8 @@ export interface BackdropGroupProps {
   backdropKey?: BackdropKey | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -900,6 +974,8 @@ export interface BannerProps {
   shadow?: BoxShadow;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -920,6 +996,8 @@ export interface BaselineProps {
   baselineType: TextBaseline;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -940,6 +1018,8 @@ export interface BlockSemanticsProps {
   blocking?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -959,6 +1039,8 @@ export interface BuilderProps {
   builder: () => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -974,6 +1056,8 @@ export interface CallbackShortcutsProps {
   bindings: [ShortcutActivator, () => void][];
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -994,6 +1078,8 @@ export interface CenterProps {
   heightFactor?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1012,6 +1098,8 @@ export interface CheckedModeBannerProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1033,6 +1121,8 @@ export interface ClipOvalProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1054,6 +1144,8 @@ export interface ClipPathProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1076,6 +1168,8 @@ export interface ClipRRectProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1098,6 +1192,8 @@ export interface ClipRSuperellipseProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1119,6 +1215,8 @@ export interface ClipRectProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1138,6 +1236,8 @@ export interface ColorFilteredProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1159,6 +1259,8 @@ export interface ColoredBoxProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1189,6 +1291,8 @@ export interface ColumnProps {
   spacing?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -1211,6 +1315,8 @@ export interface CompositedTransformFollowerProps {
   followerAnchor?: Alignment;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1230,6 +1336,8 @@ export interface CompositedTransformTargetProps {
   link: Handle<string>;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1249,6 +1357,8 @@ export interface ConstrainedBoxProps {
   constraints: BoxConstraints;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1274,6 +1384,8 @@ export interface ConstraintsTransformBoxProps {
   debugTransformType?: string;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1307,6 +1419,8 @@ export interface ContainerProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1326,6 +1440,8 @@ export interface CustomMultiChildLayoutProps {
   delegate: Handle<string>;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -1349,6 +1465,8 @@ export interface CustomPaintProps {
   willChange?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1394,6 +1512,8 @@ export interface CustomScrollViewProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `slivers`. */
   children?: JSX.Element;
 }
@@ -1411,6 +1531,8 @@ export interface CustomSingleChildLayoutProps {
   delegate: SingleChildLayoutDelegate;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1432,6 +1554,8 @@ export interface DecoratedBoxProps {
   position?: DecorationPosition;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1453,6 +1577,8 @@ export interface DecoratedBoxTransitionProps {
   position?: DecorationPosition;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1474,6 +1600,8 @@ export interface DecoratedSliverProps {
   position?: DecorationPosition;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1493,6 +1621,8 @@ export interface DefaultAssetBundleProps {
   bundle: AssetBundle;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1514,6 +1644,8 @@ export interface DefaultSelectionStyleProps {
   mouseCursor?: MouseCursor | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1532,6 +1664,8 @@ export interface DefaultSelectionStyleFallbackProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1546,6 +1680,8 @@ export interface DefaultTextEditingShortcutsProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1565,6 +1701,8 @@ export interface DefaultTextHeightBehaviorProps {
   textHeightBehavior: TextHeightBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1593,6 +1731,8 @@ export interface DefaultTextStyleProps {
   textHeightBehavior?: TextHeightBehavior | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1611,6 +1751,8 @@ export interface DefaultTextStyleFallbackProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1632,6 +1774,8 @@ export interface DefaultTextStyleTransitionProps {
   maxLines?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1651,6 +1795,8 @@ export interface DeviceOrientationBuilderProps {
   builder: (orientation: Orientation) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1666,6 +1812,8 @@ export interface DirectionalityProps {
   textDirection: TextDirection;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1684,6 +1832,8 @@ export interface DisableWidgetInspectorScopeProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1719,6 +1869,8 @@ export interface DismissibleProps {
   behavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1738,6 +1890,8 @@ export interface DisplayFeatureSubScreenProps {
   anchorPoint?: Offset | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1756,6 +1910,8 @@ export interface DragBoundaryProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1785,6 +1941,8 @@ export interface DragTargetProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1821,6 +1979,8 @@ export interface DraggableProps {
   allowedButtonsFilter?: ((buttons: number) => boolean) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1839,6 +1999,8 @@ export interface DraggableScrollableActuatorProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1873,6 +2035,8 @@ export interface DraggableScrollableSheetProps {
   builder: (scrollController: ScrollController) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -1890,6 +2054,8 @@ export interface DualTransitionBuilderProps {
   reverseBuilder: (animation: Animation, child: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2011,6 +2177,8 @@ export interface EditableTextProps {
   enableInlinePrediction?: boolean | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2025,6 +2193,8 @@ export interface EnableWidgetInspectorScopeProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2043,6 +2213,8 @@ export interface ErrorWidgetProps {
   exception: unknown;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2059,6 +2231,8 @@ export interface ErrorWidgetWithDetailsProps {
   error?: FlutterError | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2075,6 +2249,8 @@ export interface ExcludeFocusProps {
   excluding?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2095,6 +2271,8 @@ export interface ExcludeFocusTraversalProps {
   excluding?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2115,6 +2293,8 @@ export interface ExcludeSemanticsProps {
   excluding?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2133,6 +2313,8 @@ export interface ExpandedProps {
   key?: string | number | null;
   /** @default 1 */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2164,6 +2346,8 @@ export interface ExpansibleProps {
   maintainState?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2207,6 +2391,8 @@ export interface FadeInImageProps {
   transition?: FadeInImageTransition;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2260,6 +2446,8 @@ export interface FadeInImageMemoryNetworkProps {
   useLogicalCacheSize?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2313,6 +2501,8 @@ export interface FadeInImageAssetNetworkProps {
   useLogicalCacheSize?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2330,6 +2520,8 @@ export interface FadeTransitionProps {
   alwaysIncludeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2353,6 +2545,8 @@ export interface FittedBoxProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2386,6 +2580,8 @@ export interface FlexProps {
   spacing?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -2404,6 +2600,8 @@ export interface FlexibleProps {
   flex?: number;
   /** @default "loose" */
   fit?: FlexFit;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2425,6 +2623,8 @@ export interface FlowProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -2444,6 +2644,8 @@ export interface FlowUnwrappedProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -2466,6 +2668,8 @@ export interface FlutterLogoProps {
   curve?: Curve;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2495,6 +2699,8 @@ export interface FocusProps {
   debugLabel?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2520,6 +2726,8 @@ export interface FocusWithExternalFocusNodeProps {
   includeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2552,6 +2760,8 @@ export interface FocusScopeProps {
   descendantsAreTraversable?: boolean | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2577,6 +2787,8 @@ export interface FocusScopeWithExternalFocusNodeProps {
   onFocusChange?: ((value: boolean) => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2602,6 +2814,8 @@ export interface FocusTraversalGroupProps {
   parentNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2621,6 +2835,8 @@ export interface FocusTraversalOrderProps {
   order: FocusOrder;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2656,6 +2872,8 @@ export interface FocusableActionDetectorProps {
   includeFocusSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2682,6 +2900,8 @@ export interface FormProps {
   autovalidateMode?: AutovalidateMode | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2711,6 +2931,8 @@ export interface FormFieldProps {
   restorationId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2728,6 +2950,8 @@ export interface FractionalTranslationProps {
   transformHitTests?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2749,6 +2973,8 @@ export interface FractionallySizedBoxProps {
   heightFactor?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2769,6 +2995,8 @@ export interface FutureBuilderProps {
   builder: (snapshot: AsyncSnapshotOut) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -2850,6 +3078,8 @@ export interface GestureDetectorProps {
   supportedDevices?: PointerDeviceKind[] | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2875,6 +3105,8 @@ export interface GlowingOverscrollIndicatorProps {
   notificationPredicate?: (notification: ScrollNotificationOut) => boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2900,6 +3132,8 @@ export interface GridPaperProps {
   subdivisions?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2947,6 +3181,8 @@ export interface GridViewProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -2995,6 +3231,8 @@ export interface GridViewBuilderProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3033,6 +3271,8 @@ export interface GridViewCustomProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3083,6 +3323,8 @@ export interface GridViewCountProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -3135,6 +3377,8 @@ export interface GridViewExtentProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -3159,6 +3403,8 @@ export interface HeroProps {
   reverseCurve?: Curve | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3178,6 +3424,8 @@ export interface HeroControllerScopeProps {
   controller: HeroController;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3196,6 +3444,8 @@ export interface HeroControllerScopeNoneProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3216,6 +3466,8 @@ export interface HeroModeProps {
   enabled?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3239,6 +3491,8 @@ export interface HtmlElementViewProps {
   hitTestBehavior?: PlatformViewHitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3259,6 +3513,8 @@ export interface HtmlElementViewFromTagNameProps {
   hitTestBehavior?: PlatformViewHitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3286,6 +3542,8 @@ export interface IconProps {
   fontWeight?: FontWeight | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3301,6 +3559,8 @@ export interface IconThemeProps {
   data: IconThemeData;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3319,6 +3579,8 @@ export interface IgnoreBaselineProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3339,6 +3601,8 @@ export interface IgnorePointerProps {
   ignoring?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3382,6 +3646,8 @@ export interface ImageProps {
   filterQuality?: FilterQuality;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3430,6 +3696,8 @@ export interface ImageNetworkProps {
   webHtmlElementStrategy?: WebHtmlElementStrategy;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3475,6 +3743,8 @@ export interface ImageAssetProps {
   useLogicalCacheSize?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3519,6 +3789,8 @@ export interface ImageMemoryProps {
   useLogicalCacheSize?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3536,6 +3808,8 @@ export interface ImageFilteredProps {
   enabled?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3560,6 +3834,8 @@ export interface ImageIconProps {
   useOriginalColors?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3575,6 +3851,8 @@ export interface IndexedSemanticsProps {
   index: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3601,6 +3879,8 @@ export interface IndexedStackProps {
   index?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -3643,6 +3923,8 @@ export interface InteractiveViewerProps {
   trackpadScrollCausesScale?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3686,6 +3968,8 @@ export interface InteractiveViewerBuilderProps {
   builder: (viewport: QuadOut) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3700,6 +3984,8 @@ export interface IntrinsicHeightProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3720,6 +4006,8 @@ export interface IntrinsicWidthProps {
   stepHeight?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3739,6 +4027,8 @@ export interface KeepAliveProps {
   keepAlive: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3763,6 +4053,8 @@ export interface KeyboardListenerProps {
   onKeyEvent?: ((value: KeyEventOut) => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3781,6 +4073,8 @@ export interface KeyedSubtreeProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3799,6 +4093,8 @@ export interface KeyedSubtreeWrapProps {
   childIndex: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3818,6 +4114,8 @@ export interface LayoutBuilderProps {
   builder: (constraints: BoxConstraintsOut) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -3833,6 +4131,8 @@ export interface LayoutIdProps {
   id: unknown;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3853,6 +4153,8 @@ export interface LimitedBoxProps {
   maxHeight?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -3875,6 +4177,8 @@ export interface ListBodyProps {
   reverse?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -3922,6 +4226,8 @@ export interface ListViewProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -3972,6 +4278,8 @@ export interface ListViewBuilderProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4020,6 +4328,8 @@ export interface ListViewSeparatedProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4060,6 +4370,8 @@ export interface ListViewCustomProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4104,6 +4416,8 @@ export interface ListWheelScrollViewProps {
   changeReportingBehavior?: ChangeReportingBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -4151,6 +4465,8 @@ export interface ListWheelScrollViewUseDelegateProps {
   childDelegate: ListWheelChildDelegate;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4186,6 +4502,8 @@ export interface ListWheelViewportProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4202,6 +4520,8 @@ export interface ListenableBuilderProps {
   builder: (child: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4231,6 +4551,8 @@ export interface ListenerProps {
   behavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4253,6 +4575,8 @@ export interface LocalizationsProps {
   isApplicationLevel?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4273,6 +4597,8 @@ export interface LocalizationsOverrideProps {
   delegates?: LocalizationsDelegateOfdynamic[] | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4315,6 +4641,8 @@ export interface LongPressDraggableProps {
   rootOverlay?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4333,6 +4661,8 @@ export interface LookupBoundaryProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4355,6 +4685,8 @@ export interface MatrixTransitionProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4374,6 +4706,8 @@ export interface MediaQueryProps {
   data: MediaQueryData;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4400,6 +4734,8 @@ export interface MediaQueryRemovePaddingProps {
   removeBottom?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4426,6 +4762,8 @@ export interface MediaQueryRemoveViewInsetsProps {
   removeBottom?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4452,6 +4790,8 @@ export interface MediaQueryRemoveViewPaddingProps {
   removeBottom?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4470,6 +4810,8 @@ export interface MergeSemanticsProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4491,6 +4833,8 @@ export interface MetaDataProps {
   behavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4518,6 +4862,8 @@ export interface ModalBarrierProps {
   semanticsOnTapHint?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4539,6 +4885,8 @@ export interface MouseRegionProps {
   hitTestBehavior?: HitTestBehavior | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4564,6 +4912,8 @@ export interface NavigationToolbarProps {
   middleSpacing?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4599,6 +4949,8 @@ export interface NavigatorProps {
   onDidRemovePage?: ((page: PageOut) => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4618,6 +4970,8 @@ export interface NavigatorPopHandlerProps {
   enabled?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4654,6 +5008,8 @@ export interface NestedScrollViewProps {
   scrollBehavior?: ScrollBehavior | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4678,6 +5034,8 @@ export interface NestedScrollViewViewportProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `slivers`. */
   children?: JSX.Element;
 }
@@ -4695,6 +5053,8 @@ export interface NotificationListenerProps {
   onNotification?: ((notification: unknown) => boolean) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4715,6 +5075,8 @@ export interface OffstageProps {
   offstage?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4736,6 +5098,8 @@ export interface OpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4755,6 +5119,8 @@ export interface OrientationBuilderProps {
   builder: (orientation: Orientation) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4779,6 +5145,8 @@ export interface OverflowBarProps {
   textDirection?: TextDirection | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -4802,6 +5170,8 @@ export interface OverflowBoxProps {
   fit?: OverflowBoxFit;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4825,6 +5195,8 @@ export interface OverlayProps {
   alwaysSizeToContent?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -4843,6 +5215,8 @@ export interface OverlayPortalProps {
   overlayLocation?: OverlayChildLocation;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4863,6 +5237,8 @@ export interface OverlayPortalTargetsRootOverlayProps {
   overlayChildBuilder: () => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4886,6 +5262,8 @@ export interface OverlayPortalOverlayChildLayoutBuilderProps {
   overlayLocation?: OverlayChildLocation;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4905,6 +5283,8 @@ export interface PaddingProps {
   padding: EdgeInsetsGeometry;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4924,6 +5304,8 @@ export interface PageStorageProps {
   bucket: Handle<string>;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -4964,6 +5346,8 @@ export interface PageViewProps {
   padEnds?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -5005,6 +5389,8 @@ export interface PageViewBuilderProps {
   padEnds?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5042,6 +5428,8 @@ export interface PageViewCustomProps {
   padEnds?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5058,6 +5446,8 @@ export interface PerformanceOverlayProps {
   optionsMask?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5072,6 +5462,8 @@ export interface PerformanceOverlayAllEnabledProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5095,6 +5487,8 @@ export interface PhysicalModelProps {
   shadowColor?: Color;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5120,6 +5514,8 @@ export interface PhysicalShapeProps {
   shadowColor?: Color;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5138,6 +5534,8 @@ export interface PinnedHeaderSliverProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5163,6 +5561,8 @@ export interface PlaceholderProps {
   fallbackHeight?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5182,6 +5582,8 @@ export interface PlatformMenuBarProps {
   menus: PlatformMenuItem[];
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5200,6 +5602,8 @@ export interface PlatformSelectableRegionContextMenuProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5221,6 +5625,8 @@ export interface PlatformViewLinkProps {
   viewType: string;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5238,6 +5644,8 @@ export interface PlatformViewSurfaceProps {
   gestureRecognizers: FactoryOfOneSequenceGestureRecognizer[];
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5257,6 +5665,8 @@ export interface PopScopeProps {
   onPopInvoked?: ((value: boolean) => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5281,6 +5691,8 @@ export interface PositionedProps {
   height?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5300,6 +5712,8 @@ export interface PositionedFromRectProps {
   rect: Rect;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5319,6 +5733,8 @@ export interface PositionedFromRelativeRectProps {
   rect: RelativeRect;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5345,6 +5761,8 @@ export interface PositionedFillProps {
   bottom?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5369,6 +5787,8 @@ export interface PositionedDirectionalProps {
   height?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5388,6 +5808,8 @@ export interface PositionedTransitionProps {
   rect: Handle<string>;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5407,6 +5829,8 @@ export interface PreferredSizeProps {
   preferredSize: Size;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5429,6 +5853,8 @@ export interface PrimaryScrollControllerProps {
   scrollDirection?: Axis | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5447,6 +5873,8 @@ export interface PrimaryScrollControllerNoneProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5467,6 +5895,8 @@ export interface RadioGroupProps {
   onChanged: (data: unknown) => void;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5495,6 +5925,8 @@ export interface RawAutocompleteProps {
   initialValue?: TextEditingValue | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5513,6 +5945,8 @@ export interface RawGestureDetectorProps {
   semantics?: SemanticsGestureDelegate | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5555,6 +5989,8 @@ export interface RawImageProps {
   blendMode?: BlendMode;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5575,6 +6011,8 @@ export interface RawKeyboardListenerProps {
   onKey?: ((value: RawKeyEventOut) => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5601,6 +6039,8 @@ export interface RawMagnifierProps {
   size: Size;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5631,6 +6071,8 @@ export interface RawMenuAnchorProps {
   overlayBuilder: (info: RawMenuOverlayInfoOut) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5650,6 +6092,8 @@ export interface RawMenuAnchorGroupProps {
   controller: Handle<"flutter_MenuController">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5676,6 +6120,8 @@ export interface RawRadioProps {
   builder: (state: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5715,6 +6161,8 @@ export interface RawScrollbarProps {
   mouseCursor?: WidgetStatePropertyOfMouseCursorN | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5749,6 +6197,8 @@ export interface RawTooltipProps {
   ignorePointer?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5770,6 +6220,8 @@ export interface RawViewProps {
   deprecatedDoNotUseWillBeRemovedWithoutNoticePipelineOwner?: Handle<string> | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5790,6 +6242,8 @@ export interface RelativePositionedTransitionProps {
   size: Size;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5811,6 +6265,8 @@ export interface ReorderableDelayedDragStartListenerProps {
   enabled?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5832,6 +6288,8 @@ export interface ReorderableDragStartListenerProps {
   enabled?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5884,6 +6342,8 @@ export interface ReorderableListProps {
   dragBoundaryProvider?: (() => DragBoundaryDelegateOfRect | null) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -5898,6 +6358,8 @@ export interface RepaintBoundaryProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5916,6 +6378,8 @@ export interface RepaintBoundaryWrapProps {
   childIndex: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5942,6 +6406,8 @@ export interface RepeatingAnimationBuilderProps {
   builder: (value: unknown, child: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -5961,6 +6427,8 @@ export interface RestorationScopeProps {
   restorationId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6003,6 +6471,8 @@ export interface RichTextProps {
   selectionColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -6018,6 +6488,8 @@ export interface RootRestorationScopeProps {
   restorationId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6037,6 +6509,8 @@ export interface RootWidgetProps {
   debugShortDescription?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6056,6 +6530,8 @@ export interface RotatedBoxProps {
   quarterTurns: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6077,6 +6553,8 @@ export interface RotationTransitionProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6099,6 +6577,8 @@ export interface RouterProps {
   restorationScopeId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -6115,6 +6595,8 @@ export interface RouterWithConfigProps {
   restorationScopeId?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -6141,6 +6623,8 @@ export interface RowProps {
   spacing?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -6168,6 +6652,8 @@ export interface SafeAreaProps {
   maintainBottomViewPadding?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6189,6 +6675,8 @@ export interface ScaleTransitionProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6208,6 +6696,8 @@ export interface ScrollConfigurationProps {
   behavior: ScrollBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6226,6 +6716,8 @@ export interface ScrollNotificationObserverProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6261,6 +6753,8 @@ export interface ScrollableProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -6280,6 +6774,8 @@ export interface SelectableRegionProps {
   selectionControls: TextSelectionControls;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6300,6 +6796,8 @@ export interface SelectionContainerProps {
   delegate: Handle<"flutter_StaticSelectionContainerDelegate">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6318,6 +6816,8 @@ export interface SelectionContainerDisabledProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6337,6 +6837,8 @@ export interface SelectionListenerProps {
   selectionNotifier: Handle<"flutter_SelectionListenerNotifier">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6356,6 +6858,8 @@ export interface SelectionRegistrarScopeProps {
   registrar: SelectionRegistrar;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6461,6 +6965,8 @@ export interface SemanticsProps {
   maxValue?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6489,6 +6995,8 @@ export interface SemanticsFromPropertiesProps {
   properties: SemanticsProperties;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6508,6 +7016,8 @@ export interface SemanticsDebuggerProps {
   labelStyle?: TextStyle;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6527,6 +7037,8 @@ export interface SensitiveContentProps {
   sensitivity: ContentSensitivity;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6548,6 +7060,8 @@ export interface ShaderMaskProps {
   blendMode?: BlendMode;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6566,6 +7080,8 @@ export interface SharedAppDataProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6584,6 +7100,8 @@ export interface ShortcutRegistrarProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6606,6 +7124,8 @@ export interface ShortcutsProps {
   includeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6628,6 +7148,8 @@ export interface ShortcutsManagerProps {
   includeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6662,6 +7184,8 @@ export interface ShrinkWrappingViewportProps {
   scrollCacheExtent?: ScrollCacheExtent | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `slivers`. */
   children?: JSX.Element;
 }
@@ -6694,6 +7218,8 @@ export interface SingleChildScrollViewProps {
   keyboardDismissBehavior?: ScrollViewKeyboardDismissBehavior | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6712,6 +7238,8 @@ export interface SizeChangedLayoutNotifierProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6737,6 +7265,8 @@ export interface SizeTransitionProps {
   fixedCrossAxisSizeFactor?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6757,6 +7287,8 @@ export interface SizedBoxProps {
   height?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6775,6 +7307,8 @@ export interface SizedBoxExpandProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6793,6 +7327,8 @@ export interface SizedBoxShrinkProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6812,6 +7348,8 @@ export interface SizedBoxFromSizeProps {
   size?: Size | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6831,6 +7369,8 @@ export interface SizedBoxSquareProps {
   dimension?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6851,6 +7391,8 @@ export interface SizedOverflowBoxProps {
   alignment?: AlignmentGeometry;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6873,6 +7415,8 @@ export interface SlideTransitionProps {
   textDirection?: TextDirection | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6896,6 +7440,8 @@ export interface SliverAnimatedGridProps {
   initialItemCount?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -6914,6 +7460,8 @@ export interface SliverAnimatedListProps {
   initialItemCount?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -6934,6 +7482,8 @@ export interface SliverAnimatedOpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6958,6 +7508,8 @@ export interface SliverClipRRectProps {
   clipOverlap?: ClipOverlapBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -6981,6 +7533,8 @@ export interface SliverClipRectProps {
   clipOverlap?: ClipOverlapBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7000,6 +7554,8 @@ export interface SliverConstrainedCrossAxisProps {
   maxExtent: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7017,6 +7573,8 @@ export function SliverConstrainedCrossAxis(props: SliverConstrainedCrossAxisProp
 export interface SliverCrossAxisExpandedProps {
   key?: string | number | null;
   flex: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7035,6 +7593,8 @@ export interface SliverCrossAxisGroupProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `slivers`. */
   children?: JSX.Element;
 }
@@ -7051,6 +7611,8 @@ export interface SliverEnsureSemanticsProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7072,6 +7634,8 @@ export interface SliverFadeTransitionProps {
   alwaysIncludeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7094,6 +7658,8 @@ export interface SliverFillRemainingProps {
   fillOverscroll?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7119,6 +7685,8 @@ export interface SliverFillViewportProps {
   allowImplicitScrolling?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7135,6 +7703,8 @@ export interface SliverFixedExtentListProps {
   itemExtent: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7161,6 +7731,8 @@ export interface SliverFixedExtentListBuilderProps {
   semanticIndexOffset?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7182,6 +7754,8 @@ export interface SliverFixedExtentListListProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7200,6 +7774,8 @@ export interface SliverFloatingHeaderProps {
   snapMode?: FloatingHeaderSnapMode | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7220,6 +7796,8 @@ export interface SliverGridProps {
   gridDelegate: SliverGridDelegate;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7246,6 +7824,8 @@ export interface SliverGridBuilderProps {
   semanticIndexOffset?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7267,6 +7847,8 @@ export interface SliverGridCountProps {
   childAspectRatio?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7290,6 +7872,8 @@ export interface SliverGridExtentProps {
   childAspectRatio?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7315,6 +7899,8 @@ export interface SliverGridListProps {
   semanticIndexOffset?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7333,6 +7919,8 @@ export interface SliverIgnorePointerProps {
   ignoring?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7352,6 +7940,8 @@ export interface SliverLayoutBuilderProps {
   builder: (constraints: SliverConstraintsOut) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7367,6 +7957,8 @@ export interface SliverListProps {
   delegate: SliverChildDelegate;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7392,6 +7984,8 @@ export interface SliverListBuilderProps {
   semanticIndexOffset?: number;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7418,6 +8012,8 @@ export interface SliverListSeparatedProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7438,6 +8034,8 @@ export interface SliverListListProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7454,6 +8052,8 @@ export interface SliverMainAxisGroupProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `slivers`. */
   children?: JSX.Element;
 }
@@ -7472,6 +8072,8 @@ export interface SliverOffstageProps {
   offstage?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7493,6 +8095,8 @@ export interface SliverOpacityProps {
   alwaysIncludeSemantics?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7512,6 +8116,8 @@ export interface SliverOverlapAbsorberProps {
   handle: Handle<"flutter_SliverOverlapAbsorberHandle">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7531,6 +8137,8 @@ export interface SliverOverlapInjectorProps {
   handle: Handle<"flutter_SliverOverlapAbsorberHandle">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7550,6 +8158,8 @@ export interface SliverPaddingProps {
   padding: EdgeInsetsGeometry;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7573,6 +8183,8 @@ export interface SliverPersistentHeaderProps {
   floating?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7589,6 +8201,8 @@ export interface SliverPrototypeExtentListProps {
   prototypeItem: JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7613,6 +8227,8 @@ export interface SliverPrototypeExtentListBuilderProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7634,6 +8250,8 @@ export interface SliverPrototypeExtentListListProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7664,6 +8282,8 @@ export interface SliverReorderableListProps {
   autoScrollerVelocityScalar?: number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7680,6 +8300,8 @@ export interface SliverResizingHeaderProps {
   maxExtentPrototype?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7707,6 +8329,8 @@ export interface SliverSafeAreaProps {
   minimum?: EdgeInsets;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7812,6 +8436,8 @@ export interface SliverSemanticsProps {
   maxValue?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7840,6 +8466,8 @@ export interface SliverSemanticsFromPropertiesProps {
   properties: SemanticsProperties;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7858,6 +8486,8 @@ export interface SliverToBoxAdapterProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7878,6 +8508,8 @@ export interface SliverVariedExtentListProps {
   itemExtentBuilder: (index: number, dimensions: SliverLayoutDimensionsOut) => number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7902,6 +8534,8 @@ export interface SliverVariedExtentListBuilderProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -7923,6 +8557,8 @@ export interface SliverVariedExtentListListProps {
   addSemanticIndexes?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -7952,6 +8588,8 @@ export interface SliverVisibilityProps {
   maintainInteractivity?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7973,6 +8611,8 @@ export interface SliverVisibilityMaintainProps {
   visible?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `sliver`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -7997,6 +8637,8 @@ export interface SnapshotWidgetProps {
   controller: Handle<"flutter_SnapshotController">;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8015,6 +8657,8 @@ export interface SpacerProps {
   key?: string | number | null;
   /** @default 1 */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8035,6 +8679,8 @@ export interface StackProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -8052,6 +8698,8 @@ export interface StatefulBuilderProps {
   builder: (setState: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8068,6 +8716,8 @@ export interface StreamBuilderProps {
   builder: (snapshot: AsyncSnapshotOut) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8085,6 +8735,8 @@ export interface StretchEffectProps {
   axis: Axis;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8107,6 +8759,8 @@ export interface StretchingOverscrollIndicatorProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8132,6 +8786,8 @@ export interface TableProps {
   textBaseline?: TextBaseline | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8147,6 +8803,8 @@ export interface TableCellProps {
   verticalAlignment?: TableCellVerticalAlignment | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8177,6 +8835,8 @@ export interface TapRegionProps {
   debugLabel?: string | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8195,6 +8855,8 @@ export interface TapRegionSurfaceProps {
   key?: string | number | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8231,6 +8893,8 @@ export interface TextProps {
   selectionColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8263,6 +8927,8 @@ export interface TextRichProps {
   selectionColor?: Color | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8287,6 +8953,8 @@ export interface TextFieldTapRegionProps {
   groupId?: unknown;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8327,6 +8995,8 @@ export interface TextSelectionGestureDetectorProps {
   behavior?: HitTestBehavior | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8350,6 +9020,8 @@ export interface TextureProps {
   filterQuality?: FilterQuality;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8367,6 +9039,8 @@ export interface TickerModeProps {
   forceFrames?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8388,6 +9062,8 @@ export interface TitleProps {
   color: Color;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8412,6 +9088,8 @@ export interface TransformProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8436,6 +9114,8 @@ export interface TransformRotateProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8458,6 +9138,8 @@ export interface TransformTranslateProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8484,6 +9166,8 @@ export interface TransformScaleProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8510,6 +9194,8 @@ export interface TransformFlipProps {
   filterQuality?: FilterQuality | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8545,6 +9231,8 @@ export interface TreeSliverProps {
   findChildIndexCallback?: ((key: undefined) => number | null) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8564,6 +9252,8 @@ export interface TweenAnimationBuilderProps {
   onEnd?: (() => void) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8595,6 +9285,8 @@ export interface TwoDimensionalScrollableProps {
   hitTestBehavior?: HitTestBehavior;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8619,6 +9311,8 @@ export interface UiKitViewProps {
   gestureRecognizers?: FactoryOfOneSequenceGestureRecognizer[] | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8638,6 +9332,8 @@ export interface UnconstrainedBoxProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8662,6 +9358,8 @@ export interface UndoHistoryProps {
   controller?: Handle<"flutter_UndoHistoryController"> | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8681,6 +9379,8 @@ export interface UnmanagedRestorationScopeProps {
   bucket?: Handle<string> | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8701,6 +9401,8 @@ export interface ValueListenableBuilderProps {
   builder: (value: unknown, child: undefined) => JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8722,6 +9424,8 @@ export interface ViewProps {
   deprecatedDoNotUseWillBeRemovedWithoutNoticePipelineOwner?: Handle<string> | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8741,6 +9445,8 @@ export interface ViewAnchorProps {
   view?: JSX.Element | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8760,6 +9466,8 @@ export interface ViewCollectionProps {
   views: JSX.Element;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8793,6 +9501,8 @@ export interface ViewportProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `slivers`. */
   children?: JSX.Element;
 }
@@ -8824,6 +9534,8 @@ export interface VisibilityProps {
   maintainFocusability?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8844,6 +9556,8 @@ export interface VisibilityMaintainProps {
   visible?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8864,6 +9578,8 @@ export interface WidgetInspectorProps {
   exitWidgetSelectionButtonBuilder?: ((named: { key: undefined; onPressed: undefined; semanticsLabel: string }) => JSX.Element) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -8917,6 +9633,8 @@ export interface WidgetsAppProps {
   useInheritedMediaQuery?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8963,6 +9681,8 @@ export interface WidgetsAppRouterProps {
   useInheritedMediaQuery?: boolean;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
 }
 
 /**
@@ -8978,6 +9698,8 @@ export interface WillPopScopeProps {
   onWillPop?: (() => boolean | Promise<boolean>) | null;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -9014,6 +9736,8 @@ export interface WrapProps {
   clipBehavior?: Clip;
   /** This element's share of a layout's free space, like CSS `flex: 1`. */
   flex?: number;
+  /** Finds this element in tests and tools (its semantics identifier). */
+  testId?: string;
   /** Dart: `children`. */
   children?: JSX.Element;
 }

@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { DiagnosticLevel } from "../flutter";
 
-function TransformProperty$call(name: string, value: Handle<"vector_math_Matrix4"> | null, named?: { showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel }): { $: "TransformProperty"; name: string; value?: Handle<"vector_math_Matrix4"> | null; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel };
-function TransformProperty$call(...a: any[]): any {
+function $TransformProperty$call(name: string, value: Handle<"vector_math_Matrix4"> | null, named?: { showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel }): { $: "TransformProperty"; name: string; value?: Handle<"vector_math_Matrix4"> | null; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel };
+function $TransformProperty$call(...a: any[]): any {
   return $build("TransformProperty", ["name","value"], a);
 }
-export const TransformProperty = /* @__PURE__ */ Object.assign(TransformProperty$call, {
+export const TransformProperty = /* @__PURE__ */ Object.assign($TransformProperty$call, {
 
 });

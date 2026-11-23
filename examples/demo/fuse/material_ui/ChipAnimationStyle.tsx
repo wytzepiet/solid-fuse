@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AnimationStyle } from "../flutter";
 
-function ChipAnimationStyle$call(named?: { enableAnimation?: AnimationStyle | null; selectAnimation?: AnimationStyle | null; avatarDrawerAnimation?: AnimationStyle | null; deleteDrawerAnimation?: AnimationStyle | null }): { $: "ChipAnimationStyle"; enableAnimation?: AnimationStyle | null; selectAnimation?: AnimationStyle | null; avatarDrawerAnimation?: AnimationStyle | null; deleteDrawerAnimation?: AnimationStyle | null };
-function ChipAnimationStyle$call(...a: any[]): any {
+function $ChipAnimationStyle$call(named?: { enableAnimation?: AnimationStyle | null; selectAnimation?: AnimationStyle | null; avatarDrawerAnimation?: AnimationStyle | null; deleteDrawerAnimation?: AnimationStyle | null }): { $: "ChipAnimationStyle"; enableAnimation?: AnimationStyle | null; selectAnimation?: AnimationStyle | null; avatarDrawerAnimation?: AnimationStyle | null; deleteDrawerAnimation?: AnimationStyle | null };
+function $ChipAnimationStyle$call(...a: any[]): any {
   return $build("ChipAnimationStyle", [], a);
 }
-export const ChipAnimationStyle = /* @__PURE__ */ Object.assign(ChipAnimationStyle$call, {
+export const ChipAnimationStyle = /* @__PURE__ */ Object.assign($ChipAnimationStyle$call, {
 
 });

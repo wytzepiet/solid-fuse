@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SelectAllSelectionEvent$call(): { $: "SelectAllSelectionEvent" };
-function SelectAllSelectionEvent$call(...a: any[]): any {
+function $SelectAllSelectionEvent$call(): { $: "SelectAllSelectionEvent" };
+function $SelectAllSelectionEvent$call(...a: any[]): any {
   return $build("SelectAllSelectionEvent", [], a);
 }
-export const SelectAllSelectionEvent = /* @__PURE__ */ Object.assign(SelectAllSelectionEvent$call, {
+export const SelectAllSelectionEvent = /* @__PURE__ */ Object.assign($SelectAllSelectionEvent$call, {
 
 });

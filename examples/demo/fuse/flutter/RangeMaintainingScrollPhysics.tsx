@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { ScrollPhysics } from "../flutter";
 
-function RangeMaintainingScrollPhysics$call(named?: { parent?: ScrollPhysics | null }): { $: "RangeMaintainingScrollPhysics"; parent?: ScrollPhysics | null };
-function RangeMaintainingScrollPhysics$call(...a: any[]): any {
+function $RangeMaintainingScrollPhysics$call(named?: { parent?: ScrollPhysics | null }): { $: "RangeMaintainingScrollPhysics"; parent?: ScrollPhysics | null };
+function $RangeMaintainingScrollPhysics$call(...a: any[]): any {
   return $build("RangeMaintainingScrollPhysics", [], a);
 }
-export const RangeMaintainingScrollPhysics = /* @__PURE__ */ Object.assign(RangeMaintainingScrollPhysics$call, {
+export const RangeMaintainingScrollPhysics = /* @__PURE__ */ Object.assign($RangeMaintainingScrollPhysics$call, {
 
 });

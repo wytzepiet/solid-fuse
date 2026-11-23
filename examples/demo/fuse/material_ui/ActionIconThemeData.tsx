@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function ActionIconThemeData$call(named?: { backButtonIconBuilder?: (() => JSX.Element) | null; closeButtonIconBuilder?: (() => JSX.Element) | null; drawerButtonIconBuilder?: (() => JSX.Element) | null; endDrawerButtonIconBuilder?: (() => JSX.Element) | null }): { $: "ActionIconThemeData"; backButtonIconBuilder?: (() => JSX.Element) | null; closeButtonIconBuilder?: (() => JSX.Element) | null; drawerButtonIconBuilder?: (() => JSX.Element) | null; endDrawerButtonIconBuilder?: (() => JSX.Element) | null };
-function ActionIconThemeData$call(...a: any[]): any {
+function $ActionIconThemeData$call(named?: { backButtonIconBuilder?: (() => JSX.Element) | null; closeButtonIconBuilder?: (() => JSX.Element) | null; drawerButtonIconBuilder?: (() => JSX.Element) | null; endDrawerButtonIconBuilder?: (() => JSX.Element) | null }): { $: "ActionIconThemeData"; backButtonIconBuilder?: (() => JSX.Element) | null; closeButtonIconBuilder?: (() => JSX.Element) | null; drawerButtonIconBuilder?: (() => JSX.Element) | null; endDrawerButtonIconBuilder?: (() => JSX.Element) | null };
+function $ActionIconThemeData$call(...a: any[]): any {
   return $build("ActionIconThemeData", [], a);
 }
-export const ActionIconThemeData = /* @__PURE__ */ Object.assign(ActionIconThemeData$call, {
+export const ActionIconThemeData = /* @__PURE__ */ Object.assign($ActionIconThemeData$call, {
 
 });

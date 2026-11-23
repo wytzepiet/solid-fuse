@@ -4,19 +4,19 @@
 import { $build } from "solid-fuse/generated";
 import type { Color } from "../flutter";
 
-function CupertinoDynamicColor$withBrightnessAndContrast(named: { debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color }): { $: "CupertinoDynamicColor.withBrightnessAndContrast"; debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color };
-function CupertinoDynamicColor$withBrightnessAndContrast(...a: any[]): any {
+function $CupertinoDynamicColor$withBrightnessAndContrast(named: { debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color }): { $: "CupertinoDynamicColor.withBrightnessAndContrast"; debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color };
+function $CupertinoDynamicColor$withBrightnessAndContrast(...a: any[]): any {
   return $build("CupertinoDynamicColor.withBrightnessAndContrast", [], a);
 }
-function CupertinoDynamicColor$withBrightness(named: { debugLabel?: string | null; color: Color; darkColor: Color }): { $: "CupertinoDynamicColor.withBrightness"; debugLabel?: string | null; color: Color; darkColor: Color };
-function CupertinoDynamicColor$withBrightness(...a: any[]): any {
+function $CupertinoDynamicColor$withBrightness(named: { debugLabel?: string | null; color: Color; darkColor: Color }): { $: "CupertinoDynamicColor.withBrightness"; debugLabel?: string | null; color: Color; darkColor: Color };
+function $CupertinoDynamicColor$withBrightness(...a: any[]): any {
   return $build("CupertinoDynamicColor.withBrightness", [], a);
 }
-function CupertinoDynamicColor$call(named: { debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color; elevatedColor: Color; darkElevatedColor: Color; highContrastElevatedColor: Color; darkHighContrastElevatedColor: Color }): { $: "CupertinoDynamicColor"; debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color; elevatedColor: Color; darkElevatedColor: Color; highContrastElevatedColor: Color; darkHighContrastElevatedColor: Color };
-function CupertinoDynamicColor$call(...a: any[]): any {
+function $CupertinoDynamicColor$call(named: { debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color; elevatedColor: Color; darkElevatedColor: Color; highContrastElevatedColor: Color; darkHighContrastElevatedColor: Color }): { $: "CupertinoDynamicColor"; debugLabel?: string | null; color: Color; darkColor: Color; highContrastColor: Color; darkHighContrastColor: Color; elevatedColor: Color; darkElevatedColor: Color; highContrastElevatedColor: Color; darkHighContrastElevatedColor: Color };
+function $CupertinoDynamicColor$call(...a: any[]): any {
   return $build("CupertinoDynamicColor", [], a);
 }
-export const CupertinoDynamicColor = /* @__PURE__ */ Object.assign(CupertinoDynamicColor$call, {
-  withBrightnessAndContrast: CupertinoDynamicColor$withBrightnessAndContrast,
-  withBrightness: CupertinoDynamicColor$withBrightness,
+export const CupertinoDynamicColor = /* @__PURE__ */ Object.assign($CupertinoDynamicColor$call, {
+  withBrightnessAndContrast: $CupertinoDynamicColor$withBrightnessAndContrast,
+  withBrightness: $CupertinoDynamicColor$withBrightness,
 });

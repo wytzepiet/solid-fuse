@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function CupertinoTextSelectionControls$call(): { $: "CupertinoTextSelectionControls" };
-function CupertinoTextSelectionControls$call(...a: any[]): any {
+function $CupertinoTextSelectionControls$call(): { $: "CupertinoTextSelectionControls" };
+function $CupertinoTextSelectionControls$call(...a: any[]): any {
   return $build("CupertinoTextSelectionControls", [], a);
 }
-export const CupertinoTextSelectionControls = /* @__PURE__ */ Object.assign(CupertinoTextSelectionControls$call, {
+export const CupertinoTextSelectionControls = /* @__PURE__ */ Object.assign($CupertinoTextSelectionControls$call, {
 
 });

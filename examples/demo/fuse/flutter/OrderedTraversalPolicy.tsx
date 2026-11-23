@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { CurveOut, DurationOut, FocusNode, FocusTraversalPolicy, ScrollPositionAlignmentPolicy } from "../flutter";
 import "../flutter";
 
-function OrderedTraversalPolicy$call(named?: { secondary?: FocusTraversalPolicy | null; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null }): { $: "OrderedTraversalPolicy"; secondary?: FocusTraversalPolicy | null; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null };
-function OrderedTraversalPolicy$call(...a: any[]): any {
+function $OrderedTraversalPolicy$call(named?: { secondary?: FocusTraversalPolicy | null; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null }): { $: "OrderedTraversalPolicy"; secondary?: FocusTraversalPolicy | null; requestFocusCallback?: ((node: FocusNode, named: { alignment: number | null; alignmentPolicy: ScrollPositionAlignmentPolicy | null; curve: CurveOut | null; duration: DurationOut | null }) => void) | null };
+function $OrderedTraversalPolicy$call(...a: any[]): any {
   return $build("OrderedTraversalPolicy", [], a);
 }
-export const OrderedTraversalPolicy = /* @__PURE__ */ Object.assign(OrderedTraversalPolicy$call, {
+export const OrderedTraversalPolicy = /* @__PURE__ */ Object.assign($OrderedTraversalPolicy$call, {
 
 });

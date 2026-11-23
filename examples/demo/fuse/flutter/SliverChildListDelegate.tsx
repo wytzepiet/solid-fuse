@@ -3,14 +3,14 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function SliverChildListDelegate$fixed(children: JSX.Element[], named?: { addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number }): { $: "SliverChildListDelegate.fixed"; children: JSX.Element[]; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number };
-function SliverChildListDelegate$fixed(...a: any[]): any {
+function $SliverChildListDelegate$fixed(children: JSX.Element[], named?: { addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number }): { $: "SliverChildListDelegate.fixed"; children: JSX.Element[]; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number };
+function $SliverChildListDelegate$fixed(...a: any[]): any {
   return $build("SliverChildListDelegate.fixed", ["children"], a);
 }
-function SliverChildListDelegate$call(children: JSX.Element[], named?: { addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number }): { $: "SliverChildListDelegate"; children: JSX.Element[]; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number };
-function SliverChildListDelegate$call(...a: any[]): any {
+function $SliverChildListDelegate$call(children: JSX.Element[], named?: { addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number }): { $: "SliverChildListDelegate"; children: JSX.Element[]; addAutomaticKeepAlives?: boolean; addRepaintBoundaries?: boolean; addSemanticIndexes?: boolean; semanticIndexCallback?: (widget: undefined, localIndex: number) => number | null; semanticIndexOffset?: number };
+function $SliverChildListDelegate$call(...a: any[]): any {
   return $build("SliverChildListDelegate", ["children"], a);
 }
-export const SliverChildListDelegate = /* @__PURE__ */ Object.assign(SliverChildListDelegate$call, {
-  fixed: SliverChildListDelegate$fixed,
+export const SliverChildListDelegate = /* @__PURE__ */ Object.assign($SliverChildListDelegate$call, {
+  fixed: $SliverChildListDelegate$fixed,
 });

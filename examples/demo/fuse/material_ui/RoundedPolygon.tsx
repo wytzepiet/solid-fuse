@@ -5,39 +5,39 @@ import { $build } from "solid-fuse/generated";
 import type { Offset } from "../flutter";
 import type { CornerRounding } from "../material_ui";
 
-function RoundedPolygon$fromVertices(vertices: Offset[], named?: { rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset | null }): { $: "RoundedPolygon.fromVertices"; vertices: Offset[]; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset | null };
-function RoundedPolygon$fromVertices(...a: any[]): any {
+function $RoundedPolygon$fromVertices(vertices: Offset[], named?: { rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset | null }): { $: "RoundedPolygon.fromVertices"; vertices: Offset[]; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset | null };
+function $RoundedPolygon$fromVertices(...a: any[]): any {
   return $build("RoundedPolygon.fromVertices", ["vertices"], a);
 }
-function RoundedPolygon$circle(named?: { numVertices?: number; radius?: number; center?: Offset }): { $: "RoundedPolygon.circle"; numVertices?: number; radius?: number; center?: Offset };
-function RoundedPolygon$circle(...a: any[]): any {
+function $RoundedPolygon$circle(named?: { numVertices?: number; radius?: number; center?: Offset }): { $: "RoundedPolygon.circle"; numVertices?: number; radius?: number; center?: Offset };
+function $RoundedPolygon$circle(...a: any[]): any {
   return $build("RoundedPolygon.circle", [], a);
 }
-function RoundedPolygon$rectangle(named?: { width?: number; height?: number; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset }): { $: "RoundedPolygon.rectangle"; width?: number; height?: number; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset };
-function RoundedPolygon$rectangle(...a: any[]): any {
+function $RoundedPolygon$rectangle(named?: { width?: number; height?: number; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset }): { $: "RoundedPolygon.rectangle"; width?: number; height?: number; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null; center?: Offset };
+function $RoundedPolygon$rectangle(...a: any[]): any {
   return $build("RoundedPolygon.rectangle", [], a);
 }
-function RoundedPolygon$star(named: { numVerticesPerRadius: number; radius?: number; innerRadius?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; center?: Offset }): { $: "RoundedPolygon.star"; numVerticesPerRadius: number; radius?: number; innerRadius?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; center?: Offset };
-function RoundedPolygon$star(...a: any[]): any {
+function $RoundedPolygon$star(named: { numVerticesPerRadius: number; radius?: number; innerRadius?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; center?: Offset }): { $: "RoundedPolygon.star"; numVerticesPerRadius: number; radius?: number; innerRadius?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; center?: Offset };
+function $RoundedPolygon$star(...a: any[]): any {
   return $build("RoundedPolygon.star", [], a);
 }
-function RoundedPolygon$pill(named?: { width?: number; height?: number; smoothing?: number; center?: Offset }): { $: "RoundedPolygon.pill"; width?: number; height?: number; smoothing?: number; center?: Offset };
-function RoundedPolygon$pill(...a: any[]): any {
+function $RoundedPolygon$pill(named?: { width?: number; height?: number; smoothing?: number; center?: Offset }): { $: "RoundedPolygon.pill"; width?: number; height?: number; smoothing?: number; center?: Offset };
+function $RoundedPolygon$pill(...a: any[]): any {
   return $build("RoundedPolygon.pill", [], a);
 }
-function RoundedPolygon$pillStar(named?: { width?: number; height?: number; numVerticesPerRadius?: number; innerRadiusRatio?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; vertexSpacing?: number; startLocation?: number; center?: Offset }): { $: "RoundedPolygon.pillStar"; width?: number; height?: number; numVerticesPerRadius?: number; innerRadiusRatio?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; vertexSpacing?: number; startLocation?: number; center?: Offset };
-function RoundedPolygon$pillStar(...a: any[]): any {
+function $RoundedPolygon$pillStar(named?: { width?: number; height?: number; numVerticesPerRadius?: number; innerRadiusRatio?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; vertexSpacing?: number; startLocation?: number; center?: Offset }): { $: "RoundedPolygon.pillStar"; width?: number; height?: number; numVerticesPerRadius?: number; innerRadiusRatio?: number; rounding?: CornerRounding; innerRounding?: CornerRounding | null; perVertexRounding?: CornerRounding[] | null; vertexSpacing?: number; startLocation?: number; center?: Offset };
+function $RoundedPolygon$pillStar(...a: any[]): any {
   return $build("RoundedPolygon.pillStar", [], a);
 }
-function RoundedPolygon$call(numVertices: number, named?: { radius?: number; center?: Offset; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null }): { $: "RoundedPolygon"; numVertices: number; radius?: number; center?: Offset; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null };
-function RoundedPolygon$call(...a: any[]): any {
+function $RoundedPolygon$call(numVertices: number, named?: { radius?: number; center?: Offset; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null }): { $: "RoundedPolygon"; numVertices: number; radius?: number; center?: Offset; rounding?: CornerRounding; perVertexRounding?: CornerRounding[] | null };
+function $RoundedPolygon$call(...a: any[]): any {
   return $build("RoundedPolygon", ["numVertices"], a);
 }
-export const RoundedPolygon = /* @__PURE__ */ Object.assign(RoundedPolygon$call, {
-  fromVertices: RoundedPolygon$fromVertices,
-  circle: RoundedPolygon$circle,
-  rectangle: RoundedPolygon$rectangle,
-  star: RoundedPolygon$star,
-  pill: RoundedPolygon$pill,
-  pillStar: RoundedPolygon$pillStar,
+export const RoundedPolygon = /* @__PURE__ */ Object.assign($RoundedPolygon$call, {
+  fromVertices: $RoundedPolygon$fromVertices,
+  circle: $RoundedPolygon$circle,
+  rectangle: $RoundedPolygon$rectangle,
+  star: $RoundedPolygon$star,
+  pill: $RoundedPolygon$pill,
+  pillStar: $RoundedPolygon$pillStar,
 });

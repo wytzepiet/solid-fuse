@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Clip, Color, EdgeInsets, OutlinedBorder, WidgetStatePropertyOfColorN } from "../flutter";
 
-function CarouselViewThemeData$call(named?: { elevation?: number | null; backgroundColor?: Color | null; overlayColor?: WidgetStatePropertyOfColorN | null; shape?: OutlinedBorder | null; padding?: EdgeInsets | null; itemClipBehavior?: Clip | null }): { $: "CarouselViewThemeData"; elevation?: number | null; backgroundColor?: Color | null; overlayColor?: WidgetStatePropertyOfColorN | null; shape?: OutlinedBorder | null; padding?: EdgeInsets | null; itemClipBehavior?: Clip | null };
-function CarouselViewThemeData$call(...a: any[]): any {
+function $CarouselViewThemeData$call(named?: { elevation?: number | null; backgroundColor?: Color | null; overlayColor?: WidgetStatePropertyOfColorN | null; shape?: OutlinedBorder | null; padding?: EdgeInsets | null; itemClipBehavior?: Clip | null }): { $: "CarouselViewThemeData"; elevation?: number | null; backgroundColor?: Color | null; overlayColor?: WidgetStatePropertyOfColorN | null; shape?: OutlinedBorder | null; padding?: EdgeInsets | null; itemClipBehavior?: Clip | null };
+function $CarouselViewThemeData$call(...a: any[]): any {
   return $build("CarouselViewThemeData", [], a);
 }
-export const CarouselViewThemeData = /* @__PURE__ */ Object.assign(CarouselViewThemeData$call, {
+export const CarouselViewThemeData = /* @__PURE__ */ Object.assign($CarouselViewThemeData$call, {
 
 });

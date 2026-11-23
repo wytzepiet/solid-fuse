@@ -4,14 +4,14 @@
 import { $build } from "solid-fuse/generated";
 import type { StackTrace } from "../flutter";
 
-function DiagnosticsStackTrace$singleFrame(name: string, named: { frame: string; showSeparator?: boolean }): { $: "DiagnosticsStackTrace.singleFrame"; name: string; frame: string; showSeparator?: boolean };
-function DiagnosticsStackTrace$singleFrame(...a: any[]): any {
+function $DiagnosticsStackTrace$singleFrame(name: string, named: { frame: string; showSeparator?: boolean }): { $: "DiagnosticsStackTrace.singleFrame"; name: string; frame: string; showSeparator?: boolean };
+function $DiagnosticsStackTrace$singleFrame(...a: any[]): any {
   return $build("DiagnosticsStackTrace.singleFrame", ["name"], a);
 }
-function DiagnosticsStackTrace$call(name: string, stack: StackTrace | null, named?: { stackFilter?: ((input: string[]) => string[]) | null; showSeparator?: boolean }): { $: "DiagnosticsStackTrace"; name: string; stack?: StackTrace | null; stackFilter?: ((input: string[]) => string[]) | null; showSeparator?: boolean };
-function DiagnosticsStackTrace$call(...a: any[]): any {
+function $DiagnosticsStackTrace$call(name: string, stack: StackTrace | null, named?: { stackFilter?: ((input: string[]) => string[]) | null; showSeparator?: boolean }): { $: "DiagnosticsStackTrace"; name: string; stack?: StackTrace | null; stackFilter?: ((input: string[]) => string[]) | null; showSeparator?: boolean };
+function $DiagnosticsStackTrace$call(...a: any[]): any {
   return $build("DiagnosticsStackTrace", ["name","stack"], a);
 }
-export const DiagnosticsStackTrace = /* @__PURE__ */ Object.assign(DiagnosticsStackTrace$call, {
-  singleFrame: DiagnosticsStackTrace$singleFrame,
+export const DiagnosticsStackTrace = /* @__PURE__ */ Object.assign($DiagnosticsStackTrace$call, {
+  singleFrame: $DiagnosticsStackTrace$singleFrame,
 });

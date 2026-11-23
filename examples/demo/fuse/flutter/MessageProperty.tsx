@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticLevel, DiagnosticsTreeStyle } from "../flutter";
 
-function MessageProperty$call(name: string, message: string, named?: { style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "MessageProperty"; name: string; message: string; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
-function MessageProperty$call(...a: any[]): any {
+function $MessageProperty$call(name: string, message: string, named?: { style?: DiagnosticsTreeStyle; level?: DiagnosticLevel }): { $: "MessageProperty"; name: string; message: string; style?: DiagnosticsTreeStyle; level?: DiagnosticLevel };
+function $MessageProperty$call(...a: any[]): any {
   return $build("MessageProperty", ["name","message"], a);
 }
-export const MessageProperty = /* @__PURE__ */ Object.assign(MessageProperty$call, {
+export const MessageProperty = /* @__PURE__ */ Object.assign($MessageProperty$call, {
 
 });

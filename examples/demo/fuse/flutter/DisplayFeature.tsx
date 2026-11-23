@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DisplayFeatureState, DisplayFeatureType, Rect } from "../flutter";
 
-function DisplayFeature$call(named: { bounds: Rect; type: DisplayFeatureType; state: DisplayFeatureState }): { $: "DisplayFeature"; bounds: Rect; type: DisplayFeatureType; state: DisplayFeatureState };
-function DisplayFeature$call(...a: any[]): any {
+function $DisplayFeature$call(named: { bounds: Rect; type: DisplayFeatureType; state: DisplayFeatureState }): { $: "DisplayFeature"; bounds: Rect; type: DisplayFeatureType; state: DisplayFeatureState };
+function $DisplayFeature$call(...a: any[]): any {
   return $build("DisplayFeature", [], a);
 }
-export const DisplayFeature = /* @__PURE__ */ Object.assign(DisplayFeature$call, {
+export const DisplayFeature = /* @__PURE__ */ Object.assign($DisplayFeature$call, {
 
 });

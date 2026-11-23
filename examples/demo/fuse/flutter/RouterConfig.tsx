@@ -5,10 +5,10 @@ import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 import type { BackButtonDispatcher } from "../flutter";
 
-function RouterConfig$call(named: { routeInformationProvider?: Handle<"flutter_PlatformRouteInformationProvider"> | null; routerDelegate: Handle<string>; backButtonDispatcher?: BackButtonDispatcher | null }): { $: "RouterConfig"; routeInformationProvider?: Handle<"flutter_PlatformRouteInformationProvider"> | null; routerDelegate: Handle<string>; backButtonDispatcher?: BackButtonDispatcher | null };
-function RouterConfig$call(...a: any[]): any {
+function $RouterConfig$call(named: { routeInformationProvider?: Handle<"flutter_PlatformRouteInformationProvider"> | null; routerDelegate: Handle<string>; backButtonDispatcher?: BackButtonDispatcher | null }): { $: "RouterConfig"; routeInformationProvider?: Handle<"flutter_PlatformRouteInformationProvider"> | null; routerDelegate: Handle<string>; backButtonDispatcher?: BackButtonDispatcher | null };
+function $RouterConfig$call(...a: any[]): any {
   return $build("RouterConfig", [], a);
 }
-export const RouterConfig = /* @__PURE__ */ Object.assign(RouterConfig$call, {
+export const RouterConfig = /* @__PURE__ */ Object.assign($RouterConfig$call, {
 
 });

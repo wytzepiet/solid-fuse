@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { BorderSide, BoxConstraints, Color, EdgeInsetsGeometry, OutlinedBorder, TextStyle } from "../flutter";
 
-function SearchViewThemeData$call(named?: { backgroundColor?: Color | null; elevation?: number | null; surfaceTintColor?: Color | null; constraints?: BoxConstraints | null; padding?: EdgeInsetsGeometry | null; barPadding?: EdgeInsetsGeometry | null; shrinkWrap?: boolean | null; side?: BorderSide | null; shape?: OutlinedBorder | null; headerHeight?: number | null; headerTextStyle?: TextStyle | null; headerHintStyle?: TextStyle | null; dividerColor?: Color | null }): { $: "SearchViewThemeData"; backgroundColor?: Color | null; elevation?: number | null; surfaceTintColor?: Color | null; constraints?: BoxConstraints | null; padding?: EdgeInsetsGeometry | null; barPadding?: EdgeInsetsGeometry | null; shrinkWrap?: boolean | null; side?: BorderSide | null; shape?: OutlinedBorder | null; headerHeight?: number | null; headerTextStyle?: TextStyle | null; headerHintStyle?: TextStyle | null; dividerColor?: Color | null };
-function SearchViewThemeData$call(...a: any[]): any {
+function $SearchViewThemeData$call(named?: { backgroundColor?: Color | null; elevation?: number | null; surfaceTintColor?: Color | null; constraints?: BoxConstraints | null; padding?: EdgeInsetsGeometry | null; barPadding?: EdgeInsetsGeometry | null; shrinkWrap?: boolean | null; side?: BorderSide | null; shape?: OutlinedBorder | null; headerHeight?: number | null; headerTextStyle?: TextStyle | null; headerHintStyle?: TextStyle | null; dividerColor?: Color | null }): { $: "SearchViewThemeData"; backgroundColor?: Color | null; elevation?: number | null; surfaceTintColor?: Color | null; constraints?: BoxConstraints | null; padding?: EdgeInsetsGeometry | null; barPadding?: EdgeInsetsGeometry | null; shrinkWrap?: boolean | null; side?: BorderSide | null; shape?: OutlinedBorder | null; headerHeight?: number | null; headerTextStyle?: TextStyle | null; headerHintStyle?: TextStyle | null; dividerColor?: Color | null };
+function $SearchViewThemeData$call(...a: any[]): any {
   return $build("SearchViewThemeData", [], a);
 }
-export const SearchViewThemeData = /* @__PURE__ */ Object.assign(SearchViewThemeData$call, {
+export const SearchViewThemeData = /* @__PURE__ */ Object.assign($SearchViewThemeData$call, {
 
 });

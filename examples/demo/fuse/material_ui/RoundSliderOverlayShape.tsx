@@ -3,10 +3,10 @@
 /* eslint-disable */
 import { $build } from "solid-fuse/generated";
 
-function RoundSliderOverlayShape$call(named?: { overlayRadius?: number }): { $: "RoundSliderOverlayShape"; overlayRadius?: number };
-function RoundSliderOverlayShape$call(...a: any[]): any {
+function $RoundSliderOverlayShape$call(named?: { overlayRadius?: number }): { $: "RoundSliderOverlayShape"; overlayRadius?: number };
+function $RoundSliderOverlayShape$call(...a: any[]): any {
   return $build("RoundSliderOverlayShape", [], a);
 }
-export const RoundSliderOverlayShape = /* @__PURE__ */ Object.assign(RoundSliderOverlayShape$call, {
+export const RoundSliderOverlayShape = /* @__PURE__ */ Object.assign($RoundSliderOverlayShape$call, {
 
 });

@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { DiagnosticLevel } from "../flutter";
 
-function FlagProperty$call(name: string, named?: { value?: boolean | null; ifTrue?: string | null; ifFalse?: string | null; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel }): { $: "FlagProperty"; name: string; value?: boolean | null; ifTrue?: string | null; ifFalse?: string | null; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel };
-function FlagProperty$call(...a: any[]): any {
+function $FlagProperty$call(name: string, named?: { value?: boolean | null; ifTrue?: string | null; ifFalse?: string | null; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel }): { $: "FlagProperty"; name: string; value?: boolean | null; ifTrue?: string | null; ifFalse?: string | null; showName?: boolean; defaultValue?: unknown; level?: DiagnosticLevel };
+function $FlagProperty$call(...a: any[]): any {
   return $build("FlagProperty", ["name"], a);
 }
-export const FlagProperty = /* @__PURE__ */ Object.assign(FlagProperty$call, {
+export const FlagProperty = /* @__PURE__ */ Object.assign($FlagProperty$call, {
 
 });

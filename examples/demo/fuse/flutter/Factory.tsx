@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { Handle } from "solid-fuse";
 
-function Factory$call(constructor: () => Handle<string>): { $: "Factory"; constructor: () => Handle<string> };
-function Factory$call(...a: any[]): any {
+function $Factory$call(constructor: () => Handle<string>): { $: "Factory"; constructor: () => Handle<string> };
+function $Factory$call(...a: any[]): any {
   return $build("Factory", ["constructor"], a);
 }
-export const Factory = /* @__PURE__ */ Object.assign(Factory$call, {
+export const Factory = /* @__PURE__ */ Object.assign($Factory$call, {
 
 });

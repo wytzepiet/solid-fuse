@@ -4,10 +4,10 @@
 import { $build } from "solid-fuse/generated";
 import type { AlignmentGeometry, Color, GradientTransform, TileMode } from "../flutter";
 
-function RadialGradient$call(named: { center?: AlignmentGeometry; radius?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; focal?: AlignmentGeometry | null; focalRadius?: number; transform?: GradientTransform | null }): { $: "RadialGradient"; center?: AlignmentGeometry; radius?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; focal?: AlignmentGeometry | null; focalRadius?: number; transform?: GradientTransform | null };
-function RadialGradient$call(...a: any[]): any {
+function $RadialGradient$call(named: { center?: AlignmentGeometry; radius?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; focal?: AlignmentGeometry | null; focalRadius?: number; transform?: GradientTransform | null }): { $: "RadialGradient"; center?: AlignmentGeometry; radius?: number; colors: Color[]; stops?: number[] | null; tileMode?: TileMode; focal?: AlignmentGeometry | null; focalRadius?: number; transform?: GradientTransform | null };
+function $RadialGradient$call(...a: any[]): any {
   return $build("RadialGradient", [], a);
 }
-export const RadialGradient = /* @__PURE__ */ Object.assign(RadialGradient$call, {
+export const RadialGradient = /* @__PURE__ */ Object.assign($RadialGradient$call, {
 
 });
