@@ -57,7 +57,7 @@ export function lentHandles(m: Manifest): Set<string> {
         seenIn.add(r.id);
         const d = m.types[r.id] as DataType;
         d.variants?.forEach((v) => params(v.params));
-        d.shorthands?.forEach((sh) => walkIn(sh.type));
+        d.shorthands?.forEach((sh) => (sh.kind === "object" ? params(sh.params) : walkIn(sh.type)));
         d.implement?.members.forEach((mb) => walkIn(mb.fn));
         return;
       }
@@ -85,6 +85,7 @@ export function lentHandles(m: Manifest): Set<string> {
     }
   }
   for (const w of m.widgets) params(w.params);
+  for (const id of m.values ?? []) walkIn({ k: "data", id } as Ref);
   for (const id of m.handles) {
     (m.types[id] as HandleType).ctors.forEach((c) => params(c.params));
     handleMembers(id);
@@ -407,6 +408,9 @@ export function emitDart(
     const short = new Map((t.shorthands ?? []).map((sh) => [sh.kind, sh]));
     const shortCall = (kind: string) => {
       const sh = short.get(kind)!;
+      if (sh.kind === "object") {
+        return call(sh.fn, sh.params, (p) => arg(p, t.name, `v[${q(p.name)}]`, { n: "n", prop: p.name, sub: (d) => d }), { map: "v", type: tn });
+      }
       return `${sh.fn}(${elem(sh.type, "v", sh.dart, { n: "n", prop: t.name, sub: (d) => d })})`;
     };
     const test = { bool: "v is bool", number: "v is num", list: "v is List" } as const;
@@ -426,6 +430,8 @@ export function emitDart(
       lines.push(`  if (v is String) return ${shortCall("string")};`);
     }
     const variants = t.variants ?? [];
+    // No tag: the object shorthand's fields.
+    if (short.has("object")) lines.push(`  if (v is Map && v[r'$'] == null) return ${shortCall("object")};`);
     if (t.implement) {
       // No tag: an object of functions, JS's own implementation.
       lines.push(`  if (v is Map && v[r'$'] == null) return ${implClass(id)}(v, n);`);
@@ -660,6 +666,9 @@ export function emitDart(
     if (roots.has(id)) handleRegs.push(`  ${q(tag)}: ${cls}.new,`);
   }
 
+  // Value types a barrel names: decoders registered by type.
+  const valueRegs = (m.values ?? []).map((id) => `  ${noQ((m.types[id] as DataType).dart)}: ${decoderOf(id)},`);
+
   // Decoders and encoders are discovered while writing the adapters and each
   // other; drain until no new ones appear.
   const decoderCode: string[] = [];
@@ -698,6 +707,11 @@ export function emitDart(
     ...makers,
     "};",
     "",
+    "/// Dart type -> decoder, for hand-written widgets (`node.value<T>(...)`).",
+    "final fuseGeneratedDecoders = <Type, FuseDecoder>{",
+    ...valueRegs,
+    "};",
+    "",
     "/// Node type -> handle, for the handles JS creates.",
     "const fuseGeneratedHandles = <String, FuseHandle Function(FuseNode)>{",
     ...handleRegs,
@@ -706,6 +720,7 @@ export function emitDart(
     `void ${registerFunction}(FuseRuntime runtime) {`,
     "  fuseGeneratedWidgets.forEach((type, b) => runtime.registerWidget(type, b, make: fuseGeneratedMakers[type]));",
     "  fuseGeneratedHandles.forEach(runtime.registerHandle);",
+    "  fuseGeneratedDecoders.forEach(runtime.registerDecoder);",
     "}",
     "",
   ];

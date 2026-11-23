@@ -24,8 +24,8 @@ function ScrollableList() {
     <View layout={{ expand: true }}>
       <View layout={{ direction: "horizontal", gap: 8 }} padding={8}>
         <Pressable onPress={() => scroll.animateTo(0, { duration: 300, curve: easeOut })}>
-          <View padding={8} decoration={{ color: "blue", borderRadius: 4 }}>
-            <Text color="white">Top</Text>
+          <View padding={8} decoration={{ color: "#2563EB", borderRadius: 4 }}>
+            <Text color="#FFFFFF">Top</Text>
           </View>
         </Pressable>
         <Text>Offset: {Math.round(scroll.offset() ?? 0)}</Text>
@@ -61,10 +61,10 @@ function FocusDemo() {
       <TextInput focusNode={focus} placeholder="Type here" />
       <Text>hasFocus = {focus.hasFocus() ? "true" : "false"}</Text>
       <Pressable onPress={() => focus.requestFocus()}>
-        <Text color="blue">Focus the field</Text>
+        <Text color="#2563EB">Focus the field</Text>
       </Pressable>
       <Pressable onPress={() => focus.unfocus()}>
-        <Text color="blue">Unfocus</Text>
+        <Text color="#2563EB">Unfocus</Text>
       </Pressable>
     </View>
   );

@@ -57,15 +57,7 @@ class FuseMap {
 
   // ── Complex types ─────────────────────────────────────────────────────────
 
-  Color? color(String key) => parseColor(_data[key]);
-  EdgeInsets? edgeInsets(String key) => parseEdgeInsets(_data[key]);
-  BorderRadius? borderRadius(String key) => parseBorderRadius(_data[key]);
-  Border? border(String key) => parseBorder(_data[key]);
-  List<BoxShadow>? boxShadows(String key) => parseBoxShadows(_data[key]);
-  Gradient? gradient(String key) => parseGradient(_data[key]);
-  DecorationImage? decorationImage(String key) =>
-      parseDecorationImage(_data[key]);
-  BoxDecoration? boxDecoration(String key) => parseBoxDecoration(_data[key]);
+
   Offset? offset(String key) {
     final v = _data[key];
     if (v is Map) {
@@ -75,11 +67,19 @@ class FuseMap {
     return null;
   }
 
-  Alignment? alignment(String key) => parseAlignment(_data[key] as String?);
   BlendMode? blendMode(String key) => parseBlendMode(_data[key] as String?);
   Clip clipBehavior(String key) => parseClip(_data[key] as String?);
-  FontWeight? fontWeight(String key) => parseFontWeight(_data[key]);
+  /// The value of enum [values] whose name prop [key] holds
+  /// (`textAlign: "center"`), or null.
+  T? enumOf<T extends Enum>(String key, List<T> values) {
+    final v = _data[key];
+    return v is String ? values.asNameMap()[v] : null;
+  }
 }
+
+/// Turns what JS sent for a prop into a Dart value: the decoder the app
+/// generates for a value type its barrels name (`show Color`).
+typedef FuseDecoder = Object? Function(Object? value, FuseNode node);
 
 class FuseNode extends FuseMap with ChangeNotifier {
   FuseNode({
@@ -169,6 +169,31 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// draws elsewhere (a `<modal>` shows in a route) is mounted with its
   /// parent but never laid out as one of its children.
   core.bool get inFlow => !registry.elsewhere.contains(type);
+
+  /// Prop [key] as a [T], decoded the way generated widgets decode it: its
+  /// constants (`Colors.red`), its builders (`EdgeInsets.all(8)`) and its
+  /// shorthands (`"#ff8800"`, `{ horizontal: 16 }`). [T] must be a value
+  /// type a barrel names, so that `fuse gen` registers its decoder.
+  T? value<T extends Object>(String key) {
+    final v = props[key];
+    if (v == null) return null;
+    final decode = registry.decoders[T];
+    if (decode == null) {
+      throw StateError('No decoder for $T: name it in a lib/fuse.dart (`show $T`) and run fuse gen');
+    }
+    return decode(v, this) as T?;
+  }
+
+  /// Prop [key], a list, as [T]s decoded like [value]'s.
+  List<T>? values<T extends Object>(String key) {
+    final v = props[key];
+    if (v == null) return null;
+    final decode = registry.decoders[T];
+    if (decode == null) {
+      throw StateError('No decoder for $T: name it in a lib/fuse.dart (`show $T`) and run fuse gen');
+    }
+    return [for (final e in v as List) decode(e, this) as T];
+  }
 
   /// The children laid out as `layout` says (a column by default), as one
   /// widget. Children that draw elsewhere are mounted beside the layout
@@ -390,6 +415,9 @@ class FuseNodeRegistry {
   /// Node types that draw elsewhere and take no part in layout
   /// (`registerWidget(..., inFlow: false)`).
   final elsewhere = <String>{};
+
+  /// Value type -> decoder, for [FuseNode.value] (`registerDecoder`).
+  final decoders = <Type, FuseDecoder>{};
 
   // Handles by object, for references Dart sends to JS ([lend]). A handle
   // JS created is found by its object; one Dart hands out is borrowed, once

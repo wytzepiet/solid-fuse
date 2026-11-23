@@ -1,4 +1,5 @@
-import type { BaseProps, ColorInput, FontWeight } from "../types";
+import type { Color, FontWeight } from "../flutter";
+import type { BaseProps } from "../types";
 import type { FocusNodeInput } from "../types";
 
 export type KeyboardType =
@@ -43,16 +44,16 @@ export interface TextInputBaseProps extends BaseProps {
 }
 
 export interface TextInputProps extends TextInputBaseProps {
-  color?: ColorInput;
+  color?: Color;
   fontSize?: number;
   fontWeight?: FontWeight;
   fontFamily?: string;
   fontStyle?: "normal" | "italic";
   letterSpacing?: number;
   lineHeight?: number;
-  placeholderColor?: ColorInput;
-  cursorColor?: ColorInput;
-  selectionColor?: ColorInput;
+  placeholderColor?: Color;
+  cursorColor?: Color;
+  selectionColor?: Color;
 }
 
 /**

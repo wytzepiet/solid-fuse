@@ -13,7 +13,7 @@ export function BuilderScreen() {
   return (
     <View layout={{ direction: "vertical", align: "stretch" }}>
       <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
-        <Text fontSize={24} fontWeight="bold">
+        <Text fontSize={24} fontWeight={700}>
           builder
         </Text>
         <Text color="#6B7280" fontSize={14}>

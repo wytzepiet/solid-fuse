@@ -8,7 +8,7 @@ Route<Object?> cupertinoDialogRoute(BuildContext context, FuseNode node, WidgetB
     builder: content,
     barrierDismissible: node.bool('dismissible') ?? false,
     barrierLabel: node.string('barrierLabel'),
-    barrierColor: node.color('barrierColor'),
+    barrierColor: node.value<Color>('barrierColor'),
   );
 }
 
@@ -19,6 +19,6 @@ Route<Object?> cupertinoPopupRoute(BuildContext context, FuseNode node, WidgetBu
     builder: content,
     barrierDismissible: node.bool('dismissible') ?? true,
     barrierLabel: node.string('barrierLabel') ?? 'Dismiss',
-    barrierColor: node.color('barrierColor') ?? kCupertinoModalBarrierColor,
+    barrierColor: node.value<Color>('barrierColor') ?? kCupertinoModalBarrierColor,
   );
 }

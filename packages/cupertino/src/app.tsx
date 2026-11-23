@@ -1,24 +1,25 @@
 import { CupertinoApp as GCupertinoApp, type CupertinoThemeData as ThemeDataValue } from "#fuse/cupertino_ui";
 import { CupertinoThemeData } from "#fuse/cupertino_ui/CupertinoThemeData";
-import { PageTypeContext, toHex, type ColorInput } from "solid-fuse";
+import { PageTypeContext } from "solid-fuse";
 import { cupertinoPage } from "./page";
+import type { Color } from "#fuse/flutter";
 
 /** A theme in brief, or a full generated `CupertinoThemeData(...)`. */
 export type CupertinoTheme = ThemeDataValue | BriefCupertinoTheme;
 
 export type BriefCupertinoTheme = {
   /** Tint of buttons, switches, links. Default system blue. */
-  primaryColor?: ColorInput;
+  primaryColor?: Color;
   /** Leave out to follow the system. */
   brightness?: "light" | "dark";
-  barBackgroundColor?: ColorInput;
-  scaffoldBackgroundColor?: ColorInput;
+  barBackgroundColor?: Color;
+  scaffoldBackgroundColor?: Color;
 };
 
 export interface CupertinoAppProps {
   title?: string;
   theme?: CupertinoTheme;
-  color?: ColorInput;
+  color?: Color;
   debugShowCheckedModeBanner?: boolean;
   children?: JSX.Element;
 }
@@ -28,9 +29,9 @@ function themeOf(t: CupertinoTheme | undefined): ThemeDataValue | undefined {
   const brief = t as BriefCupertinoTheme;
   return CupertinoThemeData({
     brightness: brief.brightness ?? null,
-    primaryColor: toHex(brief.primaryColor) ?? null,
-    barBackgroundColor: toHex(brief.barBackgroundColor) ?? null,
-    scaffoldBackgroundColor: toHex(brief.scaffoldBackgroundColor) ?? null,
+    primaryColor: brief.primaryColor ?? null,
+    barBackgroundColor: brief.barBackgroundColor ?? null,
+    scaffoldBackgroundColor: brief.scaffoldBackgroundColor ?? null,
   });
 }
 
@@ -41,7 +42,7 @@ export function CupertinoApp(props: CupertinoAppProps) {
       <GCupertinoApp
         title={props.title ?? ""}
         theme={themeOf(props.theme)}
-        color={toHex(props.color)}
+        color={props.color}
         debugShowCheckedModeBanner={props.debugShowCheckedModeBanner ?? false}
         home={props.children}
       />

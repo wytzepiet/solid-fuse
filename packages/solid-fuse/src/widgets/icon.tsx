@@ -1,6 +1,6 @@
-import { toHex } from "../color";
 import type { Const } from "../generated";
-import type { BaseProps, ColorInput } from "../types";
+import type { Color } from "../flutter";
+import type { BaseProps } from "../types";
 
 /**
  * A glyph of an icon font: a constant from an icon set (`Icons.home` from
@@ -15,7 +15,7 @@ export interface IconProps extends BaseProps {
   icon: IconData;
   /** Width and height in logical pixels. Default: the ambient icon size (24). */
   size?: number;
-  color?: ColorInput;
+  color?: Color;
   /** Accessibility label. */
   semanticLabel?: string;
   /** Variable-font fill axis, 0 to 1 (Material Symbols). */
@@ -40,7 +40,7 @@ export function Icon(props: IconProps) {
     <flutter_Icon
       icon={props.icon}
       size={props.size}
-      color={toHex(props.color)}
+      color={props.color}
       semanticLabel={props.semanticLabel}
       fill={props.fill}
       weight={props.weight}

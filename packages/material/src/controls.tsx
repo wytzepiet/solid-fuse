@@ -1,14 +1,15 @@
 import {
   Checkbox as GCheckbox, Radio as GRadio, Slider as GSlider, Switch as GSwitch,
 } from "#fuse/material_ui";
-import { toHex, type ColorInput } from "solid-fuse";
+import type { Color } from "#fuse/flutter";
+
 
 export interface SwitchProps {
   value: boolean;
   onChange?: (value: boolean) => void;
   disabled?: boolean;
   /** The track's color while on. */
-  color?: ColorInput;
+  color?: Color;
 }
 
 export function Switch(props: SwitchProps) {
@@ -16,7 +17,7 @@ export function Switch(props: SwitchProps) {
     <GSwitch
       value={props.value}
       onChanged={props.disabled ? null : (props.onChange ?? null)}
-      activeTrackColor={toHex(props.color)}
+      activeTrackColor={props.color}
     />
   );
 }
@@ -30,7 +31,7 @@ export interface CheckboxProps {
   disabled?: boolean;
   /** Shows the error color. */
   error?: boolean;
-  color?: ColorInput;
+  color?: Color;
   semanticLabel?: string;
 }
 
@@ -41,7 +42,7 @@ export function Checkbox(props: CheckboxProps) {
       tristate={props.tristate ?? props.value === null}
       onChanged={props.disabled ? null : (props.onChange ?? null)}
       isError={props.error}
-      activeColor={toHex(props.color)}
+      activeColor={props.color}
       semanticLabel={props.semanticLabel}
     />
   );
@@ -53,7 +54,7 @@ export interface RadioProps<T> {
   disabled?: boolean;
   /** Tapping the selected radio clears the group. */
   toggleable?: boolean;
-  color?: ColorInput;
+  color?: Color;
 }
 
 /** A radio button. Put it in a core `<RadioGroup value onChange>`. */
@@ -63,7 +64,7 @@ export function Radio<T extends string | number | boolean>(props: RadioProps<T>)
       value={props.value}
       enabled={!props.disabled}
       toggleable={props.toggleable}
-      activeColor={toHex(props.color)}
+      activeColor={props.color}
     />
   );
 }
@@ -82,7 +83,7 @@ export interface SliderProps {
   /** Shown above the thumb while dragging (with `steps`). */
   label?: string;
   disabled?: boolean;
-  color?: ColorInput;
+  color?: Color;
 }
 
 export function Slider(props: SliderProps) {
@@ -95,7 +96,7 @@ export function Slider(props: SliderProps) {
       max={props.max}
       divisions={props.steps ?? null}
       label={props.label ?? null}
-      activeColor={toHex(props.color)}
+      activeColor={props.color}
     />
   );
 }

@@ -96,7 +96,7 @@ export interface DataType {
   variants?: Variant[];
   consts?: Const[];
   /** Short forms: a value of `kind` that `fn` (Dart) turns into this type. */
-  shorthands?: { kind: "bool" | "number" | "string" | "list"; fn: string; type: Ref; dart: string; ts?: string }[];
+  shorthands?: Shorthand[];
   inputSkipped?: string;
   /** An abstract class JS implements: an object with a function per
    *  abstract member, which a generated subclass calls. */
@@ -106,6 +106,15 @@ export interface DataType {
   fields?: Field[];
   outputSkipped?: string;
 }
+
+/**
+ * A short form of a data type. One value (`type`, of Dart type `dart`), or an
+ * object without a `$` tag whose fields are `fn`'s named `params`: then a
+ * plain object means this shorthand, not the unnamed constructor.
+ */
+export type Shorthand =
+  | { kind: "bool" | "number" | "string" | "list"; fn: string; type: Ref; dart: string; ts?: string }
+  | { kind: "object"; fn: string; params: Param[]; ts?: string };
 
 export interface Implement {
   /** The superclass constructor the subclass calls; none is the unnamed one. */
@@ -180,6 +189,9 @@ export interface Manifest {
   imports: { uri: string; prefix: string }[];
   widgets: Widget[];
   handles: string[];
+  /** Value types a barrel names: their decoders are registered by type, for
+   *  hand-written Dart (`node.value<Color>(...)`). */
+  values?: string[];
   types: Record<string, TypeDecl>;
   skipped: { item: string; reason: string }[];
 }

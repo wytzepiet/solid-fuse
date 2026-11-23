@@ -237,18 +237,37 @@ class Classifier {
 
   // ── shorthands ────────────────────────────────────────────────────────────
 
-  final List<({TopLevelFunctionElement fn, InterfaceType ret, Json type, String dart, String kind, String? ts})> _shorthands = [];
+  final List<_Shorthand> _shorthands = [];
 
-  /// Registers a `@fuseShorthand` function: one required positional
-  /// parameter of a kind JSON shows apart from a tagged object (bool,
-  /// number, String, List), returning a non-null class type.
+  /// Registers a `@fuseShorthand` function, returning a non-null class type.
+  /// Its input is one required positional parameter of a kind JSON shows
+  /// apart from a tagged object (bool, number, String, List), or named
+  /// parameters only: an object without a `$` tag.
+  ///
+  /// Only a type's owner gives it short forms, since a short form changes
+  /// what a value means on every prop of that type: a package for its own
+  /// types, solid_fuse for Flutter's and the SDK's.
   void addShorthand(TopLevelFunctionElement fn, {String? ts}) {
-    final ps = fn.formalParameters;
-    if (ps.isEmpty || !ps.first.isRequiredPositional || ps.skip(1).any((p) => p.isRequired)) {
-      throw Skip('takes one required positional parameter');
-    }
     final ret = fn.returnType;
     if (ret is! InterfaceType || isNullable(ret)) throw Skip('returns a non-null class type');
+    final owner = _packageOf(ret.element);
+    final by = _packageOf(fn);
+    if (owner != by && !(by == 'solid_fuse' && (owner == 'flutter' || owner == 'dart'))) {
+      throw Skip('${ret.element.name} belongs to ${owner == 'dart' ? 'the Dart SDK' : 'package:$owner'}; '
+          'only its owner gives it short forms');
+    }
+    final ps = fn.formalParameters;
+    if (ps.isNotEmpty && ps.every((p) => p.isNamed)) {
+      final inv = invocable(null, ps);
+      for (final p in (inv['params'] as List).cast<Json>()) {
+        if (p.containsKey('skip') && p['required'] == true) throw Skip('parameter ${p['name']}: ${p['skip']}');
+      }
+      _shorthands.add(_Shorthand(fn: fn, ret: ret, kind: 'object', params: inv['params'] as List, ts: ts));
+      return;
+    }
+    if (ps.isEmpty || !ps.first.isRequiredPositional || ps.skip(1).any((p) => p.isRequired)) {
+      throw Skip('takes one required positional parameter, or named ones only');
+    }
     final pt = ps.first.type;
     if (isNullable(pt)) throw Skip('parameter is nullable');
     final ref = input(pt);
@@ -259,14 +278,22 @@ class Classifier {
       'list' => 'list',
       _ => throw Skip('parameter is ${pt.getDisplayString()} (bool, a number, String or List)'),
     };
-    _shorthands.add((fn: fn, ret: ret, type: ref, dart: code.type(pt), kind: kind, ts: ts));
+    _shorthands.add(_Shorthand(fn: fn, ret: ret, kind: kind, type: ref, dart: code.type(pt), ts: ts));
+  }
+
+  /// `flutter` for `package:flutter/...`, `dart` for the SDK's own libraries.
+  static String? _packageOf(Element e) {
+    final uri = e.library?.uri;
+    if (uri == null) return null;
+    if (uri.scheme == 'dart') return 'dart';
+    return uri.scheme == 'package' ? uri.pathSegments.first : uri.toString();
   }
 
   /// The shorthands a value of [t] accepts: per kind, the one returning [t]
   /// itself, else the only one returning a subtype. Two candidates and no
   /// exact one is a conflict, recorded on [decl].
   List<Json> _shorthandsFor(InterfaceType t, Json decl) {
-    final byKind = <String, List<({TopLevelFunctionElement fn, InterfaceType ret, Json type, String dart, String kind, String? ts})>>{};
+    final byKind = <String, List<_Shorthand>>{};
     for (final s in _shorthands) {
       if (w.ts.isSubtypeOf(s.ret, nonNull(t))) (byKind[s.kind] ??= []).add(s);
     }
@@ -281,8 +308,9 @@ class Classifier {
       out.add({
         'kind': kind,
         'fn': code.ref(pick.fn),
-        'type': pick.type,
-        'dart': pick.dart,
+        if (pick.type != null) 'type': pick.type,
+        if (pick.dart != null) 'dart': pick.dart,
+        if (pick.params != null) 'params': pick.params,
         if (pick.ts != null) 'ts': pick.ts,
       });
     });
@@ -502,8 +530,10 @@ class Classifier {
       final consts = _consts(t, el, decl);
       final shorthands = _shorthandsFor(t, decl);
       if (shorthands.isNotEmpty) decl['shorthands'] = shorthands;
-      // A plain object is the unnamed constructor's when there is one.
-      final implement = variants.any((v) => v['tag'] == el.name) ? null : _implement(t, el, decl);
+      // A plain object (no `$` tag) is the object shorthand's when there is
+      // one, else the unnamed constructor's, else JS's own implementation.
+      final plainTaken = shorthands.any((s) => s['kind'] == 'object') || variants.any((v) => v['tag'] == el.name);
+      final implement = plainTaken ? null : _implement(t, el, decl);
       if (implement != null) decl['implement'] = implement;
       if (variants.isEmpty && consts.isEmpty && shorthands.isEmpty && implement == null) {
         final why = rejected.isEmpty
@@ -954,4 +984,17 @@ class Classifier {
     }
     return id;
   }
+}
+
+/// A `@fuseShorthand` function: what it takes ([type] for one value, [params]
+/// for an object) and what it returns.
+class _Shorthand {
+  _Shorthand({required this.fn, required this.ret, required this.kind, this.type, this.dart, this.params, this.ts});
+  final TopLevelFunctionElement fn;
+  final InterfaceType ret;
+  final String kind;
+  final Json? type;
+  final String? dart;
+  final List<Object?>? params;
+  final String? ts;
 }

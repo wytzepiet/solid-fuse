@@ -53,7 +53,10 @@ List<String> barrelLibraries(String root) {
 }
 
 class BarrelRules {
-  BarrelRules(this.rules, this.load);
+  BarrelRules(this.rules, this.load, this.values);
+
+  /// The classes a barrel names in a `show` (`export ... show Color`).
+  final List<ClassElement> values;
 
   /// Library uri -> what of it crosses.
   final Map<String, LibraryRule> rules;
@@ -72,9 +75,15 @@ BarrelRules readBarrels(World w, List<String> barrels) {
   final shorthands = <String, Set<String>>{};
   final load = <String>{};
   final own = <String>{};
+  final values = <ClassElement>{};
   for (final uri in barrels) {
     final barrel = w.library(uri);
     if (barrel == null) continue;
+    final shown = {
+      for (final f in barrel.element.fragments)
+        for (final e in f.libraryExports)
+          for (final c in e.combinators.whereType<ShowElementCombinator>()) ...c.shownNames,
+    };
     final pkg = Uri.parse(uri).pathSegments.first;
     barrel.element.exportNamespace.definedNames2.forEach((name, el) {
       if (name.startsWith('_')) return;
@@ -87,6 +96,7 @@ BarrelRules readBarrels(World w, List<String> barrels) {
         return;
       }
       if (el is! ClassElement) return;
+      if (shown.contains(name)) values.add(el);
       final home = declared.scheme == 'package' ? declared.pathSegments.first : 'flutter';
       final List<String> candidates;
       if (home == pkg) {
@@ -124,7 +134,7 @@ BarrelRules readBarrels(World w, List<String> barrels) {
     final r = LibraryRule(allow: const [], shorthands: names);
     rules[uri] = rules[uri]?.union(r) ?? r;
   });
-  return BarrelRules(rules, load);
+  return BarrelRules(rules, load, values.toList()..sort((a, b) => a.name!.compareTo(b.name!)));
 }
 
 bool _sameHome(Element el, String entry) {

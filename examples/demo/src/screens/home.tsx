@@ -17,7 +17,7 @@ export function HomeScreen() {
   return (
     <ScrollView layout={{ direction: "vertical" }}>
       <View padding={{ horizontal: 16, top: 48, bottom: 12 }}>
-        <Text fontSize={28} fontWeight="bold">
+        <Text fontSize={28} fontWeight={700}>
           solid-fuse demos
         </Text>
         <Text color="#6B7280" fontSize={14}>

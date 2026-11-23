@@ -5,8 +5,9 @@ import {
   IconButtonFilledTonal, IconButtonOutlined, OutlinedButton, OutlinedButtonIcon, TextButton, TextButtonIcon,
 } from "#fuse/material_ui";
 import { Show } from "solid-js";
-import { Dynamic, toHex, type ColorInput } from "solid-fuse";
+import { Dynamic } from "solid-fuse";
 import { icon, label, type IconSlot, type Label } from "./slots";
+import type { Color } from "#fuse/flutter";
 
 export type ButtonVariant = "filled" | "tonal" | "outlined" | "text" | "elevated";
 
@@ -67,7 +68,7 @@ export interface IconButtonProps {
   disabled?: boolean;
   /** Shown on long press and read by screen readers. */
   tooltip?: string;
-  color?: ColorInput;
+  color?: Color;
   size?: number;
 }
 
@@ -83,7 +84,7 @@ export function IconButton(props: IconButtonProps) {
       onPressed={props.disabled ? null : (props.onPress ?? null)}
       onLongPress={props.disabled ? null : (props.onLongPress ?? null)}
       tooltip={props.tooltip}
-      color={toHex(props.color)}
+      color={props.color}
       iconSize={props.size}
     />
   );
@@ -97,8 +98,8 @@ export interface FloatingActionButtonProps {
   /** Default `"regular"`. */
   size?: "small" | "regular" | "large";
   tooltip?: string;
-  backgroundColor?: ColorInput;
-  foregroundColor?: ColorInput;
+  backgroundColor?: Color;
+  foregroundColor?: Color;
 }
 
 const fabs = { small: FloatingActionButtonSmall, regular: GFab, large: FloatingActionButtonLarge };
@@ -112,8 +113,8 @@ export function FloatingActionButton(props: FloatingActionButtonProps) {
           component={fabs[props.size ?? "regular"]}
           onPressed={props.onPress ?? null}
           tooltip={props.tooltip}
-          backgroundColor={toHex(props.backgroundColor)}
-          foregroundColor={toHex(props.foregroundColor)}
+          backgroundColor={props.backgroundColor}
+          foregroundColor={props.foregroundColor}
         >
           {icon(props.icon)}
         </Dynamic>
@@ -122,8 +123,8 @@ export function FloatingActionButton(props: FloatingActionButtonProps) {
       <FloatingActionButtonExtended
         onPressed={props.onPress ?? null}
         tooltip={props.tooltip}
-        backgroundColor={toHex(props.backgroundColor)}
-        foregroundColor={toHex(props.foregroundColor)}
+        backgroundColor={props.backgroundColor}
+        foregroundColor={props.foregroundColor}
         icon={icon(props.icon)}
         label={label(props.label)!}
       />

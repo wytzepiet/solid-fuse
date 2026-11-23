@@ -3,3 +3,11 @@
 // so in an app they resolve to what `fuse gen` wrote there.
 export type EditableTextProps = { focusNode: unknown };
 export type SingleChildScrollViewProps = { controller?: unknown };
+export type AlignmentGeometry = unknown;
+export type BoxDecoration = unknown;
+export type Color = unknown;
+export type EdgeInsetsGeometry = unknown;
+export type FontWeight = unknown;
+export type Shadow = unknown;
+export type TextDecoration = unknown;
+export type TextStyle = unknown;

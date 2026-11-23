@@ -14,7 +14,7 @@ import { Text, View } from "solid-fuse";
 
 <View
   padding={16}
-  decoration={{ color: "white", borderRadius: 12, shadow: [{ blurRadius: 8, color: "#0002" }] }}
+  decoration={{ color: "#FFFFFF", borderRadius: 12, boxShadow: [{ blurRadius: 8, color: "#0002" }] }}
 >
   <Text fontSize={18}>Card content</Text>
 </View>
@@ -25,15 +25,15 @@ import { Text, View } from "solid-fuse";
 | Prop | Type | Description |
 |---|---|---|
 | `layout` | `LayoutInput` | How the children lay out (see [Layout](#layout) below) |
-| `padding` | `EdgeInsetsInput` | Inner spacing |
-| `margin` | `EdgeInsetsInput` | Outer spacing |
+| `padding` | `EdgeInsetsGeometry` | Inner spacing |
+| `margin` | `EdgeInsetsGeometry` | Outer spacing |
 | `width` / `height` | `number` | Fixed dimensions |
 | `minWidth` / `maxWidth` | `number` | Size constraints |
 | `minHeight` / `maxHeight` | `number` | Size constraints |
 | `aspectRatio` | `number` | Width-to-height ratio |
-| `alignment` | `AlignmentString` | Align child within view |
-| `decoration` | `DecorationInput` | Background, borders, shadows, gradients |
-| `foregroundDecoration` | `DecorationInput` | Decoration painted on top |
+| `alignment` | `AlignmentGeometry` | Align child within view |
+| `decoration` | `BoxDecoration` | Background, borders, shadows, gradients |
+| `foregroundDecoration` | `BoxDecoration` | Decoration painted on top |
 | `opacity` | `number` | 0–1 transparency |
 | `transform` | `TransformInput` | Rotate, scale, translate |
 | `clipBehavior` | `string` | Clip behavior (`"hardEdge"`, `"antiAlias"`, `"none"`) |
@@ -48,7 +48,7 @@ import { Text, View } from "solid-fuse";
 ```tsx
 import { Text } from "solid-fuse";
 
-<Text fontSize={24} fontWeight="bold" color="blue">
+<Text fontSize={24} fontWeight={700} color="#2563EB">
   Hello world
 </Text>
 ```
@@ -58,18 +58,18 @@ import { Text } from "solid-fuse";
 | Prop | Type | Description |
 |---|---|---|
 | `fontSize` | `number` | Font size in logical pixels |
-| `fontWeight` | `FontWeight` | `100`–`900` or `"thin"`, `"light"`, `"regular"`, `"medium"`, `"semiBold"`, `"bold"`, `"extraBold"`, `"black"` |
+| `fontWeight` | `FontWeight` | `100`–`900`, as in CSS |
 | `fontFamily` | `string` | Font family name |
 | `fontStyle` | `string` | `"normal"` or `"italic"` |
-| `color` | `ColorInput` | Text color |
+| `color` | `Color` | Text color |
 | `lineHeight` | `number` | Line height multiplier |
 | `letterSpacing` | `number` | Space between characters |
 | `textAlign` | `string` | `"left"`, `"right"`, `"center"`, `"justify"`, `"start"`, `"end"` |
 | `maxLines` | `number` | Maximum number of lines |
 | `overflow` | `string` | `"clip"`, `"fade"`, `"ellipsis"`, `"visible"` |
-| `textDecoration` | `string` | `"underline"`, `"overline"`, `"lineThrough"`, `"none"` |
-| `backgroundColor` | `ColorInput` | Highlight behind text |
-| `shadows` | `ShadowInput[]` | Text shadows |
+| `textDecoration` | `TextDecoration` | `"underline"`, `"overline"`, `"lineThrough"`, `"none"` |
+| `backgroundColor` | `Color` | Highlight behind text |
+| `shadows` | `Shadow[]` | Text shadows, e.g. `[{ blurRadius: 4, offset: [0, 2], color: "#0004" }]` |
 
 ## Stack and Positioned
 
@@ -79,16 +79,16 @@ import { Text } from "solid-fuse";
 import { Positioned, Stack, Text, View } from "solid-fuse";
 
 <Stack alignment="center">
-  <View width={200} height={200} decoration={{ color: "blue" }} />
+  <View width={200} height={200} decoration={{ color: "#2563EB" }} />
   <Positioned top={10} right={10}>
-    <Text color="white">Badge</Text>
+    <Text color="#FFFFFF">Badge</Text>
   </Positioned>
 </Stack>
 ```
 
 | Stack prop | Type | Description |
 |---|---|---|
-| `alignment` | `AlignmentString` | Default alignment for children |
+| `alignment` | `AlignmentGeometry` | Default alignment for children |
 | `fit` | `string` | `"loose"`, `"expand"`, `"passthrough"` |
 | `clipBehavior` | `string` | Clip overflowing children |
 
@@ -116,7 +116,7 @@ import { ScrollView, Text, View } from "solid-fuse";
 | `scrollDirection` | `string` | `"vertical"` (default) or `"horizontal"` |
 | `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
 | `reverse` | `boolean` | Reverse scroll direction |
-| `padding` | `EdgeInsetsInput` | Inner padding |
+| `padding` | `EdgeInsetsGeometry` | Inner padding |
 | `controller` | `ScrollController` | Programmatic scroll control (see [Handles](/docs/building/handles)) |
 | `clipBehavior` | `string` | Clip behavior |
 | `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
@@ -160,8 +160,8 @@ Layout follows Flutter: a child of a column takes its own width, not the column'
 
 ```tsx
 <View layout={{ gap: 12 }}>
-  <View width={64} height={64} decoration={{ shape: "circle", color: "orange" }} />
-  <View width={Infinity} height={48} decoration={{ color: "orange", borderRadius: 12 }} />
+  <View width={64} height={64} decoration={{ shape: "circle", color: "#F97316" }} />
+  <View width={Infinity} height={48} decoration={{ color: "#F97316", borderRadius: 12 }} />
   <View width={Infinity}>
     <Text textAlign="center">Centered in the full width</Text>
   </View>
@@ -174,10 +174,10 @@ Layout follows Flutter: a child of a column takes its own width, not the column'
 
 ```tsx
 <View layout={{ direction: "horizontal", expand: true }}>
-  <View flex={1} decoration={{ color: "red" }}>
+  <View flex={1} decoration={{ color: "#EF4444" }}>
     <Text>Takes remaining space</Text>
   </View>
-  <View width={100} decoration={{ color: "blue" }}>
+  <View width={100} decoration={{ color: "#2563EB" }}>
     <Text>Fixed 100px</Text>
   </View>
 </View>
@@ -192,7 +192,7 @@ import { Pressable, Text, View } from "solid-fuse";
 
 <Pressable onPress={() => setCount((c) => c + 1)}>
   <View padding={16} decoration={{ color: "#3B82F6", borderRadius: 8 }}>
-    <Text color="white">Tap me</Text>
+    <Text color="#FFFFFF">Tap me</Text>
   </View>
 </Pressable>
 ```
@@ -207,67 +207,41 @@ import { GestureDetector } from "#fuse/flutter";
 </GestureDetector>
 ```
 
-## Input types
+## Values
 
-These types are used across multiple elements for colors, spacing, borders, and more.
+Colors, insets, decorations and text styles are Flutter's own types: `Color`, `EdgeInsetsGeometry`, `BoxDecoration`, `TextStyle`, from your app's generated `#fuse/flutter`. Core widgets and generated widgets take the same ones, so a value built for one fits the other. Each type also takes short forms:
 
-### ColorInput
+| Type | Short forms |
+|---|---|
+| `Color` | `"#rgb"`, `"#rgba"`, `"#rrggbb"`, `"#rrggbbaa"` (alpha last, as in CSS); `{ r, g, b, a? }` (0–255, alpha 0–1) |
+| `EdgeInsets` | `16` (all sides); `{ horizontal, vertical, top, right, bottom, left }` (a side wins over its axis, the rest is 0) |
+| `BorderRadius` | `12` (all corners); `{ topLeft, topRight, bottomLeft, bottomRight }` |
+| `Border` | `{ width?, color? }` (the same side all around) |
+| `Gradient` | `{ colors, stops?, begin?, end? }` (linear, left to right by default) |
+| `Alignment` | `"topLeft"`, `"center"`, `"bottomRight"`... |
+| `FontWeight` | `100`–`900` |
+| `Offset` | `[dx, dy]` |
+| `TextDecoration` | `"underline"`, `"overline"`, `"lineThrough"`, `"none"` |
+| `Duration` | milliseconds: `300` |
 
-Colors can be specified as named strings, hex codes, or RGB/HSL objects:
-
-```tsx
-// Named
-<Text color="red" />
-<Text color="transparent" />
-
-// Hex (3, 4, 6, or 8 character) — CSS semantics, alpha LAST (#RGBA / #RRGGBBAA)
-<View decoration={{ color: "#F00" }} />
-<View decoration={{ color: "#FF0000" }} />
-<View decoration={{ color: "#FF000080" }} />  {/* red at 50% alpha */}
-
-// RGB object (r/g/b: 0-255, a: 0-1)
-<View decoration={{ color: { r: 255, g: 0, b: 0 } }} />
-<View decoration={{ color: { r: 255, g: 0, b: 0, a: 0.5 } }} />
-
-// HSL object (h: 0-360, s/l: 0-100, a: 0-1)
-<View decoration={{ color: { h: 0, s: 100, l: 50 } }} />
-```
-
-### EdgeInsetsInput
-
-Padding and margin accept a number (all sides) or an object:
+A plain object is the short form when the type has one, else the type's own constructor: `decoration={{ color, borderRadius }}` is `BoxDecoration(color:, borderRadius:)`. Anything else, call the builder:
 
 ```tsx
-<View padding={16} />                                    {/* all sides */}
-<View padding={{ horizontal: 16, vertical: 8 }} />       {/* symmetric */}
-<View padding={{ top: 10, left: 20, bottom: 10 }} />     {/* individual */}
+import { Border, BorderSide } from "#fuse/flutter";
+
+<View
+  padding={{ horizontal: 16, vertical: 8 }}
+  decoration={{
+    color: "#FFFFFF",
+    borderRadius: 12,
+    border: Border({ bottom: BorderSide({ width: 1, color: "#E0E0E0" }) }),
+    boxShadow: [{ blurRadius: 8, offset: [0, 2], color: "#0001" }],
+    gradient: { colors: ["#2563EB", "#9333EA"], begin: "topLeft", end: "bottomRight" },
+  }}
+/>
 ```
 
-### BorderRadiusInput
-
-```tsx
-<View decoration={{ borderRadius: 12 }} />                          {/* all corners */}
-<View decoration={{ borderRadius: { topLeft: 12, topRight: 12 } }} /> {/* individual */}
-```
-
-### DecorationInput
-
-Combines background, borders, shadows, gradients, and images:
-
-```tsx
-<View decoration={{
-  color: "white",
-  borderRadius: 12,
-  border: { width: 1, color: "#E0E0E0" },
-  shadow: [{ blurRadius: 8, spreadRadius: 1, color: "#0001", offsetY: 2 }],
-  gradient: {
-    type: "linear",
-    colors: ["blue", "purple"],
-    begin: "topLeft",
-    end: "bottomRight",
-  },
-}} />
-```
+See [Generating bindings](/docs/extending/generating) for where short forms come from.
 
 ### TransformInput
 

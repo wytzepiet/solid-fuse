@@ -59,7 +59,6 @@ export { RadioGroup, type RadioGroupProps } from "./widgets/radio-group";
 export { Tooltip, type TooltipProps } from "./widgets/tooltip";
 export { Menu, type MenuProps } from "./widgets/menu";
 export { Expandable, type ExpandableProps } from "./widgets/expandable";
-export { toHex } from "./color";
 export { createHandle } from "./handle";
 export type { Handle, HandleRuntime } from "./handle";
 export { on, send, channels } from "./channels";

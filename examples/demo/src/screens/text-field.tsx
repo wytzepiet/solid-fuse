@@ -14,7 +14,7 @@ export function TextFieldScreen() {
   return (
     <ScrollView layout={{ direction: "vertical", gap: 16 }}>
         <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
-          <Text fontSize={24} fontWeight="bold">
+          <Text fontSize={24} fontWeight={700}>
             textField
           </Text>
           <Text color="#6B7280" fontSize={14}>
@@ -25,7 +25,7 @@ export function TextFieldScreen() {
         <View padding={{ horizontal: 16 }} layout={{ direction: "vertical", gap: 24 }}>
           {/* Basic reactive value */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Name</Text>
+            <Text fontWeight={600}>Name</Text>
             <TextField
               value={name()}
               onChange={setName}
@@ -43,7 +43,7 @@ export function TextFieldScreen() {
 
           {/* FocusNode demo */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Focus control</Text>
+            <Text fontWeight={600}>Focus control</Text>
             <TextField
               focusNode={focus}
               placeholder="Controlled by buttons below"
@@ -59,7 +59,7 @@ export function TextFieldScreen() {
 
           {/* Filtering */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Digits only</Text>
+            <Text fontWeight={600}>Digits only</Text>
             <TextField
               value={digits()}
               onChange={setDigits}
@@ -71,7 +71,7 @@ export function TextFieldScreen() {
 
           {/* Slot widgets via JSX-as-prop */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Slot widgets</Text>
+            <Text fontWeight={600}>Slot widgets</Text>
             <TextField
               placeholder="Search…"
               prefixIcon={Icons.search}
@@ -85,7 +85,7 @@ export function TextFieldScreen() {
 
           {/* Autofocus */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Autofocus</Text>
+            <Text fontWeight={600}>Autofocus</Text>
             <Text color="#6B7280" fontSize={13}>
               (would autofocus on mount — disabled here so it doesn't steal focus)
             </Text>

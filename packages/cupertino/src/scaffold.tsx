@@ -1,10 +1,11 @@
 import { CupertinoNavigationBar, CupertinoNavigationBarLarge, CupertinoPageScaffold } from "#fuse/cupertino_ui";
-import { Dynamic, toHex, type ColorInput } from "solid-fuse";
+import { Dynamic } from "solid-fuse";
 import { icon, label, type IconSlot, type Label } from "./slots";
+import type { Color } from "#fuse/flutter";
 
 export interface PageScaffoldProps {
   navigationBar?: JSX.Element;
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
   resizeToAvoidBottomInset?: boolean;
   /** The page's content. */
   children?: JSX.Element;
@@ -15,7 +16,7 @@ export function PageScaffold(props: PageScaffoldProps) {
   return (
     <CupertinoPageScaffold
       navigationBar={props.navigationBar}
-      backgroundColor={toHex(props.backgroundColor)}
+      backgroundColor={props.backgroundColor}
       resizeToAvoidBottomInset={props.resizeToAvoidBottomInset}
     >
       {props.children}
@@ -32,7 +33,7 @@ export interface NavigationBarProps {
   trailing?: IconSlot;
   /** The back button's label. Default: the previous `cupertinoPage`'s title. */
   previousPageTitle?: string;
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
 }
 
 export function NavigationBar(props: NavigationBarProps) {
@@ -44,7 +45,7 @@ export function NavigationBar(props: NavigationBarProps) {
       leading={icon(props.leading)}
       trailing={icon(props.trailing)}
       previousPageTitle={props.previousPageTitle}
-      backgroundColor={toHex(props.backgroundColor)}
+      backgroundColor={props.backgroundColor}
     />
   );
 }

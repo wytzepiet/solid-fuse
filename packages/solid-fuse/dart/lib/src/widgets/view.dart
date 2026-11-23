@@ -12,8 +12,8 @@ class FuseViewWidget extends StatelessWidget {
     // ── Read all props ──────────────────────────────────────────────────────
 
     // Spacing
-    final padding = node.edgeInsets('padding');
-    final margin = node.edgeInsets('margin');
+    final padding = node.value<EdgeInsetsGeometry>('padding');
+    final margin = node.value<EdgeInsetsGeometry>('margin');
 
     // Sizing
     final width = node.double('width');
@@ -25,11 +25,11 @@ class FuseViewWidget extends StatelessWidget {
     final aspectRatio = node.double('aspectRatio');
 
     // Alignment
-    final alignment = node.alignment('alignment');
+    final alignment = node.value<AlignmentGeometry>('alignment');
 
     // Decoration
-    final decoration = node.boxDecoration('decoration');
-    final foregroundDecoration = node.boxDecoration('foregroundDecoration');
+    final decoration = node.value<BoxDecoration>('decoration');
+    final foregroundDecoration = node.value<BoxDecoration>('foregroundDecoration');
 
     // Transform
     final transform = node.map('transform');
@@ -65,7 +65,7 @@ class FuseViewWidget extends StatelessWidget {
       final borderRadius = decoration?.borderRadius;
       if (borderRadius != null) {
         result = ClipRRect(
-          borderRadius: borderRadius as BorderRadius,
+          borderRadius: borderRadius,
           clipBehavior: clip,
           child: result,
         );

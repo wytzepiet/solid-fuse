@@ -20,9 +20,9 @@ class FuseCupertinoSegmentedControl extends StatelessWidget {
       groupValue: node['value'],
       onValueChanged: (v) => onChange?.call(v),
       disabledChildren: {for (final d in disabled) ?d},
-      thumbColor: node.color('thumbColor') ??
+      thumbColor: node.value<Color>('thumbColor') ??
           const CupertinoDynamicColor.withBrightness(color: Color(0xFFFFFFFF), darkColor: Color(0xFF636366)),
-      backgroundColor: node.color('backgroundColor') ?? CupertinoColors.tertiarySystemFill,
+      backgroundColor: node.value<Color>('backgroundColor') ?? CupertinoColors.tertiarySystemFill,
       proportionalWidth: node.bool('proportionalWidth') ?? false,
       children: {
         for (var i = 0; i < values.length && i < kids.length; i++)

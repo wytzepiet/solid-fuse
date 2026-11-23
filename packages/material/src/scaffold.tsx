@@ -1,6 +1,7 @@
 import { AppBar as GAppBar, Scaffold as GScaffold } from "#fuse/material_ui";
-import { toHex, type ColorInput } from "solid-fuse";
+
 import { icon, label, type IconSlot, type Label } from "./slots";
+import type { Color } from "#fuse/flutter";
 
 export interface ScaffoldProps {
   appBar?: JSX.Element;
@@ -8,7 +9,7 @@ export interface ScaffoldProps {
   bottomNavigationBar?: JSX.Element;
   drawer?: JSX.Element;
   endDrawer?: JSX.Element;
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
   /** Let the body run under the app bar. */
   extendBodyBehindAppBar?: boolean;
   resizeToAvoidBottomInset?: boolean;
@@ -25,7 +26,7 @@ export function Scaffold(props: ScaffoldProps) {
       bottomNavigationBar={props.bottomNavigationBar}
       drawer={props.drawer}
       endDrawer={props.endDrawer}
-      backgroundColor={toHex(props.backgroundColor)}
+      backgroundColor={props.backgroundColor}
       extendBodyBehindAppBar={props.extendBodyBehindAppBar}
       resizeToAvoidBottomInset={props.resizeToAvoidBottomInset}
       body={props.children}
@@ -40,8 +41,8 @@ export interface AppBarProps {
   /** After the title: usually `IconButton`s. */
   actions?: JSX.Element | JSX.Element[];
   centerTitle?: boolean;
-  backgroundColor?: ColorInput;
-  foregroundColor?: ColorInput;
+  backgroundColor?: Color;
+  foregroundColor?: Color;
   elevation?: number;
   /** Below the toolbar, e.g. a tab bar. */
   bottom?: JSX.Element;
@@ -54,8 +55,8 @@ export function AppBar(props: AppBarProps) {
       leading={icon(props.leading)}
       actions={props.actions}
       centerTitle={props.centerTitle}
-      backgroundColor={toHex(props.backgroundColor)}
-      foregroundColor={toHex(props.foregroundColor)}
+      backgroundColor={props.backgroundColor}
+      foregroundColor={props.foregroundColor}
       elevation={props.elevation}
       bottom={props.bottom}
     />

@@ -1,16 +1,10 @@
-import type {
-  AlignmentString,
-  BaseProps,
-  DecorationInput,
-  EdgeInsetsInput,
-  LayoutInput,
-  TransformInput,
-} from "../types";
+import type { AlignmentGeometry, BoxDecoration, EdgeInsetsGeometry } from "../flutter";
+import type { BaseProps, LayoutInput, TransformInput } from "../types";
 
 export interface ViewProps extends BaseProps {
   layout?: LayoutInput;
-  padding?: EdgeInsetsInput;
-  margin?: EdgeInsetsInput;
+  padding?: EdgeInsetsGeometry;
+  margin?: EdgeInsetsGeometry;
   width?: number;
   height?: number;
   minWidth?: number;
@@ -18,9 +12,9 @@ export interface ViewProps extends BaseProps {
   minHeight?: number;
   maxHeight?: number;
   aspectRatio?: number;
-  alignment?: AlignmentString;
-  decoration?: DecorationInput;
-  foregroundDecoration?: DecorationInput;
+  alignment?: AlignmentGeometry;
+  decoration?: BoxDecoration;
+  foregroundDecoration?: BoxDecoration;
   transform?: TransformInput;
   clipBehavior?: "none" | "hardEdge" | "antiAlias";
   opacity?: number;

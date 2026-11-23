@@ -54,12 +54,12 @@ Brightness? fuseBrightness(String? value) => switch (value) {
 /// The text style props (`fontSize`, `fontWeight`, `fontFamily`,
 /// `fontStyle`, `color`, `letterSpacing`, `lineHeight`), unset ones null so
 /// a theme's style fills them.
-TextStyle fuseTextStyle(FuseMap node) => TextStyle(
+TextStyle fuseTextStyle(FuseNode node) => TextStyle(
       fontFamily: node.string('fontFamily'),
       fontSize: node.double('fontSize'),
-      fontWeight: node.fontWeight('fontWeight'),
-      fontStyle: node.string('fontStyle') == 'italic' ? FontStyle.italic : null,
-      color: node.color('color'),
+      fontWeight: node.value<FontWeight>('fontWeight'),
+      fontStyle: node.enumOf('fontStyle', FontStyle.values),
+      color: node.value<Color>('color'),
       letterSpacing: node.double('letterSpacing'),
       height: node.double('lineHeight'),
     );

@@ -12,12 +12,12 @@ import { Button, Row } from "../ui";
 export function IconScreen() {
   const nav = useNavigation();
   const [size, setSize] = createSignal(32);
-  const [color, setColor] = createSignal("#111827");
+  const [color, setColor] = createSignal<`#${string}`>("#111827");
 
   return (
     <ScrollView layout={{ direction: "vertical", gap: 16 }}>
         <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
-          <Text fontSize={24} fontWeight="bold">
+          <Text fontSize={24} fontWeight={700}>
             icon
           </Text>
           <Text color="#6B7280" fontSize={14}>
@@ -28,7 +28,7 @@ export function IconScreen() {
         <View padding={{ horizontal: 16 }} layout={{ direction: "vertical", gap: 24 }}>
           {/* Static grid — if any of these don't render, the primitive is broken */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Static grid</Text>
+            <Text fontWeight={600}>Static grid</Text>
             <View layout={{ direction: "horizontal", gap: 16, align: "center" }}>
               <Icon icon={md.search} size={32} />
               <Icon icon={md.lock} size={32} />
@@ -41,7 +41,7 @@ export function IconScreen() {
 
           {/* Reactive size + color */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Reactive props</Text>
+            <Text fontWeight={600}>Reactive props</Text>
             <View
               layout={{ direction: "horizontal", gap: 12, align: "center" }}
               padding={12}
@@ -66,7 +66,7 @@ export function IconScreen() {
           {/* Icon inside a view — exercises the "orphan has its own children" path
               from the other direction: normal composition, should just work */}
           <View layout={{ direction: "vertical", gap: 6 }}>
-            <Text fontWeight="semiBold">Icon + text row</Text>
+            <Text fontWeight={600}>Icon + text row</Text>
             <View
               layout={{ direction: "horizontal", gap: 8, align: "center" }}
               padding={12}

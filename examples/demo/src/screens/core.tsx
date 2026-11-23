@@ -15,7 +15,7 @@ export function CoreScreen() {
 
   return (
     <ScrollView layout={{ direction: "vertical", gap: 20 }} padding={16}>
-      <Text fontSize={24} fontWeight="bold">core widgets</Text>
+      <Text fontSize={24} fontWeight={700}>core widgets</Text>
 
       <Section title="Pressable">
         <Pressable onPress={() => setPresses((n) => n + 1)} semanticLabel="Press me">
@@ -24,7 +24,7 @@ export function CoreScreen() {
               padding={{ horizontal: 16, vertical: 12 }}
               decoration={{ color: state.pressed() ? "#1e40af" : state.hovered() ? "#1d4ed8" : "#2563eb", borderRadius: 8 }}
             >
-              <Text color="white">{`Pressed ${presses()} times`}</Text>
+              <Text color="#FFFFFF">{`Pressed ${presses()} times`}</Text>
             </View>
           )}
         </Pressable>
@@ -45,8 +45,8 @@ export function CoreScreen() {
           <Button onTap={() => setOpen(true)}>open dialog</Button>
         </Row>
         <Modal open={open()} onOpenChange={setOpen}>
-          <View padding={24} width={280} decoration={{ color: "white", borderRadius: 16 }} layout={{ gap: 16 }}>
-            <Text fontSize={18} fontWeight="bold">Core dialog</Text>
+          <View padding={24} width={280} decoration={{ color: "#FFFFFF", borderRadius: 16 }} layout={{ gap: 16 }}>
+            <Text fontSize={18} fontWeight={700}>Core dialog</Text>
             <Text>No design: the content brings its own surface.</Text>
             <Button onTap={() => setOpen(false)}>close</Button>
           </View>
@@ -58,7 +58,7 @@ export function CoreScreen() {
           open={menu()}
           onOpenChange={setMenu}
           content={
-            <View width={160} decoration={{ color: "white", borderRadius: 8, shadow: { blurRadius: 8, color: "#00000033" } }}>
+            <View width={160} decoration={{ color: "#FFFFFF", borderRadius: 8, boxShadow: [{ blurRadius: 8, color: "#00000033" }] }}>
               <For each={["apple", "banana", "cherry"]}>
                 {(f) => (
                   <Pressable onPress={() => (setFruit(f), setMenu(false))}>
@@ -78,7 +78,7 @@ export function CoreScreen() {
           <Text>{`size = ${size()}`}</Text>
         </RadioGroup>
         <Tooltip
-          content={<View padding={8} decoration={{ color: "#111827", borderRadius: 4 }}><Text color="white">A tooltip</Text></View>}
+          content={<View padding={8} decoration={{ color: "#111827", borderRadius: 4 }}><Text color="#FFFFFF">A tooltip</Text></View>}
           trigger="tap"
         >
           <Text color="#2563eb">tap for a tooltip</Text>
@@ -97,7 +97,7 @@ export function CoreScreen() {
 function Section(props: { title: string; children: JSX.Element }) {
   return (
     <View layout={{ direction: "vertical", gap: 8 }}>
-      <Text fontWeight="semiBold">{props.title}</Text>
+      <Text fontWeight={600}>{props.title}</Text>
       {props.children}
     </View>
   );

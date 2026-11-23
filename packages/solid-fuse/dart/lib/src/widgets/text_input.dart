@@ -66,7 +66,7 @@ class _FuseTextInputState extends State<FuseTextInput>
     final disabled = node.bool('disabled') ?? false;
     final base = DefaultTextStyle.of(context).style;
     final style = base.merge(fuseTextStyle(node));
-    final cursor = node.color('cursorColor') ?? style.color ?? const Color(0xFF2196F3);
+    final cursor = node.value<Color>('cursorColor') ?? style.color ?? const Color(0xFF2196F3);
     final align = fuseTextAlign(node.string('textAlign'));
     final maxLines = fuseMaxLines(node);
     final onSubmit = node.callback('onSubmit');
@@ -87,7 +87,7 @@ class _FuseTextInputState extends State<FuseTextInput>
       style: style,
       cursorColor: cursor,
       backgroundCursorColor: const Color(0xFF9E9E9E),
-      selectionColor: node.color('selectionColor') ?? cursor.withValues(alpha: 0.3),
+      selectionColor: node.value<Color>('selectionColor') ?? cursor.withValues(alpha: 0.3),
       textAlign: align,
       maxLines: maxLines,
       minLines: node.int('minLines'),
@@ -114,7 +114,7 @@ class _FuseTextInputState extends State<FuseTextInput>
               child: IgnorePointer(
                 child: Text(
                   placeholder,
-                  style: style.copyWith(color: node.color('placeholderColor') ?? const Color(0xFF9E9E9E)),
+                  style: style.copyWith(color: node.value<Color>('placeholderColor') ?? const Color(0xFF9E9E9E)),
                   textAlign: align,
                   maxLines: maxLines ?? 1,
                   overflow: TextOverflow.ellipsis,

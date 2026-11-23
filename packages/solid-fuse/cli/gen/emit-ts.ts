@@ -327,9 +327,13 @@ export function emitTs(m: Manifest): TsOutput {
    * optional for the declared type's own unnamed constructor ([declName]),
    * so a plain object works there.
    */
-  function variantShape(v: Variant, declName: string | null, from: Module): string {
-    const fields = [`${v.tag === declName ? "$?" : "$"}: ${lit(v.tag)}`];
-    for (const p of v.params) {
+  /** [plainName]: the variant an object without a `$` tag means, if any. */
+  function variantShape(v: Variant, plainName: string | null, from: Module): string {
+    return paramsShape([`${v.tag === plainName ? "$?" : "$"}: ${lit(v.tag)}`], v.params, from);
+  }
+
+  function paramsShape(fields: string[], params: Param[], from: Module): string {
+    for (const p of params) {
       if (!p.type || p.type.k === "supplied") continue;
       fields.push(`${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, from)}`);
     }
@@ -356,9 +360,18 @@ export function emitTs(m: Manifest): TsOutput {
       for (let i = 0; i < consts.length; i += 6) lines.push(consts.slice(i, i + 6).join(" | "));
       arms.push(lines.length === 1 ? `Const<${lines[0]}>` : `Const<\n    | ${lines.join("\n    | ")}\n  >`);
     }
-    for (const sh of decl.shorthands ?? []) arms.push(sh.ts ?? tsIn(sh.type, module));
+    let plain: string | null = decl.name;
+    for (const sh of decl.shorthands ?? []) {
+      if (sh.kind === "object") {
+        // A plain object is the shorthand's; every constructor needs its tag.
+        plain = null;
+        arms.push(sh.ts ?? paramsShape(["$?: never"], sh.params, module));
+      } else {
+        arms.push(sh.ts ?? tsIn(sh.type, module));
+      }
+    }
     for (const v of decl.variants ?? []) {
-      arms.push(variantShape(v, decl.name, module));
+      arms.push(variantShape(v, plain, module));
       builderFor(v);
     }
     if (decl.implement) {

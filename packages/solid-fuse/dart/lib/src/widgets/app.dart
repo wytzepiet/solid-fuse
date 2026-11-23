@@ -13,17 +13,12 @@ class FuseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = node.map('textStyle');
     return WidgetsApp(
       title: node.string('title') ?? '',
-      color: node.color('color') ?? const Color(0xFF2196F3),
+      color: node.value<Color>('color') ?? const Color(0xFF2196F3),
       locale: fuseLocale(node.string('locale')),
       debugShowCheckedModeBanner: false,
-      textStyle: TextStyle(
-        fontFamily: text?.string('fontFamily'),
-        fontSize: text?.double('fontSize') ?? 14,
-        color: text?.color('color') ?? const Color(0xFF000000),
-      ),
+      textStyle: const TextStyle(fontSize: 14, color: Color(0xFF000000)).merge(node.value<TextStyle>('textStyle')),
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
           PageRouteBuilder<T>(settings: settings, pageBuilder: (context, _, _) => builder(context)),
       home: FuseAppContent(node),

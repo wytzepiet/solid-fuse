@@ -27,7 +27,7 @@ Every prop is reactive.
 ```tsx
 const [liked, setLiked] = createSignal(false);
 
-<Icon icon={liked() ? Icons.favorite : Icons.favorite_border} color={liked() ? "red" : "grey"} />
+<Icon icon={liked() ? Icons.favorite : Icons.favorite_border} color={liked() ? "#EF4444" : "#6B7280"} />
 ```
 
 ## Props
@@ -36,7 +36,7 @@ const [liked, setLiked] = createSignal(false);
 |---|---|---|
 | `icon` | `IconData` | The glyph: `Icons.home`, `CupertinoIcons.add` |
 | `size` | `number` | Width and height in logical pixels |
-| `color` | `ColorInput` | See [ColorInput](/docs/building/ui-and-layout#colorinput) |
+| `color` | `Color` | See [Values](/docs/building/ui-and-layout#values) |
 | `semanticLabel` | `string` | Read by screen readers |
 | `fill`, `weight`, `grade`, `opticalSize` | `number` | Variable-font axes (Material Symbols) |
 | `applyTextScaling` | `boolean` | Scale with the platform text size |
@@ -47,7 +47,7 @@ The design packages' slots that take an icon (`leading`, `prefixIcon`, a button'
 
 ```tsx
 <TextField label="Search" prefixIcon={Icons.search} />
-<ListTile leading={<Icon icon={Icons.wifi} color="green" />} title="Wi-Fi" />
+<ListTile leading={<Icon icon={Icons.wifi} color="#16A34A" />} title="Wi-Fi" />
 ```
 
 ## Your own icon font

@@ -58,7 +58,7 @@ class FuseScrollView extends StatelessWidget {
       physics: scrollPhysics,
       reverse: reverse,
       primary: primary,
-      padding: node.edgeInsets('padding'),
+      padding: node.value<EdgeInsetsGeometry>('padding'),
       clipBehavior: clip,
       keyboardDismissBehavior: keyboardDismiss,
       dragStartBehavior: dragStart,

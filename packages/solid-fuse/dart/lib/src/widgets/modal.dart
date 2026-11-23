@@ -126,11 +126,11 @@ Route<Object?> fuseDialogRoute(BuildContext context, FuseNode node, WidgetBuilde
   final duration = Duration(milliseconds: node.int('duration') ?? 200);
   return RawDialogRoute<Object?>(
     barrierDismissible: node.bool('dismissible') ?? true,
-    barrierColor: node.color('barrierColor') ?? const Color(0x80000000),
+    barrierColor: node.value<Color>('barrierColor') ?? const Color(0x80000000),
     barrierLabel: node.string('barrierLabel') ?? 'Dismiss',
     transitionDuration: duration,
     pageBuilder: (context, _, _) => SafeArea(
-      child: Align(alignment: node.alignment('alignment') ?? Alignment.center, child: content(context)),
+      child: Align(alignment: node.value<AlignmentGeometry>('alignment') ?? Alignment.center, child: content(context)),
     ),
     transitionBuilder: (context, animation, _, child) {
       final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);

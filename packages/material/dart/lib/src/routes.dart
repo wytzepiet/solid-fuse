@@ -8,7 +8,7 @@ Route<Object?> materialDialogRoute(BuildContext context, FuseNode node, WidgetBu
     context: context,
     builder: content,
     barrierDismissible: node.bool('dismissible') ?? true,
-    barrierColor: node.color('barrierColor') ?? Colors.black54,
+    barrierColor: node.value<Color>('barrierColor') ?? Colors.black54,
     barrierLabel: node.string('barrierLabel'),
     useSafeArea: node.bool('useSafeArea') ?? true,
   );
@@ -25,9 +25,9 @@ Route<Object?> materialBottomSheetRoute(BuildContext context, FuseNode node, Wid
     isDismissible: node.bool('dismissible') ?? true,
     enableDrag: node.bool('enableDrag') ?? true,
     showDragHandle: node.bool('showDragHandle'),
-    backgroundColor: node.color('backgroundColor'),
+    backgroundColor: node.value<Color>('backgroundColor'),
     barrierLabel: node.string('barrierLabel'),
-    modalBarrierColor: node.color('barrierColor'),
+    modalBarrierColor: node.value<Color>('barrierColor'),
     useSafeArea: node.bool('useSafeArea') ?? false,
   );
 }

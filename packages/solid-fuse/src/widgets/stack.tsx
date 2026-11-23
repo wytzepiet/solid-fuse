@@ -1,7 +1,8 @@
-import type { AlignmentString, BaseProps } from "../types";
+import type { AlignmentGeometry } from "../flutter";
+import type { BaseProps } from "../types";
 
 export interface StackProps extends BaseProps {
-  alignment?: AlignmentString;
+  alignment?: AlignmentGeometry;
   textDirection?: "ltr" | "rtl";
   fit?: "loose" | "expand" | "passthrough";
   clipBehavior?: "none" | "hardEdge" | "antiAlias";

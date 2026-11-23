@@ -4,17 +4,18 @@ import {
   ListTile as GListTile, VerticalDivider,
 } from "#fuse/material_ui";
 import { Show } from "solid-js";
-import { Dynamic, View, toHex, type ColorInput, type EdgeInsetsInput } from "solid-fuse";
+import { Dynamic, View } from "solid-fuse";
 import { icon, label, type IconSlot, type Label } from "./slots";
+import type { Color, EdgeInsetsGeometry } from "#fuse/flutter";
 
 export interface CardProps {
   /** Default `"elevated"`. */
   variant?: "elevated" | "filled" | "outlined";
   /** Makes the whole card tappable, with ink. */
   onPress?: () => void;
-  padding?: EdgeInsetsInput;
+  padding?: EdgeInsetsGeometry;
   margin?: number;
-  color?: ColorInput;
+  color?: Color;
   elevation?: number;
   children?: JSX.Element;
 }
@@ -27,7 +28,7 @@ export function Card(props: CardProps) {
     <Dynamic
       component={cards[props.variant ?? "elevated"]}
       margin={props.margin}
-      color={toHex(props.color)}
+      color={props.color}
       elevation={props.elevation}
       clipBehavior="antiAlias"
     >
@@ -77,7 +78,7 @@ export interface DividerProps {
   size?: number;
   indent?: number;
   endIndent?: number;
-  color?: ColorInput;
+  color?: Color;
 }
 
 export function Divider(props: DividerProps) {
@@ -87,7 +88,7 @@ export function Divider(props: DividerProps) {
       thickness={props.thickness}
       indent={props.indent}
       endIndent={props.endIndent}
-      color={toHex(props.color)}
+      color={props.color}
       width={props.vertical ? props.size : undefined}
       height={props.vertical ? undefined : props.size}
     />
@@ -138,7 +139,7 @@ export interface BadgeProps {
   max?: number;
   /** Default true. */
   visible?: boolean;
-  color?: ColorInput;
+  color?: Color;
   /** What the badge sits on, usually an icon. */
   children?: JSX.Element;
 }
@@ -148,7 +149,7 @@ export function Badge(props: BadgeProps) {
     <Show
       when={typeof props.label === "number"}
       fallback={
-        <GBadge label={label(props.label)} isLabelVisible={props.visible ?? true} backgroundColor={toHex(props.color)}>
+        <GBadge label={label(props.label)} isLabelVisible={props.visible ?? true} backgroundColor={props.color}>
           {props.children}
         </GBadge>
       }
@@ -157,7 +158,7 @@ export function Badge(props: BadgeProps) {
         count={props.label as number}
         maxCount={props.max}
         isLabelVisible={props.visible ?? true}
-        backgroundColor={toHex(props.color)}
+        backgroundColor={props.color}
       >
         {props.children}
       </BadgeCount>
@@ -170,8 +171,8 @@ export interface ProgressIndicatorProps {
   variant?: "circular" | "linear";
   /** 0 to 1. Leave out for an indeterminate one. */
   value?: number;
-  color?: ColorInput;
-  trackColor?: ColorInput;
+  color?: Color;
+  trackColor?: Color;
 }
 
 export function ProgressIndicator(props: ProgressIndicatorProps) {
@@ -179,8 +180,8 @@ export function ProgressIndicator(props: ProgressIndicatorProps) {
     <Dynamic
       component={props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator}
       value={props.value ?? null}
-      color={toHex(props.color)}
-      backgroundColor={toHex(props.trackColor)}
+      color={props.color}
+      backgroundColor={props.trackColor}
     />
   );
 }

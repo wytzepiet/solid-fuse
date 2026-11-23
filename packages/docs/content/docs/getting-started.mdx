@@ -64,8 +64,8 @@ import { Navigator, Text, View } from "solid-fuse";
 function Home() {
   return (
     <View padding={24} layout={{ gap: 12 }}>
-      <Text fontSize={24} fontWeight="bold">Hello Fuse</Text>
-      <Text color="grey">SolidJS inside Flutter</Text>
+      <Text fontSize={24} fontWeight={700}>Hello Fuse</Text>
+      <Text color="#6B7280">SolidJS inside Flutter</Text>
     </View>
   );
 }
@@ -107,7 +107,7 @@ function TodoList() {
         {(todo) => <Text fontSize={16}>{todo}</Text>}
       </For>
       <Show when={showDone()}>
-        <Text color="green">All done!</Text>
+        <Text color="#16A34A">All done!</Text>
       </Show>
     </View>
   );

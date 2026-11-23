@@ -1,6 +1,7 @@
 import { AlertDialog } from "#fuse/material_ui";
-import { Modal, toHex, type ColorInput } from "solid-fuse";
+import { Modal } from "solid-fuse";
 import { icon, label, type IconSlot, type Label } from "./slots";
+import type { Color } from "#fuse/flutter";
 
 export interface DialogProps {
   open: boolean;
@@ -43,7 +44,7 @@ export interface BottomSheetProps {
   showDragHandle?: boolean;
   /** Let the sheet be taller than half the screen. */
   fullHeight?: boolean;
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
   children?: JSX.Element;
 }
 

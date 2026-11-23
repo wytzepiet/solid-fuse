@@ -97,6 +97,13 @@ class FuseRuntime {
     _handleFactories[type] = factory;
   }
 
+  /// Register how a prop of value type [type] decodes, for
+  /// [FuseNode.value]. Generated code registers one for each value type a
+  /// barrel names.
+  void registerDecoder(Type type, FuseDecoder decoder) {
+    registry.decoders[type] = decoder;
+  }
+
   /// Register a route type for `<modal type="...">`: a dialog, a bottom
   /// sheet, a popup. Core registers `dialog`; design packages add theirs.
   void registerRoute(String type, FuseRouteFactory factory) {

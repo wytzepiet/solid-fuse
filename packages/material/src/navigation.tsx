@@ -1,6 +1,7 @@
 import { NavigationBar as GNavigationBar, NavigationDestination as GDestination } from "#fuse/material_ui";
-import { toHex, type ColorInput } from "solid-fuse";
+
 import { icon, type IconSlot } from "./slots";
+import type { Color } from "#fuse/flutter";
 
 export interface NavigationBarProps {
   /** Index of the selected destination. */
@@ -8,8 +9,8 @@ export interface NavigationBarProps {
   onSelect?: (index: number) => void;
   /** Default `"alwaysShow"`. */
   labels?: "alwaysShow" | "onlyShowSelected" | "alwaysHide";
-  backgroundColor?: ColorInput;
-  indicatorColor?: ColorInput;
+  backgroundColor?: Color;
+  indicatorColor?: Color;
   /** `NavigationDestination`s. */
   children?: JSX.Element;
 }
@@ -21,8 +22,8 @@ export function NavigationBar(props: NavigationBarProps) {
       selectedIndex={props.selected}
       onDestinationSelected={props.onSelect ?? null}
       labelBehavior={props.labels ?? null}
-      backgroundColor={toHex(props.backgroundColor)}
-      indicatorColor={toHex(props.indicatorColor)}
+      backgroundColor={props.backgroundColor}
+      indicatorColor={props.indicatorColor}
       destinations={props.children}
     />
   );

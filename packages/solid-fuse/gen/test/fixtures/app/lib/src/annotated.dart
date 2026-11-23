@@ -29,3 +29,12 @@ class Tally {
 /// `3` is `Point(3, 3)`.
 @fuseShorthand
 Point pointSquare(double v) => Point(v, v);
+
+/// `{ x, y }` is `Point(x, y)`: an object short form, so the plain
+/// constructor needs its tag.
+@fuseShorthand
+Point pointAt({double x = 0, double y = 0}) => Point(x, y);
+
+/// Size belongs to Flutter: only solid_fuse may give it short forms.
+@fuseShorthand
+Size sizeSquare(double v) => Size(v, v);

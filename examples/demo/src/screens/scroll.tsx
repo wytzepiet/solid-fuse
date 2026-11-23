@@ -20,7 +20,7 @@ export function ScrollScreen() {
           padding={{ horizontal: 16, top: 16, bottom: 8 }}
           layout={{ direction: "vertical", gap: 4 }}
         >
-          <Text fontSize={24} fontWeight="bold">
+          <Text fontSize={24} fontWeight={700}>
             scrollController
           </Text>
           <Text color="#6B7280" fontSize={14}>
@@ -33,7 +33,7 @@ export function ScrollScreen() {
           padding={{ horizontal: 16 }}
           layout={{ direction: "vertical", gap: 8 }}
         >
-          <Text fontWeight="semiBold">
+          <Text fontWeight={600}>
             offset = {(scroll.offset() ?? 0).toFixed(1)}
           </Text>
           <ScrollView

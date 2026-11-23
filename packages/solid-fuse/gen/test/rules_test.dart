@@ -186,13 +186,21 @@ void main() {
       expect(widget('Center')['id'], '$widgetsLib#Center');
       // solid_fuse's own lib/fuse.dart: the shorthands below.
       final point = type('package:fixture_app/fixture.dart#Point');
-      expect(point['shorthands'], [
-        {'kind': 'number', 'fn': contains('pointSquare'), 'type': {'k': 'double'}, 'dart': 'double'},
-      ]);
+      final pointShort = (point['shorthands'] as List).cast<Json>();
+      expect(pointShort.first, {'kind': 'number', 'fn': contains('pointSquare'), 'type': {'k': 'double'}, 'dart': 'double'});
+      // An object short form: named params, and the plain constructor keeps its tag.
+      expect(pointShort.last, containsPair('kind', 'object'));
+      expect([for (final x in pointShort.last['params'] as List) (x as Map)['name']], ['x', 'y']);
+      expect(point['implement'], isNot(true));
+      // Only a type's owner gives it short forms.
+      expect(skipReason('package:fixture_app/src/annotated.dart#sizeSquare'), contains('only its owner'));
       final insets = type('$widgetsLib#EdgeInsetsGeometry');
-      expect((insets['shorthands'] as List).single, containsPair('fn', contains('edgeInsetsAll')));
+      expect([for (final x in insets['shorthands'] as List) '${(x as Map)['kind']} ${x['fn']}'],
+          [contains('number shorthands.edgeInsetsAll'), 'object shorthands.edgeInsetsSides']);
       final color = type('$widgetsLib#Color');
-      expect((color['shorthands'] as List).single, containsPair('ts', '`#\${string}`'));
+      expect((color['shorthands'] as List).first, containsPair('ts', '`#\${string}`'));
+      // Classes a barrel names with `show` are decoded by type for hand-written widgets.
+      expect(manifest['values'], contains('$widgetsLib#Color'));
     });
 
     test('Listenables and mutable classes are handles', () {

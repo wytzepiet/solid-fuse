@@ -121,18 +121,32 @@ Some values have a short form:
 | Short form | Means |
 |---|---|
 | `padding={8}` | `EdgeInsets.all(8)` |
+| `padding={{ horizontal: 16, top: 8 }}` | `EdgeInsets.fromLTRB(16, 8, 16, 0)` |
 | `borderRadius={12}` | `BorderRadius.circular(12)` |
 | `color="#ff8800"` | the CSS hex color (`#rgb`, `#rgba`, `#rrggbb`, `#rrggbbaa`) |
+| `color={{ r: 255, g: 136, b: 0, a: 0.5 }}` | `Color.fromRGBO(255, 136, 0, 0.5)` |
+| `fontWeight={600}` | `FontWeight.w600` |
+| `alignment="topLeft"` | `Alignment.topLeft` |
+| `offset={[0, 2]}` | `Offset(0, 2)` |
 | `duration={300}` | 300 milliseconds |
 
-A short form works wherever a prop takes that type, or a supertype of it (`padding` takes `EdgeInsetsGeometry`). You can add your own with `@fuseShorthand`. Write a Dart function that takes a `bool`, a number, a `String` or a `List`, and returns the type:
+The full list is in [UI & Layout](/docs/building/ui-and-layout#values). A short form works wherever a prop takes that type, or a supertype of it (`padding` takes `EdgeInsetsGeometry`), on core widgets and generated ones alike.
+
+You can add your own with `@fuseShorthand`. Write a Dart function that returns the type and takes a `bool`, a number, a `String`, a `List`, or only named parameters (an object):
 
 ```dart
 @fuseShorthand
 Offset offsetSquare(double v) => Offset(v, v);
+
+@fuseShorthand
+Point pointAt({double x = 0, double y = 0}) => Point(x, y);
 ```
 
 A type has at most one shorthand per kind of input. `@FuseShorthand(ts: ...)` narrows the TypeScript type: solid-fuse's color shorthand gives `` r'`#${string}`' ``.
+
+A plain object (no `$`) goes to the type's object shorthand if it has one, else to its unnamed constructor. With an object shorthand, the unnamed constructor is still there as the builder (`Point(1, 2)`).
+
+Only a type's owner gives it short forms: solid-fuse for Flutter's and Dart's types, a package for its own. `fuse gen` refuses the rest and says why in `fuse/gen-report.txt`. That keeps one meaning for `padding={{...}}` in every app.
 
 ### Implementing a Dart class
 

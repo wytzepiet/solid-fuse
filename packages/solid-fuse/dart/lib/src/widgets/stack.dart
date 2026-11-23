@@ -9,7 +9,7 @@ class FuseStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alignment = node.alignment('alignment') ?? Alignment.topLeft;
+    final alignment = node.value<AlignmentGeometry>('alignment') ?? Alignment.topLeft;
     final fitStr = node.string('fit');
     final fit = switch (fitStr) {
       'expand' => StackFit.expand,

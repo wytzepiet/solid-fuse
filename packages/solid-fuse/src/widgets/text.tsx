@@ -1,16 +1,12 @@
-import type {
-  BaseProps,
-  ColorInput,
-  FontWeight,
-  ShadowInput,
-} from "../types";
+import type { Color, FontWeight, Shadow, TextDecoration } from "../flutter";
+import type { BaseProps } from "../types";
 
 export interface TextProps extends BaseProps {
   fontSize?: number;
   fontWeight?: FontWeight;
   fontFamily?: string;
   fontStyle?: "normal" | "italic";
-  color?: ColorInput;
+  color?: Color;
   lineHeight?: number;
   letterSpacing?: number;
   wordSpacing?: number;
@@ -19,11 +15,11 @@ export interface TextProps extends BaseProps {
   overflow?: "clip" | "fade" | "ellipsis" | "visible";
   textDirection?: "ltr" | "rtl";
   softWrap?: boolean;
-  textDecoration?: "none" | "underline" | "overline" | "lineThrough";
-  textDecorationColor?: ColorInput;
+  textDecoration?: TextDecoration;
+  textDecorationColor?: Color;
   textDecorationStyle?: "solid" | "double" | "dotted" | "dashed" | "wavy";
-  backgroundColor?: ColorInput;
-  shadows?: ShadowInput | ShadowInput[];
+  backgroundColor?: Color;
+  shadows?: Shadow[];
   locale?: string;
 }
 

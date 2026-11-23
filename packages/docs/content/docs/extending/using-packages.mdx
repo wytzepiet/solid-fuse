@@ -53,7 +53,7 @@ class FuseLineChart extends StatelessWidget {
         lineBarsData: [
           LineChartBarData(
             spots: spots,
-            color: node.color('color') ?? Colors.blue,
+            color: node.value<Color>('color') ?? Colors.blue,
             barWidth: node.double('strokeWidth') ?? 2,
           ),
         ],
@@ -74,11 +74,11 @@ runtime.registerWidget('lineChart', FuseLineChart.new);
 ### Step 4: Write the JS wrapper
 
 ```tsx title="src/line-chart.tsx"
-import type { ColorInput } from "solid-fuse";
+import type { Color } from "#fuse/flutter";
 
 export interface LineChartProps {
   data: number[];
-  color?: ColorInput;
+  color?: Color;
   strokeWidth?: number;
 }
 
@@ -92,7 +92,7 @@ export function LineChart(props: LineChartProps) {
 ```tsx
 import { LineChart } from "./line-chart";
 
-<LineChart data={[1, 4, 2, 8, 5]} color="green" strokeWidth={3} />
+<LineChart data={[1, 4, 2, 8, 5]} color="#16A34A" strokeWidth={3} />
 ```
 
 A reactive `fl_chart` chart, driven by a Solid signal, in about 30 lines of glue.
@@ -106,7 +106,7 @@ Anything on pub.dev follows the same shape:
 3. `registerWidget(...)`
 4. A typed JS wrapper
 
-For packages that expose an imperative controller (video players, map controllers, scroll controllers), wrap the controller as a **handle** instead — see [Creating Handles](/docs/extending/creating-handles). For the prop accessors available on `FuseNode` (`node.list`, `node.color`, `node.double`, callbacks, `layoutChildren`), see [Creating Widgets](/docs/extending/creating-widgets).
+For packages that expose an imperative controller (video players, map controllers, scroll controllers), wrap the controller as a **handle** instead — see [Creating Handles](/docs/extending/creating-handles). For the prop accessors available on `FuseNode` (`node.list`, `node.value<Color>`, `node.double`, callbacks, `layoutChildren`), see [Creating Widgets](/docs/extending/creating-widgets).
 
 ## Shipping it as a reusable package
 

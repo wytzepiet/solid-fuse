@@ -29,9 +29,9 @@ render(() => (
 | Prop | Type | Description |
 |---|---|---|
 | `title` | `string` | Shown by the OS task switcher |
-| `color` | `ColorInput` | The app's color for the OS |
+| `color` | `Color` | The app's color for the OS |
 | `locale` | `string` | BCP 47 tag, e.g. `"en-US"` |
-| `textStyle` | `{ fontFamily, fontSize, fontWeight, color }` | Default text style |
+| `textStyle` | `TextStyle` | Default text style, merged over 14px black |
 
 ## Pressable
 
@@ -45,7 +45,7 @@ const [pressed, setPressed] = createSignal(false);
 
 <Pressable onPress={save} onPressedChange={setPressed} semanticLabel="Save">
   <View padding={12} decoration={{ color: pressed() ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
-    <Text color="white">Save</Text>
+    <Text color="#FFFFFF">Save</Text>
   </View>
 </Pressable>
 ```
@@ -57,7 +57,7 @@ Inline, for example in each row of a list, a function child gets the flags as ac
 <Pressable onPress={save} semanticLabel="Save">
   {(state) => (
     <View padding={12} decoration={{ color: state.pressed() ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
-      <Text color="white">Save</Text>
+      <Text color="#FFFFFF">Save</Text>
     </View>
   )}
 </Pressable>
@@ -106,7 +106,7 @@ const [name, setName] = createSignal("");
 | `allowPattern` / `denyPattern` | `string` | Regex source; characters that don't fit are dropped |
 | `autofillHints` | `string[]` | |
 | `color`, `fontSize`, `fontWeight`, `fontFamily`, `letterSpacing`, `lineHeight` | | Text style |
-| `placeholderColor`, `cursorColor`, `selectionColor` | `ColorInput` | |
+| `placeholderColor`, `cursorColor`, `selectionColor` | `Color` | |
 
 The design packages' `TextField`s take the same props.
 
@@ -120,7 +120,7 @@ As with Flutter's `showDialog(builder: ...)`, the content exists only while it i
 const [open, setOpen] = createSignal(false);
 
 <Modal open={open()} onOpenChange={setOpen}>
-  <View padding={24} decoration={{ color: "white", borderRadius: 16 }}>
+  <View padding={24} decoration={{ color: "#FFFFFF", borderRadius: 16 }}>
     <Text>Hello</Text>
   </View>
 </Modal>
@@ -132,8 +132,8 @@ const [open, setOpen] = createSignal(false);
 | `onOpenChange` | `(open: boolean) => void` | |
 | `type` | `string` | Route type. Default `"dialog"` |
 | `dismissible` | `boolean` | Barrier tap closes it. Default true |
-| `barrierColor` | `ColorInput` | |
-| `alignment` | `AlignmentString` | Where a `"dialog"` sits. Default center |
+| `barrierColor` | `Color` | |
+| `alignment` | `AlignmentGeometry` | Where a `"dialog"` sits. Default center |
 | `duration` | `number` | ms |
 
 A package registers a route type in Dart with `runtime.registerRoute(type, (context, node, content) => Route)`.
@@ -155,7 +155,7 @@ Props: `open`, `onOpenChange`, `content`, `align` (`"start"` or `"end"`), `offse
 Shows `content` near the children on hover, or on long press (`trigger="tap"` for a tap).
 
 ```tsx
-<Tooltip content={<View padding={8} decoration={{ color: "#111827" }}><Text color="white">Copy</Text></View>}>
+<Tooltip content={<View padding={8} decoration={{ color: "#111827" }}><Text color="#FFFFFF">Copy</Text></View>}>
   <Icon icon={Icons.copy} />
 </Tooltip>
 ```

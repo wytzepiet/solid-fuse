@@ -18,21 +18,29 @@ const manifestFormat = 1;
 
 /// Bumped whenever the generator's output for the same input can change.
 /// Part of the input hash.
-const generatorVersion = '0.3.0';
+const generatorVersion = '0.4.0';
 
 class ManifestBuilder {
-  ManifestBuilder(this.w, this.config) : code = DartCode(w) {
+  ManifestBuilder(this.w, this.config, {this.values = const []}) : code = DartCode(w) {
     c = Classifier(w, code);
   }
 
   final World w;
   final GenConfig config;
   final DartCode code;
+
+  /// Classes a barrel names in a `show`: the value types among them get a
+  /// registered decoder ([_valueRoots]).
+  final List<ClassElement> values;
   late final Classifier c;
 
   final List<Json> _widgets = [];
   final List<Json> _skipped = [];
   final Set<String> _handleRoots = {};
+  /// Value types a barrel names (`show Color`): hand-written Dart decodes
+  /// them with `node.value<Color>(...)`, through the decoder the app
+  /// generates and registers.
+  final Set<String> _valueRoots = {};
 
   void _skip(String item, String reason) => _skipped.add({'item': item, 'reason': reason});
 
@@ -50,12 +58,25 @@ class ManifestBuilder {
       if (lib == null || (rule.allow?.isEmpty ?? false)) return;
       _library(lib, rule);
     });
+    for (final cls in values) {
+      if (cls.typeParameters.isNotEmpty || w.isSubtypeOfEl(cls.thisType, w.widgetEl) || c.isHandle(cls.thisType)) continue;
+      final item = '${cls.library.uri}#${cls.name}';
+      try {
+        final ref = c.input(cls.thisType);
+        if (ref['k'] == 'data') _valueRoots.add(ref['id']! as String);
+      } on Skip catch (s) {
+        _skip(item, s.reason);
+      } on NotNameable catch (e) {
+        _skip(item, '$e');
+      }
+    }
     c.completeHandles();
     _prune();
     final types = Map.fromEntries(c.types.entries.toList()..sort((a, b) => a.key.compareTo(b.key)));
     final body = <String, Object?>{
       'widgets': _widgets,
       'handles': _handleRoots.toList()..sort(),
+      'values': _valueRoots.toList()..sort(),
       'types': types,
     };
     return {

@@ -1,5 +1,5 @@
 import { Show, createSignal } from "solid-js";
-import type { AlignmentString, ColorInput } from "../types";
+import type { AlignmentGeometry, Color } from "../flutter";
 
 export interface ModalProps {
   /** Shown while true. */
@@ -13,10 +13,10 @@ export interface ModalProps {
   type?: string;
   /** Tapping the barrier closes it. Default true. */
   dismissible?: boolean;
-  barrierColor?: ColorInput;
+  barrierColor?: Color;
   barrierLabel?: string;
   /** Where a dialog sits. Default center. */
-  alignment?: AlignmentString;
+  alignment?: AlignmentGeometry;
   duration?: number;
   /** Show above every navigator, not only the nearest. Default true. */
   useRootNavigator?: boolean;

@@ -14,11 +14,12 @@ Let's build a `Badge` widget that renders a Flutter `Chip`.
 ### Step 1: Write the JS wrapper
 
 ```tsx title="src/badge.tsx"
-import type { ColorInput, LayoutInput } from "solid-fuse";
+import type { Color } from "#fuse/flutter";
+import type { LayoutInput } from "solid-fuse";
 
 export interface BadgeProps {
   label: string;
-  color?: ColorInput;
+  color?: Color;
   children?: any;
   layout?: LayoutInput;
 }
@@ -34,7 +35,7 @@ Attributes written directly on the lowercase tag work like on any JSX element, s
 
 ```tsx
 export function Badge(props: BadgeProps) {
-  return <badge color="blue" label={props.label} onTap={() => console.log("tapped")} />;
+  return <badge color="#2563EB" label={props.label} onTap={() => console.log("tapped")} />;
 }
 ```
 
@@ -56,7 +57,7 @@ class FuseBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = node.string('label') ?? '';
-    final color = node.color('color') ?? Colors.blue;
+    final color = node.value<Color>('color') ?? Colors.blue;
 
     return Chip(
       label: Text(label),
@@ -78,7 +79,7 @@ Now consumers can use it:
 ```tsx
 import { Badge } from "./badge";
 
-<Badge label="New" color="green" />
+<Badge label="New" color="#16A34A" />
 ```
 
 ## Why wrappers?
@@ -115,14 +116,14 @@ A wrapper that does run adds little. When `<Badge label="New" color={tone()} />`
 | `bool(key)` | `bool?` | Booleans |
 | `map(key)` | `FuseMap?` | Nested objects (also has typed accessors) |
 | `list<T>(key)` | `List<T>?` | Arrays |
-| `color(key)` | `Color?` | Hex strings, named colors, RGB/HSL objects |
-| `edgeInsets(key)` | `EdgeInsets?` | Number or `{top, left, ...}` object |
-| `borderRadius(key)` | `BorderRadius?` | Number or `{topLeft, ...}` object |
-| `boxDecoration(key)` | `BoxDecoration?` | Full decoration with color, borders, shadows, gradient |
-| `alignment(key)` | `Alignment?` | Position names (`"center"`, `"topLeft"`, etc.) |
+| `enumOf(key, values)` | `T?` | An enum by name: `node.enumOf('align', TextAlign.values)` |
 | `clipBehavior(key)` | `Clip` | `"hardEdge"`, `"antiAlias"`, `"none"` (defaults to `Clip.none`) |
+| `value<T>(key)` | `T?` | A Flutter value: `node.value<Color>('color')`, `node.value<EdgeInsetsGeometry>('padding')` (on `FuseNode`) |
+| `values<T>(key)` | `List<T>?` | A list of them: `node.values<Shadow>('shadows')` |
 
 Nested objects return `FuseMap`, which has the same accessors — so you can do `node.map('config')?.string('mode')`.
+
+`value<T>` decodes a value the way generated widgets do, short forms included, so the prop's TypeScript type is the generated one (`Color` from `#fuse/flutter`). It works for every class a `lib/fuse.dart` names with `show`; solid-fuse's names `Color`, `EdgeInsetsGeometry`, `AlignmentGeometry`, `BoxDecoration`, `TextStyle`, `FontWeight`, `Shadow` and `TextDecoration`. For another type, add it to your own barrel (`export 'package:flutter/widgets.dart' show BoxConstraints;`).
 
 ## The layout + layoutChildren mechanic
 

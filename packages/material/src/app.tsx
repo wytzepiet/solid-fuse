@@ -1,14 +1,15 @@
 import { MaterialApp as GMaterialApp, type ThemeData as ThemeDataValue } from "#fuse/material_ui";
 import { ThemeData } from "#fuse/material_ui/ThemeData";
-import { PageTypeContext, toHex, type ColorInput } from "solid-fuse";
+import { PageTypeContext } from "solid-fuse";
 import { materialPage } from "./page";
+import type { Color } from "#fuse/flutter";
 
 /** A theme in brief, or a full generated `ThemeData(...)`. */
 export type MaterialTheme = ThemeDataValue | BriefTheme;
 
 export type BriefTheme = {
   /** The color the whole scheme is derived from. */
-  seedColor?: ColorInput;
+  seedColor?: Color;
   brightness?: "light" | "dark";
   fontFamily?: string;
   /** -1 (low) to 1 (high). */
@@ -23,7 +24,7 @@ export interface MaterialAppProps {
   /** Default `"system"`. */
   themeMode?: "system" | "light" | "dark";
   /** The app's color for the OS (task switcher). */
-  color?: ColorInput;
+  color?: Color;
   debugShowCheckedModeBanner?: boolean;
   children?: JSX.Element;
 }
@@ -33,7 +34,7 @@ function themeOf(t: MaterialTheme | undefined, brightness: "light" | "dark"): Th
   if ("$" in t) return t as ThemeDataValue;
   const brief = t as BriefTheme;
   return ThemeData({
-    colorSchemeSeed: toHex(brief.seedColor ?? "#6750a4"),
+    colorSchemeSeed: brief.seedColor ?? "#6750a4",
     brightness: brief.brightness ?? brightness,
     fontFamily: brief.fontFamily,
     contrastLevel: brief.contrast,
@@ -58,7 +59,7 @@ export function MaterialApp(props: MaterialAppProps) {
               : undefined
         }
         themeMode={props.themeMode ?? "system"}
-        color={toHex(props.color)}
+        color={props.color}
         debugShowCheckedModeBanner={props.debugShowCheckedModeBanner ?? false}
         home={props.children}
       />

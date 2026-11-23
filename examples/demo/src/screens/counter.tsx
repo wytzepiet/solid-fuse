@@ -6,7 +6,7 @@ export function CounterScreen() {
 
   return (
     <View layout={{ direction: "vertical", align: "center", gap: 32 }} padding={24}>
-      <Text fontSize={96} fontWeight="bold" color="#2563eb">
+      <Text fontSize={96} fontWeight={700} color="#2563eb">
         {count()}
       </Text>
       <View layout={{ direction: "horizontal", gap: 16, align: "center" }}>
@@ -17,7 +17,7 @@ export function CounterScreen() {
             decoration={{ color: "#ef4444", borderRadius: 32 }}
             layout={{ align: "center", justify: "center" }}
           >
-            <Text fontSize={28} fontWeight="bold" color="#fff">
+            <Text fontSize={28} fontWeight={700} color="#fff">
               −
             </Text>
           </View>
@@ -29,7 +29,7 @@ export function CounterScreen() {
             decoration={{ color: "#6b7280", borderRadius: 32 }}
             layout={{ align: "center", justify: "center" }}
           >
-            <Text fontSize={15} fontWeight="semiBold" color="#fff">
+            <Text fontSize={15} fontWeight={600} color="#fff">
               Reset
             </Text>
           </View>
@@ -41,7 +41,7 @@ export function CounterScreen() {
             decoration={{ color: "#22c55e", borderRadius: 32 }}
             layout={{ align: "center", justify: "center" }}
           >
-            <Text fontSize={28} fontWeight="bold" color="#fff">
+            <Text fontSize={28} fontWeight={700} color="#fff">
               +
             </Text>
           </View>

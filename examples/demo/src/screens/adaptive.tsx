@@ -9,7 +9,7 @@ export function AdaptiveScreen() {
   const [design, setDesign] = createSignal<Design>("material");
   return (
     <ScrollView layout={{ direction: "vertical", gap: 16 }} padding={{ horizontal: 16, top: 48 }}>
-      <Text fontSize={24} fontWeight="bold">adaptive</Text>
+      <Text fontSize={24} fontWeight={700}>adaptive</Text>
       <Toggle onTap={() => setDesign(design() === "material" ? "cupertino" : "material")}>{`design: ${design()}`}</Toggle>
       <Show when={design()} keyed>
         {(d) => (

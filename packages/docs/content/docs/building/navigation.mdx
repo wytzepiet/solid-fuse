@@ -35,8 +35,8 @@ function HomePage() {
     <View layout={{ gap: 16 }} padding={24}>
       <Text fontSize={24}>Home</Text>
       <Pressable onPress={() => nav.push(() => <DetailPage />)}>
-        <View padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
-          <Text color="white">Go to detail</Text>
+        <View padding={12} decoration={{ color: "#2563EB", borderRadius: 8 }}>
+          <Text color="#FFFFFF">Go to detail</Text>
         </View>
       </Pressable>
     </View>
@@ -140,7 +140,7 @@ function ListPage() {
 
   return (
     <View layout={{ gap: 4 }}>
-      <Text fontSize={24} fontWeight="bold" padding={{ bottom: 8 }}>
+      <Text fontSize={24} fontWeight={700} padding={{ bottom: 8 }}>
         Fruits
       </Text>
       <For each={items}>
@@ -166,7 +166,7 @@ function DetailPage(props: { name: string }) {
     <View layout={{ align: "center", justify: "center", expand: true }}>
       <Text fontSize={32}>{props.name}</Text>
       <Pressable onPress={() => nav.pop()}>
-        <Text color="blue" fontSize={16}>Back to list</Text>
+        <Text color="#2563EB" fontSize={16}>Back to list</Text>
       </Pressable>
     </View>
   );

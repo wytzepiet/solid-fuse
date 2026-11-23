@@ -1,9 +1,10 @@
-import type { BaseProps, EdgeInsetsInput, LayoutInput } from "../types";
+import type { EdgeInsetsGeometry } from "../flutter";
+import type { BaseProps, LayoutInput } from "../types";
 
 export interface ScrollViewProps extends BaseProps {
   scrollDirection?: "vertical" | "horizontal";
   layout?: LayoutInput;
-  padding?: EdgeInsetsInput;
+  padding?: EdgeInsetsGeometry;
   physics?: "bouncing" | "clamping" | "always" | "never" | "page";
   reverse?: boolean;
   primary?: boolean;

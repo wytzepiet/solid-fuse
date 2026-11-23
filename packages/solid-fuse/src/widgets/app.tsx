@@ -1,15 +1,15 @@
 import { PageTypeContext, page } from "../pages/page";
-import type { ColorInput, FontWeight } from "../types";
+import type { Color, TextStyle } from "../flutter";
 
 export interface AppProps {
   /** Shown by the OS task switcher. */
   title?: string;
   /** The app's main color, for the OS (task switcher, web theme). */
-  color?: ColorInput;
+  color?: Color;
   /** BCP 47 tag, e.g. `"en-US"`. */
   locale?: string;
   /** Default text style for everything inside. */
-  textStyle?: { fontFamily?: string; fontSize?: number; fontWeight?: FontWeight; color?: ColorInput };
+  textStyle?: TextStyle;
   children?: JSX.Element;
 }
 

@@ -1,15 +1,16 @@
 import {
   CupertinoListSection, CupertinoListSectionInsetGrouped, CupertinoListTile, CupertinoListTileChevron,
 } from "#fuse/cupertino_ui";
-import { Dynamic, toHex, type ColorInput } from "solid-fuse";
+import { Dynamic } from "solid-fuse";
 import { icon, label, type IconSlot, type Label } from "./slots";
+import type { Color } from "#fuse/flutter";
 
 export interface ListSectionProps {
   header?: Label;
   footer?: Label;
   /** Rounded and inset, like iOS Settings. Default true. */
   insetGrouped?: boolean;
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
   /** `ListTile`s. */
   children?: JSX.Element;
 }
@@ -20,7 +21,7 @@ export function ListSection(props: ListSectionProps) {
       component={(props.insetGrouped ?? true) ? CupertinoListSectionInsetGrouped : CupertinoListSection}
       header={label(props.header)}
       footer={label(props.footer)}
-      backgroundColor={toHex(props.backgroundColor)}
+      backgroundColor={props.backgroundColor}
     >
       {props.children}
     </Dynamic>
@@ -36,7 +37,7 @@ export interface ListTileProps {
   /** Default: a chevron when `onPress` is set. */
   trailing?: IconSlot;
   onPress?: () => void;
-  backgroundColor?: ColorInput;
+  backgroundColor?: Color;
 }
 
 export function ListTile(props: ListTileProps) {
@@ -48,7 +49,7 @@ export function ListTile(props: ListTileProps) {
       leading={icon(props.leading)}
       trailing={props.trailing !== undefined ? icon(props.trailing) : props.onPress ? <CupertinoListTileChevron /> : undefined}
       onTap={props.onPress}
-      backgroundColor={toHex(props.backgroundColor)}
+      backgroundColor={props.backgroundColor}
     />
   );
 }
