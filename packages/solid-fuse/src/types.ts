@@ -45,3 +45,5 @@ export interface BaseProps {
 export type FocusNodeInput = NonNullable<import("#fuse/flutter").EditableTextProps["focusNode"]>;
 /** What a scroll `controller` prop takes: `createScrollController()` and friends from `#fuse/flutter`. */
 export type ScrollControllerInput = NonNullable<import("#fuse/flutter").SingleChildScrollViewProps["controller"]>;
+/** What a Navigator's `observers` prop takes: `createNavigatorObserver()`, `createHeroController()` and the like from a package (heroine's controller). */
+export type NavigatorObserversInput = NonNullable<import("#fuse/flutter").NavigatorProps["observers"]>;

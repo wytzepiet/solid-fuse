@@ -34,7 +34,12 @@ they know are the framework roots (Widget, Key, Listenable, BuildContext, State,
 RenderObject, Element).
 
 - **Handles** are Listenables, plus classes with mutable state (a non-final
-  field or an explicit setter) that aren't `@immutable`. A handle JS creates
+  field or an explicit setter) that aren't `@immutable`, plus classes that own
+  their identity: ones with a public `dispose()` (a HeroController), and ones
+  the tree attaches itself to (a getter that gives a State, Element or
+  RenderObject: a NavigatorObserver's `navigator`). Decoding a fresh one on
+  every build would lose what it holds. With no allow list, a package's
+  Listenables and identity owners are its `createX` roots. A handle JS creates
   (a root, see `handles`), and every handle type that reaches JS some other
   way (a callback argument, a getter, a method result), lists its members:
   the getters JS mirrors (a

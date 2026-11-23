@@ -168,13 +168,15 @@ class Classifier {
 
   // ── handles ───────────────────────────────────────────────────────────────
 
-  /// Objects with identity: Listenables, and classes with mutable state that
-  /// are not marked @immutable. Everything else is plain data.
+  /// Objects with identity: Listenables, classes with mutable state that are
+  /// not marked @immutable, and [ownsIdentity] ones. Everything else is plain
+  /// data.
   bool isHandle(InterfaceType t) {
     if (w.isSubtypeOfEl(t, w.listenableEl)) return true;
     final el = t.element;
     if (el is! ClassElement) return false;
     if (_immutable(el)) return false;
+    if (ownsIdentity(t)) return true;
     for (final s in [el, ...el.allSupertypes.map((s) => s.element)]) {
       if (s is! ClassElement || s.library.uri.toString() == 'dart:core') continue;
       for (final f in s.fields) {
@@ -183,6 +185,27 @@ class Classifier {
       // Explicit setters; synthetic ones belong to the fields checked above.
       for (final setter in s.setters) {
         if (!setter.isStatic && setter.isPublic && setter.isOriginDeclaration) return true;
+      }
+    }
+    return false;
+  }
+
+  /// Objects whose identity matters even without a field to set: ones you
+  /// dispose (a HeroController keeps its flights in a final map), and ones
+  /// the tree attaches itself to, with a getter that gives a State, Element
+  /// or RenderObject (a NavigatorObserver's `navigator`). Each is one object
+  /// in one place; decoding a fresh one on every build would lose it.
+  bool ownsIdentity(InterfaceType t) {
+    final el = t.element;
+    if (el is! ClassElement || _immutable(el)) return false;
+    final dispose = t.lookUpMethod('dispose', el.library);
+    if (dispose != null && !dispose.isStatic && dispose.isPublic) return true;
+    for (final s in [el, ...el.allSupertypes.map((s) => s.element)]) {
+      if (s is! ClassElement || s.library.uri.toString() == 'dart:core') continue;
+      for (final g in s.getters) {
+        if (g.isStatic || !g.isPublic) continue;
+        final r = g.returnType;
+        if (w.isSubtypeOfEl(r, w.stateEl) || w.isSubtypeOfEl(r, w.elementEl) || w.isSubtypeOfEl(r, w.renderObjectEl)) return true;
       }
     }
     return false;

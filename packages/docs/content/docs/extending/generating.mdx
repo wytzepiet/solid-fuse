@@ -165,7 +165,7 @@ Dart calls each function when it needs the member. One that returns a value is c
 
 ## Controllers: createX
 
-A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, or a class of your own with mutable state) gets a `createX` function per constructor:
+A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, a class of your own with mutable state, or an object that must stay one object: one with a `dispose()`, or one the tree attaches itself to, like a `NavigatorObserver`) gets a `createX` function per constructor:
 
 ```tsx
 import { Pressable, Text, View } from "solid-fuse";

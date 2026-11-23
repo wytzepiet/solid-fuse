@@ -23,10 +23,13 @@ export {
  * `initialPage`.
  *
  * The `controller` prop is read once at mount; reactive swaps are ignored.
+ * `observers` are Flutter's NavigatorObservers: generated handles, such as
+ * a package's hero controller.
  */
 export function Navigator(props: {
   controller?: NavigationController;
   initialPage?: (() => JSX.Element) | PageConfig;
+  observers?: import("./types").NavigatorObserversInput;
 }): JSX.Element {
   const nav = untrack(
     () =>
@@ -37,6 +40,7 @@ export function Navigator(props: {
   return (
     <NavigationContext value={nav}>
       <navigator
+        observers={props.observers}
         onDidRemovePage={(e: { id: number }) => nav.onDidRemovePage(e.id)}
       >
         <For each={nav.pages()} keyed={(e) => e.id}>

@@ -6164,10 +6164,6 @@
      "children"
     ]
    },
-   "HeroController": {
-    "tag": "HeroController",
-    "positional": []
-   },
    "Shadow": {
     "tag": "Shadow",
     "positional": []
@@ -6249,10 +6245,6 @@
    },
    "DefaultTransitionDelegate": {
     "tag": "DefaultTransitionDelegate",
-    "positional": []
-   },
-   "NavigatorObserver": {
-    "tag": "NavigatorObserver",
     "positional": []
    },
    "PlatformMenuItem": {
@@ -6818,19 +6810,8 @@
     "tag": "SpringDescription",
     "positional": []
    },
-   "Canvas": {
-    "tag": "Canvas",
-    "positional": [
-     "recorder",
-     "cullRect"
-    ]
-   },
-   "ScrollableState": {
-    "tag": "ScrollableState",
-    "positional": []
-   },
-   "RouteInformation": {
-    "tag": "RouteInformation",
+   "WidgetsFlutterBinding": {
+    "tag": "WidgetsFlutterBinding",
     "positional": []
    },
    "FixedScrollMetrics": {
@@ -6847,6 +6828,33 @@
    },
    "PageMetrics": {
     "tag": "PageMetrics",
+    "positional": []
+   },
+   "Canvas": {
+    "tag": "Canvas",
+    "positional": [
+     "recorder",
+     "cullRect"
+    ]
+   },
+   "ScrollableState": {
+    "tag": "ScrollableState",
+    "positional": []
+   },
+   "RouteInformation": {
+    "tag": "RouteInformation",
+    "positional": []
+   },
+   "DragUpdateDetails": {
+    "tag": "DragUpdateDetails",
+    "positional": []
+   },
+   "DragEndDetails": {
+    "tag": "DragEndDetails",
+    "positional": []
+   },
+   "DragStartDetails": {
+    "tag": "DragStartDetails",
     "positional": []
    },
    "SelectAllSelectionEvent": {
@@ -6893,6 +6901,17 @@
    },
    "TextSelection": {
     "tag": "TextSelection",
+    "positional": []
+   },
+   "PlaceholderDimensions.empty": {
+    "const": "PlaceholderDimensions.empty"
+   },
+   "PlaceholderDimensions": {
+    "tag": "PlaceholderDimensions",
+    "positional": []
+   },
+   "TextPosition": {
+    "tag": "TextPosition",
     "positional": []
    },
    "UndoHistoryValue.empty": {
@@ -9942,8 +9961,11 @@
     "tag": "PictureRecorder",
     "positional": []
    },
-   "TextPosition": {
-    "tag": "TextPosition",
+   "Velocity.zero": {
+    "const": "Velocity.zero"
+   },
+   "Velocity": {
+    "tag": "Velocity",
     "positional": []
    },
    "GradientRotation": {

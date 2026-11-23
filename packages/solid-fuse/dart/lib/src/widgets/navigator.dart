@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../fuse_page_handle.dart';
+import '../generated_support.dart';
 import '../node.dart';
 
 /// Renders a Flutter Navigator 2.0 whose pages list is driven declaratively
@@ -61,6 +62,10 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
         child: Navigator(
           key: _key,
           pages: pages,
+          observers: [
+            for (final o in (node.props['observers'] as List?) ?? const [])
+              ?decHandle<NavigatorObserver>(node, o),
+          ],
           onDidRemovePage: (page) {
             final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
             node.callback('onDidRemovePage')?.call({'id': id});

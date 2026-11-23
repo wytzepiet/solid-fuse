@@ -1,5 +1,5 @@
 # fuse gen report. Generated; do not edit.
-# 679 widgets, 59 handles, 14 skipped
+# 679 widgets, 70 handles, 15 skipped
 
 ## Widgets
 AbsorbPointer  package:flutter/widgets.dart#AbsorbPointer
@@ -687,19 +687,27 @@ CupertinoTabController  package:cupertino_ui/cupertino_ui.dart#CupertinoTabContr
 RestorableCupertinoTabController  package:cupertino_ui/cupertino_ui.dart#RestorableCupertinoTabController
 AnimationController  package:flutter/widgets.dart#AnimationController
 AnimationMean  package:flutter/widgets.dart#AnimationMean
+AppLifecycleListener  package:flutter/widgets.dart#AppLifecycleListener
+BallisticScrollActivity  package:flutter/widgets.dart#BallisticScrollActivity
 BannerPainter  package:flutter/widgets.dart#BannerPainter
 ClipboardStatusNotifier  package:flutter/widgets.dart#ClipboardStatusNotifier
 CurvedAnimation  package:flutter/widgets.dart#CurvedAnimation
+DragScrollActivity  package:flutter/widgets.dart#DragScrollActivity
 DraggableScrollableController  package:flutter/widgets.dart#DraggableScrollableController
+DrivenScrollActivity  package:flutter/widgets.dart#DrivenScrollActivity
 ExpansibleController  package:flutter/widgets.dart#ExpansibleController
 FixedExtentScrollController  package:flutter/widgets.dart#FixedExtentScrollController
 FocusManager  package:flutter/widgets.dart#FocusManager
 FocusNode  package:flutter/widgets.dart#FocusNode
 FocusScopeNode  package:flutter/widgets.dart#FocusScopeNode
+HeroController  package:flutter/widgets.dart#HeroController
+HoldScrollActivity  package:flutter/widgets.dart#HoldScrollActivity
+IdleScrollActivity  package:flutter/widgets.dart#IdleScrollActivity
 InspectorSelection  package:flutter/widgets.dart#InspectorSelection
 KeepAliveHandle  package:flutter/widgets.dart#KeepAliveHandle
 LiveTextInputStatusNotifier  package:flutter/widgets.dart#LiveTextInputStatusNotifier
 LocalizationsResolver  package:flutter/widgets.dart#LocalizationsResolver
+NavigatorObserver  package:flutter/widgets.dart#NavigatorObserver
 OverlayEntry  package:flutter/widgets.dart#OverlayEntry
 PageController  package:flutter/widgets.dart#PageController
 PlatformRouteInformationProvider  package:flutter/widgets.dart#PlatformRouteInformationProvider
@@ -715,8 +723,10 @@ RestorableIntN  package:flutter/widgets.dart#RestorableIntN
 RestorableString  package:flutter/widgets.dart#RestorableString
 RestorableStringN  package:flutter/widgets.dart#RestorableStringN
 RestorableTextEditingController  package:flutter/widgets.dart#RestorableTextEditingController
+RestorationBucket  package:flutter/widgets.dart#RestorationBucket
 ReverseAnimation  package:flutter/widgets.dart#ReverseAnimation
 ScrollController  package:flutter/widgets.dart#ScrollController
+ScrollDragController  package:flutter/widgets.dart#ScrollDragController
 ScrollPositionWithSingleContext  package:flutter/widgets.dart#ScrollPositionWithSingleContext
 ScrollbarPainter  package:flutter/widgets.dart#ScrollbarPainter
 SelectionListenerNotifier  package:flutter/widgets.dart#SelectionListenerNotifier
@@ -727,6 +737,7 @@ SliverOverlapAbsorberHandle  package:flutter/widgets.dart#SliverOverlapAbsorberH
 SnapshotController  package:flutter/widgets.dart#SnapshotController
 StaticSelectionContainerDelegate  package:flutter/widgets.dart#StaticSelectionContainerDelegate
 TextEditingController  package:flutter/widgets.dart#TextEditingController
+TextPainter  package:flutter/widgets.dart#TextPainter
 TrackingScrollController  package:flutter/widgets.dart#TrackingScrollController
 TrainHoppingAnimation  package:flutter/widgets.dart#TrainHoppingAnimation
 TransformationController  package:flutter/widgets.dart#TransformationController
@@ -758,3 +769,4 @@ package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.selectableRegi
 package:material_ui/material_ui.dart#PopupMenuButton: itemBuilder: callback returns a typed widget
 package:material_ui/material_ui.dart#SpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
 package:flutter_lucide/src/flutter_lucide.dart#LucideIcons: abstract, no constructible subtype
+package:flutter/widgets.dart#SelectionOverlay: no constructor left that can cross the bridge yet

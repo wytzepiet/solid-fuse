@@ -115,6 +115,20 @@ Core's page has no design: the content brings its own background.
 
 iOS swipe-back and Android back button are handled automatically, also for a `<Navigator>` inside the app's own: it takes the back button while it has pages to pop. The Navigator's `onDidRemovePage` callback fires when the system removes a page (back gesture, declarative mid-stack removal) and resolves the corresponding push promise with `null`. You don't need to wire this up.
 
+## Heroes and observers
+
+Flutter's `Hero` flies between pages of a `<Navigator>`, as it does in the app's own navigator.
+
+`observers` takes Flutter's `NavigatorObserver`s, which see every push and pop. They are generated handles: `createNavigatorObserver()` and `createHeroController()` from `#fuse/flutter`, or a package's own, such as heroine's controller.
+
+```tsx
+import { createHeroineController } from "@solid-fuse/heroine";
+
+const heroine = createHeroineController();
+
+<Navigator initialPage={() => <HomePage />} observers={[heroine]} />
+```
+
 ## Full example
 
 A two-page app with a list and detail view:

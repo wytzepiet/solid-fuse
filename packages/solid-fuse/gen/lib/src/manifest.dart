@@ -166,11 +166,14 @@ class ManifestBuilder {
         continue;
       }
       // Handles: the Listenables the package declares (controllers,
-      // notifiers, focus nodes) when the allow list is empty; any handle
+      // notifiers, focus nodes) and the objects that own their identity
+      // (HeroController, a NavigatorObserver) when the allow list is empty; any handle
       // class the allow list names. Handles that widget parameters reach are
       // in the manifest either way.
       final named = rule.explicitlyAllows(name) && rule.includes(name);
-      final listenable = rule.allowsAll && rule.includes(name) && w.isSubtypeOfEl(cls.thisType, w.listenableEl);
+      final listenable = rule.allowsAll &&
+          rule.includes(name) &&
+          (w.isSubtypeOfEl(cls.thisType, w.listenableEl) || c.ownsIdentity(cls.thisType));
       if (!named && !listenable) continue;
       try {
         final t = cls.thisType;
