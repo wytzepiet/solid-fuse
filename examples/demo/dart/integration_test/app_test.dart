@@ -9,6 +9,7 @@
 import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoSwitch;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:heroine/heroine.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
@@ -263,6 +264,38 @@ void main() {
     }
     expect(find.text('done'), findsOneWidget);
     expect(furthest, closeTo(160, 1));
+
+    // Heroine: the app's Navigator observes with a HeroineController, and a
+    // tile flies into a heroinePage and back.
+    expect(tester.widget<Navigator>(find.byType(Navigator).last).observers.whereType<HeroineController>(), hasLength(1));
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('heroine'));
+    await tester.ensureVisible(find.text('heroine'));
+    await settle(tester);
+    await tester.tap(find.text('heroine'));
+    final tile = find.bySemanticsIdentifier('heroine-#db2777');
+    await pumpUntil(tester, tile);
+    await settle(tester);
+    await tester.tap(tile);
+    final big = find.bySemanticsIdentifier('heroine-big');
+    await pumpUntil(tester, big);
+    final sizes = <double>{};
+    for (var i = 0; i < 60; i++) {
+      await tester.pump(const Duration(milliseconds: 16));
+      final heroine = find.byType(Heroine);
+      for (final e in heroine.evaluate()) {
+        final box = e.renderObject as RenderBox?;
+        if (box != null && box.hasSize) sizes.add(box.size.width.roundToDouble());
+      }
+    }
+    await settle(tester);
+    expect(tester.getSize(big).width, 280);
+    expect(sizes.any((w) => w > 72 && w < 280), isTrue, reason: 'the tile flies: sizes seen $sizes');
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await settle(tester);
+    await settle(tester);
+    expect(big, findsNothing);
+    expect(tile, findsOneWidget);
 
     // Adaptive: flipping AdaptiveApp's platform restyles the screen in
     // place (state kept) and switches Flutter's platform with it.

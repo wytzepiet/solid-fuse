@@ -14,7 +14,8 @@
     "@solid-fuse/material": "workspace:*",
     "@solid-fuse/cupertino": "workspace:*",
     "@solid-fuse/adaptive": "workspace:*",
-    "@solid-fuse/lucide": "workspace:*"
+    "@solid-fuse/lucide": "workspace:*",
+    "@solid-fuse/heroine": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2"

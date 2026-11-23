@@ -34,6 +34,18 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
   // the app's. Without a controller of its own, heroes would not fly.
   final _heroes = HeroController();
 
+  // The same list while the observers are the same: Navigator detaches and
+  // attaches them again whenever it gets a different one.
+  List<NavigatorObserver> _observerList = const [];
+  List<NavigatorObserver> _observers() {
+    final now = [
+      for (final o in (widget.node.props['observers'] as List?) ?? const [])
+        ?decHandle<NavigatorObserver>(widget.node, o),
+    ];
+    if (!listEquals(now, _observerList)) _observerList = now;
+    return _observerList;
+  }
+
   @override
   void dispose() {
     _heroes.dispose();
@@ -62,10 +74,7 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
         child: Navigator(
           key: _key,
           pages: pages,
-          observers: [
-            for (final o in (node.props['observers'] as List?) ?? const [])
-              ?decHandle<NavigatorObserver>(node, o),
-          ],
+          observers: _observers(),
           onDidRemovePage: (page) {
             final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
             node.callback('onDidRemovePage')?.call({'id': id});

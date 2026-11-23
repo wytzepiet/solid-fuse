@@ -1,0 +1,22 @@
+{
+  "name": "@solid-fuse/heroine",
+  "version": "0.1.0",
+  "description": "Spring hero transitions for solid-fuse, from Flutter's heroine package.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "dart",
+    "fuse.config.ts"
+  ],
+  "peerDependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "solid-fuse": "workspace:*",
+    "typescript": "^7.0.2"
+  }
+}

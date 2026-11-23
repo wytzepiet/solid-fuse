@@ -1,5 +1,5 @@
 # fuse gen report. Generated; do not edit.
-# 679 widgets, 70 handles, 15 skipped
+# 684 widgets, 71 handles, 20 skipped
 
 ## Widgets
 AbsorbPointer  package:flutter/widgets.dart#AbsorbPointer
@@ -444,6 +444,11 @@ CupertinoTimerPicker  package:cupertino_ui/cupertino_ui.dart#CupertinoTimerPicke
 CupertinoUiCompatibilityBridge  package:cupertino_ui/cupertino_ui.dart#CupertinoUiCompatibilityBridge
 CupertinoUserInterfaceLevel  package:cupertino_ui/cupertino_ui.dart#CupertinoUserInterfaceLevel
 InheritedCupertinoTheme  package:cupertino_ui/cupertino_ui.dart#InheritedCupertinoTheme
+DragDismissable  package:heroine/heroine.dart#DragDismissable
+DragDismissableCustom  package:heroine/heroine.dart#DragDismissable.custom
+Heroine  package:heroine/heroine.dart#Heroine
+HeroineVelocity  package:heroine/heroine.dart#HeroineVelocity
+ReactToHeroineDismiss  package:heroine/heroine.dart#ReactToHeroineDismiss
 AboutDialog  package:material_ui/material_ui.dart#AboutDialog
 AboutDialogAdaptive  package:material_ui/material_ui.dart#AboutDialog.adaptive
 AboutListTile  package:material_ui/material_ui.dart#AboutListTile
@@ -745,6 +750,7 @@ TwoDimensionalChildBuilderDelegate  package:flutter/widgets.dart#TwoDimensionalC
 TwoDimensionalChildListDelegate  package:flutter/widgets.dart#TwoDimensionalChildListDelegate
 UndoHistoryController  package:flutter/widgets.dart#UndoHistoryController
 WidgetStatesController  package:flutter/widgets.dart#WidgetStatesController
+HeroineController  package:heroine/heroine.dart#HeroineController
 ChangeNotifier  package:listen/listen.dart#ChangeNotifier
 Listenable  package:listen/listen.dart#Listenable
 CarouselController  package:material_ui/material_ui.dart#CarouselController
@@ -764,6 +770,11 @@ package:flutter/widgets.dart#WidgetToRenderBoxAdapter: renderBox: framework obje
 package:listen/listen.dart#ValueNotifier: generic class (not bridged yet)
 package:cupertino_ui/cupertino_ui.dart#CupertinoAdaptiveTextSelectionToolbar.editableText: editableTextState: framework object EditableTextState
 package:cupertino_ui/cupertino_ui.dart#CupertinoSpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
+package:motor/motor.dart#CupertinoMotion: not a widget or handle
+package:motor/motor.dart#CurvedMotion: not a widget or handle
+package:motor/motor.dart#MaterialSpringMotion: not a widget or handle
+package:motor/motor.dart#Motion: not a widget or handle
+package:motor/motor.dart#SpringMotion: not a widget or handle
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.editableText: editableTextState: framework object EditableTextState
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.selectableRegion: selectableRegionState: framework object SelectableRegionState
 package:material_ui/material_ui.dart#PopupMenuButton: itemBuilder: callback returns a typed widget

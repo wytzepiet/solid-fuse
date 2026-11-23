@@ -112,3 +112,33 @@ Callbacks queued during a frame run in the next one. When nothing moves, nothing
 
 - **Dart can animate it.** Generated `AnimatedOpacity`, `AnimatedContainer` and `createAnimationController` run in Dart without crossing to JS each frame.
 - **Following a finger.** Set the value from the gesture's own event (`set(x, { instant: true })`), and on release spring back with the gesture's speed (`set(0, { velocity })`). A drag that must stick to the finger exactly belongs in a Dart widget.
+
+## Hero transitions on springs
+
+`@solid-fuse/heroine` wraps Flutter's [heroine](https://pub.dev/packages/heroine): heroes that fly on a spring, in Dart. Its widgets, controller, shuttle builders and motions are generated from heroine itself, with heroine's names. Only `heroinePage` is its own: a see-through page that fades in, which `DragDismissable` can drag away.
+
+```tsx
+import { CupertinoMotion, DragDismissable, Heroine, createHeroineController, heroinePage } from "@solid-fuse/heroine";
+
+const heroine = createHeroineController();
+<Navigator initialPage={() => <Gallery />} observers={[heroine]} />;
+
+// In Gallery:
+<Heroine tag="photo" motion={CupertinoMotion.bouncy()}>
+  <Thumbnail />
+</Heroine>;
+
+nav.push(
+  heroinePage({
+    child: () => (
+      <DragDismissable>
+        <Heroine tag="photo" motion={CupertinoMotion.bouncy()}>
+          <Photo />
+        </Heroine>
+      </DragDismissable>
+    ),
+  }),
+);
+```
+
+The controller must observe the navigator the pages are on.

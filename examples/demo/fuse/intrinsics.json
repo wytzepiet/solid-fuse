@@ -398,6 +398,13 @@
    "Wrap": "flutter_Wrap"
   },
   "flutter_lucide": {},
+  "heroine": {
+   "DragDismissable": "heroine_DragDismissable",
+   "DragDismissableCustom": "heroine_DragDismissableCustom",
+   "Heroine": "heroine_Heroine",
+   "HeroineVelocity": "heroine_HeroineVelocity",
+   "ReactToHeroineDismiss": "heroine_ReactToHeroineDismiss"
+  },
   "listen": {},
   "material_ui": {
    "ActionIconTheme": "material_ui_ActionIconTheme",
@@ -564,6 +571,7 @@
    "VerticalDivider": "material_ui_VerticalDivider",
    "YearPicker": "material_ui_YearPicker"
   },
+  "motor": {},
   "vector_math": {}
  },
  "builders": {
@@ -6751,6 +6759,13 @@
     "tag": "TextAlignVertical",
     "positional": []
    },
+   "Velocity.zero": {
+    "const": "Velocity.zero"
+   },
+   "Velocity": {
+    "tag": "Velocity",
+    "positional": []
+   },
    "BoxBorder.fromLTRB": {
     "tag": "BoxBorder.fromLTRB",
     "positional": []
@@ -9959,13 +9974,6 @@
    },
    "PictureRecorder": {
     "tag": "PictureRecorder",
-    "positional": []
-   },
-   "Velocity.zero": {
-    "const": "Velocity.zero"
-   },
-   "Velocity": {
-    "tag": "Velocity",
     "positional": []
    },
    "GradientRotation": {
@@ -16304,6 +16312,32 @@
    },
    "LucideIcons.zoom_out": {
     "const": "LucideIcons.zoom_out"
+   }
+  },
+  "heroine": {
+   "HeroineShuttleBuilder.fromHero": {
+    "tag": "HeroineShuttleBuilder.fromHero",
+    "positional": []
+   },
+   "FadeShuttleBuilder": {
+    "tag": "FadeShuttleBuilder",
+    "positional": []
+   },
+   "SingleShuttleBuilder": {
+    "tag": "SingleShuttleBuilder",
+    "positional": []
+   },
+   "FlipShuttleBuilder": {
+    "tag": "FlipShuttleBuilder",
+    "positional": []
+   },
+   "FadeThroughShuttleBuilder": {
+    "tag": "FadeThroughShuttleBuilder",
+    "positional": []
+   },
+   "ChainedShuttleBuilder": {
+    "tag": "ChainedShuttleBuilder",
+    "positional": []
    }
   },
   "listen": {},
@@ -43790,6 +43824,154 @@
    "PredictiveBackFullscreenPageTransitionsBuilder": {
     "tag": "PredictiveBackFullscreenPageTransitionsBuilder",
     "positional": []
+   }
+  },
+  "motor": {
+   "MotionCurve": {
+    "tag": "MotionCurve",
+    "positional": []
+   },
+   "Motion.curved": {
+    "tag": "Motion.curved",
+    "positional": [
+     "duration",
+     "curve"
+    ]
+   },
+   "Motion.linear": {
+    "tag": "Motion.linear",
+    "positional": [
+     "duration"
+    ]
+   },
+   "Motion.none": {
+    "tag": "Motion.none",
+    "positional": [
+     "duration"
+    ]
+   },
+   "Motion.customSpring": {
+    "tag": "Motion.customSpring",
+    "positional": [
+     "spring"
+    ]
+   },
+   "Motion.cupertino": {
+    "tag": "Motion.cupertino",
+    "positional": []
+   },
+   "Motion.bouncySpring": {
+    "tag": "Motion.bouncySpring",
+    "positional": []
+   },
+   "Motion.snappySpring": {
+    "tag": "Motion.snappySpring",
+    "positional": []
+   },
+   "Motion.smoothSpring": {
+    "tag": "Motion.smoothSpring",
+    "positional": []
+   },
+   "Motion.interactiveSpring": {
+    "tag": "Motion.interactiveSpring",
+    "positional": []
+   },
+   "CurvedMotion": {
+    "tag": "CurvedMotion",
+    "positional": [
+     "duration",
+     "curve"
+    ]
+   },
+   "SpringMotion": {
+    "tag": "SpringMotion",
+    "positional": [
+     "description"
+    ]
+   },
+   "NoMotion": {
+    "tag": "NoMotion",
+    "positional": [
+     "duration"
+    ]
+   },
+   "TrimmedMotion": {
+    "tag": "TrimmedMotion",
+    "positional": []
+   },
+   "CupertinoMotion.bouncy": {
+    "tag": "CupertinoMotion.bouncy",
+    "positional": []
+   },
+   "CupertinoMotion.snappy": {
+    "tag": "CupertinoMotion.snappy",
+    "positional": []
+   },
+   "CupertinoMotion.smooth": {
+    "tag": "CupertinoMotion.smooth",
+    "positional": []
+   },
+   "CupertinoMotion.interactive": {
+    "tag": "CupertinoMotion.interactive",
+    "positional": []
+   },
+   "CupertinoMotion": {
+    "tag": "CupertinoMotion",
+    "positional": []
+   },
+   "MaterialSpringMotion.standardSpatialFast": {
+    "tag": "MaterialSpringMotion.standardSpatialFast",
+    "positional": []
+   },
+   "MaterialSpringMotion.standardSpatialDefault": {
+    "tag": "MaterialSpringMotion.standardSpatialDefault",
+    "positional": []
+   },
+   "MaterialSpringMotion.standardSpatialSlow": {
+    "tag": "MaterialSpringMotion.standardSpatialSlow",
+    "positional": []
+   },
+   "MaterialSpringMotion.standardEffectsFast": {
+    "tag": "MaterialSpringMotion.standardEffectsFast",
+    "positional": []
+   },
+   "MaterialSpringMotion.standardEffectsDefault": {
+    "tag": "MaterialSpringMotion.standardEffectsDefault",
+    "positional": []
+   },
+   "MaterialSpringMotion.standardEffectsSlow": {
+    "tag": "MaterialSpringMotion.standardEffectsSlow",
+    "positional": []
+   },
+   "MaterialSpringMotion.expressiveSpatialFast": {
+    "tag": "MaterialSpringMotion.expressiveSpatialFast",
+    "positional": []
+   },
+   "MaterialSpringMotion.expressiveSpatialDefault": {
+    "tag": "MaterialSpringMotion.expressiveSpatialDefault",
+    "positional": []
+   },
+   "MaterialSpringMotion.expressiveSpatialSlow": {
+    "tag": "MaterialSpringMotion.expressiveSpatialSlow",
+    "positional": []
+   },
+   "MaterialSpringMotion.expressiveEffectsFast": {
+    "tag": "MaterialSpringMotion.expressiveEffectsFast",
+    "positional": []
+   },
+   "MaterialSpringMotion.expressiveEffectsDefault": {
+    "tag": "MaterialSpringMotion.expressiveEffectsDefault",
+    "positional": []
+   },
+   "MaterialSpringMotion.expressiveEffectsSlow": {
+    "tag": "MaterialSpringMotion.expressiveEffectsSlow",
+    "positional": []
+   },
+   "LinearMotion": {
+    "tag": "LinearMotion",
+    "positional": [
+     "duration"
+    ]
    }
   },
   "vector_math": {}

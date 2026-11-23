@@ -2,12 +2,14 @@
 import 'package:solid_fuse/solid_fuse.dart' show FuseRuntime;
 import 'package:solid_fuse/solid_fuse.dart' as solid_fuse;
 import 'package:solid_fuse_cupertino/solid_fuse_cupertino.dart' as solid_fuse_cupertino;
+import 'package:solid_fuse_heroine/solid_fuse_heroine.dart' as solid_fuse_heroine;
 import 'package:solid_fuse_material/solid_fuse_material.dart' as solid_fuse_material;
 import 'fuse.generated.dart' as fuse_generated;
 
 void registerFusePackages(FuseRuntime runtime) {
   solid_fuse.registerSolidFuse(runtime);
   solid_fuse_cupertino.registerCupertino(runtime);
+  solid_fuse_heroine.registerHeroine(runtime);
   solid_fuse_material.registerMaterial(runtime);
   fuse_generated.registerFuseGenerated(runtime);
 }
