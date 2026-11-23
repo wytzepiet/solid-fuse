@@ -85,7 +85,7 @@ triggers a second round, which loads that package's public libraries.
   "widgets": [{
     "id": "package:flutter/widgets.dart#Image.network", "component": "ImageNetwork",
     "class": "Image", "ctor": "network", "dart": "widgets.Image",
-    "children": { "param": "child", "many": false },   // or "textChild": "data"
+    "children": { "param": "child", "many": false },
     "params": [{ "name": "src", "named": false, "required": true,
                  "dart": "String", "type": { "k": "String" },
                  "default": "1.0", "defaultValue": 1 }]  // or "skip": "why" (+ "passNull")

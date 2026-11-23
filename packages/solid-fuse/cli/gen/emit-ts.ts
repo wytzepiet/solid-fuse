@@ -476,15 +476,14 @@ export function emitTs(m: Manifest): TsOutput {
     const propsName = module.claim("type", `${name}Props`);
     const fields: string[] = [];
     for (const p of w.params) {
-      if (!p.type || p.type.k === "supplied" || p.name === w.children?.param || p.name === w.textChild) continue;
+      if (!p.type || p.type.k === "supplied" || p.name === w.children?.param) continue;
       if (p.name === "children") continue; // a widget whose children are not a slot
       fields.push(`${jsdoc("  ", p.doc, p.deprecated, p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : [])}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, module)};`);
     }
     const childParam = w.children && w.params.find((p) => p.name === w.children!.param);
-    const textParam = w.textChild && w.params.find((p) => p.name === w.textChild);
-    if (childParam || textParam) {
-      const required = (childParam && mustSupply(childParam) && !w.children!.many) || false;
-      const doc = textParam ? "The text (Dart: the `" + textParam.name + "` argument)." : `Dart: \`${childParam!.name}\`.`;
+    if (childParam) {
+      const required = mustSupply(childParam) && !w.children!.many;
+      const doc = `Dart: \`${childParam.name}\`.`;
       fields.push(`${jsdoc("  ", doc)}  children${required ? "" : "?"}: JSX.Element;`);
     }
     const tag = tagOf(w);

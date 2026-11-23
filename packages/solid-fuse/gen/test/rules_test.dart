@@ -46,9 +46,9 @@ void main() {
   });
 
   group('widgets', () {
-    test('positional String with no child slot becomes text children', () {
-      expect(widget('Text')['textChild'], 'data');
-      expect(widget('Label')['textChild'], 'text');
+    test('a positional String is a prop, not children', () {
+      expect(widget('Text').containsKey('textChild'), false);
+      expect(widget('Text').containsKey('children'), false);
     });
 
     test('child / children become JSX children', () {

@@ -30,22 +30,22 @@ import { createSignal } from "solid-js";
 export const a = (
   <Padding padding={EdgeInsets.symmetric({ horizontal: 8 })}>
     <Column mainAxisAlignment="center" spacing={4}>
-      <Text maxLines={2}>hi</Text>
+      <Text data="hi" maxLines={2} />
       <Row>
         <Container color={Colors.red} alignment={Alignment.center} decoration={BoxDecoration({ borderRadius: BorderRadius.circular(12) })} />
       </Row>
     </Column>
   </Padding>
 );
-export const page = <Scaffold appBar={<AppBar title={<Text>t</Text>} />} body={<Text>b</Text>} />;
+export const page = <Scaffold appBar={<AppBar title={<Text data="t" />} />} body={<Text data="b" />} />;
 export const b = <Slider value={0.5} onChanged={(v) => v.toFixed()} />;
-export const c = <ElevatedButton onPressed={() => {}}><Text>Go</Text></ElevatedButton>;
+export const c = <ElevatedButton onPressed={() => {}}><Text data="Go" /></ElevatedButton>;
 export const d = <FixtureBox at={Point(1, 2)} shape={Square.unit()} mode={"b" satisfies Mode} />;
 export const e = <GestureDetector onTapDown={(details) => details.globalPosition.dx} />;
 export const menu = (
   <Menu
-    items={[MenuItem("a", { onTap: () => {} }), MenuItem("b", { icon: <Text>i</Text> })]}
-    trailing={[<Text>end</Text>]}
+    items={[MenuItem("a", { onTap: () => {} }), MenuItem("b", { icon: <Text data="i" /> })]}
+    trailing={[<Text data="end" />]}
     onRefresh={async () => {}}
     onPick={async (s) => s.length}
   />
@@ -90,11 +90,11 @@ export const short = (
   </Container>
 );
 export const list = (
-  <ListViewBuilder itemCount={3} itemBuilder={(index) => (index < 2 ? <Text>{\`item \${index}\`}</Text> : null)} />
+  <ListViewBuilder itemCount={3} itemBuilder={(index) => (index < 2 ? <Text data={\`item \${index}\`} /> : null)} />
 );
 export const choice = <Choice options={[Option({ id: 7 }, "seven")]} onPick={(v) => v} />;
 export const ctx = <NeedsContext />;
-export const box = <FixtureBox at={Point(1, 2)} measure={(i) => i * 2} builder={() => <Text>b</Text>} />;
+export const box = <FixtureBox at={Point(1, 2)} measure={(i) => i * 2} builder={() => <Text data="b" />} />;
 export const scored = (
   <FixtureBox
     at={Point(0, 0)}
@@ -109,7 +109,7 @@ export const bytes = (
     labels={[[Point(1, 2), "a"]]}
     onBytes={(b) => b.byteLength}
     onLabels={(entries) => entries.map(([p, n]) => p.x + n)}
-    counted={(index, { count, label }) => <Text>{index + " " + count + " " + (label ?? "")}</Text>}
+    counted={(index, { count, label }) => <Text data={index + " " + count + " " + (label ?? "")} />}
   />
 );
 export const fixed = <FixtureBox at={Point(0, 0)} scorer={FixedScorer(3)} />;

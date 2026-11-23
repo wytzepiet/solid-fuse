@@ -170,7 +170,6 @@ export interface Widget {
   typeParams?: { name: string; bound?: string }[];
   params: Param[];
   children?: { param: string; many: boolean };
-  textChild?: string;
 }
 
 export interface Manifest {

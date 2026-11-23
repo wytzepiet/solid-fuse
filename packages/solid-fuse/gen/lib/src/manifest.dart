@@ -219,12 +219,6 @@ class ManifestBuilder {
         : one != null
             ? {'param': one['name'], 'many': false}
             : null;
-    // Text children: the first required positional String, when there is no
-    // child slot (Text("hi") -> <Text>hi</Text>).
-    final text = children != null
-        ? null
-        : find((p) => p['named'] == false && p['required'] == true && (p['type']! as Map)['k'] == 'String' && (p['type']! as Map)['null'] != true);
-
     final id = '${lib.uri}#$name${cname == null ? '' : '.$cname'}';
     return {
       'id': id,
@@ -241,7 +235,6 @@ class ManifestBuilder {
         ],
       'params': params,
       'children': ?children,
-      if (text != null) 'textChild': text['name'],
     };
   }
 

@@ -37,9 +37,7 @@ void main() {
       create(1, 'flutter_Padding', {
         'padding': {r'$': 'EdgeInsets.symmetric', 'horizontal': 8},
       }),
-      create(2, 'flutter_Text', {'maxLines': 2, 'textAlign': 'center'}),
-      text(3, 'hi'),
-      insert(2, 3),
+      create(2, 'flutter_Text', {'maxLines': 2, 'textAlign': 'center', 'data': 'hi'}),
       insert(1, 2),
     ], 1);
     expect(find.text('hi'), findsOneWidget);
@@ -84,12 +82,8 @@ void main() {
   testWidgets('nodes and functions inside values', (t) async {
     await pump(t, [
       create(1, 'fixture_app_Menu'),
-      create(2, 'flutter_Text'),
-      text(3, 'icon'),
-      insert(2, 3),
-      create(4, 'flutter_Text'),
-      text(5, 'end'),
-      insert(4, 5),
+      create(2, 'flutter_Text', {'data': 'icon'}),
+      create(4, 'flutter_Text', {'data': 'end'}),
       setProp(1, 'items', [
         {'label': 'a', 'onTap': {r'$fn': 'items#0'}},
         {'label': 'b', 'icon': {'_node': 2}},
@@ -118,7 +112,7 @@ void main() {
       expect(data['widget'], true);
       final i = data['value'] as int;
       if (i >= 3) return {'result': {'value': null}, 'ops': {'v': 4, 'g': 0, 'batches': []}};
-      final ops = jsonEncode([...create(100 + i, 'flutter_Text'), ...text(200 + i, 'item $i'), ...insert(100 + i, 200 + i)]);
+      final ops = jsonEncode([...create(100 + i, 'flutter_Text', {'data': 'item $i'})]);
       return {
         'result': {'value': {'_node': 100 + i}, 'root': i},
         'ops': {'v': 4, 'g': 0, 'batches': [[batch++, ops]]},
@@ -182,9 +176,7 @@ void main() {
       create(1, 'material_ui_MaterialApp'),
       create(2, 'material_ui_Scaffold'),
       create(3, 'material_ui_AppBar'),
-      create(4, 'flutter_Text'),
-      text(5, 'title'),
-      insert(4, 5),
+      create(4, 'flutter_Text', {'data': 'title'}),
       setProp(3, 'title', {'_node': 4}),
       setProp(2, 'appBar', {'_node': 3}),
       setProp(1, 'home', {'_node': 2}),

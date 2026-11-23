@@ -60,13 +60,13 @@ Every file in `dart/lib/` that uses `@fuse` is read for annotations, and nothing
 
 ## Components
 
-A widget becomes a component with the widget's constructor parameters as props. A named constructor gets its own component (`Image.network` is `ImageNetwork`). A `child` or `children` parameter becomes JSX children, and so does the text of a widget whose first parameter is a string:
+A widget becomes a component with the widget's constructor parameters as props. A named constructor gets its own component (`Image.network` is `ImageNetwork`). A `child` or `children` parameter becomes JSX children. Every other parameter is a prop with its Dart name, positional ones too (`Text`'s text is `data`):
 
 ```tsx
 import { Padding, Text, EdgeInsets } from "#fuse/flutter";
 
 <Padding padding={EdgeInsets.symmetric({ horizontal: 8 })}>
-  <Text maxLines={2}>Hello</Text>
+  <Text data="Hello" maxLines={2} />
 </Padding>;
 ```
 

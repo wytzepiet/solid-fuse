@@ -520,7 +520,6 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       if (p.default !== undefined && p.default !== "null") return `node.childSlot ?? ${p.default}`;
       return mustSupply(p) ? `fuseReq(node.childSlot, ${q(w.component)}, ${q(p.name)})` : "node.childSlot";
     }
-    if (w.textChild === p.name) return "node.textContent";
     return arg(p, w.component, `node[${q(p.name)}]`, { n: "node", prop: p.name, sub, context: "context" });
   }
 
