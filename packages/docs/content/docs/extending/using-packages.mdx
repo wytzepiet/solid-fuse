@@ -7,7 +7,7 @@ The Dart side of a Fuse widget is **just Flutter**. That means the entire [pub.d
 
 > If a Flutter package exists for what you need, you can use it. Wiring it up to JS is the same two-file pattern as any other widget — the only extra step is adding the dependency.
 
-> Often you don't need the wrapper at all: list the package in `fuse.config.ts` and [`fuse gen`](/docs/extending/generating) writes typed components for its widgets. Write one by hand when you want a nicer API than the Dart one.
+> Often you don't need the wrapper at all: export the package from `dart/lib/fuse.dart` and [`fuse gen`](/docs/extending/generating) writes typed components for its widgets. Write one by hand when you want a nicer API than the Dart one.
 
 ## Example: charts with fl_chart
 

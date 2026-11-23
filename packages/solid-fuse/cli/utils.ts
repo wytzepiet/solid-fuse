@@ -131,6 +131,22 @@ export function pubspecHasDependency(
 }
 
 /**
+ * The direct dependencies a pubspec.yaml names under `dependencies:`, SDK
+ * ones (`flutter: sdk: flutter`) aside.
+ */
+export function pubspecDependencies(pubspecPath: string): string[] {
+  const content = readFileSync(pubspecPath, "utf-8");
+  const section = content.match(/^dependencies:[^\n]*\n([\s\S]*?)(?=^\S|(?![\s\S]))/m)?.[1] ?? "";
+  const names: string[] = [];
+  const lines = section.split("\n");
+  lines.forEach((line, i) => {
+    const m = line.match(/^ {2}([a-z0-9_]+):/);
+    if (m && !/^ {4}sdk:/.test(lines[i + 1] ?? "")) names.push(m[1]);
+  });
+  return names;
+}
+
+/**
  * Add `dartName: any` under the `dependencies:` section of a pubspec.yaml.
  */
 export function pubspecAddDependency(
@@ -155,17 +171,14 @@ export function pubspecAddDependency(
 // ---------------------------------------------------------------------------
 
 /**
- * Auto-detect the LAN IP address for device connectivity.
- * Tries macOS `ipconfig getifaddr` on common interfaces, falls back to "localhost".
+ * The LAN address a phone on the same network reaches the dev server at:
+ * the first external IPv4 address, else "localhost".
  */
 export function detectLanIp(): string {
-  const { execSync } = require("child_process") as typeof import("child_process");
-  for (const iface of ["en0", "en1"]) {
-    try {
-      const ip = execSync(`ipconfig getifaddr ${iface}`, { encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] }).trim();
-      if (ip) return ip;
-    } catch {
-      // interface not available
+  const { networkInterfaces } = require("os") as typeof import("os");
+  for (const addrs of Object.values(networkInterfaces())) {
+    for (const a of addrs ?? []) {
+      if (a.family === "IPv4" && !a.internal) return a.address;
     }
   }
   return "localhost";

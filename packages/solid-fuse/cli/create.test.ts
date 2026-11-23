@@ -27,3 +27,20 @@ describe("fuse create", () => {
     expect(buildTargetPlatform(["web"])).toBeUndefined();
   });
 });
+
+import { mkdtempSync, mkdirSync, writeFileSync } from "fs";
+import { tmpdir } from "os";
+import { join } from "path";
+import { unexposedDependencies } from "./link";
+
+test("link names the pub packages fuse.dart doesn't export", () => {
+  const dart = mkdtempSync(join(tmpdir(), "fuse-link-"));
+  mkdirSync(join(dart, "lib"));
+  writeFileSync(
+    join(dart, "pubspec.yaml"),
+    "name: app\n\ndependencies:\n  flutter:\n    sdk: flutter\n  solid_fuse: any\n  fl_chart: ^1.0.0\n  http: ^1.2.0\n  lottie:\n    git: https://example.com/lottie\n\ndev_dependencies:\n  flutter_lints: ^6.0.0\n",
+  );
+  writeFileSync(join(dart, "lib", "fuse.dart"), "export 'package:fl_chart/fl_chart.dart' show LineChart;\n");
+  const fuse = [{ npmName: "solid-fuse", dartName: "solid_fuse", path: "", dartPath: "dart" }];
+  expect(unexposedDependencies(dart, fuse)).toEqual(["http", "lottie"]);
+});

@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join, relative } from "path";
 import { execSync } from "child_process";
 import { defineCommand } from "citty";
@@ -10,6 +10,7 @@ import {
   pubspecAddDependency,
   pubspecGetManagedDependencies,
   pubspecRemoveDependency,
+  pubspecDependencies,
   type FusePackageInfo,
 } from "./utils";
 import { loadFuseConfig } from "./config";
@@ -69,7 +70,29 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
 
   generateFusePackagesDart(dartRoot, packages);
 
+  const hidden = unexposedDependencies(dartRoot, packages);
+  if (hidden.length > 0) {
+    console.log(
+      `\nNot exposed to JS: ${hidden.join(", ")}. To use one from TS, export it in dart/lib/fuse.dart:\n` +
+        `  export 'package:${hidden[0]}/${hidden[0]}.dart';`,
+    );
+  }
+
   console.log("\nDone!");
+}
+
+/**
+ * The app's own pub dependencies that its `dart/lib/fuse.dart` doesn't
+ * mention: what crosses to JS is what that file exports, so a package added
+ * with `flutter pub add` stays Dart-only until it does.
+ */
+export function unexposedDependencies(dartRoot: string, packages: FusePackageInfo[]): string[] {
+  const pubspec = join(dartRoot, "pubspec.yaml");
+  if (!existsSync(pubspec)) return [];
+  const barrel = join(dartRoot, "lib", "fuse.dart");
+  const exported = existsSync(barrel) ? readFileSync(barrel, "utf-8") : "";
+  const fuse = new Set(packages.map((p) => p.dartName));
+  return pubspecDependencies(pubspec).filter((name) => !fuse.has(name) && !exported.includes(`package:${name}/`));
 }
 
 export const linkCommand = defineCommand({

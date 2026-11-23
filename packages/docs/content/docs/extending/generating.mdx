@@ -17,6 +17,8 @@ export 'src/badge.dart';
 
 The analyzer and your editor check it, so a misspelled name is an error. Export whole libraries freely: a release build keeps only what the app uses (see below).
 
+To use a pub.dev package, add it like in any Flutter app (`flutter pub add fl_chart` in `dart/`) and export it here. Nothing crosses on its own: `fuse link` (and so `fuse dev`) lists the app's pub dependencies that `fuse.dart` doesn't mention, with the line to add.
+
 `fuse dev` and `fuse build` generate when they start, and `fuse dev` again whenever a Dart file under `dart/lib/` changes (the TypeScript reloads; restart the app for the new adapters). `fuse gen` and `fuse link` do it on their own. When nothing changed, the run takes under half a second. `fuse dev` keeps the generator running, so a run after an edit takes about a tenth of a second. It writes:
 
 - `fuse/<package>.tsx`: one module per Dart package (Flutter's own libraries and `dart:*` go into `flutter`). Import them as `#fuse/<package>`. `fuse gen` adds the `#fuse/*` path to `tsconfig.json`. The values of each class (`EdgeInsets`, `Icons`) are in a module of their own next to it, `fuse/<package>/<Class>.tsx`.
