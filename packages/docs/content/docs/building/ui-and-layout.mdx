@@ -154,6 +154,20 @@ Every element that accepts children supports `layout`, because JSX can't enforce
 | `justify` | `string` | `"start"` | Main-axis: `"start"`, `"center"`, `"end"`, `"spaceBetween"`, `"spaceAround"`, `"spaceEvenly"` |
 | `expand` | `boolean` | `false` | Fill available space on main axis |
 
+### Filling the width
+
+Layout follows Flutter: a child of a column takes its own width, not the column's. To make one child fill the cross axis, give it `width={Infinity}` (Flutter's `double.infinity`). To make every child fill it, use `align: "stretch"`; as in Flutter, that overrides the children's own widths.
+
+```tsx
+<View layout={{ gap: 12 }}>
+  <View width={64} height={64} decoration={{ shape: "circle", color: "orange" }} />
+  <View width={Infinity} height={48} decoration={{ color: "orange", borderRadius: 12 }} />
+  <View width={Infinity}>
+    <Text textAlign="center">Centered in the full width</Text>
+  </View>
+</View>
+```
+
 ### flex
 
 `flex` on a child gives it a share of the free space along the layout's main axis, as CSS `flex: 1` and Flutter's `Expanded(flex: 1)` do. Every element takes it, generated widgets too (`<Card flex={1}>`); it means something only inside a layout (an element with several children, a `Row`, a `Column`).
