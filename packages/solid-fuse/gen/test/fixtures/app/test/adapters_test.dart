@@ -138,6 +138,25 @@ void main() {
     expect(t.widget<FixtureBox>(find.byType(FixtureBox)).measure!(21), 42);
   });
 
+  testWidgets('a BuildContext parameter gets the context the adapter builds in', (t) async {
+    await pump(t, [create(1, 'fixture_app_NeedsContext')], 1);
+    final w = t.widget<NeedsContext>(find.byType(NeedsContext));
+    expect(w.ctx.findAncestorWidgetOfExactType<FuseRuntimeScope>(), isNotNull);
+  });
+
+  testWidgets('a generic widget and a value generic over its type parameter', (t) async {
+    await pump(t, [
+      create(1, 'fixture_app_Choice', {
+        'options': [
+          {r'$': 'Option', 'value': {'id': 7}, 'label': 'seven'},
+        ],
+      }),
+    ], 1);
+    expect(find.text('seven'), findsOneWidget);
+    final c = t.widget<Choice<Object?>>(find.byType(Choice<Object?>));
+    expect(c.options.single.value, {'id': 7});
+  });
+
   testWidgets('shorthands, and the app\'s own @fuse widget', (t) async {
     await pump(t, [
       create(1, 'flutter_Container', {

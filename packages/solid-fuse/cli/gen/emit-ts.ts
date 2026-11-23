@@ -249,7 +249,7 @@ export function emitTs(m: Manifest): TsOutput {
   }
 
   function tsFn(fn: FnRef, from: Module): string {
-    const args = fn.args.filter((a) => a.type.k !== "context");
+    const args = fn.args.filter((a) => a.type.k !== "supplied");
     const used = new Set<string>();
     const params = args.map((a, i) => {
       let n = IDENT.test(a.name) && !RESERVED.has(a.name) ? a.name : `arg${i}`;
@@ -276,7 +276,7 @@ export function emitTs(m: Manifest): TsOutput {
   function variantShape(v: Variant, declName: string | null, from: Module): string {
     const fields = [`${v.tag === declName ? "$?" : "$"}: ${lit(v.tag)}`];
     for (const p of v.params) {
-      if (!p.type || p.type.k === "vsync") continue;
+      if (!p.type || p.type.k === "supplied") continue;
       fields.push(`${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, from)}`);
     }
     return `{ ${fields.join("; ")} }`;
@@ -360,7 +360,9 @@ export function emitTs(m: Manifest): TsOutput {
     const params: string[] = [];
     for (const p of v.params) {
       if (p.named || !p.type) continue;
-      params.push(`${safeParam(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, b.module)}`);
+      // Positional order: a required one is never optional, even when it
+      // takes null (`Option(this.value, this.label)` with `T value`).
+      params.push(`${safeParam(p.name)}${p.required ? "" : "?"}: ${tsIn(p.type, b.module)}`);
     }
     const named = v.params.filter((p) => p.named && p.type);
     if (named.length) {
@@ -436,7 +438,7 @@ export function emitTs(m: Manifest): TsOutput {
     const propsName = module.claim("type", `${name}Props`);
     const fields: string[] = [];
     for (const p of w.params) {
-      if (!p.type || p.type.k === "vsync" || p.name === w.children?.param || p.name === w.textChild) continue;
+      if (!p.type || p.type.k === "supplied" || p.name === w.children?.param || p.name === w.textChild) continue;
       if (p.name === "children") continue; // a widget whose children are not a slot
       fields.push(`${jsdoc("  ", p.doc, p.deprecated, p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : [])}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, module)};`);
     }
@@ -536,7 +538,7 @@ export function emitTs(m: Manifest): TsOutput {
       const live: string[] = [];
       const seeds: Record<string, unknown> = {};
       for (const p of c.params) {
-        if (!p.type || p.type.k === "vsync") continue;
+        if (!p.type || p.type.k === "supplied") continue;
         const t = tsIn(p.type, module);
         if (p.type.k === "fn") {
           fns.push(p.name);
@@ -555,7 +557,7 @@ export function emitTs(m: Manifest): TsOutput {
         fields.push(`${jsdoc("  ", p.doc, p.deprecated, extra)}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${t} | (() => ${tt});`);
       }
       const optsName = module.claim("type", `${fn[0].toUpperCase()}${fn.slice(1)}Options`);
-      const required = c.params.some((p) => p.type && p.type.k !== "vsync" && mustSupply(p));
+      const required = c.params.some((p) => p.type && p.type.k !== "supplied" && mustSupply(p));
       module.parts.push(`export interface ${optsName} {\n${fields.join("\n")}\n}`);
       const extra = { ...(c.name ? { ctor: c.name } : {}), ...(fns.length ? { fns } : {}), ...(live.length ? { live } : {}), ...(Object.keys(seeds).length ? { seeds } : {}) };
       module.parts.push(

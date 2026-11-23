@@ -93,6 +93,8 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     n: string;
     prop: string;
     sub: (dart: string) => string;
+    /** The BuildContext in scope: a widget adapter's `context`. */
+    context?: string;
   }
 
   /** An expression of the ref's type, nullable, read from [src]. */
@@ -114,8 +116,10 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         return `${decoderOf(ref.id)}(${src}, ${cx.n})`;
       case "key":
         return `decKey(${src})`;
-      case "vsync":
-        return "fuseVsync";
+      case "supplied":
+        if (ref.of === "vsync") return "fuseVsync";
+        if (!cx.context) throw new Error("a BuildContext outside a widget adapter");
+        return cx.context;
       case "widget":
         return ref.as === "preferredSize" ? `decPreferredSize(${cx.n}, ${src}, fuseGeneratedWidgets)` : `decWidget(${cx.n}, ${src})`;
       case "handle":
@@ -163,7 +167,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
    */
   function fnExpr(fn: FnRef, src: string, cx: Cx): string {
     const params = fn.args.map((_, i) => `a${i}`);
-    const sent = fn.args.flatMap((a, i) => (a.type.k === "context" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`)]));
+    const sent = fn.args.flatMap((a, i) => (a.type.k === "supplied" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`)]));
     const payload = sent.length === 0 ? "" : sent.length === 1 ? sent[0] : `FuseCallArgs([${sent.join(", ")}])`;
     if (fn.sync) {
       // Dart blocks until JS returns. A widget is built in a JS root of its
@@ -176,7 +180,11 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       }
       const got = `f(${payload})`;
       body = RAW.has(fn.ret.k)
-        ? `${got} as dynamic`
+        ? fn.ret.k === "typeParam"
+          ? `${got} as ${((t) => (nullable && !t.endsWith("?") ? `${t}?` : t))(cx.sub((fn.ret as any).name))}`
+          : fn.ret.k === "Object" && !nullable
+            ? `${got}!`
+            : got
         : nullable
           ? dec(fn.ret, got, cx)
           : `fuseReq(${dec(fn.ret, got, cx)}, ${q(cx.prop)}, 'result')`;
@@ -201,7 +209,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
   /** The argument passed for [p], or null to leave it out. */
   function arg(p: Param, owner: string, read: string, cx: Cx): string | null {
     if (!p.type) return p.passNull ? "null" : null;
-    if (p.type.k === "vsync") return "fuseVsync";
+    if (p.type.k === "supplied") return dec(p.type, "", cx);
     const dart = cx.sub(p.dart!);
     const e = RAW.has(p.type.k) ? (dart === "dynamic" ? read : `(${read} as ${dart.endsWith("?") ? dart : `${dart}?`})`) : dec(p.type, read, { ...cx, prop: p.name });
     if (p.default !== undefined && p.default !== "null") return `${e} ?? ${p.default}`;
@@ -310,7 +318,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       return mustSupply(p) ? `fuseReq(node.childSlot, ${q(w.component)}, ${q(p.name)})` : "node.childSlot";
     }
     if (w.textChild === p.name) return "node.textContent";
-    return arg(p, w.component, `node[${q(p.name)}]`, { n: "node", prop: p.name, sub });
+    return arg(p, w.component, `node[${q(p.name)}]`, { n: "node", prop: p.name, sub, context: "context" });
   }
 
   const adapters: string[] = [];

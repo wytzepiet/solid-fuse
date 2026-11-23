@@ -29,7 +29,13 @@ RenderObject, Element).
   Stream getters. Members of Object, Listenable, ChangeNotifier and the
   Diagnosticable classes are left out, and so are members a mixin or an
   interface that isn't a handle declares (WidgetsBindingObserver's).
-- **TickerProvider** parameters (`vsync`) are supplied by the runtime.
+- **Supplied** parameters are never props: a TickerProvider (`vsync`) comes
+  from the runtime, a BuildContext is the one the adapter builds in (only in
+  widget adapters, and not in a PreferredSizeWidget's, which is also built
+  for its size).
+- **Type parameters** resolve to their bounds (`Object?` when unbounded),
+  everywhere: a generic widget is instantiated at them, and a type generic
+  over one (`DropdownMenuEntry<T>`) is read as that instantiation.
 - **Data** is every other exported class. Its variants are its public
   constructors and those of its exported subclasses (at most 40, tagged by
   class). Its constants are the `static const` fields of the type, its
@@ -39,8 +45,7 @@ RenderObject, Element).
 - **Callbacks**: a `void` callback is called without waiting, a `Future` one
   waits for the JS result, and one that returns a value at once (a builder)
   is a synchronous call (`sync`). A generic callback (its own type
-  parameters) is skipped. A callback argument whose type is generic over the
-  widget's type parameter is read at the bound (`AsyncSnapshot<Object?>`).
+  parameters) is skipped: JS can't produce a value for every `T`.
 - **Anything else** is a skip with a reason. An optional parameter stays in the
   signature as `skip`, so positional order is kept. A required one skips the
   item, which lands in `skipped`. Nothing is fatal, and an unexpected exception
@@ -92,7 +97,7 @@ setter takes plain values only (it goes through a channel call). A parameter
 that would need more is a `skip` like any other.
 
 The `k` values for refs are `bool int double num String Object dynamic enum
-data handle widget key vsync list set iterable map fn typeParam`. A nullable ref
+data handle widget key supplied list set iterable map fn typeParam`. A nullable ref
 carries `"null": true`. An `fn` has `args` (output refs, or `context` /
 `omitted`), `ret`, and `async` / `sync`. Every `dart` string uses the prefixes
 in `imports`.

@@ -70,6 +70,14 @@ import { Padding, Text, EdgeInsets } from "#fuse/flutter";
 </Padding>;
 ```
 
+Some parameters are never props, because Dart supplies them: a `TickerProvider` (`vsync`) gets one from the runtime, and a `BuildContext` (`MediaQuery.removePadding`'s `context`) is the context the widget is built in.
+
+A generic widget is instantiated at its type parameter's bound, `Object?` when it has none, and so is everything generic over that parameter. `DropdownMenu<T>`'s entries take any value:
+
+```tsx
+<DropdownMenu dropdownMenuEntries={[DropdownMenuEntry({ value: { id: 7 }, label: "Seven" })]} />
+```
+
 A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it.
 
 ### Builders
@@ -177,5 +185,5 @@ Something that can't cross the bridge yet is skipped, not guessed at, and `gen-r
 
 - Generic callbacks (`Navigator`'s `pageRouteBuilder`, generic over its own `T`).
 - Controllers that Dart hands to JS: a callback argument, or a getter that returns another controller (`ScrollController.position`).
-- Typed data (`Uint8List`), records, and values generic over a type parameter.
+- Typed data (`Uint8List`) and records.
 - A controller method or setter that takes a function, a widget or a controller.

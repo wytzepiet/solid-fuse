@@ -14,9 +14,10 @@ export type Ref =
   | { k: "widget"; as?: string; null?: true }
   | { k: "key"; null?: true }
   | { k: "typeParam"; name: string; bound?: string; null?: true }
-  | { k: "context" }
-  /** A TickerProvider: the runtime supplies one; never a prop. */
-  | { k: "vsync" }
+  /** Supplied on the Dart side, never by JS: a TickerProvider (`vsync`),
+   *  or the BuildContext the adapter builds in (`context`). In a callback's
+   *  arguments, one Dart passes and JS doesn't get. */
+  | { k: "supplied"; of: "vsync" | "context" }
   | { k: "omitted"; reason: string }
   | { k: "void" }
   | FnRef;

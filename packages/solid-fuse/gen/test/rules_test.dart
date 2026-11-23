@@ -69,7 +69,6 @@ void main() {
     });
 
     test('a required parameter no rule covers skips the widget, with a reason', () {
-      expect(skipReason('$fixtureLib#NeedsContext'), contains('BuildContext'));
       expect(skipReason('$fixtureLib#NeedsSecret'), contains('no public constructor'));
     });
 
@@ -80,6 +79,15 @@ void main() {
       expect(param(w, 'size')['default'], '3.0');
       // Required but nullable: the adapter passes null.
       expect(param(w, 'weird'), containsPair('passNull', true));
+    });
+
+    test('a BuildContext is the one the adapter builds in, never a prop', () {
+      expect(param(widget('NeedsContext'), 'ctx')['type'], {'k': 'supplied', 'of': 'context'});
+    });
+
+    test('a value generic over the widget\'s type parameter is read at the bound', () {
+      final options = param(widget('Choice'), 'options')['type']! as Json;
+      expect(options['of'], {'k': 'data', 'id': '$fixtureLib#Option<Object?>'});
     });
 
     test('defaults are reproduced as Dart source', () {
@@ -162,7 +170,7 @@ void main() {
       final ac = type('$widgetsLib#AnimationController');
       final ctor = (ac['ctors'] as List).cast<Map>().firstWhere((c) => c['name'] == null);
       final vsync = (ctor['params'] as List).cast<Map>().firstWhere((p) => p['name'] == 'vsync');
-      expect(vsync['type'], {'k': 'vsync'});
+      expect(vsync['type'], {'k': 'supplied', 'of': 'vsync'});
       expect([for (final x in ac['methods'] as List) (x as Map)['name']], containsAll(['forward', 'reverse', 'animateTo']));
     });
 

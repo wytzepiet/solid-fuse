@@ -56,6 +56,7 @@ class Label extends StatelessWidget {
 }
 
 /// A required parameter no rule covers: the whole widget is skipped.
+/// Takes the BuildContext it is built in (the adapter supplies it).
 class NeedsContext extends StatelessWidget {
   const NeedsContext({super.key, required this.ctx});
   final BuildContext ctx;
@@ -101,4 +102,23 @@ class MenuItem {
   final String label;
   final VoidCallback? onTap;
   final Widget? icon;
+}
+
+/// Generic widget with a value generic over its type parameter: both are
+/// read at the bound.
+class Choice<T> extends StatelessWidget {
+  const Choice({super.key, required this.options, this.onPick});
+  final List<Option<T>> options;
+  final ValueChanged<T>? onPick;
+  @override
+  Widget build(BuildContext context) => Column(children: [
+        for (final o in options) GestureDetector(onTap: () => onPick?.call(o.value), child: Text(o.label)),
+      ]);
+}
+
+@immutable
+class Option<T> {
+  const Option(this.value, this.label);
+  final T value;
+  final String label;
 }

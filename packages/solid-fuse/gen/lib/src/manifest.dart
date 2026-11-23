@@ -276,7 +276,7 @@ class ManifestBuilder {
     };
   }
 
-  static const _notPlain = {'fn', 'widget', 'handle', 'vsync'};
+  static const _notPlain = {'fn', 'widget', 'handle', 'supplied'};
 
   /// Whether [ref] can hold one of [kinds], through collections and the
   /// variants of data types.
@@ -352,9 +352,16 @@ class ManifestBuilder {
 
     String? notBuildable(Json p) => bad(p['type']) ? 'type not constructible' : null;
 
+    // A BuildContext is the adapter's own: only a widget built in one has it
+    // (a preferred-size widget is also built without one, for its size).
+    String? noContext(Json p) {
+      final t = p['type'];
+      return t is Map && t['k'] == 'supplied' && t['of'] == 'context' ? 'BuildContext outside a widget' : null;
+    }
+
     // Limits first: they only ever remove things.
     _widgets.removeWhere((wj) {
-      final ok = _fix(wj['params']! as List, (p) => _unsupported(p['type']));
+      final ok = _fix(wj['params']! as List, (p) => _unsupported(p['type']) ?? (wj['preferredSize'] == true ? noContext(p) : null));
       if (!ok) _skip(wj['id']! as String, 'a required parameter cannot cross the bridge yet');
       return !ok;
     });
@@ -362,14 +369,14 @@ class ManifestBuilder {
       final variants = d['variants'];
       if (variants is List) {
         variants.removeWhere((v) {
-          final ok = _fix((v as Json)['params']! as List, (p) => _unsupported(p['type']));
+          final ok = _fix((v as Json)['params']! as List, (p) => _unsupported(p['type']) ?? noContext(p));
           if (!ok) ((d['rejected'] ??= <String, String>{}) as Map)[v['tag']] = 'a required parameter cannot cross the bridge yet';
           return !ok;
         });
       }
       final ctors = d['ctors'];
       if (ctors is List) {
-        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _unsupported(p['type'])));
+        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _unsupported(p['type']) ?? noContext(p)));
       }
     }
 

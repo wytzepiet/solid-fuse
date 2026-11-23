@@ -78,6 +78,10 @@ class Classifier {
       final b = t.element.bound;
       return _withNull({'k': 'typeParam', 'name': t.element.name, if (b != null) 'bound': code.type(b)}, t);
     }
+    // A generic widget is instantiated at its bounds, so a value generic over
+    // its type parameter is read at them too (`DropdownMenuEntry<T>` as
+    // `DropdownMenuEntry<Object?>`).
+    if (t is InterfaceType) t = _erase(t);
     final key = _key(t);
     var hit = _inMemo[key];
     if (hit == null) {
@@ -145,10 +149,13 @@ class Classifier {
       if (el == w.keyEl || el == w.localKeyEl) return {'k': 'key'};
       throw Skip('${el.name} (only Key is bridged)');
     }
-    // The runtime supplies one (tickers run while the app does).
-    if (el == w.tickerProviderEl) return {'k': 'vsync'};
-    if (el == w.buildContextEl ||
-        w.isSubtypeOfEl(t, w.stateEl) ||
+    // Supplied on the Dart side, never by JS: a TickerProvider (tickers run
+    // while the app does), and the BuildContext the adapter builds in (a
+    // constructor such as `MediaQuery.removePadding` reads inherited data
+    // from where it is built).
+    if (el == w.tickerProviderEl) return {'k': 'supplied', 'of': 'vsync'};
+    if (el == w.buildContextEl) return {'k': 'supplied', 'of': 'context'};
+    if (w.isSubtypeOfEl(t, w.stateEl) ||
         w.isSubtypeOfEl(t, w.renderObjectEl) ||
         w.isSubtypeOfEl(t, w.elementEl)) {
       throw Skip('framework object ${el.name}');
@@ -157,13 +164,8 @@ class Classifier {
     if (el.library.uri.toString() == 'dart:typed_data') throw Skip('typed data (not bridged yet)');
 
     if (isHandle(t)) return {'k': 'handle', 'id': _handle(t)};
-    if (t.typeArguments.any(_hasTypeParameter)) throw Skip('value generic over a type parameter (not bridged yet)');
     return {'k': 'data', 'id': _data(t)};
   }
-
-  static bool _hasTypeParameter(DartType t) =>
-      t is TypeParameterType || (t is InterfaceType && t.typeArguments.any(_hasTypeParameter)) ||
-      (t is FunctionType && (_hasTypeParameter(t.returnType) || t.formalParameters.any((p) => _hasTypeParameter(p.type))));
 
   // ── handles ───────────────────────────────────────────────────────────────
 
@@ -645,7 +647,7 @@ class Classifier {
       final pt = p.type;
       if (pt is InterfaceType && pt.element == w.buildContextEl) {
         context = true;
-        args.add({'name': p.name ?? 'context', 'type': {'k': 'context'}});
+        args.add({'name': p.name ?? 'context', 'type': {'k': 'supplied', 'of': 'context'}});
         i++;
         continue;
       }
@@ -707,8 +709,9 @@ class Classifier {
   }
 
   /// [t] with type parameters in its arguments replaced by their bounds
-  /// (`AsyncSnapshot<T>` is read as `AsyncSnapshot<Object?>`): an encoder is
-  /// a top-level function, where `T` means nothing.
+  /// (`AsyncSnapshot<T>` is `AsyncSnapshot<Object?>`): the same instantiation
+  /// a generic widget gets, and the only one a top-level decoder or encoder
+  /// can name.
   InterfaceType _erase(InterfaceType t) {
     if (t.typeArguments.isEmpty) return t;
     DartType arg(DartType a) => switch (a) {
