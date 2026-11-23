@@ -524,6 +524,11 @@ export function emitTs(m: Manifest): TsOutput {
       const type = listSlot ? `JSX.Element${"null" in p.type && p.type.null ? " | null" : ""}` : tsIn(p.type, module);
       fields.push(`${jsdoc("  ", p.doc, p.deprecated, p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : [])}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${type};`);
     }
+    // Its share of a layout's free space, as on every element. Not where
+    // the widget has a `flex` of its own (Expanded, Flexible).
+    if (!w.params.some((p) => p.name === "flex")) {
+      fields.push(`  /** This element's share of a layout's free space, like CSS \`flex: 1\`. */\n  flex?: number;`);
+    }
     const childParam = w.children && w.params.find((p) => p.name === w.children!.param);
     if (childParam) {
       const required = mustSupply(childParam) && !w.children!.many;

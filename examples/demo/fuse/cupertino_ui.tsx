@@ -15,6 +15,8 @@ export interface CupertinoActionSheetProps {
   messageScrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   actionScrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   cancelButton?: JSX.Element | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -35,6 +37,8 @@ export interface CupertinoActionSheetActionProps {
   mouseCursor?: MouseCursor | null;
   focusNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   focusColor?: Color | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -56,6 +60,8 @@ export interface CupertinoActivityIndicatorProps {
   animating?: boolean;
   /** @default 10 */
   radius?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -73,6 +79,8 @@ export interface CupertinoActivityIndicatorPartiallyRevealedProps {
   radius?: number;
   /** @default 1 */
   progress?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -86,6 +94,8 @@ export function CupertinoActivityIndicatorPartiallyRevealed(props: CupertinoActi
 export interface CupertinoAdaptiveTextSelectionToolbarProps {
   key?: string | number | null;
   anchors: TextSelectionToolbarAnchors;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -102,6 +112,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarButtonItemsProps {
   key?: string | number | null;
   buttonItems?: ContextMenuButtonItem[] | null;
   anchors: TextSelectionToolbarAnchors;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -124,6 +136,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarEditableProps {
   onShare?: (() => void) | null;
   onLiveTextInput?: (() => void) | null;
   anchors: TextSelectionToolbarAnchors;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -140,6 +154,8 @@ export interface CupertinoAdaptiveTextSelectionToolbarSelectableProps {
   onSelectAll: () => void;
   selectionGeometry: SelectionGeometry;
   anchors: TextSelectionToolbarAnchors;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -159,6 +175,8 @@ export interface CupertinoAlertDialogProps {
   actionScrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   insetAnimationDuration?: Duration;
   insetAnimationCurve?: Curve;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -207,6 +225,8 @@ export interface CupertinoAppProps {
    * @deprecated
    */
   useInheritedMediaQuery?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -252,6 +272,8 @@ export interface CupertinoAppRouterProps {
    * @deprecated
    */
   useInheritedMediaQuery?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -285,6 +307,8 @@ export interface CupertinoButtonProps {
   mouseCursor?: MouseCursor | null;
   onLongPress?: (() => void) | null;
   onPressed?: (() => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -322,6 +346,8 @@ export interface CupertinoButtonTintedProps {
   mouseCursor?: MouseCursor | null;
   onLongPress?: (() => void) | null;
   onPressed?: (() => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -359,6 +385,8 @@ export interface CupertinoButtonFilledProps {
   mouseCursor?: MouseCursor | null;
   onLongPress?: (() => void) | null;
   onPressed?: (() => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -393,6 +421,8 @@ export interface CupertinoCheckboxProps {
   shape?: OutlinedBorder | null;
   tapTargetSize?: Size | null;
   semanticLabel?: string | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -408,6 +438,8 @@ export interface CupertinoContextMenuProps {
   actions: JSX.Element;
   /** @default false */
   enableHapticFeedback?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -428,6 +460,8 @@ export interface CupertinoContextMenuBuilderProps {
   builder: (animation: Animation) => JSX.Element;
   /** @default false */
   enableHapticFeedback?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -446,6 +480,8 @@ export interface CupertinoContextMenuActionProps {
   isDestructiveAction?: boolean;
   onPressed?: (() => void) | null;
   trailingIcon?: IconData | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -487,6 +523,8 @@ export interface CupertinoDatePickerProps {
   selectableDayPredicate?: ((day: DateTimeOut) => boolean) | null;
   /** @default "onScrollUpdate" */
   changeReportingBehavior?: ChangeReportingBehavior;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -500,6 +538,8 @@ export function CupertinoDatePicker(props: CupertinoDatePickerProps): JSX.Elemen
 export interface CupertinoDesktopTextSelectionToolbarProps {
   key?: string | number | null;
   anchor: Offset;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -515,6 +555,8 @@ export function CupertinoDesktopTextSelectionToolbar(props: CupertinoDesktopText
 export interface CupertinoDesktopTextSelectionToolbarButtonProps {
   key?: string | number | null;
   onPressed?: (() => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -533,6 +575,8 @@ export interface CupertinoDesktopTextSelectionToolbarButtonTextProps {
   key?: string | number | null;
   onPressed?: (() => void) | null;
   text?: string | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -546,6 +590,8 @@ export function CupertinoDesktopTextSelectionToolbarButtonText(props: CupertinoD
 export interface CupertinoDesktopTextSelectionToolbarButtonButtonItemProps {
   key?: string | number | null;
   buttonItem: ContextMenuButtonItem;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -565,6 +611,8 @@ export interface CupertinoDialogActionProps {
   isDestructiveAction?: boolean;
   textStyle?: TextStyle | null;
   mouseCursor?: MouseCursor | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -585,6 +633,8 @@ export interface CupertinoExpansionTileProps {
   controller?: Handle<"flutter_ExpansibleController"> | null;
   /** @default "fade" */
   transitionMode?: ExpansionTileTransitionMode;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -601,6 +651,8 @@ export function CupertinoExpansionTile(props: CupertinoExpansionTileProps): JSX.
 
 export interface CupertinoFocusHaloWithRectProps {
   key?: string | number | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -618,6 +670,8 @@ export function CupertinoFocusHaloWithRect(props: CupertinoFocusHaloWithRectProp
 export interface CupertinoFocusHaloWithRRectProps {
   borderRadius: BorderRadiusGeometry;
   key?: string | number | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -635,6 +689,8 @@ export function CupertinoFocusHaloWithRRect(props: CupertinoFocusHaloWithRRectPr
 export interface CupertinoFocusHaloWithRoundedSuperellipseProps {
   borderRadius: BorderRadiusGeometry;
   key?: string | number | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -655,6 +711,8 @@ export interface CupertinoFormRowProps {
   padding?: EdgeInsetsGeometry | null;
   helper?: JSX.Element | null;
   error?: JSX.Element | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -678,6 +736,8 @@ export interface CupertinoFormSectionProps {
   decoration?: BoxDecoration | null;
   /** @default "none" */
   clipBehavior?: Clip;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -699,6 +759,8 @@ export interface CupertinoFormSectionInsetGroupedProps {
   decoration?: BoxDecoration | null;
   /** @default "none" */
   clipBehavior?: Clip;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -716,6 +778,8 @@ export interface CupertinoFullscreenDialogTransitionProps {
   primaryRouteAnimation: Handle<"flutter_AnimationController" | "flutter_AnimationMean" | "flutter_CurvedAnimation" | "flutter_ProxyAnimation" | "flutter_ReverseAnimation" | "flutter_TrainHoppingAnimation" | "flutter_Animation">;
   secondaryRouteAnimation: Handle<"flutter_AnimationController" | "flutter_AnimationMean" | "flutter_CurvedAnimation" | "flutter_ProxyAnimation" | "flutter_ReverseAnimation" | "flutter_TrainHoppingAnimation" | "flutter_Animation">;
   linearTransition: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -736,6 +800,8 @@ export interface CupertinoLinearActivityIndicatorProps {
   /** @default 4.5 */
   height?: number;
   color?: Color | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -763,6 +829,8 @@ export interface CupertinoListSectionProps {
   /** @default true */
   hasLeading?: boolean;
   separatorColor?: Color | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -791,6 +859,8 @@ export interface CupertinoListSectionInsetGroupedProps {
   /** @default true */
   hasLeading?: boolean;
   separatorColor?: Color | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -818,6 +888,8 @@ export interface CupertinoListTileProps {
   leadingSize?: number;
   /** @default 16 */
   leadingToTitle?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -843,6 +915,8 @@ export interface CupertinoListTileNotchedProps {
   leadingSize?: number;
   /** @default 12 */
   leadingToTitle?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -855,6 +929,8 @@ export function CupertinoListTileNotched(props: CupertinoListTileNotchedProps): 
 
 export interface CupertinoListTileChevronProps {
   key?: string | number | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -877,6 +953,8 @@ export interface CupertinoMagnifierProps {
   inOutAnimation?: Handle<"flutter_AnimationController" | "flutter_AnimationMean" | "flutter_CurvedAnimation" | "flutter_ProxyAnimation" | "flutter_ReverseAnimation" | "flutter_TrainHoppingAnimation" | "flutter_Animation"> | null;
   /** @default 1 */
   magnificationScale?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -908,6 +986,8 @@ export interface CupertinoMenuAnchorProps {
   menuChildren: JSX.Element;
   builder?: ((controller: MenuController, child: undefined) => JSX.Element) | null;
   childFocusNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children?: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -925,6 +1005,8 @@ export function CupertinoMenuAnchor(props: CupertinoMenuAnchorProps): JSX.Elemen
 export interface CupertinoMenuDividerProps {
   key?: string | number | null;
   color?: Color;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -962,6 +1044,8 @@ export interface CupertinoMenuItemProps {
   requestFocusOnHover?: boolean;
   /** @default false */
   isDestructiveAction?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -998,6 +1082,8 @@ export interface CupertinoNavigationBarProps {
   transitionBetweenRoutes?: boolean;
   heroTag?: unknown;
   bottom?: JSX.Element | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1030,6 +1116,8 @@ export interface CupertinoNavigationBarLargeProps {
   transitionBetweenRoutes?: boolean;
   heroTag?: unknown;
   bottom?: JSX.Element | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1045,6 +1133,8 @@ export interface CupertinoNavigationBarBackButtonProps {
   color?: Color | null;
   previousPageTitle?: string | null;
   onPressed?: (() => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1061,6 +1151,8 @@ export interface CupertinoPageScaffoldProps {
   backgroundColor?: Color | null;
   /** @default true */
   resizeToAvoidBottomInset?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1078,6 +1170,8 @@ export function CupertinoPageScaffold(props: CupertinoPageScaffoldProps): JSX.El
 export interface CupertinoPageScaffoldBackgroundColorProps {
   color: Color;
   key?: string | number | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1097,6 +1191,8 @@ export interface CupertinoPageTransitionProps {
   primaryRouteAnimation: Handle<"flutter_AnimationController" | "flutter_AnimationMean" | "flutter_CurvedAnimation" | "flutter_ProxyAnimation" | "flutter_ReverseAnimation" | "flutter_TrainHoppingAnimation" | "flutter_Animation">;
   secondaryRouteAnimation: Handle<"flutter_AnimationController" | "flutter_AnimationMean" | "flutter_CurvedAnimation" | "flutter_ProxyAnimation" | "flutter_ReverseAnimation" | "flutter_TrainHoppingAnimation" | "flutter_Animation">;
   linearTransition: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1132,6 +1228,8 @@ export interface CupertinoPickerProps {
   selectionOverlay?: JSX.Element | null;
   /** @default false */
   looping?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -1165,6 +1263,8 @@ export interface CupertinoPickerBuilderProps {
   itemBuilder: (index: number) => JSX.Element | null;
   childCount?: number | null;
   selectionOverlay?: JSX.Element | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1182,6 +1282,8 @@ export interface CupertinoPickerDefaultSelectionOverlayProps {
   capStartEdge?: boolean;
   /** @default true */
   capEndEdge?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1198,6 +1300,8 @@ export interface CupertinoPopupSurfaceProps {
   blurSigma?: number;
   /** @default true */
   isSurfacePainted?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1233,6 +1337,8 @@ export interface CupertinoRadioProps {
   useCheckmarkStyle?: boolean;
   enabled?: boolean | null;
   groupRegistry?: RadioGroupRegistryOfObjectN | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1257,6 +1363,8 @@ export interface CupertinoScrollbarProps {
   scrollbarOrientation?: ScrollbarOrientation | null;
   /** @default 3 */
   mainAxisMargin?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1313,6 +1421,8 @@ export interface CupertinoSearchTextFieldProps {
   /** @default true */
   cursorOpacityAnimates?: boolean;
   cursorColor?: Color | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1335,6 +1445,8 @@ export interface CupertinoSegmentedControlProps {
   disabledTextColor?: Color | null;
   padding?: EdgeInsetsGeometry | null;
   disabledChildren?: unknown[];
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1354,6 +1466,8 @@ export interface CupertinoSheetTransitionProps {
   hasPlatformViews?: boolean;
   /** @default 0.08 */
   topGap?: number;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1381,6 +1495,8 @@ export interface CupertinoSliderProps {
   divisions?: number | null;
   activeColor?: Color | null;
   thumbColor?: Color;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1403,6 +1519,8 @@ export interface CupertinoSlidingSegmentedControlProps {
   proportionalWidth?: boolean;
   /** @default false */
   isMomentary?: boolean;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1441,6 +1559,8 @@ export interface CupertinoSliverNavigationBarProps {
   stretch?: boolean;
   bottom?: JSX.Element | null;
   bottomMode?: NavigationBarBottomMode | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1481,6 +1601,8 @@ export interface CupertinoSliverNavigationBarSearchProps {
   /** @default "automatic" */
   bottomMode?: NavigationBarBottomMode | null;
   onSearchableBottomTap?: ((value: boolean) => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1499,6 +1621,8 @@ export interface CupertinoSliverRefreshControlProps {
   refreshIndicatorExtent?: number;
   builder?: ((refreshState: RefreshIndicatorMode, pulledExtent: number, refreshTriggerPullDistance: number, refreshIndicatorExtent: number) => JSX.Element) | null;
   onRefresh?: (() => void | Promise<void>) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1513,6 +1637,8 @@ export interface CupertinoSpellCheckSuggestionsToolbarProps {
   key?: string | number | null;
   anchors: TextSelectionToolbarAnchors;
   buttonItems: ContextMenuButtonItem[];
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1553,6 +1679,8 @@ export interface CupertinoSwitchProps {
   autofocus?: boolean;
   /** @default "start" */
   dragStartBehavior?: DragStartBehavior;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1577,6 +1705,8 @@ export interface CupertinoTabBarProps {
   /** @default 50 */
   height?: number;
   border?: Border | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1596,6 +1726,8 @@ export interface CupertinoTabScaffoldProps {
   /** @default true */
   resizeToAvoidBottomInset?: boolean;
   restorationId?: string | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1615,6 +1747,8 @@ export interface CupertinoTabViewProps {
   onUnknownRoute?: ((settings: RouteSettingsOut) => Handle<"flutter_Route"> | null) | null;
   navigatorObservers?: NavigatorObserver[];
   restorationScopeId?: string | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1725,6 +1859,8 @@ export interface CupertinoTextFieldProps {
   contextMenuBuilder?: ((editableTextState: undefined) => JSX.Element) | null;
   spellCheckConfiguration?: SpellCheckConfiguration | null;
   magnifierConfiguration?: TextMagnifierConfiguration | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1834,6 +1970,8 @@ export interface CupertinoTextFieldBorderlessProps {
   contextMenuBuilder?: ((editableTextState: undefined) => JSX.Element) | null;
   spellCheckConfiguration?: SpellCheckConfiguration | null;
   magnifierConfiguration?: TextMagnifierConfiguration | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1913,6 +2051,8 @@ export interface CupertinoTextFormFieldRowProps {
   selectionHeightStyle?: BoxHeightStyle | null;
   selectionWidthStyle?: BoxWidthStyle | null;
   restorationId?: string | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1934,6 +2074,8 @@ export interface CupertinoTextMagnifierProps {
   /** @default 10 */
   horizontalScreenEdgePadding?: number;
   magnifierInfo: Handle<"listen_ValueNotifier">;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1949,6 +2091,8 @@ export interface CupertinoTextSelectionToolbarProps {
   anchorAbove: Offset;
   anchorBelow: Offset;
   toolbarBuilder?: (anchorAbove: OffsetOut, anchorBelow: OffsetOut, child: undefined) => JSX.Element;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `children`. */
   children?: JSX.Element;
 }
@@ -1964,6 +2108,8 @@ export function CupertinoTextSelectionToolbar(props: CupertinoTextSelectionToolb
 export interface CupertinoTextSelectionToolbarButtonProps {
   key?: string | number | null;
   onPressed?: (() => void) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -1982,6 +2128,8 @@ export interface CupertinoTextSelectionToolbarButtonTextProps {
   key?: string | number | null;
   onPressed?: (() => void) | null;
   text?: string | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -1995,6 +2143,8 @@ export function CupertinoTextSelectionToolbarButtonText(props: CupertinoTextSele
 export interface CupertinoTextSelectionToolbarButtonButtonItemProps {
   key?: string | number | null;
   buttonItem: ContextMenuButtonItem;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -2008,6 +2158,8 @@ export function CupertinoTextSelectionToolbarButtonButtonItem(props: CupertinoTe
 export interface CupertinoThemeProps {
   key?: string | number | null;
   data: CupertinoThemeData;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2039,6 +2191,8 @@ export interface CupertinoTimerPickerProps {
   /** @default "onScrollUpdate" */
   changeReportingBehavior?: ChangeReportingBehavior;
   selectionOverlayBuilder?: ((named: { columnCount: number; selectedIndex: number }) => JSX.Element | null) | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
 }
 
 /**
@@ -2052,6 +2206,8 @@ export function CupertinoTimerPicker(props: CupertinoTimerPickerProps): JSX.Elem
 export interface CupertinoUiCompatibilityBridgeProps {
   key?: string | number | null;
   delegates?: LocalizationsDelegateOfdynamic[] | null;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2070,6 +2226,8 @@ export function CupertinoUiCompatibilityBridge(props: CupertinoUiCompatibilityBr
 export interface CupertinoUserInterfaceLevelProps {
   key?: string | number | null;
   data: CupertinoUserInterfaceLevelData;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */
@@ -2087,6 +2245,8 @@ export function CupertinoUserInterfaceLevel(props: CupertinoUserInterfaceLevelPr
 export interface InheritedCupertinoThemeProps {
   key?: string | number | null;
   theme: JSX.Element;
+  /** This element's share of a layout's free space, like CSS `flex: 1`. */
+  flex?: number;
   /** Dart: `child`. */
   children: JSX.Element;
   /** How several children lay out (a column by default), as on `View`. */

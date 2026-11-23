@@ -156,7 +156,7 @@ Every element that accepts children supports `layout`, because JSX can't enforce
 
 ### flex
 
-`flex` on a child gives it a share of the free space along the layout's main axis, as CSS `flex: 1` and Flutter's `Expanded(flex: 1)` do. Every core element takes it (`View`, `Text`, `ScrollView`, `Pressable`...); it means something only inside a layout (an element with several children, a `Row`, a `Column`). Generated widgets don't: wrap them in a `View` or use Flutter's `Expanded`.
+`flex` on a child gives it a share of the free space along the layout's main axis, as CSS `flex: 1` and Flutter's `Expanded(flex: 1)` do. Every element takes it, generated widgets too (`<Card flex={1}>`); it means something only inside a layout (an element with several children, a `Row`, a `Column`).
 
 ```tsx
 <View layout={{ direction: "horizontal", expand: true }}>
