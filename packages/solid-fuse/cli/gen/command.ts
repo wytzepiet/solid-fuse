@@ -103,30 +103,56 @@ export function reportOf(m: Manifest): string {
 
 /**
  * Lets TypeScript resolve `#fuse/<package>`: adds a `paths` entry to
- * tsconfig.json when it is plain JSON (a file with comments is left alone,
- * and a hint is printed).
+ * tsconfig.json. Plain JSON is rewritten; a file with comments (JSONC, as
+ * most templates write it) gets the entry spliced in, keeping the comments.
  */
 function ensureTsPaths(projectRoot: string, out: string) {
   const path = join(projectRoot, "tsconfig.json");
   if (!existsSync(path)) return;
   const text = readFileSync(path, "utf8");
-  const target = `./${out.replace(/\\/g, "/")}/*`;
+  const next = withFusePaths(text, `./${out.replace(/\\/g, "/")}/*`);
+  if (next === null) {
+    console.log(`Add to tsconfig.json compilerOptions.paths: "#fuse/*": ["./${out}/*"]`);
+  } else if (next !== text) {
+    writeFileSync(path, next);
+    console.log(`Added "#fuse/*" to ${relative(projectRoot, path)}`);
+  }
+}
+
+/** [text] with `compilerOptions.paths["#fuse/*"]` set to [target], or null when it can't tell where. */
+export function withFusePaths(text: string, target: string): string | null {
   let json: any;
   try {
     json = JSON.parse(text);
   } catch {
-    if (!text.includes('"#fuse/*"')) {
-      console.log(`Add to tsconfig.json compilerOptions.paths: "#fuse/*": ["${target}"]`);
-    }
-    return;
+    json = undefined;
   }
-  json.compilerOptions ??= {};
-  json.compilerOptions.paths ??= {};
-  const have = json.compilerOptions.paths["#fuse/*"];
-  if (Array.isArray(have) && have[0] === target) return;
-  json.compilerOptions.paths["#fuse/*"] = [target];
-  writeFileSync(path, `${JSON.stringify(json, null, 2)}\n`);
-  console.log(`Added "#fuse/*" to ${relative(projectRoot, path)}`);
+  if (json !== undefined) {
+    json.compilerOptions ??= {};
+    json.compilerOptions.paths ??= {};
+    const have = json.compilerOptions.paths["#fuse/*"];
+    if (Array.isArray(have) && have[0] === target) return text;
+    json.compilerOptions.paths["#fuse/*"] = [target];
+    return `${JSON.stringify(json, null, 2)}\n`;
+  }
+  // JSONC: splice the entry in as text. Find keys in a copy with the comments
+  // blanked (same length, so offsets carry over); strings stay as they are.
+  if (text.includes('"#fuse/*"')) return text;
+  const code = text.replace(/"(?:[^"\\\n]|\\.)*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g, (m) =>
+    m.startsWith('"') ? m : m.replace(/[^\n]/g, " "),
+  );
+  const key = (name: string, from = 0) => {
+    const re = new RegExp(`"${name}"\\s*:\\s*\\{`, "g");
+    re.lastIndex = from;
+    const m = re.exec(code);
+    return m ? m.index + m[0].length : -1;
+  };
+  const options = key("compilerOptions");
+  if (options < 0) return null;
+  const entry = `"#fuse/*": ["${target}"]`;
+  const paths = key("paths", options);
+  if (paths >= 0) return `${text.slice(0, paths)} ${entry},${text.slice(paths)}`;
+  return `${text.slice(0, options)}\n    "paths": { ${entry} },${text.slice(options)}`;
 }
 
 export const genCommand = defineCommand({

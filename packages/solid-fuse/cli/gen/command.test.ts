@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { buildViteConfig } from "../config";
-import { reportOf } from "./command";
+import { reportOf, withFusePaths } from "./command";
 import type { Manifest } from "./manifest";
 
 test("the report lists what was exported and why the rest was not", () => {
@@ -34,4 +34,15 @@ test("vite resolves #fuse/<package> and the compile step knows the generated tab
   // Compiled as its element, with the builder folded into the template.
   expect(out.code).toContain("flutter_Padding");
   expect(out.code).toContain('"EdgeInsets.all"');
+});
+
+test("withFusePaths splices #fuse/* into a tsconfig with comments", () => {
+  const jsonc = `{\n  "compilerOptions": {\n    // "paths": {}\n    "strict": true, /* trailing */\n  }\n}\n`;
+  const out = withFusePaths(jsonc, "./fuse/*")!;
+  expect(out).toContain(`"paths": { "#fuse/*": ["./fuse/*"] },`);
+  expect(out).toContain(`// "paths": {}`);
+  expect(withFusePaths(out, "./fuse/*")).toBe(out);
+  const withPaths = `{ // app\n  "compilerOptions": { "paths": { "~/*": ["./src/*"] }, }\n}`;
+  expect(withFusePaths(withPaths, "./fuse/*")).toContain(`"paths": { "#fuse/*": ["./fuse/*"], "~/*"`);
+  expect(withFusePaths(`{ "compilerOptions": {} }`, "./fuse/*")).toBe(`{\n  "compilerOptions": {\n    "paths": {\n      "#fuse/*": [\n        "./fuse/*"\n      ]\n    }\n  }\n}\n`);
 });
