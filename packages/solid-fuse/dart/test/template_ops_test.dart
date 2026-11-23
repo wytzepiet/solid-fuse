@@ -43,7 +43,7 @@ void main() {
 
   final shape = [
     'view',
-    {'padding': 8, 'flex': {'gap': 2}},
+    {'padding': 8, 'layout': {'gap': 2}},
     ['text', {'fontSize': 12}, 'Total'],
     ['text', 0],
   ];
@@ -51,7 +51,7 @@ void main() {
   test('instantiate builds the shape with consecutive ids in document order', () {
     rt.applyOps([7, 0, shape, 8, 0, 10, null, 4, 0, 10, null]);
     expect(node(10).type, 'view');
-    expect(node(10).props, {'padding': 8, 'flex': {'gap': 2}});
+    expect(node(10).props, {'padding': 8, 'layout': {'gap': 2}});
     expect(node(10).children.map((c) => c.id), [11, 13]);
     expect(node(11).props, {'fontSize': 12});
     expect(node(12).type, '__text__');

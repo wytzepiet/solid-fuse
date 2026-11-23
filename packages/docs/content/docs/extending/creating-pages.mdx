@@ -48,7 +48,7 @@ nav.push(cupertinoPage({ title: "Settings", child: () => <SettingsPage /> }));
 `FusePageHandle` extends `FuseHandle<Page>` and gives you two helpers:
 
 - `pageKey` — a `LocalKey` derived from the `_pageId` prop the Navigator assigns to each entry. Use it as `key:` on your `Page` subclass so Navigator 2.0 can diff the stack correctly.
-- `pageContent` — a reactive widget rendering the node's JSX children with `flexChildren` layout. Wrap it in your page type's scaffolding (Cupertino, Material, custom).
+- `pageContent` — a reactive widget rendering the node's JSX children with `layoutChildren` layout. Wrap it in your page type's scaffolding (Cupertino, Material, custom).
 
 ```dart title="dart/lib/src/handles/cupertino_page.dart"
 import 'package:cupertino_ui/cupertino_ui.dart';

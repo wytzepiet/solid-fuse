@@ -1,5 +1,5 @@
 import { createSignal, untrack, type Accessor } from "solid-js";
-import type { BaseProps, FlexInput } from "../types";
+import type { BaseProps, LayoutInput } from "../types";
 import type { FocusNode } from "../focus-node";
 
 /** A Pressable's live state, one accessor per flag, for its function child. */
@@ -25,7 +25,7 @@ export interface PressableProps extends Omit<BaseProps, "children"> {
   semanticLabel?: string;
   focusNode?: FocusNode;
   autofocus?: boolean;
-  flex?: FlexInput;
+  layout?: LayoutInput;
   /** Content, or a function of the press state to restyle it inline. */
   children?: JSX.Element | ((state: PressState) => JSX.Element);
 }

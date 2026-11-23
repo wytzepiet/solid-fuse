@@ -11,7 +11,7 @@ export function BuilderScreen() {
   const at = () => Math.round(scroll.position()?.pixels() ?? 0);
 
   return (
-    <View flex={{ direction: "vertical", align: "stretch" }}>
+    <View layout={{ direction: "vertical", align: "stretch" }}>
       <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
         <Text fontSize={24} fontWeight="bold">
           builder
@@ -21,7 +21,7 @@ export function BuilderScreen() {
         </Text>
         <Text color="#6B7280" fontSize={14}>{`Scrolled ${at()} px`}</Text>
       </View>
-      <View grow={1}>
+      <View flex={1}>
         <ListViewBuilder
           controller={scroll}
           itemCount={10000}

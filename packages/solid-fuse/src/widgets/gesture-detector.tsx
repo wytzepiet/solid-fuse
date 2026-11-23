@@ -1,4 +1,4 @@
-import type { BaseProps, FlexInput } from "../types";
+import type { BaseProps, LayoutInput } from "../types";
 
 export type PointerDevice = "touch" | "mouse" | "stylus" | "trackpad";
 
@@ -87,7 +87,7 @@ export interface ScaleEndDetails {
 }
 
 export interface GestureDetectorProps extends BaseProps {
-  flex?: FlexInput;
+  layout?: LayoutInput;
   // Tap
   onTapDown?: (details: TapDownDetails) => void;
   onTapUp?: (details: TapUpDetails) => void;

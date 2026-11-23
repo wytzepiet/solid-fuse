@@ -109,8 +109,8 @@ void main() {
   });
 
   test('a batch decoded from JSON text applies the same way', () {
-    rt.applyOps(jsonDecode('[0,1,"view",{"width":40,"flex":{"gap":2}},1,2,"a",4,1,2,null,4,0,1,null,2,1,"height",1.5,3,2,"b"]') as List);
-    expect(node(1).props, {'width': 40, 'flex': {'gap': 2}, 'height': 1.5});
+    rt.applyOps(jsonDecode('[0,1,"view",{"width":40,"layout":{"gap":2}},1,2,"a",4,1,2,null,4,0,1,null,2,1,"height",1.5,3,2,"b"]') as List);
+    expect(node(1).props, {'width': 40, 'layout': {'gap': 2}, 'height': 1.5});
     expect(node(2).props['text'], 'b');
     expect(childIds(0), [1]);
     expect(childIds(1), [2]);

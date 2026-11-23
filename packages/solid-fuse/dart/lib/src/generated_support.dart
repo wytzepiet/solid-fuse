@@ -324,7 +324,7 @@ class FuseCallArgs {
 extension FuseGeneratedNode on FuseNode {
   /// JSX children for a single `child` slot: none is null, one is itself, and
   /// several stack vertically (the same rule as the built-in widgets).
-  Widget? get childSlot => children.isEmpty ? null : flexChildren;
+  Widget? get childSlot => children.isEmpty ? null : layoutChildren;
 
   /// JSX children for a `children` slot.
   List<Widget> get childrenSlot => childWidgets;

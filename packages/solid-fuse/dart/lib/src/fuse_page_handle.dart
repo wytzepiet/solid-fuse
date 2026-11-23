@@ -29,11 +29,11 @@ abstract class FusePageHandle extends FuseHandle<Page> {
   }
 
   /// Reactive widget rendering this page's JSX children as a Flex layout.
-  /// Rebuilds automatically when the children or flex config change.
+  /// Rebuilds automatically when the children or layout change.
   /// Wrap in your page type's scaffolding (Material, CupertinoPageScaffold)
   /// at the call site.
   Widget get pageContent => ListenableBuilder(
     listenable: node,
-    builder: (_, _) => node.flexChildren,
+    builder: (_, _) => node.layoutChildren,
   );
 }

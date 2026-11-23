@@ -31,10 +31,6 @@ class FuseViewWidget extends StatelessWidget {
     final decoration = node.boxDecoration('decoration');
     final foregroundDecoration = node.boxDecoration('foregroundDecoration');
 
-    // Flex child
-    final grow = node.int('grow');
-    final fit = node.string('fit');
-
     // Transform
     final transform = node.map('transform');
 
@@ -48,7 +44,7 @@ class FuseViewWidget extends StatelessWidget {
 
     // ── Layer 1: Flex or single child ──────────────────────────────────────
 
-    Widget result = node.flexChildren;
+    Widget result = node.layoutChildren;
 
     // ── Layer 2: Padding ─────────────────────────────────────────────────────
 
@@ -166,13 +162,6 @@ class FuseViewWidget extends StatelessWidget {
 
     if (!visible) {
       result = Visibility(visible: false, child: result);
-    }
-
-    // ── Layer 13: Flexible (outermost) ───────────────────────────────────────
-
-    if (grow != null && grow > 0) {
-      final flexFit = fit == 'tight' ? FlexFit.tight : FlexFit.loose;
-      result = Flexible(flex: grow, fit: flexFit, child: result);
     }
 
     return result;

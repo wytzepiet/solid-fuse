@@ -247,9 +247,9 @@ describe("keyed list moves", () => {
 
 describe("props", () => {
   test("static props passed to createElement ride in the create op", () => {
-    const el = R.createElement("view", { width: 40, flex: { gap: 4 }, color: "red" });
+    const el = R.createElement("view", { width: 40, layout: { gap: 4 }, color: "red" });
     expect(takeOps()).toEqual([
-      { op: "create", id: el.id, type: "view", props: { width: 40, flex: { gap: 4 }, color: "red" } },
+      { op: "create", id: el.id, type: "view", props: { width: 40, layout: { gap: 4 }, color: "red" } },
     ]);
   });
 
@@ -610,9 +610,9 @@ describe("spread (what a wrapper component compiles to)", () => {
   test("literal props of a plain props object ride in create, with no effect", () => {
     let tapped = 0;
     let el!: InstanceType<typeof R.FuseNode>;
-    mount(() => (el = wrapper("view", { width: 40, flex: { gap: 2 }, onTap: () => tapped++ })));
+    mount(() => (el = wrapper("view", { width: 40, layout: { gap: 2 }, onTap: () => tapped++ })));
     expect(takeOps()[0]).toEqual({
-      op: "create", id: el.id, type: "view", props: { width: 40, flex: { gap: 2 }, onTap: true },
+      op: "create", id: el.id, type: "view", props: { width: 40, layout: { gap: 2 }, onTap: true },
     });
   });
 

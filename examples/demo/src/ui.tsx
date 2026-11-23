@@ -17,7 +17,7 @@ export function Button(props: { onTap: () => void; children: JSX.Element }) {
 
 export function Row(props: { children: JSX.Element; gap?: number }) {
   return (
-    <View flex={{ direction: "horizontal", gap: props.gap ?? 8, align: "center" }}>
+    <View layout={{ direction: "horizontal", gap: props.gap ?? 8, align: "center" }}>
       {props.children}
     </View>
   );

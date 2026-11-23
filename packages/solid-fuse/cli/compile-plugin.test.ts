@@ -164,7 +164,7 @@ const fixtures: Record<string, string> = {
     return (
       <View padding={8} decoration={{ color: "#fff", radius: 4 }}>
         <Text fontSize={12}>Total</Text>
-        <View flex={{ direction: "horizontal", gap: -2 }} visible><Text>a</Text><Text>b</Text></View>
+        <View layout={{ direction: "horizontal", gap: -2 }} visible><Text>a</Text><Text>b</Text></View>
       </View>
     );`,
   "dynamic prop and text, deep": `

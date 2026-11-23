@@ -63,7 +63,7 @@ class _FusePressableState extends State<FusePressable> {
     final enabled = _enabled;
     final onLongPress = node.callback('onLongPress');
     final pressedOpacity = node.double('pressedOpacity');
-    Widget child = node.flexChildren;
+    Widget child = node.layoutChildren;
     if (pressedOpacity != null) {
       child = AnimatedOpacity(
         opacity: _pressed ? pressedOpacity.clamp(0.0, 1.0) : 1,

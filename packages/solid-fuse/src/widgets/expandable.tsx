@@ -1,4 +1,4 @@
-import type { FlexInput } from "../types";
+import type { LayoutInput } from "../types";
 
 export interface ExpandableProps {
   /** Always shown; tapping it toggles the body. */
@@ -12,7 +12,7 @@ export interface ExpandableProps {
   duration?: number;
   /** Keep the body alive while collapsed. Default true. */
   maintainState?: boolean;
-  flex?: FlexInput;
+  layout?: LayoutInput;
   /** The body. */
   children?: JSX.Element;
 }

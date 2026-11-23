@@ -64,7 +64,7 @@ import { Padding, Text, EdgeInsets } from "#fuse/flutter";
 </Padding>;
 ```
 
-A widget with one `child` takes several children too, laid out like a `View`'s: a column, or what its `flex` prop says (`<Card flex={{ direction: "horizontal", gap: 8 }}>`). A widget that has a `flex` parameter of its own (`Expanded`, `Flexible`) keeps Flutter's meaning.
+A widget with one `child` takes several children too, laid out like a `View`'s: a column, or what its `layout` prop says (`<Card layout={{ direction: "horizontal", gap: 8 }}>`). A share of a layout's free space is Flutter's `Expanded` (`<Expanded><Card /></Expanded>`); `flex` is a prop of the core elements only.
 
 Some parameters are never props, because Dart supplies them: a `TickerProvider` (`vsync`) gets one from the runtime, and a `BuildContext` (`MediaQuery.removePadding`'s `context`) is the context the widget is built in.
 

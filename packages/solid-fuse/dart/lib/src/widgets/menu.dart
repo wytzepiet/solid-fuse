@@ -60,7 +60,7 @@ class _FuseMenuState extends State<FuseMenu> {
           child: TapRegion(groupId: info.tapRegionGroupId, child: content),
         );
       },
-      child: node.flexChildren,
+      child: node.layoutChildren,
     );
   }
 }

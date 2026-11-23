@@ -15,7 +15,7 @@ export function IconScreen() {
   const [color, setColor] = createSignal("#111827");
 
   return (
-    <ScrollView flex={{ direction: "vertical", gap: 16 }}>
+    <ScrollView layout={{ direction: "vertical", gap: 16 }}>
         <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
           <Text fontSize={24} fontWeight="bold">
             icon
@@ -25,11 +25,11 @@ export function IconScreen() {
           </Text>
         </View>
 
-        <View padding={{ horizontal: 16 }} flex={{ direction: "vertical", gap: 24 }}>
+        <View padding={{ horizontal: 16 }} layout={{ direction: "vertical", gap: 24 }}>
           {/* Static grid — if any of these don't render, the primitive is broken */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Static grid</Text>
-            <View flex={{ direction: "horizontal", gap: 16, align: "center" }}>
+            <View layout={{ direction: "horizontal", gap: 16, align: "center" }}>
               <Icon icon={md.search} size={32} />
               <Icon icon={md.lock} size={32} />
               <Icon icon={md.home} size={32} />
@@ -40,10 +40,10 @@ export function IconScreen() {
           </View>
 
           {/* Reactive size + color */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Reactive props</Text>
             <View
-              flex={{ direction: "horizontal", gap: 12, align: "center" }}
+              layout={{ direction: "horizontal", gap: 12, align: "center" }}
               padding={12}
             >
               <Icon icon={md.favorite} size={size()} color={color()} />
@@ -65,10 +65,10 @@ export function IconScreen() {
 
           {/* Icon inside a view — exercises the "orphan has its own children" path
               from the other direction: normal composition, should just work */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Icon + text row</Text>
             <View
-              flex={{ direction: "horizontal", gap: 8, align: "center" }}
+              layout={{ direction: "horizontal", gap: 8, align: "center" }}
               padding={12}
             >
               <Icon icon={md.info} size={20} color="#3B82F6" />

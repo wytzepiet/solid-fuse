@@ -32,7 +32,7 @@ function HomePage() {
   const nav = useNavigation();
 
   return (
-    <View flex={{ gap: 16 }} padding={24}>
+    <View layout={{ gap: 16 }} padding={24}>
       <Text fontSize={24}>Home</Text>
       <GestureDetector onTap={() => nav.push(() => <DetailPage />)}>
         <View padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
@@ -139,7 +139,7 @@ function ListPage() {
   const nav = useNavigation();
 
   return (
-    <View flex={{ gap: 4 }}>
+    <View layout={{ gap: 4 }}>
       <Text fontSize={24} fontWeight="bold" padding={{ bottom: 8 }}>
         Fruits
       </Text>
@@ -163,7 +163,7 @@ function DetailPage(props: { name: string }) {
   const nav = useNavigation();
 
   return (
-    <View flex={{ align: "center", justify: "center", expand: true }}>
+    <View layout={{ align: "center", justify: "center", expand: true }}>
       <Text fontSize={32}>{props.name}</Text>
       <GestureDetector onTap={() => nav.pop()}>
         <Text color="blue" fontSize={16}>Back to list</Text>

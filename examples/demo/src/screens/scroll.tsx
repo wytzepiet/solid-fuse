@@ -18,11 +18,11 @@ export function ScrollScreen() {
   return (
     <ScrollView
       controller={scroll}
-      flex={{ direction: "vertical", gap: 12 }}
+      layout={{ direction: "vertical", gap: 12 }}
     >
         <View
           padding={{ horizontal: 16, top: 16, bottom: 8 }}
-          flex={{ direction: "vertical", gap: 4 }}
+          layout={{ direction: "vertical", gap: 4 }}
         >
           <Text fontSize={24} fontWeight="bold">
             scrollController
@@ -35,14 +35,14 @@ export function ScrollScreen() {
         {/* Live offset signal — proves Dart → JS setter round-trip */}
         <View
           padding={{ horizontal: 16 }}
-          flex={{ direction: "vertical", gap: 8 }}
+          layout={{ direction: "vertical", gap: 8 }}
         >
           <Text fontWeight="semiBold">
             scrollOffset = {scroll.scrollOffset().toFixed(1)}
           </Text>
           <ScrollView
             scrollDirection="horizontal"
-            flex={{ direction: "horizontal", gap: 8, align: "center" }}
+            layout={{ direction: "horizontal", gap: 8, align: "center" }}
           >
             <Button onTap={() => scroll.jumpTo(0)}>jumpTo(0)</Button>
             <Button onTap={() => scroll.animateTo(1200, { duration: 800 })}>
@@ -54,7 +54,7 @@ export function ScrollScreen() {
         {/* Content to scroll through */}
         <View
           padding={16}
-          flex={{ direction: "vertical", gap: 8 }}
+          layout={{ direction: "vertical", gap: 8 }}
         >
           {Array.from({ length: 40 }, (_, i) => (
             <View

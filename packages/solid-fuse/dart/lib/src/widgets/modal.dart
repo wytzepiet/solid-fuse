@@ -62,7 +62,7 @@ class _FuseModalState extends State<FuseModal> {
     // The route lives in the Navigator's overlay, outside this subtree.
     Widget content(BuildContext _) => FuseRuntimeScope(
           runtime: runtime,
-          child: ListenableBuilder(listenable: node, builder: (_, _) => node.flexChildren),
+          child: ListenableBuilder(listenable: node, builder: (_, _) => node.layoutChildren),
         );
     final route = factory(context, node, content);
     _route = route;

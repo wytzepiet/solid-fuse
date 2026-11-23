@@ -1,8 +1,8 @@
-import type { BaseProps, EdgeInsetsInput, FlexInput } from "../types";
+import type { BaseProps, EdgeInsetsInput, LayoutInput } from "../types";
 
 export interface ScrollViewProps extends BaseProps {
   scrollDirection?: "vertical" | "horizontal";
-  flex?: FlexInput;
+  layout?: LayoutInput;
   padding?: EdgeInsetsInput;
   physics?: "bouncing" | "clamping" | "always" | "never" | "page";
   reverse?: boolean;

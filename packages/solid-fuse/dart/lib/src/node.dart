@@ -170,10 +170,10 @@ class FuseNode extends FuseMap with ChangeNotifier {
   /// parent but never laid out as one of its children.
   core.bool get inFlow => !registry.elsewhere.contains(type);
 
-  /// The children laid out with [flex] (a column by default), as one
+  /// The children laid out as `layout` says (a column by default), as one
   /// widget. Children that draw elsewhere are mounted beside the layout
   /// without taking part in it.
-  Widget get flexChildren {
+  Widget get layoutChildren {
     final all = childWidgets;
     final kids = children;
     final flow = <Widget>[], elsewhere = <Widget>[];
@@ -194,7 +194,9 @@ class FuseNode extends FuseMap with ChangeNotifier {
 
   Widget _layout(List<Widget> c) {
     if (c.isEmpty) return const SizedBox.shrink();
-    final flex = map('flex');
+    final flex = map('layout');
+    // A child with a `flex` share needs a Flex around it, even alone.
+    final shares = children.any((c) => c.inFlow && c['flex'] is num);
 
     final direction = flex?.string('direction');
     final isHorizontal = direction == 'horizontal';
@@ -224,6 +226,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
         : MainAxisSize.min;
 
     if (c.length == 1 &&
+        !shares &&
         mainAxisSize == MainAxisSize.min &&
         mainAxis == MainAxisAlignment.start &&
         crossAxis == CrossAxisAlignment.start) {

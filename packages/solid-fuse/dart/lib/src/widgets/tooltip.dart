@@ -28,7 +28,7 @@ class FuseTooltip extends StatelessWidget {
       tooltipBuilder: (context, animation) => content == null
           ? const SizedBox.shrink()
           : FadeTransition(opacity: animation, child: IgnorePointer(child: content)),
-      child: node.flexChildren,
+      child: node.layoutChildren,
     );
   }
 }

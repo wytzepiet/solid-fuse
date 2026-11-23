@@ -1,4 +1,4 @@
-import type { BaseProps, FlexInput } from "../types";
+import type { BaseProps, LayoutInput } from "../types";
 
 export interface PositionedProps extends BaseProps {
   top?: number;
@@ -7,7 +7,7 @@ export interface PositionedProps extends BaseProps {
   bottom?: number;
   width?: number;
   height?: number;
-  flex?: FlexInput;
+  layout?: LayoutInput;
 }
 
 export function Positioned(props: PositionedProps) {

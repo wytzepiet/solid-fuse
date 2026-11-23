@@ -8394,7 +8394,7 @@
 			gap: props.gap ?? 8,
 			align: "center"
 		}), (_v$, _$p) => {
-			Ye(_el$4, "flex", _v$, _$p);
+			Ye(_el$4, "layout", _v$, _$p);
 		});
 		return _el$4;
 	}
@@ -8427,7 +8427,7 @@
 	var _tpl$1$11 = /*@__PURE__*/ ke([
 		"view",
 		{
-			"flex": {
+			"layout": {
 				"direction": "vertical",
 				"align": "center",
 				"gap": 32
@@ -8441,7 +8441,7 @@
 		}],
 		[
 			"view",
-			{ "flex": {
+			{ "layout": {
 				"direction": "horizontal",
 				"gap": 16,
 				"align": "center"
@@ -8458,7 +8458,7 @@
 							"color": "#ef4444",
 							"borderRadius": 32
 						},
-						"flex": {
+						"layout": {
 							"align": "center",
 							"justify": "center"
 						}
@@ -8486,7 +8486,7 @@
 							"color": "#6b7280",
 							"borderRadius": 32
 						},
-						"flex": {
+						"layout": {
 							"align": "center",
 							"justify": "center"
 						}
@@ -8514,7 +8514,7 @@
 							"color": "#22c55e",
 							"borderRadius": 32
 						},
-						"flex": {
+						"layout": {
 							"align": "center",
 							"justify": "center"
 						}
@@ -8574,7 +8574,7 @@
 	// src/screens/text-field.tsx
 	var _tpl$1$10 = /*@__PURE__*/ ke([
 		"scrollView",
-		{ "flex": {
+		{ "layout": {
 			"direction": "vertical",
 			"gap": 16
 		} },
@@ -8606,14 +8606,14 @@
 			"view",
 			{
 				"padding": { "horizontal": 16 },
-				"flex": {
+				"layout": {
 					"direction": "vertical",
 					"gap": 24
 				}
 			},
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8634,7 +8634,7 @@
 			],
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8654,7 +8654,7 @@
 			],
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8666,7 +8666,7 @@
 			],
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8678,7 +8678,7 @@
 			],
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8850,7 +8850,7 @@
 	// src/screens/icon.tsx
 	var _tpl$1$9 = /*@__PURE__*/ ke([
 		"scrollView",
-		{ "flex": {
+		{ "layout": {
 			"direction": "vertical",
 			"gap": 16
 		} },
@@ -8882,14 +8882,14 @@
 			"view",
 			{
 				"padding": { "horizontal": 16 },
-				"flex": {
+				"layout": {
 					"direction": "vertical",
 					"gap": 24
 				}
 			},
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8898,7 +8898,7 @@
 					{ "fontWeight": "semiBold" },
 					"Static grid"
 				],
-				["view", { "flex": {
+				["view", { "layout": {
 					"direction": "horizontal",
 					"gap": 16,
 					"align": "center"
@@ -8906,7 +8906,7 @@
 			],
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8918,7 +8918,7 @@
 				[
 					"view",
 					{
-						"flex": {
+						"layout": {
 							"direction": "horizontal",
 							"gap": 12,
 							"align": "center"
@@ -8938,7 +8938,7 @@
 			],
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "vertical",
 					"gap": 6
 				} },
@@ -8950,7 +8950,7 @@
 				[
 					"view",
 					{
-						"flex": {
+						"layout": {
 							"direction": "horizontal",
 							"gap": 8,
 							"align": "center"
@@ -9141,7 +9141,7 @@
 	// src/screens/scroll.tsx
 	var _tpl$1$8 = /*@__PURE__*/ ke([
 		"scrollView",
-		{ "flex": {
+		{ "layout": {
 			"direction": "vertical",
 			"gap": 12
 		} },
@@ -9153,7 +9153,7 @@
 					"top": 16,
 					"bottom": 8
 				},
-				"flex": {
+				"layout": {
 					"direction": "vertical",
 					"gap": 4
 				}
@@ -9179,7 +9179,7 @@
 			"view",
 			{
 				"padding": { "horizontal": 16 },
-				"flex": {
+				"layout": {
 					"direction": "vertical",
 					"gap": 8
 				}
@@ -9191,7 +9191,7 @@
 			],
 			["scrollView", {
 				"scrollDirection": "horizontal",
-				"flex": {
+				"layout": {
 					"direction": "horizontal",
 					"gap": 8,
 					"align": "center"
@@ -9200,7 +9200,7 @@
 		],
 		["view", {
 			"padding": 16,
-			"flex": {
+			"layout": {
 				"direction": "vertical",
 				"gap": 8
 			}
@@ -9299,7 +9299,7 @@
 	}
 	// src/screens/list.tsx
 	var _tpl$1$7 = /*@__PURE__*/ ke(["view", {
-		"flex": {
+		"layout": {
 			"direction": "vertical",
 			"gap": 12
 		},
@@ -9363,7 +9363,7 @@
 	// src/screens/builder.tsx
 	var _tpl$1$6 = /*@__PURE__*/ ke([
 		"view",
-		{ "flex": {
+		{ "layout": {
 			"direction": "vertical",
 			"align": "stretch"
 		} },
@@ -9391,7 +9391,7 @@
 				"fontSize": 14
 			}]
 		],
-		["view", { "grow": 1 }]
+		["view", { "flex": 1 }]
 	], 7);
 	var _tpl$2$3 = /*@__PURE__*/ ke([
 		"gestureDetector",
@@ -9479,7 +9479,7 @@
 	var _tpl$1$5 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
-			"flex": {
+			"layout": {
 				"direction": "vertical",
 				"gap": 20
 			},
@@ -9526,7 +9526,7 @@
 				"color": "white",
 				"borderRadius": 16
 			},
-			"flex": { "gap": 16 }
+			"layout": { "gap": 16 }
 		},
 		[
 			"text",
@@ -9614,7 +9614,7 @@
 	], 3);
 	var _tpl$13 = /*@__PURE__*/ ke([
 		"view",
-		{ "flex": {
+		{ "layout": {
 			"direction": "vertical",
 			"gap": 8
 		} },
@@ -9886,24 +9886,24 @@
 	var _tpl$1$4 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
-			"flex": {
+			"layout": {
 				"direction": "vertical",
 				"gap": 16
 			},
 			"padding": 16
 		},
 		["text", 0],
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 8
 		} }],
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 8
 		} }],
 		[
 			"view",
-			{ "flex": {
+			{ "layout": {
 				"direction": "horizontal",
 				"gap": 8,
 				"align": "center"
@@ -9915,7 +9915,7 @@
 			0,
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "horizontal",
 					"align": "center"
 				} },
@@ -9932,7 +9932,7 @@
 			]
 		],
 		["text", 0],
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 8
 		} }]
@@ -10533,7 +10533,7 @@
 		});
 	}
 	// ../../packages/cupertino/src/controls.tsx
-	var _tpl$1$3 = /*@__PURE__*/ ke(["view", { "flex": {
+	var _tpl$1$3 = /*@__PURE__*/ ke(["view", { "layout": {
 		"direction": "horizontal",
 		"gap": 6,
 		"align": "center"
@@ -10874,7 +10874,7 @@
 	var _tpl$1$2 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
-			"flex": {
+			"layout": {
 				"direction": "vertical",
 				"gap": 16
 			},
@@ -10885,11 +10885,11 @@
 			}
 		},
 		["text", 0],
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 8
 		} }],
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 12,
 			"align": "center"
@@ -10899,7 +10899,7 @@
 			0,
 			[
 				"view",
-				{ "flex": {
+				{ "layout": {
 					"direction": "horizontal",
 					"gap": 8,
 					"align": "center"
@@ -11273,7 +11273,7 @@
 	var _tpl$1$1 = /*@__PURE__*/ ke([
 		"scrollView",
 		{
-			"flex": {
+			"layout": {
 				"direction": "vertical",
 				"gap": 16
 			},
@@ -11293,16 +11293,16 @@
 	], 3);
 	var _tpl$2 = /*@__PURE__*/ ke([
 		"view",
-		{ "flex": {
+		{ "layout": {
 			"direction": "vertical",
 			"gap": 16
 		} },
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 12,
 			"align": "center"
 		} }],
-		["view", { "flex": {
+		["view", { "layout": {
 			"direction": "horizontal",
 			"gap": 8
 		} }]
@@ -11416,7 +11416,7 @@
 	// src/screens/home.tsx
 	var _tpl$1 = /*@__PURE__*/ ke([
 		"scrollView",
-		{ "flex": { "direction": "vertical" } },
+		{ "layout": { "direction": "vertical" } },
 		[
 			"view",
 			{ "padding": {

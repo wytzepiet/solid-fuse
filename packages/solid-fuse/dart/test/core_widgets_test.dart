@@ -184,6 +184,29 @@ void main() {
     });
   });
 
+  group('layout', () {
+    testWidgets('flex on a child takes its share; on a lone child too', (tester) async {
+      apply([
+        create(1, 'view', {'layout': {'direction': 'horizontal'}, 'width': 300}),
+        create(2, 'view', {'flex': 2, 'height': 10}),
+        create(3, 'view', {'flex': 1, 'height': 10}),
+        insert(1, 2),
+        insert(1, 3),
+        insert(0, 1),
+        create(4, 'view', {'width': 120, 'height': 40}),
+        create(5, 'view', {'flex': 1}),
+        insert(4, 5),
+        insert(0, 4),
+      ]);
+      await tester.pumpWidget(app());
+      Size size(int id) => tester.getSize(find.byKey(ValueKey(id)));
+      expect(size(2).width, 200);
+      expect(size(3).width, 100);
+      // Alone in a column: still a Flex, so it fills the main axis.
+      expect(size(5).height, 40);
+    });
+  });
+
   group('pressable', () {
     testWidgets('reports only the flags JS listens to', (tester) async {
       apply([

@@ -15,7 +15,7 @@ export function HomeScreen() {
   const nav = useNavigation();
 
   return (
-    <ScrollView flex={{ direction: "vertical" }}>
+    <ScrollView layout={{ direction: "vertical" }}>
       <View padding={{ horizontal: 16, top: 48, bottom: 12 }}>
         <Text fontSize={28} fontWeight="bold">
           solid-fuse demos

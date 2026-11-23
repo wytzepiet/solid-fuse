@@ -69,7 +69,7 @@ class _FuseExpandableState extends State<FuseExpandable> {
           child: node.widget('header') ?? const SizedBox.shrink(),
         ),
       ),
-      bodyBuilder: (context, _) => node.flexChildren,
+      bodyBuilder: (context, _) => node.layoutChildren,
     );
   }
 }

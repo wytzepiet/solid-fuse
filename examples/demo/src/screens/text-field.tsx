@@ -11,7 +11,7 @@ export function TextFieldScreen() {
   const focus = createFocusNode();
 
   return (
-    <ScrollView flex={{ direction: "vertical", gap: 16 }}>
+    <ScrollView layout={{ direction: "vertical", gap: 16 }}>
         <View padding={{ horizontal: 16, top: 16, bottom: 8 }}>
           <Text fontSize={24} fontWeight="bold">
             textField
@@ -21,9 +21,9 @@ export function TextFieldScreen() {
           </Text>
         </View>
 
-        <View padding={{ horizontal: 16 }} flex={{ direction: "vertical", gap: 24 }}>
+        <View padding={{ horizontal: 16 }} layout={{ direction: "vertical", gap: 24 }}>
           {/* Basic reactive value */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Name</Text>
             <TextField
               value={name()}
@@ -41,7 +41,7 @@ export function TextFieldScreen() {
           </View>
 
           {/* FocusNode demo */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Focus control</Text>
             <TextField
               focusNode={focus}
@@ -57,7 +57,7 @@ export function TextFieldScreen() {
           </View>
 
           {/* Filtering */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Digits only</Text>
             <TextField
               value={digits()}
@@ -69,7 +69,7 @@ export function TextFieldScreen() {
           </View>
 
           {/* Slot widgets via JSX-as-prop */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Slot widgets</Text>
             <TextField
               placeholder="Search…"
@@ -83,7 +83,7 @@ export function TextFieldScreen() {
           </View>
 
           {/* Autofocus */}
-          <View flex={{ direction: "vertical", gap: 6 }}>
+          <View layout={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Autofocus</Text>
             <Text color="#6B7280" fontSize={13}>
               (would autofocus on mount — disabled here so it doesn't steal focus)

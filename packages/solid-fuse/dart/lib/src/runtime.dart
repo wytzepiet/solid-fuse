@@ -536,7 +536,7 @@ class FuseRuntime {
 
   /// Build a Flutter widget for a single FuseNode.
   Widget buildWidgetForNode(FuseNode node) {
-    if (node.type == 'root') return node.flexChildren;
+    if (node.type == 'root') return node.layoutChildren;
 
     if (node.type == '__text__') {
       return Text(node.props['text']?.toString() ?? '');
@@ -545,7 +545,7 @@ class FuseRuntime {
     // What a builder returned that is not one element (text, a list, a
     // reactive value): its children, as a `child` slot shows them.
     if (node.type == '__slot__') {
-      return node.children.isEmpty ? const SizedBox.shrink() : node.flexChildren;
+      return node.children.isEmpty ? const SizedBox.shrink() : node.layoutChildren;
     }
 
     final builder = _widgetBuilders[node.type];

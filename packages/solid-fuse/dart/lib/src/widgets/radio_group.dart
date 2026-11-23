@@ -16,7 +16,7 @@ class FuseRadioGroup extends StatelessWidget {
     return RadioGroup<Object?>(
       groupValue: node['value'],
       onChanged: (v) => onChange?.call(v),
-      child: node.flexChildren,
+      child: node.layoutChildren,
     );
   }
 }

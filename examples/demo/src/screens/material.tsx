@@ -37,34 +37,34 @@ export function MaterialScreen() {
         </NavigationBar>
       }
     >
-      <ScrollView flex={{ direction: "vertical", gap: 16 }} padding={16}>
+      <ScrollView layout={{ direction: "vertical", gap: 16 }} padding={16}>
         <Text>{`Tab ${tab()}, FAB pressed ${taps()} times`}</Text>
-        <View flex={{ direction: "horizontal", gap: 8 }}>
+        <View layout={{ direction: "horizontal", gap: 8 }}>
           <Button onPress={() => setDialog(true)}>Dialog</Button>
           <Button variant="tonal" onPress={() => setSheet(true)}>Sheet</Button>
           <Button variant="outlined" icon={Icons.send}>Send</Button>
         </View>
-        <View flex={{ direction: "horizontal", gap: 8 }}>
+        <View layout={{ direction: "horizontal", gap: 8 }}>
           <Button variant="text">Text</Button>
           <Button variant="elevated">Elevated</Button>
           <Button disabled>Disabled</Button>
         </View>
         <Divider />
-        <View flex={{ direction: "horizontal", gap: 8, align: "center" }}>
+        <View layout={{ direction: "horizontal", gap: 8, align: "center" }}>
           <Switch value={on()} onChange={setOn} />
           <Checkbox value={checked()} onChange={setChecked} tristate />
           <Text>{`switch ${on() ? "on" : "off"}, checkbox ${String(checked())}`}</Text>
         </View>
         <Slider value={volume()} onChange={setVolume} />
         <RadioGroup value={plan()} onChange={setPlan}>
-          <View flex={{ direction: "horizontal", align: "center" }}>
+          <View layout={{ direction: "horizontal", align: "center" }}>
             <Radio value="free" /><Text>Free</Text>
             <Radio value="pro" /><Text>Pro</Text>
           </View>
         </RadioGroup>
         <Text>{`plan = ${plan()}`}</Text>
         <TextField label="Email" value={email()} onChange={setEmail} keyboardType="email" prefixIcon={Icons.email} />
-        <View flex={{ direction: "horizontal", gap: 8 }}>
+        <View layout={{ direction: "horizontal", gap: 8 }}>
           <Chip label="Chip" icon={Icons.star} />
           <Chip label="Filter" selected={filter()} onSelect={setFilter} />
           <Badge label={3}><IconButton icon={Icons.notifications} /></Badge>

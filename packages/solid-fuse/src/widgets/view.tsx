@@ -3,12 +3,12 @@ import type {
   BaseProps,
   DecorationInput,
   EdgeInsetsInput,
-  FlexInput,
+  LayoutInput,
   TransformInput,
 } from "../types";
 
 export interface ViewProps extends BaseProps {
-  flex?: FlexInput;
+  layout?: LayoutInput;
   padding?: EdgeInsetsInput;
   margin?: EdgeInsetsInput;
   width?: number;
@@ -21,8 +21,6 @@ export interface ViewProps extends BaseProps {
   alignment?: AlignmentString;
   decoration?: DecorationInput;
   foregroundDecoration?: DecorationInput;
-  grow?: number;
-  fit?: "tight" | "loose";
   transform?: TransformInput;
   clipBehavior?: "none" | "hardEdge" | "antiAlias";
   opacity?: number;

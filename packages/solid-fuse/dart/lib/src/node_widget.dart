@@ -18,8 +18,16 @@ class FuseNodeWidget extends StatelessWidget {
     final runtime = FuseRuntimeScope.of(context);
     return ListenableBuilder(
       listenable: node,
-      builder: (context, _) => runtime.buildWidgetForNode(node),
+      builder: (context, _) => _flexItem(runtime.buildWidgetForNode(node)),
     );
+  }
+
+  // `flex` on any element: its share of a Flex parent's free space. Not
+  // when the widget already is one (a generated Expanded keeps its own).
+  Widget _flexItem(Widget built) {
+    final share = node['flex'];
+    if (share is! num || share <= 0 || built is Flexible) return built;
+    return Expanded(flex: share.round(), child: built);
   }
 
   // Surface the solid-fuse identity to the Flutter widget inspector. Without

@@ -63,7 +63,7 @@ import { Navigator, Text, View } from "solid-fuse";
 
 function Home() {
   return (
-    <View padding={24} flex={{ gap: 12 }}>
+    <View padding={24} layout={{ gap: 12 }}>
       <Text fontSize={24} fontWeight="bold">Hello Fuse</Text>
       <Text color="grey">SolidJS inside Flutter</Text>
     </View>
@@ -102,7 +102,7 @@ function TodoList() {
   const [showDone, setShowDone] = createSignal(false);
 
   return (
-    <View flex={{ gap: 8 }} padding={16}>
+    <View layout={{ gap: 8 }} padding={16}>
       <For each={todos()}>
         {(todo) => <Text fontSize={16}>{todo}</Text>}
       </For>
@@ -116,7 +116,7 @@ function TodoList() {
 
 ## Next steps
 
-- [UI & Layout](/docs/building/ui-and-layout) — build interfaces with views, text, gestures, and flex
+- [UI & Layout](/docs/building/ui-and-layout) — build interfaces with views, text, gestures, and layout
 - [Creating Widgets](/docs/extending/creating-widgets) — add your own Flutter widgets
 - [Using pub.dev packages](/docs/extending/using-packages) — wrap any Flutter package (charts, maps, video) for JSX
 - [Configuration](/docs/extending/packaging) — customize `fuse.config.ts`

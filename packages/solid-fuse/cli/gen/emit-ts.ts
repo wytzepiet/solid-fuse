@@ -75,7 +75,7 @@ class Module {
   usesHandle = false;
   usesHandleType = false;
   usesSlot = false;
-  usesFlex = false;
+  usesLayout = false;
   /** Modules loaded for what they register (a handle type that arrives from Dart). */
   readonly loads = new Set<string>();
   usesBuild = false;
@@ -530,11 +530,10 @@ export function emitTs(m: Manifest): TsOutput {
       const doc = `Dart: \`${childParam.name}\`.`;
       fields.push(`${jsdoc("  ", doc)}  children${required ? "" : "?"}: JSX.Element;`);
       // Several children in a single `child` slot are laid out like a
-      // View's (a column by default); `flex` says how. Not where the widget
-      // has a `flex` of its own (Expanded, Flexible).
-      if (!w.children!.many && !w.params.some((p) => p.name === "flex")) {
-        module.usesFlex = true;
-        fields.push(`  /** How several children lay out (a column by default), as on \`View\`. */\n  flex?: FlexInput;`);
+      // View's (a column by default); `layout` says how.
+      if (!w.children!.many) {
+        module.usesLayout = true;
+        fields.push(`  /** How several children lay out (a column by default), as on \`View\`. */\n  layout?: LayoutInput;`);
       }
     }
     const tag = tagOf(w);
@@ -711,7 +710,7 @@ export function emitTs(m: Manifest): TsOutput {
     const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : []), ...(module.usesSlot ? ["$slot", "$slots"] : [])];
     if (fromFuse.length) head.push(`import { ${fromFuse.join(", ")} } from "solid-fuse/generated";`);
     if (module.usesConst) head.push('import type { Const } from "solid-fuse/generated";');
-    const fromCore = [...(module.usesHandle ? ["Handle"] : []), ...(module.usesFlex ? ["FlexInput"] : [])];
+    const fromCore = [...(module.usesHandle ? ["Handle"] : []), ...(module.usesLayout ? ["LayoutInput"] : [])];
     if (fromCore.length) head.push(`import type { ${fromCore.join(", ")} } from "solid-fuse";`);
     // Owner modules sit one directory down.
     const up = module.name.includes("/") ? "../" : "./";

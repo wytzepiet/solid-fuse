@@ -8,7 +8,7 @@ export function ListScreen() {
   const [rows, setRows] = createSignal(["cherry", "apple", "elder", "banana", "date"]);
 
   return (
-    <View flex={{ direction: "vertical", gap: 12 }} padding={24}>
+    <View layout={{ direction: "vertical", gap: 12 }} padding={24}>
       <Row>
         <Button onTap={() => setRows((r) => r.slice().reverse())}>Reverse</Button>
         <Button onTap={() => setRows((r) => r.slice().sort())}>Sort</Button>

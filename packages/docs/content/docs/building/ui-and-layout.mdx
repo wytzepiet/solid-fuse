@@ -1,6 +1,6 @@
 ---
 title: UI & Layout
-description: Build interfaces with views, text, and flex
+description: Build interfaces with views, text, and layout
 ---
 
 Every built-in widget ships as an uppercase wrapper component imported from `solid-fuse`. They take typed props and render to native Flutter widgets.
@@ -24,7 +24,7 @@ import { Text, View } from "solid-fuse";
 
 | Prop | Type | Description |
 |---|---|---|
-| `flex` | `FlexInput` | Layout children (see [Flex](#flex) below) |
+| `layout` | `LayoutInput` | How the children lay out (see [Layout](#layout) below) |
 | `padding` | `EdgeInsetsInput` | Inner spacing |
 | `margin` | `EdgeInsetsInput` | Outer spacing |
 | `width` / `height` | `number` | Fixed dimensions |
@@ -37,8 +37,7 @@ import { Text, View } from "solid-fuse";
 | `opacity` | `number` | 0–1 transparency |
 | `transform` | `TransformInput` | Rotate, scale, translate |
 | `clipBehavior` | `string` | Clip behavior (`"hardEdge"`, `"antiAlias"`, `"none"`) |
-| `grow` | `number` | Flex grow factor (when inside a flex parent) |
-| `fit` | `string` | `"tight"` or `"loose"` (with grow) |
+| `flex` | `number` | Share of the parent layout's free space (see [flex](#flex)) |
 | `visible` | `boolean` | Show/hide without removing from tree |
 | `ignorePointer` | `boolean` | Disable hit testing |
 
@@ -106,7 +105,7 @@ import { Positioned, Stack, Text, View } from "solid-fuse";
 import { ScrollView, Text, View } from "solid-fuse";
 
 <ScrollView padding={16} physics="bouncing">
-  <View flex={{ gap: 8 }}>
+  <View layout={{ gap: 8 }}>
     <For each={items()}>{(item) => <Text>{item}</Text>}</For>
   </View>
 </ScrollView>
@@ -122,30 +121,30 @@ import { ScrollView, Text, View } from "solid-fuse";
 | `clipBehavior` | `string` | Clip behavior |
 | `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
 
-## Flex
+## Layout
 
-Every element that accepts children supports `flex` — this is intentional. JSX can't enforce "exactly one child" vs "many children" at the type level, so instead of separate `Row` and `Column` components, Fuse uses `flex` as a universal layout config. That includes generated widgets with a single `child` (`Card`, `Padding`, `DecoratedBox`...). A `<Modal>` among the children takes no part in the layout.
+Every element that accepts children supports `layout`, because JSX can't enforce "exactly one child" vs "many children" at the type level. Several children are a column unless `layout` says otherwise, so instead of separate `Row` and `Column` components, Fuse uses `layout` as a universal layout config. That includes generated widgets with a single `child` (`Card`, `Padding`, `DecoratedBox`...). A `<Modal>` among the children takes no part in the layout.
 
 ```tsx
 {/* Horizontal row with spacing */}
-<View flex={{ direction: "horizontal", gap: 12 }}>
+<View layout={{ direction: "horizontal", gap: 12 }}>
   <Text>Left</Text>
   <Text>Right</Text>
 </View>
 
 {/* Centered content filling available space */}
-<View flex={{ align: "center", justify: "center", expand: true }}>
+<View layout={{ align: "center", justify: "center", expand: true }}>
   <Text>Centered</Text>
 </View>
 
 {/* Space between items */}
-<View flex={{ justify: "spaceBetween" }}>
+<View layout={{ justify: "spaceBetween" }}>
   <Text>Start</Text>
   <Text>End</Text>
 </View>
 ```
 
-### FlexInput
+### LayoutInput
 
 | Property | Type | Default | Description |
 |---|---|---|---|
@@ -155,13 +154,13 @@ Every element that accepts children supports `flex` — this is intentional. JSX
 | `justify` | `string` | `"start"` | Main-axis: `"start"`, `"center"`, `"end"`, `"spaceBetween"`, `"spaceAround"`, `"spaceEvenly"` |
 | `expand` | `boolean` | `false` | Fill available space on main axis |
 
-### Grow
+### flex
 
-Use `grow` on children to distribute extra space, similar to CSS `flex-grow`:
+`flex` on a child gives it a share of the free space along the layout's main axis, as CSS `flex: 1` and Flutter's `Expanded(flex: 1)` do. Every core element takes it (`View`, `Text`, `ScrollView`, `Pressable`...); it means something only inside a layout (an element with several children, a `Row`, a `Column`). Generated widgets don't: wrap them in a `View` or use Flutter's `Expanded`.
 
 ```tsx
-<View flex={{ direction: "horizontal", expand: true }}>
-  <View grow={1} decoration={{ color: "red" }}>
+<View layout={{ direction: "horizontal", expand: true }}>
+  <View flex={1} decoration={{ color: "red" }}>
     <Text>Takes remaining space</Text>
   </View>
   <View width={100} decoration={{ color: "blue" }}>
@@ -226,7 +225,7 @@ The `behavior` prop controls how the detector responds to touches:
 | `"opaque"` | Entire bounds tappable, blocks gestures behind. |
 | `"translucent"` | Entire bounds tappable, gestures pass through. |
 
-`GestureDetector` also supports `flex` for layout, so you can use it as a tappable container directly.
+`GestureDetector` also supports `layout`, so you can use it as a tappable container directly.
 
 ## Input types
 

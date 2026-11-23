@@ -14,7 +14,7 @@ export function CoreScreen() {
   const [size, setSize] = createSignal<"S" | "M" | "L">("M");
 
   return (
-    <ScrollView flex={{ direction: "vertical", gap: 20 }} padding={16}>
+    <ScrollView layout={{ direction: "vertical", gap: 20 }} padding={16}>
       <Text fontSize={24} fontWeight="bold">core widgets</Text>
 
       <Section title="Pressable">
@@ -45,7 +45,7 @@ export function CoreScreen() {
           <Button onTap={() => setOpen(true)}>open dialog</Button>
         </Row>
         <Modal open={open()} onOpenChange={setOpen}>
-          <View padding={24} width={280} decoration={{ color: "white", borderRadius: 16 }} flex={{ gap: 16 }}>
+          <View padding={24} width={280} decoration={{ color: "white", borderRadius: 16 }} layout={{ gap: 16 }}>
             <Text fontSize={18} fontWeight="bold">Core dialog</Text>
             <Text>No design: the content brings its own surface.</Text>
             <Button onTap={() => setOpen(false)}>close</Button>
@@ -96,7 +96,7 @@ export function CoreScreen() {
 
 function Section(props: { title: string; children: JSX.Element }) {
   return (
-    <View flex={{ direction: "vertical", gap: 8 }}>
+    <View layout={{ direction: "vertical", gap: 8 }}>
       <Text fontWeight="semiBold">{props.title}</Text>
       {props.children}
     </View>

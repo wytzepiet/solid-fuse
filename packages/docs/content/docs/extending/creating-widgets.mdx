@@ -14,13 +14,13 @@ Let's build a `Badge` widget that renders a Flutter `Chip`.
 ### Step 1: Write the JS wrapper
 
 ```tsx title="src/badge.tsx"
-import type { ColorInput, FlexInput } from "solid-fuse";
+import type { ColorInput, LayoutInput } from "solid-fuse";
 
 export interface BadgeProps {
   label: string;
   color?: ColorInput;
   children?: any;
-  flex?: FlexInput;
+  layout?: LayoutInput;
 }
 
 export function Badge(props: BadgeProps) {
@@ -124,18 +124,18 @@ A wrapper that does run adds little. When `<Badge label="New" color={tone()} />`
 
 Nested objects return `FuseMap`, which has the same accessors — so you can do `node.map('config')?.string('mode')`.
 
-## The flex + flexChildren mechanic
+## The layout + layoutChildren mechanic
 
-> If you add `flex?: FlexInput` to your wrapper props and use `node.flexChildren` in your Dart widget, **layout just works**. Users of your widget can pass `flex={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
+> If you add `layout?: LayoutInput` to your wrapper props and use `node.layoutChildren` in your Dart widget, **layout just works**. Users of your widget can pass `layout={{ direction: "horizontal", gap: 8 }}` and children will arrange automatically — you don't write any layout code.
 
 This is how every built-in element handles children. Here's a wrapper that supports it:
 
 ```tsx title="JS wrapper"
-import type { FlexInput } from "solid-fuse";
+import type { LayoutInput } from "solid-fuse";
 
 export interface MyCardProps {
   children?: any;
-  flex?: FlexInput;
+  layout?: LayoutInput;
 }
 
 export function MyCard(props: MyCardProps) {
@@ -153,7 +153,7 @@ class FuseMyCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: node.flexChildren,  // ← reads flex prop automatically
+        child: node.layoutChildren,  // ← reads the layout prop automatically
       ),
     );
   }
@@ -163,22 +163,23 @@ class FuseMyCard extends StatelessWidget {
 Now consumers can do:
 
 ```tsx
-<MyCard flex={{ gap: 8 }}>
+<MyCard layout={{ gap: 8 }}>
   <Text>Title</Text>
   <Text>Subtitle</Text>
 </MyCard>
 ```
 
-### How flexChildren works
+### How layoutChildren works
 
-- Reads the `flex` prop from the node
-- If there's a `flex` config: wraps children in a Flutter `Flex` widget (Row/Column) with the specified gap, alignment, and justification
-- If there's only one child and no flex config: returns the child directly (no wrapper)
-- This single-child optimization avoids unnecessary layout nodes
+- Reads the `layout` prop from the node
+- Wraps the children in a Flutter `Flex` (a column unless `layout` says otherwise) with the specified gap, alignment, and justification
+- If there's only one child, no `layout` config and no child with a `flex` share: returns the child directly (no wrapper)
+- Children that draw elsewhere (`<Modal>`) are mounted beside the layout, never in it
+- A child's `flex` share is handled by the child itself: every element wraps itself in an `Expanded` when it has one, so your widget does nothing for it
 
-### childWidgets vs flexChildren
+### childWidgets vs layoutChildren
 
-- **`node.flexChildren`** — reads the `flex` prop and applies layout. Use this for anything that should support user-configured layout. This is the recommended default.
+- **`node.layoutChildren`** — reads the `layout` prop and applies layout. Use this for anything that should support user-configured layout. This is the recommended default.
 - **`node.children`** — the child nodes themselves. Empty text nodes are left out of all three: Solid keeps one as a placeholder where a dynamic child currently renders nothing (a hidden `<Show>`), and like an empty text node in the DOM it takes no space.
 - **`node.childWidgets`** — raw list of child widgets, no layout applied. Use this when you're passing children to a Flutter widget that manages its own layout (like `Navigator` or `Stack`).
 
@@ -193,7 +194,7 @@ final onTap = node.callback('onTap');
 // Safe to use directly — null means "no handler"
 GestureDetector(
   onTap: onTap,
-  child: node.flexChildren,
+  child: node.layoutChildren,
 )
 ```
 

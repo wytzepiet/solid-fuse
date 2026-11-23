@@ -60,6 +60,14 @@ generated modules.
 12. **Thin over generated.** A design component is a TS wrapper that renders
     the generated component with these rules applied. Anything it doesn't
     expose is one import away in `#fuse/<package>`.
+13. **Layout: forced on everything, convenience on core.** `layout` on any
+    element with children says how several lay out (a column by default):
+    JSX can't say "one child", so generated `child` widgets take it too.
+    `flex` (a share of the free space, CSS `flex: 1`) is a core-element
+    prop only; generated widgets stay Flutter and use `Expanded`. Generated
+    = Flutter plus what JSX forces; core = our box model, where props save
+    nesting. Elements that draw elsewhere (`<Modal>`) never take part in
+    layout.
 
 ## Core (`solid-fuse`)
 

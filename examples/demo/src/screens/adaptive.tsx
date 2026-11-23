@@ -8,7 +8,7 @@ import { Button as Toggle } from "../ui";
 export function AdaptiveScreen() {
   const [design, setDesign] = createSignal<Design>("material");
   return (
-    <ScrollView flex={{ direction: "vertical", gap: 16 }} padding={{ horizontal: 16, top: 48 }}>
+    <ScrollView layout={{ direction: "vertical", gap: 16 }} padding={{ horizontal: 16, top: 48 }}>
       <Text fontSize={24} fontWeight="bold">adaptive</Text>
       <Toggle onTap={() => setDesign(design() === "material" ? "cupertino" : "material")}>{`design: ${design()}`}</Toggle>
       <Show when={design()} keyed>
@@ -29,15 +29,15 @@ function Gallery() {
   const [text, setText] = createSignal("");
   const [open, setOpen] = createSignal(false);
   return (
-    <View flex={{ direction: "vertical", gap: 16 }}>
-      <View flex={{ direction: "horizontal", gap: 12, align: "center" }}>
+    <View layout={{ direction: "vertical", gap: 16 }}>
+      <View layout={{ direction: "horizontal", gap: 12, align: "center" }}>
         <Switch value={on()} onChange={setOn} />
         <Checkbox value={checked()} onChange={setChecked} />
         <ProgressIndicator />
       </View>
       <Slider value={level()} onChange={setLevel} />
       <TextField label="Search" value={text()} onChange={setText} />
-      <View flex={{ direction: "horizontal", gap: 8 }}>
+      <View layout={{ direction: "horizontal", gap: 8 }}>
         <Button onPress={() => setOpen(true)}>Delete</Button>
         <Button variant="plain">Later</Button>
       </View>

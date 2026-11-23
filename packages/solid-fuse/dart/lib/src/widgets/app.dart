@@ -45,7 +45,7 @@ class FuseAppContent extends StatelessWidget {
     final runtime = FuseRuntimeScope.of(context);
     return FuseRuntimeScope(
       runtime: runtime,
-      child: ListenableBuilder(listenable: node, builder: (_, _) => node.flexChildren),
+      child: ListenableBuilder(listenable: node, builder: (_, _) => node.layoutChildren),
     );
   }
 }

@@ -34,7 +34,7 @@ export function Button(props: ButtonProps) {
       color={toHex(props.color)}
     >
       <Show when={props.icon !== undefined} fallback={label(props.children)}>
-        <View flex={{ direction: "horizontal", gap: 6, align: "center" }}>
+        <View layout={{ direction: "horizontal", gap: 6, align: "center" }}>
           {icon(props.icon)}
           {label(props.children)}
         </View>

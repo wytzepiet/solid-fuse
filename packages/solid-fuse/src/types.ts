@@ -94,7 +94,8 @@ export type TransformInput = {
   translateY?: number;
 };
 
-export type FlexInput = {
+/** How an element lays out several children: a column unless it says otherwise. */
+export type LayoutInput = {
   direction?: "horizontal" | "vertical";
   gap?: number;
   align?: "start" | "center" | "end" | "stretch";
@@ -105,5 +106,10 @@ export type FlexInput = {
 // Base props every widget accepts.
 export interface BaseProps {
   children?: JSX.Element;
+  /**
+   * Inside a parent's layout, this element's share of the free space along
+   * the main axis, like CSS `flex: 1` or Flutter's `Expanded(flex: 1)`.
+   */
+  flex?: number;
   ref?: import("./renderer").FuseNode | ((el: import("./renderer").FuseNode) => void);
 }
