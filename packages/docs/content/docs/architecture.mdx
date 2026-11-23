@@ -42,6 +42,8 @@ signal update → ops journal → bridge_call → Dart applies ops → Flutter r
 signal update ← JS handler  ← bridge_call ← Flutter gesture ← user taps
 ```
 
+Dart never waits for JS, with one exception: a builder (a [generated](/docs/extending/generating#builders) `ListView.builder`'s `itemBuilder`) needs its widget during the frame. Dart then calls JS synchronously, and the reply carries the ops that build the row, together with any batch whose message is still queued behind the waiting Dart thread.
+
 ## The runtime
 
 Most hybrid frameworks run JS in a stripped-down environment where IO operations bounce back to the host. FJS implements standard APIs — `fetch`, `crypto`, `setTimeout`, `Buffer`, URL parsing, streams, compression — in Rust. So things like network requests and cryptography run at native speed, not through JS polyfills. SolidJS gets a real environment with the APIs it expects.
