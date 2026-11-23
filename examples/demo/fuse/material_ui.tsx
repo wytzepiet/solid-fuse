@@ -51,7 +51,7 @@ export interface AboutListTileProps {
   applicationVersion?: string | null;
   applicationIcon?: JSX.Element | null;
   applicationLegalese?: string | null;
-  aboutBoxChildren?: JSX.Element[] | null;
+  aboutBoxChildren?: JSX.Element | null;
   dense?: boolean | null;
   /** Dart: `child`. */
   children?: JSX.Element;
@@ -237,7 +237,7 @@ export interface AlertDialogProps {
   content?: JSX.Element | null;
   contentPadding?: EdgeInsetsGeometry | null;
   contentTextStyle?: TextStyle | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   actionsPadding?: EdgeInsetsGeometry | null;
   actionsAlignment?: MainAxisAlignment | null;
   actionsOverflowAlignment?: OverflowBarAlignment | null;
@@ -277,7 +277,7 @@ export interface AlertDialogAdaptiveProps {
   content?: JSX.Element | null;
   contentPadding?: EdgeInsetsGeometry | null;
   contentTextStyle?: TextStyle | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   actionsPadding?: EdgeInsetsGeometry | null;
   actionsAlignment?: MainAxisAlignment | null;
   actionsOverflowAlignment?: OverflowBarAlignment | null;
@@ -351,7 +351,7 @@ export interface AppBarProps {
   /** @default true */
   automaticallyImplyLeading?: boolean;
   title?: JSX.Element | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   /** @default true */
   automaticallyImplyActions?: boolean;
   flexibleSpace?: JSX.Element | null;
@@ -1979,7 +1979,7 @@ export function DrawerTheme(props: DrawerThemeProps): JSX.Element {
 
 export interface DropdownButtonProps {
   key?: string | number | null;
-  items?: JSX.Element[] | null;
+  items?: JSX.Element | null;
   selectedItemBuilder?: (() => JSX.Element[]) | null;
   value?: unknown;
   hint?: JSX.Element | null;
@@ -2028,7 +2028,7 @@ export function DropdownButton(props: DropdownButtonProps): JSX.Element {
 
 export interface DropdownButtonFormFieldProps {
   key?: string | number | null;
-  items?: JSX.Element[] | null;
+  items?: JSX.Element | null;
   selectedItemBuilder?: (() => JSX.Element[]) | null;
   /** @deprecated */
   value?: unknown;
@@ -3715,7 +3715,7 @@ export interface MaterialBannerProps {
   key?: string | number | null;
   content: JSX.Element;
   contentTextStyle?: TextStyle | null;
-  actions: JSX.Element[];
+  actions: JSX.Element;
   elevation?: number | null;
   leading?: JSX.Element | null;
   backgroundColor?: Color | null;
@@ -3878,7 +3878,7 @@ export interface MenuAnchorProps {
   /** @default false */
   animated?: boolean;
   onAnimationStatusChanged?: ((status: AnimationStatus) => void) | null;
-  menuChildren: JSX.Element[];
+  menuChildren: JSX.Element;
   builder?: ((controller: MenuController, child: undefined) => JSX.Element) | null;
   semanticLabel?: string | null;
   /** Dart: `child`. */
@@ -4014,7 +4014,7 @@ export interface NavigationBarProps {
   animationDuration?: Duration | null;
   /** @default 0 */
   selectedIndex?: number;
-  destinations: JSX.Element[];
+  destinations: JSX.Element;
   onDestinationSelected?: ((id: number) => void) | null;
   backgroundColor?: Color | null;
   elevation?: number | null;
@@ -4272,7 +4272,7 @@ export function OutlinedButtonTheme(props: OutlinedButtonThemeProps): JSX.Elemen
 export interface PaginatedDataTableProps {
   key?: string | number | null;
   header?: JSX.Element | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   columns: DataColumn[];
   sortColumnIndex?: number | null;
   /** @default true */
@@ -4983,7 +4983,7 @@ export interface ScaffoldProps {
   floatingActionButton?: JSX.Element | null;
   floatingActionButtonLocation?: FloatingActionButtonLocation | null;
   floatingActionButtonAnimator?: FloatingActionButtonAnimator | null;
-  persistentFooterButtons?: JSX.Element[] | null;
+  persistentFooterButtons?: JSX.Element | null;
   persistentFooterAlignment?: AlignmentDirectional;
   persistentFooterDecoration?: BoxDecoration | null;
   drawer?: JSX.Element | null;
@@ -5079,7 +5079,7 @@ export interface SearchAnchorProps {
   searchController?: Handle<"material_ui_SearchController"> | null;
   viewBuilder?: ((suggestions: undefined) => JSX.Element) | null;
   viewLeading?: JSX.Element | null;
-  viewTrailing?: JSX.Element[] | null;
+  viewTrailing?: JSX.Element | null;
   viewHintText?: string | null;
   viewBackgroundColor?: Color | null;
   viewElevation?: number | null;
@@ -5121,7 +5121,7 @@ export function SearchAnchor(props: SearchAnchorProps): JSX.Element {
 
 export interface SearchAnchorBarProps {
   barLeading?: JSX.Element | null;
-  barTrailing?: JSX.Element[] | null;
+  barTrailing?: JSX.Element | null;
   barHintText?: string | null;
   onTap?: (() => void) | null;
   onSubmitted?: ((value: string) => void) | null;
@@ -5139,7 +5139,7 @@ export interface SearchAnchorBarProps {
   barHintStyle?: WidgetStatePropertyOfTextStyleN | null;
   viewBuilder?: ((suggestions: undefined) => JSX.Element) | null;
   viewLeading?: JSX.Element | null;
-  viewTrailing?: JSX.Element[] | null;
+  viewTrailing?: JSX.Element | null;
   viewHintText?: string | null;
   viewBackgroundColor?: Color | null;
   viewElevation?: number | null;
@@ -5180,7 +5180,7 @@ export interface SearchBarProps {
   focusNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   hintText?: string | null;
   leading?: JSX.Element | null;
-  trailing?: JSX.Element[] | null;
+  trailing?: JSX.Element | null;
   onTap?: (() => void) | null;
   onTapOutside?: ((event: PointerDownEventOut) => void) | null;
   onChanged?: ((value: string) => void) | null;
@@ -5552,7 +5552,7 @@ export interface SliverAppBarProps {
   /** @default true */
   automaticallyImplyLeading?: boolean;
   title?: JSX.Element | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   /** @default true */
   automaticallyImplyActions?: boolean;
   flexibleSpace?: JSX.Element | null;
@@ -5615,7 +5615,7 @@ export interface SliverAppBarMediumProps {
   /** @default true */
   automaticallyImplyLeading?: boolean;
   title?: JSX.Element | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   /** @default true */
   automaticallyImplyActions?: boolean;
   flexibleSpace?: JSX.Element | null;
@@ -5678,7 +5678,7 @@ export interface SliverAppBarLargeProps {
   /** @default true */
   automaticallyImplyLeading?: boolean;
   title?: JSX.Element | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   /** @default true */
   automaticallyImplyActions?: boolean;
   flexibleSpace?: JSX.Element | null;
@@ -5872,7 +5872,7 @@ export interface SubmenuButtonProps {
   /** @default false */
   animated?: boolean;
   onAnimationStatusChanged?: ((status: AnimationStatus) => void) | null;
-  menuChildren: JSX.Element[];
+  menuChildren: JSX.Element;
   /** Dart: `child`. */
   children?: JSX.Element;
 }
@@ -6126,7 +6126,7 @@ export function Tab(props: TabProps): JSX.Element {
 
 export interface TabBarProps {
   key?: string | number | null;
-  tabs: JSX.Element[];
+  tabs: JSX.Element;
   controller?: Handle<"material_ui_TabController"> | null;
   scrollController?: Handle<"material_ui_TabBarScrollController"> | null;
   /** @default false */
@@ -6172,7 +6172,7 @@ export function TabBar(props: TabBarProps): JSX.Element {
 
 export interface TabBarSecondaryProps {
   key?: string | number | null;
-  tabs: JSX.Element[];
+  tabs: JSX.Element;
   controller?: Handle<"material_ui_TabController"> | null;
   scrollController?: Handle<"material_ui_TabBarScrollController"> | null;
   /** @default false */
@@ -6856,7 +6856,7 @@ export interface UserAccountsDrawerHeaderProps {
   decoration?: Decoration | null;
   margin?: EdgeInsetsGeometry | null;
   currentAccountPicture?: JSX.Element | null;
-  otherAccountsPictures?: JSX.Element[] | null;
+  otherAccountsPictures?: JSX.Element | null;
   currentAccountPictureSize?: Size;
   otherAccountsPicturesSize?: Size;
   accountName?: JSX.Element | null;

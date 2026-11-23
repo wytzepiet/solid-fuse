@@ -2,7 +2,9 @@ declare global {
   namespace JSX {
     // Intrinsic elements are a private wire format between wrappers and the
     // runtime — typed props live on the wrapper components themselves.
-    type Element = any;
+    // Solid's own: renderer objects, arrays, text, nothing. Never a
+    // function, so a render-function child (`{(s) => ...}`) is typed.
+    type Element = import("solid-js").Element;
     interface ElementChildrenAttribute {
       children: {};
     }

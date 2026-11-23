@@ -1,7 +1,6 @@
 import { createSignal, For } from "solid-js";
 import {
   Expandable, Menu, Modal, Pressable, RadioGroup, ScrollView, Text, TextInput, Tooltip, View,
-  type PressState,
 } from "solid-fuse";
 import { Button, Row } from "../ui";
 
@@ -20,7 +19,7 @@ export function CoreScreen() {
 
       <Section title="Pressable">
         <Pressable onPress={() => setPresses((n) => n + 1)} semanticLabel="Press me">
-          {(state: () => PressState) => (
+          {(state) => (
             <View
               padding={{ horizontal: 16, vertical: 12 }}
               decoration={{ color: state().pressed ? "#1e40af" : state().hovered ? "#1d4ed8" : "#2563eb", borderRadius: 8 }}

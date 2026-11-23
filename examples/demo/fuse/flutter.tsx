@@ -7585,7 +7585,7 @@ export function ViewAnchor(props: ViewAnchorProps): JSX.Element {
 
 export interface ViewCollectionProps {
   key?: string | number | null;
-  views: JSX.Element[];
+  views: JSX.Element;
 }
 
 /**

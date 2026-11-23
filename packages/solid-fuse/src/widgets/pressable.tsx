@@ -8,7 +8,7 @@ export interface PressState {
   focused: boolean;
 }
 
-export interface PressableProps extends BaseProps {
+export interface PressableProps extends Omit<BaseProps, "children"> {
   onPress?: () => void;
   onLongPress?: () => void;
   /** Called when pressed, hovered or focused changes. */

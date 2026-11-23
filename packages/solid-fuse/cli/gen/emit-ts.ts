@@ -518,7 +518,10 @@ export function emitTs(m: Manifest): TsOutput {
     for (const p of w.params) {
       if (!p.type || p.type.k === "supplied" || p.name === w.children?.param) continue;
       if (p.name === "children") continue; // a widget whose children are not a slot
-      fields.push(`${jsdoc("  ", p.doc, p.deprecated, p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : [])}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, module)};`);
+      // A widget list slot takes whatever JSX gives ($slots flattens it).
+      const listSlot = (p.type.k === "list" || p.type.k === "iterable") && p.type.of.k === "widget";
+      const type = listSlot ? `JSX.Element${"null" in p.type && p.type.null ? " | null" : ""}` : tsIn(p.type, module);
+      fields.push(`${jsdoc("  ", p.doc, p.deprecated, p.defaultValue !== undefined ? [`@default ${JSON.stringify(p.defaultValue)}`] : [])}  ${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${type};`);
     }
     const childParam = w.children && w.params.find((p) => p.name === w.children!.param);
     if (childParam) {

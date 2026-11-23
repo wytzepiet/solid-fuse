@@ -38,10 +38,10 @@ render(() => (
 Something the user activates: tap, long press, Enter or Space when focused, and a button to screen readers. It has no look; put a `View` inside. To restyle while pressed, hovered or focused, pass a function as the child.
 
 ```tsx
-import { Pressable, Text, View, type PressState } from "solid-fuse";
+import { Pressable, Text, View } from "solid-fuse";
 
 <Pressable onPress={save} semanticLabel="Save">
-  {(state: () => PressState) => (
+  {(state) => (
     <View padding={12} decoration={{ color: state().pressed ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
       <Text color="white">Save</Text>
     </View>

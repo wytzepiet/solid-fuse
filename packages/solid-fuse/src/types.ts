@@ -104,6 +104,6 @@ export type FlexInput = {
 
 // Base props every widget accepts.
 export interface BaseProps {
-  children?: any;
+  children?: JSX.Element;
   ref?: import("./renderer").FuseNode | ((el: import("./renderer").FuseNode) => void);
 }

@@ -11,7 +11,7 @@ export interface CupertinoActionSheetProps {
   key?: string | number | null;
   title?: JSX.Element | null;
   message?: JSX.Element | null;
-  actions?: JSX.Element[] | null;
+  actions?: JSX.Element | null;
   messageScrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   actionScrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   cancelButton?: JSX.Element | null;
@@ -152,7 +152,7 @@ export interface CupertinoAlertDialogProps {
   key?: string | number | null;
   title?: JSX.Element | null;
   content?: JSX.Element | null;
-  actions?: JSX.Element[];
+  actions?: JSX.Element;
   scrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   actionScrollController?: Handle<"flutter_FixedExtentScrollController" | "flutter_PageController" | "flutter_ScrollController" | "flutter_TrackingScrollController" | "material_ui_CarouselController" | "material_ui_TabBarScrollController"> | null;
   insetAnimationDuration?: Duration;
@@ -397,7 +397,7 @@ export function CupertinoCheckbox(props: CupertinoCheckboxProps): JSX.Element {
 
 export interface CupertinoContextMenuProps {
   key?: string | number | null;
-  actions: JSX.Element[];
+  actions: JSX.Element;
   /** @default false */
   enableHapticFeedback?: boolean;
   /** Dart: `child`. */
@@ -414,7 +414,7 @@ export function CupertinoContextMenu(props: CupertinoContextMenuProps): JSX.Elem
 
 export interface CupertinoContextMenuBuilderProps {
   key?: string | number | null;
-  actions: JSX.Element[];
+  actions: JSX.Element;
   builder: (animation: Animation) => JSX.Element;
   /** @default false */
   enableHapticFeedback?: boolean;
@@ -877,7 +877,7 @@ export interface CupertinoMenuAnchorProps {
   /** @default false */
   useRootOverlay?: boolean;
   overlayPadding?: EdgeInsetsGeometry;
-  menuChildren: JSX.Element[];
+  menuChildren: JSX.Element;
   builder?: ((controller: MenuController, child: undefined) => JSX.Element) | null;
   childFocusNode?: Handle<"flutter_FocusNode" | "flutter_FocusScopeNode"> | null;
   /** Dart: `child`. */
