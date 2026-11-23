@@ -106,6 +106,11 @@ export function fuseGenPlugin(o: FuseGenPluginOptions): Plugin & { api: { use: B
       if (!building) return;
       for (const chunk of Object.values(bundle)) {
         if (chunk.type !== "chunk") continue;
+        // A generated element rendered by code the compile step doesn't see
+        // (solid-fuse's own compiled components, a package's dist) is still
+        // a tag string in the bundle. Any that matches a generated tag is
+        // kept: a superset, so nothing used is dropped.
+        for (const m of chunk.code.matchAll(/["'`]([a-z][a-z0-9_]*_[A-Z][A-Za-z0-9_$]*)["'`]/g)) use.tags.add(m[1]);
         for (const [id, info] of Object.entries(chunk.modules)) {
           const rel = relative(o.genDir, id.split("?", 1)[0]).replace(/\\/g, "/");
           if (rel.startsWith("..") || !rel.endsWith(".tsx")) continue;

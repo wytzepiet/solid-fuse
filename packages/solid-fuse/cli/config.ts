@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync, readdirSync } from "fs";
 import { join, resolve } from "path";
 import { mergeConfig, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
@@ -26,6 +26,35 @@ export async function loadFuseConfig(
     return mod.default ?? mod;
   }
   return null;
+}
+
+/**
+ * The npm names of the fuse packages the app depends on (a package with a
+ * fuse.config next to its package.json), solid-fuse aside. They ship
+ * TypeScript source that imports the app's generated modules
+ * (`#fuse/<package>`), so the app's own plugins compile them and Vite must
+ * not pre-bundle them.
+ */
+export function fusePackageNames(projectRoot: string): string[] {
+  const nm = join(projectRoot, "node_modules");
+  const list = (d: string) => {
+    try {
+      return readdirSync(d);
+    } catch {
+      return [];
+    }
+  };
+  const names: string[] = [];
+  const visit = (dir: string, name: string) => {
+    if (name === "solid-fuse") return;
+    if (existsSync(join(dir, "package.json")) && CONFIG_FILES.some((f) => existsSync(join(dir, f)))) names.push(name);
+  };
+  for (const e of list(nm)) {
+    if (e.startsWith(".")) continue;
+    if (e.startsWith("@")) for (const s of list(join(nm, e))) visit(join(nm, e, s), `${e}/${s}`);
+    else visit(join(nm, e), e);
+  }
+  return names;
 }
 
 /**
@@ -69,6 +98,7 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
       // request and re-optimizes mid-fetch, invalidating in-flight URLs.
       entries: ["src/index.tsx"],
       include: ["solid-fuse", "solid-js"],
+      exclude: fusePackageNames(projectRoot),
     },
     build: {
       target: "es2020",

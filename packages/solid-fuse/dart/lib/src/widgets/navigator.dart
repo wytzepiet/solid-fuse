@@ -13,13 +13,24 @@ import '../node.dart';
 /// page's key (the JS-assigned entry id) to JS. JS removes the entry from
 /// its pages signal, which round-trips as ops to remove the child node —
 /// but Flutter has already popped, so the rebuild is a no-op visually.
-class FuseNavigatorWidget extends StatelessWidget {
-  const FuseNavigatorWidget(this.node);
+///
+/// The system back gesture reaches the app's root Navigator first; a
+/// [NavigatorPopHandler] hands it to this one while it has pages to pop.
+class FuseNavigatorWidget extends StatefulWidget {
+  const FuseNavigatorWidget(this.node, {super.key});
 
   final FuseNode node;
 
   @override
+  State<FuseNavigatorWidget> createState() => _FuseNavigatorWidgetState();
+}
+
+class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
+  final _key = GlobalKey<NavigatorState>();
+
+  @override
   Widget build(BuildContext context) {
+    final node = widget.node;
     final pages = <Page<dynamic>>[];
     for (final child in node.children) {
       final h = child.ownHandle;
@@ -32,12 +43,16 @@ class FuseNavigatorWidget extends StatelessWidget {
       }
     }
     if (pages.isEmpty) return const SizedBox.shrink();
-    return Navigator(
-      pages: pages,
-      onDidRemovePage: (page) {
-        final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
-        node.callback('onDidRemovePage')?.call({'id': id});
-      },
+    return NavigatorPopHandler<Object?>(
+      onPopWithResult: (_) => _key.currentState?.maybePop(),
+      child: Navigator(
+        key: _key,
+        pages: pages,
+        onDidRemovePage: (page) {
+          final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
+          node.callback('onDidRemovePage')?.call({'id': id});
+        },
+      ),
     );
   }
 }

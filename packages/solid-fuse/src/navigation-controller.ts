@@ -6,10 +6,10 @@ import {
   untrack,
   useContext,
 } from "solid-js";
-import { materialPage } from "./pages/material";
+import { usePageType } from "./pages/page";
 
 /**
- * A page config — what `materialPage({...})`, `cupertinoPage({...})`, etc.
+ * A page config — what `page({...})`, `materialPage({...})`, `cupertinoPage({...})`, etc.
  * return. Just data: `type` names a Dart handle factory; `child` is the
  * page's JSX thunk; `props` are extra per-type options (name, duration, etc.)
  * that land on the FuseNode for the handle to read.
@@ -90,12 +90,11 @@ export function createNavigationController(
 
   // Snapshot opts so users can pass reactive props without the Solid 2.0
   // "read outside tracking scope" warning. Nav config is set-once. A
-  // function initialPage is sugar for `materialPage({ child: fn })`.
+  // function is sugar for a page of the app's page type (`usePageType`).
+  const asPage = usePageType();
   const initialPage = untrack(() => {
     const ip = opts.initialPage;
-    return typeof ip === "function"
-      ? materialPage({ child: ip as () => JSX.Element })
-      : ip;
+    return typeof ip === "function" ? asPage(ip as () => JSX.Element) : ip;
   });
 
   // `ownedWrite: true` because setPages is also called from the onCleanup
@@ -112,7 +111,7 @@ export function createNavigationController(
   });
 
   function pushEntry<T>(cfg: PageConfig | (() => JSX.Element)): Promise<T | null> {
-    const config = typeof cfg === "function" ? materialPage({ child: cfg }) : cfg;
+    const config = typeof cfg === "function" ? asPage(cfg) : cfg;
     return new Promise<T | null>((resolve) => {
       const entry: PageEntry = {
         id: nextId++,

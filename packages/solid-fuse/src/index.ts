@@ -36,7 +36,7 @@ export {
   type PageConfig,
   type PageEntry,
 } from "./navigator";
-export { materialPage, type MaterialPageProps } from "./pages/material";
+export { page, PageTypeContext, usePageType, type PageProps, type PageFactory } from "./pages/page";
 export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";
 export { Text, type TextProps } from "./widgets/text";
@@ -45,16 +45,22 @@ export { GestureDetector, type GestureDetectorProps } from "./widgets/gesture-de
 export { ScrollView, type ScrollViewProps } from "./widgets/scroll-view";
 export { Stack, type StackProps } from "./widgets/stack";
 export { Positioned, type PositionedProps } from "./widgets/positioned";
+export { App, type AppProps } from "./widgets/app";
+export { Pressable, type PressableProps, type PressState } from "./widgets/pressable";
 export {
-  TextField,
-  type TextFieldProps,
-  type TextFieldDecoration,
+  TextInput,
+  type TextInputProps,
+  type TextInputBaseProps,
   type KeyboardType,
   type TextInputAction,
-  type TextFieldBorderStyle,
   type TextCapitalization,
-  type FloatingLabelBehavior,
-} from "./widgets/text-field";
+} from "./widgets/text-input";
+export { Modal, type ModalProps } from "./widgets/modal";
+export { RadioGroup, type RadioGroupProps } from "./widgets/radio-group";
+export { Tooltip, type TooltipProps } from "./widgets/tooltip";
+export { Menu, type MenuProps } from "./widgets/menu";
+export { Expandable, type ExpandableProps } from "./widgets/expandable";
+export { toHex } from "./color";
 export { createHandle } from "./handle";
 export type { Handle, HandleRuntime } from "./handle";
 export { createScrollController } from "./scroll-controller";

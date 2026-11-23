@@ -17,14 +17,6 @@
     "./generated": {
       "import": "./dist/generated.js",
       "types": "./dist/generated.d.ts"
-    },
-    "./icons/material": {
-      "import": "./dist/icons/material.js",
-      "types": "./dist/icons/material.d.ts"
-    },
-    "./icons/cupertino": {
-      "import": "./dist/icons/cupertino.js",
-      "types": "./dist/icons/cupertino.d.ts"
     }
   },
   "sideEffects": true,

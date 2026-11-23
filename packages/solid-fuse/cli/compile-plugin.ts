@@ -78,9 +78,13 @@ export const FUSE_INTRINSICS: Record<string, string> = {
   Stack: "stack",
   Positioned: "positioned",
   GestureDetector: "gestureDetector",
-  Icon: "icon",
   ScrollView: "scrollView",
-  TextField: "textField",
+  TextInput: "textInput",
+  Modal: "modal",
+  RadioGroup: "radioGroup",
+  Tooltip: "tooltip",
+  Menu: "menu",
+  Expandable: "expandable",
 };
 
 /** Prefix of the tag of an element that stands for a template node; `hole` in src/renderer.ts reads it. */

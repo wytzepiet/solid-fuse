@@ -16,9 +16,6 @@ dependencies:
   # lib/fjs.dart (import 'package:solid_fuse/fjs.dart').
   # frb pinned exactly to the version the vendored bindings were generated with.
   flutter_rust_bridge: 2.13.0
-  # Material moved out of the Flutter SDK (package:flutter/material.dart is
-  # deprecated). Only textField and materialPage use it; core is widgets-only.
-  material_ui: ^1.11.1
   freezed_annotation: ^3.1.0
   plugin_platform_interface: ^2.1.8
   http: ^1.2.0

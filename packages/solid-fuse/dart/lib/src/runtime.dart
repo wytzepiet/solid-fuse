@@ -22,6 +22,11 @@ typedef FuseWidgetBuilder = Widget Function(FuseNode node);
 /// particular widget type (generated adapters register one).
 typedef FuseWidgetMaker = Widget Function(FuseNode node, BuildContext context);
 
+/// Makes the route a `<modal>` node pushes while it is open. [content]
+/// builds the node's children; put it where the route shows its page.
+/// Registered per route type with [FuseRuntime.registerRoute].
+typedef FuseRouteFactory = Route<Object?> Function(FuseNode node, WidgetBuilder content);
+
 /// Host for the WebSocket dev server.
 /// Pass via: --dart-define=FUSE_HOST=192.168.x.x
 const _devHost = String.fromEnvironment('FUSE_HOST', defaultValue: 'localhost');
@@ -54,6 +59,7 @@ class FuseRuntime {
   final Map<String, FuseWidgetBuilder> _widgetBuilders = {};
   final Map<String, FuseWidgetMaker> _widgetMakers = {};
   final Map<String, FuseHandle Function(FuseNode node)> _handleFactories = {};
+  final Map<String, FuseRouteFactory> _routeFactories = {};
   late final FuseNodeRegistry registry;
 
   /// Construct a runtime. Does FFI init only — does NOT start the JS engine.
@@ -79,6 +85,15 @@ class FuseRuntime {
   void registerHandle(String type, FuseHandle Function(FuseNode node) factory) {
     _handleFactories[type] = factory;
   }
+
+  /// Register a route type for `<modal type="...">`: a dialog, a bottom
+  /// sheet, a popup. Core registers `dialog`; design packages add theirs.
+  void registerRoute(String type, FuseRouteFactory factory) {
+    _routeFactories[type] = factory;
+  }
+
+  /// The factory registered for route [type], or null.
+  FuseRouteFactory? routeFactory(String type) => _routeFactories[type];
 
   /// Start the JS engine. In debug mode, connects to the Vite dev server
   /// (pre-fetches modules from Vite) and falls back to the QuickJS bundle
@@ -589,6 +604,9 @@ class FuseRuntimeScope extends InheritedWidget {
 }
 
 /// A widget that renders the Fuse JS tree.
+///
+/// When JS renders an app root (`<App>`, `<MaterialApp>`...), `runApp` it
+/// on its own; it also works inside a Dart app, as part of a screen.
 class FuseView extends StatelessWidget {
   const FuseView({super.key, required this.runtime});
 
@@ -597,12 +615,18 @@ class FuseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final root = runtime.registry.get(0);
-    return FuseRuntimeScope(
+    Widget view = FuseRuntimeScope(
       runtime: runtime,
       child: ListenableBuilder(
         listenable: root,
         builder: (context, _) => runtime.buildWidgetForNode(root),
       ),
     );
+    // Run on its own, nothing above gives a text direction until the app
+    // root mounts; layout before that still needs one.
+    if (Directionality.maybeOf(context) == null) {
+      view = Directionality(textDirection: TextDirection.ltr, child: view);
+    }
+    return view;
   }
 }

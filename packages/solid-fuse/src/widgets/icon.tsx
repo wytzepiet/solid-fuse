@@ -1,35 +1,52 @@
-import type {
-  BaseProps,
-  ColorInput,
-  FontWeight,
-  ShadowInput,
-} from "../types";
+import { toHex } from "../color";
+import type { Const } from "../generated";
+import type { BaseProps, ColorInput } from "../types";
 
-export interface IconData {
-  codePoint: number;
-  fontFamily?: string;
-  fontPackage?: string;
-  matchTextDirection?: boolean;
-  fontFamilyFallback?: string[];
-}
+/**
+ * A glyph of an icon font: a constant from an icon set (`Icons.home` from
+ * `@solid-fuse/material`, `CupertinoIcons.heart` from
+ * `@solid-fuse/cupertino`), or any `IconData` constant your own
+ * `lib/fuse.dart` exports. Constants only: a release build keeps the glyphs
+ * the bundle names and drops the rest of the font.
+ */
+export type IconData = Const<string>;
 
 export interface IconProps extends BaseProps {
-  data: IconData;
-  color?: ColorInput;
+  icon: IconData;
+  /** Width and height in logical pixels. Default: the ambient icon size (24). */
   size?: number;
+  color?: ColorInput;
+  /** Accessibility label. */
   semanticLabel?: string;
-  // Variable-font axes (Material Symbols, etc.)
+  /** Variable-font fill axis, 0 to 1 (Material Symbols). */
   fill?: number;
+  /** Variable-font weight axis. */
   weight?: number;
+  /** Variable-font grade axis. */
   grade?: number;
+  /** Variable-font optical size axis. */
   opticalSize?: number;
-  // Non-variable font weight (distinct from `weight` above)
-  fontWeight?: FontWeight;
+  /** Scale with the platform text size setting. */
   applyTextScaling?: boolean;
-  shadows?: ShadowInput | ShadowInput[];
-  blendMode?: string;
 }
 
+/**
+ * Renders Flutter's `Icon`. It is the generated `Icon` of
+ * `package:flutter/widgets.dart` (solid_fuse's `lib/fuse.dart` exports it),
+ * so it decodes the constant the way every generated widget does.
+ */
 export function Icon(props: IconProps) {
-  return <icon {...props} />;
+  return (
+    <flutter_Icon
+      icon={props.icon}
+      size={props.size}
+      color={toHex(props.color)}
+      semanticLabel={props.semanticLabel}
+      fill={props.fill}
+      weight={props.weight}
+      grade={props.grade}
+      opticalSize={props.opticalSize}
+      applyTextScaling={props.applyTextScaling}
+    />
+  );
 }

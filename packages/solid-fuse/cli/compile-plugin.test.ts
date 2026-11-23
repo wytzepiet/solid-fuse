@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "fs";
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { createRequire } from "module";
 import { tmpdir } from "os";
 import { join, resolve } from "path";
@@ -511,12 +511,12 @@ describe("the compile step", () => {
 
   test("every listed wrapper is a plain forward to its element", () => {
     const widgets = resolve(import.meta.dirname, "../src/widgets");
-    const sources = ["view", "text", "stack", "positioned", "gesture-detector", "icon", "scroll-view", "text-field"]
-      .map((f) => readFileSync(join(widgets, `${f}.tsx`), "utf8"))
+    const sources = readdirSync(widgets)
+      .map((f) => readFileSync(join(widgets, f), "utf8"))
       .join("\n");
     for (const [name, tag] of Object.entries(FUSE_INTRINSICS)) {
       expect(sources).toMatch(
-        new RegExp(`export function ${name}\\(props: \\w+\\) \\{\\s*return <${tag} \\{\\.\\.\\.props\\} />;\\s*\\}`),
+        new RegExp(`export function ${name}(?:<[^>]*>)?\\(props: [\\w<>]+\\) \\{\\s*return <${tag} \\{\\.\\.\\.props\\} />;\\s*\\}`),
       );
     }
   });

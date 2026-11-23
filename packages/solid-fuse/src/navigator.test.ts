@@ -7,7 +7,7 @@ import {
 } from "./navigation-controller";
 
 function page(name?: string): PageConfig {
-  return { type: "materialPage", child: () => null, props: { name } };
+  return { type: "page", child: () => null, props: { name } };
 }
 
 function withController(
