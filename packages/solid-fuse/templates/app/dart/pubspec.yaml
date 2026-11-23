@@ -1,0 +1,22 @@
+name: {{dartName}}
+description: A solid-fuse app.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.14.0
+  flutter: ">=3.50.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  solid_fuse: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  assets:
+    - assets/js/

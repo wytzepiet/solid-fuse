@@ -5,6 +5,7 @@ import { devCommand } from "./dev";
 import { buildCommand } from "./build";
 import { genCommand } from "./gen/command";
 import { driveCommand } from "./drive";
+import { createCommand } from "./create";
 
 const main = defineCommand({
   meta: {
@@ -13,6 +14,7 @@ const main = defineCommand({
     description: "Fuse CLI — SolidJS + Flutter tooling",
   },
   subCommands: {
+    create: createCommand,
     link: linkCommand,
     dev: devCommand,
     build: buildCommand,
