@@ -229,6 +229,18 @@ void main() {
     }
     expect(find.text('Core dialog'), findsNothing);
 
+    // Lucide: a third-party icon font, all generated from its fuse.dart.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('icon'));
+    await settle(tester);
+    await tester.tap(find.text('icon'));
+    // Below the fold: find the widget, not the semantics node.
+    final lucide = find.byWidgetPredicate((w) => w is Semantics && w.properties.identifier == 'lucide-heart');
+    await settle(tester);
+    await pumpUntil(tester, lucide);
+    final heart = tester.widget<Icon>(find.descendant(of: lucide, matching: find.byType(Icon)));
+    expect(heart.icon?.fontFamily, 'lucide');
+
     // Springs: requestAnimationFrame ticks JS inside each frame; a spring
     // set from a tap moves there and its promise settles, twice in a row.
     tester.state<NavigatorState>(find.byType(Navigator).last).pop();

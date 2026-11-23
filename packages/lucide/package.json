@@ -1,0 +1,22 @@
+{
+  "name": "@solid-fuse/lucide",
+  "version": "0.1.0",
+  "description": "Lucide icons for solid-fuse, from the flutter_lucide font.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "dart",
+    "fuse.config.ts"
+  ],
+  "peerDependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "solid-fuse": "workspace:*",
+    "typescript": "^7.0.2"
+  }
+}

@@ -47,6 +47,8 @@ export function Icon(props: IconProps) {
       grade={props.grade}
       opticalSize={props.opticalSize}
       applyTextScaling={props.applyTextScaling}
+      flex={props.flex}
+      testId={props.testId}
     />
   );
 }

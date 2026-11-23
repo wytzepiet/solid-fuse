@@ -44,7 +44,9 @@ export interface FusePackageInfo {
   /** Path to the dart directory (relative to package root) */
   dartPath: string;
   /** Class name to call .register() on */
-  registerClass: string;
+  /** The Dart function that registers its hand-written pieces; none when
+   *  all its Dart is generated (only a `lib/fuse.dart`). */
+  registerClass?: string;
 }
 
 /**
@@ -114,7 +116,7 @@ async function scanDir(dir: string, results: FusePackageInfo[]) {
         dartName,
         path: pkgDir,
         dartPath,
-        registerClass: config.register ?? "register",
+        registerClass: config.register,
       });
     } catch {
       // skip malformed packages

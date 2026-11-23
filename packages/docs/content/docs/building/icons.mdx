@@ -1,6 +1,6 @@
 ---
 title: Icons
-description: Material and Cupertino icons as constants the build can shake
+description: Material, Cupertino and Lucide icons as constants the build can shake
 ---
 
 `Icon` draws one glyph. Its `icon` is a constant from a design package: `Icons` from `@solid-fuse/material`, `CupertinoIcons` from `@solid-fuse/cupertino`. The names are Flutter's.
@@ -50,6 +50,16 @@ The design packages' slots that take an icon (`leading`, `prefixIcon`, a button'
 <ListTile leading={<Icon icon={Icons.wifi} color="#16A34A" />} title="Wi-Fi" />
 ```
 
+## Lucide
+
+`@solid-fuse/lucide` wraps the [`flutter_lucide`](https://pub.dev/packages/flutter_lucide) font. Add it to `package.json` and run `fuse link`.
+
+```tsx
+import { LucideIcons } from "@solid-fuse/lucide";
+
+<Icon icon={LucideIcons.heart} />
+```
+
 ## Your own icon font
 
-Export your icons from your app's `dart/lib/fuse.dart` as a class of `IconData` constants; [generation](/docs/extending/generating) turns them into constants like `Icons`.
+Export your icons from your app's `dart/lib/fuse.dart` as a class of `IconData` constants; [generation](/docs/extending/generating) turns them into constants like `Icons`. To share one as a package, copy `packages/lucide`: it is a `fuse.dart` with one `export ... show` line and an `index.ts` that re-exports the generated class.

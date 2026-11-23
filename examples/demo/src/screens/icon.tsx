@@ -7,6 +7,7 @@ import {
   useNavigation,
 } from "solid-fuse";
 import { Icons as md } from "@solid-fuse/material";
+import { LucideIcons } from "@solid-fuse/lucide";
 import { Button, Row } from "../ui";
 
 export function IconScreen() {
@@ -36,6 +37,15 @@ export function IconScreen() {
               <Icon icon={md.settings} size={32} />
               <Icon icon={md.favorite} size={32} color="#EF4444" />
               <Icon icon={md.star} size={32} color="#F59E0B" />
+            </View>
+          </View>
+
+          <View layout={{ direction: "vertical", gap: 6 }}>
+            <Text fontWeight={600}>Lucide</Text>
+            <View layout={{ direction: "horizontal", gap: 16, align: "center" }}>
+              <Icon testId="lucide-heart" icon={LucideIcons.heart} size={32} color="#EF4444" />
+              <Icon icon={LucideIcons.rocket} size={32} />
+              <Icon icon={LucideIcons.git_branch} size={32} />
             </View>
           </View>
 

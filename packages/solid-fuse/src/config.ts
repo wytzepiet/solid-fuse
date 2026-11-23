@@ -37,7 +37,9 @@ export interface FuseGenOptions {
 export interface FuseConfig {
   /** Mark this package as a Fuse library. Enables `fuse build` library mode. */
   library?: boolean;
-  /** Name of the Dart registration function. Defaults to "register". */
+  /** Name of the Dart function that registers the package's hand-written
+   *  widgets, handles and routes. Leave it out when all its Dart is
+   *  generated from `lib/fuse.dart`. */
   register?: string;
   /** Path to Dart package directory, defaults to "dart" (for libraries) */
   dart?: string;

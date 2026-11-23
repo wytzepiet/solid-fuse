@@ -13,7 +13,8 @@
     "solid-js": "^2.0.3",
     "@solid-fuse/material": "workspace:*",
     "@solid-fuse/cupertino": "workspace:*",
-    "@solid-fuse/adaptive": "workspace:*"
+    "@solid-fuse/adaptive": "workspace:*",
+    "@solid-fuse/lucide": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2"

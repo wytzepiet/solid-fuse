@@ -1,5 +1,5 @@
 # fuse gen report. Generated; do not edit.
-# 679 widgets, 59 handles, 13 skipped
+# 679 widgets, 59 handles, 14 skipped
 
 ## Widgets
 AbsorbPointer  package:flutter/widgets.dart#AbsorbPointer
@@ -757,3 +757,4 @@ package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.editableText: 
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.selectableRegion: selectableRegionState: framework object SelectableRegionState
 package:material_ui/material_ui.dart#PopupMenuButton: itemBuilder: callback returns a typed widget
 package:material_ui/material_ui.dart#SpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
+package:flutter_lucide/src/flutter_lucide.dart#LucideIcons: abstract, no constructible subtype

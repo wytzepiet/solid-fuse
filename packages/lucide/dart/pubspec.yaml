@@ -1,0 +1,17 @@
+name: solid_fuse_lucide
+description: Lucide icons for solid-fuse (flutter_lucide).
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.14.0
+  flutter: ">=3.50.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_lucide: ^1.77.0
+  solid_fuse: any
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

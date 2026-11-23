@@ -28,7 +28,7 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
   const packages = await scanFusePackages(root);
   console.log(`Found ${packages.length} Fuse package(s):`);
   for (const pkg of packages) {
-    console.log(`  - ${pkg.npmName} (${pkg.dartName}) → ${pkg.registerClass}`);
+    console.log(`  - ${pkg.npmName} (${pkg.dartName})${pkg.registerClass ? ` → ${pkg.registerClass}` : ""}`);
   }
 
   const pubspecPath = join(dartRoot, "pubspec.yaml");
@@ -117,7 +117,9 @@ function generateFusePackagesDart(
   lines.push("import 'package:solid_fuse/solid_fuse.dart' show FuseRuntime;");
 
   // Aliased imports for all packages
-  for (const pkg of packages) {
+  // Packages whose Dart is all generated have nothing to register.
+  const registering = packages.filter((pkg) => pkg.registerClass);
+  for (const pkg of registering) {
     const alias = dartAlias(pkg.dartName);
     lines.push(`import 'package:${pkg.dartName}/${pkg.dartName}.dart' as ${alias};`);
   }
@@ -130,7 +132,7 @@ function generateFusePackagesDart(
   lines.push("");
   lines.push("void registerFusePackages(FuseRuntime runtime) {");
 
-  for (const pkg of packages) {
+  for (const pkg of registering) {
     const alias = dartAlias(pkg.dartName);
     lines.push(`  ${alias}.${pkg.registerClass}(runtime);`);
   }

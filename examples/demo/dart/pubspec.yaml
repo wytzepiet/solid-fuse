@@ -8,6 +8,7 @@ environment:
   flutter: ">=3.50.0"
 
 dependencies:
+  solid_fuse_lucide: any # fuse-managed
   solid_fuse_cupertino: any # fuse-managed
   solid_fuse_material: any # fuse-managed
   flutter:

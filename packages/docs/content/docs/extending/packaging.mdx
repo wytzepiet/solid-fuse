@@ -18,7 +18,7 @@ export default defineConfig({
 });
 ```
 
-`library: true` opts the package into `fuse build`'s library mode (ESM output with `solid-js` and `@solidjs/universal` externalised). `register` names a top-level Dart function that `fuse link` will call. The Dart side exports it like this:
+`library: true` opts the package into `fuse build`'s library mode (ESM output with `solid-js` and `@solidjs/universal` externalised). `register` names a top-level Dart function that `fuse link` will call, for the package's hand-written widgets, handles and pages. A package whose Dart is all [generated](/docs/extending/generating) from its `dart/lib/fuse.dart` leaves it out. The Dart side exports it like this:
 
 ```dart title="dart/lib/src/register.dart"
 import 'package:solid_fuse/solid_fuse.dart';
@@ -55,7 +55,7 @@ Fuse auto-configures the Solid plugin with `generate: "universal"` and `moduleNa
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `library` | `boolean` | `false` | Mark this package as a Fuse library. Enables `fuse build`'s library mode (ESM with externalised peers). |
-| `register` | `string` | `"register"` | Name of the Dart top-level registration function |
+| `register` | `string` | none | Name of the Dart top-level registration function; leave out when the package has no hand-written Dart |
 | `dart` | `string` | `"dart"` | Path to the Dart/Flutter package directory |
 | `solid` | `object` | `{}` | `@solidjs/vite-plugin` option overrides |
 | `compile` | `object` | `{}` | Fuse's compile step: `templates: false` turns [templates](/docs/architecture#templates-the-constant-part-is-sent-once) off; `intrinsics` declares wrapper components of other packages (below); `builders` lists value builders whose calls with literal arguments fold into templates (`fuse gen` writes these tables) |
