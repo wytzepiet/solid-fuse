@@ -2,10 +2,10 @@
  * `fuse gen`: run solid_fuse_gen (Dart, reads the signatures) and turn its
  * manifest into TypeScript modules and Dart adapters.
  */
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "fs";
+import { mkdirSync, readFileSync, readdirSync, rmdirSync, statSync, unlinkSync, writeFileSync, existsSync } from "fs";
 import { dirname, join } from "path";
 import { emitDart } from "./emit-dart";
-import { emitTs, type TsOutput } from "./emit-ts";
+import { emitTs, GENERATED_HEADER, type TsOutput } from "./emit-ts";
 import { readManifest, type Manifest } from "./manifest";
 
 export { emitDart, tagOf } from "./emit-dart";
@@ -68,7 +68,27 @@ export function writeGenerated(m: Manifest, o: WriteOptions): { ts: TsOutput; wr
     written.push(path);
   };
   for (const module of ts.modules) put(join(o.tsDir, `${module.name}.tsx`), module.code);
+  // Modules that are gone (a package or an owner no longer exported). Only
+  // files this generator wrote: they start with its header.
+  const keep = new Set(ts.modules.map((x) => `${x.name}.tsx`));
+  const stale = (rel: string) => {
+    const path = join(o.tsDir, rel);
+    if (rel.endsWith(".tsx") && !keep.has(rel) && readFileSync(path, "utf8").startsWith(GENERATED_HEADER)) unlinkSync(path);
+  };
+  if (existsSync(o.tsDir)) {
+    for (const f of readdirSync(o.tsDir)) {
+      const path = join(o.tsDir, f);
+      if (!statSync(path).isDirectory()) {
+        stale(f);
+        continue;
+      }
+      for (const g of readdirSync(path)) stale(`${f}/${g}`);
+      if (readdirSync(path).length === 0) rmdirSync(path);
+    }
+  }
   put(join(o.tsDir, "intrinsics.json"), `${JSON.stringify({ intrinsics: ts.intrinsics, builders: ts.builders }, null, 1)}\n`);
+  // For `fuse build`: what each generated export stands for (cli/gen/shake.ts).
+  put(join(o.tsDir, "uses.json"), `${JSON.stringify(ts.uses)}\n`);
   put(o.dartFile, dart.code);
   return { ts, written };
 }

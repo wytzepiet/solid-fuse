@@ -37,13 +37,10 @@ const kMaxSubclasses = 40;
 const kMaxOutputDepth = 4;
 
 class Classifier {
-  Classifier(this.w, this.code, {this.maxConsts = 400});
+  Classifier(this.w, this.code);
   final World w;
   final DartCode code;
 
-  /// Per namespace owner, more constants than this are not offered
-  /// (Icons has ~8.9k).
-  final int maxConsts;
 
   /// id -> declaration. Ordered by first use.
   final Map<String, Json> types = {};
@@ -641,29 +638,21 @@ class Classifier {
   List<Json> _consts(InterfaceType t, InterfaceElement el, Json decl) {
     final owners = <InterfaceElement>{el, ...w.subclassesOf(el), ...w.namespaces};
     final out = <Json>[];
-    final capped = <String, int>{};
     for (final owner in owners) {
       if (owner.metadata.hasDeprecated || owner.isPrivate || !w.isExported(owner)) continue;
-      final found = <Json>[];
       for (final f in owner.fields) {
         if (!f.isStatic || !f.isConst || !f.isPublic || f.isEnumConstant) continue;
         final ft = f.type;
         if (ft is! InterfaceType || ft.nullabilitySuffix == NullabilitySuffix.question) continue;
         if (ft.element != el && ft.asInstanceOf(el) == null) continue;
         if (!w.ts.isSubtypeOf(ft, t)) continue;
-        found.add({
+        out.add({
           'name': '${owner.name}.${f.name}',
           'dart': '${code.ref(owner)}.${f.name}',
           if (f.metadata.hasDeprecated) 'deprecated': true,
         });
       }
-      if (found.length > maxConsts) {
-        capped[owner.name!] = found.length;
-      } else {
-        out.addAll(found);
-      }
     }
-    if (capped.isNotEmpty) decl['constsCapped'] = capped;
     return out;
   }
 

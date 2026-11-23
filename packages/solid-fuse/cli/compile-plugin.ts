@@ -44,6 +44,19 @@ import type { FuseCompileOptions } from "../src/config";
 export interface CompileOptions extends FuseCompileOptions {
   /** Module the runtime helpers are imported from. Default `"solid-fuse"`. */
   moduleName?: string;
+  /**
+   * Collects what the compiled code uses but no longer imports: the element
+   * tags components became, and the constants folded into values. `fuse
+   * build` keeps the Dart side of those (cli/gen/shake.ts).
+   */
+  usage?: CompileUsage;
+}
+
+export interface CompileUsage {
+  tags: Set<string>;
+  consts: Set<string>;
+  /** Directory of the generated modules, whose own code doesn't count. */
+  generated?: string;
 }
 
 /**
@@ -73,7 +86,10 @@ export function fuseCompilePlugin(options: CompileOptions = {}): Plugin {
     transform(code, id) {
       const file = id.split("?", 1)[0];
       if (!/\.[jt]sx$/.test(file)) return null;
-      return transformJsx(code, file, options);
+      // The generated modules' own elements are not a use: the bundler
+      // tells which of their components are kept.
+      const own = options.usage?.generated && file.startsWith(options.usage.generated);
+      return transformJsx(code, file, own ? { ...options, usage: undefined } : options);
     },
   };
 }
@@ -160,7 +176,16 @@ export function transformJsx(
       builderImports.set(spec.local.name, { table, imported });
     }
   }
-  const fold: Fold | null = builderImports.size === 0 ? null : (node, literalOf) => foldBuilder(node, builderImports, literalOf);
+  const usage = options.usage;
+  const fold: Fold | null =
+    builderImports.size === 0
+      ? null
+      : (node, literalOf) => {
+          const v = foldBuilder(node, builderImports, literalOf);
+          // A constant folds to its name, and its import goes away.
+          if (usage && typeof v === "string") usage.consts.add(v);
+          return v;
+        };
 
   const ms = new MagicString(code);
   const declarations: string[] = [];
@@ -170,7 +195,9 @@ export function transformJsx(
   function tagOf(el: Node): string | null {
     const name = el.openingElement.name;
     if (name.type !== "JSXIdentifier") return null;
-    return wrappers.get(name.name) ?? (/^[a-z]/.test(name.name) ? name.name : null);
+    const tag = wrappers.get(name.name) ?? (/^[a-z]/.test(name.name) ? name.name : null);
+    if (tag !== null) usage?.tags.add(tag);
+    return tag;
   }
 
   function rename(el: Node, to: string, attributes = "") {

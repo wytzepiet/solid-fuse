@@ -308,17 +308,18 @@ widgets.ScrollPhysics? _decScrollPhysics(Object? v, FuseNode n) {
   }
   return fuseBad('ScrollPhysics', v);
 }
+const _decEdgeInsetsGeometry$consts = <String, widgets.EdgeInsetsGeometry>{
+  'EdgeInsetsGeometry.zero': widgets.EdgeInsetsGeometry.zero,
+  'EdgeInsetsGeometry.infinity': widgets.EdgeInsetsGeometry.infinity,
+  'EdgeInsets.zero': widgets.EdgeInsets.zero,
+  'EdgeInsetsDirectional.zero': widgets.EdgeInsetsDirectional.zero,
+};
+
 widgets.EdgeInsetsGeometry? _decEdgeInsetsGeometry(Object? v, FuseNode n) {
   if (v == null) return null;
   if (v is num) return shorthands.edgeInsetsAll(decDouble(v)!);
   if (v is String) {
-    return switch (v) {
-      'EdgeInsetsGeometry.zero' => widgets.EdgeInsetsGeometry.zero,
-      'EdgeInsetsGeometry.infinity' => widgets.EdgeInsetsGeometry.infinity,
-      'EdgeInsets.zero' => widgets.EdgeInsets.zero,
-      'EdgeInsetsDirectional.zero' => widgets.EdgeInsetsDirectional.zero,
-      _ => fuseBad('EdgeInsetsGeometry', v),
-    };
+    return _decEdgeInsetsGeometry$consts[v] ?? fuseBad('EdgeInsetsGeometry', v);
   }
   if (v is! Map) return fuseBad('EdgeInsetsGeometry', v);
   switch (fuseTag(v, 'EdgeInsetsGeometry')) {
@@ -428,14 +429,15 @@ widgets.ScrollCacheExtent? _decScrollCacheExtent(Object? v, FuseNode n) {
   }
   return fuseBad('ScrollCacheExtent', v);
 }
+const _decDuration$consts = <String, Duration>{
+  'Duration.zero': Duration.zero,
+};
+
 Duration? _decDuration(Object? v, FuseNode n) {
   if (v == null) return null;
   if (v is num) return shorthands.durationMs(decNum(v)!);
   if (v is String) {
-    return switch (v) {
-      'Duration.zero' => Duration.zero,
-      _ => fuseBad('Duration', v),
-    };
+    return _decDuration$consts[v] ?? fuseBad('Duration', v);
   }
   if (v is! Map) return fuseBad('Duration', v);
   switch (fuseTag(v, 'Duration')) {
@@ -451,55 +453,56 @@ Duration? _decDuration(Object? v, FuseNode n) {
   }
   return fuseBad('Duration', v);
 }
+const _decCurve$consts = <String, widgets.Curve>{
+  'Curves.linear': widgets.Curves.linear,
+  'Curves.decelerate': widgets.Curves.decelerate,
+  'Curves.fastLinearToSlowEaseIn': widgets.Curves.fastLinearToSlowEaseIn,
+  'Curves.fastEaseInToSlowEaseOut': widgets.Curves.fastEaseInToSlowEaseOut,
+  'Curves.ease': widgets.Curves.ease,
+  'Curves.easeIn': widgets.Curves.easeIn,
+  'Curves.easeInToLinear': widgets.Curves.easeInToLinear,
+  'Curves.easeInSine': widgets.Curves.easeInSine,
+  'Curves.easeInQuad': widgets.Curves.easeInQuad,
+  'Curves.easeInCubic': widgets.Curves.easeInCubic,
+  'Curves.easeInQuart': widgets.Curves.easeInQuart,
+  'Curves.easeInQuint': widgets.Curves.easeInQuint,
+  'Curves.easeInExpo': widgets.Curves.easeInExpo,
+  'Curves.easeInCirc': widgets.Curves.easeInCirc,
+  'Curves.easeInBack': widgets.Curves.easeInBack,
+  'Curves.easeOut': widgets.Curves.easeOut,
+  'Curves.linearToEaseOut': widgets.Curves.linearToEaseOut,
+  'Curves.easeOutSine': widgets.Curves.easeOutSine,
+  'Curves.easeOutQuad': widgets.Curves.easeOutQuad,
+  'Curves.easeOutCubic': widgets.Curves.easeOutCubic,
+  'Curves.easeOutQuart': widgets.Curves.easeOutQuart,
+  'Curves.easeOutQuint': widgets.Curves.easeOutQuint,
+  'Curves.easeOutExpo': widgets.Curves.easeOutExpo,
+  'Curves.easeOutCirc': widgets.Curves.easeOutCirc,
+  'Curves.easeOutBack': widgets.Curves.easeOutBack,
+  'Curves.easeInOut': widgets.Curves.easeInOut,
+  'Curves.easeInOutSine': widgets.Curves.easeInOutSine,
+  'Curves.easeInOutQuad': widgets.Curves.easeInOutQuad,
+  'Curves.easeInOutCubic': widgets.Curves.easeInOutCubic,
+  'Curves.easeInOutCubicEmphasized': widgets.Curves.easeInOutCubicEmphasized,
+  'Curves.easeInOutQuart': widgets.Curves.easeInOutQuart,
+  'Curves.easeInOutQuint': widgets.Curves.easeInOutQuint,
+  'Curves.easeInOutExpo': widgets.Curves.easeInOutExpo,
+  'Curves.easeInOutCirc': widgets.Curves.easeInOutCirc,
+  'Curves.easeInOutBack': widgets.Curves.easeInOutBack,
+  'Curves.fastOutSlowIn': widgets.Curves.fastOutSlowIn,
+  'Curves.slowMiddle': widgets.Curves.slowMiddle,
+  'Curves.bounceIn': widgets.Curves.bounceIn,
+  'Curves.bounceOut': widgets.Curves.bounceOut,
+  'Curves.bounceInOut': widgets.Curves.bounceInOut,
+  'Curves.elasticIn': widgets.Curves.elasticIn,
+  'Curves.elasticOut': widgets.Curves.elasticOut,
+  'Curves.elasticInOut': widgets.Curves.elasticInOut,
+};
+
 widgets.Curve? _decCurve(Object? v, FuseNode n) {
   if (v == null) return null;
   if (v is String) {
-    return switch (v) {
-      'Curves.linear' => widgets.Curves.linear,
-      'Curves.decelerate' => widgets.Curves.decelerate,
-      'Curves.fastLinearToSlowEaseIn' => widgets.Curves.fastLinearToSlowEaseIn,
-      'Curves.fastEaseInToSlowEaseOut' => widgets.Curves.fastEaseInToSlowEaseOut,
-      'Curves.ease' => widgets.Curves.ease,
-      'Curves.easeIn' => widgets.Curves.easeIn,
-      'Curves.easeInToLinear' => widgets.Curves.easeInToLinear,
-      'Curves.easeInSine' => widgets.Curves.easeInSine,
-      'Curves.easeInQuad' => widgets.Curves.easeInQuad,
-      'Curves.easeInCubic' => widgets.Curves.easeInCubic,
-      'Curves.easeInQuart' => widgets.Curves.easeInQuart,
-      'Curves.easeInQuint' => widgets.Curves.easeInQuint,
-      'Curves.easeInExpo' => widgets.Curves.easeInExpo,
-      'Curves.easeInCirc' => widgets.Curves.easeInCirc,
-      'Curves.easeInBack' => widgets.Curves.easeInBack,
-      'Curves.easeOut' => widgets.Curves.easeOut,
-      'Curves.linearToEaseOut' => widgets.Curves.linearToEaseOut,
-      'Curves.easeOutSine' => widgets.Curves.easeOutSine,
-      'Curves.easeOutQuad' => widgets.Curves.easeOutQuad,
-      'Curves.easeOutCubic' => widgets.Curves.easeOutCubic,
-      'Curves.easeOutQuart' => widgets.Curves.easeOutQuart,
-      'Curves.easeOutQuint' => widgets.Curves.easeOutQuint,
-      'Curves.easeOutExpo' => widgets.Curves.easeOutExpo,
-      'Curves.easeOutCirc' => widgets.Curves.easeOutCirc,
-      'Curves.easeOutBack' => widgets.Curves.easeOutBack,
-      'Curves.easeInOut' => widgets.Curves.easeInOut,
-      'Curves.easeInOutSine' => widgets.Curves.easeInOutSine,
-      'Curves.easeInOutQuad' => widgets.Curves.easeInOutQuad,
-      'Curves.easeInOutCubic' => widgets.Curves.easeInOutCubic,
-      'Curves.easeInOutCubicEmphasized' => widgets.Curves.easeInOutCubicEmphasized,
-      'Curves.easeInOutQuart' => widgets.Curves.easeInOutQuart,
-      'Curves.easeInOutQuint' => widgets.Curves.easeInOutQuint,
-      'Curves.easeInOutExpo' => widgets.Curves.easeInOutExpo,
-      'Curves.easeInOutCirc' => widgets.Curves.easeInOutCirc,
-      'Curves.easeInOutBack' => widgets.Curves.easeInOutBack,
-      'Curves.fastOutSlowIn' => widgets.Curves.fastOutSlowIn,
-      'Curves.slowMiddle' => widgets.Curves.slowMiddle,
-      'Curves.bounceIn' => widgets.Curves.bounceIn,
-      'Curves.bounceOut' => widgets.Curves.bounceOut,
-      'Curves.bounceInOut' => widgets.Curves.bounceInOut,
-      'Curves.elasticIn' => widgets.Curves.elasticIn,
-      'Curves.elasticOut' => widgets.Curves.elasticOut,
-      'Curves.elasticInOut' => widgets.Curves.elasticInOut,
-      _ => fuseBad('Curve', v),
-    };
+    return _decCurve$consts[v] ?? fuseBad('Curve', v);
   }
   if (v is! Map) return fuseBad('Curve', v);
   switch (fuseTag(v, 'Curve')) {
@@ -564,24 +567,26 @@ widgets.ScrollContext? _decScrollContext(Object? v, FuseNode n) {
   }
   return fuseBad('ScrollContext', v);
 }
+const _decViewPadding$consts = <String, ui.ViewPadding>{
+  'ViewPadding.zero': ui.ViewPadding.zero,
+};
+
 ui.ViewPadding? _decViewPadding(Object? v, FuseNode n) {
   if (v == null) return null;
   if (v is String) {
-    return switch (v) {
-      'ViewPadding.zero' => ui.ViewPadding.zero,
-      _ => fuseBad('ViewPadding', v),
-    };
+    return _decViewPadding$consts[v] ?? fuseBad('ViewPadding', v);
   }
   return fuseBad('ViewPadding', v);
 }
+const _decOffset$consts = <String, widgets.Offset>{
+  'Offset.zero': widgets.Offset.zero,
+  'Offset.infinite': widgets.Offset.infinite,
+};
+
 widgets.Offset? _decOffset(Object? v, FuseNode n) {
   if (v == null) return null;
   if (v is String) {
-    return switch (v) {
-      'Offset.zero' => widgets.Offset.zero,
-      'Offset.infinite' => widgets.Offset.infinite,
-      _ => fuseBad('Offset', v),
-    };
+    return _decOffset$consts[v] ?? fuseBad('Offset', v);
   }
   if (v is! Map) return fuseBad('Offset', v);
   switch (fuseTag(v, 'Offset')) {

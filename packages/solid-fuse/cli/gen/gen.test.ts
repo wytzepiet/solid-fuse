@@ -178,6 +178,56 @@ describe.skipIf(!hasFlutter)("fuse gen over widgets, material_ui, cupertino_ui",
     expect(r.code).toBe(0);
   }, 300_000);
 
+  test("a build keeps the Dart side of what the bundle uses", async () => {
+    const { buildViteConfig } = await import("../config");
+    const { newBundleUse, shake } = await import("./shake");
+    const { emitDart } = await import("./emit-dart");
+    const { build } = await import("vite");
+    const app = join(out, "app");
+    mkdirSync(join(app, "src"), { recursive: true });
+    writeFileSync(
+      join(app, "src", "index.tsx"),
+      `
+import { Padding, Icon, EdgeInsets, createScrollController } from "#fuse/flutter";
+import { Icons, Colors } from "#fuse/material_ui";
+// Folded into the template: the tag and the constant, imports gone.
+export const a = <Padding padding={EdgeInsets.all(8)}><Icon icon={Icons.home} /></Padding>;
+// Computed: the bundler keeps all of Colors.
+export const pick = (k: string) => (Colors as any)[k];
+export const s = createScrollController();
+`,
+    );
+    const use = newBundleUse();
+    const config = buildViteConfig(
+      app,
+      {
+        dart: "../app-dart",
+        gen: { out: "../out" },
+        vite: {
+          logLevel: "silent",
+          resolve: { alias: [{ find: /^solid-fuse\/generated$/, replacement: join(pkg, "src/generated.ts") }, { find: /^solid-fuse$/, replacement: join(pkg, "src/index.ts") }, { find: /^~\/(.*)$/, replacement: join(pkg, "src/$1") }] },
+        },
+      } as any,
+      use,
+    );
+    await build(config);
+    const uses = JSON.parse(await Bun.file(join(out, "out", "uses.json")).text());
+    const { manifest, handleTags } = shake(m, uses, use);
+    const widgets = new Set(manifest.widgets.map((w) => w.component));
+    expect(widgets.has("Padding")).toBe(true);
+    expect(widgets.has("Icon")).toBe(true);
+    expect(widgets.has("Container")).toBe(false);
+    expect(manifest.widgets.length).toBeLessThan(5);
+    expect(manifest.handles.map((id) => manifest.types[id].name)).toEqual(["ScrollController"]);
+    const consts = new Set(Object.values(manifest.types).flatMap((t) => (t.kind === "data" ? (t.consts ?? []).map((c) => c.name) : [])));
+    expect(consts.has("Icons.home")).toBe(true);
+    expect(consts.has("Icons.add")).toBe(false);
+    expect(consts.has("Colors.red")).toBe(true);
+    expect(consts.has("Colors.blue")).toBe(true);
+    expect(consts.has("Offset.zero")).toBe(false);
+    expect(emitDart(manifest, { handleTags }).code).toContain("'Icons.home': material_ui.Icons.home,");
+  }, 300_000);
+
   test("the TypeScript passes tsc, used the way apps use it", async () => {
     const r = await run([join(pkg, "node_modules", ".bin", "tsc"), "-p", join(out, "tsconfig.json")], pkg);
     if (r.code !== 0) console.log(r.output);

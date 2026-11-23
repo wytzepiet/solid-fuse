@@ -6,6 +6,7 @@ import { defu } from "defu";
 import type { FuseCompileOptions, FuseConfig } from "../src/config";
 import { fuseDevErrorPlugin } from "./dev-error-plugin";
 import { fuseCompilePlugin } from "./compile-plugin";
+import { bundleUsePlugin, type BundleUse } from "./gen/shake";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -29,7 +30,11 @@ export async function loadFuseConfig(
 /**
  * Build a Vite InlineConfig from a FuseConfig, merging Fuse defaults with user overrides.
  */
-export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | null): InlineConfig {
+/**
+ * [use], in `fuse build`, collects what the bundle uses of the generated
+ * modules (cli/gen/shake.ts).
+ */
+export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | null, use?: BundleUse): InlineConfig {
   const dartRoot = join(projectRoot, fuseConfig?.dart ?? "dart");
 
   const solidOptions = defu(fuseConfig?.solid ?? {}, {
@@ -54,6 +59,8 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
     compile.builders = { ...prefixed(t.builders), ...compile.builders };
   }
 
+  if (use) use.generated = `${genDir}/`;
+
   const fuseDefaults: InlineConfig = {
     configFile: false,
     root: projectRoot,
@@ -62,9 +69,10 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
     },
     // The compile step goes in front of Solid's compiler (both are "pre").
     plugins: [
-      fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName }),
+      fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: use }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),
+      ...(use ? [bundleUsePlugin(genDir, use)] : []),
     ],
     optimizeDeps: {
       // Pre-bundle at server startup so hashes are stable before the device

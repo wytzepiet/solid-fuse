@@ -19,12 +19,11 @@ const manifestFormat = 1;
 
 /// Bumped whenever the generator's output for the same input can change.
 /// Part of the input hash.
-const generatorVersion = '0.1.0';
+const generatorVersion = '0.2.0';
 
 class ManifestBuilder {
-  ManifestBuilder(this.w, this.config, {int maxConsts = 400})
-      : code = DartCode(w) {
-    c = Classifier(w, code, maxConsts: maxConsts);
+  ManifestBuilder(this.w, this.config) : code = DartCode(w) {
+    c = Classifier(w, code);
   }
 
   final World w;

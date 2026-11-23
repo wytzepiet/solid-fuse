@@ -61,8 +61,8 @@ RenderObject, Element).
 - **Data** is every other exported class. Its variants are its public
   constructors and those of its exported subclasses (at most 40, tagged by
   class). Its constants are the `static const` fields of the type, its
-  subclasses, and namespace classes (Colors, Curves). A namespace class with
-  more than 400 constants (Icons) is left out.
+  subclasses, and namespace classes (Colors, Curves, Icons), all of them:
+  the release build keeps the ones the bundle names (`cli/gen/shake.ts`).
 - **Enums** become plain value lists, with deprecated values marked.
 - **Callbacks**: a `void` callback is called without waiting, a `Future` one
   waits for the JS result, and one that returns a value at once (a builder)

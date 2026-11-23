@@ -26,9 +26,10 @@ Each library takes optional `allow` and `deny` patterns. A pattern is `Class`, `
 
 `fuse link`, `fuse dev` and `fuse build` regenerate when the config has `gen`, and so does `fuse gen` on its own. When nothing changed, the run takes under half a second. It writes:
 
-- `fuse/<package>.tsx`: one module per Dart package (Flutter's own libraries and `dart:*` go into `flutter`). Import them as `#fuse/<package>`. `fuse gen` adds the `#fuse/*` path to `tsconfig.json`.
+- `fuse/<package>.tsx`: one module per Dart package (Flutter's own libraries and `dart:*` go into `flutter`). Import them as `#fuse/<package>`. `fuse gen` adds the `#fuse/*` path to `tsconfig.json`. The values of each class (`EdgeInsets`, `Icons`) are in a module of their own next to it, `fuse/<package>/<Class>.tsx`.
 - `fuse/gen-report.txt`: every exported item, and every skipped one with the reason.
 - `dart/lib/_generated/fuse.generated.dart`: the adapters. `registerFusePackages` registers them, so the Dart side needs no change.
+- `fuse/intrinsics.json` and `fuse/uses.json`: tables for the compile step and for release builds.
 
 The generator runs from the solid-fuse package, so the Dart app needs no extra dependency.
 
@@ -109,6 +110,8 @@ A Dart value is written the Dart way, with builders the module exports:
 | `MainAxisAlignment.center` | `"center"` |
 
 Enums are plain strings. A builder call with only literal arguments is folded into the template at compile time, so it costs nothing at runtime.
+
+A constant is written through its class (`Icons.home`), never as a string: `"Icons.home"` doesn't type-check. That is how a release build knows which ones you use.
 
 A few Dart types have a JS form of their own:
 
@@ -213,6 +216,14 @@ release();
 ```
 
 Only the code that called `createRoot` can release it. To create one that belongs to no component (a module-level controller), use `runWithOwner(null, () => createX())`. It then lives until JS lets go of it.
+
+## Release builds keep what you use
+
+`fuse dev` has every exported widget, controller and constant, so a new one works without a Dart rebuild. `fuse build` keeps only what the bundle uses: after bundling, it writes the Dart adapters again for just those, and Flutter's tree shaker drops the rest of the widgets they would have pulled in. Exporting a whole library costs nothing in the release app. On the demo, exporting all of `widgets` and `material_ui` gives a 15 MB `libapp.so` in full and 6 MB with only what it uses.
+
+What counts as used is what the bundler keeps: an element you render, a `createX` you call, a constant you name. A computed access such as `Icons[name]` keeps every member of `Icons`, as it does in any bundle. A component picked at run time by its tag string is not seen.
+
+`fuse dev` and `fuse gen` write the full adapters again.
 
 ## What is skipped
 

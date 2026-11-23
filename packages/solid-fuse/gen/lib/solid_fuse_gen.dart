@@ -104,7 +104,6 @@ Future<Map<String, Object?>> generate({
   required GenConfig config,
   String? cacheDir,
   String? sdkPath,
-  int maxConsts = 400,
 }) async {
   config = config.withAnnotated(annotatedLibraries(root));
   var extra = <String>[];
@@ -116,7 +115,7 @@ Future<Map<String, Object?>> generate({
       cacheDir: cacheDir,
       sdkPath: sdkPath,
     );
-    final m = ManifestBuilder(w, config, maxConsts: maxConsts).build();
+    final m = ManifestBuilder(w, config).build();
     // A type from a package nothing exported (flutter_map's LatLng is
     // latlong2's): load that package's public libraries and build again.
     // Each round adds libraries it never adds again, so this ends.

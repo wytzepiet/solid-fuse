@@ -24,6 +24,15 @@ export function $build(tag: string, positional: readonly string[], args: readonl
   return value;
 }
 
+declare const constName: unique symbol;
+
+/**
+ * A Dart constant on the wire: its name (`"Colors.red"`). Only the owner's
+ * generated export makes one, never a plain string, so the build sees every
+ * constant the app uses and keeps the Dart side of just those.
+ */
+export type Const<N extends string> = string & { readonly [constName]: N };
+
 // --- Handles ---
 
 /** What a generated handle type offers (emitted per type). */

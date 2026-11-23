@@ -142,11 +142,18 @@ function typedWidget(ref: Ref): boolean {
   return false;
 }
 
-export function emitDart(m: Manifest, options: { registerFunction?: string } = {}): DartOutput {
+export function emitDart(
+  m: Manifest,
+  options: {
+    registerFunction?: string;
+    /** Node types of the handles, when [m] is a shaken copy (cli/gen/shake.ts). */
+    handleTags?: Map<string, string>;
+  } = {},
+): DartOutput {
   const registerFunction = options.registerFunction ?? "registerFuseGenerated";
   const hIds = handleIds(m);
   const lent = lentHandles(m);
-  const hTags = handleTags(m);
+  const hTags = options.handleTags ?? handleTags(m);
   /** Handle id -> its class (every handle type has one: `.borrow` wraps an
    *  object Dart hands to JS; a created one also has the main constructor). */
   const hCls = new Map(hIds.map((id, i) => [id, `_H${i}_${m.types[id].name}`]));
@@ -408,11 +415,12 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     }
     const consts = t.consts ?? [];
     if (consts.length > 0) {
+      // A const map, not a switch: one constant for the compiler however
+      // many there are (a switch over all of Icons overflows the AOT type
+      // flow analysis), and const values keep icon font shaking working.
+      lines.unshift(`const ${name}$consts = <String, ${tn}>{`, ...consts.map((c) => `  ${q(c.name)}: ${c.dart},`), "};", "");
       lines.push("  if (v is String) {");
-      lines.push("    return switch (v) {");
-      for (const c of consts) lines.push(`      ${q(c.name)} => ${c.dart},`);
-      lines.push(`      _ => ${short.has("string") ? shortCall("string") : `fuseBad(${q(t.name)}, v)`},`);
-      lines.push("    };");
+      lines.push(`    return ${name}$consts[v] ?? ${short.has("string") ? shortCall("string") : `fuseBad(${q(t.name)}, v)`};`);
       lines.push("  }");
     } else if (short.has("string")) {
       lines.push(`  if (v is String) return ${shortCall("string")};`);

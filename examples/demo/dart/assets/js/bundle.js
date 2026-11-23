@@ -4248,7 +4248,7 @@
 		}
 	}
 	var u = /* @__PURE__ */ new Map();
-	var d$1;
+	var d;
 	function f$1(e, t) {
 		u.set(e, t);
 	}
@@ -4297,7 +4297,7 @@
 		};
 	};
 	function fe(e) {
-		d$1 = e;
+		d = e;
 	}
 	var g$1;
 	function pe(e) {
@@ -4307,9 +4307,9 @@
 		let n = u.get(e);
 		try {
 			let e = n ? await n(t) : void 0;
-			return d$1?.(), e;
+			return d?.(), e;
 		} catch (e) {
-			d$1?.(), l(e);
+			d?.(), l(e);
 		}
 	};
 	var me = {
@@ -6147,12 +6147,6 @@
 		})())(je(_tpl$1$2));
 	}
 	// ../../packages/solid-fuse/dist/generated.js
-	function d(e, t, n) {
-		let r = { $: e }, i = t.length;
-		for (let e = 0; e < i && e < n.length; e++) n[e] !== void 0 && (r[t[e]] = n[e]);
-		let a = n[i];
-		return typeof a == "object" && a && Object.assign(r, a), r;
-	}
 	var f = (e, t) => {
 		if (e === t) return !0;
 		if (typeof e != "object" || typeof t != "object" || e === null || t === null || Array.isArray(e) !== Array.isArray(t)) return !1;
@@ -6388,49 +6382,6 @@
 		"m": [],
 		"st": []
 	});
-	function ScrollPhysics$alwaysScrollable(...a) {
-		return d("ScrollPhysics.alwaysScrollable", [], a);
-	}
-	function ScrollPhysics$bouncing(...a) {
-		return d("ScrollPhysics.bouncing", [], a);
-	}
-	function ScrollPhysics$clamping(...a) {
-		return d("ScrollPhysics.clamping", [], a);
-	}
-	function ScrollPhysics$neverScrollable(...a) {
-		return d("ScrollPhysics.neverScrollable", [], a);
-	}
-	function ScrollPhysics$rangeMaintaining(...a) {
-		return d("ScrollPhysics.rangeMaintaining", [], a);
-	}
-	function ScrollPhysics(...a) {
-		return d("ScrollPhysics", [], a);
-	}
-	ScrollPhysics.alwaysScrollable = ScrollPhysics$alwaysScrollable;
-	ScrollPhysics.bouncing = ScrollPhysics$bouncing;
-	ScrollPhysics.clamping = ScrollPhysics$clamping;
-	ScrollPhysics.neverScrollable = ScrollPhysics$neverScrollable;
-	ScrollPhysics.rangeMaintaining = ScrollPhysics$rangeMaintaining;
-	function Duration(...a) {
-		return d("Duration", [], a);
-	}
-	Duration.zero = "Duration.zero";
-	function CatmullRomCurve$precompute(...a) {
-		return d("CatmullRomCurve.precompute", ["controlPoints"], a);
-	}
-	function CatmullRomCurve(...a) {
-		return d("CatmullRomCurve", ["controlPoints"], a);
-	}
-	CatmullRomCurve.precompute = CatmullRomCurve$precompute;
-	function Offset$fromDirection(...a) {
-		return d("Offset.fromDirection", ["direction", "distance"], a);
-	}
-	function Offset(...a) {
-		return d("Offset", ["dx", "dy"], a);
-	}
-	Offset.fromDirection = Offset$fromDirection;
-	Offset.zero = "Offset.zero";
-	Offset.infinite = "Offset.infinite";
 	// src/screens/builder.tsx
 	var _tpl$1$1 = /*@__PURE__*/ Ae([
 		"view",
