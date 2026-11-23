@@ -145,10 +145,8 @@ class _FuseTypedSlotsState extends State<FuseTypedSlots> {
 
   void _changed() => setState(() {});
 
-  void _unwatch(FuseNode node) {
-    // A disposed node is out of the registry and has no listeners left.
-    if (identical(node.registry.tryGet(node.id), node)) node.removeListener(_changed);
-  }
+  // Also for a node JS let go of: it is disposed when its last listener goes.
+  void _unwatch(FuseNode node) => node.removeListener(_changed);
 
   @override
   Widget build(BuildContext context) {

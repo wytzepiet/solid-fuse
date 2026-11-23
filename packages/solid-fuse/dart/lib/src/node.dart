@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core' as core;
 import 'dart:core';
 
@@ -382,8 +383,34 @@ class FuseNode extends FuseMap with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _released = false;
+  bool _disposed = false;
+
+  /// JS let go of this node (the `dispose` op). It stays usable while a
+  /// widget still listens to it: a route animating out, a hero flight or an
+  /// exit transition keeps drawing it, and may even mount it again. It is
+  /// disposed once nothing listens.
+  void release() {
+    _released = true;
+    if (!hasListeners) dispose();
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    super.removeListener(listener);
+    // After the frame's unmounts: a widget moved in the same frame listens
+    // again before this runs.
+    if (_released && !_disposed && !hasListeners) scheduleMicrotask(_disposeIfUnused);
+  }
+
+  void _disposeIfUnused() {
+    if (!_disposed && !hasListeners) dispose();
+  }
+
   @override
   void dispose() {
+    if (_disposed) return;
+    _disposed = true;
     ownHandle?.dispose();
     super.dispose();
   }
@@ -489,9 +516,11 @@ class FuseNodeRegistry {
 
   FuseNode? tryGet(int id) => _nodes[id];
 
+  /// JS let go of node [id]: it leaves the registry now and is disposed
+  /// once no widget uses it ([FuseNode.release]).
   void remove(int id) {
     final node = _nodes.remove(id);
-    node?.dispose();
+    node?.release();
   }
 
   void clear() {

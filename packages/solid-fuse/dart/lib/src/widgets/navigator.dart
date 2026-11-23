@@ -28,6 +28,17 @@ class FuseNavigatorWidget extends StatefulWidget {
 class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
   final _key = GlobalKey<NavigatorState>();
 
+  // Flutter's Navigator hides its own hero controller from navigators
+  // inside it (`HeroControllerScope.none`), and this one is always inside
+  // the app's. Without a controller of its own, heroes would not fly.
+  final _heroes = HeroController();
+
+  @override
+  void dispose() {
+    _heroes.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final node = widget.node;
@@ -37,21 +48,22 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       if (h is FusePageHandle) {
         pages.add(h.object);
       } else if (kDebugMode) {
-        debugPrint(
-          '[Fuse navigator] child <${child.type}> is not a FusePageHandle — ignored',
-        );
+        debugPrint('[Fuse navigator] child <${child.type}> is not a FusePageHandle — ignored');
       }
     }
     if (pages.isEmpty) return const SizedBox.shrink();
     return NavigatorPopHandler<Object?>(
       onPopWithResult: (_) => _key.currentState?.maybePop(),
-      child: Navigator(
-        key: _key,
-        pages: pages,
-        onDidRemovePage: (page) {
-          final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
-          node.callback('onDidRemovePage')?.call({'id': id});
-        },
+      child: HeroControllerScope(
+        controller: _heroes,
+        child: Navigator(
+          key: _key,
+          pages: pages,
+          onDidRemovePage: (page) {
+            final id = page.key is ValueKey ? (page.key as ValueKey).value : null;
+            node.callback('onDidRemovePage')?.call({'id': id});
+          },
+        ),
       ),
     );
   }

@@ -32,7 +32,7 @@ You do not write anything differently for this, and there is nothing to mark. Wh
 
 ### Node lifetime
 
-A node on the Dart side lives exactly as long as JavaScript can still reach it. Removing a node only detaches it, so an element you keep in a variable can leave the tree and come back later (a `<Show>` around it, for example), as it could in the DOM. When the JS garbage collector finds that nothing refers to a detached subtree any more, its Dart nodes are disposed.
+A node on the Dart side lives exactly as long as JavaScript can still reach it. Removing a node only detaches it, so an element you keep in a variable can leave the tree and come back later (a `<Show>` around it, for example), as it could in the DOM. When the JS garbage collector finds that nothing refers to a detached subtree any more, its Dart nodes are disposed as soon as no widget shows them either: a page animating out or a hero in flight keeps drawing its nodes until it is done.
 
 Events flow back the same way. A `Pressable` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
 
