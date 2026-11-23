@@ -1,0 +1,32 @@
+name: fuse_corpus
+description: Popular pub.dev packages that solid_fuse_gen is checked against.
+publish_to: "none"
+environment:
+  sdk: ^3.14.0
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.11.1
+  solid_fuse:
+    path: ../../../dart
+  fl_chart: any
+  flutter_map: any
+  latlong2: any
+  cached_network_image: any
+  flutter_svg: any
+  shimmer: any
+  lottie: any
+  carousel_slider: any
+  flutter_slidable: any
+  percent_indicator: any
+  smooth_page_indicator: any
+  photo_view: any
+  video_player: any
+  flutter_staggered_grid_view: any
+  auto_size_text: any
+  flutter_rating_bar: any
+  pull_to_refresh: any
+  modal_bottom_sheet: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

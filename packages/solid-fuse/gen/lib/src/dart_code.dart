@@ -179,14 +179,17 @@ class DartCode {
     final inv = o.constructorInvocation;
     if (inv != null && t is InterfaceType) {
       final ctor = inv.constructor;
-      if (ctor.isPrivate || t.element.isPrivate) throw NotNameable('private constructor');
+      // The class that declares the constructor: a redirecting factory
+      // (`TileDisplay.fadeIn` -> FadeInTileDisplay) is called on its own class.
+      final owner = ctor.enclosingElement;
+      if (ctor.isPrivate || owner.isPrivate) throw NotNameable('private constructor');
       final name = (ctor.name == null || ctor.name == 'new') ? '' : '.${ctor.name}';
       final args = [
         ...inv.positionalArguments.map((a) => constant(a, inConst: true)),
         ...inv.namedArguments.entries.map((e) => '${e.key}: ${constant(e.value, inConst: true)}'),
       ];
-      final ta = t.typeArguments.isEmpty ? '' : '<${t.typeArguments.map(type).join(', ')}>';
-      return '$k${ref(t.element)}$ta$name(${args.join(', ')})';
+      final ta = owner != t.element || t.typeArguments.isEmpty ? '' : '<${t.typeArguments.map(type).join(', ')}>';
+      return '$k${ref(owner)}$ta$name(${args.join(', ')})';
     }
     throw NotNameable('constant of ${t.getDisplayString()}');
   }

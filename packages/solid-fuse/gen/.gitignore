@@ -1,2 +1,4 @@
 # Written by cli/gen/gen.test.ts
 test/fixtures/app/lib/generated/
+test/corpus/lib/_generated/
+test/corpus/.flutter-plugins-dependencies
