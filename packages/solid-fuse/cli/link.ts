@@ -25,19 +25,6 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
   const fuseConfig = await loadFuseConfig(root);
   const dartRoot = getDartRoot(root, fuseConfig);
 
-  // Generated components and adapters (dart/lib/fuse.dart). `fuse dev` and
-  // `fuse build` leave it to their Vite plugin (cli/gen/plugin.ts).
-  if (gen && hasBarrels(dartRoot)) {
-    try {
-      const t0 = performance.now();
-      const r = await runGen(root, fuseConfig);
-      console.log(`fuse gen: ${r.manifest.widgets.length} widgets, ${r.manifest.handles.length} handles (${Math.round(performance.now() - t0)} ms)`);
-    } catch (err) {
-      // The previous output stays; the app still builds with it.
-      console.error(`fuse gen failed: ${err instanceof Error ? err.message : err}`);
-    }
-  }
-
   const packages = await scanFusePackages(root);
   console.log(`Found ${packages.length} Fuse package(s):`);
   for (const pkg of packages) {
@@ -64,8 +51,23 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
   }
 
   generatePubspecOverrides(dartRoot, packages);
-  generateFusePackagesDart(dartRoot, packages);
   if (pubGet) runFlutterPubGet(dartRoot);
+
+  // Generated components and adapters (dart/lib/fuse.dart and every
+  // resolved package's). After pub get, so a package just added is seen.
+  // `fuse dev` and `fuse build` leave it to their Vite plugin (cli/gen/plugin.ts).
+  if (gen && hasBarrels(dartRoot)) {
+    try {
+      const t0 = performance.now();
+      const r = await runGen(root, fuseConfig);
+      console.log(`fuse gen: ${r.manifest.widgets.length} widgets, ${r.manifest.handles.length} handles (${Math.round(performance.now() - t0)} ms)`);
+    } catch (err) {
+      // The previous output stays; the app still builds with it.
+      console.error(`fuse gen failed: ${err instanceof Error ? err.message : err}`);
+    }
+  }
+
+  generateFusePackagesDart(dartRoot, packages);
 
   console.log("\nDone!");
 }
