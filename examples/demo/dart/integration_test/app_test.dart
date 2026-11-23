@@ -117,6 +117,8 @@ void main() {
     }
     await tester.pumpAndSettle();
     expect(find.text('Row 0'), findsNothing);
+    // The ScrollPosition JS borrowed from the controller mirrors its pixels.
+    await pumpUntil(tester, find.textContaining(RegExp(r'Scrolled [1-9]\d* px')));
     final shown = [
       for (var i = 0; i < 10000; i++)
         if (find.text('Row $i').evaluate().isNotEmpty) i,

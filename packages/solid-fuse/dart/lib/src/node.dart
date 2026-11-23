@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'fuse_handle.dart';
+import 'generated_support.dart' show FuseGeneratedHandle;
 import 'node_widget.dart';
 import 'utils.dart';
 
@@ -356,6 +357,60 @@ class FuseNodeRegistry {
 
   final _nodes = <int, FuseNode>{};
 
+  // Handles by object, for references Dart sends to JS ([lend]). A handle
+  // JS created is found by its object; one Dart hands out is borrowed, once
+  // per object and type (the static type decides what JS can call).
+  Expando<FuseNode> _owned = Expando();
+  Expando<Map<String, FuseNode>> _borrowed = Expando();
+  final _lent = <int, int>{};
+  int _nextBorrowed = -1;
+
+  /// Records that [node]'s handle, which JS created, wraps [object].
+  void own(Object object, FuseNode node) => _owned[object] = node;
+
+  /// A reference to [object] that JS turns into a handle: the one JS created
+  /// for it, or a borrowed one of node type [tag] made with [borrow]. Each
+  /// reference to a borrowed handle is counted until JS gives it back
+  /// ([unborrow]). A new one carries its state, so JS starts with it.
+  Map<String, Object?>? lend<T extends Object>(
+    T? object,
+    String tag,
+    FuseGeneratedHandle<T> Function(FuseNode node, T object) borrow,
+  ) {
+    if (object == null) return null;
+    final owned = _owned[object];
+    if (owned != null && identical(_nodes[owned.id], owned)) return {r'$h': owned.id, 't': owned.type, 'o': 1};
+    final byType = _borrowed[object] ??= {};
+    final known = byType[tag];
+    if (known != null && identical(_nodes[known.id], known)) {
+      _lent[known.id] = (_lent[known.id] ?? 0) + 1;
+      return {r'$h': known.id, 't': tag};
+    }
+    final node = create(_nextBorrowed--, tag, {});
+    byType[tag] = node;
+    _lent[node.id] = 1;
+    final h = borrow(node, object);
+    node.ownHandle = h;
+    final s = h.takeSeed();
+    return {r'$h': node.id, 't': tag, 's': ?s};
+  }
+
+  /// JS gave back [n] references to borrowed handle [id]; at none left the
+  /// node goes (the object stays Dart's).
+  void unborrow(int id, int n) {
+    final left = (_lent[id] ?? 0) - n;
+    if (left > 0) {
+      _lent[id] = left;
+      return;
+    }
+    _lent.remove(id);
+    final node = _nodes[id];
+    if (node == null) return;
+    final object = node.ownHandle?.object;
+    if (object != null) _borrowed[object]?.remove(node.type);
+    remove(id);
+  }
+
   FuseNode create(int id, String type, Map<String, dynamic> props) {
     final node = FuseNode(
       id: id,
@@ -382,5 +437,8 @@ class FuseNodeRegistry {
       node.dispose();
     }
     _nodes.clear();
+    _lent.clear();
+    _owned = Expando();
+    _borrowed = Expando();
   }
 }

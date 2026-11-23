@@ -62,6 +62,7 @@ class ManifestBuilder {
       }
       _library(lib, rule);
     });
+    c.completeHandles();
     _prune();
     final types = Map.fromEntries(c.types.entries.toList()..sort((a, b) => a.key.compareTo(b.key)));
     final body = <String, Object?>{
@@ -247,36 +248,7 @@ class ManifestBuilder {
 
   // ── consistency ───────────────────────────────────────────────────────────
 
-  /// Why the bridge cannot carry [ref] yet, or null. Nodes, functions and
-  /// handles go anywhere (top-level props and inside values); a callback
-  /// argument that is a handle waits for borrowed handles.
-  String? _unsupported(Object? ref) {
-    if (ref is! Map) return null;
-    switch (ref['k']) {
-      case 'fn':
-        for (final a in (ref['args']! as List).cast<Json>()) {
-          if (_carriesHandle(a['type'])) return 'callback argument is a handle (borrowed handles not bridged yet)';
-        }
-        return _unsupported(ref['ret']);
-      case 'list' || 'set' || 'iterable':
-        return _unsupported(ref['of']);
-      case 'map':
-        return _unsupported(ref['of']);
-    }
-    return null;
-  }
-
-  static bool _carriesHandle(Object? ref) {
-    if (ref is! Map) return false;
-    return switch (ref['k']) {
-      'handle' => true,
-      'list' || 'set' || 'iterable' => _carriesHandle(ref['of']),
-      'map' => _carriesHandle(ref['of']),
-      _ => false,
-    };
-  }
-
-  static const _notPlain = {'fn', 'widget', 'handle', 'supplied'};
+  static const _notPlain = {'fn', 'widget', 'supplied'};
 
   /// Whether [ref] can hold one of [kinds], through collections and the
   /// variants of data types.
@@ -328,7 +300,7 @@ class ManifestBuilder {
     return true;
   }
 
-  /// Applies the bridge's current limits ([_unsupported]), then turns refs
+  /// Applies the bridge's current limits, then turns refs
   /// to data types whose input side failed after they were referenced
   /// (recursive types resolved late) into skips, until nothing changes.
   /// Afterwards every ref in the manifest points at something an emitter can
@@ -361,7 +333,7 @@ class ManifestBuilder {
 
     // Limits first: they only ever remove things.
     _widgets.removeWhere((wj) {
-      final ok = _fix(wj['params']! as List, (p) => _unsupported(p['type']) ?? (wj['preferredSize'] == true ? noContext(p) : null));
+      final ok = _fix(wj['params']! as List, (p) => wj['preferredSize'] == true ? noContext(p) : null);
       if (!ok) _skip(wj['id']! as String, 'a required parameter cannot cross the bridge yet');
       return !ok;
     });
@@ -369,31 +341,27 @@ class ManifestBuilder {
       final variants = d['variants'];
       if (variants is List) {
         variants.removeWhere((v) {
-          final ok = _fix((v as Json)['params']! as List, (p) => _unsupported(p['type']) ?? noContext(p));
+          final ok = _fix((v as Json)['params']! as List, noContext);
           if (!ok) ((d['rejected'] ??= <String, String>{}) as Map)[v['tag']] = 'a required parameter cannot cross the bridge yet';
           return !ok;
         });
       }
       final ctors = d['ctors'];
       if (ctors is List) {
-        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _unsupported(p['type']) ?? noContext(p)));
+        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, noContext));
       }
     }
 
-    // Handles: constructor options ride in the `create` op, which cannot
-    // carry node references; method and setter values go through a channel
-    // call, which carries plain values only.
+    // Handle method and setter values go through a channel call, which
+    // carries values and handles but registers no function and keeps no
+    // node alive.
     for (final d in c.types.values) {
       if (d['kind'] != 'handle') continue;
-      final ctors = d['ctors'];
-      if (ctors is List) {
-        ctors.removeWhere((k) => !_fix((k as Json)['params']! as List, (p) => _reaches(p['type'], const {'widget', 'handle'}) ? 'holds a widget or handle' : null));
-      }
       final methods = d['methods'];
       if (methods is List) {
         methods.removeWhere((mj) {
-          final ok = _fix((mj as Json)['params']! as List, (p) => _reaches(p['type'], _notPlain) ? 'holds a function, widget or handle' : null);
-          if (!ok) ((d['memberSkips'] ??= <String, String>{}) as Map)['${mj['name']}()'] = 'a required parameter holds a function, widget or handle';
+          final ok = _fix((mj as Json)['params']! as List, (p) => _reaches(p['type'], _notPlain) ? 'holds a function or widget' : null);
+          if (!ok) ((d['memberSkips'] ??= <String, String>{}) as Map)['${mj['name']}()'] = 'a required parameter holds a function or widget';
           return !ok;
         });
       }
@@ -401,7 +369,7 @@ class ManifestBuilder {
       if (setters is List) {
         setters.removeWhere((sj) {
           final bad = _reaches((sj as Json)['type'], _notPlain);
-          if (bad) ((d['memberSkips'] ??= <String, String>{}) as Map)['${sj['name']}='] = 'holds a function, widget or handle';
+          if (bad) ((d['memberSkips'] ??= <String, String>{}) as Map)['${sj['name']}='] = 'holds a function or widget';
           return bad;
         });
       }

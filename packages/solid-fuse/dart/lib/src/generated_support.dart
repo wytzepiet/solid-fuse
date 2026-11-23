@@ -286,7 +286,14 @@ typedef FuseSnapshot = void Function(String name, Object? Function() read);
 /// nothing reaches it), and then [release] runs after the frame, when no
 /// widget uses the object any more.
 abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
-  FuseGeneratedHandle(super.node);
+  FuseGeneratedHandle(super.node) : _isBorrowed = false;
+
+  /// A handle for an object Dart hands to JS ([FuseNodeRegistry.lend]): it
+  /// mirrors and forwards like one JS created, but the object stays Dart's
+  /// (never released).
+  FuseGeneratedHandle.borrowed(super.node) : _isBorrowed = true;
+
+  final bool _isBorrowed;
 
   /// The mirrored getters, read by name.
   void snapshot(FuseSnapshot put) {}
@@ -310,12 +317,40 @@ abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
   Listenable? _listening;
   final Map<String, StreamSubscription<Object?>> _subs = {};
 
-  /// Starts mirroring; the generated constructor calls it last.
+  Map<String, Object?>? _seed;
+
+  /// Starts mirroring; the generated constructor calls it last. A borrowed
+  /// handle's first state goes with the reference that hands it to JS
+  /// ([takeSeed]): JS has no node to push to yet.
   void start() {
+    if (!_isBorrowed) node.registry.own(object, node);
     if (object case final Listenable l) {
       _listening = l..addListener(_changed);
     }
-    _push();
+    if (_isBorrowed) {
+      _seed = _sent = _read();
+    } else {
+      _push();
+    }
+  }
+
+  /// The state a borrowed handle starts with, once.
+  Map<String, Object?>? takeSeed() {
+    final s = _seed;
+    _seed = null;
+    return s == null || s.isEmpty ? null : s;
+  }
+
+  Map<String, Object?> _read() {
+    final now = <String, Object?>{};
+    snapshot((name, read) {
+      try {
+        now[name] = read();
+      } catch (_) {
+        // Not readable right now (a ScrollController without a client).
+      }
+    });
+    return now;
   }
 
   void _changed() {
@@ -328,25 +363,37 @@ abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
   }
 
   void _push() {
-    final now = <String, Object?>{};
-    snapshot((name, read) {
-      try {
-        now[name] = read();
-      } catch (_) {
-        // Not readable right now (a ScrollController without a client).
+    final now = _read();
+    final diff = <String, Object?>{};
+    for (final MapEntry(:key, :value) in now.entries) {
+      if (!_sent.containsKey(key) || !_same(_sent[key], value)) {
+        diff[key] = value;
+      } else {
+        // Not sent: the borrowed references reading it counted go back.
+        _giveBack(value);
       }
-    });
-    final diff = <String, Object?>{
-      for (final MapEntry(:key, :value) in now.entries)
-        if (!_sent.containsKey(key) || !_same(_sent[key], value)) key: value,
-    };
+    }
     _sent = now;
     if (diff.isEmpty) return;
     node.callFunction(node.id, r'$push', {'v': _version, 's': diff});
   }
 
+  void _giveBack(Object? v) {
+    if (v is Map) {
+      if (v[r'$h'] case final int id) {
+        if (v['o'] == null) node.registry.unborrow(id, 1);
+        return;
+      }
+      v.values.forEach(_giveBack);
+    } else if (v is List) {
+      v.forEach(_giveBack);
+    }
+  }
+
   static bool _same(Object? a, Object? b) {
     if (a is Map && b is Map) {
+      // A handle reference: the same handle, whether or not it carried state.
+      if (a[r'$h'] case final int id) return b[r'$h'] == id;
       if (a.length != b.length) return false;
       for (final MapEntry(:key, :value) in a.entries) {
         if (!b.containsKey(key) || !_same(value, b[key])) return false;
@@ -392,6 +439,11 @@ abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
       case r'$cancel':
         await _subs.remove((value as Map)['fn'])?.cancel();
         return null;
+      case r'$sync':
+        // JS made a new handle for an object it had no state of: all of it.
+        _sent = const {};
+        _push();
+        return null;
       default:
         return invoke(method, value is List ? value.cast<Object?>() : const []);
     }
@@ -407,6 +459,7 @@ abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
     _subs.clear();
     // A widget that used the object may still be in the tree until the next
     // frame builds without it.
+    if (_isBorrowed) return;
     SchedulerBinding.instance.addPostFrameCallback((_) => release());
     SchedulerBinding.instance.ensureVisualUpdate();
   }

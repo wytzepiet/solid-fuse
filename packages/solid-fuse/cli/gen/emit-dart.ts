@@ -12,12 +12,99 @@ export function tagOf(w: Widget): string {
   return `${moduleOf(uriOf(w.id))}_${w.component}`;
 }
 
-/** Handle id -> node type (`registerHandle` key, `Handle<K>` brand) of the
- *  handles JS creates. */
+const lentCache = new WeakMap<Manifest, Set<string>>();
+
+/**
+ * The handle types Dart can hand to JS: those in an output position (a
+ * callback argument, a handle's state, method result or stream, a field of
+ * a value Dart sends) reachable from what JS uses.
+ */
+export function lentHandles(m: Manifest): Set<string> {
+  const cached = lentCache.get(m);
+  if (cached) return cached;
+  const lent = new Set<string>();
+  const seenIn = new Set<string>();
+  const seenOut = new Set<string>();
+  const members = new Set<string>();
+  const params = (ps: Param[]) => ps.forEach((p) => p.type && walkIn(p.type));
+  function handleMembers(id: string) {
+    if (members.has(id)) return;
+    members.add(id);
+    const h = m.types[id] as HandleType;
+    h.state?.forEach((f) => walkOut(f.type));
+    h.streams?.forEach((f) => walkOut(f.type));
+    h.setters?.forEach((st) => walkIn(st.type));
+    for (const mt of h.methods ?? []) {
+      params(mt.params);
+      walkOut(mt.ret);
+    }
+  }
+  function walkIn(r: Ref) {
+    switch (r.k) {
+      case "fn":
+        r.args.forEach((a) => walkOut(a.type));
+        walkIn(r.ret);
+        return;
+      case "list":
+      case "set":
+      case "iterable":
+      case "map":
+        walkIn(r.of);
+        return;
+      case "data": {
+        if (seenIn.has(r.id)) return;
+        seenIn.add(r.id);
+        const d = m.types[r.id] as DataType;
+        d.variants?.forEach((v) => params(v.params));
+        d.shorthands?.forEach((sh) => walkIn(sh.type));
+        return;
+      }
+    }
+  }
+  function walkOut(r: Ref) {
+    switch (r.k) {
+      case "handle":
+        lent.add(r.id);
+        handleMembers(r.id);
+        return;
+      case "list":
+      case "set":
+      case "iterable":
+      case "map":
+        walkOut(r.of);
+        return;
+      case "data": {
+        if (seenOut.has(r.id)) return;
+        seenOut.add(r.id);
+        (m.types[r.id] as DataType).fields?.forEach((f) => walkOut(f.type));
+        return;
+      }
+    }
+  }
+  for (const w of m.widgets) params(w.params);
+  for (const id of m.handles) {
+    (m.types[id] as HandleType).ctors.forEach((c) => params(c.params));
+    handleMembers(id);
+  }
+  lentCache.set(m, lent);
+  return lent;
+}
+
+/** Every handle type the bridge carries: the ones JS creates
+ *  (`m.handles`) first, then the ones only Dart hands out. */
+export function handleIds(m: Manifest): string[] {
+  const roots = new Set(m.handles);
+  const rest = [...lentHandles(m)].filter((id) => !roots.has(id)).sort();
+  return [...m.handles, ...rest];
+}
+
+/** Handle id -> node type (the `Handle<K>` brand, and the registered
+ *  factory of the ones JS creates). */
+
 export function handleTags(m: Manifest): Map<string, string> {
   const out = new Map<string, string>();
   const taken = new Set<string>();
-  for (const id of m.handles) {
+  for (const id of handleIds(m)) {
     const base = `${moduleOf(uriOf(id))}_${m.types[id].name}`;
     let tag = base;
     for (let i = 2; taken.has(tag); i++) tag = `${base}${i}`;
@@ -47,6 +134,12 @@ export interface DartOutput {
 
 export function emitDart(m: Manifest, options: { registerFunction?: string } = {}): DartOutput {
   const registerFunction = options.registerFunction ?? "registerFuseGenerated";
+  const hIds = handleIds(m);
+  const lent = lentHandles(m);
+  const hTags = handleTags(m);
+  /** Handle id -> its class (every handle type has one: `.borrow` wraps an
+   *  object Dart hands to JS; a created one also has the main constructor). */
+  const hCls = new Map(hIds.map((id, i) => [id, `_H${i}_${m.types[id].name}`]));
   const decoders = new Map<string, string>(); // type id -> function name
   const encoders = new Map<string, string>();
   const pendingDec: string[] = [];
@@ -167,7 +260,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
    */
   function fnExpr(fn: FnRef, src: string, cx: Cx): string {
     const params = fn.args.map((_, i) => `a${i}`);
-    const sent = fn.args.flatMap((a, i) => (a.type.k === "supplied" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`)]));
+    const sent = fn.args.flatMap((a, i) => (a.type.k === "supplied" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`, cx.n)]));
     const payload = sent.length === 0 ? "" : sent.length === 1 ? sent[0] : `FuseCallArgs([${sent.join(", ")}])`;
     if (fn.sync) {
       // Dart blocks until JS returns. A widget is built in a JS root of its
@@ -275,7 +368,9 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
 
   // ── Dart -> JS ──────────────────────────────────────────────────────────
 
-  function enc(ref: Ref, src: string): string {
+  /** The wire form of [src], a value of [ref]; [n] is the FuseNode in scope
+   *  (a handle crosses as a reference registered with its registry). */
+  function enc(ref: Ref, src: string, n: string): string {
     const nul = "null" in ref && ref.null ? "?" : "";
     switch (ref.k) {
       case "double":
@@ -285,13 +380,15 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       case "list":
       case "set":
       case "iterable":
-        return `${src}${nul}.map((e) => ${enc(ref.of, "e")}).toList()`;
+        return `${src}${nul}.map((e) => ${enc(ref.of, "e", n)}).toList()`;
       case "map": {
         const k = ref.key.k === "enum" ? "k.name" : ref.key.k === "String" ? "k" : "'$k'";
-        return `${src}${nul}.map((k, e) => MapEntry(${k}, ${enc(ref.of, "e")}))`;
+        return `${src}${nul}.map((k, e) => MapEntry(${k}, ${enc(ref.of, "e", n)}))`;
       }
       case "data":
-        return `${encoderOf(ref.id)}(${src})`;
+        return `${encoderOf(ref.id)}(${src}, ${n})`;
+      case "handle":
+        return `${n}.registry.lend<${noQ((m.types[ref.id] as HandleType).dart)}>(${src}, ${q(hTags.get(ref.id)!)}, ${hCls.get(ref.id)}.borrow)`;
       case "dynamic":
       case "Object":
         return `encAny(${src})`;
@@ -302,8 +399,8 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
 
   function encoderBody(id: string, name: string): string {
     const t = m.types[id] as DataType;
-    const lines = [`Map<String, Object?>? ${name}(${noQ(t.dart)}? v) => v == null`, "    ? null", "    : {"];
-    for (const f of t.fields ?? []) lines.push(`        ${q(f.name)}: ${enc(f.type, `v.${f.name}`)},`);
+    const lines = [`Map<String, Object?>? ${name}(${noQ(t.dart)}? v, FuseNode n) => v == null`, "    ? null", "    : {"];
+    for (const f of t.fields ?? []) lines.push(`        ${q(f.name)}: ${enc(f.type, `v.${f.name}`, "n")},`);
     lines.push("      };");
     return lines.join("\n");
   }
@@ -373,7 +470,6 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
 
   const handleCode: string[] = [];
   const handleRegs: string[] = [];
-  const hTags = handleTags(m);
   const plain: Cx = { n: "node", prop: "", sub: (d) => d };
 
   /** A value of [dart] decoded from [src]; a non-null one is required. */
@@ -383,31 +479,39 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     return nullable ? e : `fuseReq(${e}, ${q(owner)}, ${q(what)})`;
   }
 
-  m.handles.forEach((id, i) => {
+  const roots = new Set(m.handles);
+  for (const id of hIds) {
     const h = m.types[id] as HandleType;
     const T = noQ(h.dart);
-    const cls = `_H${i}_${h.name}`;
+    const cls = hCls.get(id)!;
     const tag = hTags.get(id)!;
     const make = (c: (typeof h.ctors)[number]) =>
       call(c.name ? `${T}.${c.name}` : T, c.params, (p) => arg(p, h.name, `node[${q(p.name)}]`, { ...plain, prop: p.name }));
-    const lines = [`class ${cls} extends FuseGeneratedHandle<${T}> {`, `  ${cls}(super.node) : object = _make(node) {`, "    start();", "  }", ""];
-    lines.push(`  static ${T} _make(FuseNode node) {`);
-    if (h.ctors.length === 1) {
-      lines.push(`    return ${make(h.ctors[0])};`);
-    } else {
-      // `$ctor` names the constructor; none is the unnamed one (or the first).
-      const fallback = h.ctors.find((c) => !c.name) ?? h.ctors[0];
-      lines.push("    switch (node[r'$ctor']) {");
-      for (const c of h.ctors) {
-        if (c === fallback) continue;
-        lines.push(`      case ${q(c.name!)}:`, `        return ${make(c)};`);
-      }
-      lines.push("    }", `    return ${make(fallback)};`);
+    const lines = [`class ${cls} extends FuseGeneratedHandle<${T}> {`];
+    if (roots.has(id)) {
+      lines.push(`  ${cls}(super.node) : object = _make(node) {`, "    start();", "  }", "");
     }
-    lines.push("  }", "", "  @override", `  final ${T} object;`);
+    if (lent.has(id)) lines.push(`  ${cls}.borrow(super.node, this.object) : super.borrowed() {`, "    start();", "  }");
+    if (roots.has(id)) {
+      lines.push("", `  static ${T} _make(FuseNode node) {`);
+      if (h.ctors.length === 1) {
+        lines.push(`    return ${make(h.ctors[0])};`);
+      } else {
+        // `$ctor` names the constructor; none is the unnamed one (or the first).
+        const fallback = h.ctors.find((c) => !c.name) ?? h.ctors[0];
+        lines.push("    switch (node[r'$ctor']) {");
+        for (const c of h.ctors) {
+          if (c === fallback) continue;
+          lines.push(`      case ${q(c.name!)}:`, `        return ${make(c)};`);
+        }
+        lines.push("    }", `    return ${make(fallback)};`);
+      }
+      lines.push("  }");
+    }
+    lines.push("", "  @override", `  final ${T} object;`);
     if (h.state?.length) {
       lines.push("", "  @override", "  void snapshot(FuseSnapshot put) {");
-      for (const f of h.state) lines.push(`    put(${q(f.name)}, () => ${enc(f.type, `object.${f.name}`)});`);
+      for (const f of h.state) lines.push(`    put(${q(f.name)}, () => ${enc(f.type, `object.${f.name}`, "node")});`);
       lines.push("  }");
     }
     if (h.setters?.length) {
@@ -429,20 +533,21 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         const got = mt.async ? `(await ${c})` : c;
         lines.push(`      case ${q(mt.name)}:`);
         if (mt.ret.k === "void") lines.push(`        ${mt.async ? `await ${c}` : c};`, "        return null;");
-        else lines.push(`        return ${enc(mt.ret, got)};`);
+        else lines.push(`        return ${enc(mt.ret, got, "node")};`);
       }
       lines.push("    }", "    return super.invoke(name, a);", "  }");
     }
     if (h.streams?.length) {
       lines.push("", "  @override", "  Stream<Object?>? stream(String name) => switch (name) {");
-      for (const st of h.streams) lines.push(`        ${q(st.name)} => object.${st.name}.map((e) => ${enc(st.type, "e")}),`);
+      for (const st of h.streams) lines.push(`        ${q(st.name)} => object.${st.name}.map((e) => ${enc(st.type, "e", "node")}),`);
       lines.push("        _ => null,", "      };");
     }
-    if (h.disposable) lines.push("", "  @override", "  void release() => object.dispose();");
+    // Only a handle JS created is freed; a borrowed object stays Dart's.
+    if (h.disposable && roots.has(id)) lines.push("", "  @override", "  void release() => object.dispose();");
     lines.push("}");
     handleCode.push(lines.join("\n"));
-    handleRegs.push(`  ${q(tag)}: ${cls}.new,`);
-  });
+    if (roots.has(id)) handleRegs.push(`  ${q(tag)}: ${cls}.new,`);
+  }
 
   // Decoders and encoders are discovered while writing the adapters and each
   // other; drain until no new ones appear.

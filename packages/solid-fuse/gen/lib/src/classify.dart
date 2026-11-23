@@ -192,9 +192,14 @@ class Classifier {
   bool _immutable(InterfaceElement el) =>
       el.metadata.hasImmutable || el.allSupertypes.any((s) => s.element.metadata.hasImmutable);
 
+  /// Every handle type reached, by id: each gets its members
+  /// ([completeHandles]), whichever way it crosses.
+  final Map<String, InterfaceType> _handleTypes = {};
+
   String _handle(InterfaceType t) {
     final id = idOf(t);
     if (types.containsKey(id)) return id;
+    _handleTypes[id] = t;
     final el = t.element;
     final decl = <String, Object?>{
       'kind': 'handle',
@@ -312,7 +317,21 @@ class Classifier {
     return true;
   }
 
-  /// What JS can do with a handle it created, added to the handle's
+  /// Adds the members of every handle type reached so far, and of the ones
+  /// those members reach, until none is left: a handle JS gets from Dart (a
+  /// callback argument, a getter) offers what a created one does.
+  void completeHandles() {
+    for (var done = 0; done < _handleTypes.length;) {
+      final pending = [for (final MapEntry(:key, :value) in _handleTypes.entries) if (!types[key]!.containsKey('methods')) value];
+      done = _handleTypes.length - pending.length;
+      if (pending.isEmpty) break;
+      for (final t in pending) {
+        handleMembers(t);
+      }
+    }
+  }
+
+  /// What JS can do with a handle, added to the handle's
   /// declaration: `state` (getters JS mirrors, re-read whenever a Listenable
   /// notifies), `setters`, `methods` (each called through a Promise) and
   /// `streams` (Stream getters, read as async iterables). A member no rule
@@ -327,11 +346,7 @@ class Classifier {
     final streams = <Json>[];
     final skips = <String, String>{};
     final seen = <String>{};
-    Json out(DartType type) {
-      final o = output(type);
-      if (_outHandle(o)) throw Skip('handle value (borrowed handles not bridged yet)');
-      return o;
-    }
+    Json out(DartType type) => output(type);
 
     for (final st in [t, ...t.allSupertypes]) {
       for (final g in st.getters) {
@@ -396,16 +411,6 @@ class Classifier {
     decl['streams'] = streams;
     if (dispose != null && dispose.formalParameters.every((p) => !p.isRequired)) decl['disposable'] = true;
     if (skips.isNotEmpty) decl['memberSkips'] = skips;
-  }
-
-  static bool _outHandle(Object? ref) {
-    if (ref is! Map) return false;
-    return switch (ref['k']) {
-      'handle' => true,
-      'list' || 'set' || 'iterable' => _outHandle(ref['of']),
-      'map' => _outHandle(ref['of']),
-      _ => false,
-    };
   }
 
   // ── enums ─────────────────────────────────────────────────────────────────
@@ -785,8 +790,7 @@ class Classifier {
       void consider(String n, DartType ft) {
         if (n.startsWith('_') || n == 'hashCode' || n == 'runtimeType' || !seen.add(n)) return;
         try {
-          final o = output(ft, depth + 1);
-          if (!_outHandle(o)) fields.add({'name': n, 'type': o});
+          fields.add({'name': n, 'type': output(ft, depth + 1)});
         } on Skip {
           // field not encodable: left out of the payload
         }

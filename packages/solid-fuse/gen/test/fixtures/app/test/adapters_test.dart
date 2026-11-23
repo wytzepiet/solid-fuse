@@ -206,7 +206,8 @@ void main() {
     Map<Object?, Object?> lastPush() => calls.lastWhere((c) => c.$2 == r'$push').$3! as Map;
 
     test('pushes its state on creation, then what changed', () async {
-      expect(lastPush(), {'v': 0, 's': {'start': 2, 'count': 2, 'label': 'a', 'disposed': false}});
+      final s = lastPush()['s']! as Map;
+      expect(s..remove('tracker'), {'start': 2, 'parent': null, 'count': 2, 'label': 'a', 'disposed': false});
       await h.call('increment', <Object?>[]);
       await Future<void>.delayed(Duration.zero);
       expect(lastPush(), {'v': 0, 's': {'count': 3}});
@@ -235,6 +236,67 @@ void main() {
       counter.tick();
       await Future<void>.delayed(Duration.zero);
       expect(calls.where((c) => c.$2 == r'$s0'), hasLength(1));
+    });
+
+    test('a handle JS created goes back to JS as itself', () async {
+      expect(await h.call('self', <Object?>[]), {r'$h': 7, 't': 'fixture_app_Counter', 'o': 1});
+    });
+
+    test('a handle only Dart makes is lent, with its state, and counted', () async {
+      final first = lastPush()['s']! as Map;
+      final ref = first['tracker']! as Map;
+      expect(ref[r'$h'], isNegative);
+      expect(ref['t'], 'fixture_app_Tracker');
+      expect(ref['s'], {'hits': 0});
+      final id = ref[r'$h'] as int;
+      final tracker = registry.get(id).ownHandle!;
+      expect(tracker.object, same(counter.tracker));
+
+      // Lent again (a later push re-reads it): same node, no state.
+      counter.increment();
+      await Future<void>.delayed(Duration.zero);
+      expect((lastPush()['s']! as Map).containsKey('tracker'), false);
+      final spawned = await h.call('spawn', <Object?>[]) as Map;
+      expect(spawned[r'$h'], isNot(id));
+
+      // The tracker mirrors and forwards like any handle.
+      await tracker.call('hit', <Object?>[]);
+      await Future<void>.delayed(Duration.zero);
+      expect((calls.last.$1, calls.last.$2), (id, r'$push'));
+      expect(calls.last.$3, {'v': 0, 's': {'hits': 1}});
+
+      // JS gives its one reference back: the node goes, the object stays.
+      registry.unborrow(id, 1);
+      expect(registry.tryGet(id), isNull);
+      counter.tracker.hit();
+      expect(counter.tracker.hits, 2);
+    });
+
+    testWidgets('a callback argument that is a handle is lent', (t) async {
+      final sent = <(int, String, Object?)>[];
+      final reg = FuseNodeRegistry(callFunction: (id, name, [v]) => sent.add((id, name, v)));
+      final box = reg.create(1, 'fixture_app_FixtureBox', {'at': {r'$': 'Point', 'x': 0}, 'onTracker': true});
+      await t.pumpWidget(Builder(builder: (_) => fuseGeneratedWidgets['fixture_app_FixtureBox']!(box)));
+      final w = t.widget<FixtureBox>(find.byType(FixtureBox));
+      final tracker = Counter().tracker;
+      w.onTracker!(tracker);
+      w.onTracker!(tracker);
+      final refs = [for (final s in sent) s.$3! as Map];
+      expect(refs[0][r'$h'], refs[1][r'$h']);
+      expect(refs[0]['s'], {'hits': 0});
+      expect(refs[1].containsKey('s'), false);
+      reg.unborrow(refs[0][r'$h'] as int, 1);
+      expect(reg.tryGet(refs[0][r'$h'] as int), isNotNull);
+      reg.unborrow(refs[0][r'$h'] as int, 1);
+      expect(reg.tryGet(refs[0][r'$h'] as int), isNull);
+    });
+
+    test('a constructor option that is a handle', () {
+      final child = registry.create(8, 'fixture_app_Counter', {'parent': registry.get(7)});
+      child.ownHandle = fuseGeneratedHandles['fixture_app_Counter']!(child);
+      expect((child.ownHandle!.object as Counter).parent, same(counter));
+      final s = calls.lastWhere((c) => c.$1 == 8 && c.$2 == r'$push').$3! as Map;
+      expect((s['s']! as Map)['parent'], {r'$h': 7, 't': 'fixture_app_Counter', 'o': 1});
     });
 
     testWidgets('dispose stops pushing and frees the object after the frame', (t) async {

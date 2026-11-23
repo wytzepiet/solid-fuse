@@ -2614,6 +2614,79 @@
 		return accessor(computed(e, t));
 	}
 	/**
+	* Creates a reactive effect with **separate compute and effect phases**.
+	*
+	* - `compute(prev)` runs reactively — *put all reactive reads here*. The
+	*   returned value is passed to `effect` and is also the new "previous" value
+	*   for the next run.
+	* - `effect(next, prev?)` runs imperatively (untracked) after the queue
+	*   flushes. *Put DOM writes / fetch / logging / subscriptions here.* It may
+	*   return a cleanup function which runs before the next effect or on
+	*   disposal.
+	*
+	* Reactive reads inside `effect` will *not* re-trigger this effect — that's
+	* intentional. If you need a single-phase tracked effect, use
+	* `createTrackedEffect` (with the tradeoffs noted there).
+	*
+	* Pass an `EffectBundle` (`{ effect, error }`) instead of a plain function to
+	* intercept **compute-phase** errors — errors thrown by `compute` or arriving
+	* from upstream reactive sources (including async rejections), which your own
+	* code has no frame to `try/catch`. The `error` handler is the error arm of
+	* the effect phase: it runs on the same schedule and in the same imperative,
+	* writable scope as `effect` (setting error state via signals is fine), and
+	* only for *settled* errors — a transient error that recovers before the
+	* effect phase runs `effect` with the recovered value instead, and a held
+	* transition defers it exactly as it defers `effect`. Without an `error`
+	* handler a compute-phase error is logged and the effect simply skips that
+	* run — a non-render effect's reactivity failing does not crash the app.
+	* Rethrowing from `error` escalates it to the nearest error boundary
+	* (halting the system if none exists).
+	*
+	* The **effect phase is different**: it is your own imperative code, so handle
+	* failures with `try/catch` where they occur. An uncaught effect-phase throw
+	* is treated as an unhandled application error — caught by the nearest
+	* `createErrorBoundary`/`<Errored>`, and permanently halting the reactive
+	* system if there is none. It is *not* routed to the bundle's `error` handler.
+	*
+	* ```typescript
+	* createEffect<T>(compute, effectFn | { effect, error }, options?: EffectOptions);
+	* ```
+	* @param compute a function that receives its previous value and returns a new value used to react on a computation
+	* @param effectFn a function that receives the new value and is used to perform side effects (return a cleanup function), or an `EffectBundle` with `effect` and `error` handlers
+	* @param options `EffectOptions` -- name, defer, schedule, transparent
+	*
+	* @example
+	* ```ts
+	* const [count, setCount] = createSignal(0);
+	*
+	* createEffect(
+	*   () => count(),                  // compute: tracks `count`
+	*   value => console.log(value)     // effect: side effect
+	* );
+	*
+	* setCount(1); // logs 1 after the next flush
+	* ```
+	*
+	* @example
+	* ```ts
+	* createEffect(
+	*   () => userId(),
+	*   id => {
+	*     const ctrl = new AbortController();
+	*     fetch(`/users/${id}`, { signal: ctrl.signal });
+	*     return () => ctrl.abort(); // cleanup before next run / disposal
+	*   }
+	* );
+	* ```
+	*
+	* @description https://docs.solidjs.com/reference/solid-js/reactivity/create-effect
+	*/ function createEffect$1(e, t, r) {
+		effect$1(e, t.effect || t, t.error, {
+			user: true,
+			...r
+		});
+	}
+	/**
 	* Creates a reactive computation that runs during the render phase as DOM elements
 	* are created and updated but not necessarily connected.
 	*
@@ -3775,12 +3848,14 @@
 		done: false
 	};
 	var _createMemo;
+	var _createEffect;
 	var createMemo = (...args) => {
 		return (_createMemo || createMemo$1)(...args);
 	};
 	var createSignal = createSignal$1;
 	var createRoot = createRoot$1;
 	var createRenderEffect = createRenderEffect$1;
+	var createEffect = (...args) => (_createEffect || createEffect$1)(...args);
 	function createComponent(Comp, props, name, loc) {
 		return untrack(() => Comp(props || {}));
 	}
@@ -4145,7 +4220,7 @@
 			ref
 		};
 	}
-	// ../../packages/solid-fuse/dist/renderer-CVIi8WrK.js
+	// ../../packages/solid-fuse/dist/renderer-DXOf2ek0.js
 	function l(e) {
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
@@ -4173,18 +4248,18 @@
 		}
 	}
 	var u = /* @__PURE__ */ new Map();
-	var d;
-	function f(e, t) {
+	var d$1;
+	function f$1(e, t) {
 		u.set(e, t);
 	}
-	function p(e, t = {}) {
+	function p$1(e, t = {}) {
 		fjs.bridge_call({
 			channel: e,
 			...t
 		});
 	}
 	function le$1(e, t = {}, n) {
-		g?.();
+		pe?.();
 		let r = n?.timeout ?? 3e4, i = fjs.bridge_call({
 			channel: e,
 			...t
@@ -4201,16 +4276,16 @@
 			});
 		});
 	}
-	var m = /* @__PURE__ */ new Map();
+	var m$1 = /* @__PURE__ */ new Map();
 	function ue$1(e, t) {
-		m.set(e, t);
+		m$1.set(e, t);
 	}
-	var h;
+	var h$1;
 	function de(e) {
-		h = e;
+		h$1 = e;
 	}
 	globalThis.__dispatchSync = (e, t) => {
-		let n = m.get(e), r;
+		let n = m$1.get(e), r;
 		try {
 			r = n ? n(t) : void 0;
 		} catch (e) {
@@ -4218,43 +4293,43 @@
 		}
 		return {
 			result: r,
-			ops: h?.()
+			ops: h$1?.()
 		};
 	};
 	function fe(e) {
-		d = e;
+		d$1 = e;
 	}
-	var g;
-	function pe(e) {
-		g = e;
+	var pe;
+	function me(e) {
+		pe = e;
 	}
 	globalThis.__dispatch = async (e, t) => {
 		let n = u.get(e);
 		try {
 			let e = n ? await n(t) : void 0;
-			return d?.(), e;
+			return d$1?.(), e;
 		} catch (e) {
-			d?.(), l(e);
+			d$1?.(), l(e);
 		}
 	};
-	var me = {
-		send: p,
+	var he = {
+		send: p$1,
 		call: le$1,
-		on: f
+		on: f$1
 	};
-	var _ = globalThis.__fuseHost;
-	if (!_) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [he, ge] = createSignal(_.brightness);
-	f("_brightness", (e) => ge(e.value));
-	var v = {
-		brightness: he,
-		platform: _.platform,
-		mode: _.mode
+	var g$1 = globalThis.__fuseHost;
+	if (!g$1) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
+	var [ge, _e] = createSignal(g$1.brightness);
+	f$1("_brightness", (e) => _e(e.value));
+	var _$1 = {
+		brightness: ge,
+		platform: g$1.platform,
+		mode: g$1.mode
 	};
-	var y = 0;
-	var b;
-	var x = class {
-		constructor(e, t = y++) {
+	var v$1 = 0;
+	var y$1;
+	var b$1 = class {
+		constructor(e, t = v$1++) {
 			this.id = t, this.type = e, this.parent = void 0, this.first = void 0, this.last = void 0, this.prev = void 0, this.next = void 0, this.batch = -1, this.slot = -1, this.adopt = !1, this.handlers = void 0;
 		}
 		get children() {
@@ -4263,9 +4338,10 @@
 			return e;
 		}
 	};
-	var S = /* @__PURE__ */ new Map();
-	f("_functionCall", (e) => {
-		let t = S.get(e.nodeId)?.deref()?.handlers?.[e.name];
+	var x$1 = /* @__PURE__ */ new Map();
+	f$1("_functionCall", (e) => {
+		e.args ? e.args = V$1(e.args) : e.value = V$1(e.value);
+		let t = x$1.get(e.nodeId)?.deref()?.handlers?.[e.name];
 		if (e.reply) return t === void 0 ? { error: `no function "${e.name}" on node ${e.nodeId}` } : (async () => {
 			try {
 				return { value: U$1("", await (e.args ? t(...e.args) : t(e.value))).wire };
@@ -4275,10 +4351,11 @@
 		})();
 		t !== void 0 && (e.args ? t(...e.args) : t(e.value));
 	});
-	var C = /* @__PURE__ */ new Map();
-	var _e = 0;
+	var S$1 = /* @__PURE__ */ new Map();
+	var ve = 0;
 	ue$1("_callSync", (e) => {
-		let t = S.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
+		e.args ? e.args = V$1(e.args) : e.value = V$1(e.value);
+		let t = x$1.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
 		if (n === void 0) return { error: `no function "${e.name}" on node ${e.nodeId}` };
 		let r = () => e.args ? n(...e.args) : n(e.value);
 		if (!e.widget) try {
@@ -4291,120 +4368,120 @@
 			let e = runWithOwner(t.owner ?? null, () => createRoot((e) => {
 				i = e;
 				let t = r();
-				return t == null ? null : ve(t);
+				return t == null ? null : ye(t);
 			}));
 			if (e === null) return i(), { value: null };
-			let n = _e++;
-			return C.set(n, {
+			let n = ve++;
+			return S$1.set(n, {
 				dispose: i,
 				node: e
-			}), k(e), {
+			}), O(e), {
 				value: { _node: e.id },
 				root: n
 			};
 		} catch (e) {
 			return i?.(), l(e), { error: e instanceof Error ? e.message : String(e) };
 		}
-	}), f("_unbuild", (e) => {
-		let t = C.get(e.root);
-		t && (C.delete(e.root), t.dispose());
+	}), f$1("_unbuild", (e) => {
+		let t = S$1.get(e.root);
+		t && (S$1.delete(e.root), t.dispose());
 	});
-	function ve(e) {
-		if (e instanceof x && !e.parent) return e;
-		let t = z("__slot__");
-		return Z(t, e), t;
+	function ye(e) {
+		if (e instanceof b$1 && !e.parent) return e;
+		let t = R("__slot__");
+		return Z$1(t, e), t;
 	}
-	var ye = 0;
-	var be = 1;
-	var w = 2;
-	var xe = 3;
-	var Se = 4;
-	var Ce = 5;
-	var T = 6;
-	var we = 7;
-	var Te = 8;
-	var Ee = 9;
-	var E = 4;
-	var D = [];
-	var O = 0;
-	var De = new FinalizationRegistry((e) => {
-		S.delete(e), D.push(T, e), L();
+	var be = 0;
+	var xe = 1;
+	var C$1 = 2;
+	var Se = 3;
+	var Ce = 4;
+	var we = 5;
+	var w = 6;
+	var Te = 7;
+	var Ee = 8;
+	var De = 9;
+	var T = 4;
+	var E = [];
+	var D = 0;
+	var Oe = new FinalizationRegistry((e) => {
+		x$1.delete(e), E.push(w, e), I();
 	});
-	function k(e) {
-		e.tracked || (e.tracked = !0, De.register(e, e.id));
+	function O(e) {
+		e.tracked || (e.tracked = !0, Oe.register(e, e.id));
 	}
-	var A = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
-	var j = new x("root");
+	var k = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
+	var A = new b$1("root");
+	var j = !1;
 	var M = !1;
-	var N = !1;
-	var P = /* @__PURE__ */ new Map();
-	function F() {
-		let e = O, t = I();
+	var N = /* @__PURE__ */ new Map();
+	function P() {
+		let e = D, t = F();
 		if (t === void 0) return;
-		P.set(e, t);
-		let n = () => P.delete(e);
+		N.set(e, t);
+		let n = () => N.delete(e);
 		fjs.bridge_call({
 			channel: "_ops",
-			v: E,
-			g: A,
+			v: T,
+			g: k,
 			b: e,
 			json: t
 		})?.then?.(n, n);
 	}
-	function I() {
-		if (flush(), M = !1, D.length === 0) return;
-		if (A !== globalThis.__fuseGeneration) {
-			D.length = 0;
+	function F() {
+		if (flush(), j = !1, E.length === 0) return;
+		if (k !== globalThis.__fuseGeneration) {
+			E.length = 0;
 			return;
 		}
 		let e;
 		try {
-			e = JSON.stringify(D);
+			e = JSON.stringify(E);
 		} catch (e) {
 			l(e);
-			for (let e of R) e.batch = -1;
+			for (let e of L) e.batch = -1;
 		}
-		return R.length = 0, D.length = 0, O++, e;
+		return L.length = 0, E.length = 0, D++, e;
 	}
-	function Oe() {
-		let e = O, t = I(), n = [...P];
-		return P.clear(), t !== void 0 && n.push([e, t]), {
-			v: E,
-			g: A,
+	function ke() {
+		let e = D, t = F(), n = [...N];
+		return N.clear(), t !== void 0 && n.push([e, t]), {
+			v: T,
+			g: k,
 			batches: n
 		};
 	}
-	de(Oe);
-	function L() {
-		M || N || (M = !0, Promise.resolve().then(F));
+	de(ke);
+	function I() {
+		j || M || (j = !0, Promise.resolve().then(P));
 	}
-	fe(F), pe(F);
-	var ke = 0;
-	var R = [];
-	function Ae(e, t) {
+	fe(P), me(P);
+	var Ae = 0;
+	var L = [];
+	function je(e, t) {
 		return {
-			id: ke++,
+			id: Ae++,
 			shape: e,
 			size: t,
 			batch: -1
 		};
 	}
-	function je(e) {
-		e.batch < 0 && (e.batch = O, R.push(e), D.push(we, e.id, e.shape));
-		let t = y;
-		return y += e.size, D.push(Te, e.id, t, v.mode !== "release" && b ? b : null), t;
+	function Me(e) {
+		e.batch < 0 && (e.batch = D, L.push(e), E.push(Te, e.id, e.shape));
+		let t = v$1;
+		return v$1 += e.size, E.push(Ee, e.id, t, _$1.mode !== "release" && y$1 ? y$1 : null), t;
 	}
-	function Me(e, t) {
-		let n = t.$i, r = new x(e.slice(2), t.$t + n);
-		r.adopt = n !== 0, r.batch = O;
+	function Ne(e, t) {
+		let n = t.$i, r = new b$1(e.slice(2), t.$t + n);
+		r.adopt = n !== 0, r.batch = D;
 		for (let e in t) e !== "$t" && e !== "$i" && W$1(r, e, t[e]);
 		return r;
 	}
-	function z(e, t) {
-		let n = new x(e), r = {};
-		return v.mode !== "release" && b && (r._component = b), n.batch = O, n.slot = D.push(ye, n.id, e, r) - 1, t && B$1(n, t), n;
+	function R(e, t) {
+		let n = new b$1(e), r = {};
+		return _$1.mode !== "release" && y$1 && (r._component = y$1), n.batch = D, n.slot = E.push(be, n.id, e, r) - 1, t && z(n, t), n;
 	}
-	function B$1(e, t) {
+	function z(e, t) {
 		let n;
 		for (let r in t) {
 			let i = t[r];
@@ -4417,14 +4494,53 @@
 		}
 		if (n) for (let [t, r] of n) q$1(e, t, r);
 	}
-	new FinalizationRegistry((e) => {
-		e.collected = !0, e.owned || V$1(e);
+	var Pe = new FinalizationRegistry((e) => {
+		e.collected = !0, e.owned || B(e);
 	});
-	function V$1(e) {
-		S.delete(e.id), D.push(T, e.id), L();
+	function B(e) {
+		x$1.delete(e.id), E.push(w, e.id), I();
+	}
+	function Fe(e, t) {
+		let n = R(e);
+		n.tracked = !0;
+		let r = {
+			id: n.id,
+			owned: getOwner() !== null,
+			collected: !1
+		};
+		if (Pe.register(n, r), r.owned) {
+			let e = k;
+			onCleanup(() => {
+				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && B(r);
+			});
+		}
+		return t && z(n, t), I(), n;
+	}
+	var V$1 = (e) => e;
+	function Ie(e) {
+		V$1 = e;
+	}
+	var Le = new FinalizationRegistry(({ id: e, done: t }) => {
+		x$1.get(e)?.deref() === void 0 && x$1.delete(e), t();
+	});
+	function Re(e, t, n) {
+		let r = new b$1(e, t);
+		return r.tracked = !0, Le.register(r, {
+			id: t,
+			done: n
+		}), r;
+	}
+	function ze(e) {
+		return x$1.get(e)?.deref();
+	}
+	function Be(e) {
+		return e == null ? e : U$1("", e).wire;
+	}
+	function Ve(e, t, n) {
+		n ? G$1(e)[t] = n : e.handlers && delete e.handlers[t];
 	}
 	function H$1(e) {
-		return typeof e != "object" || !e ? null : e instanceof x ? e : e.node instanceof x ? e.node : null;
+		return typeof e != "object" || !e ? null : e instanceof b$1 ? e : e.node instanceof b$1 ? e.node : null;
 	}
 	function U$1(e, t) {
 		let n = {
@@ -4459,7 +4575,7 @@
 	}
 	function G$1(e) {
 		let t = e.handlers;
-		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), S.set(e.id, new WeakRef(e)), k(e)), t;
+		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), x$1.set(e.id, new WeakRef(e)), O(e)), t;
 	}
 	function K$1(e, t, n) {
 		let r = e.nested?.[t] ?? 0;
@@ -4475,23 +4591,23 @@
 		if (K$1(e, t, n.fns), n.refs) {
 			let r = n.refs.length === 1 && n.wire?._node === n.refs[0].id && H$1(n.wire) === null;
 			(e.refs ?? (e.refs = {}))[t] = r ? n.refs[0] : n.refs;
-			for (let e of n.refs) k(e);
-			e.batch = -1, D.push(w, e.id, t, n.wire), L();
+			for (let e of n.refs) O(e);
+			e.batch = -1, E.push(C$1, e.id, t, n.wire), I();
 		} else e.refs && delete e.refs[t], J$1(e, t, n.wire);
 	}
 	function J$1(e, t, n) {
-		e.batch === O ? (e.slot < 0 && (e.slot = D.push(Ee, e.id, {}) - 1), D[e.slot][t] = n) : D.push(w, e.id, t, n), L();
+		e.batch === D ? (e.slot < 0 && (e.slot = E.push(De, e.id, {}) - 1), E[e.slot][t] = n) : E.push(C$1, e.id, t, n), I();
 	}
-	var { render: Ie, effect: Y$1, memo: Le, createComponent: X$1, createElement: Re, createTextNode: ze, insertNode: Be, insert: Z, spread: Ve, setProp: He, mergeProps: Ue, ...We } = createRenderer({
+	var { render: He, effect: Y$1, memo: Ue, createComponent: X$1, createElement: We, createTextNode: Ge, insertNode: Ke, insert: Z$1, spread: qe, setProp: Je, mergeProps: Ye, ...Xe } = createRenderer({
 		createElement(e, t) {
-			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? Me(e, t) : z(e, t);
+			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? Ne(e, t) : R(e, t);
 		},
 		createTextNode(e) {
-			let t = new x("__text__");
-			return D.push(be, t.id, e), t;
+			let t = new b$1("__text__");
+			return E.push(xe, t.id, e), t;
 		},
 		replaceText(e, t) {
-			D.push(xe, e.id, t), L();
+			E.push(Se, e.id, t), I();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
@@ -4506,11 +4622,11 @@
 					let n = e.last;
 					t.prev = n, e.last = t, n ? n.next = t : e.first = t;
 				}
-				t.adopt ? t.adopt = !1 : (D.push(Se, e.id, t.id, n ? n.id : null), L());
+				t.adopt ? t.adopt = !1 : (E.push(Ce, e.id, t.id, n ? n.id : null), I());
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (Q(t), k(t), D.push(Ce, t.id), L());
+			t.parent === e && (Q(t), O(t), E.push(we, t.id), I());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4526,43 +4642,43 @@
 		let t = e.parent, { prev: n, next: r } = e;
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
-	function Ge(e) {
-		D.push(T, e.id), L();
+	function Ze(e) {
+		E.push(w, e.id), I();
 	}
-	function Ke(e, t) {
-		if (v.mode === "release") return X$1(e, t);
-		let n = b;
-		b = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+	function Qe(e, t) {
+		if (_$1.mode === "release") return X$1(e, t);
+		let n = y$1;
+		y$1 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
 			return X$1(e, t);
 		} finally {
-			b = n;
+			y$1 = n;
 		}
 	}
-	function qe(e) {
-		N = !0;
+	function $e(e) {
+		M = !0;
 		let t;
 		try {
-			t = Ie(e, j);
+			t = He(e, A);
 		} catch (e) {
-			return N = !1, l(e), () => {};
+			return M = !1, l(e), () => {};
 		}
-		return N = !1, F(), () => {
+		return M = !1, P(), () => {
 			typeof t == "function" && t();
-			for (let e = j.first; e; e = j.first) Q(e), D.push(T, e.id);
-			S.clear(), L();
+			for (let e = A.first; e; e = A.first) Q(e), E.push(w, e.id);
+			x$1.clear(), I();
 		};
 	}
-	var Je = Be, { ref: $$1, applyRef: Ye } = We;
-	function Xe(e, n, r, i) {
+	var et = Ke, { ref: tt, applyRef: nt } = Xe;
+	function rt(e, n, r, i) {
 		if (typeof n != "object" || !n || Array.isArray(n) || $PROXY in n) {
-			Ve(e, n, r, i);
+			qe(e, n, r, i);
 			return;
 		}
 		let a;
 		for (let t in n) {
 			let o = Object.getOwnPropertyDescriptor(n, t), s = o === void 0 || o.get !== void 0;
-			t === "children" ? r || Z(e, s ? () => n.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(t) : t === "ref" ? Ze(e, o.value) : W$1(e, t, o.value);
+			t === "children" ? r || Z$1(e, s ? () => n.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(t) : t === "ref" ? $$1(e, o.value) : W$1(e, t, o.value);
 		}
 		if (a === void 0) return;
 		let o = a, s = {};
@@ -4573,38 +4689,38 @@
 		}, (t) => {
 			for (let n = 0; n < o.length; n++) {
 				let r = o[n], i = t[r];
-				i !== s[r] && (r === "ref" ? Ze(e, i) : W$1(e, r, i), s[r] = i);
+				i !== s[r] && (r === "ref" ? $$1(e, i) : W$1(e, r, i), s[r] = i);
 			}
 		}, i);
 	}
-	function Ze(e, t) {
-		(typeof t == "function" || Array.isArray(t)) && $$1(() => t, e);
+	function $$1(e, t) {
+		(typeof t == "function" || Array.isArray(t)) && tt(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function B(e) {
+	function V(e) {
 		"@babel/helpers - typeof";
-		return B = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return V = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, B(e);
+		}, V(e);
 	}
-	function V(e, t) {
-		if (B(e) != "object" || !e) return e;
+	function H(e, t) {
+		if (V(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (B(r) != "object") return r;
+			if (V(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function H(e) {
-		var t = V(e, "string");
-		return B(t) == "symbol" ? t : t + "";
+	function U(e) {
+		var t = H(e, "string");
+		return V(t) == "symbol" ? t : t + "";
 	}
-	function U(e, t, n) {
-		return (t = H(t)) in e ? Object.defineProperty(e, t, {
+	function W(e, t, n) {
+		return (t = U(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4627,7 +4743,7 @@
 		let e = /* @__PURE__ */ new Map(), t = 0;
 		class n {
 			constructor(n, r) {
-				U(this, "_id", void 0), U(this, "url", void 0), U(this, "readyState", 0), U(this, "protocol", ""), U(this, "binaryType", "blob"), U(this, "bufferedAmount", 0), U(this, "extensions", ""), U(this, "onopen", null), U(this, "onmessage", null), U(this, "onclose", null), U(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), p("_ws", {
+				W(this, "_id", void 0), W(this, "url", void 0), W(this, "readyState", 0), W(this, "protocol", ""), W(this, "binaryType", "blob"), W(this, "bufferedAmount", 0), W(this, "extensions", ""), W(this, "onopen", null), W(this, "onmessage", null), W(this, "onclose", null), W(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), p$1("_ws", {
 					op: "open",
 					id: this._id,
 					url: n,
@@ -4636,14 +4752,14 @@
 			}
 			send(e) {
 				if (this.readyState !== 1) throw Error("WebSocket is not open");
-				p("_ws", {
+				p$1("_ws", {
 					op: "send",
 					id: this._id,
 					data: e
 				});
 			}
 			close(e, t) {
-				this.readyState !== 2 && this.readyState !== 3 && (this.readyState = 2, p("_ws", {
+				this.readyState !== 2 && this.readyState !== 3 && (this.readyState = 2, p$1("_ws", {
 					op: "close",
 					id: this._id,
 					code: e ?? 1e3,
@@ -4656,7 +4772,7 @@
 				return !0;
 			}
 		}
-		U(n, "CONNECTING", 0), U(n, "OPEN", 1), U(n, "CLOSING", 2), U(n, "CLOSED", 3), f("_wsEvent", (t) => {
+		W(n, "CONNECTING", 0), W(n, "OPEN", 1), W(n, "CLOSING", 2), W(n, "CLOSED", 3), f$1("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4712,7 +4828,7 @@
 			});
 			for (; r < t.length; r++) i += " " + e(t[r]);
 			return i;
-		}, n = (e, n) => p("_log", { message: e + t(n) }), r = () => {};
+		}, n = (e, n) => p$1("_log", { message: e + t(n) }), r = () => {};
 		globalThis.console = {
 			log: (...e) => n("", e),
 			info: (...e) => n("", e),
@@ -4735,41 +4851,41 @@
 			timeLog: r
 		};
 	}
-	function W(t, n) {
-		let r = createMemo(t);
+	function G(e, t) {
+		let n = createMemo(e);
 		return createMemo(() => {
-			let t = r();
-			switch (typeof t) {
-				case "function": return untrack(() => t(n));
+			let e = n();
+			switch (typeof e) {
+				case "function": return untrack(() => e(t));
 				case "string": {
-					let r = Re(t);
-					return Xe(r, n), r;
+					let n = We(e);
+					return rt(n, t), n;
 				}
 			}
 		});
 	}
-	function G(e) {
-		return W(() => e.component, omit(e, "component"));
+	function K(e) {
+		return G(() => e.component, omit(e, "component"));
 	}
-	function K({ child: e, ...t }) {
+	function q({ child: e, ...t }) {
 		return {
 			type: "materialPage",
 			child: e,
 			props: t
 		};
 	}
-	var q = createContext();
-	function J(e = {}) {
+	var J = createContext();
+	function Y(e = {}) {
 		let t = 0, n = untrack(() => {
 			let t = e.initialPage;
-			return typeof t == "function" ? K({ child: t }) : t;
+			return typeof t == "function" ? q({ child: t }) : t;
 		}), [i, a] = createSignal(n ? [{
 			id: t++,
 			config: n,
 			resolve: () => {}
 		}] : [], { ownedWrite: !0 });
 		function o(e) {
-			let n = typeof e == "function" ? K({ child: e }) : e;
+			let n = typeof e == "function" ? q({ child: e }) : e;
 			return new Promise((e) => {
 				let r = {
 					id: t++,
@@ -4825,23 +4941,23 @@
 			onDidRemovePage: (e) => s(e, null)
 		};
 	}
-	function Y() {
-		let e = useContext(q);
+	function X() {
+		let e = useContext(J);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function X(e) {
-		let t = untrack(() => e.controller ?? J({ initialPage: e.initialPage }));
-		return Ke(q, {
+	function Z(e) {
+		let t = untrack(() => e.controller ?? Y({ initialPage: e.initialPage }));
+		return Qe(J, {
 			value: t,
 			get children() {
-				var e = Re("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
-				return Z(e, Ke(For, {
+				var e = We("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
+				return Z$1(e, Qe(For, {
 					get each() {
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => Ke(G, Ue({
+					children: (e) => Qe(K, Ye({
 						get component() {
 							return e().config.type;
 						},
@@ -4855,20 +4971,20 @@
 			}
 		});
 	}
-	function $(e, t = {}) {
-		let r = z(e, t);
-		L();
-		let i = !1, a = () => {
-			i || (i = !0, Ge(r));
+	function $(t, n = {}) {
+		let r = R(t, n);
+		I();
+		let a = !1, o = () => {
+			a || (a = !0, Ze(r));
 		};
-		return getOwner() && onCleanup(a), {
+		return getOwner() && onCleanup(o), {
 			node: r,
-			call: (e, t, n) => me.call("_handleCall", {
+			call: (e, t, n) => he.call("_handleCall", {
 				node: r.id,
 				method: e,
 				value: t
 			}, n),
-			dispose: a
+			dispose: o
 		};
 	}
 	function le(e = {}) {
@@ -4898,7 +5014,7 @@
 		};
 	}
 	// src/ui.tsx
-	var _tpl$1$7 = /*@__PURE__*/ Ae([
+	var _tpl$1$7 = /*@__PURE__*/ je([
 		"gestureDetector",
 		0,
 		[
@@ -4919,7 +5035,7 @@
 			}]
 		]
 	], 3);
-	var _tpl$2$4 = /*@__PURE__*/ Ae([
+	var _tpl$2$4 = /*@__PURE__*/ je([
 		"gestureDetector",
 		0,
 		[
@@ -4936,32 +5052,32 @@
 	], 3);
 	function Button(props) {
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$gestureDetector", {
+			var _el$ = We("h$gestureDetector", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = Re("h$view", {
+			var _el$2 = We("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = Re("h$text", {
+			var _el$3 = We("h$text", {
 				$t: _at$1,
 				$i: 2
 			});
-			Je(_el$, _el$2);
-			Je(_el$2, _el$3);
-			Z(_el$3, () => {
+			et(_el$, _el$2);
+			et(_el$2, _el$3);
+			Z$1(_el$3, () => {
 				return props.children;
 			});
 			Y$1(() => props.onTap, (_v$, _$p) => {
-				He(_el$, "onTap", _v$, _$p);
+				Je(_el$, "onTap", _v$, _$p);
 			});
 			return _el$;
-		})())(je(_tpl$1$7));
+		})())(Me(_tpl$1$7));
 	}
 	function Row(props) {
-		var _el$4 = Re("view");
-		Z(_el$4, () => {
+		var _el$4 = We("view");
+		Z$1(_el$4, () => {
 			return props.children;
 		});
 		Y$1(() => ({
@@ -4969,37 +5085,37 @@
 			gap: props.gap ?? 8,
 			align: "center"
 		}), (_v$, _$p) => {
-			He(_el$4, "flex", _v$, _$p);
+			Je(_el$4, "flex", _v$, _$p);
 		});
 		return _el$4;
 	}
 	function MenuItem(props) {
 		return ((_at$2) => (() => {
-			var _el$5 = Re("h$gestureDetector", {
+			var _el$5 = We("h$gestureDetector", {
 				$t: _at$2,
 				$i: 0
 			});
-			var _el$6 = Re("h$view", {
+			var _el$6 = We("h$view", {
 				$t: _at$2,
 				$i: 1
 			});
-			var _el$7 = Re("h$text", {
+			var _el$7 = We("h$text", {
 				$t: _at$2,
 				$i: 2
 			});
-			Je(_el$5, _el$6);
-			Je(_el$6, _el$7);
-			Z(_el$7, () => {
+			et(_el$5, _el$6);
+			et(_el$6, _el$7);
+			Z$1(_el$7, () => {
 				return props.label;
 			});
 			Y$1(() => props.onTap, (_v$, _$p) => {
-				He(_el$5, "onTap", _v$, _$p);
+				Je(_el$5, "onTap", _v$, _$p);
 			});
 			return _el$5;
-		})())(je(_tpl$2$4));
+		})())(Me(_tpl$2$4));
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$6 = /*@__PURE__*/ Ae([
+	var _tpl$1$6 = /*@__PURE__*/ je([
 		"view",
 		{
 			"flex": {
@@ -5110,41 +5226,41 @@
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$view", {
+			var _el$ = We("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = Re("h$text", {
+			var _el$2 = We("h$text", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = Re("h$view", {
+			var _el$3 = We("h$view", {
 				$t: _at$1,
 				$i: 2
 			});
-			var _el$4 = Re("h$gestureDetector", {
+			var _el$4 = We("h$gestureDetector", {
 				$t: _at$1,
 				$i: 3,
 				onTap: () => setCount((c) => c - 1)
 			});
-			var _el$5 = Re("h$gestureDetector", {
+			var _el$5 = We("h$gestureDetector", {
 				$t: _at$1,
 				$i: 7,
 				onTap: () => setCount(0)
 			});
-			var _el$6 = Re("h$gestureDetector", {
+			var _el$6 = We("h$gestureDetector", {
 				$t: _at$1,
 				$i: 11,
 				onTap: () => setCount((c) => c + 1)
 			});
-			Je(_el$, _el$2);
-			Je(_el$, _el$3);
-			Z(_el$2, count);
-			Je(_el$3, _el$4);
-			Je(_el$3, _el$5);
-			Je(_el$3, _el$6);
+			et(_el$, _el$2);
+			et(_el$, _el$3);
+			Z$1(_el$2, count);
+			et(_el$3, _el$4);
+			et(_el$3, _el$5);
+			et(_el$3, _el$6);
 			return _el$;
-		})())(je(_tpl$1$6));
+		})())(Me(_tpl$1$6));
 	}
 	// ../../packages/solid-fuse/dist/icons/material.js
 	var e = (e, t = !1) => ({
@@ -5160,7 +5276,7 @@
 	var _6e = /*#__PURE__*/ e(58751);
 	var est = /*#__PURE__*/ e(58873);
 	// src/screens/text-field.tsx
-	var _tpl$1$5 = /*@__PURE__*/ Ae([
+	var _tpl$1$5 = /*@__PURE__*/ je([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5325,140 +5441,140 @@
 		],
 		["view", { "padding": 16 }]
 	], 35);
-	var _tpl$2$3 = /*@__PURE__*/ Ae(["icon", {
+	var _tpl$2$3 = /*@__PURE__*/ je(["icon", {
 		"size": 20,
 		"color": "#6B7280"
 	}], 1);
-	var _tpl$3 = /*@__PURE__*/ Ae(["icon", {
+	var _tpl$3 = /*@__PURE__*/ je(["icon", {
 		"size": 20,
 		"color": "#6B7280"
 	}], 1);
 	function TextFieldScreen() {
-		const nav = Y();
+		const nav = X();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
 		const focus = ue();
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$scrollView", {
+			var _el$ = We("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = Re("h$view", {
+			var _el$2 = We("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = Re("h$view", {
+			var _el$3 = We("h$view", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = Re("h$text", {
+			var _el$4 = We("h$text", {
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = Re("h$textField", {
+			var _el$5 = We("h$textField", {
 				$t: _at$1,
 				$i: 10,
 				onChanged: setName
 			});
-			var _el$6 = Re("h$text", {
+			var _el$6 = We("h$text", {
 				$t: _at$1,
 				$i: 11
 			});
-			var _el$7 = Re("h$__text__", {
+			var _el$7 = We("h$__text__", {
 				$t: _at$1,
 				$i: 12
 			});
-			var _el$8 = Re("h$__text__", {
+			var _el$8 = We("h$__text__", {
 				$t: _at$1,
 				$i: 13
 			});
-			var _el$9 = Re("h$view", {
+			var _el$9 = We("h$view", {
 				$t: _at$1,
 				$i: 14
 			});
-			var _el$10 = Re("h$text", {
+			var _el$10 = We("h$text", {
 				$t: _at$1,
 				$i: 15
 			});
-			var _el$11 = Re("h$textField", {
+			var _el$11 = We("h$textField", {
 				$t: _at$1,
 				$i: 17,
 				focusNode: focus
 			});
-			var _el$12 = Re("h$text", {
+			var _el$12 = We("h$text", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = Re("h$__text__", {
+			var _el$13 = We("h$__text__", {
 				$t: _at$1,
 				$i: 19
 			});
-			var _el$14 = Re("h$view", {
+			var _el$14 = We("h$view", {
 				$t: _at$1,
 				$i: 20
 			});
-			var _el$15 = Re("h$textField", {
+			var _el$15 = We("h$textField", {
 				$t: _at$1,
 				$i: 23,
 				onChanged: setDigits
 			});
-			var _el$16 = Re("h$view", {
+			var _el$16 = We("h$view", {
 				$t: _at$1,
 				$i: 24
 			});
-			var _el$17 = Re("h$textField", {
+			var _el$17 = We("h$textField", {
 				$t: _at$1,
 				$i: 27
 			});
-			var _el$18 = Re("h$textField", {
+			var _el$18 = We("h$textField", {
 				$t: _at$1,
 				$i: 28
 			});
-			var _el$19 = Re("h$view", {
+			var _el$19 = We("h$view", {
 				$t: _at$1,
 				$i: 34
 			});
-			Je(_el$, _el$2);
-			Je(_el$, _el$19);
-			Je(_el$2, _el$3);
-			Je(_el$2, _el$9);
-			Je(_el$2, _el$14);
-			Je(_el$2, _el$16);
-			Je(_el$3, _el$4);
-			Je(_el$3, _el$5);
-			Je(_el$3, _el$6);
-			Je(_el$6, _el$7);
-			Je(_el$6, _el$8);
-			Z(_el$6, name, _el$8);
-			Z(_el$3, Ke(Row, { get children() {
-				return [Ke(Button, {
+			et(_el$, _el$2);
+			et(_el$, _el$19);
+			et(_el$2, _el$3);
+			et(_el$2, _el$9);
+			et(_el$2, _el$14);
+			et(_el$2, _el$16);
+			et(_el$3, _el$4);
+			et(_el$3, _el$5);
+			et(_el$3, _el$6);
+			et(_el$6, _el$7);
+			et(_el$6, _el$8);
+			Z$1(_el$6, name, _el$8);
+			Z$1(_el$3, Qe(Row, { get children() {
+				return [Qe(Button, {
 					onTap: () => setName("Override!"),
 					children: "external setName"
-				}), Ke(Button, {
+				}), Qe(Button, {
 					onTap: () => setName(""),
 					children: "clear"
 				})];
 			} }), null);
-			Je(_el$9, _el$10);
-			Je(_el$9, _el$11);
-			Je(_el$9, _el$12);
-			Je(_el$12, _el$13);
-			Z(_el$12, () => {
+			et(_el$9, _el$10);
+			et(_el$9, _el$11);
+			et(_el$9, _el$12);
+			et(_el$12, _el$13);
+			Z$1(_el$12, () => {
 				return focus.hasFocus() ? "true" : "false";
 			}, null);
-			Z(_el$9, Ke(Row, { get children() {
-				return [Ke(Button, {
+			Z$1(_el$9, Qe(Row, { get children() {
+				return [Qe(Button, {
 					onTap: () => focus.focus(),
 					children: "focus"
-				}), Ke(Button, {
+				}), Qe(Button, {
 					onTap: () => focus.unfocus(),
 					children: "unfocus"
 				})];
 			} }), null);
-			Je(_el$14, _el$15);
-			Je(_el$16, _el$17);
-			Je(_el$16, _el$18);
-			Z(_el$19, Ke(Button, {
+			et(_el$14, _el$15);
+			et(_el$16, _el$17);
+			et(_el$16, _el$18);
+			Z$1(_el$19, Qe(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
@@ -5466,28 +5582,28 @@
 				return {
 					e: name(),
 					t: digits(),
-					a: ((_at$2) => Re("h$icon", {
+					a: ((_at$2) => We("h$icon", {
 						$t: _at$2,
 						$i: 0,
 						data: x4e
-					}))(je(_tpl$2$3)),
-					o: ((_at$3) => Re("h$icon", {
+					}))(Me(_tpl$2$3)),
+					o: ((_at$3) => We("h$icon", {
 						$t: _at$3,
 						$i: 0,
 						data: Bge
-					}))(je(_tpl$3))
+					}))(Me(_tpl$3))
 				};
 			}, ({ e, t, a, o }, _p$) => {
-				e !== _p$?.e && He(_el$5, "value", e, _p$?.e);
-				t !== _p$?.t && He(_el$15, "value", t, _p$?.t);
-				a !== _p$?.a && He(_el$17, "prefixIcon", a, _p$?.a);
-				o !== _p$?.o && He(_el$18, "prefixIcon", o, _p$?.o);
+				e !== _p$?.e && Je(_el$5, "value", e, _p$?.e);
+				t !== _p$?.t && Je(_el$15, "value", t, _p$?.t);
+				a !== _p$?.a && Je(_el$17, "prefixIcon", a, _p$?.a);
+				o !== _p$?.o && Je(_el$18, "prefixIcon", o, _p$?.o);
 			});
 			return _el$;
-		})())(je(_tpl$1$5));
+		})())(Me(_tpl$1$5));
 	}
 	// src/screens/icon.tsx
-	var _tpl$1$4 = /*@__PURE__*/ Ae([
+	var _tpl$1$4 = /*@__PURE__*/ je([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5627,157 +5743,157 @@
 		["view", { "padding": 16 }]
 	], 33);
 	function IconScreen() {
-		const nav = Y();
+		const nav = X();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$scrollView", {
+			var _el$ = We("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = Re("h$view", {
+			var _el$2 = We("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = Re("h$view", {
+			var _el$3 = We("h$view", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = Re("h$view", {
+			var _el$4 = We("h$view", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$5 = Re("h$icon", {
+			var _el$5 = We("h$icon", {
 				$t: _at$1,
 				$i: 11,
 				data: x4e
 			});
-			var _el$6 = Re("h$icon", {
+			var _el$6 = We("h$icon", {
 				$t: _at$1,
 				$i: 12,
 				data: Bge
 			});
-			var _el$7 = Re("h$icon", {
+			var _el$7 = We("h$icon", {
 				$t: _at$1,
 				$i: 13,
 				data: lre
 			});
-			var _el$8 = Re("h$icon", {
+			var _el$8 = We("h$icon", {
 				$t: _at$1,
 				$i: 14,
 				data: _6e
 			});
-			var _el$9 = Re("h$icon", {
+			var _el$9 = We("h$icon", {
 				$t: _at$1,
 				$i: 15,
 				data: EY
 			});
-			var _el$10 = Re("h$icon", {
+			var _el$10 = We("h$icon", {
 				$t: _at$1,
 				$i: 16,
 				data: est
 			});
-			var _el$11 = Re("h$view", {
+			var _el$11 = We("h$view", {
 				$t: _at$1,
 				$i: 17
 			});
-			var _el$12 = Re("h$text", {
+			var _el$12 = We("h$text", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = Re("h$view", {
+			var _el$13 = We("h$view", {
 				$t: _at$1,
 				$i: 20
 			});
-			var _el$14 = Re("h$icon", {
+			var _el$14 = We("h$icon", {
 				$t: _at$1,
 				$i: 21,
 				data: EY
 			});
-			var _el$15 = Re("h$text", {
+			var _el$15 = We("h$text", {
 				$t: _at$1,
 				$i: 22
 			});
-			var _el$16 = Re("h$__text__", {
+			var _el$16 = We("h$__text__", {
 				$t: _at$1,
 				$i: 23
 			});
-			var _el$17 = Re("h$__text__", {
+			var _el$17 = We("h$__text__", {
 				$t: _at$1,
 				$i: 24
 			});
-			var _el$18 = Re("h$view", {
+			var _el$18 = We("h$view", {
 				$t: _at$1,
 				$i: 25
 			});
-			var _el$19 = Re("h$view", {
+			var _el$19 = We("h$view", {
 				$t: _at$1,
 				$i: 28
 			});
-			var _el$20 = Re("h$icon", {
+			var _el$20 = We("h$icon", {
 				$t: _at$1,
 				$i: 29,
 				data: coe
 			});
-			var _el$21 = Re("h$view", {
+			var _el$21 = We("h$view", {
 				$t: _at$1,
 				$i: 32
 			});
-			Je(_el$, _el$2);
-			Je(_el$, _el$21);
-			Je(_el$2, _el$3);
-			Je(_el$2, _el$11);
-			Je(_el$2, _el$18);
-			Je(_el$3, _el$4);
-			Je(_el$4, _el$5);
-			Je(_el$4, _el$6);
-			Je(_el$4, _el$7);
-			Je(_el$4, _el$8);
-			Je(_el$4, _el$9);
-			Je(_el$4, _el$10);
-			Je(_el$11, _el$12);
-			Je(_el$11, _el$13);
-			Je(_el$13, _el$14);
-			Je(_el$13, _el$15);
-			Je(_el$15, _el$16);
-			Je(_el$15, _el$17);
-			Z(_el$15, size, _el$17);
-			Z(_el$15, color, null);
-			Z(_el$11, Ke(Row, { get children() {
+			et(_el$, _el$2);
+			et(_el$, _el$21);
+			et(_el$2, _el$3);
+			et(_el$2, _el$11);
+			et(_el$2, _el$18);
+			et(_el$3, _el$4);
+			et(_el$4, _el$5);
+			et(_el$4, _el$6);
+			et(_el$4, _el$7);
+			et(_el$4, _el$8);
+			et(_el$4, _el$9);
+			et(_el$4, _el$10);
+			et(_el$11, _el$12);
+			et(_el$11, _el$13);
+			et(_el$13, _el$14);
+			et(_el$13, _el$15);
+			et(_el$15, _el$16);
+			et(_el$15, _el$17);
+			Z$1(_el$15, size, _el$17);
+			Z$1(_el$15, color, null);
+			Z$1(_el$11, Qe(Row, { get children() {
 				return [
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setSize(16),
 						children: "16"
 					}),
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setSize(32),
 						children: "32"
 					}),
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setSize(64),
 						children: "64"
 					})
 				];
 			} }), null);
-			Z(_el$11, Ke(Row, { get children() {
+			Z$1(_el$11, Qe(Row, { get children() {
 				return [
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setColor("#EF4444"),
 						children: "red"
 					}),
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setColor("#10B981"),
 						children: "green"
 					}),
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setColor("#3B82F6"),
 						children: "blue"
 					})
 				];
 			} }), null);
-			Je(_el$18, _el$19);
-			Je(_el$19, _el$20);
-			Z(_el$21, Ke(Button, {
+			et(_el$18, _el$19);
+			et(_el$19, _el$20);
+			Z$1(_el$21, Qe(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
@@ -5787,14 +5903,14 @@
 					t: color()
 				};
 			}, ({ e, t }, _p$) => {
-				e !== _p$?.e && He(_el$14, "size", e, _p$?.e);
-				t !== _p$?.t && He(_el$14, "color", t, _p$?.t);
+				e !== _p$?.e && Je(_el$14, "size", e, _p$?.e);
+				t !== _p$?.t && Je(_el$14, "color", t, _p$?.t);
 			});
 			return _el$;
-		})())(je(_tpl$1$4));
+		})())(Me(_tpl$1$4));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$3 = /*@__PURE__*/ Ae([
+	var _tpl$1$3 = /*@__PURE__*/ je([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5862,7 +5978,7 @@
 		}],
 		["view", { "padding": 16 }]
 	], 12);
-	var _tpl$2$2 = /*@__PURE__*/ Ae([
+	var _tpl$2$2 = /*@__PURE__*/ je([
 		"view",
 		{ "padding": 16 },
 		[
@@ -5872,58 +5988,58 @@
 		]
 	], 3);
 	function ScrollScreen() {
-		const nav = Y();
+		const nav = X();
 		const scroll = le({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$scrollView", {
+			var _el$ = We("h$scrollView", {
 				$t: _at$1,
 				$i: 0,
 				controller: scroll
 			});
-			var _el$2 = Re("h$view", {
+			var _el$2 = We("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = Re("h$text", {
+			var _el$3 = We("h$text", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = Re("h$__text__", {
+			var _el$4 = We("h$__text__", {
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = Re("h$scrollView", {
+			var _el$5 = We("h$scrollView", {
 				$t: _at$1,
 				$i: 9
 			});
-			var _el$6 = Re("h$view", {
+			var _el$6 = We("h$view", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$10 = Re("h$view", {
+			var _el$10 = We("h$view", {
 				$t: _at$1,
 				$i: 11
 			});
-			Je(_el$, _el$2);
-			Je(_el$, _el$6);
-			Je(_el$, _el$10);
-			Je(_el$2, _el$3);
-			Je(_el$2, _el$5);
-			Je(_el$3, _el$4);
-			Z(_el$3, () => {
+			et(_el$, _el$2);
+			et(_el$, _el$6);
+			et(_el$, _el$10);
+			et(_el$2, _el$3);
+			et(_el$2, _el$5);
+			et(_el$3, _el$4);
+			Z$1(_el$3, () => {
 				return scroll.scrollOffset().toFixed(1);
 			}, null);
-			Z(_el$5, Ke(Button, {
+			Z$1(_el$5, Qe(Button, {
 				onTap: () => scroll.jumpTo(0),
 				children: "jumpTo(0)"
 			}), null);
-			Z(_el$5, Ke(Button, {
+			Z$1(_el$5, Qe(Button, {
 				onTap: () => scroll.animateTo(1200, { duration: 800 }),
 				children: "animateTo(1200)"
 			}), null);
-			Z(_el$6, () => {
+			Z$1(_el$6, () => {
 				return Array.from({ length: 40 }, (_, i) => ((_at$2) => (() => {
-					var _el$7 = Re("h$view", {
+					var _el$7 = We("h$view", {
 						$t: _at$2,
 						$i: 0,
 						decoration: {
@@ -5931,36 +6047,36 @@
 							borderRadius: 8
 						}
 					});
-					var _el$8 = Re("h$text", {
+					var _el$8 = We("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					var _el$9 = Re("h$__text__", {
+					var _el$9 = We("h$__text__", {
 						$t: _at$2,
 						$i: 2
 					});
-					Je(_el$7, _el$8);
-					Je(_el$8, _el$9);
-					Z(_el$8, i, null);
+					et(_el$7, _el$8);
+					et(_el$8, _el$9);
+					Z$1(_el$8, i, null);
 					return _el$7;
-				})())(je(_tpl$2$2)));
+				})())(Me(_tpl$2$2)));
 			});
-			Z(_el$10, Ke(Button, {
+			Z$1(_el$10, Qe(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(je(_tpl$1$3));
+		})())(Me(_tpl$1$3));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$2 = /*@__PURE__*/ Ae(["view", {
+	var _tpl$1$2 = /*@__PURE__*/ je(["view", {
 		"flex": {
 			"direction": "vertical",
 			"gap": 12
 		},
 		"padding": 24
 	}], 1);
-	var _tpl$2$1 = /*@__PURE__*/ Ae([
+	var _tpl$2$1 = /*@__PURE__*/ je([
 		"view",
 		{ "height": 40 },
 		["text", { "fontSize": 16 }]
@@ -5974,49 +6090,334 @@
 			"date"
 		]);
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$view", {
+			var _el$ = We("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			Z(_el$, Ke(Row, { get children() {
+			Z$1(_el$, Qe(Row, { get children() {
 				return [
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setRows((r) => r.slice().reverse()),
 						children: "Reverse"
 					}),
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setRows((r) => r.slice().sort()),
 						children: "Sort"
 					}),
-					Ke(Button, {
+					Qe(Button, {
 						onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
 						children: "Thin"
 					})
 				];
 			} }), null);
-			Z(_el$, Ke(For, {
+			Z$1(_el$, Qe(For, {
 				get each() {
 					return rows();
 				},
 				children: (row) => ((_at$2) => (() => {
-					var _el$2 = Re("h$view", {
+					var _el$2 = We("h$view", {
 						$t: _at$2,
 						$i: 0
 					});
-					var _el$3 = Re("h$text", {
+					var _el$3 = We("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					Je(_el$2, _el$3);
-					Z(_el$3, row);
+					et(_el$2, _el$3);
+					Z$1(_el$3, row);
 					return _el$2;
-				})())(je(_tpl$2$1))
+				})())(Me(_tpl$2$1))
 			}), null);
 			return _el$;
-		})())(je(_tpl$1$2));
+		})())(Me(_tpl$1$2));
 	}
+	// ../../packages/solid-fuse/dist/generated.js
+	function d(e, t, n) {
+		let r = { $: e }, i = t.length;
+		for (let e = 0; e < i && e < n.length; e++) n[e] !== void 0 && (r[t[e]] = n[e]);
+		let a = n[i];
+		return typeof a == "object" && a && Object.assign(r, a), r;
+	}
+	var f = (e, t) => {
+		if (e === t) return !0;
+		if (typeof e != "object" || typeof t != "object" || e === null || t === null || Array.isArray(e) !== Array.isArray(t)) return !1;
+		let n = Object.keys(e);
+		if (n.length !== Object.keys(t).length) return !1;
+		for (let r of n) if (!f(e[r], t[r])) return !1;
+		return !0;
+	};
+	var p = (t) => t.catch(l);
+	var m = /* @__PURE__ */ new Map();
+	var h = {
+		s: [],
+		w: [],
+		o: [],
+		m: [],
+		st: []
+	};
+	function g(e, t) {
+		m.set(e, t);
+	}
+	function _(e, t, n, r) {
+		let i = new Set(r.fns), o = new Set(r.live), s = {}, l = [];
+		if (n) for (let e in n) {
+			let t = n[e];
+			typeof t == "function" && !i.has(e) ? (s[e] = untrack(t), o.has(e) && l.push([e, t])) : s[e] = t;
+		}
+		r.ctor && (s.$ctor = r.ctor);
+		let d = {};
+		for (let e of t.s) d[e] = s[e] === void 0 ? r.seeds?.[e] : s[e];
+		let { handle: f, write: p } = x(Fe(e, s), t, d);
+		for (let [e, t] of l) createEffect(t, (t, n) => {
+			(n !== void 0 || t !== s[e]) && p(e, t);
+		});
+		return f;
+	}
+	var v = /* @__PURE__ */ new Map();
+	function y(e) {
+		let n = e.$h, a = ze(n)?.handle;
+		if (a) {
+			if (!e.o) {
+				let e = v.get(n);
+				e ? e.n++ : he.send("_unborrow", {
+					id: n,
+					n: 1
+				});
+			}
+			return a;
+		}
+		let o = {
+			id: n,
+			n: +!e.o
+		};
+		e.o || v.set(n, o);
+		let s = Re(e.t, n, () => {
+			v.get(o.id) === o && v.delete(o.id), o.n > 0 && he.send("_unborrow", {
+				id: o.id,
+				n: o.n
+			});
+		}), c = m.get(e.t) ?? h, { handle: l, call: u } = x(s, c, e.s ? b(e.s) : {});
+		return !e.s && c.s.length && p(u("$sync", null)), l;
+	}
+	function b(e, t = 0) {
+		if (typeof e != "object" || !e || t > 32) return e;
+		let n = e;
+		if (typeof n.$h == "number" && typeof n.t == "string") return y(n);
+		let r;
+		if (Array.isArray(e)) for (let n = 0; n < e.length; n++) {
+			let i = b(e[n], t + 1);
+			i !== e[n] && ((r ?? (r = e.slice()))[n] = i);
+		}
+		else for (let e in n) {
+			let i = b(n[e], t + 1);
+			i !== n[e] && ((r ?? (r = { ...n }))[e] = i);
+		}
+		return r ?? e;
+	}
+	Ie(b);
+	function x(e, t, i) {
+		let a = 0, s = /* @__PURE__ */ new Map();
+		for (let e of t.s) {
+			let [t, n] = createSignal(i[e], {
+				equals: f,
+				ownedWrite: !0
+			});
+			s.set(e, [t, (e) => n(() => e)]);
+		}
+		Ve(e, "$push", (e) => {
+			if (!(e.v < a)) for (let t in e.s) s.get(t)?.[1](e.s[t]);
+		});
+		let c = (t, i) => he.call("_handleCall", {
+			node: e.id,
+			method: t,
+			value: Be(i)
+		}, { timeout: 0 }).then(b), u = { node: e };
+		e.handle = u;
+		for (let [e, [t]] of s) u[e] = t;
+		let d = new Set(t.o), m = (e, t) => {
+			a++, d.has(e) && s.get(e)?.[1](t), p(c("$set", {
+				n: e,
+				v: t,
+				ver: a
+			}));
+		};
+		for (let e of t.w) u[`set${e[0].toUpperCase()}${e.slice(1)}`] = (t) => m(e, t);
+		for (let e of t.m) u[e] = (...t) => c(e, t);
+		for (let n of t.st) u[n] = () => C(e, c, n);
+		return {
+			handle: u,
+			write: m,
+			call: c
+		};
+	}
+	var S = 0;
+	function C(e, t, n) {
+		return { [Symbol.asyncIterator]() {
+			let r = `$s${S++}`, i = [], a = null, s = !1, c, l = !1, u = () => {
+				l || (l = !0, Ve(e, r, void 0));
+			};
+			Ve(e, r, (e) => {
+				e.d ? s = !0 : e.e === void 0 ? i.push(e.v) : c = e.e, a?.();
+			});
+			let d = t("$listen", {
+				stream: n,
+				fn: r
+			}).catch((e) => {
+				c = e instanceof Error ? e.message : String(e), a?.();
+			});
+			return {
+				async next() {
+					for (await d;;) {
+						if (i.length) return {
+							value: i.shift(),
+							done: !1
+						};
+						if (c !== void 0) throw u(), Error(c);
+						if (s) return u(), {
+							value: void 0,
+							done: !0
+						};
+						await new Promise((e) => a = e), a = null;
+					}
+				},
+				async return() {
+					return s || p(t("$cancel", { fn: r })), s = !0, u(), {
+						value: void 0,
+						done: !0
+					};
+				}
+			};
+		} };
+	}
+	// fuse/flutter.tsx
+	var $ScrollController = {
+		"s": [
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"animateTo",
+			"jumpTo",
+			"attach",
+			"detach",
+			"createScrollPosition"
+		],
+		"st": []
+	};
+	g("flutter_ScrollController", $ScrollController);
+	/**
+	* Controls a scrollable widget.
+	* Dart: `ScrollController(...)`. Lives while the calling owner does, and after that while JS still holds it.
+	*/
+	function createScrollController(options) {
+		return _("flutter_ScrollController", $ScrollController, options, {
+			"fns": ["onAttach", "onDetach"],
+			"seeds": {
+				"initialScrollOffset": 0,
+				"keepScrollOffset": true
+			}
+		});
+	}
+	g("flutter_ScrollPosition", {
+		"s": [
+			"physics",
+			"context",
+			"keepScrollOffset",
+			"minScrollExtent",
+			"maxScrollExtent",
+			"hasContentDimensions",
+			"pixels",
+			"hasPixels",
+			"viewportDimension",
+			"hasViewportDimension",
+			"haveDimensions",
+			"shouldIgnorePointer",
+			"devicePixelRatio",
+			"isScrollingNotifier",
+			"allowImplicitScrolling",
+			"userScrollDirection"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"setPixels",
+			"correctPixels",
+			"correctBy",
+			"restoreOffset",
+			"applyViewportDimension",
+			"applyContentDimensions",
+			"animateTo",
+			"jumpTo",
+			"pointerScroll",
+			"moveTo",
+			"beginActivity",
+			"didStartScroll",
+			"didUpdateScrollPositionBy",
+			"didEndScroll",
+			"didOverscrollBy",
+			"didUpdateScrollDirection",
+			"didUpdateScrollMetrics"
+		],
+		"st": []
+	});
+	g("flutter_ValueNotifier", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [],
+		"st": []
+	});
+	function ScrollPhysics$alwaysScrollable(...a) {
+		return d("ScrollPhysics.alwaysScrollable", [], a);
+	}
+	function ScrollPhysics$bouncing(...a) {
+		return d("ScrollPhysics.bouncing", [], a);
+	}
+	function ScrollPhysics$clamping(...a) {
+		return d("ScrollPhysics.clamping", [], a);
+	}
+	function ScrollPhysics$neverScrollable(...a) {
+		return d("ScrollPhysics.neverScrollable", [], a);
+	}
+	function ScrollPhysics$rangeMaintaining(...a) {
+		return d("ScrollPhysics.rangeMaintaining", [], a);
+	}
+	function ScrollPhysics(...a) {
+		return d("ScrollPhysics", [], a);
+	}
+	ScrollPhysics.alwaysScrollable = ScrollPhysics$alwaysScrollable;
+	ScrollPhysics.bouncing = ScrollPhysics$bouncing;
+	ScrollPhysics.clamping = ScrollPhysics$clamping;
+	ScrollPhysics.neverScrollable = ScrollPhysics$neverScrollable;
+	ScrollPhysics.rangeMaintaining = ScrollPhysics$rangeMaintaining;
+	function Duration(...a) {
+		return d("Duration", [], a);
+	}
+	Duration.zero = "Duration.zero";
+	function CatmullRomCurve$precompute(...a) {
+		return d("CatmullRomCurve.precompute", ["controlPoints"], a);
+	}
+	function CatmullRomCurve(...a) {
+		return d("CatmullRomCurve", ["controlPoints"], a);
+	}
+	CatmullRomCurve.precompute = CatmullRomCurve$precompute;
+	function Offset$fromDirection(...a) {
+		return d("Offset.fromDirection", ["direction", "distance"], a);
+	}
+	function Offset(...a) {
+		return d("Offset", ["dx", "dy"], a);
+	}
+	Offset.fromDirection = Offset$fromDirection;
+	Offset.zero = "Offset.zero";
+	Offset.infinite = "Offset.infinite";
 	// src/screens/builder.tsx
-	var _tpl$1$1 = /*@__PURE__*/ Ae([
+	var _tpl$1$1 = /*@__PURE__*/ je([
 		"view",
 		{ "flex": {
 			"direction": "vertical",
@@ -6040,6 +6441,10 @@
 			["text", {
 				"color": "#6B7280",
 				"fontSize": 14
+			}],
+			["text", {
+				"color": "#6B7280",
+				"fontSize": 14
 			}]
 		],
 		[
@@ -6050,8 +6455,8 @@
 				"itemExtent": 48
 			}]
 		]
-	], 7);
-	var _tpl$2 = /*@__PURE__*/ Ae([
+	], 8);
+	var _tpl$2 = /*@__PURE__*/ je([
 		"gestureDetector",
 		0,
 		[
@@ -6065,66 +6470,77 @@
 	], 3);
 	function BuilderScreen() {
 		const [picked, setPicked] = createSignal(-1);
+		const scroll = createScrollController();
+		const at = () => Math.round(scroll.position()?.pixels() ?? 0);
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$view", {
+			var _el$ = We("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = Re("h$view", {
+			var _el$2 = We("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = Re("h$text", {
+			var _el$3 = We("h$text", {
 				$t: _at$1,
 				$i: 4
 			});
-			var _el$4 = Re("h$view", {
+			var _el$4 = We("h$text", {
 				$t: _at$1,
 				$i: 5
 			});
-			var _el$5 = Re("h$flutter_ListViewBuilder", {
+			var _el$5 = We("h$view", {
 				$t: _at$1,
-				$i: 6,
+				$i: 6
+			});
+			var _el$6 = We("h$flutter_ListViewBuilder", {
+				$t: _at$1,
+				$i: 7,
+				controller: scroll,
 				itemBuilder: (index) => ((_at$2) => (() => {
-					var _el$6 = Re("h$gestureDetector", {
+					var _el$7 = We("h$gestureDetector", {
 						$t: _at$2,
 						$i: 0,
 						onTap: () => setPicked(index)
 					});
-					var _el$7 = Re("h$view", {
+					var _el$8 = We("h$view", {
 						$t: _at$2,
 						$i: 1
 					});
-					var _el$8 = Re("h$text", {
+					var _el$9 = We("h$text", {
 						$t: _at$2,
 						$i: 2
 					});
-					Je(_el$6, _el$7);
-					Je(_el$7, _el$8);
-					Z(_el$8, `Row ${index}`);
+					et(_el$7, _el$8);
+					et(_el$8, _el$9);
+					Z$1(_el$9, `Row ${index}`);
 					Y$1(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
-						He(_el$7, "decoration", _v$, _$p);
+						Je(_el$8, "decoration", _v$, _$p);
 					});
-					return _el$6;
-				})())(je(_tpl$2))
+					return _el$7;
+				})())(Me(_tpl$2))
 			});
-			Je(_el$, _el$2);
-			Je(_el$, _el$4);
-			Je(_el$2, _el$3);
-			Z(_el$3, (() => {
-				var _c$ = Le(() => {
+			et(_el$, _el$2);
+			et(_el$, _el$5);
+			et(_el$2, _el$3);
+			et(_el$2, _el$4);
+			Z$1(_el$3, (() => {
+				var _c$ = Ue(() => {
 					return picked() < 0;
 				});
 				return () => {
 					return _c$() ? "10,000 rows, built as they scroll in" : `Picked row ${picked()}`;
 				};
 			})());
-			Je(_el$4, _el$5);
+			Z$1(_el$4, () => {
+				return `Scrolled ${at()} px`;
+			});
+			et(_el$5, _el$6);
 			return _el$;
-		})())(je(_tpl$1$1));
+		})())(Me(_tpl$1$1));
 	}
 	// src/screens/home.tsx
-	var _tpl$1 = /*@__PURE__*/ Ae([
+	var _tpl$1 = /*@__PURE__*/ je([
 		"view",
 		{ "flex": { "direction": "vertical" } },
 		[
@@ -6153,46 +6569,46 @@
 		]
 	], 6);
 	function HomeScreen() {
-		const nav = Y();
+		const nav = X();
 		return ((_at$1) => (() => {
-			var _el$ = Re("h$view", {
+			var _el$ = We("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			Je(_el$, Re("h$view", {
+			et(_el$, We("h$view", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Z(_el$, Ke(MenuItem, {
+			Z$1(_el$, Qe(MenuItem, {
 				label: "counter",
-				onTap: () => nav.push(() => Ke(CounterScreen, {}))
+				onTap: () => nav.push(() => Qe(CounterScreen, {}))
 			}), null);
-			Z(_el$, Ke(MenuItem, {
+			Z$1(_el$, Qe(MenuItem, {
 				label: "textField",
-				onTap: () => nav.push(() => Ke(TextFieldScreen, {}))
+				onTap: () => nav.push(() => Qe(TextFieldScreen, {}))
 			}), null);
-			Z(_el$, Ke(MenuItem, {
+			Z$1(_el$, Qe(MenuItem, {
 				label: "icon",
-				onTap: () => nav.push(() => Ke(IconScreen, {}))
+				onTap: () => nav.push(() => Qe(IconScreen, {}))
 			}), null);
-			Z(_el$, Ke(MenuItem, {
+			Z$1(_el$, Qe(MenuItem, {
 				label: "list",
-				onTap: () => nav.push(() => Ke(ListScreen, {}))
+				onTap: () => nav.push(() => Qe(ListScreen, {}))
 			}), null);
-			Z(_el$, Ke(MenuItem, {
+			Z$1(_el$, Qe(MenuItem, {
 				label: "builder",
-				onTap: () => nav.push(() => Ke(BuilderScreen, {}))
+				onTap: () => nav.push(() => Qe(BuilderScreen, {}))
 			}), null);
-			Z(_el$, Ke(MenuItem, {
+			Z$1(_el$, Qe(MenuItem, {
 				label: "scrollController",
-				onTap: () => nav.push(() => Ke(ScrollScreen, {}))
+				onTap: () => nav.push(() => Qe(ScrollScreen, {}))
 			}), null);
 			return _el$;
-		})())(je(_tpl$1));
+		})())(Me(_tpl$1));
 	}
 	// src/index.tsx
-	var App = () => Ke(X, { initialPage: () => Ke(HomeScreen, {}) });
-	qe(App);
+	var App = () => Qe(Z, { initialPage: () => Qe(HomeScreen, {}) });
+	$e(App);
 })();
 
 //# sourceMappingURL=bundle.js.map

@@ -10,7 +10,7 @@
  *    `Colors.red`, `FlSpot(0, 1)`. They return the wire value (`{ $: tag, ... }`
  *    or `"Owner.field"`), which users never write by hand.
  */
-import { handleTags, tagOf } from "./emit-dart";
+import { handleIds, handleTags, tagOf } from "./emit-dart";
 import { moduleOf, mustSupply, uriOf, type DataType, type FnRef, type HandleType, type Manifest, type Param, type Ref, type Variant } from "./manifest";
 
 export interface TsModule {
@@ -60,6 +60,9 @@ class Module {
   readonly intrinsics: Record<string, string> = {};
   readonly builders: Record<string, BuilderEntry | { const: string }> = {};
   usesHandle = false;
+  usesHandleType = false;
+  /** Modules loaded for what they register (a handle type that arrives from Dart). */
+  readonly loads = new Set<string>();
   usesBuild = false;
   usesCreate = false;
   constructor(readonly name: string) {}
@@ -97,7 +100,9 @@ export function emitTs(m: Manifest): TsOutput {
   // ── handles: which created ones fit where ───────────────────────────────
 
   const hTags = handleTags(m);
-  /** Handle id -> the node types of created handles that are one. */
+  const hIds = handleIds(m);
+  const roots = new Set(m.handles);
+  /** Handle id -> the node types of handles that are one. */
   const accepts = new Map<string, string[]>();
   for (const [id, tag] of hTags) {
     for (const t of [id, ...(m.types[id] as HandleType).supertypes]) {
@@ -147,6 +152,14 @@ export function emitTs(m: Manifest): TsOutput {
       s.add(t.name);
     }
     return t.name;
+  }
+
+  // Handle interface names, claimed up front: refs name them before the
+  // handle section writes them.
+  const handleNames = new Map<string, { module: string; name: string }>();
+  for (const id of hIds) {
+    const module = moduleOf(uriOf(id));
+    handleNames.set(id, { module, name: mod(module).claim("type", m.types[id].name) });
   }
 
   // ── refs ────────────────────────────────────────────────────────────────
@@ -240,6 +253,13 @@ export function emitTs(m: Manifest): TsOutput {
       case "map":
         t = `Record<string, ${tsOut(ref.of, from)}>`;
         break;
+      case "handle": {
+        const h = handleNames.get(ref.id)!;
+        t = use(from, h, true);
+        // The module registers the type's members; load it.
+        if (h.module !== from.name) from.loads.add(h.module);
+        break;
+      }
       case "omitted":
         return "undefined";
       default:
@@ -470,13 +490,15 @@ export function emitTs(m: Manifest): TsOutput {
   const cap = (n: string) => n[0].toUpperCase() + n.slice(1);
   const isNull = (r: Ref) => "null" in r && !!r.null;
 
-  for (const id of m.handles) {
+  for (const id of hIds) {
     const h = m.types[id] as HandleType;
     const module = mod(moduleOf(uriOf(id)));
     const tag = hTags.get(id)!;
+    const created = roots.has(id);
     module.usesHandle = true;
-    module.usesCreate = true;
-    const name = module.claim("type", h.name);
+    module.usesHandleType = true;
+    if (created) module.usesCreate = true;
+    const name = handleNames.get(id)!.name;
     const members: string[] = [];
     const taken = new Set(["node"]);
     const state = (h.state ?? []).filter((f) => !taken.has(f.name) && taken.add(f.name));
@@ -488,6 +510,7 @@ export function emitTs(m: Manifest): TsOutput {
     // same name, for values whose input and output look the same.
     const seedable = (f: { name: string; type: Ref }) => PRIMITIVE.has(f.type.k);
     const alwaysSeeded = (f: { name: string; type: Ref }) =>
+      created &&
       seedable(f) &&
       h.ctors.every((c) => c.params.some((p) => p.name === f.name && p.type && (mustSupply(p) || p.defaultValue !== undefined)));
     for (const f of state) {
@@ -504,7 +527,8 @@ export function emitTs(m: Manifest): TsOutput {
       const params: string[] = [];
       for (const p of mt.params) {
         if (p.named || !p.type) continue;
-        params.push(`${safeParam(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type, module)}`);
+        // A required positional one stays required, even when it takes null.
+        params.push(`${safeParam(p.name)}${p.required ? "" : "?"}: ${tsIn(p.type, module)}`);
       }
       const named = mt.params.filter((p) => p.named && p.type);
       if (named.length) {
@@ -518,7 +542,7 @@ export function emitTs(m: Manifest): TsOutput {
       members.push(`${jsdoc("  ", undefined, undefined, [`Dart's \`${st.name}\` stream; leaving the loop cancels it.`])}  ${st.name}(): AsyncIterable<${tsOut(st.type, module)}>;`);
     }
     module.parts.push(
-      `${jsdoc("", h.doc, h.deprecated, [`Dart: \`${h.name}\`. Make one with \`create${h.name}\`.`])}export interface ${name} extends Handle<${lit(tag)}> {\n${members.join("\n")}\n}`,
+      `${jsdoc("", h.doc, h.deprecated, [created ? `Dart: \`${h.name}\`. Make one with \`create${h.name}\`.` : `Dart: \`${h.name}\`. Dart hands these to JS.`])}export interface ${name} extends Handle<${lit(tag)}> {\n${members.join("\n")}\n}`,
     );
 
     const setterNames = new Set(setters.map((st) => st.name));
@@ -530,7 +554,8 @@ export function emitTs(m: Manifest): TsOutput {
       st: streams.map((st) => st.name),
     };
     const specName = module.claim("value", `$${h.name}`);
-    module.parts.push(`const ${specName} = ${JSON.stringify(spec)};`);
+    module.parts.push(`const ${specName} = ${JSON.stringify(spec)};\n$handleType(${lit(tag)}, ${specName});`);
+    if (!created) continue;
     for (const c of h.ctors) {
       const fn = module.claim("value", `create${h.name}${c.name ? cap(c.name) : ""}`);
       const fields: string[] = [];
@@ -601,7 +626,7 @@ export function emitTs(m: Manifest): TsOutput {
       `// Manifest fingerprint: ${m.fingerprint}`,
       "/* eslint-disable */",
     ];
-    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : [])];
+    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : [])];
     if (fromFuse.length) head.push(`import { ${fromFuse.join(", ")} } from "solid-fuse/generated";`);
     if (module.usesHandle) head.push('import type { Handle } from "solid-fuse";');
     for (const [other, names] of [...module.typeImports].sort()) {
@@ -609,6 +634,9 @@ export function emitTs(m: Manifest): TsOutput {
     }
     for (const [other, names] of [...module.imports].sort()) {
       head.push(`import { ${[...names].sort().join(", ")} } from "./${other}";`);
+    }
+    for (const other of [...module.loads].sort()) {
+      if (!module.imports.has(other)) head.push(`import "./${other}";`);
     }
     result.modules.push({ name: module.name, code: `${head.join("\n")}\n\n${module.parts.join("\n\n")}\n` });
     result.intrinsics[module.name] = module.intrinsics;

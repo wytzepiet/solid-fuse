@@ -24,7 +24,9 @@ RenderObject, Element).
 
 - **Handles** are Listenables, plus classes with mutable state (a non-final
   field or an explicit setter) that aren't `@immutable`. A handle JS creates
-  (a root, see `handles`) lists its members: the getters JS mirrors (a
+  (a root, see `handles`), and every handle type that reaches JS some other
+  way (a callback argument, a getter, a method result), lists its members:
+  the getters JS mirrors (a
   Listenable's), setters, methods (`void`, a value, or a Future of one) and
   Stream getters. Members of Object, Listenable, ChangeNotifier and the
   Diagnosticable classes are left out, and so are members a mixin or an
@@ -90,10 +92,9 @@ type. A plain object without `$` means the declared type's unnamed
 constructor. Collection refs carry `ofDart` / `keyDart` (the element types'
 Dart source) for the decoders' type arguments.
 
-The bridge's current limits are applied as a last pass (`_prune`): a callback
-argument can't be a handle (borrowed handles), a handle constructor can't take
-a widget or handle (its options ride in the `create` op), and a method or
-setter takes plain values only (it goes through a channel call). A parameter
+The bridge's current limits are applied as a last pass (`_prune`): a handle
+method or setter can't take a function or a widget (it goes through a channel
+call, which registers no function and keeps no node alive). A parameter
 that would need more is a `skip` like any other.
 
 The `k` values for refs are `bool int double num String Object dynamic enum

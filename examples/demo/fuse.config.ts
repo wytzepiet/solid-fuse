@@ -5,7 +5,7 @@ export default defineConfig({
   // builder screen.
   gen: {
     libraries: {
-      "package:flutter/widgets.dart": { allow: ["ListView.builder"] },
+      "package:flutter/widgets.dart": { allow: ["ListView.builder", "ScrollController"] },
     },
   },
   vite: {

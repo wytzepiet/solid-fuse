@@ -185,8 +185,248 @@
      "value"
     ]
    },
+   "Duration.zero": {
+    "const": "Duration.zero"
+   },
+   "Duration": {
+    "tag": "Duration",
+    "positional": []
+   },
+   "SawTooth": {
+    "tag": "SawTooth",
+    "positional": [
+     "count"
+    ]
+   },
+   "Interval": {
+    "tag": "Interval",
+    "positional": [
+     "begin",
+     "end"
+    ]
+   },
+   "Split": {
+    "tag": "Split",
+    "positional": [
+     "split"
+    ]
+   },
+   "Threshold": {
+    "tag": "Threshold",
+    "positional": [
+     "threshold"
+    ]
+   },
+   "Cubic": {
+    "tag": "Cubic",
+    "positional": [
+     "a",
+     "b",
+     "c",
+     "d"
+    ]
+   },
+   "ThreePointCubic": {
+    "tag": "ThreePointCubic",
+    "positional": [
+     "a1",
+     "b1",
+     "midpoint",
+     "a2",
+     "b2"
+    ]
+   },
+   "CatmullRomCurve.precompute": {
+    "tag": "CatmullRomCurve.precompute",
+    "positional": [
+     "controlPoints"
+    ]
+   },
+   "CatmullRomCurve": {
+    "tag": "CatmullRomCurve",
+    "positional": [
+     "controlPoints"
+    ]
+   },
+   "FlippedCurve": {
+    "tag": "FlippedCurve",
+    "positional": [
+     "curve"
+    ]
+   },
+   "ElasticInCurve": {
+    "tag": "ElasticInCurve",
+    "positional": [
+     "period"
+    ]
+   },
+   "ElasticOutCurve": {
+    "tag": "ElasticOutCurve",
+    "positional": [
+     "period"
+    ]
+   },
+   "ElasticInOutCurve": {
+    "tag": "ElasticInOutCurve",
+    "positional": [
+     "period"
+    ]
+   },
+   "Curves.linear": {
+    "const": "Curves.linear"
+   },
+   "Curves.decelerate": {
+    "const": "Curves.decelerate"
+   },
+   "Curves.fastLinearToSlowEaseIn": {
+    "const": "Curves.fastLinearToSlowEaseIn"
+   },
+   "Curves.fastEaseInToSlowEaseOut": {
+    "const": "Curves.fastEaseInToSlowEaseOut"
+   },
+   "Curves.ease": {
+    "const": "Curves.ease"
+   },
+   "Curves.easeIn": {
+    "const": "Curves.easeIn"
+   },
+   "Curves.easeInToLinear": {
+    "const": "Curves.easeInToLinear"
+   },
+   "Curves.easeInSine": {
+    "const": "Curves.easeInSine"
+   },
+   "Curves.easeInQuad": {
+    "const": "Curves.easeInQuad"
+   },
+   "Curves.easeInCubic": {
+    "const": "Curves.easeInCubic"
+   },
+   "Curves.easeInQuart": {
+    "const": "Curves.easeInQuart"
+   },
+   "Curves.easeInQuint": {
+    "const": "Curves.easeInQuint"
+   },
+   "Curves.easeInExpo": {
+    "const": "Curves.easeInExpo"
+   },
+   "Curves.easeInCirc": {
+    "const": "Curves.easeInCirc"
+   },
+   "Curves.easeInBack": {
+    "const": "Curves.easeInBack"
+   },
+   "Curves.easeOut": {
+    "const": "Curves.easeOut"
+   },
+   "Curves.linearToEaseOut": {
+    "const": "Curves.linearToEaseOut"
+   },
+   "Curves.easeOutSine": {
+    "const": "Curves.easeOutSine"
+   },
+   "Curves.easeOutQuad": {
+    "const": "Curves.easeOutQuad"
+   },
+   "Curves.easeOutCubic": {
+    "const": "Curves.easeOutCubic"
+   },
+   "Curves.easeOutQuart": {
+    "const": "Curves.easeOutQuart"
+   },
+   "Curves.easeOutQuint": {
+    "const": "Curves.easeOutQuint"
+   },
+   "Curves.easeOutExpo": {
+    "const": "Curves.easeOutExpo"
+   },
+   "Curves.easeOutCirc": {
+    "const": "Curves.easeOutCirc"
+   },
+   "Curves.easeOutBack": {
+    "const": "Curves.easeOutBack"
+   },
+   "Curves.easeInOut": {
+    "const": "Curves.easeInOut"
+   },
+   "Curves.easeInOutSine": {
+    "const": "Curves.easeInOutSine"
+   },
+   "Curves.easeInOutQuad": {
+    "const": "Curves.easeInOutQuad"
+   },
+   "Curves.easeInOutCubic": {
+    "const": "Curves.easeInOutCubic"
+   },
+   "Curves.easeInOutCubicEmphasized": {
+    "const": "Curves.easeInOutCubicEmphasized"
+   },
+   "Curves.easeInOutQuart": {
+    "const": "Curves.easeInOutQuart"
+   },
+   "Curves.easeInOutQuint": {
+    "const": "Curves.easeInOutQuint"
+   },
+   "Curves.easeInOutExpo": {
+    "const": "Curves.easeInOutExpo"
+   },
+   "Curves.easeInOutCirc": {
+    "const": "Curves.easeInOutCirc"
+   },
+   "Curves.easeInOutBack": {
+    "const": "Curves.easeInOutBack"
+   },
+   "Curves.fastOutSlowIn": {
+    "const": "Curves.fastOutSlowIn"
+   },
+   "Curves.slowMiddle": {
+    "const": "Curves.slowMiddle"
+   },
+   "Curves.bounceIn": {
+    "const": "Curves.bounceIn"
+   },
+   "Curves.bounceOut": {
+    "const": "Curves.bounceOut"
+   },
+   "Curves.bounceInOut": {
+    "const": "Curves.bounceInOut"
+   },
+   "Curves.elasticIn": {
+    "const": "Curves.elasticIn"
+   },
+   "Curves.elasticOut": {
+    "const": "Curves.elasticOut"
+   },
+   "Curves.elasticInOut": {
+    "const": "Curves.elasticInOut"
+   },
+   "ScrollableState": {
+    "tag": "ScrollableState",
+    "positional": []
+   },
    "ViewPadding.zero": {
     "const": "ViewPadding.zero"
+   },
+   "Offset.fromDirection": {
+    "tag": "Offset.fromDirection",
+    "positional": [
+     "direction",
+     "distance"
+    ]
+   },
+   "Offset.zero": {
+    "const": "Offset.zero"
+   },
+   "Offset.infinite": {
+    "const": "Offset.infinite"
+   },
+   "Offset": {
+    "tag": "Offset",
+    "positional": [
+     "dx",
+     "dy"
+    ]
    }
   }
  }

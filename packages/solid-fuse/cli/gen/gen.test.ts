@@ -23,7 +23,7 @@ async function run(cmd: string[], cwd: string): Promise<{ code: number; output: 
 const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
 import { Colors, ElevatedButton, Slider, Scaffold, AppBar } from "./out/material_ui";
-import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter, Badge, createTally, Choice, Option, NeedsContext } from "./out/fixture_app";
+import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter, type Tracker, Badge, createTally, Choice, Option, NeedsContext } from "./out/fixture_app";
 import { createScrollController, createTextEditingController, createAnimationController, ListView, ListViewBuilder, EditableText } from "./out/flutter";
 import { createSignal } from "solid-js";
 
@@ -62,6 +62,16 @@ export function handles() {
   (async () => {
     for await (const t of counter.ticks()) t.toFixed();
   })();
+  // Handles Dart hands out: as state, method results and callback arguments.
+  const child = createCounter({ parent: counter });
+  const tracker: Tracker | undefined = counter.tracker();
+  const hits: number | undefined = tracker?.hits();
+  void tracker?.hit();
+  const same: Promise<Counter> = counter.self();
+  const spawned: Promise<Tracker> = counter.spawn();
+  const tracked = <FixtureBox at={Point(0, 0)} counter={child} onTracker={(t) => void t.hit()} />;
+  // @ts-expect-error only Dart makes a Tracker
+  void createTracker;
   const tally = createTally();
   void tally.bump();
   const scroll = createScrollController({ initialScrollOffset: 10 });
@@ -72,7 +82,7 @@ export function handles() {
   void anim.forward();
   // @ts-expect-error a ScrollController is not a TextEditingController
   const wrong = <EditableText controller={scroll} />;
-  return [n, l, c, total, t2, wrong, <ListView controller={scroll} />];
+  return [n, l, c, total, t2, wrong, <ListView controller={scroll} />, hits, same, spawned, tracked];
 }
 export const short = (
   <Container padding={8} decoration={BoxDecoration({ borderRadius: 12, color: "#ff8800" })}>

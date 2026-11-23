@@ -45,8 +45,20 @@ class Mutable {
 }
 
 class Counter extends ChangeNotifier {
-  Counter({this.start = 0, String label = ''}) : _count = start, _label = label;
+  Counter({this.start = 0, String label = '', this.parent}) : _count = start, _label = label;
   final int start;
+
+  /// A handle option, and state that is a handle JS created.
+  final Counter? parent;
+
+  /// State that is a handle only Dart makes.
+  final Tracker tracker = Tracker._();
+
+  /// Returns a handle JS created: JS gets the same one back.
+  Future<Counter> self() async => this;
+
+  /// Returns a new handle only Dart makes.
+  Future<Tracker> spawn() async => Tracker._();
 
   int _count;
   int get count => _count;
@@ -81,6 +93,17 @@ class Counter extends ChangeNotifier {
     _disposed = true;
     _ticks.close();
     super.dispose();
+  }
+}
+
+/// A handle only Dart makes: JS borrows it.
+class Tracker extends ChangeNotifier {
+  Tracker._();
+  int _hits = 0;
+  int get hits => _hits;
+  void hit() {
+    _hits++;
+    notifyListeners();
   }
 }
 

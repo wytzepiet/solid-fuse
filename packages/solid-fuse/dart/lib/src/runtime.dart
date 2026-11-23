@@ -155,6 +155,10 @@ class FuseRuntime {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
     });
+    // JS let go of a handle Dart lent it (see FuseNodeRegistry.lend).
+    channels.on('_unborrow', (data) {
+      registry.unborrow(data['id'] as int, data['n'] as int);
+    });
     channels.on('_handleCall', (data) async {
       final id = data['node'] as int;
       final method = data['method'] as String;

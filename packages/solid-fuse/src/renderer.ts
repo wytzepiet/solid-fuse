@@ -44,6 +44,8 @@ export class FuseNode<K extends string = string> {
   /** The reactive owner where the node got its first handler: what a
    *  synchronous call (a builder) runs under, for context and lifetime. */
   declare owner: Owner | null | undefined;
+  /** The generated handle this node backs, if any (see generated.ts). */
+  declare handle: object | undefined;
 
   constructor(type: K, id: number = nextId++) {
     this.id = id;
@@ -78,6 +80,9 @@ const handlerNodes = new Map<number, WeakRef<FuseNode>>();
 // A call with `reply` (a Dart callback that returns a Future) waits for the
 // handler and answers `{ value }` or `{ error }`.
 on("_functionCall", (data: { nodeId: number; name: string; value?: any; args?: any[]; reply?: boolean }) => {
+  // Decoded even when nothing handles the call: a handle in it is counted.
+  if (data.args) data.args = decodeIn(data.args);
+  else data.value = decodeIn(data.value);
   const handler = handlerNodes.get(data.nodeId)?.deref()?.handlers?.[data.name];
   if (!data.reply) {
     if (handler === undefined) return;
@@ -105,6 +110,8 @@ const built = new Map<number, { dispose: () => void; node: FuseNode }>();
 let nextBuilt = 0;
 
 onSync("_callSync", (data: { nodeId: number; name: string; value?: any; args?: any[]; widget?: boolean }) => {
+  if (data.args) data.args = decodeIn(data.args);
+  else data.value = decodeIn(data.value);
   const target = handlerNodes.get(data.nodeId)?.deref();
   const handler = target?.handlers?.[data.name];
   if (handler === undefined) return { error: `no function "${data.name}" on node ${data.nodeId}` };
@@ -438,6 +445,43 @@ function createOwnedNode<K extends string>(type: K, props?: Record<string, unkno
   if (props) setCreateProps(node, props);
   scheduleFlush();
   return node;
+}
+
+// --- Nodes for objects Dart has ---
+
+/** How values from Dart become JS values: generated.ts turns the handle
+ *  references in them into handles. Identity until it is set. */
+let decodeIn: (v: any) => any = (v) => v;
+
+function _setDecodeIn(fn: (v: any) => any) {
+  decodeIn = fn;
+}
+
+const adoptedReleased = new FinalizationRegistry<{ id: number; done: () => void }>(({ id, done }) => {
+  if (handlerNodes.get(id)?.deref() === undefined) handlerNodes.delete(id);
+  done();
+});
+
+/**
+ * A node for an object Dart already has under [id] (a handle Dart hands
+ * to JS). It journals nothing: [released] runs once JS lets go of it, and
+ * must not hold the node.
+ */
+function adoptNode<K extends string>(type: K, id: number, released: () => void): FuseNode<K> {
+  const node = new FuseNode(type, id);
+  node.tracked = true;
+  adoptedReleased.register(node, { id, done: released });
+  return node;
+}
+
+/** The live node with [id] that has handlers (every generated handle). */
+function nodeById(id: number): FuseNode | undefined {
+  return handlerNodes.get(id)?.deref();
+}
+
+/** The wire form of a value a channel call carries (no functions). */
+function wireOf(value: any): any {
+  return value == null ? value : encodeValue("", value).wire;
 }
 
 /** Registers (or with `undefined`, removes) a function Dart calls by name on
@@ -824,6 +868,10 @@ export {
   applyRef,
   createNode,
   createOwnedNode,
+  adoptNode,
+  nodeById,
+  wireOf,
+  _setDecodeIn,
   setHandler,
   disposeNode,
   template,

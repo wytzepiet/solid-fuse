@@ -1,11 +1,14 @@
 import { createSignal } from "solid-js";
 import { GestureDetector, Text, View } from "solid-fuse";
-import { ListViewBuilder } from "#fuse/flutter";
+import { ListViewBuilder, createScrollController } from "#fuse/flutter";
 
 // A generated ListView.builder: Flutter asks JS for each row as it scrolls
-// into view (a synchronous call), and drops the rows that leave.
+// into view (a synchronous call), and drops the rows that leave. The
+// controller's `position` is a handle Dart makes and hands to JS.
 export function BuilderScreen() {
   const [picked, setPicked] = createSignal(-1);
+  const scroll = createScrollController();
+  const at = () => Math.round(scroll.position()?.pixels() ?? 0);
 
   return (
     <View flex={{ direction: "vertical", align: "stretch" }}>
@@ -16,9 +19,11 @@ export function BuilderScreen() {
         <Text color="#6B7280" fontSize={14}>
           {picked() < 0 ? "10,000 rows, built as they scroll in" : `Picked row ${picked()}`}
         </Text>
+        <Text color="#6B7280" fontSize={14}>{`Scrolled ${at()} px`}</Text>
       </View>
       <View grow={1}>
         <ListViewBuilder
+          controller={scroll}
           itemCount={10000}
           itemExtent={48}
           itemBuilder={(index) => (

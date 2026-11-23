@@ -747,7 +747,7 @@ describe("generated handles ($handle)", () => {
       return d;
     });
     const [create] = takeOps();
-    expect(create).toEqual({ op: "create", id: h.node.id, type: "t_Ctl", props: { text: "hi", onDone: true, $ctor: "named", $push: true } });
+    expect(create).toEqual({ op: "create", id: h.node.id, type: "t_Ctl", props: { text: "hi", onDone: true, $ctor: "named" } });
     expect(h.text()).toBe("hi");
     expect(h.count()).toBe(0);
     dispose();
@@ -826,6 +826,72 @@ describe("generated handles ($handle)", () => {
     expect(gone2()).toBe(false);
     disposeB();
     expect(gone2()).toBe(true);
+  });
+
+  describe("handles Dart hands to JS", () => {
+    const tracker = { s: ["hits"], w: [], o: [], m: ["hit"], st: [] };
+    beforeAll(() => G.$handleType("t_Tracker", tracker));
+    const unborrows = () => sent.filter((m) => m.channel === "_unborrow").map(({ channel, ...m }) => m);
+
+    test("a reference becomes a handle with its type's members and state; the same id gives the same handle", async () => {
+      const got: any[] = [];
+      const el = R.createElement("view", { onT: (t: any) => got.push(t) });
+      takeOps();
+      sent.length = 0;
+      await dispatch("_functionCall", { nodeId: el.id, name: "onT", value: { $h: -5, t: "t_Tracker", s: { hits: 3 } } });
+      await dispatch("_functionCall", { nodeId: el.id, name: "onT", value: { $h: -5, t: "t_Tracker" } });
+      expect(got[0]).toBe(got[1]);
+      expect(got[0].node.id).toBe(-5);
+      expect(got[0].hits()).toBe(3);
+      void got[0].hit();
+      expect(calls()).toEqual([{ channel: "_handleCall", node: -5, method: "hit", value: [] }]);
+      // No ops: Dart has the node already.
+      expect(takeOps()).toEqual([]);
+      await dispatch("_functionCall", { nodeId: -5, name: "$push", value: { v: 0, s: { hits: 4 } } });
+      flush();
+      expect(got[0].hits()).toBe(4);
+    });
+
+    test("without state, it asks for it; passed back, it is a node reference", async () => {
+      let got: any;
+      const el = R.createElement("view", { onT: (t: any) => (got = t) });
+      takeOps();
+      sent.length = 0;
+      await dispatch("_functionCall", { nodeId: el.id, name: "onT", value: [{ $h: -6, t: "t_Tracker" }] });
+      expect(got[0].hits()).toBe(undefined);
+      expect(calls()).toEqual([{ channel: "_handleCall", node: -6, method: "$sync", value: null }]);
+      R.setProp(el, "tracker", got[0]);
+      expect(takeOps()).toEqual([{ op: "setProp", id: el.id, name: "tracker", value: { _node: -6 } }]);
+      R.setProp(el, "tracker", null);
+      takeOps();
+    });
+
+    test("once JS lets go, it gives back every reference Dart counted", async () => {
+      const el = R.createElement("view", { onT: () => {} });
+      takeOps();
+      sent.length = 0;
+      await dispatch("_functionCall", { nodeId: el.id, name: "onT", value: { $h: -7, t: "t_Tracker", s: {} } });
+      await dispatch("_functionCall", { nodeId: el.id, name: "onT", value: { $h: -7, t: "t_Tracker" } });
+      // Even a call nothing handles counts.
+      await dispatch("_functionCall", { nodeId: el.id, name: "nothing", value: { $h: -7, t: "t_Tracker" } });
+      const mine = () => unborrows().filter((m) => m.id === -7);
+      await collect(() => mine().length > 0);
+      expect(mine()).toEqual([{ id: -7, n: 3 }]);
+    });
+
+    test("one JS created comes back as itself, uncounted", async () => {
+      let h: any;
+      let got: any;
+      const dispose = createRoot((d) => {
+        h = G.$handle("t_Ctl", spec, undefined, {});
+        return d;
+      });
+      const el = R.createElement("view", { onT: (t: any) => (got = t) });
+      takeOps();
+      await dispatch("_functionCall", { nodeId: el.id, name: "onT", value: { $h: h.node.id, t: "t_Ctl", o: 1 } });
+      expect(got).toBe(h);
+      dispose();
+    });
   });
 });
 

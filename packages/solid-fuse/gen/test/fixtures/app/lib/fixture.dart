@@ -21,6 +21,7 @@ class FixtureBox extends StatelessWidget {
     required this.weird,
     this.state,
     this.counter,
+    this.onTracker,
     this.size = _privateDefault,
     this.tags = const ['x'],
     this.hidden = const _Hidden(),
@@ -37,6 +38,7 @@ class FixtureBox extends StatelessWidget {
   final double Function(int index)? measure;
   final Mutable? state;
   final Counter? counter;
+  final ValueChanged<Tracker>? onTracker;
   final double size;
   final List<String> tags;
   final Shape hidden;

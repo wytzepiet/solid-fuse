@@ -163,6 +163,18 @@ A Dart parameter that takes a `TickerProvider` (`vsync`) is supplied for you.
 
 A handle prop only takes controllers that fit: a `ScrollController` can't go where a `TextEditingController` is expected.
 
+### Controllers Dart hands to JS
+
+Dart also gives you controllers: as a callback argument, a getter's value (`ScrollController.position`), or a method's result. You get the same kind of object, with the same state, setters, methods and streams:
+
+```tsx
+const scroll = createScrollController();
+const at = () => scroll.position()?.pixels() ?? 0;
+return <ListView controller={scroll}>...</ListView>;
+```
+
+The object is Dart's, so JS never disposes it, and there is no `createX` for a type only Dart makes. The same Dart object always gives you the same JS object, and one you created comes back as itself. You can pass it back to Dart anywhere a controller of its type fits.
+
 ### Lifetime
 
 A controller lives as long as the component (the reactive owner) that created it. If something still holds it after that, for example because it was handed to a parent, it lives until nothing does. Then Dart disposes it. There is no `dispose()` method, because anyone holding the controller could call it.
@@ -184,6 +196,5 @@ Only the code that called `createRoot` can release it. To create one that belong
 Something that can't cross the bridge yet is skipped, not guessed at, and `gen-report.txt` says why. If an optional parameter is skipped, its prop is missing. If a required one is skipped, the whole widget is missing. Not bridged yet:
 
 - Generic callbacks (`Navigator`'s `pageRouteBuilder`, generic over its own `T`).
-- Controllers that Dart hands to JS: a callback argument, or a getter that returns another controller (`ScrollController.position`).
 - Typed data (`Uint8List`) and records.
-- A controller method or setter that takes a function, a widget or a controller.
+- A controller method or setter that takes a function or a widget.
