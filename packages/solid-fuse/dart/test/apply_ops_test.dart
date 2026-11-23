@@ -137,6 +137,21 @@ void main() {
     expect(rt.registry.tryGet(1), isNull);
   });
 
+  test('a batch a synchronous call already brought is skipped; a new evaluation starts over', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    String batch(List<List<Object?>> ops) => jsonEncode([for (final op in ops) ...op]);
+    rt.applyBatch(1, 0, batch([create(1, 'text')]));
+    rt.applyBatch(1, 1, batch([setProp(1, 'n', 1)]), duringFrame: true);
+    // The queued message for batch 1 arrives after the call: no effect.
+    rt.applyBatch(1, 1, batch([setProp(1, 'n', 99)]));
+    expect(node(1).props['n'], 1);
+    rt.applyBatch(1, 2, batch([setProp(1, 'n', 2)]));
+    expect(node(1).props['n'], 2);
+    // A restarted bundle numbers its batches from 0 again.
+    rt.applyBatch(2, 0, batch([setProp(1, 'n', 3)]));
+    expect(node(1).props['n'], 3);
+  });
+
   test('an unknown opcode is an error', () {
     expect(() => rt.applyOps([42, 1]), throwsStateError);
   });

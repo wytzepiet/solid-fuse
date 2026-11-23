@@ -1,0 +1,9 @@
+# fuse gen report. Generated; do not edit.
+# 1 widgets, 0 handles, 0 skipped
+
+## Widgets
+ListViewBuilder  package:flutter/widgets.dart#ListView.builder
+
+## Handles (createX)
+
+## Skipped

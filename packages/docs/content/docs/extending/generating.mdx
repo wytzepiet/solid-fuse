@@ -72,6 +72,20 @@ import { Padding, Text, EdgeInsets } from "#fuse/flutter";
 
 A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it.
 
+### Builders
+
+A callback that returns a value at once, such as `ListView.builder`'s `itemBuilder`, is called synchronously: Dart waits for JS during the frame. A builder returns JSX, or `null` where Dart takes nothing (the end of a list without `itemCount`):
+
+```tsx
+import { ListViewBuilder } from "#fuse/flutter";
+
+<ListViewBuilder itemCount={items().length} itemBuilder={(index) => <Text>{items()[index].title}</Text>} />;
+```
+
+Each row Flutter builds runs the function in a root of its own, under the component that rendered the list, so context and signals work in it as anywhere else. The row stays reactive, and its root is disposed when Flutter drops the row (it scrolled out, or the list rebuilt). The `BuildContext` argument stays in Dart, so `itemBuilder` gets only `index`.
+
+The function must return without waiting: it can't be `async`, and anything it starts that does wait (a `fetch`) finishes after the row is shown. Keep it short, because the frame waits for it.
+
 ## Values
 
 A Dart value is written the Dart way, with builders the module exports:
@@ -161,7 +175,7 @@ Only the code that called `createRoot` can release it. To create one that belong
 
 Something that can't cross the bridge yet is skipped, not guessed at, and `gen-report.txt` says why. If an optional parameter is skipped, its prop is missing. If a required one is skipped, the whole widget is missing. Not bridged yet:
 
-- Builders: callbacks that return a value at once (`ListView.builder`'s `itemBuilder`). They wait for synchronous Dart to JS calls.
+- Generic callbacks (`Navigator`'s `pageRouteBuilder`, generic over its own `T`).
 - Controllers that Dart hands to JS: a callback argument, or a getter that returns another controller (`ScrollController.position`).
 - Typed data (`Uint8List`), records, and values generic over a type parameter.
 - A controller method or setter that takes a function, a widget or a controller.

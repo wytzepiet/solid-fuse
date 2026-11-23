@@ -5,6 +5,7 @@ import { TextFieldScreen } from "./text-field";
 import { IconScreen } from "./icon";
 import { ScrollScreen } from "./scroll";
 import { ListScreen } from "./list";
+import { BuilderScreen } from "./builder";
 
 export function HomeScreen() {
   const nav = useNavigation();
@@ -34,6 +35,10 @@ export function HomeScreen() {
       <MenuItem
         label="list"
         onTap={() => nav.push(() => <ListScreen />)}
+      />
+      <MenuItem
+        label="builder"
+        onTap={() => nav.push(() => <BuilderScreen />)}
       />
       <MenuItem
         label="scrollController"

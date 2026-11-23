@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
-import { createRoot, createSignal, createStore, flush, For } from "solid-js";
+import { createRoot, createSignal, createStore, flush, For, onCleanup as onCleanupFn } from "solid-js";
 
 // Run through `bun run test` (or `bun test --conditions browser`): by default
 // Bun resolves solid-js to its server build, where nothing is reactive.
@@ -826,5 +826,106 @@ describe("generated handles ($handle)", () => {
     expect(gone2()).toBe(false);
     disposeB();
     expect(gone2()).toBe(true);
+  });
+});
+
+describe("synchronous calls (builders)", () => {
+  const sync = (data: any) => (globalThis as any).__dispatchSync("_callSync", data);
+  const opsOf = (reply: any): Op[] => reply.ops.batches.flatMap(([, json]: [number, string]) => decode(JSON.parse(json)));
+
+  /** Flush, and let Dart answer the `_ops` messages. */
+  const applied = async () => {
+    takeOps();
+    await Promise.resolve();
+  };
+
+  test("a widget call returns the node it built, with the ops that create it", async () => {
+    const el = R.createElement("view", { itemBuilder: (i: number) => R.createElement("text", { label: `item ${i}` }) });
+    await applied();
+    const reply = sync({ nodeId: el.id, name: "itemBuilder", value: 3, widget: true });
+    const id = reply.result.value._node;
+    expect(reply.result.root).toBeNumber();
+    expect(reply.ops.v).toBe(4);
+    expect(opsOf(reply)).toEqual([{ op: "create", id, type: "text", props: { label: "item 3" } }]);
+    // Nothing left for the ordinary flush.
+    expect(takeOps()).toEqual([]);
+  });
+
+  test("batches Dart may not have applied yet come along, oldest first", () => {
+    const bridge = (globalThis as any).fjs.bridge_call;
+    // Dart is busy: no `_ops` message is answered.
+    (globalThis as any).fjs.bridge_call = (msg: any) => (sent.push(msg), new Promise(() => {}));
+    try {
+      const el = R.createElement("view", { build: () => R.createElement("text") });
+      R.flushOps();
+      const b = sent.find((m) => m.channel === "_ops").b;
+      const reply = sync({ nodeId: el.id, name: "build", widget: true });
+      expect(reply.ops.batches.map(([n]: [number]) => n)).toEqual([b, b + 1]);
+      expect(opsOf(reply)[0]).toEqual({ op: "create", id: el.id, type: "view", props: { build: true } });
+      // Handed over: the next call doesn't repeat them.
+      const again = sync({ nodeId: el.id, name: "build", widget: true });
+      expect(again.ops.batches.map(([n]: [number]) => n)).toEqual([b + 2]);
+    } finally {
+      (globalThis as any).fjs.bridge_call = bridge;
+      sent.length = 0;
+    }
+  });
+
+  test("text, a list or nothing: a slot node, or null", async () => {
+    let out: any = "hello";
+    const el = R.createElement("view", { build: () => out });
+    await applied();
+    const reply = sync({ nodeId: el.id, name: "build", widget: true });
+    const ops = opsOf(reply);
+    expect(ops[0]).toEqual({ op: "create", id: reply.result.value._node, type: "__slot__", props: {} });
+    expect(ops.slice(1).map((o) => o.op)).toEqual(["text", "insert"]);
+    out = undefined;
+    expect(sync({ nodeId: el.id, name: "build", widget: true }).result).toEqual({ value: null });
+  });
+
+  test("the root lives until Dart unbuilds it, and runs under the builder's owner", async () => {
+    let cleaned = 0;
+    const [n, setN] = createSignal(1);
+    let el!: InstanceType<typeof R.FuseNode>;
+    let disposeOwner!: () => void;
+    createRoot((d) => {
+      disposeOwner = d;
+      el = R.createElement("view", {
+        build: () => {
+          const t = R.createElement("text");
+          R.effect(n, (v: number, p?: number) => void R.setProp(t, "n", v, p));
+          (onCleanupFn as any)(() => cleaned++);
+          return t;
+        },
+      });
+    });
+    takeOps();
+    const reply = sync({ nodeId: el.id, name: "build", widget: true });
+    const id = reply.result.value._node;
+    setN(2);
+    expect(takeOps()).toContainEqual({ op: "setProp", id, name: "n", value: 2 });
+    await (globalThis as any).__dispatch("_unbuild", { root: reply.result.root });
+    expect(cleaned).toBe(1);
+    setN(3);
+    expect(takeOps()).toEqual([]);
+    // A root the owner took down first is unbuilt without trouble.
+    const other = sync({ nodeId: el.id, name: "build", widget: true });
+    disposeOwner();
+    expect(cleaned).toBe(2);
+    await (globalThis as any).__dispatch("_unbuild", { root: other.result.root });
+    expect(cleaned).toBe(2);
+  });
+
+  test("a value call returns the encoded value; a throw is an error", () => {
+    const el = R.createElement("view", {
+      size: (a: number, b: number) => ({ w: a * b, h: Infinity }),
+      bad: () => {
+        throw new Error("no");
+      },
+    });
+    takeOps();
+    expect(sync({ nodeId: el.id, name: "size", args: [2, 3] }).result).toEqual({ value: { w: 6, h: "Infinity" } });
+    expect(sync({ nodeId: el.id, name: "bad" }).result).toEqual({ error: "no" });
+    expect(sync({ nodeId: el.id, name: "bad", widget: true }).result).toEqual({ error: "no" });
   });
 });

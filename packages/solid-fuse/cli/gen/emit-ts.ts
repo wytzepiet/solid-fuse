@@ -257,6 +257,9 @@ export function emitTs(m: Manifest): TsOutput {
       used.add(n);
       return `${n}: ${tsOut(a.type, from)}`;
     });
+    // Dart waits for the result without a frame passing: it must come back
+    // at once (no Promise).
+    if (fn.sync) return `(${params.join(", ")}) => ${tsIn(fn.ret, from)}`;
     if (!fn.async) return `(${params.join(", ")}) => void`;
     // Dart waits for the result; a Promise is awaited.
     const ret = fn.ret.k === "void" ? "void" : tsIn(fn.ret, from);

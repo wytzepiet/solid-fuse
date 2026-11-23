@@ -98,5 +98,32 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField).first, 'Hi');
     await pumpUntil(tester, find.text('value = "Hi"'));
+
+    // A generated ListView.builder: Flutter asks JS for each row
+    // synchronously as it scrolls in. The rows stay reactive.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('builder'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('builder'));
+    await pumpUntil(tester, find.text('Row 0'));
+    await tester.pumpAndSettle();
+    expect(find.text('Row 2'), findsOneWidget);
+    await tester.tap(find.text('Row 2'));
+    await pumpUntil(tester, find.text('Picked row 2'));
+    final list = find.byType(Scrollable).last;
+    for (var i = 0; i < 20; i++) {
+      await tester.drag(list, const Offset(0, -2000));
+      await tester.pump();
+    }
+    await tester.pumpAndSettle();
+    expect(find.text('Row 0'), findsNothing);
+    final shown = [
+      for (var i = 0; i < 10000; i++)
+        if (find.text('Row $i').evaluate().isNotEmpty) i,
+    ];
+    expect(shown, isNotEmpty);
+    expect(shown.first, greaterThan(500));
+    await tester.tap(find.text('Row ${shown[1]}'));
+    await pumpUntil(tester, find.text('Picked row ${shown[1]}'));
   });
 }

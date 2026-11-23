@@ -68,6 +68,35 @@ export function call(
   });
 }
 
+type SyncHandler = (data: any) => any;
+const _syncHandlers = new Map<string, SyncHandler>();
+
+/** Register a handler for synchronous Dart → JS calls on this channel: Dart
+ *  blocks until it returns, so it must not wait on anything. */
+export function onSync(channel: string, handler: SyncHandler) {
+  _syncHandlers.set(channel, handler);
+}
+
+// The renderer's ops for a synchronous reply (renderer.ts `syncOps`).
+let _syncOps: (() => unknown) | undefined;
+export function _setSyncOps(fn: () => unknown) {
+  _syncOps = fn;
+}
+
+// Entry point for synchronous Dart → JS calls (`engine.callSync`). The reply
+// carries the ops the call produced, which Dart applies before it reads the
+// result: the ordinary `_ops` message would arrive after Dart needs them.
+(globalThis as any).__dispatchSync = (channel: string, data: any) => {
+  const h = _syncHandlers.get(channel);
+  let result: any;
+  try {
+    result = h ? h(data) : undefined;
+  } catch (err) {
+    reportDevError(err);
+  }
+  return { result, ops: _syncOps?.() };
+};
+
 /** Register a callback to run after every Dart → JS dispatch (solidFlush + flush). */
 export function onAfterDispatch(fn: () => void) {
   _afterDispatch = fn;

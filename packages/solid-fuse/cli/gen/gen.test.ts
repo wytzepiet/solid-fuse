@@ -24,7 +24,7 @@ const usage = `
 import { Padding, EdgeInsets, Text, Container, BoxDecoration, BorderRadius, Alignment, Row, Column, GestureDetector } from "./out/flutter";
 import { Colors, ElevatedButton, Slider, Scaffold, AppBar } from "./out/material_ui";
 import { FixtureBox, Point, Square, Mode, Menu, MenuItem, createCounter, type Counter, Badge, createTally } from "./out/fixture_app";
-import { createScrollController, createTextEditingController, createAnimationController, ListView, EditableText } from "./out/flutter";
+import { createScrollController, createTextEditingController, createAnimationController, ListView, ListViewBuilder, EditableText } from "./out/flutter";
 import { createSignal } from "solid-js";
 
 export const a = (
@@ -79,6 +79,10 @@ export const short = (
     <Badge label="b" at={3} />
   </Container>
 );
+export const list = (
+  <ListViewBuilder itemCount={3} itemBuilder={(index) => (index < 2 ? <Text>{\`item \${index}\`}</Text> : null)} />
+);
+export const box = <FixtureBox at={Point(1, 2)} measure={(i) => i * 2} builder={() => <Text>b</Text>} />;
 // @ts-expect-error a color is a "#..." string
 export const f = <Container color="red" />;
 // @ts-expect-error not a MainAxisAlignment

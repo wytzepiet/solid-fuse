@@ -1,6 +1,6 @@
 import { createRenderer, type RendererEffectOptions } from "@solidjs/universal";
-import { $PROXY, flush, getOwner, onCleanup } from "solid-js";
-import { send, on, onAfterDispatch, _setFlushOps } from "~/channels";
+import { $PROXY, createRoot, flush, getOwner, onCleanup, runWithOwner, type Owner } from "solid-js";
+import { on, onAfterDispatch, onSync, _setFlushOps, _setSyncOps } from "~/channels";
 import { reportDevError } from "./dev-error";
 import { host } from "./host";
 
@@ -41,6 +41,9 @@ export class FuseNode<K extends string = string> {
   declare nested: Record<string, number> | undefined;
   /** Whether the node is registered with `released`. */
   declare tracked: boolean | undefined;
+  /** The reactive owner where the node got its first handler: what a
+   *  synchronous call (a builder) runs under, for context and lifetime. */
+  declare owner: Owner | null | undefined;
 
   constructor(type: K, id: number = nextId++) {
     this.id = id;
@@ -92,6 +95,68 @@ on("_functionCall", (data: { nodeId: number; name: string; value?: any; args?: a
     }
   })();
 });
+
+// A synchronous call: Dart waits for the result during a frame (a builder
+// such as `ListView.builder`'s `itemBuilder`). The handler must not wait.
+// A call for a widget runs in a root of its own, kept until Dart drops the
+// widget (`_unbuild`); the result is a node, a `__slot__` node holding it,
+// or null for null or undefined.
+const built = new Map<number, { dispose: () => void; node: FuseNode }>();
+let nextBuilt = 0;
+
+onSync("_callSync", (data: { nodeId: number; name: string; value?: any; args?: any[]; widget?: boolean }) => {
+  const target = handlerNodes.get(data.nodeId)?.deref();
+  const handler = target?.handlers?.[data.name];
+  if (handler === undefined) return { error: `no function "${data.name}" on node ${data.nodeId}` };
+  const call = () => (data.args ? handler(...data.args) : handler(data.value));
+  if (!data.widget) {
+    try {
+      return { value: encodeValue("", call()).wire };
+    } catch (err) {
+      reportDevError(err);
+      return { error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+  let dispose: (() => void) | undefined;
+  try {
+    const node = runWithOwner(target!.owner ?? null, () =>
+      createRoot((d) => {
+        dispose = d;
+        const value = call();
+        return value == null ? null : asNode(value);
+      }),
+    );
+    if (node === null) {
+      // Nothing to show (a builder past the end of its list).
+      dispose!();
+      return { value: null };
+    }
+    const id = nextBuilt++;
+    built.set(id, { dispose: dispose!, node });
+    track(node);
+    return { value: { _node: node.id }, root: id };
+  } catch (err) {
+    dispose?.();
+    reportDevError(err);
+    return { error: err instanceof Error ? err.message : String(err) };
+  }
+});
+
+on("_unbuild", (data: { root: number }) => {
+  const b = built.get(data.root);
+  if (!b) return;
+  built.delete(data.root);
+  b.dispose();
+});
+
+/** The node for what a component returned: itself, or a `__slot__` node
+ *  holding it (text, a list, a reactive function, nothing). */
+function asNode(value: any): FuseNode {
+  if (value instanceof FuseNode && !value.parent) return value;
+  const slot = createNode("__slot__");
+  insert(slot, value);
+  return slot;
+}
 
 // --- Ops journal ---
 
@@ -156,7 +221,26 @@ const root: FuseNode = new FuseNode("root");
 let flushScheduled = false;
 let rendering = false;
 
+/**
+ * Batches sent to Dart that Dart may not have applied yet, by number. A
+ * synchronous call hands them over again ahead of its own batch: Dart is
+ * busy in the call, so the messages carrying them are still queued there.
+ * Dart skips a batch it already has.
+ */
+const unapplied = new Map<number, string>();
+
 function flushOps() {
+  const b = batch;
+  const json = drainOps();
+  if (json === undefined) return;
+  unapplied.set(b, json);
+  const done = () => unapplied.delete(b);
+  fjs.bridge_call({ channel: "_ops", v: OPS_VERSION, g: generation, b, json })?.then?.(done, done);
+}
+
+/** The journal as one JSON string, and a fresh journal; undefined when
+ *  there is nothing to send. */
+function drainOps(): string | undefined {
   flush();
   flushScheduled = false;
   if (ops.length === 0) return;
@@ -182,8 +266,21 @@ function flushOps() {
   defining.length = 0;
   ops.length = 0;
   batch++;
-  if (json !== undefined) send("_ops", { v: OPS_VERSION, json });
+  return json;
 }
+
+/** What a synchronous call returns with its result: every batch Dart may
+ *  lack, oldest first, then the journal so far. */
+function syncOps(): { v: number; g: number; batches: [number, string][] } {
+  const b = batch;
+  const json = drainOps();
+  const batches = [...unapplied];
+  unapplied.clear();
+  if (json !== undefined) batches.push([b, json]);
+  return { v: OPS_VERSION, g: generation, batches };
+}
+
+_setSyncOps(syncOps);
 
 function scheduleFlush() {
   if (flushScheduled || rendering) return;
@@ -428,6 +525,7 @@ function handlersOf(node: FuseNode): Record<string, Function> {
   let handlers = node.handlers;
   if (handlers === undefined) {
     handlers = node.handlers = {};
+    node.owner = getOwner();
     handlerNodes.set(node.id, new WeakRef(node));
     track(node);
   }

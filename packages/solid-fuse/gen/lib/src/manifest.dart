@@ -22,9 +22,9 @@ const manifestFormat = 1;
 const generatorVersion = '0.1.0';
 
 class ManifestBuilder {
-  ManifestBuilder(this.w, this.config, {int maxConsts = 400, bool syncCalls = false})
+  ManifestBuilder(this.w, this.config, {int maxConsts = 400})
       : code = DartCode(w) {
-    c = Classifier(w, code, maxConsts: maxConsts, syncCalls: syncCalls);
+    c = Classifier(w, code, maxConsts: maxConsts);
   }
 
   final World w;

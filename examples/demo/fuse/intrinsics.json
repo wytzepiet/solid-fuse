@@ -1,0 +1,193 @@
+{
+ "intrinsics": {
+  "flutter": {
+   "ListViewBuilder": "flutter_ListViewBuilder"
+  }
+ },
+ "builders": {
+  "flutter": {
+   "ScrollPhysics.alwaysScrollable": {
+    "tag": "ScrollPhysics.alwaysScrollable",
+    "positional": []
+   },
+   "ScrollPhysics.bouncing": {
+    "tag": "ScrollPhysics.bouncing",
+    "positional": []
+   },
+   "ScrollPhysics.clamping": {
+    "tag": "ScrollPhysics.clamping",
+    "positional": []
+   },
+   "ScrollPhysics.neverScrollable": {
+    "tag": "ScrollPhysics.neverScrollable",
+    "positional": []
+   },
+   "ScrollPhysics.rangeMaintaining": {
+    "tag": "ScrollPhysics.rangeMaintaining",
+    "positional": []
+   },
+   "ScrollPhysics": {
+    "tag": "ScrollPhysics",
+    "positional": []
+   },
+   "FixedExtentScrollPhysics": {
+    "tag": "FixedExtentScrollPhysics",
+    "positional": []
+   },
+   "PageScrollPhysics": {
+    "tag": "PageScrollPhysics",
+    "positional": []
+   },
+   "RangeMaintainingScrollPhysics": {
+    "tag": "RangeMaintainingScrollPhysics",
+    "positional": []
+   },
+   "BouncingScrollPhysics": {
+    "tag": "BouncingScrollPhysics",
+    "positional": []
+   },
+   "ClampingScrollPhysics": {
+    "tag": "ClampingScrollPhysics",
+    "positional": []
+   },
+   "AlwaysScrollableScrollPhysics": {
+    "tag": "AlwaysScrollableScrollPhysics",
+    "positional": []
+   },
+   "NeverScrollableScrollPhysics": {
+    "tag": "NeverScrollableScrollPhysics",
+    "positional": []
+   },
+   "EdgeInsetsGeometry.all": {
+    "tag": "EdgeInsetsGeometry.all",
+    "positional": [
+     "value"
+    ]
+   },
+   "EdgeInsetsGeometry.only": {
+    "tag": "EdgeInsetsGeometry.only",
+    "positional": []
+   },
+   "EdgeInsetsGeometry.directional": {
+    "tag": "EdgeInsetsGeometry.directional",
+    "positional": []
+   },
+   "EdgeInsetsGeometry.symmetric": {
+    "tag": "EdgeInsetsGeometry.symmetric",
+    "positional": []
+   },
+   "EdgeInsetsGeometry.fromLTRB": {
+    "tag": "EdgeInsetsGeometry.fromLTRB",
+    "positional": [
+     "left",
+     "top",
+     "right",
+     "bottom"
+    ]
+   },
+   "EdgeInsetsGeometry.fromViewPadding": {
+    "tag": "EdgeInsetsGeometry.fromViewPadding",
+    "positional": [
+     "padding",
+     "devicePixelRatio"
+    ]
+   },
+   "EdgeInsetsGeometry.fromSTEB": {
+    "tag": "EdgeInsetsGeometry.fromSTEB",
+    "positional": [
+     "start",
+     "top",
+     "end",
+     "bottom"
+    ]
+   },
+   "EdgeInsetsGeometry.zero": {
+    "const": "EdgeInsetsGeometry.zero"
+   },
+   "EdgeInsetsGeometry.infinity": {
+    "const": "EdgeInsetsGeometry.infinity"
+   },
+   "EdgeInsets.fromLTRB": {
+    "tag": "EdgeInsets.fromLTRB",
+    "positional": [
+     "left",
+     "top",
+     "right",
+     "bottom"
+    ]
+   },
+   "EdgeInsets.all": {
+    "tag": "EdgeInsets.all",
+    "positional": [
+     "value"
+    ]
+   },
+   "EdgeInsets.only": {
+    "tag": "EdgeInsets.only",
+    "positional": []
+   },
+   "EdgeInsets.symmetric": {
+    "tag": "EdgeInsets.symmetric",
+    "positional": []
+   },
+   "EdgeInsets.fromViewPadding": {
+    "tag": "EdgeInsets.fromViewPadding",
+    "positional": [
+     "padding",
+     "devicePixelRatio"
+    ]
+   },
+   "EdgeInsets.fromWindowPadding": {
+    "tag": "EdgeInsets.fromWindowPadding",
+    "positional": [
+     "padding",
+     "devicePixelRatio"
+    ]
+   },
+   "EdgeInsets.zero": {
+    "const": "EdgeInsets.zero"
+   },
+   "EdgeInsetsDirectional.fromSTEB": {
+    "tag": "EdgeInsetsDirectional.fromSTEB",
+    "positional": [
+     "start",
+     "top",
+     "end",
+     "bottom"
+    ]
+   },
+   "EdgeInsetsDirectional.only": {
+    "tag": "EdgeInsetsDirectional.only",
+    "positional": []
+   },
+   "EdgeInsetsDirectional.symmetric": {
+    "tag": "EdgeInsetsDirectional.symmetric",
+    "positional": []
+   },
+   "EdgeInsetsDirectional.all": {
+    "tag": "EdgeInsetsDirectional.all",
+    "positional": [
+     "value"
+    ]
+   },
+   "EdgeInsetsDirectional.zero": {
+    "const": "EdgeInsetsDirectional.zero"
+   },
+   "ScrollCacheExtent.pixels": {
+    "tag": "ScrollCacheExtent.pixels",
+    "positional": [
+     "pixels"
+    ]
+   },
+   "ScrollCacheExtent.viewport": {
+    "tag": "ScrollCacheExtent.viewport",
+    "positional": [
+     "value"
+    ]
+   },
+   "ViewPadding.zero": {
+    "const": "ViewPadding.zero"
+   }
+  }
+ }
+}

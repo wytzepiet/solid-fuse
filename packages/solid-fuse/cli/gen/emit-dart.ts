@@ -165,6 +165,23 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     const params = fn.args.map((_, i) => `a${i}`);
     const sent = fn.args.flatMap((a, i) => (a.type.k === "context" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`)]));
     const payload = sent.length === 0 ? "" : sent.length === 1 ? sent[0] : `FuseCallArgs([${sent.join(", ")}])`;
+    if (fn.sync) {
+      // Dart blocks until JS returns. A widget is built in a JS root of its
+      // own (decFnBuild); any other value is decoded like an argument.
+      const nullable = "null" in fn.ret && fn.ret.null;
+      let body: string;
+      if (fn.ret.k === "widget") {
+        body = nullable ? `f(${payload})` : `fuseWidget(f(${payload}))`;
+        return `switch (decFnBuild(${cx.n}, ${src}, ${q(cx.prop)})) {\n        final f? => (${params.join(", ")}) => ${body},\n        null => null,\n      }`;
+      }
+      const got = `f(${payload})`;
+      body = RAW.has(fn.ret.k)
+        ? `${got} as dynamic`
+        : nullable
+          ? dec(fn.ret, got, cx)
+          : `fuseReq(${dec(fn.ret, got, cx)}, ${q(cx.prop)}, 'result')`;
+      return `switch (decFnSync(${cx.n}, ${src}, ${q(cx.prop)})) {\n        final f? => (${params.join(", ")}) => ${body},\n        null => null,\n      }`;
+    }
     const read = `${fn.async ? "decFnAsync" : "decFn"}(${cx.n}, ${src}, ${q(cx.prop)})`;
     if (!fn.async && params.length === 0) return read; // void Function([Object?]) is a VoidCallback
     let body: string;

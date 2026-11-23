@@ -11,12 +11,12 @@ test("the report lists what was exported and why the rest was not", () => {
     widgets: [{ id: "package:a/a.dart#Box", component: "Box" }],
     handles: ["package:a/a.dart#Ctl"],
     types: { "package:a/a.dart#Ctl": { kind: "handle", name: "Ctl" } },
-    skipped: [{ item: "package:a/a.dart#List.builder", reason: "needs sync Dart -> JS calls" }],
+    skipped: [{ item: "package:a/a.dart#List.builder", reason: "generic callback" }],
   } as unknown as Manifest;
   const r = reportOf(m);
   expect(r).toContain("Box  package:a/a.dart#Box");
   expect(r).toContain("Ctl  package:a/a.dart#Ctl");
-  expect(r).toContain("package:a/a.dart#List.builder: needs sync Dart -> JS calls");
+  expect(r).toContain("package:a/a.dart#List.builder: generic callback");
 });
 
 test("vite resolves #fuse/<package> and the compile step knows the generated tables", () => {

@@ -1,5 +1,7 @@
 // Generated adapters, pumped. lib/generated/fuse.generated.dart is written by
 // cli/gen/gen.test.ts before it runs this file.
+import 'dart:convert';
+
 import 'package:fixture_app/fixture.dart';
 import 'package:fixture_app/src/annotated.dart';
 import 'package:fixture_app/generated/fuse.generated.dart';
@@ -101,6 +103,39 @@ void main() {
     expect(menu.items.last.onTap, isNull);
     expect(menu.onRefresh, isNotNull);
     expect(menu.onPick, isNull);
+  });
+
+  testWidgets('builders call JS synchronously; each built item is unbuilt when it goes', (t) async {
+    // Stands in for renderer.ts: item i is a text node 100 + i in root i;
+    // from index 3 on, nothing (the end of the list).
+    final unbuilt = <int>[];
+    rt.debugUnbuild = unbuilt.add;
+    var batch = 0;
+    rt.debugCallSync = (channel, data) {
+      expect(channel, '_callSync');
+      expect(data['widget'], true);
+      final i = data['value'] as int;
+      if (i >= 3) return {'result': {'value': null}, 'ops': {'v': 4, 'g': 0, 'batches': []}};
+      final ops = jsonEncode([...create(100 + i, 'flutter_Text'), ...text(200 + i, 'item $i'), ...insert(100 + i, 200 + i)]);
+      return {
+        'result': {'value': {'_node': 100 + i}, 'root': i},
+        'ops': {'v': 4, 'g': 0, 'batches': [[batch++, ops]]},
+      };
+    };
+    await pump(t, [create(1, 'flutter_ListViewBuilder', {'itemBuilder': true})], 1);
+    expect(find.text('item 0'), findsOneWidget);
+    expect(find.text('item 2'), findsOneWidget);
+    expect(find.text('item 3'), findsNothing);
+    await t.pumpWidget(const SizedBox());
+    expect(unbuilt..sort(), [0, 1, 2]);
+  });
+
+  testWidgets('a callback that returns a value is called synchronously', (t) async {
+    rt.debugCallSync = (channel, data) => {
+          'result': {'value': (data['value'] as int) * 2},
+        };
+    await pump(t, [create(1, 'fixture_app_FixtureBox', {'at': {r'$': 'Point', 'x': 0}, 'measure': true})], 1);
+    expect(t.widget<FixtureBox>(find.byType(FixtureBox)).measure!(21), 42);
   });
 
   testWidgets('shorthands, and the app\'s own @fuse widget', (t) async {

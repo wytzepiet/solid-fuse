@@ -1,6 +1,13 @@
 import { defineConfig } from "solid-fuse/config";
 
 export default defineConfig({
+  // Generated components (`#fuse/flutter`): ListView.builder for the
+  // builder screen.
+  gen: {
+    libraries: {
+      "package:flutter/widgets.dart": { allow: ["ListView.builder"] },
+    },
+  },
   vite: {
     plugins: [
       {

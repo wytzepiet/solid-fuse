@@ -71,6 +71,20 @@ class FuseChannels {
   }
 }
 
+extension FuseSyncChannels on FuseChannels {
+  /// Dart → JS call that blocks until the JS handler (registered with
+  /// `onSync`) returns. For a value needed at once, such as a builder's
+  /// widget during a frame. Returns `{result, ops}`: the handler's result and
+  /// the ops it produced (see `syncOps` in renderer.ts).
+  Object? callSync(String channel, Map<String, dynamic> data) => engine
+      .callSync(
+        module: '__fuse_dispatch',
+        method: 'dispatchSync',
+        params: [JsValue.string(channel), JsValue.from(data)],
+      )
+      .value;
+}
+
 /// Thrown when [FuseChannels.call] exceeds its timeout.
 class ChannelTimeoutError implements Exception {
   ChannelTimeoutError(this.channel, this.timeout);

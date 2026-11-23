@@ -37,13 +37,9 @@ const kMaxSubclasses = 40;
 const kMaxOutputDepth = 4;
 
 class Classifier {
-  Classifier(this.w, this.code, {this.maxConsts = 400, this.syncCalls = false});
+  Classifier(this.w, this.code, {this.maxConsts = 400});
   final World w;
   final DartCode code;
-
-  /// Whether Dart can call JS synchronously (builders, callbacks that return
-  /// a value). Until it can, such callbacks are skipped.
-  final bool syncCalls;
 
   /// Per namespace owner, more constants than this are not offered
   /// (Icons has ~8.9k; IconData gets a shorthand instead).
@@ -639,6 +635,7 @@ class Classifier {
   // ── callbacks ─────────────────────────────────────────────────────────────
 
   Json _callback(FunctionType f) {
+    if (f.typeParameters.isNotEmpty) throw Skip('generic callback');
     final args = <Json>[];
     var context = false;
     var i = 0;
@@ -676,7 +673,6 @@ class Classifier {
       ret = input(r);
     }
     final sync = !isAsync && ret['k'] != 'void';
-    if (sync && !syncCalls) throw Skip('callback returns a value synchronously (needs sync Dart -> JS calls)');
     return {
       'k': 'fn',
       'args': args,
@@ -693,6 +689,7 @@ class Classifier {
 
   Json output(DartType t, [int depth = 0]) {
     if (t is TypeParameterType || t is DynamicType) return {'k': 'dynamic'};
+    if (t is InterfaceType) t = _erase(t);
     final key = _key(t);
     var hit = _outMemo[key];
     if (hit == null) {
@@ -707,6 +704,24 @@ class Classifier {
     }
     if (hit is Skip) throw hit;
     return _withNull(hit as Json, t);
+  }
+
+  /// [t] with type parameters in its arguments replaced by their bounds
+  /// (`AsyncSnapshot<T>` is read as `AsyncSnapshot<Object?>`): an encoder is
+  /// a top-level function, where `T` means nothing.
+  InterfaceType _erase(InterfaceType t) {
+    if (t.typeArguments.isEmpty) return t;
+    DartType arg(DartType a) => switch (a) {
+      TypeParameterType() => a.element.bound ?? w.tp.objectQuestionType,
+      InterfaceType() => _erase(a),
+      _ => a,
+    };
+    final args = [for (final a in t.typeArguments) arg(a)];
+    var same = true;
+    for (var i = 0; i < args.length; i++) {
+      if (!identical(args[i], t.typeArguments[i])) same = false;
+    }
+    return same ? t : t.element.instantiate(typeArguments: args, nullabilitySuffix: t.nullabilitySuffix);
   }
 
   Json _output(DartType t, int depth) {

@@ -75,7 +75,6 @@ void main() {
 
     test('an optional parameter no rule covers is kept as a skip', () {
       final w = widget('FixtureBox');
-      expect(param(w, 'builder')['skip'], contains('sync'));
       expect(param(w, 'hidden')['skip'], contains('default'));
       // A private constant whose value is plain is reproduced by value.
       expect(param(w, 'size')['default'], '3.0');
@@ -96,6 +95,13 @@ void main() {
       final move = param(w, 'onMove')['type']! as Json;
       expect(((move['args']! as List).single as Json)['type'], {'k': 'data', 'id': '$fixtureLib#Point'});
       expect(param(w, 'onRefresh')['type'], containsPair('async', true));
+      // A callback that returns a value at once is a synchronous call: a
+      // builder returns a widget, `measure` a number.
+      final builder = param(w, 'builder')['type']! as Json;
+      expect(builder, containsPair('sync', true));
+      expect(builder['ret'], containsPair('k', 'widget'));
+      expect(builder['context'], true);
+      expect(param(w, 'measure')['type'], allOf(containsPair('sync', true), containsPair('ret', {'k': 'double'})));
     });
   });
 

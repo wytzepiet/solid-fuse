@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
+import 'channels.dart';
 import 'connection.dart';
 import 'dev_connection.dart';
 import 'fuse_handle.dart';
@@ -28,7 +30,12 @@ const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
 /// and tree rendering.
 class FuseRuntime {
   FuseRuntime._() {
-    registry = FuseNodeRegistry(callFunction: callFunction, callFunctionAsync: callFunctionAsync);
+    registry = FuseNodeRegistry(
+      callFunction: callFunction,
+      callFunctionAsync: callFunctionAsync,
+      callFunctionSync: callFunctionSync,
+      unbuild: unbuild,
+    );
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
   }
@@ -142,15 +149,8 @@ class FuseRuntime {
       try {
         // JS sends each batch as one JSON string (see flushOps in
         // renderer.ts).
-        final version = data['v'];
-        if (version != opsVersion) {
-          throw StateError(
-            'The JS bundle speaks op format ${version ?? 1}, this runtime '
-            'speaks $opsVersion. Rebuild the bundle and the app with the '
-            'same solid-fuse version.',
-          );
-        }
-        applyOps(jsonDecode(data['json'] as String) as List<dynamic>);
+        _checkOpsVersion(data['v']);
+        applyBatch(data['g'] as int?, data['b'] as int?, data['json'] as String);
       } catch (e, st) {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
@@ -171,6 +171,85 @@ class FuseRuntime {
       return await handle.call(method, value);
     });
   }
+
+  void _checkOpsVersion(Object? version) {
+    if (version != opsVersion) {
+      throw StateError(
+        'The JS bundle speaks op format ${version ?? 1}, this runtime '
+        'speaks $opsVersion. Rebuild the bundle and the app with the '
+        'same solid-fuse version.',
+      );
+    }
+  }
+
+  // The JS evaluation the applied batches came from, and the last batch
+  // applied. A synchronous call carries the batches whose messages are still
+  // queued here; when those messages arrive they are skipped.
+  int? _generation;
+  int _applied = -1;
+
+  /// Applies batch [b] of JS evaluation [g], unless it is already applied.
+  @visibleForTesting
+  void applyBatch(int? g, int? b, String json, {bool duringFrame = false}) {
+    if (g != _generation) {
+      _generation = g;
+      _applied = -1;
+    }
+    if (b != null) {
+      if (b <= _applied) return;
+      _applied = b;
+    }
+    applyOps(jsonDecode(json) as List<dynamic>, duringFrame: duringFrame);
+  }
+
+  /// Call a JS function and block until it returns, applying the ops it
+  /// produced first. With [widget], the result is a node built in a root of
+  /// its own, which [unbuild] releases: `(node, root)`. A throw becomes a
+  /// [FuseCallbackError].
+  (Object?, int?) callFunctionSync(int nodeId, String name, Object? value, {bool widget = false}) {
+    final data = <String, dynamic>{
+      'nodeId': nodeId,
+      'name': name,
+      if (value is FuseCallArgs) 'args': value.args else 'value': ?value,
+      if (widget) 'widget': true,
+    };
+    final Object? reply;
+    if (debugCallSync case final fake?) {
+      reply = fake('_callSync', data);
+    } else {
+      final channels = _connection?.channels;
+      if (channels == null) throw FuseCallbackError(name, 'no JS connection');
+      reply = channels.callSync('_callSync', data);
+    }
+    if (reply is! Map) throw FuseCallbackError(name, 'no reply');
+    final ops = reply['ops'];
+    if (ops is Map) {
+      _checkOpsVersion(ops['v']);
+      for (final batch in ops['batches'] as List) {
+        final [b as int, json as String] = batch as List;
+        applyBatch(ops['g'] as int?, b, json, duringFrame: true);
+      }
+    }
+    final r = reply['result'];
+    if (r is! Map) throw FuseCallbackError(name, 'no result');
+    if (r.containsKey('error')) throw FuseCallbackError(name, '${r['error']}');
+    final v = r['value'];
+    if (!widget) return (v, null);
+    final node = v is Map && v['_node'] is int ? registry.tryGet(v['_node'] as int) : null;
+    return (node, r['root'] as int?);
+  }
+
+  /// Releases the root of a widget [callFunctionSync] built.
+  void unbuild(int root) {
+    if (debugUnbuild case final fake?) return fake(root);
+    _connection?.channels?.send('_unbuild', {'root': root});
+  }
+
+  /// Stands in for JS in [callFunctionSync] and [unbuild] (tests).
+  @visibleForTesting
+  Object? Function(String channel, Map<String, dynamic> data)? debugCallSync;
+  @visibleForTesting
+  void Function(int root)? debugUnbuild;
 
   /// No-op: connections are reused across hot restarts, never disposed.
   void dispose() {}
@@ -224,7 +303,11 @@ class FuseRuntime {
   ///
   /// [ops] is the flat journal written by renderer.ts: an opcode followed by
   /// its operands, then the next opcode (the layout is documented there).
-  void applyOps(List<dynamic> ops) {
+  ///
+  /// With [duringFrame] (ops a synchronous call brought, applied while a
+  /// builder runs), nodes that changed are told after the frame: a listener
+  /// may be a widget that is not allowed to rebuild now.
+  void applyOps(List<dynamic> ops, {bool duringFrame = false}) {
     final dirty = <FuseNode>{};
     // Nodes created in this batch whose type has a handle factory. The
     // factory runs once the batch is applied, so that it sees every prop the
@@ -332,6 +415,15 @@ class FuseRuntime {
       }
     }
 
+    if (duringFrame && dirty.isNotEmpty && SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        for (final node in dirty) {
+          if (identical(registry.tryGet(node.id), node)) node.markDirty();
+        }
+      });
+      SchedulerBinding.instance.scheduleFrame();
+      return;
+    }
     for (final node in dirty) {
       node.markDirty();
     }
@@ -388,6 +480,12 @@ class FuseRuntime {
 
     if (node.type == '__text__') {
       return Text(node.props['text']?.toString() ?? '');
+    }
+
+    // What a builder returned that is not one element (text, a list, a
+    // reactive value): its children, as a `child` slot shows them.
+    if (node.type == '__slot__') {
+      return node.children.isEmpty ? const SizedBox.shrink() : node.flexChildren;
     }
 
     final builder = _widgetBuilders[node.type];

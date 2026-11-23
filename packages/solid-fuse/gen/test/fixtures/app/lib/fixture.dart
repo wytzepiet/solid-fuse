@@ -1,4 +1,5 @@
 // Fixture for solid_fuse_gen's rule tests: one example of every rule.
+import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 
 export 'src/types.dart';
@@ -16,6 +17,7 @@ class FixtureBox extends StatelessWidget {
     this.onMove,
     this.onRefresh,
     this.builder,
+    this.measure,
     required this.weird,
     this.state,
     this.counter,
@@ -31,7 +33,8 @@ class FixtureBox extends StatelessWidget {
   final ValueChanged<Point>? onMove;
   final Future<void> Function()? onRefresh;
   final WidgetBuilder? builder;
-  final double Function()? weird;
+  final Uint8List? weird;
+  final double Function(int index)? measure;
   final Mutable? state;
   final Counter? counter;
   final double size;

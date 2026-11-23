@@ -334,7 +334,7 @@ class FuseNode extends FuseMap with ChangeNotifier {
 }
 
 class FuseNodeRegistry {
-  FuseNodeRegistry({required this.callFunction, this.callFunctionAsync});
+  FuseNodeRegistry({required this.callFunction, this.callFunctionAsync, this.callFunctionSync, this.unbuild});
 
   /// Callback to call a JS function via the bridge.
   final void Function(core.int nodeId, String name, [dynamic value])
@@ -344,6 +344,15 @@ class FuseNodeRegistry {
   /// awaited). Null where there is no JS behind the registry (tests).
   final Future<Object?> Function(core.int nodeId, String name, [dynamic value])?
   callFunctionAsync;
+
+  /// Calls a JS function and blocks until it returns (a builder). With
+  /// `widget`, the result is the built node and the root that holds it,
+  /// released with [unbuild]. Null where there is no JS (tests).
+  final (Object?, core.int?) Function(core.int nodeId, String name, Object? value, {core.bool widget})?
+  callFunctionSync;
+
+  /// Releases a root [callFunctionSync] built a widget in.
+  final void Function(core.int root)? unbuild;
 
   final _nodes = <int, FuseNode>{};
 

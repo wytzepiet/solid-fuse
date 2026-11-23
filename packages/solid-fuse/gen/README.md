@@ -36,8 +36,11 @@ RenderObject, Element).
   subclasses, and namespace classes (Colors, Curves). A namespace class with
   more than 400 constants (Icons) is left out.
 - **Enums** become plain value lists, with deprecated values marked.
-- **Callbacks** are `void` or `Future` callbacks. A callback that returns a
-  value synchronously (a builder) is skipped until fjs has sync calls.
+- **Callbacks**: a `void` callback is called without waiting, a `Future` one
+  waits for the JS result, and one that returns a value at once (a builder)
+  is a synchronous call (`sync`). A generic callback (its own type
+  parameters) is skipped. A callback argument whose type is generic over the
+  widget's type parameter is read at the bound (`AsyncSnapshot<Object?>`).
 - **Anything else** is a skip with a reason. An optional parameter stays in the
   signature as `skip`, so positional order is kept. A required one skips the
   item, which lands in `skipped`. Nothing is fatal, and an unexpected exception

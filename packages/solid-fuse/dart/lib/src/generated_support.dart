@@ -111,6 +111,82 @@ Future<Object?> Function([Object? value])? decFnAsync(FuseNode n, Object? v, Str
   return ([value]) => call(n.id, name, value);
 }
 
+/// A JS function Dart calls synchronously for a value (a callback that
+/// returns one at once). Its result is undecoded.
+Object? Function([Object? value])? decFnSync(FuseNode n, Object? v, String prop) {
+  final name = _fnName(v, prop);
+  if (name == null) return null;
+  final call = n.registry.callFunctionSync;
+  if (call == null) return ([value]) => throw FuseCallbackError(name, 'no JS connection');
+  return ([value]) => call(n.id, name, value).$1;
+}
+
+/// A JS function that builds a widget (a builder such as `itemBuilder`): each
+/// call runs it at once and shows the node it returns, or gives null when it
+/// returns nothing. A throw shows as an error widget.
+Widget? Function([Object? value])? decFnBuild(FuseNode n, Object? v, String prop) {
+  final name = _fnName(v, prop);
+  if (name == null) return null;
+  final call = n.registry.callFunctionSync;
+  return ([value]) {
+    try {
+      if (call == null) throw FuseCallbackError(name, 'no JS connection');
+      final (node, root) = call(n.id, name, value, widget: true);
+      if (node is! FuseNode) {
+        if (root != null) n.registry.unbuild?.call(root);
+        return null;
+      }
+      return FuseBuiltWidget._(node: node, root: root, unbuild: n.registry.unbuild);
+    } catch (e, st) {
+      FlutterError.reportError(FlutterErrorDetails(exception: e, stack: st, library: 'solid_fuse'));
+      return ErrorWidget(e);
+    }
+  };
+}
+
+/// A builder's widget where Dart needs one: nothing is an empty box.
+Widget fuseWidget(Widget? w) => w ?? const SizedBox.shrink();
+
+/// What a JS builder returned. The JS root it was built in lives until the
+/// widget is gone: replaced by another, unmounted, or never mounted and
+/// collected.
+class FuseBuiltWidget extends StatefulWidget {
+  FuseBuiltWidget._({required this.node, required this.root, required this.unbuild}) {
+    if (root != null && unbuild != null) _collected.attach(this, (root!, unbuild!), detach: this);
+  }
+
+  final FuseNode node;
+  final int? root;
+  final void Function(int root)? unbuild;
+
+  static final _collected = Finalizer<(int, void Function(int))>((r) => r.$2(r.$1));
+
+  void _release() {
+    _collected.detach(this);
+    if (root != null) unbuild?.call(root!);
+  }
+
+  @override
+  State<FuseBuiltWidget> createState() => _FuseBuiltState();
+}
+
+class _FuseBuiltState extends State<FuseBuiltWidget> {
+  @override
+  void didUpdateWidget(FuseBuiltWidget old) {
+    super.didUpdateWidget(old);
+    if (old.root != widget.root) old._release();
+  }
+
+  @override
+  void dispose() {
+    widget._release();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => FuseNodeWidget(node: widget.node);
+}
+
 /// A JS callback threw or its Promise rejected.
 class FuseCallbackError implements Exception {
   FuseCallbackError(this.name, this.message);

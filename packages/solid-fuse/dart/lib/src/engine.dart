@@ -103,7 +103,8 @@ Future<EngineResult> createEngine({
   await engine.declareNewModule(
     module: JsModule.code(
       module: '__fuse_dispatch',
-      code: 'export function dispatch(ch, data) { return globalThis.__dispatch(ch, data); }',
+      code: 'export function dispatch(ch, data) { return globalThis.__dispatch(ch, data); }\n'
+          'export function dispatchSync(ch, data) { return globalThis.__dispatchSync(ch, data); }',
     ),
   );
 
