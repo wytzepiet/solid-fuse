@@ -48,7 +48,9 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       if (h is FusePageHandle) {
         pages.add(h.object);
       } else if (kDebugMode) {
-        debugPrint('[Fuse navigator] child <${child.type}> is not a FusePageHandle — ignored');
+        debugPrint(
+          '[Fuse navigator] child <${child.type}> is not a FusePageHandle — ignored',
+        );
       }
     }
     if (pages.isEmpty) return const SizedBox.shrink();

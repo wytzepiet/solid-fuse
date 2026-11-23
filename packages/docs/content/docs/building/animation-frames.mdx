@@ -1,0 +1,35 @@
+---
+title: Animation frames
+description: requestAnimationFrame on Flutter's vsync
+---
+
+`requestAnimationFrame` and `cancelAnimationFrame` work as in a browser. The callbacks run once per frame, on Flutter's vsync, with the frame's time in milliseconds.
+
+```tsx
+import { createSignal, onCleanup } from "solid-js";
+import { View } from "solid-fuse";
+
+function Spinner() {
+  const [angle, setAngle] = createSignal(0);
+  let id = requestAnimationFrame(function loop(time) {
+    setAngle(time / 500);
+    id = requestAnimationFrame(loop);
+  });
+  onCleanup(() => cancelAnimationFrame(id));
+
+  return <View width={40} height={40} decoration={{ color: "#2563eb" }} transform={{ rotate: angle() }} />;
+}
+```
+
+## Timing
+
+At the start of each frame, before Flutter builds it, solid-fuse runs the queued callbacks and everything they change: signals, effects, props. The frame then draws the result. A value set in a callback is on screen in that frame, in step with scrolling, route transitions and Dart animations.
+
+The frame waits for the callbacks. A few springs or a few dozen prop writes take about a millisecond; heavy work in a callback delays the whole frame, scrolling included. In debug builds, solid-fuse prints a warning when a frame's callbacks take more than a third of the frame.
+
+Callbacks queued during a frame run in the next one. When none are queued, nothing runs.
+
+## When not to use it
+
+- **Dart can animate it.** Generated `AnimatedOpacity`, `AnimatedContainer` and `createAnimationController` run in Dart without crossing to JS each frame.
+- **Following a finger.** Set the value from the gesture's own event instead. It reaches the screen in the next frame either way, and a drag that must stick to the finger belongs in a Dart widget.

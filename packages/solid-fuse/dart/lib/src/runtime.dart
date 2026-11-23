@@ -141,7 +141,9 @@ class FuseRuntime {
       try {
         await dev.connect();
       } catch (e) {
-        debugPrint('[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle');
+        debugPrint(
+          '[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle',
+        );
         await _startQuickJs();
         return;
       }
@@ -178,7 +180,10 @@ class FuseRuntime {
   /// plus the JS stack — the part actually useful for fixing your code.
   String _formatJsError(Object e) {
     var msg = e.toString();
-    msg = msg.replaceFirst(RegExp(r'^AnyhowException\(Runtime error:\s*'), '');
+    msg = msg.replaceFirst(
+      RegExp(r'^AnyhowException\(Runtime error:\s*'),
+      '',
+    );
     final rustIdx = msg.indexOf('Stack backtrace:');
     if (rustIdx >= 0) msg = msg.substring(0, rustIdx).trimRight();
     if (msg.endsWith(')')) msg = msg.substring(0, msg.length - 1).trimRight();
@@ -188,9 +193,10 @@ class FuseRuntime {
   /// Register runtime-level channel handlers.
   void _registerChannels() {
     final channels = _connection!.channels!;
-    final mode = _frameClock?.mode;
-    _frameClock = FuseFrameClock(channels, applySyncOps: _applySyncOps);
-    if (mode != null) _frameClock!.mode = mode;
+    _frameClock = FuseFrameClock(callSync: channels.callSync, applySyncOps: _applySyncOps);
+    channels.on('_frames', (data) {
+      if (data['op'] == 'start') _frameClock!.start();
+    });
     channels.on('_ops', (data) {
       try {
         // JS sends each batch as one JSON string (see flushOps in
@@ -302,18 +308,15 @@ class FuseRuntime {
   }
 
   /// Applies the batches a synchronous reply carries (`syncOps` in renderer.ts).
+  @visibleForTesting
+  void applySyncOps(Object? ops) => _applySyncOps(ops);
+
   void _applySyncOps(Object? ops) {
     if (ops is! Map) return;
     _checkOpsVersion(ops['v']);
     for (final batch in ops['batches'] as List) {
       final l = batch as List;
-      applyBatch(
-        ops['g'] as int?,
-        l[0] as int,
-        l[1] as String,
-        bytes: l.length > 2 ? l[2] as List : null,
-        duringFrame: true,
-      );
+      applyBatch(ops['g'] as int?, l[0] as int, l[1] as String, bytes: l.length > 2 ? l[2] as List : null, duringFrame: true);
     }
   }
 
@@ -403,7 +406,11 @@ class FuseRuntime {
       switch (ops[i]) {
         case _opCreate:
           final type = ops[i + 2] as String;
-          final node = registry.create(ops[i + 1] as int, type, ops[i + 3] as Map<String, dynamic>);
+          final node = registry.create(
+            ops[i + 1] as int,
+            type,
+            ops[i + 3] as Map<String, dynamic>,
+          );
           if (_handleFactories.containsKey(type)) {
             (handleNodes ??= []).add(node);
           }
@@ -441,7 +448,10 @@ class FuseRuntime {
             oldParent.removeChildSilent(child);
             dirty.add(oldParent);
           }
-          parent.insertChildSilent(child, before: before == null ? null : registry.tryGet(before));
+          parent.insertChildSilent(
+            child,
+            before: before == null ? null : registry.tryGet(before),
+          );
           dirty.add(parent);
         case _opRemove:
           final child = registry.get(ops[i + 1] as int);
@@ -493,10 +503,12 @@ class FuseRuntime {
 
     // Before the build phase (a frame callback) nodes can be marked dirty
     // directly; during or after it they are notified after the frame.
-    final phase = SchedulerBinding.instance.schedulerPhase;
     if (duringFrame &&
         dirty.isNotEmpty &&
-        (phase == SchedulerPhase.persistentCallbacks || phase == SchedulerPhase.postFrameCallbacks)) {
+        switch (SchedulerBinding.instance.schedulerPhase) {
+          SchedulerPhase.persistentCallbacks || SchedulerPhase.postFrameCallbacks => true,
+          _ => false,
+        }) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         for (final node in dirty) {
           if (identical(registry.tryGet(node.id), node)) node.markDirty();
@@ -512,12 +524,20 @@ class FuseRuntime {
 
   /// Build the nodes of [shape] under [parent], giving them consecutive ids
   /// from [id] in document order. Returns the next free id.
-  int _instantiate(List<dynamic> shape, int id, FuseNode? parent, String? component, List<FuseNode> handleNodes) {
+  int _instantiate(
+    List<dynamic> shape,
+    int id,
+    FuseNode? parent,
+    String? component,
+    List<FuseNode> handleNodes,
+  ) {
     final type = shape[0] as String;
     final shared = shape[1];
     // Each instance owns its props map (ops write to it); nested values are
     // shared with the shape and never mutated.
-    final props = shared is Map<String, dynamic> ? Map<String, dynamic>.of(shared) : <String, dynamic>{};
+    final props = shared is Map<String, dynamic>
+        ? Map<String, dynamic>.of(shared)
+        : <String, dynamic>{};
     if (component != null) props['_component'] = component;
     final node = registry.create(id++, type, props);
     if (_handleFactories.containsKey(type)) handleNodes.add(node);
@@ -525,7 +545,9 @@ class FuseRuntime {
     for (var k = 2; k < shape.length; k++) {
       final child = shape[k];
       if (child is String) {
-        node.insertChildSilent(registry.create(id++, '__text__', {'text': child}));
+        node.insertChildSilent(
+          registry.create(id++, '__text__', {'text': child}),
+        );
       } else {
         id = _instantiate(child as List<dynamic>, id, node, component, handleNodes);
       }
@@ -585,7 +607,9 @@ class FuseRuntime {
         : '<${node.type}> #${node.id}';
     debugPrint('[Fuse] $label: $message');
     final propsStr = node.props.toString();
-    final truncated = propsStr.length > 300 ? '${propsStr.substring(0, 300)}…' : propsStr;
+    final truncated = propsStr.length > 300
+        ? '${propsStr.substring(0, 300)}…'
+        : propsStr;
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0xFFF44336), width: 3),
@@ -595,7 +619,11 @@ class FuseRuntime {
       child: SingleChildScrollView(
         child: Text(
           '\u26a0 $label\n\n$message\n\nProps: $truncated',
-          style: const TextStyle(fontSize: 11, fontFamily: 'monospace', color: Color(0xFFB71C1C)),
+          style: const TextStyle(
+            fontSize: 11,
+            fontFamily: 'monospace',
+            color: Color(0xFFB71C1C),
+          ),
         ),
       ),
     );
@@ -604,18 +632,24 @@ class FuseRuntime {
 
 /// Provides a [FuseRuntime] to the widget tree.
 class FuseRuntimeScope extends InheritedWidget {
-  const FuseRuntimeScope({super.key, required this.runtime, required super.child});
+  const FuseRuntimeScope({
+    super.key,
+    required this.runtime,
+    required super.child,
+  });
 
   final FuseRuntime runtime;
 
   static FuseRuntime of(BuildContext context) {
-    final scope = context.dependOnInheritedWidgetOfExactType<FuseRuntimeScope>();
+    final scope = context
+        .dependOnInheritedWidgetOfExactType<FuseRuntimeScope>();
     assert(scope != null, 'No FuseRuntimeScope found in widget tree');
     return scope!.runtime;
   }
 
   @override
-  bool updateShouldNotify(FuseRuntimeScope oldWidget) => runtime != oldWidget.runtime;
+  bool updateShouldNotify(FuseRuntimeScope oldWidget) =>
+      runtime != oldWidget.runtime;
 }
 
 /// A widget that renders the Fuse JS tree.
@@ -632,7 +666,10 @@ class FuseView extends StatelessWidget {
     final root = runtime.registry.get(0);
     Widget view = FuseRuntimeScope(
       runtime: runtime,
-      child: ListenableBuilder(listenable: root, builder: (context, _) => runtime.buildWidgetForNode(root)),
+      child: ListenableBuilder(
+        listenable: root,
+        builder: (context, _) => runtime.buildWidgetForNode(root),
+      ),
     );
     // Run on its own, nothing above gives a text direction until the app
     // root mounts; layout before that still needs one.
