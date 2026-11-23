@@ -10,6 +10,13 @@ nothing about TypeScript.
 dart run solid_fuse_gen --root <flutter app> --config gen.json --out fuse.manifest.json
 ```
 
+With `--serve` it stays running and reads one run per line on stdin (`{}` or
+`{"force": true}`), answering each with one JSON line (`{"code", "message"}`).
+The analyzer keeps what it resolved, and before each run it is told which files
+under `lib/` changed (a new `package_config.json` or `pubspec.lock` starts it
+over). `fuse dev` uses this: a run after an edit takes 30 to 150 ms instead of
+about 2 s. It exits when stdin closes, and with 75 when its own code changed.
+
 `gen.json` is `{}` for an app: the barrels say everything. Tests and tools can
 add `libraries` with allow/deny patterns (`lib/src/config.dart`).
 

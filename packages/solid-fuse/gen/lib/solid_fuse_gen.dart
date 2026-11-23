@@ -16,12 +16,11 @@ import 'src/world.dart';
 export 'src/barrels.dart' show barrelLibraries;
 export 'src/config.dart' show GenConfig, LibraryRule;
 export 'src/manifest.dart' show generatorVersion, manifestFormat;
+export 'src/world.dart' show World;
 
-/// Hash of everything the manifest depends on: the generator, the config, and
-/// the resolved packages. Equal hash, equal manifest.
-String inputHash({required String root, required String configJson}) {
-  // The generator's own build: its snapshot changes whenever its code does,
-  // which a version number alone would miss during development.
+/// The generator's own build: its snapshot changes whenever its code does,
+/// which a version number alone would miss during development.
+String selfStamp() {
   final self = File.fromUri(Platform.script);
   final stamp = StringBuffer(self.existsSync() ? '${self.lengthSync()}:${self.lastModifiedSync().microsecondsSinceEpoch}' : '');
   // Run from source (`dart run` inside this package): the code is the
@@ -36,6 +35,13 @@ String inputHash({required String root, required String configJson}) {
       }
     }
   }
+  return stamp.toString();
+}
+
+/// Hash of everything the manifest depends on: the generator, the config, and
+/// the resolved packages. Equal hash, equal manifest.
+String inputHash({required String root, required String configJson}) {
+  final stamp = selfStamp();
   final parts = <List<int>>[
     utf8.encode('$generatorVersion\n$manifestFormat\n$stamp\n'),
     utf8.encode(configJson),

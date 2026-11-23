@@ -4,9 +4,9 @@
 // a file that uses it the way apps will. Needs `dart` and `flutter` on PATH;
 // skipped without them.
 import { beforeAll, describe, expect, test } from "bun:test";
-import { mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
-import { runGenerator, writeGenerated, type Manifest } from "./index";
+import { closeGenerators, runGenerator, writeGenerated, type Manifest } from "./index";
 
 const pkg = resolve(import.meta.dirname, "../..");
 const genPkg = join(pkg, "gen");
@@ -166,6 +166,33 @@ describe.skipIf(!hasFlutter)("fuse gen over widgets, material_ui, cupertino_ui",
   test("covers the libraries", () => {
     expect(m.widgets.length).toBeGreaterThan(550);
   });
+
+  test("a resident generator sees edits", async () => {
+    const barrel = join(fixture, "lib", "fuse.dart");
+    const before = readFileSync(barrel, "utf8");
+    const run = () =>
+      runGenerator({
+        dartRoot: fixture,
+        libraries: {},
+        manifestPath: join(out, "resident.json"),
+        command: { cmd: ["dart", "run", "solid_fuse_gen"], cwd: genPkg },
+        resident: true,
+      });
+    const has = (m: Manifest) => m.widgets.some((w) => w.id.endsWith("#Unmarked"));
+    try {
+      expect(has(await run())).toBe(false);
+      writeFileSync(barrel, before.replace("show Badge,", "show Badge, Unmarked,"));
+      const t0 = performance.now();
+      expect(has(await run())).toBe(true);
+      // The analyzer is kept: an edit doesn't resolve Flutter again.
+      expect(performance.now() - t0).toBeLessThan(1500);
+      writeFileSync(barrel, before);
+      expect(has(await run())).toBe(false);
+    } finally {
+      writeFileSync(barrel, before);
+      closeGenerators();
+    }
+  }, 120_000);
 
   test("the Dart passes flutter analyze", async () => {
     const r = await run(["flutter", "analyze", "--no-pub", "lib/generated"], fixture);

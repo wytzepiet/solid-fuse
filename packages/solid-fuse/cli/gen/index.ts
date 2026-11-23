@@ -28,6 +28,12 @@ export interface RunGeneratorOptions {
    */
   command?: { cmd: string[]; cwd: string };
   force?: boolean;
+  /**
+   * Keep the generator running between runs (`fuse dev`): the analyzer keeps
+   * what it resolved, so a run after an edit takes milliseconds, not
+   * seconds. Stop it with [closeGenerators].
+   */
+  resident?: boolean;
 }
 
 /** Runs solid_fuse_gen and reads its manifest. */
@@ -40,13 +46,91 @@ export async function runGenerator(o: RunGeneratorOptions): Promise<Manifest> {
   const sorted = Object.fromEntries(Object.entries(o.libraries).sort(([a], [b]) => a.localeCompare(b)));
   writeFileSync(configPath, JSON.stringify({ libraries: sorted }, null, 1));
   const command = o.command ?? { cmd: ["dart", "run", "solid_fuse_gen"], cwd: o.dartRoot };
-  const proc = Bun.spawn(
-    [...command.cmd, "--root", o.dartRoot, "--config", configPath, "--out", manifestPath, ...(o.force ? ["--force"] : [])],
-    { cwd: command.cwd, stdout: "pipe", stderr: "pipe" },
-  );
-  const [code, stderr] = await Promise.all([proc.exited, new Response(proc.stderr).text()]);
-  if (code !== 0) throw new Error(`solid_fuse_gen exited with ${code}:\n${stderr}`);
+  const args = [...command.cmd, "--root", o.dartRoot, "--config", configPath, "--out", manifestPath];
+  if (o.resident) {
+    await residentRun(args, command.cwd, !!o.force);
+  } else {
+    const proc = Bun.spawn([...args, ...(o.force ? ["--force"] : [])], { cwd: command.cwd, stdout: "pipe", stderr: "pipe" });
+    const [code, stderr] = await Promise.all([proc.exited, new Response(proc.stderr).text()]);
+    if (code !== 0) throw new Error(`solid_fuse_gen exited with ${code}:\n${stderr}`);
+  }
   return readManifest(readFileSync(manifestPath, "utf8"));
+}
+
+/** Generators kept running (`--serve`), by their command line. */
+const resident = new Map<string, Resident>();
+
+interface Resident {
+  send(force: boolean): Promise<{ code: number; message: string }>;
+  close(): void;
+}
+
+async function residentRun(args: string[], cwd: string, force: boolean): Promise<void> {
+  const key = JSON.stringify([cwd, ...args]);
+  for (let attempt = 0; ; attempt++) {
+    let r = resident.get(key);
+    if (!r) resident.set(key, (r = serve(args, cwd, () => resident.delete(key))));
+    const res = await r.send(force);
+    // 75: the generator's own code changed; start it again.
+    if (res.code === 75 && attempt === 0) continue;
+    if (res.code !== 0) throw new Error(`solid_fuse_gen exited with ${res.code}:\n${res.message}`);
+    return;
+  }
+}
+
+/** Starts `<args> --serve`: one JSON line per run each way. */
+function serve(args: string[], cwd: string, gone: () => void): Resident {
+  const proc = Bun.spawn([...args, "--serve"], { cwd, stdin: "pipe", stdout: "pipe", stderr: "pipe" });
+  const waiting: ((r: { code: number; message: string }) => void)[] = [];
+  let stderr = "";
+  let done = false;
+  const finish = (code: number) => {
+    if (done) return;
+    done = true;
+    gone();
+    for (const w of waiting.splice(0)) w({ code: code || 70, message: stderr.slice(-4000) || "solid_fuse_gen stopped" });
+  };
+  void (async () => {
+    const dec = new TextDecoder();
+    for await (const chunk of proc.stderr) stderr = (stderr + dec.decode(chunk, { stream: true })).slice(-16000);
+  })();
+  void (async () => {
+    const dec = new TextDecoder();
+    let buf = "";
+    for await (const chunk of proc.stdout) {
+      buf += dec.decode(chunk, { stream: true });
+      let nl: number;
+      while ((nl = buf.indexOf("\n")) >= 0) {
+        const line = buf.slice(0, nl).trim();
+        buf = buf.slice(nl + 1);
+        // `dart run` may print its own lines first.
+        if (!line.startsWith("{")) continue;
+        waiting.shift()?.(JSON.parse(line));
+      }
+    }
+  })();
+  void proc.exited.then(finish);
+  return {
+    send(force) {
+      if (done) return Promise.resolve({ code: 70, message: stderr.slice(-4000) || "solid_fuse_gen stopped" });
+      return new Promise((resolve) => {
+        waiting.push(resolve);
+        proc.stdin.write(`${JSON.stringify({ force })}\n`);
+        proc.stdin.flush();
+      });
+    },
+    close() {
+      if (done) return;
+      // It exits when its stdin closes.
+      proc.stdin.end();
+      finish(0);
+    },
+  };
+}
+
+/** Stops every generator [runGenerator] kept running. */
+export function closeGenerators(): void {
+  for (const r of [...resident.values()]) r.close();
 }
 
 export interface WriteOptions {

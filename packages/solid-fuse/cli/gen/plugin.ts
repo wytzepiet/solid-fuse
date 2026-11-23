@@ -10,6 +10,7 @@ import type { FuseConfig } from "../../src/config";
 import type { CompileTables } from "../compile-plugin";
 import { GENERATED_DART, hasBarrels, runGen } from "./command";
 import { emitDart } from "./emit-dart";
+import { closeGenerators } from "./index";
 import { readManifest } from "./manifest";
 import { newBundleUse, shake, type BundleUse } from "./shake";
 
@@ -48,7 +49,9 @@ export function fuseGenPlugin(o: FuseGenPluginOptions): Plugin & { api: { use: B
     if (!hasBarrels(o.dartRoot)) return;
     const t0 = performance.now();
     try {
-      const r = await runGen(o.projectRoot, o.config);
+      // The dev server keeps the generator running: a run after an edit
+      // then re-reads only what changed.
+      const r = await runGen(o.projectRoot, o.config, { resident: !building });
       const dart = r.written.some((f) => f.endsWith(".dart"));
       if (r.written.length > 0) {
         console.log(
@@ -81,6 +84,12 @@ export function fuseGenPlugin(o: FuseGenPluginOptions): Plugin & { api: { use: B
       if (building) await generate("build");
     },
     async configureServer(server) {
+      server.httpServer?.once("close", closeGenerators);
+      const close = server.close.bind(server);
+      server.close = async () => {
+        closeGenerators();
+        await close();
+      };
       await generate("start");
       server.watcher.add(join(o.dartRoot, "lib"));
       let timer: ReturnType<typeof setTimeout> | null = null;

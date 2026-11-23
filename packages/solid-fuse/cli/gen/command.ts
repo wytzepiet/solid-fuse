@@ -56,7 +56,7 @@ export interface GenResult {
  * adapters (lib/_generated/fuse.generated.dart) and a report of what was
  * exported and what was skipped, and why (`<out>/gen-report.txt`).
  */
-export async function runGen(projectRoot: string, config: FuseConfig | null, { force = false } = {}): Promise<GenResult> {
+export async function runGen(projectRoot: string, config: FuseConfig | null, { force = false, resident = false } = {}): Promise<GenResult> {
   const dartRoot = join(projectRoot, config?.dart ?? "dart");
   if (!existsSync(join(genPackage, ".dart_tool", "package_config.json"))) {
     const r = await run(["dart", "pub", "get"], genPackage);
@@ -68,6 +68,7 @@ export async function runGen(projectRoot: string, config: FuseConfig | null, { f
     libraries: {},
     command: { cmd: ["dart", "run", "solid_fuse_gen"], cwd: genPackage },
     force,
+    resident,
   });
   const outDir = join(projectRoot, genOutDir(config));
   const { written } = writeGenerated(manifest, { tsDir: outDir, dartFile: join(dartRoot, GENERATED_DART) });

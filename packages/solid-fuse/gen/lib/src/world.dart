@@ -114,6 +114,13 @@ class World {
     await ctx.applyPendingFileChanges();
   }
 
+  /// Drops the analysis context of [root]: the next [load] starts a new one
+  /// (the resolved packages changed).
+  static Future<void> reset(String root) async {
+    final rootPath = Directory(root).absolute.resolveSymbolicLinksSync();
+    await _collections.remove(rootPath)?.dispose();
+  }
+
   static Future<World> load({
     required String root,
     required List<String> targets,
