@@ -19,6 +19,7 @@ export function HomeScreen() {
     if (count) nav.push(() => <FramesScreen count={count} />);
     else nav.pop();
   });
+  on("benchPing", () => Date.now());
 
   return (
     <ScrollView layout={{ direction: "vertical" }}>

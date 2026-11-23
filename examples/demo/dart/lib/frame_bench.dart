@@ -25,6 +25,27 @@ void main() async {
 
   final clock = runtime.frameClock!;
   final channels = runtime.channels!;
+
+  // The async call's round trip, split at the JS handler (wall clock, ms).
+  final there = <int>[], back = <int>[], total = <int>[];
+  for (var i = 0; i < 60; i++) {
+    final sent = DateTime.now().microsecondsSinceEpoch;
+    final js = ((await channels.call('benchPing', {})) as num).toInt() * 1000;
+    final done = DateTime.now().microsecondsSinceEpoch;
+    there.add(js - sent);
+    back.add(done - js);
+    total.add(done - sent);
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+  }
+  int med(List<int> l) => (l..sort())[l.length ~/ 2];
+  debugPrint('[bench] async call round trip median ${med(total)}us: to JS ~${med(there)}us, back ~${med(back)}us (JS clock in ms)');
+  final syncTimes = <int>[];
+  for (var i = 0; i < 60; i++) {
+    final w = Stopwatch()..start();
+    channels.callSync('_frameNoop', const {});
+    syncTimes.add(w.elapsedMicroseconds);
+  }
+  debugPrint('[bench] sync call round trip median ${med(syncTimes)}us');
   for (final count in [10, 64, 200]) {
     channels.send('benchFrames', {'count': count});
     await Future<void>.delayed(const Duration(milliseconds: 800));
