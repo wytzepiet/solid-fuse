@@ -26,17 +26,10 @@ export interface FuseCompileOptions {
 
 /**
  * `fuse gen`: TypeScript components and Dart adapters generated from Dart.
- * The app's own `@fuse` classes are always included; other libraries are
- * listed here.
+ * What crosses is what `dart/lib/fuse.dart` exports, and the `lib/fuse.dart`
+ * of any package that has one.
  */
 export interface FuseGenOptions {
-  /**
-   * Dart libraries to export, by import uri, each with optional `allow` and
-   * `deny` patterns (`Class`, `Class.constructor`, `*` for any run of
-   * characters). No `allow` means everything the library declares; `deny`
-   * wins. `{ "package:flutter/widgets.dart": { allow: ["Padding", "Image.*"] } }`.
-   */
-  libraries?: Record<string, { allow?: string[]; deny?: string[] }>;
   /** Directory of the generated modules, imported as `#fuse/<package>`. Default "fuse". */
   out?: string;
 }

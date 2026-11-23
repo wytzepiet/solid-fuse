@@ -1,13 +1,17 @@
 # solid_fuse_gen
 
-Reads Dart signatures (Flutter, pub packages, later the app's own `@fuse` code)
-with `package:analyzer` and writes one JSON manifest. The emitters in the fuse
+Reads Dart signatures with `package:analyzer` and writes one JSON manifest.
+What it reads is what the barrels export: the app's `lib/fuse.dart` and every
+package's `lib/fuse.dart` (`lib/src/barrels.dart`). The emitters in the fuse
 CLI turn the manifest into TypeScript and Dart adapters; this package knows
 nothing about TypeScript.
 
 ```bash
 dart run solid_fuse_gen --root <flutter app> --config gen.json --out fuse.manifest.json
 ```
+
+`gen.json` is `{}` for an app: the barrels say everything. Tests and tools can
+add `libraries` with allow/deny patterns (`lib/src/config.dart`).
 
 It runs from the app (a dev dependency), so dartdev caches its snapshot. The
 analyzer's summaries are cached in `<root>/.dart_tool/solid_fuse_gen/cache`.

@@ -1,10 +1,10 @@
 /**
- * `fuse gen`, and the generation step `fuse link` / `fuse dev` / `fuse build`
- * run when the config has `gen`.
+ * `fuse gen`, and the generation step `fuse link` and the Vite plugin
+ * (plugin.ts) run when there is a `dart/lib/fuse.dart`.
  */
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { dirname, join, relative } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import { defineCommand } from "citty";
 import type { FuseConfig } from "../../src/config";
 import { runGenerator, writeGenerated } from "./index";
@@ -16,6 +16,23 @@ const genPackage = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "ge
 /** Where the generated TypeScript goes, relative to the project root. */
 export function genOutDir(config: FuseConfig | null): string {
   return config?.gen?.out ?? "fuse";
+}
+
+/**
+ * Whether there is anything to generate: the app's `lib/fuse.dart`, or a
+ * package's other than solid_fuse (whose barrel only adds shorthands).
+ */
+export function hasBarrels(dartRoot: string): boolean {
+  if (existsSync(join(dartRoot, "lib", "fuse.dart"))) return true;
+  const configPath = join(dartRoot, ".dart_tool", "package_config.json");
+  if (!existsSync(configPath)) return false;
+  const base = pathToFileURL(join(dartRoot, ".dart_tool", "/"));
+  const packages = (JSON.parse(readFileSync(configPath, "utf8")).packages ?? []) as { name: string; rootUri: string; packageUri?: string }[];
+  return packages.some((p) => {
+    if (p.name === "solid_fuse") return false;
+    const lib = new URL(p.packageUri ?? "lib/", new URL(p.rootUri.endsWith("/") ? p.rootUri : `${p.rootUri}/`, base));
+    return existsSync(fileURLToPath(new URL("fuse.dart", lib)));
+  });
 }
 
 /** The Dart file with the generated adapters, under the app's lib/. */
@@ -47,7 +64,8 @@ export async function runGen(projectRoot: string, config: FuseConfig | null, { f
   }
   const manifest = await runGenerator({
     dartRoot,
-    libraries: config?.gen?.libraries ?? {},
+    // What crosses is what the barrels export (lib/fuse.dart).
+    libraries: {},
     command: { cmd: ["dart", "run", "solid_fuse_gen"], cwd: genPackage },
     force,
   });

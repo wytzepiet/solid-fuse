@@ -1,8 +1,11 @@
 # fuse gen report. Generated; do not edit.
-# 1 widgets, 1 handles, 0 skipped
+# 4 widgets, 1 handles, 0 skipped
 
 ## Widgets
+ListView  package:flutter/widgets.dart#ListView
 ListViewBuilder  package:flutter/widgets.dart#ListView.builder
+ListViewSeparated  package:flutter/widgets.dart#ListView.separated
+ListViewCustom  package:flutter/widgets.dart#ListView.custom
 
 ## Handles (createX)
 ScrollController  package:flutter/widgets.dart#ScrollController

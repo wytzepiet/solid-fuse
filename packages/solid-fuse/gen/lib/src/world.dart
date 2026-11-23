@@ -189,6 +189,10 @@ class World {
             : declared.scheme == 'package'
                 ? declared.pathSegments.first
                 : 'flutter';
+        // The library that declares it, when that is an entry (the app's own
+        // classes, not the barrel that re-exports them).
+        final own = declared == null || declared.scheme != 'package' ? null : _byUri('$declared');
+        if (own != null) return own;
         EntryLib? fallback;
         for (final lib in entries) {
           if (lib.element.exportNamespace.get2(name) != e) continue;

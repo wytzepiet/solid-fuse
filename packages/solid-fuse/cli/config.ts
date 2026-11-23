@@ -1,12 +1,13 @@
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 import { join, resolve } from "path";
 import { mergeConfig, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
-import type { FuseCompileOptions, FuseConfig } from "../src/config";
+import type { FuseConfig } from "../src/config";
 import { fuseDevErrorPlugin } from "./dev-error-plugin";
 import { fuseCompilePlugin } from "./compile-plugin";
-import { bundleUsePlugin, type BundleUse } from "./gen/shake";
+import { fuseGenPlugin, generatedTables } from "./gen/plugin";
+import type { BundleUse } from "./gen/shake";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -29,8 +30,6 @@ export async function loadFuseConfig(
 
 /**
  * Build a Vite InlineConfig from a FuseConfig, merging Fuse defaults with user overrides.
- */
-/**
  * [use], in `fuse build`, collects what the bundle uses of the generated
  * modules (cli/gen/shake.ts).
  */
@@ -48,18 +47,7 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
   // that let the compile step treat their components and builders as constant.
   const genDir = resolve(projectRoot, fuseConfig?.gen?.out ?? "fuse");
   const compile = { ...fuseConfig?.compile };
-  const tables = join(genDir, "intrinsics.json");
-  if (existsSync(tables)) {
-    const t = JSON.parse(readFileSync(tables, "utf8")) as {
-      intrinsics: Record<string, Record<string, string>>;
-      builders: NonNullable<FuseCompileOptions["builders"]>;
-    };
-    const prefixed = <T>(o: Record<string, T>) => Object.fromEntries(Object.entries(o).map(([k, v]) => [`#fuse/${k}`, v]));
-    compile.intrinsics = { ...prefixed(t.intrinsics), ...compile.intrinsics };
-    compile.builders = { ...prefixed(t.builders), ...compile.builders };
-  }
-
-  if (use) use.generated = `${genDir}/`;
+  const gen = fuseGenPlugin({ projectRoot, dartRoot, genDir, config: fuseConfig, use });
 
   const fuseDefaults: InlineConfig = {
     configFile: false,
@@ -69,10 +57,11 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
     },
     // The compile step goes in front of Solid's compiler (both are "pre").
     plugins: [
-      fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: use }),
+      // Generation first: it writes the modules and tables the others read.
+      gen,
+      fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: gen.api.use, tables: generatedTables(genDir) }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),
-      ...(use ? [bundleUsePlugin(genDir, use)] : []),
     ],
     optimizeDeps: {
       // Pre-bundle at server startup so hashes are stable before the device

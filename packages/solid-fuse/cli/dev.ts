@@ -17,7 +17,8 @@ export const devCommand = defineCommand({
     const projectRoot = findProjectRoot();
 
     // Step 1: fuse link
-    await runLink(projectRoot, { pubGet: false });
+    // Generation runs in the Vite dev server or build (cli/gen/plugin.ts).
+    await runLink(projectRoot, { pubGet: false, gen: false });
 
     // Step 2: Load fuse config
     const fuseConfig = await loadFuseConfig(projectRoot);

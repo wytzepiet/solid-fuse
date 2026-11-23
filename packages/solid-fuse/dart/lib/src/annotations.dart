@@ -1,20 +1,6 @@
 // Annotations `fuse gen` reads (solid_fuse_gen). They do nothing at runtime.
-
-/// Exports a class of the app's own Dart to JS: a widget becomes a component,
-/// a handle (a Listenable, or a class with mutable state) gets `createX`.
-///
-/// ```dart
-/// @fuse
-/// class Badge extends StatelessWidget { ... }
-/// ```
-///
-/// Only the app's own `lib/` is searched; other packages are listed in
-/// `fuse.config.ts` (`gen.libraries`).
-const fuse = Fuse();
-
-class Fuse {
-  const Fuse();
-}
+// What crosses to JS is what `lib/fuse.dart` exports; these only mark roles
+// an export can't say.
 
 /// Makes a function a short way to write its return type from JS: wherever
 /// a prop takes that type (or a supertype), a value of the parameter's type

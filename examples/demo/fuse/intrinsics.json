@@ -1,7 +1,10 @@
 {
  "intrinsics": {
   "flutter": {
-   "ListViewBuilder": "flutter_ListViewBuilder"
+   "ListView": "flutter_ListView",
+   "ListViewBuilder": "flutter_ListViewBuilder",
+   "ListViewSeparated": "flutter_ListViewSeparated",
+   "ListViewCustom": "flutter_ListViewCustom"
   }
  },
  "builders": {
@@ -183,6 +186,24 @@
     "tag": "ScrollCacheExtent.viewport",
     "positional": [
      "value"
+    ]
+   },
+   "SliverChildBuilderDelegate": {
+    "tag": "SliverChildBuilderDelegate",
+    "positional": [
+     "builder"
+    ]
+   },
+   "SliverChildListDelegate.fixed": {
+    "tag": "SliverChildListDelegate.fixed",
+    "positional": [
+     "children"
+    ]
+   },
+   "SliverChildListDelegate": {
+    "tag": "SliverChildListDelegate",
+    "positional": [
+     "children"
     ]
    },
    "Duration.zero": {

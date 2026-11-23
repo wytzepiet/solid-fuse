@@ -1,11 +1,10 @@
-// Not exported by fixture.dart: reached through its annotations only.
+// Not exported by fixture.dart: the barrel (lib/fuse.dart) exports it.
 import 'package:flutter/widgets.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
 import 'types.dart';
 
 /// A widget of the app's own.
-@fuse
 class Badge extends StatelessWidget {
   const Badge({super.key, required this.label, this.at = const Point(0)});
   final String label;
@@ -14,15 +13,14 @@ class Badge extends StatelessWidget {
   Widget build(BuildContext context) => Text(label);
 }
 
-/// Not annotated: not exported.
+/// Not in the barrel: not exported.
 class Unmarked extends StatelessWidget {
   const Unmarked({super.key});
   @override
   Widget build(BuildContext context) => const SizedBox();
 }
 
-/// A handle that is not a Listenable: exported because it is annotated.
-@fuse
+/// A handle that is not a Listenable: a controller because the barrel names it.
 class Tally {
   int total = 0;
   void bump() => total++;

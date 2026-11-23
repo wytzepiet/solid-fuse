@@ -12,8 +12,6 @@
  * Everything those reach (decoders, enums, shorthands, handles Dart hands
  * to JS) follows from the types, as it does for the full output.
  */
-import { relative, resolve } from "path";
-import type { Plugin } from "vite";
 import type { CompileUsage } from "../compile-plugin";
 import { handleTags, tagOf } from "./emit-dart";
 import type { ExportUse } from "./emit-ts";
@@ -27,31 +25,6 @@ export interface BundleUse extends CompileUsage {
 
 export function newBundleUse(): BundleUse {
   return { tags: new Set(), consts: new Set(), exports: new Map() };
-}
-
-/**
- * Records, per generated module in [genDir], the exports that survived tree
- * shaking. Runs in `vite build` only.
- */
-export function bundleUsePlugin(genDir: string, use: BundleUse): Plugin {
-  const dir = resolve(genDir);
-  return {
-    name: "solid-fuse:bundle-use",
-    apply: "build",
-    generateBundle(_options, bundle) {
-      for (const chunk of Object.values(bundle)) {
-        if (chunk.type !== "chunk") continue;
-        for (const [id, info] of Object.entries(chunk.modules)) {
-          const rel = relative(dir, id.split("?", 1)[0]).replace(/\\/g, "/");
-          if (rel.startsWith("..") || !rel.endsWith(".tsx")) continue;
-          const name = rel.slice(0, -4);
-          let set = use.exports.get(name);
-          if (!set) use.exports.set(name, (set = new Set()));
-          for (const e of info.renderedExports) set.add(e);
-        }
-      }
-    },
-  };
 }
 
 /**

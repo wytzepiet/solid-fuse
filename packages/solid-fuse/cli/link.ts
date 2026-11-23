@@ -13,7 +13,7 @@ import {
   type FusePackageInfo,
 } from "./utils";
 import { loadFuseConfig } from "./config";
-import { GENERATED_DART, runGen } from "./gen/command";
+import { GENERATED_DART, hasBarrels, runGen } from "./gen/command";
 
 /**
  * Core link logic — exported so other commands (dev, build, install, remove) can call it.
@@ -25,8 +25,9 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
   const fuseConfig = await loadFuseConfig(root);
   const dartRoot = getDartRoot(root, fuseConfig);
 
-  // Generated components and adapters (fuse.config.ts `gen`).
-  if (gen && fuseConfig?.gen) {
+  // Generated components and adapters (dart/lib/fuse.dart). `fuse dev` and
+  // `fuse build` leave it to their Vite plugin (cli/gen/plugin.ts).
+  if (gen && hasBarrels(dartRoot)) {
     try {
       const t0 = performance.now();
       const r = await runGen(root, fuseConfig);
@@ -120,7 +121,8 @@ function generateFusePackagesDart(
   }
 
   // `fuse gen` output, when there is some.
-  const generated = existsSync(join(dartRoot, GENERATED_DART));
+  // The Vite plugin writes it in `fuse dev` / `fuse build`, after this.
+  const generated = existsSync(join(dartRoot, GENERATED_DART)) || hasBarrels(dartRoot);
   if (generated) lines.push("import 'fuse.generated.dart' as fuse_generated;");
 
   lines.push("");

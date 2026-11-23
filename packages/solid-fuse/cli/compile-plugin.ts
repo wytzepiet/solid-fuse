@@ -50,7 +50,15 @@ export interface CompileOptions extends FuseCompileOptions {
    * build` keeps the Dart side of those (cli/gen/shake.ts).
    */
   usage?: CompileUsage;
+  /**
+   * Tables read on every transform, merged under [intrinsics] and
+   * [builders]: the generated modules', which `fuse gen` rewrites while the
+   * dev server runs.
+   */
+  tables?: () => CompileTables;
 }
+
+export type CompileTables = Pick<FuseCompileOptions, "intrinsics" | "builders">;
 
 export interface CompileUsage {
   tags: Set<string>;
@@ -89,7 +97,13 @@ export function fuseCompilePlugin(options: CompileOptions = {}): Plugin {
       // The generated modules' own elements are not a use: the bundler
       // tells which of their components are kept.
       const own = options.usage?.generated && file.startsWith(options.usage.generated);
-      return transformJsx(code, file, own ? { ...options, usage: undefined } : options);
+      const t = options.tables?.() ?? {};
+      return transformJsx(code, file, {
+        ...options,
+        intrinsics: { ...t.intrinsics, ...options.intrinsics },
+        builders: { ...t.builders, ...options.builders },
+        usage: own ? undefined : options.usage,
+      });
     },
   };
 }

@@ -7,41 +7,32 @@ description: Use Flutter widgets, controllers and your own Dart from JSX without
 
 ## Setting it up
 
-List the Dart libraries to export in `fuse.config.ts`:
+What crosses to JS is what `dart/lib/fuse.dart` exports. It is an ordinary Dart library, so Dart's own `export`, `show` and `hide` say what goes in:
 
-```ts title="fuse.config.ts"
-import { defineConfig } from "solid-fuse/config";
-
-export default defineConfig({
-  gen: {
-    libraries: {
-      "package:flutter/widgets.dart": { allow: ["Padding", "Container", "ListView", "ScrollController"] },
-      "package:fl_chart/fl_chart.dart": {},
-    },
-  },
-});
+```dart title="dart/lib/fuse.dart"
+export 'package:flutter/widgets.dart' show Padding, Container, ListView, ScrollController;
+export 'package:fl_chart/fl_chart.dart';
+export 'src/badge.dart';
 ```
 
-Each library takes optional `allow` and `deny` patterns. A pattern is `Class`, `Class.constructor` (`Image.network`), or either with `*` for any run of characters. With no `allow`, everything the library declares is exported, and `deny` always wins.
+The analyzer and your editor check it, so a misspelled name is an error. Export whole libraries freely: a release build keeps only what the app uses (see below).
 
-`fuse link`, `fuse dev` and `fuse build` regenerate when the config has `gen`, and so does `fuse gen` on its own. When nothing changed, the run takes under half a second. It writes:
+`fuse dev` and `fuse build` generate when they start, and `fuse dev` again whenever a Dart file under `dart/lib/` changes (the TypeScript reloads; restart the app for the new adapters). `fuse gen` and `fuse link` do it on their own. When nothing changed, the run takes under half a second. It writes:
 
 - `fuse/<package>.tsx`: one module per Dart package (Flutter's own libraries and `dart:*` go into `flutter`). Import them as `#fuse/<package>`. `fuse gen` adds the `#fuse/*` path to `tsconfig.json`. The values of each class (`EdgeInsets`, `Icons`) are in a module of their own next to it, `fuse/<package>/<Class>.tsx`.
 - `fuse/gen-report.txt`: every exported item, and every skipped one with the reason.
 - `dart/lib/_generated/fuse.generated.dart`: the adapters. `registerFusePackages` registers them, so the Dart side needs no change.
 - `fuse/intrinsics.json` and `fuse/uses.json`: tables for the compile step and for release builds.
 
-The generator runs from the solid-fuse package, so the Dart app needs no extra dependency.
+All of it can be gitignored: every command that needs it writes it again. The generator runs from the solid-fuse package, so the Dart app needs no extra dependency. Generation is part of the Vite config `fuse` builds, so a Vite setup of your own gets it too.
 
-## Your own Dart: @fuse
+## Your own Dart
 
-The app's own classes are exported by annotating them. You don't list them in the config.
+The app's own widgets and controllers cross the same way: export them from `fuse.dart`, or declare them right in it.
 
 ```dart title="dart/lib/src/badge.dart"
 import 'package:flutter/widgets.dart';
-import 'package:solid_fuse/solid_fuse.dart';
 
-@fuse
 class Badge extends StatelessWidget {
   const Badge({super.key, required this.label, this.count = 0});
   final String label;
@@ -57,7 +48,9 @@ import { Badge } from "#fuse/my_app";
 <Badge label="Inbox" count={3} />;
 ```
 
-Every file in `dart/lib/` that uses `@fuse` is read for annotations, and nothing else in it is exported.
+## Packages
+
+A package written for fuse ships a `lib/fuse.dart` of its own, and it is picked up because the app depends on the package: nothing to add to yours. (solid-fuse's own adds the shorthands below.) A package never ships generated code. The app generates it, so it matches the app's solid-fuse and shares one `#fuse/flutter` with everything else. A package that wants a nicer API ships TypeScript on top of its `#fuse/<package>` module.
 
 ## Components
 
@@ -156,7 +149,7 @@ Dart calls each function when it needs the member. One that returns a value is c
 
 ## Controllers: createX
 
-A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, or an `@fuse` class with mutable state) gets a `createX` function per constructor:
+A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, or a class of your own with mutable state) gets a `createX` function per constructor:
 
 ```tsx
 import { GestureDetector, Text, View } from "solid-fuse";
@@ -177,7 +170,7 @@ function Search() {
 }
 ```
 
-(With `"package:material_ui/material_ui.dart": { allow: ["TextField"] }` in `gen.libraries`. The import uses the generated component, not the built-in `TextField`.)
+(With `export 'package:material_ui/material_ui.dart' show TextField;` in `fuse.dart`. The import uses the generated component, not the built-in `TextField`.)
 
 - **Options** are the constructor's parameters. Each one takes a value or an accessor. An accessor is read once, unless the controller has a setter of the same name: then it stays in sync.
 - **State**: every getter is an accessor (`query.text()`) that updates when Dart notifies. It's `undefined` until Dart first reports it, unless an option or default gives the value.

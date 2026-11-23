@@ -175,11 +175,15 @@ void main() {
       expect([for (final x in ac['methods'] as List) (x as Map)['name']], containsAll(['forward', 'reverse', 'animateTo']));
     });
 
-    test('@fuse exports the app\'s own classes; @fuseShorthand adds short forms', () {
+    test('the barrels say what crosses; @fuseShorthand adds short forms', () {
+      // lib/fuse.dart: the app's own classes through the file declaring them.
       const lib = 'package:fixture_app/src/annotated.dart';
       expect(widget('Badge')['id'], '$lib#Badge');
       expect((manifest['widgets'] as List).any((w) => (w as Map)['component'] == 'Unmarked'), isFalse);
       expect(manifest['handles'], contains('$lib#Tally'));
+      // Another package's class: through that package's library.
+      expect(widget('Center')['id'], '$widgetsLib#Center');
+      // solid_fuse's own lib/fuse.dart: the shorthands below.
       final point = type('package:fixture_app/fixture.dart#Point');
       expect(point['shorthands'], [
         {'kind': 'number', 'fn': contains('pointSquare'), 'type': {'k': 'double'}, 'dart': 'double'},
@@ -212,9 +216,10 @@ void main() {
   });
 
   group('config', () {
-    test('empty allow is everything; deny wins; patterns', () {
+    test('no allow is everything, an empty one nothing; deny wins; patterns', () {
       final all = LibraryRule();
       expect(all.includes('Text'), isTrue);
+      expect(LibraryRule(allow: []).includes('Text'), isFalse);
       final r = LibraryRule(allow: ['Image.*', 'Text'], deny: ['Image.memory']);
       expect(r.includes('Text'), isTrue);
       expect(r.includes('Image', 'network'), isTrue);
