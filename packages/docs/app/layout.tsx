@@ -1,13 +1,13 @@
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import './global.css';
-import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 
-const sans = Plus_Jakarta_Sans({
+const sans = Geist({
   subsets: ['latin'],
   variable: '--font-sans',
 });
 
-const mono = JetBrains_Mono({
+const mono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
 });

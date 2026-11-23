@@ -1,0 +1,424 @@
+/* Idea "Seam": the page is split down the middle. Left is what happens in
+   Solid, right is what happens in Flutter, and the line between them carries
+   what crosses. Blue and teal are the two sides; heat is the join. */
+
+.sm {
+  --ground: #130919;
+  --raise: #1d1126;
+  --text: #f6efe6;
+  --soft: #a99fb2;
+  --solid: #7da2ff;
+  --flutter: #4fe0cf;
+  --heat: #ffb347;
+  --line: rgba(246, 239, 230, 0.12);
+  --pad: clamp(20px, 4vw, 56px);
+
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--sm-font), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.sm a {
+  color: inherit;
+}
+
+.sm :focus-visible {
+  outline: 2px solid var(--heat);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sm code,
+.sm pre {
+  font-family: var(--sm-mono), monospace;
+}
+
+.sm p code {
+  font-size: 0.9em;
+  color: var(--heat);
+}
+
+.sm h1,
+.sm h2 {
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+
+.sm-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 0 var(--pad) clamp(36px, 6vw, 72px);
+  overflow: hidden;
+}
+
+.sm-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sm-hero > :not(.sm-canvas) {
+  position: relative;
+}
+
+.sm-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 0;
+  font-size: 15px;
+}
+
+.sm-nav a {
+  text-decoration: none;
+}
+
+.sm-logo {
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}
+
+.sm-nav nav {
+  display: flex;
+  gap: 28px;
+  color: rgba(246, 239, 230, 0.75);
+}
+
+.sm-nav nav a:hover {
+  color: var(--text);
+}
+
+/* The headline is split by the seam: one sentence each side. */
+.sm-hero h1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 7vw, 130px);
+  margin: auto 0;
+  font-size: clamp(34px, 5.6vw, 96px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.sm-hero h1 span:first-child {
+  text-align: right;
+}
+
+.sm-hero-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.sm-hero-foot p {
+  max-width: 46ch;
+  margin: 0;
+  padding: 0 8px;
+  font-size: clamp(17px, 1.5vw, 21px);
+  color: rgba(246, 239, 230, 0.86);
+  text-shadow: 0 0 24px var(--ground), 0 0 8px var(--ground);
+  text-wrap: balance;
+}
+
+.sm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.sm-btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: rgba(19, 9, 25, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(246, 239, 230, 0.3);
+  backdrop-filter: blur(8px);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sm-btn:hover {
+  box-shadow: inset 0 0 0 1px var(--text);
+}
+
+.sm a.sm-btn-main {
+  background: var(--text);
+  color: var(--ground);
+  box-shadow: none;
+}
+
+.sm a.sm-btn-main:hover {
+  background: var(--heat);
+}
+
+/* ── The seam ────────────────────────────────────────── */
+
+.sm-seam {
+  position: relative;
+  padding: 0 var(--pad) clamp(40px, 6vw, 88px);
+}
+
+.sm-seam::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(#fff3d6, var(--heat) 12%, #ff5a4a 60%, transparent);
+  box-shadow: 0 0 18px 1px rgba(255, 130, 60, 0.55);
+}
+
+.sm-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(120px, 20vw, 300px);
+  padding: clamp(28px, 4vw, 56px) 0 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.sm-sides span:first-child {
+  text-align: right;
+  color: var(--solid);
+}
+
+.sm-sides span:last-child {
+  color: var(--flutter);
+}
+
+.sm-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(120px, 20vw, 300px) minmax(0, 1fr);
+  align-items: center;
+  padding: clamp(28px, 5vw, 72px) 0;
+}
+
+.sm-cell h2 {
+  margin-bottom: 12px;
+  font-size: clamp(24px, 3vw, 44px);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.sm-cell p {
+  max-width: 40ch;
+  margin: 0;
+  color: var(--soft);
+}
+
+.sm-solid {
+  text-align: right;
+}
+
+.sm-solid p {
+  margin-left: auto;
+}
+
+.sm-solid h2 {
+  color: var(--solid);
+}
+
+.sm-flutter h2 {
+  color: var(--flutter);
+}
+
+/* What crosses, sitting on the line, with a tail showing which way. */
+.sm-cross {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.sm-cross::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--solid), var(--heat) 50%, var(--flutter));
+  opacity: 0.55;
+}
+
+.sm-cross::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 5px);
+  border: 5px solid transparent;
+}
+
+.sm-right .sm-cross::after {
+  right: calc(8% - 6px);
+  border-left-color: var(--flutter);
+}
+
+.sm-left .sm-cross::after {
+  left: calc(8% - 6px);
+  border-right-color: var(--solid);
+}
+
+.sm-cross code {
+  position: relative;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--ground);
+  box-shadow: inset 0 0 0 1px var(--heat), 0 0 22px rgba(255, 140, 60, 0.35);
+  color: #ffe2b0;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ── Agents and start ────────────────────────────────── */
+
+.sm-agents,
+.sm-start {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 6vw, 96px);
+  align-items: center;
+  padding: clamp(56px, 8vw, 120px) var(--pad);
+  border-top: 1px solid var(--line);
+}
+
+.sm-agents h2,
+.sm-start h2 {
+  margin-bottom: 20px;
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 300;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.sm-agents p,
+.sm-start p {
+  max-width: 50ch;
+  margin: 0 0 22px;
+  color: var(--soft);
+}
+
+.sm-agents > div > a {
+  color: var(--heat);
+  text-underline-offset: 5px;
+}
+
+.sm .art {
+  margin: 0;
+  min-width: 0;
+}
+
+.sm .art pre {
+  margin: 0;
+  padding: 22px 24px;
+  overflow-x: auto;
+  border-radius: 14px;
+  background: var(--raise) !important;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 23px;
+}
+
+.sm .art pre code {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.sm .art-term i {
+  font-style: normal;
+  color: #6f647a;
+}
+
+.sm .art-term em {
+  font-style: normal;
+  color: var(--flutter);
+}
+
+.sm .art figcaption {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--soft);
+}
+
+.sm-foot {
+  display: flex;
+  justify-content: space-between;
+  padding: 26px var(--pad) 84px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--soft);
+}
+
+.sm-foot a {
+  text-decoration: none;
+}
+
+.sm-foot span:last-child {
+  display: flex;
+  gap: 22px;
+}
+
+/* ── Small screens: the seam moves to the left edge ──── */
+
+@media (max-width: 820px) {
+  .sm-hero h1 {
+    gap: 22px;
+    font-size: clamp(26px, 7.4vw, 44px);
+  }
+
+  .sm-seam::before {
+    left: var(--pad);
+  }
+
+  .sm-sides {
+    display: none;
+  }
+
+  .sm-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 36px 0 36px 28px;
+  }
+
+  .sm-solid {
+    text-align: left;
+  }
+
+  .sm-solid p {
+    margin-left: 0;
+  }
+
+  .sm-cross {
+    justify-content: flex-start;
+    margin-left: -28px;
+  }
+
+  .sm-cross::before,
+  .sm-cross::after {
+    display: none;
+  }
+
+  .sm-left {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .sm-agents,
+  .sm-start {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
