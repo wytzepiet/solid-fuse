@@ -233,6 +233,7 @@ void main() {
     // set from a tap moves there and its promise settles, twice in a row.
     tester.state<NavigatorState>(find.byType(Navigator).last).pop();
     await pumpUntil(tester, find.text('springs'));
+    await tester.ensureVisible(find.text('springs'));
     await settle(tester);
     await tester.tap(find.text('springs'));
     await pumpUntil(tester, find.bySemanticsIdentifier('run'));
