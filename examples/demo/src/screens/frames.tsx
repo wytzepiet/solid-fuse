@@ -37,7 +37,7 @@ export function FramesScreen(props: { count?: number }) {
             width={24}
             height={count > 20 ? 2 : 24}
             decoration={{ color: "#2563eb", borderRadius: 4 }}
-            transform={{ translateX: 120 + 100 * Math.sin(t() / 300 + i() * 0.3) }}
+            transform={{ translateX: 120 + 100 * Math.sin(t() / 300 + i * 0.3) }}
           />
         )}
       </For>
