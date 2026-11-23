@@ -13,7 +13,6 @@ export 'src/node_widget.dart';
 export 'src/quickjs_connection.dart';
 export 'src/runtime.dart';
 export 'src/solid_fuse_package.dart';
-export 'src/widgets/gesture_detector.dart';
 export 'src/widgets/text.dart';
 export 'src/text_options.dart';
 export 'src/widgets/app.dart';

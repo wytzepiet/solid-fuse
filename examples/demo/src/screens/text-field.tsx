@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
-import { ScrollView, Text, View, createFocusNode, useNavigation } from "solid-fuse";
+import { ScrollView, Text, View, useNavigation } from "solid-fuse";
+import { createFocusNode } from "#fuse/flutter";
 import { Icons, TextField } from "@solid-fuse/material";
 import { Button, Row } from "../ui";
 
@@ -51,7 +52,7 @@ export function TextFieldScreen() {
               hasFocus = {focus.hasFocus() ? "true" : "false"}
             </Text>
             <Row>
-              <Button onTap={() => focus.focus()}>focus</Button>
+              <Button onTap={() => focus.requestFocus()}>focus</Button>
               <Button onTap={() => focus.unfocus()}>unfocus</Button>
             </Row>
           </View>

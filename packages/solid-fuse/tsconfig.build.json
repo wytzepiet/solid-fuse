@@ -6,6 +6,10 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "paths": {
+      "~/*": ["./src/*"],
+      "#fuse/*": ["./types/fuse-stub.d.ts"]
+    }
   }
 }

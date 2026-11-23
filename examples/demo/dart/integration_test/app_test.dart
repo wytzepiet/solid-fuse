@@ -14,7 +14,8 @@ import 'package:solid_fuse/solid_fuse.dart';
 import 'package:demo/_generated/fuse_packages.dart';
 
 Future<void> pumpUntil(WidgetTester tester, Finder finder) async {
-  for (var i = 0; i < 100; i++) {
+  // Up to 5 s: a cold first run (JIT, first route) can be slow.
+  for (var i = 0; i < 250; i++) {
     await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 20)));
     await tester.pump();

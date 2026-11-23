@@ -34,7 +34,7 @@ You do not write anything differently for this, and there is nothing to mark. Wh
 
 A node on the Dart side lives exactly as long as JavaScript can still reach it. Removing a node only detaches it, so an element you keep in a variable can leave the tree and come back later (a `<Show>` around it, for example), as it could in the DOM. When the JS garbage collector finds that nothing refers to a detached subtree any more, its Dart nodes are disposed.
 
-Events flow back the same way. A `GestureDetector` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
+Events flow back the same way. A `Pressable` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
 
 ```
 signal update → ops journal → bridge_call → Dart applies ops → Flutter rebuilds

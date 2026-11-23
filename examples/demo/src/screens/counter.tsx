@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Pressable, Text, View } from "solid-fuse";
 
 export function CounterScreen() {
   const [count, setCount] = createSignal(0);
@@ -10,7 +10,7 @@ export function CounterScreen() {
         {count()}
       </Text>
       <View layout={{ direction: "horizontal", gap: 16, align: "center" }}>
-        <GestureDetector onTap={() => setCount((c) => c - 1)}>
+        <Pressable onPress={() => setCount((c) => c - 1)}>
           <View
             width={64}
             height={64}
@@ -21,8 +21,8 @@ export function CounterScreen() {
               −
             </Text>
           </View>
-        </GestureDetector>
-        <GestureDetector onTap={() => setCount(0)}>
+        </Pressable>
+        <Pressable onPress={() => setCount(0)}>
           <View
             height={64}
             padding={{ horizontal: 24 }}
@@ -33,8 +33,8 @@ export function CounterScreen() {
               Reset
             </Text>
           </View>
-        </GestureDetector>
-        <GestureDetector onTap={() => setCount((c) => c + 1)}>
+        </Pressable>
+        <Pressable onPress={() => setCount((c) => c + 1)}>
           <View
             width={64}
             height={64}
@@ -45,7 +45,7 @@ export function CounterScreen() {
               +
             </Text>
           </View>
-        </GestureDetector>
+        </Pressable>
       </View>
     </View>
   );

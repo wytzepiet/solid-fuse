@@ -1,6 +1,6 @@
 import { createSignal, untrack, type Accessor } from "solid-js";
 import type { BaseProps, LayoutInput } from "../types";
-import type { FocusNode } from "../focus-node";
+import type { FocusNodeInput } from "../types";
 
 /** A Pressable's live state, one accessor per flag, for its function child. */
 export interface PressState {
@@ -23,7 +23,8 @@ export interface PressableProps extends Omit<BaseProps, "children"> {
   pressedOpacity?: number;
   /** Read by screen readers. */
   semanticLabel?: string;
-  focusNode?: FocusNode;
+  /** A focus node from `createFocusNode` (`#fuse/flutter`). */
+  focusNode?: FocusNodeInput;
   autofocus?: boolean;
   layout?: LayoutInput;
   /** Content, or a function of the press state to restyle it inline. */

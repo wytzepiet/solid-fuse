@@ -12,7 +12,8 @@ export interface ScrollViewProps extends BaseProps {
   dragStartBehavior?: "start" | "down";
   hitTestBehavior?: "deferToChild" | "opaque" | "translucent";
   restorationId?: string;
-  controller?: import("../scroll-controller").ScrollController;
+  /** A scroll controller from `createScrollController` (`#fuse/flutter`). */
+  controller?: import("../types").ScrollControllerInput;
 }
 
 export function ScrollView(props: ScrollViewProps) {

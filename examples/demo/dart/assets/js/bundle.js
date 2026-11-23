@@ -4248,7 +4248,7 @@
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
 		else try {
-			let n = e instanceof Error ? e : Error(String(e)), r = ce(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			let n = e instanceof Error ? e : Error(String(e)), r = ce$1(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
 			fetch(`${t}/__fuse_error`, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
@@ -4262,7 +4262,7 @@
 			console.error(e);
 		}
 	}
-	function ce(e) {
+	function ce$1(e) {
 		let t = /* @__PURE__ */ new Set([e]), n = e;
 		for (;;) {
 			let e = n.cause;
@@ -4300,11 +4300,11 @@
 		});
 	}
 	var m$1 = /* @__PURE__ */ new Map();
-	function ue$1(e, t) {
+	function ue(e, t) {
 		m$1.set(e, t);
 	}
 	var h$1;
-	function de$1(e) {
+	function de(e) {
 		h$1 = e;
 	}
 	globalThis.__dispatchSync = (e, t) => {
@@ -4335,7 +4335,7 @@
 			d?.(), l(e);
 		}
 	};
-	var me = {
+	var me$1 = {
 		send: p$1,
 		call: le$1,
 		on: f
@@ -4376,7 +4376,7 @@
 	});
 	var C$1 = /* @__PURE__ */ new Map();
 	var _e = 0;
-	ue$1("_callSync", (e) => {
+	ue("_callSync", (e) => {
 		e.args ? e.args = W$1(e.args) : e.value = W$1(e.value);
 		let t = S$1.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
 		if (n === void 0) return { error: `no function "${e.name}" on node ${e.nodeId}` };
@@ -4414,21 +4414,21 @@
 		let t = V$1("__slot__");
 		return Z$1(t, e), t;
 	}
-	var ve$1 = 0;
+	var ve = 0;
 	var ye = 1;
 	var T$1 = 2;
 	var be = 3;
 	var xe = 4;
 	var Se = 5;
 	var E$1 = 6;
-	var Ce$1 = 7;
-	var we$1 = 8;
+	var Ce = 7;
+	var we = 8;
 	var Te = 9;
 	var D$1 = 4;
 	var O$1 = [];
 	var k$1 = 0;
 	var Ee = new FinalizationRegistry((e) => {
-		S$1.delete(e), O$1.push(E$1, e), z$1();
+		S$1.delete(e), O$1.push(E$1, e), z();
 	});
 	function A$1(e) {
 		e.tracked || (e.tracked = !0, Ee.register(e, e.id));
@@ -4464,9 +4464,9 @@
 			e = JSON.stringify(O$1);
 		} catch (e) {
 			l(e);
-			for (let e of B$1) e.batch = -1;
+			for (let e of B) e.batch = -1;
 		}
-		B$1.length = 0, O$1.length = 0, k$1++;
+		B.length = 0, O$1.length = 0, k$1++;
 		let t = I.length ? I : void 0;
 		return t && (I = []), e === void 0 ? void 0 : [e, t];
 	}
@@ -4487,13 +4487,13 @@
 			batches: n
 		};
 	}
-	de$1(De);
-	function z$1() {
+	de(De);
+	function z() {
 		N || P || (N = !0, Promise.resolve().then(L));
 	}
 	fe(L), pe(L);
 	var Oe = 0;
-	var B$1 = [];
+	var B = [];
 	function ke(e, t) {
 		return {
 			id: Oe++,
@@ -4503,9 +4503,9 @@
 		};
 	}
 	function Ae(e) {
-		e.batch < 0 && (e.batch = k$1, B$1.push(e), O$1.push(Ce$1, e.id, e.shape));
+		e.batch < 0 && (e.batch = k$1, B.push(e), O$1.push(Ce, e.id, e.shape));
 		let t = y$1;
-		return y$1 += e.size, O$1.push(we$1, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
+		return y$1 += e.size, O$1.push(we, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
 	}
 	function je(e, t) {
 		let n = t.$i, r = new x$1(e.slice(2), t.$t + n);
@@ -4515,7 +4515,7 @@
 	}
 	function V$1(e, t) {
 		let n = new x$1(e), r = {};
-		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = k$1, n.slot = O$1.push(ve$1, n.id, e, r) - 1, t && H$1(n, t), n;
+		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = k$1, n.slot = O$1.push(ve, n.id, e, r) - 1, t && H$1(n, t), n;
 	}
 	function H$1(e, t) {
 		let n;
@@ -4534,7 +4534,7 @@
 		e.collected = !0, e.owned || U$1(e);
 	});
 	function U$1(e) {
-		S$1.delete(e.id), O$1.push(E$1, e.id), z$1();
+		S$1.delete(e.id), O$1.push(E$1, e.id), z();
 	}
 	function Ne(e, t) {
 		let n = V$1(e);
@@ -4550,7 +4550,7 @@
 				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && U$1(r);
 			});
 		}
-		return t && H$1(n, t), z$1(), n;
+		return t && H$1(n, t), z(), n;
 	}
 	var W$1 = (e) => e;
 	function Pe(e) {
@@ -4630,11 +4630,11 @@
 			let r = n.refs.length === 1 && n.wire?._node === n.refs[0].id && G$1(n.wire) === null;
 			(e.refs ?? (e.refs = {}))[t] = r ? n.refs[0] : n.refs;
 			for (let e of n.refs) A$1(e);
-			e.batch = -1, O$1.push(T$1, e.id, t, n.wire), z$1();
+			e.batch = -1, O$1.push(T$1, e.id, t, n.wire), z();
 		} else e.refs && delete e.refs[t], Be(e, t, n.wire);
 	}
 	function Be(e, t, n) {
-		e.batch === k$1 ? (e.slot < 0 && (e.slot = O$1.push(Te, e.id, {}) - 1), O$1[e.slot][t] = n) : O$1.push(T$1, e.id, t, n), z$1();
+		e.batch === k$1 ? (e.slot < 0 && (e.slot = O$1.push(Te, e.id, {}) - 1), O$1[e.slot][t] = n) : O$1.push(T$1, e.id, t, n), z();
 	}
 	var { render: Ve, effect: He, memo: Ue, createComponent: We, createElement: Ge, createTextNode: Ke, insertNode: qe, insert: Z$1, spread: Je, setProp: Ye, mergeProps: Xe, ...Ze } = createRenderer({
 		createElement(e, t) {
@@ -4645,7 +4645,7 @@
 			return O$1.push(ye, t.id, e), t;
 		},
 		replaceText(e, t) {
-			O$1.push(be, e.id, t), z$1();
+			O$1.push(be, e.id, t), z();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
@@ -4653,18 +4653,18 @@
 		setProperty: q$1,
 		insertNode(e, t, n) {
 			if (t !== n) {
-				if (t.parent && Q(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
+				if (t.parent && Q$1(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
 					let r = n.prev;
 					t.prev = r, t.next = n, n.prev = t, r ? r.next = t : e.first = t;
 				} else {
 					let n = e.last;
 					t.prev = n, e.last = t, n ? n.next = t : e.first = t;
 				}
-				t.adopt ? t.adopt = !1 : (O$1.push(xe, e.id, t.id, n ? n.id : null), z$1());
+				t.adopt ? t.adopt = !1 : (O$1.push(xe, e.id, t.id, n ? n.id : null), z());
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (Q(t), A$1(t), O$1.push(Se, t.id), z$1());
+			t.parent === e && (Q$1(t), A$1(t), O$1.push(Se, t.id), z());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4676,12 +4676,9 @@
 			return e.next;
 		}
 	});
-	function Q(e) {
+	function Q$1(e) {
 		let t = e.parent, { prev: n, next: r } = e;
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
-	}
-	function Qe(e) {
-		O$1.push(E$1, e.id), z$1();
 	}
 	function $e(e, t) {
 		if (v$1.mode === "release") return We(e, t);
@@ -4703,8 +4700,8 @@
 		}
 		return P = !1, L(), () => {
 			typeof t == "function" && t();
-			for (let e = M.first; e; e = M.first) Q(e), O$1.push(E$1, e.id);
-			S$1.clear(), z$1();
+			for (let e = M.first; e; e = M.first) Q$1(e), O$1.push(E$1, e.id);
+			S$1.clear(), z();
 		};
 	}
 	var tt = qe, { ref: nt, applyRef: rt } = Ze;
@@ -4739,30 +4736,30 @@
 		(typeof t == "function" || Array.isArray(t)) && nt(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function z(e) {
+	function V(e) {
 		"@babel/helpers - typeof";
-		return z = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return V = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, z(e);
+		}, V(e);
 	}
-	function B(e, t) {
-		if (z(e) != "object" || !e) return e;
+	function H(e, t) {
+		if (V(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (z(r) != "object") return r;
+			if (V(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function V(e) {
-		var t = B(e, "string");
-		return z(t) == "symbol" ? t : t + "";
+	function U(e) {
+		var t = H(e, "string");
+		return V(t) == "symbol" ? t : t + "";
 	}
-	function H(e, t, n) {
-		return (t = V(t)) in e ? Object.defineProperty(e, t, {
+	function W(e, t, n) {
+		return (t = U(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4785,7 +4782,7 @@
 		let e = /* @__PURE__ */ new Map(), n = 0;
 		class r {
 			constructor(r, i) {
-				H(this, "_id", void 0), H(this, "url", void 0), H(this, "readyState", 0), H(this, "protocol", ""), H(this, "binaryType", "blob"), H(this, "bufferedAmount", 0), H(this, "extensions", ""), H(this, "onopen", null), H(this, "onmessage", null), H(this, "onclose", null), H(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p$1("_ws", {
+				W(this, "_id", void 0), W(this, "url", void 0), W(this, "readyState", 0), W(this, "protocol", ""), W(this, "binaryType", "blob"), W(this, "bufferedAmount", 0), W(this, "extensions", ""), W(this, "onopen", null), W(this, "onmessage", null), W(this, "onclose", null), W(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p$1("_ws", {
 					op: "open",
 					id: this._id,
 					url: r,
@@ -4814,7 +4811,7 @@
 				return !0;
 			}
 		}
-		H(r, "CONNECTING", 0), H(r, "OPEN", 1), H(r, "CLOSING", 2), H(r, "CLOSED", 3), f("_wsEvent", (t) => {
+		W(r, "CONNECTING", 0), W(r, "OPEN", 1), W(r, "CLOSING", 2), W(r, "CLOSED", 3), f("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4893,7 +4890,7 @@
 			timeLog: i
 		};
 	}
-	function U(e, t) {
+	function G(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
@@ -4906,23 +4903,23 @@
 			}
 		});
 	}
-	function W(e) {
-		return U(() => e.component, omit(e, "component"));
+	function K(e) {
+		return G(() => e.component, omit(e, "component"));
 	}
-	function G({ child: e, ...t }) {
+	function q({ child: e, ...t }) {
 		return {
 			type: "page",
 			child: e,
 			props: t
 		};
 	}
-	var K = createContext((e) => G({ child: e }));
-	function q() {
-		return getOwner() ? useContext(K) : (e) => G({ child: e });
+	var J = createContext((e) => q({ child: e }));
+	function Y() {
+		return getOwner() ? useContext(J) : (e) => q({ child: e });
 	}
-	var J = createContext();
-	function Y(e = {}) {
-		let t = 0, n = q(), r = untrack(() => {
+	var X = createContext();
+	function Z(e = {}) {
+		let t = 0, n = Y(), r = untrack(() => {
 			let t = e.initialPage;
 			return typeof t == "function" ? n(t) : t;
 		}), [a, o] = createSignal(r ? [{
@@ -4987,14 +4984,14 @@
 			onDidRemovePage: (e) => c(e, null)
 		};
 	}
-	function ae() {
-		let e = useContext(J);
+	function re() {
+		let e = useContext(X);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function oe(e) {
-		let t = untrack(() => e.controller ?? Y({ initialPage: e.initialPage }));
-		return $e(J, {
+	function ie(e) {
+		let t = untrack(() => e.controller ?? Z({ initialPage: e.initialPage }));
+		return $e(X, {
 			value: t,
 			get children() {
 				var e = Ge("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
@@ -5003,7 +5000,7 @@
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => $e(W, Xe({
+					children: (e) => $e(K, Xe({
 						get component() {
 							return e().config.type;
 						},
@@ -5017,7 +5014,7 @@
 			}
 		});
 	}
-	var le = {
+	var se = {
 		red: "#f44336",
 		blue: "#2196f3",
 		green: "#4caf50",
@@ -5035,8 +5032,8 @@
 		brown: "#795548",
 		transparent: "#00000000"
 	};
-	var X = (e) => Math.round(Math.min(255, Math.max(0, e))).toString(16).padStart(2, "0");
-	function ue(e, t, n) {
+	var Q = (e) => Math.round(Math.min(255, Math.max(0, e))).toString(16).padStart(2, "0");
+	function ce(e, t, n) {
 		e = (e % 360 + 360) % 360, t = Math.min(1, Math.max(0, t / 100)), n = Math.min(1, Math.max(0, n / 100));
 		let r = (1 - Math.abs(2 * n - 1)) * t, i = r * (1 - Math.abs(e / 60 % 2 - 1)), a = n - r / 2, [o, s, c] = e < 60 ? [
 			r,
@@ -5069,11 +5066,11 @@
 			(c + a) * 255
 		];
 	}
-	function Z(e) {
+	function $(e) {
 		if (e == null) return;
 		if (typeof e == "string") {
 			if (e.startsWith("#")) return e;
-			let t = le[e.toLowerCase()];
+			let t = se[e.toLowerCase()];
 			if (t) return t;
 			throw Error(`[solid-fuse] unknown color ${JSON.stringify(e)}`);
 		}
@@ -5081,15 +5078,15 @@
 			e.r,
 			e.g,
 			e.b
-		] : ue(e.h, e.s, e.l), i = e.a ?? 1;
-		return `#${X(t)}${X(n)}${X(r)}${i >= 1 ? "" : X(i * 255)}`;
+		] : ce(e.h, e.s, e.l), i = e.a ?? 1;
+		return `#${Q(t)}${Q(n)}${Q(r)}${i >= 1 ? "" : Q(i * 255)}`;
 	}
-	function de(e) {
+	function le(e) {
 		var t = Ge("flutter_Icon");
 		return He(() => ({
 			e: e.icon,
 			t: e.size,
-			a: Z(e.color),
+			a: $(e.color),
 			o: e.semanticLabel,
 			i: e.fill,
 			n: e.weight,
@@ -5100,7 +5097,7 @@
 			e !== d?.e && Ye(t, "icon", e, d?.e), n !== d?.t && Ye(t, "size", n, d?.t), r !== d?.a && Ye(t, "color", r, d?.a), i !== d?.o && Ye(t, "semanticLabel", i, d?.o), a !== d?.i && Ye(t, "fill", a, d?.i), o !== d?.n && Ye(t, "weight", o, d?.n), c !== d?.s && Ye(t, "grade", c, d?.s), l !== d?.h && Ye(t, "opticalSize", l, d?.h), u !== d?.r && Ye(t, "applyTextScaling", u, d?.r);
 		}), t;
 	}
-	function ge(e) {
+	function me(e) {
 		let t = untrack(() => e.children);
 		if (typeof t != "function") return (() => {
 			var t = Ge("pressable");
@@ -5118,7 +5115,7 @@
 			focused: s
 		})), d;
 	}
-	function ve(e) {
+	function ge(e) {
 		let [t, r] = createSignal(!1);
 		var i = Ge("modal");
 		return it(i, [e, { onRouteLive: r }], !0), Z$1(i, $e(Show, {
@@ -5129,48 +5126,6 @@
 				return e.children;
 			}
 		})), i;
-	}
-	function $(e, t = {}) {
-		let n = V$1(e, t);
-		z$1();
-		let r = !1, i = () => {
-			r || (r = !0, Qe(n));
-		};
-		return getOwner() && onCleanup(i), {
-			node: n,
-			call: (e, t, r) => me.call("_handleCall", {
-				node: n.id,
-				method: e,
-				value: t
-			}, r),
-			dispose: i
-		};
-	}
-	function Ce(e = {}) {
-		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
-			...e,
-			setScrollOffset: n
-		});
-		return {
-			node: r,
-			scrollOffset: t,
-			animateTo: (e, t) => i("animateTo", {
-				offset: e,
-				...t
-			}),
-			jumpTo: (e) => i("jumpTo", e),
-			dispose: a
-		};
-	}
-	function we() {
-		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
-		return {
-			node: n,
-			hasFocus: e,
-			focus: () => r("focus"),
-			unfocus: () => r("unfocus"),
-			dispose: i
-		};
 	}
 	// ../../packages/solid-fuse/dist/generated.js
 	function p(e, t, n) {
@@ -5237,7 +5192,7 @@
 		if (i) {
 			if (!e.o) {
 				let e = T.get(t);
-				e ? e.n++ : me.send("_unborrow", {
+				e ? e.n++ : me$1.send("_unborrow", {
 					id: t,
 					n: 1
 				});
@@ -5250,7 +5205,7 @@
 		};
 		e.o || T.set(t, a);
 		let s = Ie(e.t, t, () => {
-			T.get(a.id) === a && T.delete(a.id), a.n > 0 && me.send("_unborrow", {
+			T.get(a.id) === a && T.delete(a.id), a.n > 0 && me$1.send("_unborrow", {
 				id: a.id,
 				n: a.n
 			});
@@ -5285,7 +5240,7 @@
 		ze(n, "$push", (e) => {
 			if (!(e.v < o)) for (let t in e.s) s.get(t)?.[1](e.s[t]);
 		});
-		let c = (t, i) => me.call("_handleCall", {
+		let c = (t, i) => me$1.call("_handleCall", {
 			node: n.id,
 			method: t,
 			value: Re(i)
@@ -5933,6 +5888,8 @@
 		],
 		"st": []
 	});
+	// fuse/flutter/Curves.tsx
+	var easeInOut = "Curves.easeInOut";
 	// fuse/flutter.tsx
 	/**
 	* Creates a scrollable, linear array of widgets that are created on demand.
@@ -6112,7 +6069,7 @@
 		"m": ["registerGlobalHandlers", "applyFocusChangesIfNeeded"],
 		"st": []
 	});
-	C("flutter_FocusNode", {
+	var $FocusNode = {
 		"s": [
 			"skipTraversal",
 			"canRequestFocus",
@@ -6155,7 +6112,29 @@
 			"focusInDirection"
 		],
 		"st": []
-	});
+	};
+	C("flutter_FocusNode", $FocusNode);
+	/**
+	* An object that can be used by a stateful widget to obtain the keyboard focus and to handle keyboard events.
+	* Dart: `FocusNode(...)`. Lives while the calling owner does, and after that while JS still holds it.
+	*/
+	function createFocusNode(options) {
+		return w("flutter_FocusNode", $FocusNode, options, {
+			"fns": ["onKey", "onKeyEvent"],
+			"live": [
+				"skipTraversal",
+				"canRequestFocus",
+				"descendantsAreFocusable",
+				"descendantsAreTraversable"
+			],
+			"seeds": {
+				"skipTraversal": false,
+				"canRequestFocus": true,
+				"descendantsAreFocusable": true,
+				"descendantsAreTraversable": true
+			}
+		});
+	}
 	C("flutter_FocusScopeNode", {
 		"s": [
 			"nearestScope",
@@ -7623,7 +7602,7 @@
 		if ("$" in t) return t;
 		const brief = t;
 		return ThemeData({
-			colorSchemeSeed: Z(brief.seedColor ?? "#6750a4"),
+			colorSchemeSeed: $(brief.seedColor ?? "#6750a4"),
 			brightness: brief.brightness ?? brightness,
 			fontFamily: brief.fontFamily,
 			contrastLevel: brief.contrast
@@ -7634,7 +7613,7 @@
 	* are `materialPage()`s.
 	*/
 	function MaterialApp(props) {
-		return $e(K, {
+		return $e(J, {
 			value: (child) => materialPage({ child }),
 			get children() {
 				return $e(MaterialApp$1, {
@@ -7658,7 +7637,7 @@
 						return props.themeMode ?? "system";
 					},
 					get color() {
-						return Z(props.color);
+						return $(props.color);
 					},
 					get debugShowCheckedModeBanner() {
 						return props.debugShowCheckedModeBanner ?? false;
@@ -7681,7 +7660,7 @@
 		})() : v;
 	}
 	function icon$1(v, size) {
-		return typeof v === "string" ? $e(de, {
+		return typeof v === "string" ? $e(le, {
 			icon: v,
 			size
 		}) : v;
@@ -7706,7 +7685,7 @@
 				return props.endDrawer;
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			},
 			get extendBodyBehindAppBar() {
 				return props.extendBodyBehindAppBar;
@@ -7734,10 +7713,10 @@
 				return props.centerTitle;
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			},
 			get foregroundColor() {
-				return Z(props.foregroundColor);
+				return $(props.foregroundColor);
 			},
 			get elevation() {
 				return props.elevation;
@@ -7769,7 +7748,7 @@
 		return Ue(() => {
 			return Ue(() => {
 				return props.icon !== void 0;
-			})() ? $e(W, {
+			})() ? $e(K, {
 				get component() {
 					return withIcon[props.variant ?? "filled"];
 				},
@@ -7788,7 +7767,7 @@
 				get label() {
 					return label$1(props.children) ?? [];
 				}
-			}) : $e(W, {
+			}) : $e(K, {
 				get component() {
 					return plain[props.variant ?? "filled"];
 				},
@@ -7814,7 +7793,7 @@
 		outlined: IconButtonOutlined
 	};
 	function IconButton(props) {
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return iconButtons[props.variant ?? "standard"];
 			},
@@ -7841,7 +7820,7 @@
 				return props.tooltip;
 			},
 			get color() {
-				return Z(props.color);
+				return $(props.color);
 			},
 			get iconSize() {
 				return props.size;
@@ -7865,10 +7844,10 @@
 					return props.tooltip;
 				},
 				get backgroundColor() {
-					return Z(props.backgroundColor);
+					return $(props.backgroundColor);
 				},
 				get foregroundColor() {
-					return Z(props.foregroundColor);
+					return $(props.foregroundColor);
 				},
 				get icon() {
 					return icon$1(props.icon);
@@ -7876,7 +7855,7 @@
 				get label() {
 					return label$1(props.label);
 				}
-			}) : $e(W, {
+			}) : $e(K, {
 				get component() {
 					return fabs[props.size ?? "regular"];
 				},
@@ -7887,10 +7866,10 @@
 					return props.tooltip;
 				},
 				get backgroundColor() {
-					return Z(props.backgroundColor);
+					return $(props.backgroundColor);
 				},
 				get foregroundColor() {
-					return Z(props.foregroundColor);
+					return $(props.foregroundColor);
 				},
 				get children() {
 					return icon$1(props.icon);
@@ -7905,7 +7884,7 @@
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
-				a: Z(props.color)
+				a: $(props.color)
 			};
 		}, ({ e, t, a }, _p$) => {
 			e !== _p$?.e && Ye(_el$, "value", e, _p$?.e);
@@ -7922,7 +7901,7 @@
 				t: props.tristate ?? props.value === null,
 				a: props.disabled ? null : props.onChange ?? null,
 				o: props.error,
-				i: Z(props.color),
+				i: $(props.color),
 				n: props.semanticLabel
 			};
 		}, ({ e, t, a, o, i, n }, _p$) => {
@@ -7943,7 +7922,7 @@
 				e: props.value,
 				t: !props.disabled,
 				a: props.toggleable,
-				o: Z(props.color)
+				o: $(props.color)
 			};
 		}, ({ e, t, a, o }, _p$) => {
 			e !== _p$?.e && Ye(_el$3, "value", e, _p$?.e);
@@ -7964,7 +7943,7 @@
 				i: props.max,
 				n: props.steps ?? null,
 				s: props.label ?? null,
-				h: Z(props.color)
+				h: $(props.color)
 			};
 		}, ({ e, t, a, o, i, n, s, h }, _p$) => {
 			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
@@ -8009,7 +7988,7 @@
 			});
 			return _el$;
 		})();
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return cards[props.variant ?? "elevated"];
 			},
@@ -8017,7 +7996,7 @@
 				return props.margin;
 			},
 			get color() {
-				return Z(props.color);
+				return $(props.color);
 			},
 			get elevation() {
 				return props.elevation;
@@ -8074,7 +8053,7 @@
 		});
 	}
 	function Divider(props) {
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return props.vertical ? VerticalDivider : Divider$1;
 			},
@@ -8088,7 +8067,7 @@
 				return props.endIndent;
 			},
 			get color() {
-				return Z(props.color);
+				return $(props.color);
 			},
 			get width() {
 				return Ue(() => {
@@ -8173,7 +8152,7 @@
 						e: props.label,
 						t: props.max,
 						a: props.visible ?? true,
-						o: Z(props.color)
+						o: $(props.color)
 					};
 				}, ({ e, t, a, o }, _p$) => {
 					e !== _p$?.e && Ye(_el$3, "count", e, _p$?.e);
@@ -8190,7 +8169,7 @@
 					return props.visible ?? true;
 				},
 				get backgroundColor() {
-					return Z(props.color);
+					return $(props.color);
 				},
 				get children() {
 					return props.children;
@@ -8199,7 +8178,7 @@
 		});
 	}
 	function ProgressIndicator$1(props) {
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator;
 			},
@@ -8207,10 +8186,10 @@
 				return props.value ?? null;
 			},
 			get color() {
-				return Z(props.color);
+				return $(props.color);
 			},
 			get backgroundColor() {
-				return Z(props.trackColor);
+				return $(props.trackColor);
 			}
 		});
 	}
@@ -8228,10 +8207,10 @@
 				return props.labels ?? null;
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			},
 			get indicatorColor() {
-				return Z(props.indicatorColor);
+				return $(props.indicatorColor);
 			},
 			get destinations() {
 				return props.children;
@@ -8260,7 +8239,7 @@
 	// ../../packages/material/src/overlays.tsx
 	/** Material's alert dialog, open while `open` is true. */
 	function Dialog$2(props) {
-		return $e(ve, {
+		return $e(ge, {
 			type: "materialDialog",
 			get open() {
 				return props.open;
@@ -8294,7 +8273,7 @@
 	}
 	/** A modal sheet from the bottom, open while `open` is true. */
 	function BottomSheet(props) {
-		return $e(ve, {
+		return $e(ge, {
 			type: "materialBottomSheet",
 			get open() {
 				return props.open;
@@ -8324,69 +8303,60 @@
 	}
 	// src/ui.tsx
 	var _tpl$1$12 = /*@__PURE__*/ ke([
-		"gestureDetector",
-		0,
-		[
-			"view",
-			{
-				"padding": {
-					"horizontal": 16,
-					"vertical": 12
-				},
-				"decoration": {
-					"color": "#2563eb",
-					"borderRadius": 8
-				}
+		"view",
+		{
+			"padding": {
+				"horizontal": 16,
+				"vertical": 12
 			},
-			["text", {
-				"color": "white",
-				"fontWeight": "semiBold"
-			}]
-		]
-	], 3);
-	var _tpl$2$6 = /*@__PURE__*/ ke([
-		"gestureDetector",
-		0,
-		[
-			"view",
-			{
-				"padding": 16,
-				"decoration": { "border": { "bottom": {
-					"width": 1,
-					"color": "#E5E7EB"
-				} } }
-			},
-			["text", { "fontSize": 16 }]
-		]
-	], 3);
+			"decoration": {
+				"color": "#2563eb",
+				"borderRadius": 8
+			}
+		},
+		["text", {
+			"color": "white",
+			"fontWeight": "semiBold"
+		}]
+	], 2);
+	var _tpl$2$7 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"padding": 16,
+			"decoration": { "border": { "bottom": {
+				"width": 1,
+				"color": "#E5E7EB"
+			} } }
+		},
+		["text", { "fontSize": 16 }]
+	], 2);
 	function Button$2(props) {
-		return ((_at$1) => (() => {
-			var _el$ = Ge("h$gestureDetector", {
-				$t: _at$1,
-				$i: 0
-			});
-			var _el$2 = Ge("h$view", {
-				$t: _at$1,
-				$i: 1
-			});
-			var _el$3 = Ge("h$text", {
-				$t: _at$1,
-				$i: 2
-			});
-			tt(_el$, _el$2);
-			tt(_el$2, _el$3);
-			Z$1(_el$3, () => {
-				return props.children;
-			});
-			He(() => props.onTap, (_v$, _$p) => {
-				Ye(_el$, "onTap", _v$, _$p);
-			});
-			return _el$;
-		})())(Ae(_tpl$1$12));
+		return $e(me, {
+			get onPress() {
+				return props.onTap;
+			},
+			get children() {
+				return ((_at$1) => (() => {
+					var _el$ = Ge("h$view", {
+						$t: _at$1,
+						$i: 0
+					});
+					var _el$2 = Ge("h$text", {
+						$t: _at$1,
+						$i: 1
+					});
+					tt(_el$, _el$2);
+					Z$1(_el$2, () => {
+						return props.children;
+					});
+					return _el$;
+				})())(Ae(_tpl$1$12));
+			}
+		});
 	}
 	function Row(props) {
-		var _el$4 = Ge("view");
-		Z$1(_el$4, () => {
+		var _el$3 = Ge("view");
+		Z$1(_el$3, () => {
 			return props.children;
 		});
 		He(() => ({
@@ -8394,34 +8364,33 @@
 			gap: props.gap ?? 8,
 			align: "center"
 		}), (_v$, _$p) => {
-			Ye(_el$4, "layout", _v$, _$p);
+			Ye(_el$3, "layout", _v$, _$p);
 		});
-		return _el$4;
+		return _el$3;
 	}
 	function MenuItem(props) {
-		return ((_at$2) => (() => {
-			var _el$5 = Ge("h$gestureDetector", {
-				$t: _at$2,
-				$i: 0
-			});
-			var _el$6 = Ge("h$view", {
-				$t: _at$2,
-				$i: 1
-			});
-			var _el$7 = Ge("h$text", {
-				$t: _at$2,
-				$i: 2
-			});
-			tt(_el$5, _el$6);
-			tt(_el$6, _el$7);
-			Z$1(_el$7, () => {
-				return props.label;
-			});
-			He(() => props.onTap, (_v$, _$p) => {
-				Ye(_el$5, "onTap", _v$, _$p);
-			});
-			return _el$5;
-		})())(Ae(_tpl$2$6));
+		return $e(me, {
+			get onPress() {
+				return props.onTap;
+			},
+			get children() {
+				return ((_at$2) => (() => {
+					var _el$4 = Ge("h$view", {
+						$t: _at$2,
+						$i: 0
+					});
+					var _el$5 = Ge("h$text", {
+						$t: _at$2,
+						$i: 1
+					});
+					tt(_el$4, _el$5);
+					Z$1(_el$5, () => {
+						return props.label;
+					});
+					return _el$4;
+				})())(Ae(_tpl$2$7));
+			}
+		});
 	}
 	// src/screens/counter.tsx
 	var _tpl$1$11 = /*@__PURE__*/ ke([
@@ -8439,99 +8408,84 @@
 			"fontWeight": "bold",
 			"color": "#2563eb"
 		}],
+		["view", { "layout": {
+			"direction": "horizontal",
+			"gap": 16,
+			"align": "center"
+		} }]
+	], 3);
+	var _tpl$2$6 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"width": 64,
+			"height": 64,
+			"decoration": {
+				"color": "#ef4444",
+				"borderRadius": 32
+			},
+			"layout": {
+				"align": "center",
+				"justify": "center"
+			}
+		},
 		[
-			"view",
-			{ "layout": {
-				"direction": "horizontal",
-				"gap": 16,
-				"align": "center"
-			} },
-			[
-				"gestureDetector",
-				0,
-				[
-					"view",
-					{
-						"width": 64,
-						"height": 64,
-						"decoration": {
-							"color": "#ef4444",
-							"borderRadius": 32
-						},
-						"layout": {
-							"align": "center",
-							"justify": "center"
-						}
-					},
-					[
-						"text",
-						{
-							"fontSize": 28,
-							"fontWeight": "bold",
-							"color": "#fff"
-						},
-						"−"
-					]
-				]
-			],
-			[
-				"gestureDetector",
-				0,
-				[
-					"view",
-					{
-						"height": 64,
-						"padding": { "horizontal": 24 },
-						"decoration": {
-							"color": "#6b7280",
-							"borderRadius": 32
-						},
-						"layout": {
-							"align": "center",
-							"justify": "center"
-						}
-					},
-					[
-						"text",
-						{
-							"fontSize": 15,
-							"fontWeight": "semiBold",
-							"color": "#fff"
-						},
-						"Reset"
-					]
-				]
-			],
-			[
-				"gestureDetector",
-				0,
-				[
-					"view",
-					{
-						"width": 64,
-						"height": 64,
-						"decoration": {
-							"color": "#22c55e",
-							"borderRadius": 32
-						},
-						"layout": {
-							"align": "center",
-							"justify": "center"
-						}
-					},
-					[
-						"text",
-						{
-							"fontSize": 28,
-							"fontWeight": "bold",
-							"color": "#fff"
-						},
-						"+"
-					]
-				]
-			]
+			"text",
+			{
+				"fontSize": 28,
+				"fontWeight": "bold",
+				"color": "#fff"
+			},
+			"−"
 		]
-	], 15);
+	], 3);
+	var _tpl$3$2 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"height": 64,
+			"padding": { "horizontal": 24 },
+			"decoration": {
+				"color": "#6b7280",
+				"borderRadius": 32
+			},
+			"layout": {
+				"align": "center",
+				"justify": "center"
+			}
+		},
+		[
+			"text",
+			{
+				"fontSize": 15,
+				"fontWeight": "semiBold",
+				"color": "#fff"
+			},
+			"Reset"
+		]
+	], 3);
+	var _tpl$4$1 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"width": 64,
+			"height": 64,
+			"decoration": {
+				"color": "#22c55e",
+				"borderRadius": 32
+			},
+			"layout": {
+				"align": "center",
+				"justify": "center"
+			}
+		},
+		[
+			"text",
+			{
+				"fontSize": 28,
+				"fontWeight": "bold",
+				"color": "#fff"
+			},
+			"+"
+		]
+	], 3);
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
 		return ((_at$1) => (() => {
@@ -8547,27 +8501,36 @@
 				$t: _at$1,
 				$i: 2
 			});
-			var _el$4 = Ge("h$gestureDetector", {
-				$t: _at$1,
-				$i: 3,
-				onTap: () => setCount((c) => c - 1)
-			});
-			var _el$5 = Ge("h$gestureDetector", {
-				$t: _at$1,
-				$i: 7,
-				onTap: () => setCount(0)
-			});
-			var _el$6 = Ge("h$gestureDetector", {
-				$t: _at$1,
-				$i: 11,
-				onTap: () => setCount((c) => c + 1)
-			});
 			tt(_el$, _el$2);
 			tt(_el$, _el$3);
 			Z$1(_el$2, count);
-			tt(_el$3, _el$4);
-			tt(_el$3, _el$5);
-			tt(_el$3, _el$6);
+			Z$1(_el$3, $e(me, {
+				onPress: () => setCount((c) => c - 1),
+				get children() {
+					return ((_at$2) => Ge("h$view", {
+						$t: _at$2,
+						$i: 0
+					}))(Ae(_tpl$2$6));
+				}
+			}), null);
+			Z$1(_el$3, $e(me, {
+				onPress: () => setCount(0),
+				get children() {
+					return ((_at$3) => Ge("h$view", {
+						$t: _at$3,
+						$i: 0
+					}))(Ae(_tpl$3$2));
+				}
+			}), null);
+			Z$1(_el$3, $e(me, {
+				onPress: () => setCount((c) => c + 1),
+				get children() {
+					return ((_at$4) => Ge("h$view", {
+						$t: _at$4,
+						$i: 0
+					}))(Ae(_tpl$4$1));
+				}
+			}), null);
 			return _el$;
 		})())(Ae(_tpl$1$11));
 	}
@@ -8700,10 +8663,10 @@
 		["view", { "padding": 16 }]
 	], 30);
 	function TextFieldScreen() {
-		const nav = ae();
+		const nav = re();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = we();
+		const focus = createFocusNode();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -8809,7 +8772,7 @@
 			}, null);
 			Z$1(_el$8, $e(Row, { get children() {
 				return [$e(Button$2, {
-					onTap: () => focus.focus(),
+					onTap: () => focus.requestFocus(),
 					children: "focus"
 				}), $e(Button$2, {
 					onTap: () => focus.unfocus(),
@@ -8968,7 +8931,7 @@
 		["view", { "padding": 16 }]
 	], 25);
 	function IconScreen() {
-		const nav = ae();
+		const nav = re();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
@@ -9034,38 +8997,38 @@
 			tt(_el$2, _el$5);
 			tt(_el$2, _el$11);
 			tt(_el$3, _el$4);
-			Z$1(_el$4, $e(de, {
+			Z$1(_el$4, $e(le, {
 				get icon() {
 					return search;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(de, {
+			Z$1(_el$4, $e(le, {
 				get icon() {
 					return lock;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(de, {
+			Z$1(_el$4, $e(le, {
 				get icon() {
 					return home;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(de, {
+			Z$1(_el$4, $e(le, {
 				get icon() {
 					return settings;
 				},
 				size: 32
 			}), null);
-			Z$1(_el$4, $e(de, {
+			Z$1(_el$4, $e(le, {
 				get icon() {
 					return favorite;
 				},
 				size: 32,
 				color: "#EF4444"
 			}), null);
-			Z$1(_el$4, $e(de, {
+			Z$1(_el$4, $e(le, {
 				get icon() {
 					return star;
 				},
@@ -9075,7 +9038,7 @@
 			tt(_el$5, _el$6);
 			tt(_el$5, _el$7);
 			tt(_el$7, _el$8);
-			Z$1(_el$7, $e(de, {
+			Z$1(_el$7, $e(le, {
 				get icon() {
 					return favorite;
 				},
@@ -9124,7 +9087,7 @@
 			} }), null);
 			tt(_el$11, _el$12);
 			tt(_el$12, _el$13);
-			Z$1(_el$12, $e(de, {
+			Z$1(_el$12, $e(le, {
 				get icon() {
 					return info$1;
 				},
@@ -9187,7 +9150,7 @@
 			[
 				"text",
 				{ "fontWeight": "semiBold" },
-				"scrollOffset = "
+				"offset = "
 			],
 			["scrollView", {
 				"scrollDirection": "horizontal",
@@ -9217,8 +9180,8 @@
 		]
 	], 3);
 	function ScrollScreen() {
-		const nav = ae();
-		const scroll = Ce({ initialScrollOffset: 120 });
+		const nav = re();
+		const scroll = createScrollController({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -9256,14 +9219,17 @@
 			tt(_el$2, _el$5);
 			tt(_el$3, _el$4);
 			Z$1(_el$3, () => {
-				return scroll.scrollOffset().toFixed(1);
+				return (scroll.offset() ?? 0).toFixed(1);
 			}, null);
 			Z$1(_el$5, $e(Button$2, {
 				onTap: () => scroll.jumpTo(0),
 				children: "jumpTo(0)"
 			}), null);
 			Z$1(_el$5, $e(Button$2, {
-				onTap: () => scroll.animateTo(1200, { duration: 800 }),
+				onTap: () => scroll.animateTo(1200, {
+					duration: 800,
+					curve: easeInOut
+				}),
 				children: "animateTo(1200)"
 			}), null);
 			Z$1(_el$6, () => {
@@ -9394,17 +9360,13 @@
 		["view", { "flex": 1 }]
 	], 7);
 	var _tpl$2$3 = /*@__PURE__*/ ke([
-		"gestureDetector",
-		0,
-		[
-			"view",
-			{ "padding": {
-				"horizontal": 16,
-				"vertical": 12
-			} },
-			["text", 0]
-		]
-	], 3);
+		"view",
+		{ "padding": {
+			"horizontal": 16,
+			"vertical": 12
+		} },
+		["text", 0]
+	], 2);
 	function BuilderScreen() {
 		const [picked, setPicked] = createSignal(-1);
 		const scroll = createScrollController();
@@ -9449,28 +9411,27 @@
 				controller: scroll,
 				itemCount: 1e4,
 				itemExtent: 48,
-				itemBuilder: (index) => ((_at$2) => (() => {
-					var _el$6 = Ge("h$gestureDetector", {
-						$t: _at$2,
-						$i: 0,
-						onTap: () => setPicked(index)
-					});
-					var _el$7 = Ge("h$view", {
-						$t: _at$2,
-						$i: 1
-					});
-					var _el$8 = Ge("h$text", {
-						$t: _at$2,
-						$i: 2
-					});
-					tt(_el$6, _el$7);
-					tt(_el$7, _el$8);
-					Z$1(_el$8, `Row ${index}`);
-					He(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
-						Ye(_el$7, "decoration", _v$, _$p);
-					});
-					return _el$6;
-				})())(Ae(_tpl$2$3))
+				itemBuilder: (index) => $e(me, {
+					onPress: () => setPicked(index),
+					get children() {
+						return ((_at$2) => (() => {
+							var _el$6 = Ge("h$view", {
+								$t: _at$2,
+								$i: 0
+							});
+							var _el$7 = Ge("h$text", {
+								$t: _at$2,
+								$i: 1
+							});
+							tt(_el$6, _el$7);
+							Z$1(_el$7, `Row ${index}`);
+							He(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
+								Ye(_el$6, "decoration", _v$, _$p);
+							});
+							return _el$6;
+						})())(Ae(_tpl$2$3));
+					}
+				})
 			}));
 			return _el$;
 		})())(Ae(_tpl$1$6));
@@ -9639,7 +9600,7 @@
 			Z$1(_el$, $e(Section, {
 				title: "Pressable",
 				get children() {
-					return $e(ge, {
+					return $e(me, {
 						onPress: () => setPresses((n) => n + 1),
 						semanticLabel: "Press me",
 						children: (state) => ((_at$2) => (() => {
@@ -9717,7 +9678,7 @@
 							onTap: () => setOpen(true),
 							children: "open dialog"
 						});
-					} }), $e(ve, {
+					} }), $e(ge, {
 						get open() {
 							return open();
 						},
@@ -9772,7 +9733,7 @@
 										"banana",
 										"cherry"
 									],
-									children: (f) => $e(ge, {
+									children: (f) => $e(me, {
 										onPress: () => (setFruit(f), setMenu(false)),
 										get children() {
 											return ((_at$7) => (() => {
@@ -9952,7 +9913,7 @@
 		]
 	], 3);
 	function MaterialScreen() {
-		const nav = ae();
+		const nav = re();
 		const [on, setOn] = createSignal(true);
 		const [checked, setChecked] = createSignal(false);
 		const [volume, setVolume] = createSignal(.4);
@@ -10480,7 +10441,7 @@
 		})() : v;
 	}
 	function icon(v, size) {
-		return typeof v === "string" ? $e(de, {
+		return typeof v === "string" ? $e(le, {
 			icon: v,
 			size
 		}) : v;
@@ -10493,7 +10454,7 @@
 				return props.navigationBar;
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			},
 			get resizeToAvoidBottomInset() {
 				return props.resizeToAvoidBottomInset;
@@ -10504,7 +10465,7 @@
 		});
 	}
 	function NavigationBar(props) {
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
 			},
@@ -10528,7 +10489,7 @@
 				return props.previousPageTitle;
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			}
 		});
 	}
@@ -10545,7 +10506,7 @@
 	};
 	/** iOS buttons, one component: pick the look with `variant`. */
 	function Button$1(props) {
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return buttons[props.variant ?? "plain"];
 			},
@@ -10563,7 +10524,7 @@
 				})() ? null : props.onLongPress ?? null;
 			},
 			get color() {
-				return Z(props.color);
+				return $(props.color);
 			},
 			get children() {
 				return $e(Show, {
@@ -10598,7 +10559,7 @@
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
-				a: Z(props.color)
+				a: $(props.color)
 			};
 		}, ({ e, t, a }, _p$) => {
 			e !== _p$?.e && Ye(_el$2, "value", e, _p$?.e);
@@ -10614,7 +10575,7 @@
 				e: props.value,
 				t: props.tristate ?? props.value === null,
 				a: props.disabled ? null : props.onChange ?? null,
-				o: Z(props.color),
+				o: $(props.color),
 				i: props.semanticLabel
 			};
 		}, ({ e, t, a, o, i }, _p$) => {
@@ -10635,7 +10596,7 @@
 				t: !props.disabled,
 				a: props.toggleable,
 				o: props.checkmark,
-				i: Z(props.color)
+				i: $(props.color)
 			};
 		}, ({ e, t, a, o, i }, _p$) => {
 			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
@@ -10656,7 +10617,7 @@
 				o: props.min,
 				i: props.max,
 				n: props.steps ?? null,
-				s: Z(props.color)
+				s: $(props.color)
 			};
 		}, ({ e, t, a, o, i, n, s }, _p$) => {
 			e !== _p$?.e && Ye(_el$5, "value", e, _p$?.e);
@@ -10675,7 +10636,7 @@
 			return {
 				e: props.animating,
 				t: props.radius,
-				a: Z(props.color)
+				a: $(props.color)
 			};
 		}, ({ e, t, a }, _p$) => {
 			e !== _p$?.e && Ye(_el$6, "animating", e, _p$?.e);
@@ -10716,7 +10677,7 @@
 	}
 	// ../../packages/cupertino/src/list.tsx
 	function ListSection(props) {
-		return $e(W, {
+		return $e(K, {
 			get component() {
 				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
 			},
@@ -10727,7 +10688,7 @@
 				return label(props.footer);
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			},
 			get children() {
 				return props.children;
@@ -10759,7 +10720,7 @@
 				return props.onPress;
 			},
 			get backgroundColor() {
-				return Z(props.backgroundColor);
+				return $(props.backgroundColor);
 			}
 		});
 	}
@@ -10780,7 +10741,7 @@
 	// ../../packages/cupertino/src/overlays.tsx
 	/** iOS alert, open while `open` is true. */
 	function Dialog$1(props) {
-		return $e(ve, {
+		return $e(ge, {
 			type: "cupertinoDialog",
 			get open() {
 				return props.open;
@@ -10826,7 +10787,7 @@
 	}
 	/** iOS action sheet, sliding up while `open` is true. */
 	function ActionSheet(props) {
-		return $e(ve, {
+		return $e(ge, {
 			type: "cupertinoActionSheet",
 			get open() {
 				return props.open;
@@ -11443,7 +11404,7 @@
 		]
 	], 6);
 	function HomeScreen() {
-		const nav = ae();
+		const nav = re();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -11502,7 +11463,7 @@
 		theme: { seedColor: "#2563eb" },
 		themeMode: "light",
 		get children() {
-			return $e(oe, { initialPage: () => $e(HomeScreen, {}) });
+			return $e(ie, { initialPage: () => $e(HomeScreen, {}) });
 		}
 	});
 	et(App);

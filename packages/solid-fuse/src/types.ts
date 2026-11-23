@@ -113,3 +113,11 @@ export interface BaseProps {
   flex?: number;
   ref?: import("./renderer").FuseNode | ((el: import("./renderer").FuseNode) => void);
 }
+
+// Handles core widgets take come from the app's generated Flutter layer, so
+// there is one FocusNode and one ScrollController: the generated ones, with
+// everything Flutter's have. Types only; nothing is imported at runtime.
+/** What a `focusNode` prop takes: `createFocusNode()` from `#fuse/flutter`. */
+export type FocusNodeInput = NonNullable<import("#fuse/flutter").EditableTextProps["focusNode"]>;
+/** What a scroll `controller` prop takes: `createScrollController()` and friends from `#fuse/flutter`. */
+export type ScrollControllerInput = NonNullable<import("#fuse/flutter").SingleChildScrollViewProps["controller"]>;

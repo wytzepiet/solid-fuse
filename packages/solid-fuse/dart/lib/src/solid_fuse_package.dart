@@ -1,10 +1,7 @@
-import 'handles/focus_node.dart';
 import 'handles/page.dart';
-import 'handles/scroll_controller.dart';
 import 'runtime.dart';
 import 'widgets/app.dart';
 import 'widgets/expandable.dart';
-import 'widgets/gesture_detector.dart';
 import 'widgets/menu.dart';
 import 'widgets/modal.dart';
 import 'widgets/navigator.dart';
@@ -26,7 +23,6 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('app', FuseApp.new);
   runtime.registerWidget('view', FuseViewWidget.new);
   runtime.registerWidget('text', FuseText.new);
-  runtime.registerWidget('gestureDetector', FuseGestureDetector.new);
   runtime.registerWidget('pressable', FusePressable.new);
   runtime.registerWidget('textInput', FuseTextInput.new);
   runtime.registerWidget('navigator', FuseNavigatorWidget.new);
@@ -38,8 +34,6 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('tooltip', FuseTooltip.new);
   runtime.registerWidget('menu', FuseMenu.new);
   runtime.registerWidget('expandable', FuseExpandable.new);
-  runtime.registerHandle('scrollController', FuseScrollController.new);
-  runtime.registerHandle('focusNode', FuseFocusNode.new);
   runtime.registerHandle('page', FusePage.new);
   runtime.registerRoute('dialog', fuseDialogRoute);
 }

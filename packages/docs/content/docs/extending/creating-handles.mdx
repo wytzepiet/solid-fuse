@@ -3,7 +3,7 @@ title: Creating Handles
 description: Build imperative Dart objects accessible from JS
 ---
 
-A **handle** is a persistent native Dart object (controllers, managers, connections) that JS can call methods on and receive state updates from. Use one when you need imperative control that doesn't fit the declarative widget model — anything backed by a long-lived Dart object behind a JS-side reference. The built-ins `createScrollController` and `createFocusNode` are thin wrappers around the same primitives.
+A **handle** is a persistent native Dart object (controllers, managers, connections) that JS can call methods on and receive state updates from. Use one when you need imperative control that doesn't fit the declarative widget model — anything backed by a long-lived Dart object behind a JS-side reference. Flutter's own controllers (`createScrollController`, `createFocusNode` in `#fuse/flutter`) are generated; write a handle by hand for a Dart object the generator doesn't cover, or to give one a smaller API. The examples below hand-write a focus node and a scroll controller to show the pattern.
 
 ## When to create a handle
 
@@ -167,7 +167,7 @@ Handles created inside a Solid reactive context (inside a component or `createRo
 
 ```tsx
 function MyComponent() {
-  const scroll = createScrollController(); // auto-disposes on unmount
+  const scroll = createScrollController(); // from #fuse/flutter; auto-disposes on unmount
   return <ScrollView controller={scroll} />;
 }
 ```
@@ -186,7 +186,7 @@ The lifecycle: on `create` op the runtime instantiates the handle, stores it on 
 
 ## ScrollController: the complete example
 
-The built-in `ScrollController` is a good reference for the full pattern:
+A hand-written scroll controller shows the full pattern (in an app, use the generated one):
 
 ```tsx title="JS — scroll-controller.ts"
 import { createSignal } from "solid-js";

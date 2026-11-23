@@ -154,7 +154,7 @@ Dart calls each function when it needs the member. One that returns a value is c
 A controller (a Listenable such as `ScrollController`, `TextEditingController` or `AnimationController`, or a class of your own with mutable state) gets a `createX` function per constructor:
 
 ```tsx
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Pressable, Text, View } from "solid-fuse";
 import { createTextEditingController } from "#fuse/flutter";
 import { TextField } from "#fuse/material_ui";
 
@@ -164,9 +164,9 @@ function Search() {
     <View>
       <TextField controller={query} />
       <Text>{query.text()}</Text>
-      <GestureDetector onTap={() => query.setText("")}>
+      <Pressable onPress={() => query.setText("")}>
         <Text>Clear</Text>
-      </GestureDetector>
+      </Pressable>
     </View>
   );
 }

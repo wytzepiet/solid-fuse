@@ -1,8 +1,8 @@
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Pressable, Text, View } from "solid-fuse";
 
 export function Button(props: { onTap: () => void; children: JSX.Element }) {
   return (
-    <GestureDetector onTap={props.onTap}>
+    <Pressable onPress={props.onTap}>
       <View
         padding={{ horizontal: 16, vertical: 12 }}
         decoration={{ color: "#2563eb", borderRadius: 8 }}
@@ -11,7 +11,7 @@ export function Button(props: { onTap: () => void; children: JSX.Element }) {
           {props.children}
         </Text>
       </View>
-    </GestureDetector>
+    </Pressable>
   );
 }
 
@@ -25,13 +25,13 @@ export function Row(props: { children: JSX.Element; gap?: number }) {
 
 export function MenuItem(props: { label: string; onTap: () => void }) {
   return (
-    <GestureDetector onTap={props.onTap}>
+    <Pressable onPress={props.onTap}>
       <View
         padding={16}
         decoration={{ border: { bottom: { width: 1, color: "#E5E7EB" } } }}
       >
         <Text fontSize={16}>{props.label}</Text>
       </View>
-    </GestureDetector>
+    </Pressable>
   );
 }

@@ -9,7 +9,7 @@ Every widget follows the same rules:
 
 - **State is a controlled pair**: `value`/`onChange`, `open`/`onOpenChange`, `expanded`/`onExpandedChange`. Leave out the value to let the widget keep its own state.
 - **Events are `on` + verb**: `onPress`, `onSubmit`, `onShow`.
-- **Commands go through a handle** when you need them: `createFocusNode`, `createScrollController`.
+- **Commands go through a handle** when you need them: `createFocusNode`, `createScrollController` from `#fuse/flutter`.
 - **Overlays are components** with `open`, placed anywhere in the tree. They take no space where they sit.
 
 ## App
@@ -75,7 +75,7 @@ For a dim-on-press without a round trip to JS, use `pressedOpacity={0.6}`.
 | `disabled` | `boolean` | |
 | `pressedOpacity` | `number` | Opacity while pressed, applied in Dart |
 | `semanticLabel` | `string` | Read by screen readers |
-| `focusNode` | `FocusNode` | From `createFocusNode()` |
+| `focusNode` | `FocusNode` | From `createFocusNode()` (`#fuse/flutter`) |
 | `autofocus` | `boolean` | |
 
 ## TextInput

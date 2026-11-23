@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { GestureDetector, Text, View } from "solid-fuse";
+import { Pressable, Text, View } from "solid-fuse";
 import { ListViewBuilder, createScrollController } from "#fuse/flutter";
 
 // A generated ListView.builder: Flutter asks JS for each row as it scrolls
@@ -27,11 +27,11 @@ export function BuilderScreen() {
           itemCount={10000}
           itemExtent={48}
           itemBuilder={(index) => (
-            <GestureDetector onTap={() => setPicked(index)}>
+            <Pressable onPress={() => setPicked(index)}>
               <View padding={{ horizontal: 16, vertical: 12 }} decoration={{ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }}>
                 <Text>{`Row ${index}`}</Text>
               </View>
-            </GestureDetector>
+            </Pressable>
           )}
         />
       </View>

@@ -30,7 +30,8 @@ generated modules.
    of truth. Leave `value` out and the component keeps its own state
    (`defaultValue` seeds it). Commands that are actions, not state (scroll
    there, focus now), live on a handle from `createX()`
-   (`createScrollController`, `createFocusNode`). A handle may expose state as
+   (`createScrollController`, `createFocusNode`, generated in `#fuse/flutter`;
+   core's widgets take those same types, so there is one of each). A handle may expose state as
    read-only signals (`scroll.scrollOffset()`).
 2. **Names for state pairs:** `value`/`onChange` (inputs, switches, sliders,
    radio groups, segmented controls), `open`/`onOpenChange` (dialogs, sheets,
@@ -71,7 +72,7 @@ generated modules.
 | Component | Built on | Notes |
 | --- | --- | --- |
 | `App` | WidgetsApp | Root: title, color, locale, text style. Hosts an Overlay so tooltips and menus work without a Navigator. |
-| `View`, `Text`, `Stack`, `Positioned`, `ScrollView`, `GestureDetector` | (existing) | Unchanged. |
+| `View`, `Text`, `Stack`, `Positioned`, `ScrollView` | (existing) | Unchanged. Core's hand-written `GestureDetector`, `createFocusNode` and `createScrollController` are gone: the generated ones in `#fuse/flutter` replace them. |
 | `Icon` | generated `Icon` | `icon={Icons.x}`; tree-shaken. Icon sets live in the design packages. |
 | `Pressable` | GestureDetector + FocusableActionDetector | `onPress`, `onLongPress`, `disabled`; `onPressedChange` / `onHoveredChange` / `onFocusedChange` (one event per flag, like `onOpenChange`; Dart reports only those passed); a function child gets them as accessors: `{(s) => <View opacity={s.pressed() ? 0.5 : 1} />}`. Keyboard activation, semantics as a button. |
 | `TextInput` | EditableText | Unstyled text editing: `value`/`onChange`, `placeholder`, text style props, keyboard options, `onSubmit`, `focusNode`. Dart owns the live text; JS writes win only when they're not an echo of what Dart sent. |

@@ -1,5 +1,5 @@
 import type { BaseProps, ColorInput, FontWeight } from "../types";
-import type { FocusNode } from "../focus-node";
+import type { FocusNodeInput } from "../types";
 
 export type KeyboardType =
   | "text" | "multiline" | "number" | "integer" | "phone" | "email" | "url" | "name" | "none";
@@ -22,7 +22,8 @@ export interface TextInputBaseProps extends BaseProps {
   disabled?: boolean;
   readOnly?: boolean;
   autofocus?: boolean;
-  focusNode?: FocusNode;
+  /** A focus node from `createFocusNode` (`#fuse/flutter`). */
+  focusNode?: FocusNodeInput;
   obscureText?: boolean;
   autocorrect?: boolean;
   keyboardType?: KeyboardType;

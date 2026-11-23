@@ -26,7 +26,7 @@ function Root() {
 Any component inside a `Navigator` can access the navigation API:
 
 ```tsx
-import { GestureDetector, Text, View, useNavigation } from "solid-fuse";
+import { Pressable, Text, View, useNavigation } from "solid-fuse";
 
 function HomePage() {
   const nav = useNavigation();
@@ -34,11 +34,11 @@ function HomePage() {
   return (
     <View layout={{ gap: 16 }} padding={24}>
       <Text fontSize={24}>Home</Text>
-      <GestureDetector onTap={() => nav.push(() => <DetailPage />)}>
+      <Pressable onPress={() => nav.push(() => <DetailPage />)}>
         <View padding={12} decoration={{ color: "blue", borderRadius: 8 }}>
           <Text color="white">Go to detail</Text>
         </View>
-      </GestureDetector>
+      </Pressable>
     </View>
   );
 }
@@ -122,7 +122,7 @@ A two-page app with a list and detail view:
 ```tsx
 import { createSignal, For } from "solid-js";
 import {
-  GestureDetector,
+  Pressable,
   Navigator,
   Text,
   View,
@@ -145,14 +145,14 @@ function ListPage() {
       </Text>
       <For each={items}>
         {(item) => (
-          <GestureDetector onTap={() => nav.push(() => <DetailPage name={item} />)}>
+          <Pressable onPress={() => nav.push(() => <DetailPage name={item} />)}>
             <View
               padding={16}
               decoration={{ border: { bottom: { width: 1, color: "#E0E0E0" } } }}
             >
               <Text fontSize={16}>{item}</Text>
             </View>
-          </GestureDetector>
+          </Pressable>
         )}
       </For>
     </View>
@@ -165,9 +165,9 @@ function DetailPage(props: { name: string }) {
   return (
     <View layout={{ align: "center", justify: "center", expand: true }}>
       <Text fontSize={32}>{props.name}</Text>
-      <GestureDetector onTap={() => nav.pop()}>
+      <Pressable onPress={() => nav.pop()}>
         <Text color="blue" fontSize={16}>Back to list</Text>
-      </GestureDetector>
+      </Pressable>
     </View>
   );
 }
@@ -190,9 +190,9 @@ Inside the picker:
 function PickerPage() {
   const nav = useNavigation();
   return (
-    <GestureDetector onTap={() => nav.pop("apple")}>
+    <Pressable onPress={() => nav.pop("apple")}>
       <Text>Pick apple</Text>
-    </GestureDetector>
+    </Pressable>
   );
 }
 ```

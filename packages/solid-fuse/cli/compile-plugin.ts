@@ -77,7 +77,6 @@ export const FUSE_INTRINSICS: Record<string, string> = {
   Text: "text",
   Stack: "stack",
   Positioned: "positioned",
-  GestureDetector: "gestureDetector",
   ScrollView: "scrollView",
   TextInput: "textInput",
   RadioGroup: "radioGroup",

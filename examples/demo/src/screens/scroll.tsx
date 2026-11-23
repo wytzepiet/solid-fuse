@@ -1,10 +1,6 @@
-import {
-  ScrollView,
-  Text,
-  View,
-  createScrollController,
-  useNavigation,
-} from "solid-fuse";
+import { ScrollView, Text, View, useNavigation } from "solid-fuse";
+import { createScrollController } from "#fuse/flutter";
+import { easeInOut } from "#fuse/flutter/Curves";
 import { Button } from "../ui";
 
 export function ScrollScreen() {
@@ -38,14 +34,14 @@ export function ScrollScreen() {
           layout={{ direction: "vertical", gap: 8 }}
         >
           <Text fontWeight="semiBold">
-            scrollOffset = {scroll.scrollOffset().toFixed(1)}
+            offset = {(scroll.offset() ?? 0).toFixed(1)}
           </Text>
           <ScrollView
             scrollDirection="horizontal"
             layout={{ direction: "horizontal", gap: 8, align: "center" }}
           >
             <Button onTap={() => scroll.jumpTo(0)}>jumpTo(0)</Button>
-            <Button onTap={() => scroll.animateTo(1200, { duration: 800 })}>
+            <Button onTap={() => scroll.animateTo(1200, { duration: 800, curve: easeInOut })}>
               animateTo(1200)
             </Button>
           </ScrollView>

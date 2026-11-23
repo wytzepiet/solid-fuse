@@ -156,7 +156,7 @@ describe.skipIf(!hasFlutter)("fuse gen over widgets, material_ui, cupertino_ui",
       JSON.stringify({
         extends: "../tsconfig.json",
         compilerOptions: {
-          paths: { "solid-fuse": ["../src/index.ts"], "solid-fuse/generated": ["../src/generated.ts"], "~/*": ["../src/*"] },
+          paths: { "solid-fuse": ["../src/index.ts"], "solid-fuse/generated": ["../src/generated.ts"], "~/*": ["../src/*"], "#fuse/*": ["./out/*"] },
         },
         include: ["out", "usage.tsx", "../src/jsx.d.ts", "../src/global.d.ts"],
       }),
