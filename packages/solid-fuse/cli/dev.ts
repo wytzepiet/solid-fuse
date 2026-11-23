@@ -1,5 +1,6 @@
 import { spawn, spawnSync } from "child_process";
 import http from "http";
+import { join } from "path";
 import { createServer, build as viteBuild, mergeConfig, type ViteDevServer } from "vite";
 import { defineCommand } from "citty";
 import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
@@ -36,7 +37,7 @@ export const devCommand = defineCommand({
     if (headlessMode) {
       ensureLinuxRunner(dartRoot);
       if (!flutterArgs.some((a) => a === "-d" || a.startsWith("--device-id"))) flutterArgs.push("-d", "linux");
-      headless = await startHeadless();
+      headless = await startHeadless(join(dartRoot, ".dart_tool", "fuse", "headless"));
     }
     const flutterEnv = headless?.env ?? process.env;
 

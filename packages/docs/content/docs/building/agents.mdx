@@ -14,7 +14,7 @@ fuse dev            # as usual: a simulator, a device, or the desktop
 fuse dev --headless # Linux, no screen: a cloud machine or CI
 ```
 
-`--headless` runs the Linux desktop app on a virtual display, with its own session bus and keyring, and adds the `linux/` runner if the app has none. Hot reload works as usual: edit a file and the running app updates.
+`--headless` runs the Linux desktop app on a virtual display, with its own session bus and keyring, and adds the `linux/` runner if the app has none. The keyring (where secure storage keeps its data) lives in `dart/.dart_tool/fuse/headless`, so a signed-in app stays signed in across runs. Hot reload works as usual: edit a file and the running app updates.
 
 Once the app is up, `fuse dev` prints `Ready for fuse drive`. Agents usually start it in the background.
 

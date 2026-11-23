@@ -134,7 +134,7 @@ class FuseRuntime {
         await dev.connect();
       } catch (e) {
         debugPrint(
-          '[Fuse] Dev server unreachable at $_devHost:$_devPort — falling back to QuickJS bundle',
+          '[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle',
         );
         await _startQuickJs();
         return;

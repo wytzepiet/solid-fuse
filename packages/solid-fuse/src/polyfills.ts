@@ -154,7 +154,12 @@ if (typeof globalThis.WebSocket === "undefined") {
 {
   const fmtVal = (v: any): string => {
     if (typeof v === "string") return v;
-    if (v instanceof Error) return v.stack ?? `${v.name}: ${v.message}`;
+    if (v instanceof Error) {
+      // QuickJS's stack is only the frames (V8's starts with the message).
+      const head = `${v.name}: ${v.message}`;
+      const stack = v.stack ?? "";
+      return stack.startsWith(head) ? stack : stack ? `${head}\n${stack}` : head;
+    }
     if (v !== null && typeof v === "object") {
       try {
         return JSON.stringify(v);

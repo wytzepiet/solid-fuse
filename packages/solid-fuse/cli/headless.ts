@@ -1,5 +1,5 @@
 import { spawn, spawnSync, type ChildProcess } from "child_process";
-import { existsSync, readFileSync, rmSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { join } from "path";
 
 /**
@@ -45,7 +45,7 @@ function firstLine(child: ChildProcess, what: string): Promise<string> {
   });
 }
 
-export async function startHeadless(): Promise<Headless> {
+export async function startHeadless(stateDir: string): Promise<Headless> {
   if (process.platform !== "linux") {
     throw new Error("--headless runs the Linux desktop app, so it needs Linux.");
   }
@@ -83,12 +83,15 @@ export async function startHeadless(): Promise<Headless> {
     };
 
     if (has("gnome-keyring-daemon")) {
-      // Unlocked with an empty password, for the secrets API.
+      // The app's own keyring, kept in [stateDir] so what the app stores
+      // survives restarts, and apart from any keyring of the machine's user.
+      // It needs a password to be created; this one only unlocks it.
+      mkdirSync(stateDir, { recursive: true });
       const keyring = spawn("gnome-keyring-daemon", ["--unlock", "--components=secrets", "--foreground"], {
-        env,
+        env: { ...env, XDG_DATA_HOME: stateDir },
         stdio: ["pipe", "ignore", "ignore"],
       });
-      keyring.stdin!.end("");
+      keyring.stdin!.end("fuse");
       children.push(keyring);
     }
 
