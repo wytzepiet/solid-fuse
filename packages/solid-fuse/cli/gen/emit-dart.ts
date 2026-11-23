@@ -49,6 +49,7 @@ export function lentHandles(m: Manifest): Set<string> {
       case "set":
       case "iterable":
       case "map":
+        if (r.k === "map") walkIn(r.key);
         walkIn(r.of);
         return;
       case "data": {
@@ -72,6 +73,7 @@ export function lentHandles(m: Manifest): Set<string> {
       case "set":
       case "iterable":
       case "map":
+        if (r.k === "map") walkOut(r.key);
         walkOut(r.of);
         return;
       case "data": {
@@ -236,9 +238,14 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         const list = `decList<${of}>(${src}, (e) => ${elem(ref.of, "e", of, cx)})`;
         return ref.k === "set" ? `${list}?.toSet()` : list;
       }
+      case "bytes":
+        return `decBytes<${ref.as}>(${src})`;
       case "map": {
         const r = ref as any;
         const kd = cx.sub(r.keyDart);
+        if (ref.entries) {
+          return `decEntries<${kd}, ${cx.sub(r.ofDart)}>(${src}, (k) => ${elem(ref.key, "k", kd, cx)}, (e) => ${elem(ref.of, "e", cx.sub(r.ofDart), cx)})`;
+        }
         const kf =
           ref.key.k === "enum"
             ? `(k) => decEnum(${noQ(m.types[ref.key.id].dart)}.values, k)!`
@@ -280,8 +287,16 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
    * on the JS side, and a Future callback waits for the JS result.
    */
   function fnExpr(fn: FnRef, src: string, cx: Cx): string {
-    const params = fn.args.map((_, i) => `a${i}`);
-    const sent = fn.args.flatMap((a, i) => (a.type.k === "supplied" ? [] : [a.type.k === "omitted" ? "null" : enc(a.type, `a${i}`, cx.n)]));
+    // The closure's parameters: positional ones as a0.., optional ones in
+    // brackets, named ones by their Dart names in braces.
+    const pos = fn.args.flatMap((a, i) => (a.named || a.optional ? [] : [`a${i}`]));
+    const opt = fn.args.flatMap((a, i) => (a.optional ? [`a${i}`] : []));
+    const named = fn.args.flatMap((a) => (a.named ? [`${a.required ? "required " : ""}${a.name}`] : []));
+    const params = [...pos, ...(opt.length ? [`[${opt.join(", ")}]`] : []), ...(named.length ? [`{${named.join(", ")}}`] : [])];
+    const value = (a: FnRef["args"][number], v: string) => (a.type.k === "omitted" ? "null" : enc(a.type, v, cx.n));
+    const sent = fn.args.flatMap((a, i) => (a.type.k === "supplied" || a.named ? [] : [value(a, `a${i}`)]));
+    const namedSent = fn.args.filter((a) => a.named && a.type.k !== "supplied").map((a) => `${q(a.name)}: ${value(a, a.name)}`);
+    if (namedSent.length) sent.push(`{${namedSent.join(", ")}}`);
     const payload = sent.length === 0 ? "" : sent.length === 1 ? sent[0] : `FuseCallArgs([${sent.join(", ")}])`;
     if (fn.sync) {
       // Dart blocks until JS returns. A widget is built in a JS root of its
@@ -327,17 +342,53 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     return e;
   }
 
-  function call(callee: string, params: Param[], argOf: (p: Param) => string | null): string {
+  /**
+   * A call of [callee] with the arguments [argOf] reads. [given] is the map
+   * the arguments are read from: a named parameter whose default generated
+   * code can't write (`omit`) is passed only when JS gave it, through
+   * `Function.apply`, so Dart's own default applies otherwise.
+   */
+  function call(
+    callee: string,
+    params: Param[],
+    argOf: (p: Param) => string | null,
+    given?: { map: string; type: string; dart?: (dart: string) => string },
+  ): string {
     const positional: string[] = [];
     const named: string[] = [];
+    const omit: [Param, string][] = [];
     for (const p of params) {
       const a = argOf(p);
       if (a === null) continue;
+      if (p.omit && p.named) {
+        if (given) omit.push([p, a]);
+        continue;
+      }
       if (p.named) named.push(`${p.name}: ${a}`);
       else positional.push(a);
     }
     const args = [...positional, ...named];
-    return args.length <= 1 ? `${callee}(${args.join(", ")})` : `${callee}(\n${args.map((a) => `      ${a},`).join("\n")}\n    )`;
+    const plain = args.length <= 1 ? `${callee}(${args.join(", ")})` : `${callee}(\n${args.map((a) => `      ${a},`).join("\n")}\n    )`;
+    if (omit.length === 0) return plain;
+    const g = given!;
+    // Given at all; a non-nullable one, given as something.
+    const has = (p: Param) => (p.nullable ? `${g.map}.containsKey(${q(p.name)})` : `${g.map}[${q(p.name)}] != null`);
+    const last = callee.slice(callee.lastIndexOf(".") + 1);
+    const tear = callee.endsWith(">") || /^[A-Z]/.test(last) ? `${callee}.new` : callee;
+    // Typed, so a closure gets its parameter types as in a plain call.
+    const typed = (p: Param, a: string) => (p.dart ? `fuseTyped<${(g.dart ?? ((d) => d))(p.dart)}>(${a})` : a);
+    const pos: string[] = [];
+    const map: string[] = [];
+    for (const p of params) {
+      if (p.omit && p.named) continue;
+      const a = argOf(p);
+      if (a === null) continue;
+      if (p.named) map.push(`#${p.name}: ${typed(p, a)}`);
+      else pos.push(typed(p, a));
+    }
+    // Given, a non-nullable one has a value.
+    for (const [p, a] of omit) map.push(`if (${has(p)}) #${p.name}: ${typed(p, p.nullable ? a : `(${a})!`)}`);
+    return `${omit.map(([p]) => has(p)).join(" || ")}\n        ? Function.apply(${tear}, [${pos.join(", ")}], {\n${map.map((e) => `            ${e},`).join("\n")}\n          }) as ${g.type}\n        : ${plain}`;
   }
 
   function decoderBody(id: string, name: string): string {
@@ -378,7 +429,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
         const cls = noQ(variant.class ?? t.dart);
         const callee = variant.name ? `${cls}.${variant.name}` : cls;
         lines.push(`    case ${q(variant.tag)}:`);
-        lines.push(`      return ${call(callee, variant.params, (p) => arg(p, variant.tag, `v[${q(p.name)}]`, { n: "n", prop: p.name, sub: (d) => d }))};`);
+        lines.push(`      return ${call(callee, variant.params, (p) => arg(p, variant.tag, `v[${q(p.name)}]`, { n: "n", prop: p.name, sub: (d) => d }), { map: "v", type: cls })};`);
       }
       lines.push("  }");
     }
@@ -433,7 +484,10 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
       case "set":
       case "iterable":
         return `${src}${nul}.map((e) => ${enc(ref.of, "e", n)}).toList()`;
+      case "bytes":
+        return `encBytes(${src})`;
       case "map": {
+        if (ref.entries) return `${src}${nul}.entries.map((e) => [${enc(ref.key, "e.key", n)}, ${enc(ref.of, "e.value", n)}]).toList()`;
         const k = ref.key.k === "enum" ? "k.name" : ref.key.k === "String" ? "k" : "'$k'";
         return `${src}${nul}.map((k, e) => MapEntry(${k}, ${enc(ref.of, "e", n)}))`;
       }
@@ -489,7 +543,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
           });
     const typeArgs = tps.length ? `<${tps.map((tp) => bounds.get(tp.name)).join(", ")}>` : "";
     const callee = `${w.dart}${typeArgs}${w.ctor ? `.${w.ctor}` : ""}`;
-    const made = call(callee, w.params, (p) => widgetArg(w, p, sub));
+    const made = call(callee, w.params, (p) => widgetArg(w, p, sub), { map: "node.props", type: `${noQ(w.dart)}${typeArgs}`, dart: sub });
     // A typed slot builds its child's widget in place, so this widget
     // rebuilds when a child built that way changes.
     const typed = w.params.some((p) => p.type && w.children?.param !== p.name && typedWidget(p.type));
@@ -536,7 +590,7 @@ export function emitDart(m: Manifest, options: { registerFunction?: string } = {
     const cls = hCls.get(id)!;
     const tag = hTags.get(id)!;
     const make = (c: (typeof h.ctors)[number]) =>
-      call(c.name ? `${T}.${c.name}` : T, c.params, (p) => arg(p, h.name, `node[${q(p.name)}]`, { ...plain, prop: p.name }));
+      call(c.name ? `${T}.${c.name}` : T, c.params, (p) => arg(p, h.name, `node[${q(p.name)}]`, { ...plain, prop: p.name }), { map: "node.props", type: T });
     const lines = [`class ${cls} extends FuseGeneratedHandle<${T}> {`];
     if (roots.has(id)) {
       lines.push(`  ${cls}(super.node) : object = _make(node) {`, "    start();", "  }", "");

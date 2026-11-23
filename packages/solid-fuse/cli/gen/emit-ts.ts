@@ -194,8 +194,15 @@ export function emitTs(m: Manifest): TsOutput {
         t = /[ |&]/.test(e) ? `(${e})[]` : `${e}[]`;
         break;
       }
+      case "bytes":
+        t = "ArrayBuffer | ArrayBufferView";
+        break;
       case "map": {
         const v = tsIn(ref.of, from);
+        if (ref.entries) {
+          t = `[${tsIn(ref.key, from)}, ${v}][]`;
+          break;
+        }
         t = ref.key.k === "enum" ? `Partial<Record<${typeName(ref.key.id, from)}, ${v}>>` : `Record<string, ${v}>`;
         break;
       }
@@ -251,7 +258,10 @@ export function emitTs(m: Manifest): TsOutput {
         break;
       }
       case "map":
-        t = `Record<string, ${tsOut(ref.of, from)}>`;
+        t = ref.entries ? `[${tsOut(ref.key, from)}, ${tsOut(ref.of, from)}][]` : `Record<string, ${tsOut(ref.of, from)}>`;
+        break;
+      case "bytes":
+        t = "ArrayBuffer";
         break;
       case "handle": {
         const h = handleNames.get(ref.id)!;
@@ -269,7 +279,7 @@ export function emitTs(m: Manifest): TsOutput {
   }
 
   function tsFn(fn: FnRef, from: Module): string {
-    const args = fn.args.filter((a) => a.type.k !== "supplied");
+    const args = fn.args.filter((a) => a.type.k !== "supplied" && !a.named);
     const used = new Set<string>();
     const params = args.map((a, i) => {
       let n = IDENT.test(a.name) && !RESERVED.has(a.name) ? a.name : `arg${i}`;
@@ -277,6 +287,9 @@ export function emitTs(m: Manifest): TsOutput {
       used.add(n);
       return `${n}: ${tsOut(a.type, from)}`;
     });
+    // Named ones: one object after the positional ones.
+    const named = fn.args.filter((a) => a.type.k !== "supplied" && a.named);
+    if (named.length) params.push(`named: { ${named.map((a) => `${prop(a.name)}: ${tsOut(a.type, from)}`).join("; ")} }`);
     // Dart waits for the result without a frame passing: it must come back
     // at once (no Promise).
     if (fn.sync) return `(${params.join(", ")}) => ${tsIn(fn.ret, from)}`;

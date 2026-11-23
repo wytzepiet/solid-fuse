@@ -23,6 +23,12 @@ class FixtureBox extends StatelessWidget {
     this.counter,
     this.onTracker,
     this.scorer,
+    this.bytes,
+    this.samples,
+    this.labels,
+    this.onBytes,
+    this.onLabels,
+    this.counted,
     this.size = _privateDefault,
     this.tags = const ['x'],
     this.hidden = const _Hidden(),
@@ -35,12 +41,18 @@ class FixtureBox extends StatelessWidget {
   final ValueChanged<Point>? onMove;
   final Future<void> Function()? onRefresh;
   final WidgetBuilder? builder;
-  final Uint8List? weird;
+  final ByteBuffer? weird;
   final double Function(int index)? measure;
   final Mutable? state;
   final Counter? counter;
   final ValueChanged<Tracker>? onTracker;
   final Scorer? scorer;
+  final Uint8List? bytes;
+  final Float32List? samples;
+  final Map<Point, String>? labels;
+  final ValueChanged<Uint8List>? onBytes;
+  final ValueChanged<Map<Point, int>>? onLabels;
+  final Widget Function(BuildContext context, int index, {required int count, String? label})? counted;
   final double size;
   final List<String> tags;
   final Shape hidden;

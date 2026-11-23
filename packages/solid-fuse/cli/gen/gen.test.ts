@@ -101,6 +101,17 @@ export const scored = (
     scorer={{ score: (at) => at.x + at.y, name: () => "sum", reset: () => {} }}
   />
 );
+export const bytes = (
+  <FixtureBox
+    at={Point(0, 0)}
+    bytes={new Uint8Array([1, 2])}
+    samples={new Float32Array([1.5]).buffer}
+    labels={[[Point(1, 2), "a"]]}
+    onBytes={(b) => b.byteLength}
+    onLabels={(entries) => entries.map(([p, n]) => p.x + n)}
+    counted={(index, { count, label }) => <Text>{index + " " + count + " " + (label ?? "")}</Text>}
+  />
+);
 export const fixed = <FixtureBox at={Point(0, 0)} scorer={FixedScorer(3)} />;
 export const formatted = (
   <TextField

@@ -124,11 +124,11 @@ class Classifier {
     }
     if (t.isDartCoreMap) {
       final k = input(t.typeArguments[0]);
-      if (!const {'String', 'int', 'enum', 'dynamic', 'Object', 'typeParam'}.contains(k['k']) || k['null'] == true) {
-        throw Skip('map key ${t.typeArguments[0].getDisplayString()}');
-      }
       return {
         'k': 'map',
+        // A key JSON can't hold as an object key crosses as `[key, value]`
+        // pairs.
+        if (!_objectKey(k)) 'entries': true,
         'key': k,
         'of': input(t.typeArguments[1]),
         'keyDart': code.type(t.typeArguments[0]),
@@ -163,7 +163,7 @@ class Classifier {
       throw Skip('framework object ${el.name}');
     }
     if (el.isPrivate || !w.isExported(el)) throw Skip('not exported: ${el.name}');
-    if (el.library.uri.toString() == 'dart:typed_data') throw Skip('typed data (not bridged yet)');
+    if (el.library.uri.toString() == 'dart:typed_data') return {'k': 'bytes', 'as': code.ref(_bytes(el))};
 
     if (isHandle(t)) return {'k': 'handle', 'id': _handle(t)};
     return {'k': 'data', 'id': _data(t)};
@@ -589,6 +589,7 @@ class Classifier {
         }
         try {
           if (m.typeParameters.isNotEmpty) throw Skip('generic method');
+          if (!m.formalParameters.every((p) => p.isRequiredPositional)) throw Skip('optional or named parameters');
           members.add({
             'name': n,
             'params': [
@@ -710,7 +711,13 @@ class Classifier {
       if (code.hasDefault(p)) {
         final d = code.defaultOf(p);
         if (d == null) {
-          reason = 'default value cannot be named from generated code';
+          // A named one is left out when JS doesn't give it, so Dart's
+          // default applies.
+          if (p.isNamed) {
+            base['omit'] = true;
+          } else {
+            reason = 'default value cannot be named from generated code';
+          }
         } else {
           base['default'] = d;
           final j = code.defaultJson(p);
@@ -741,12 +748,19 @@ class Classifier {
     var context = false;
     var i = 0;
     for (final p in f.formalParameters) {
-      if (p.isNamed) throw Skip('callback with named parameters');
-      if (p.isOptionalPositional) throw Skip('callback with optional parameters');
+      // An optional one needs a default in the closure, which can't name it.
+      if (p.isOptional && p.type.nullabilitySuffix != NullabilitySuffix.question && p.type is! DynamicType) {
+        throw Skip('callback with an optional non-nullable parameter');
+      }
       final pt = p.type;
+      final flags = <String, Object?>{
+        if (p.isNamed) 'named': true,
+        if (p.isRequiredNamed) 'required': true,
+        if (p.isOptionalPositional) 'optional': true,
+      };
       if (pt is InterfaceType && pt.element == w.buildContextEl) {
         context = true;
-        args.add({'name': p.name ?? 'context', 'type': {'k': 'supplied', 'of': 'context'}});
+        args.add({'name': p.name ?? 'context', 'type': {'k': 'supplied', 'of': 'context'}, ...flags});
         i++;
         continue;
       }
@@ -758,7 +772,7 @@ class Classifier {
         // Dart still passes it; JS gets undefined.
         t = {'k': 'omitted', 'reason': s.reason};
       }
-      args.add({'name': n, 'type': t});
+      args.add({'name': n, 'type': t, ...flags});
       i++;
     }
     final r = f.returnType;
@@ -788,6 +802,21 @@ class Classifier {
       if (sync) 'sync': true,
       'dart': code.type(f),
     };
+  }
+
+  /// Map keys that are object keys on the wire (as strings).
+  static bool _objectKey(Json k) =>
+      const {'String', 'int', 'enum', 'dynamic', 'Object', 'typeParam'}.contains(k['k']) && k['null'] != true;
+
+  static const _byteKinds = {
+    'Uint8List', 'Uint8ClampedList', 'Int8List', 'Uint16List', 'Int16List', 'Uint32List', 'Int32List',
+    'Uint64List', 'Int64List', 'Float32List', 'Float64List', 'ByteData',
+  };
+
+  /// The typed-data class a `bytes` ref is read as.
+  static InterfaceElement _bytes(InterfaceElement el) {
+    if (!_byteKinds.contains(el.name)) throw Skip('typed data ${el.name}');
+    return el;
   }
 
   static bool _mentions(DartType t, TypeParameterElement p) => switch (t) {
@@ -855,12 +884,13 @@ class Classifier {
     if (t.isDartCoreString) return {'k': 'String'};
     if (t.isDartCoreObject) return {'k': 'dynamic'};
     if (el is EnumElement) return {'k': 'enum', 'id': _enum(t)};
+    // Before iterables: a Uint8List is a List<int> too.
+    if (el.library.uri.toString() == 'dart:typed_data') return {'k': 'bytes', 'as': code.ref(_bytes(el))};
     final iter = t.asInstanceOf(w.tp.iterableElement);
     if (iter != null) return {'k': 'list', 'of': output(iter.typeArguments.first, depth + 1)};
     if (t.isDartCoreMap) {
-      final k = t.typeArguments[0];
-      if (!(k.isDartCoreString || k.isDartCoreInt || k.element is EnumElement)) throw Skip('map key ${k.getDisplayString()}');
-      return {'k': 'map', 'key': output(k), 'of': output(t.typeArguments[1], depth + 1)};
+      final k = output(t.typeArguments[0], depth + 1);
+      return {'k': 'map', if (!_objectKey(k)) 'entries': true, 'key': k, 'of': output(t.typeArguments[1], depth + 1)};
     }
     if (t.isDartAsyncFuture || t.isDartAsyncStream) throw Skip('Future/Stream value');
     if (t.isDartCoreFunction || t.isDartCoreType) throw Skip('${el.name} value');

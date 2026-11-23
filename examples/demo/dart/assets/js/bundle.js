@@ -4220,7 +4220,7 @@
 			ref
 		};
 	}
-	// ../../packages/solid-fuse/dist/renderer-DXOf2ek0.js
+	// ../../packages/solid-fuse/dist/renderer-BGhyUgRz.js
 	function l(e) {
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
@@ -4259,7 +4259,7 @@
 		});
 	}
 	function le$1(e, t = {}, n) {
-		pe?.();
+		g$1?.();
 		let r = n?.timeout ?? 3e4, i = fjs.bridge_call({
 			channel: e,
 			...t
@@ -4299,9 +4299,9 @@
 	function fe(e) {
 		d$1 = e;
 	}
-	var pe;
-	function me(e) {
-		pe = e;
+	var g$1;
+	function pe(e) {
+		g$1 = e;
 	}
 	globalThis.__dispatch = async (e, t) => {
 		let n = u.get(e);
@@ -4312,24 +4312,24 @@
 			d$1?.(), l(e);
 		}
 	};
-	var he = {
+	var me = {
 		send: p$1,
 		call: le$1,
 		on: f$1
 	};
-	var g$1 = globalThis.__fuseHost;
-	if (!g$1) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [ge, _e] = createSignal(g$1.brightness);
-	f$1("_brightness", (e) => _e(e.value));
-	var _$1 = {
-		brightness: ge,
-		platform: g$1.platform,
-		mode: g$1.mode
+	var _$1 = globalThis.__fuseHost;
+	if (!_$1) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
+	var [he, ge] = createSignal(_$1.brightness);
+	f$1("_brightness", (e) => ge(e.value));
+	var v$1 = {
+		brightness: he,
+		platform: _$1.platform,
+		mode: _$1.mode
 	};
-	var v$1 = 0;
-	var y$1;
-	var b$1 = class {
-		constructor(e, t = v$1++) {
+	var y$1 = 0;
+	var b$1;
+	var x$1 = class {
+		constructor(e, t = y$1++) {
 			this.id = t, this.type = e, this.parent = void 0, this.first = void 0, this.last = void 0, this.prev = void 0, this.next = void 0, this.batch = -1, this.slot = -1, this.adopt = !1, this.handlers = void 0;
 		}
 		get children() {
@@ -4338,28 +4338,28 @@
 			return e;
 		}
 	};
-	var x$1 = /* @__PURE__ */ new Map();
+	var S$1 = /* @__PURE__ */ new Map();
 	f$1("_functionCall", (e) => {
-		e.args ? e.args = V$1(e.args) : e.value = V$1(e.value);
-		let t = x$1.get(e.nodeId)?.deref()?.handlers?.[e.name];
+		e.args ? e.args = U$1(e.args) : e.value = U$1(e.value);
+		let t = S$1.get(e.nodeId)?.deref()?.handlers?.[e.name];
 		if (e.reply) return t === void 0 ? { error: `no function "${e.name}" on node ${e.nodeId}` } : (async () => {
 			try {
-				return { value: U$1("", await (e.args ? t(...e.args) : t(e.value))).wire };
+				return { value: G$1("", await (e.args ? t(...e.args) : t(e.value)), null).wire };
 			} catch (e) {
 				return { error: e instanceof Error ? e.message : String(e) };
 			}
 		})();
 		t !== void 0 && (e.args ? t(...e.args) : t(e.value));
 	});
-	var S$1 = /* @__PURE__ */ new Map();
-	var ve = 0;
+	var C$1 = /* @__PURE__ */ new Map();
+	var _e = 0;
 	ue$1("_callSync", (e) => {
-		e.args ? e.args = V$1(e.args) : e.value = V$1(e.value);
-		let t = x$1.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
+		e.args ? e.args = U$1(e.args) : e.value = U$1(e.value);
+		let t = S$1.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
 		if (n === void 0) return { error: `no function "${e.name}" on node ${e.nodeId}` };
 		let r = () => e.args ? n(...e.args) : n(e.value);
 		if (!e.widget) try {
-			return { value: U$1("", r()).wire };
+			return { value: G$1("", r(), null).wire };
 		} catch (e) {
 			return l(e), { error: e instanceof Error ? e.message : String(e) };
 		}
@@ -4368,14 +4368,14 @@
 			let e = runWithOwner(t.owner ?? null, () => createRoot((e) => {
 				i = e;
 				let t = r();
-				return t == null ? null : ye(t);
+				return t == null ? null : ve(t);
 			}));
 			if (e === null) return i(), { value: null };
-			let n = ve++;
-			return S$1.set(n, {
+			let n = _e++;
+			return C$1.set(n, {
 				dispose: i,
 				node: e
-			}), O(e), {
+			}), k(e), {
 				value: { _node: e.id },
 				root: n
 			};
@@ -4383,236 +4383,251 @@
 			return i?.(), l(e), { error: e instanceof Error ? e.message : String(e) };
 		}
 	}), f$1("_unbuild", (e) => {
-		let t = S$1.get(e.root);
-		t && (S$1.delete(e.root), t.dispose());
+		let t = C$1.get(e.root);
+		t && (C$1.delete(e.root), t.dispose());
 	});
-	function ye(e) {
-		if (e instanceof b$1 && !e.parent) return e;
-		let t = R("__slot__");
+	function ve(e) {
+		if (e instanceof x$1 && !e.parent) return e;
+		let t = B("__slot__");
 		return Z$1(t, e), t;
 	}
-	var be = 0;
-	var xe = 1;
-	var C$1 = 2;
-	var Se = 3;
-	var Ce = 4;
-	var we = 5;
-	var w = 6;
-	var Te = 7;
-	var Ee = 8;
-	var De = 9;
-	var T = 4;
-	var E = [];
-	var D = 0;
-	var Oe = new FinalizationRegistry((e) => {
-		x$1.delete(e), E.push(w, e), I();
+	var ye = 0;
+	var be = 1;
+	var w = 2;
+	var xe = 3;
+	var Se = 4;
+	var Ce = 5;
+	var T = 6;
+	var we = 7;
+	var Te = 8;
+	var Ee = 9;
+	var E = 4;
+	var D = [];
+	var O = 0;
+	var De = new FinalizationRegistry((e) => {
+		S$1.delete(e), D.push(T, e), R();
 	});
-	function O(e) {
-		e.tracked || (e.tracked = !0, Oe.register(e, e.id));
+	function k(e) {
+		e.tracked || (e.tracked = !0, De.register(e, e.id));
 	}
-	var k = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
-	var A = new b$1("root");
-	var j = !1;
+	var A = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
+	var j = new x$1("root");
 	var M = !1;
-	var N = /* @__PURE__ */ new Map();
-	function P() {
-		let e = D, t = F();
+	var N = !1;
+	var P = /* @__PURE__ */ new Map();
+	var F = [];
+	function I() {
+		let e = O, t = L();
 		if (t === void 0) return;
-		N.set(e, t);
-		let n = () => N.delete(e);
+		P.set(e, t);
+		let n = () => P.delete(e), [r, i] = t;
 		fjs.bridge_call({
 			channel: "_ops",
-			v: T,
-			g: k,
+			v: E,
+			g: A,
 			b: e,
-			json: t
+			json: r,
+			...i ? { bytes: i } : {}
 		})?.then?.(n, n);
 	}
-	function F() {
-		if (flush(), j = !1, E.length === 0) return;
-		if (k !== globalThis.__fuseGeneration) {
-			E.length = 0;
+	function L() {
+		if (flush(), M = !1, D.length === 0) return;
+		if (A !== globalThis.__fuseGeneration) {
+			D.length = 0;
 			return;
 		}
 		let e;
 		try {
-			e = JSON.stringify(E);
+			e = JSON.stringify(D);
 		} catch (e) {
 			l(e);
-			for (let e of L) e.batch = -1;
+			for (let e of z) e.batch = -1;
 		}
-		return L.length = 0, E.length = 0, D++, e;
+		z.length = 0, D.length = 0, O++;
+		let t = F.length ? F : void 0;
+		return t && (F = []), e === void 0 ? void 0 : [e, t];
 	}
-	function ke() {
-		let e = D, t = F(), n = [...N];
-		return N.clear(), t !== void 0 && n.push([e, t]), {
-			v: T,
-			g: k,
+	function Oe() {
+		let e = O, t = L(), n = [];
+		for (let [e, [t, r]] of P) n.push(r ? [
+			e,
+			t,
+			r
+		] : [e, t]);
+		return P.clear(), t !== void 0 && n.push(t[1] ? [
+			e,
+			t[0],
+			t[1]
+		] : [e, t[0]]), {
+			v: E,
+			g: A,
 			batches: n
 		};
 	}
-	de(ke);
-	function I() {
-		j || M || (j = !0, Promise.resolve().then(P));
+	de(Oe);
+	function R() {
+		M || N || (M = !0, Promise.resolve().then(I));
 	}
-	fe(P), me(P);
-	var Ae = 0;
-	var L = [];
-	function je(e, t) {
+	fe(I), pe(I);
+	var ke = 0;
+	var z = [];
+	function Ae(e, t) {
 		return {
-			id: Ae++,
+			id: ke++,
 			shape: e,
 			size: t,
 			batch: -1
 		};
 	}
-	function Me(e) {
-		e.batch < 0 && (e.batch = D, L.push(e), E.push(Te, e.id, e.shape));
-		let t = v$1;
-		return v$1 += e.size, E.push(Ee, e.id, t, _$1.mode !== "release" && y$1 ? y$1 : null), t;
+	function je(e) {
+		e.batch < 0 && (e.batch = O, z.push(e), D.push(we, e.id, e.shape));
+		let t = y$1;
+		return y$1 += e.size, D.push(Te, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
 	}
-	function Ne(e, t) {
-		let n = t.$i, r = new b$1(e.slice(2), t.$t + n);
-		r.adopt = n !== 0, r.batch = D;
-		for (let e in t) e !== "$t" && e !== "$i" && W$1(r, e, t[e]);
+	function Me(e, t) {
+		let n = t.$i, r = new x$1(e.slice(2), t.$t + n);
+		r.adopt = n !== 0, r.batch = O;
+		for (let e in t) e !== "$t" && e !== "$i" && K$1(r, e, t[e]);
 		return r;
 	}
-	function R(e, t) {
-		let n = new b$1(e), r = {};
-		return _$1.mode !== "release" && y$1 && (r._component = y$1), n.batch = D, n.slot = E.push(be, n.id, e, r) - 1, t && z(n, t), n;
+	function B(e, t) {
+		let n = new x$1(e), r = {};
+		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = O, n.slot = D.push(ye, n.id, e, r) - 1, t && V$1(n, t), n;
 	}
-	function z(e, t) {
+	function V$1(e, t) {
 		let n;
 		for (let r in t) {
 			let i = t[r];
 			if (i == null || typeof i == "function") {
-				W$1(e, r, i);
+				K$1(e, r, i);
 				continue;
 			}
-			let a = U$1(r, i);
-			a.refs ? (n ?? (n = [])).push([r, a]) : q$1(e, r, a);
+			let a = G$1(r, i);
+			a.refs ? (n ?? (n = [])).push([r, a]) : Y$1(e, r, a);
 		}
-		if (n) for (let [t, r] of n) q$1(e, t, r);
+		if (n) for (let [t, r] of n) Y$1(e, t, r);
 	}
-	var Pe = new FinalizationRegistry((e) => {
-		e.collected = !0, e.owned || B(e);
+	var Ne = new FinalizationRegistry((e) => {
+		e.collected = !0, e.owned || H$1(e);
 	});
-	function B(e) {
-		x$1.delete(e.id), E.push(w, e.id), I();
+	function H$1(e) {
+		S$1.delete(e.id), D.push(T, e.id), R();
 	}
-	function Fe(e, t) {
-		let n = R(e);
+	function Pe(e, t) {
+		let n = B(e);
 		n.tracked = !0;
 		let r = {
 			id: n.id,
 			owned: getOwner() !== null,
 			collected: !1
 		};
-		if (Pe.register(n, r), r.owned) {
-			let e = k;
+		if (Ne.register(n, r), r.owned) {
+			let e = A;
 			onCleanup(() => {
-				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && B(r);
+				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && H$1(r);
 			});
 		}
-		return t && z(n, t), I(), n;
+		return t && V$1(n, t), R(), n;
 	}
-	var V$1 = (e) => e;
-	function Ie(e) {
-		V$1 = e;
+	var U$1 = (e) => e;
+	function Fe(e) {
+		U$1 = e;
 	}
-	var Le = new FinalizationRegistry(({ id: e, done: t }) => {
-		x$1.get(e)?.deref() === void 0 && x$1.delete(e), t();
+	var Ie = new FinalizationRegistry(({ id: e, done: t }) => {
+		S$1.get(e)?.deref() === void 0 && S$1.delete(e), t();
 	});
-	function Re(e, t, n) {
-		let r = new b$1(e, t);
-		return r.tracked = !0, Le.register(r, {
+	function Le(e, t, n) {
+		let r = new x$1(e, t);
+		return r.tracked = !0, Ie.register(r, {
 			id: t,
 			done: n
 		}), r;
 	}
+	function Re(e) {
+		return S$1.get(e)?.deref();
+	}
 	function ze(e) {
-		return x$1.get(e)?.deref();
+		return e == null ? e : G$1("", e, null).wire;
 	}
-	function Be(e) {
-		return e == null ? e : U$1("", e).wire;
+	function Be(e, t, n) {
+		n ? q$1(e)[t] = n : e.handlers && delete e.handlers[t];
 	}
-	function Ve(e, t, n) {
-		n ? G$1(e)[t] = n : e.handlers && delete e.handlers[t];
+	function W$1(e) {
+		return typeof e != "object" || !e ? null : e instanceof x$1 ? e : e.node instanceof x$1 ? e.node : null;
 	}
-	function H$1(e) {
-		return typeof e != "object" || !e ? null : e instanceof b$1 ? e : e.node instanceof b$1 ? e.node : null;
-	}
-	function U$1(e, t) {
-		let n = {
+	function G$1(e, t, n = F) {
+		let r = {
 			wire: t,
 			refs: null,
 			fns: null
-		}, r = (t, i) => {
+		}, i = (t, a) => {
 			if (typeof t == "number") return t === t && t !== Infinity && t !== -Infinity ? t : String(t);
-			if (typeof t == "function") return { $fn: `${e}#${(n.fns ?? (n.fns = [])).push(t) - 1}` };
-			if (typeof t != "object" || !t || i > 16) return t;
-			let a = H$1(t);
-			if (a) return (n.refs ?? (n.refs = [])).push(a), { _node: a.id };
-			let o;
+			if (typeof t == "function") return { $fn: `${e}#${(r.fns ?? (r.fns = [])).push(t) - 1}` };
+			if (typeof t != "object" || !t || a > 16) return t;
+			if (t instanceof ArrayBuffer) return n ? { $bytes: n.push(t.slice(0)) - 1 } : t;
+			if (ArrayBuffer.isView(t)) return n ? { $bytes: n.push(t.buffer.slice(t.byteOffset, t.byteOffset + t.byteLength)) - 1 } : t;
+			let o = W$1(t);
+			if (o) return (r.refs ?? (r.refs = [])).push(o), { _node: o.id };
+			let s;
 			if (Array.isArray(t)) for (let e = 0; e < t.length; e++) {
-				let n = t[e], a = r(n, i + 1);
-				a !== n && ((o ?? (o = t.slice()))[e] = a);
+				let n = t[e], r = i(n, a + 1);
+				r !== n && ((s ?? (s = t.slice()))[e] = r);
 			}
 			else for (let e in t) {
-				let n = t[e], a = r(n, i + 1);
-				a !== n && ((o ?? (o = { ...t }))[e] = a);
+				let n = t[e], r = i(n, a + 1);
+				r !== n && ((s ?? (s = { ...t }))[e] = r);
 			}
-			return o ?? t;
+			return s ?? t;
 		};
-		return n.wire = r(t, 0), n;
+		return r.wire = i(t, 0), r;
 	}
-	function W$1(e, t, n) {
-		typeof n == "function" ? (K$1(e, t, null), e.refs && delete e.refs[t], G$1(e)[t] = n, J$1(e, t, !0)) : q$1(e, t, n == null ? {
+	function K$1(e, t, n) {
+		typeof n == "function" ? (J$1(e, t, null), e.refs && delete e.refs[t], q$1(e)[t] = n, X$1(e, t, !0)) : Y$1(e, t, n == null ? {
 			wire: n,
 			refs: null,
 			fns: null
-		} : U$1(t, n));
+		} : G$1(t, n));
 	}
-	function G$1(e) {
+	function q$1(e) {
 		let t = e.handlers;
-		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), x$1.set(e.id, new WeakRef(e)), O(e)), t;
+		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), S$1.set(e.id, new WeakRef(e)), k(e)), t;
 	}
-	function K$1(e, t, n) {
+	function J$1(e, t, n) {
 		let r = e.nested?.[t] ?? 0;
 		if (r === 0 && n === null) return;
-		let i = G$1(e);
+		let i = q$1(e);
 		for (let e = n?.length ?? 0; e < r; e++) delete i[`${t}#${e}`];
 		if (n) {
 			for (let e = 0; e < n.length; e++) i[`${t}#${e}`] = n[e];
 			(e.nested ?? (e.nested = {}))[t] = n.length;
 		} else delete e.nested[t];
 	}
-	function q$1(e, t, n) {
-		if (K$1(e, t, n.fns), n.refs) {
-			let r = n.refs.length === 1 && n.wire?._node === n.refs[0].id && H$1(n.wire) === null;
+	function Y$1(e, t, n) {
+		if (J$1(e, t, n.fns), n.refs) {
+			let r = n.refs.length === 1 && n.wire?._node === n.refs[0].id && W$1(n.wire) === null;
 			(e.refs ?? (e.refs = {}))[t] = r ? n.refs[0] : n.refs;
-			for (let e of n.refs) O(e);
-			e.batch = -1, E.push(C$1, e.id, t, n.wire), I();
-		} else e.refs && delete e.refs[t], J$1(e, t, n.wire);
+			for (let e of n.refs) k(e);
+			e.batch = -1, D.push(w, e.id, t, n.wire), R();
+		} else e.refs && delete e.refs[t], X$1(e, t, n.wire);
 	}
-	function J$1(e, t, n) {
-		e.batch === D ? (e.slot < 0 && (e.slot = E.push(De, e.id, {}) - 1), E[e.slot][t] = n) : E.push(C$1, e.id, t, n), I();
+	function X$1(e, t, n) {
+		e.batch === O ? (e.slot < 0 && (e.slot = D.push(Ee, e.id, {}) - 1), D[e.slot][t] = n) : D.push(w, e.id, t, n), R();
 	}
-	var { render: He, effect: Y$1, memo: Ue, createComponent: X$1, createElement: We, createTextNode: Ge, insertNode: Ke, insert: Z$1, spread: qe, setProp: Je, mergeProps: Ye, ...Xe } = createRenderer({
+	var { render: Ve, effect: He, memo: Ue, createComponent: We, createElement: Ge, createTextNode: Ke, insertNode: qe, insert: Z$1, spread: Je, setProp: Ye, mergeProps: Xe, ...Ze } = createRenderer({
 		createElement(e, t) {
-			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? Ne(e, t) : R(e, t);
+			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? Me(e, t) : B(e, t);
 		},
 		createTextNode(e) {
-			let t = new b$1("__text__");
-			return E.push(xe, t.id, e), t;
+			let t = new x$1("__text__");
+			return D.push(be, t.id, e), t;
 		},
 		replaceText(e, t) {
-			E.push(Se, e.id, t), I();
+			D.push(xe, e.id, t), R();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
-		setProperty: W$1,
+		setProperty: K$1,
 		insertNode(e, t, n) {
 			if (t !== n) {
 				if (t.parent && Q(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
@@ -4622,11 +4637,11 @@
 					let n = e.last;
 					t.prev = n, e.last = t, n ? n.next = t : e.first = t;
 				}
-				t.adopt ? t.adopt = !1 : (E.push(Ce, e.id, t.id, n ? n.id : null), I());
+				t.adopt ? t.adopt = !1 : (D.push(Se, e.id, t.id, n ? n.id : null), R());
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (Q(t), O(t), E.push(we, t.id), I());
+			t.parent === e && (Q(t), k(t), D.push(Ce, t.id), R());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4642,59 +4657,59 @@
 		let t = e.parent, { prev: n, next: r } = e;
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
-	function Ze(e) {
-		E.push(w, e.id), I();
+	function Qe(e) {
+		D.push(T, e.id), R();
 	}
-	function Qe(e, t) {
-		if (_$1.mode === "release") return X$1(e, t);
-		let n = y$1;
-		y$1 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+	function $e(e, t) {
+		if (v$1.mode === "release") return We(e, t);
+		let n = b$1;
+		b$1 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
-			return X$1(e, t);
+			return We(e, t);
 		} finally {
-			y$1 = n;
+			b$1 = n;
 		}
 	}
-	function $e(e) {
-		M = !0;
+	function et(e) {
+		N = !0;
 		let t;
 		try {
-			t = He(e, A);
+			t = Ve(e, j);
 		} catch (e) {
-			return M = !1, l(e), () => {};
+			return N = !1, l(e), () => {};
 		}
-		return M = !1, P(), () => {
+		return N = !1, I(), () => {
 			typeof t == "function" && t();
-			for (let e = A.first; e; e = A.first) Q(e), E.push(w, e.id);
-			x$1.clear(), I();
+			for (let e = j.first; e; e = j.first) Q(e), D.push(T, e.id);
+			S$1.clear(), R();
 		};
 	}
-	var et = Ke, { ref: tt, applyRef: nt } = Xe;
-	function rt(e, n, r, i) {
+	var tt = qe, { ref: nt, applyRef: rt } = Ze;
+	function it(e, n, r, i) {
 		if (typeof n != "object" || !n || Array.isArray(n) || $PROXY in n) {
-			qe(e, n, r, i);
+			Je(e, n, r, i);
 			return;
 		}
 		let a;
 		for (let t in n) {
 			let o = Object.getOwnPropertyDescriptor(n, t), s = o === void 0 || o.get !== void 0;
-			t === "children" ? r || Z$1(e, s ? () => n.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(t) : t === "ref" ? $$1(e, o.value) : W$1(e, t, o.value);
+			t === "children" ? r || Z$1(e, s ? () => n.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(t) : t === "ref" ? $$1(e, o.value) : K$1(e, t, o.value);
 		}
 		if (a === void 0) return;
 		let o = a, s = {};
-		Y$1(() => {
+		He(() => {
 			let e = {};
 			for (let t = 0; t < o.length; t++) e[o[t]] = n[o[t]];
 			return e;
 		}, (t) => {
 			for (let n = 0; n < o.length; n++) {
 				let r = o[n], i = t[r];
-				i !== s[r] && (r === "ref" ? $$1(e, i) : W$1(e, r, i), s[r] = i);
+				i !== s[r] && (r === "ref" ? $$1(e, i) : K$1(e, r, i), s[r] = i);
 			}
 		}, i);
 	}
 	function $$1(e, t) {
-		(typeof t == "function" || Array.isArray(t)) && tt(() => t, e);
+		(typeof t == "function" || Array.isArray(t)) && nt(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
 	function V(e) {
@@ -4858,8 +4873,8 @@
 			switch (typeof e) {
 				case "function": return untrack(() => e(t));
 				case "string": {
-					let n = We(e);
-					return rt(n, t), n;
+					let n = Ge(e);
+					return it(n, t), n;
 				}
 			}
 		});
@@ -4948,16 +4963,16 @@
 	}
 	function Z(e) {
 		let t = untrack(() => e.controller ?? Y({ initialPage: e.initialPage }));
-		return Qe(J, {
+		return $e(J, {
 			value: t,
 			get children() {
-				var e = We("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
-				return Z$1(e, Qe(For, {
+				var e = Ge("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
+				return Z$1(e, $e(For, {
 					get each() {
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => Qe(K, Ye({
+					children: (e) => $e(K, Xe({
 						get component() {
 							return e().config.type;
 						},
@@ -4972,14 +4987,14 @@
 		});
 	}
 	function $(t, n = {}) {
-		let r = R(t, n);
-		I();
+		let r = B(t, n);
+		R();
 		let a = !1, o = () => {
-			a || (a = !0, Ze(r));
+			a || (a = !0, Qe(r));
 		};
 		return getOwner() && onCleanup(o), {
 			node: r,
-			call: (e, t, n) => he.call("_handleCall", {
+			call: (e, t, n) => me.call("_handleCall", {
 				node: r.id,
 				method: e,
 				value: t
@@ -5014,7 +5029,7 @@
 		};
 	}
 	// src/ui.tsx
-	var _tpl$1$7 = /*@__PURE__*/ je([
+	var _tpl$1$7 = /*@__PURE__*/ Ae([
 		"gestureDetector",
 		0,
 		[
@@ -5035,7 +5050,7 @@
 			}]
 		]
 	], 3);
-	var _tpl$2$4 = /*@__PURE__*/ je([
+	var _tpl$2$4 = /*@__PURE__*/ Ae([
 		"gestureDetector",
 		0,
 		[
@@ -5052,70 +5067,70 @@
 	], 3);
 	function Button(props) {
 		return ((_at$1) => (() => {
-			var _el$ = We("h$gestureDetector", {
+			var _el$ = Ge("h$gestureDetector", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = We("h$view", {
+			var _el$2 = Ge("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = We("h$text", {
+			var _el$3 = Ge("h$text", {
 				$t: _at$1,
 				$i: 2
 			});
-			et(_el$, _el$2);
-			et(_el$2, _el$3);
+			tt(_el$, _el$2);
+			tt(_el$2, _el$3);
 			Z$1(_el$3, () => {
 				return props.children;
 			});
-			Y$1(() => props.onTap, (_v$, _$p) => {
-				Je(_el$, "onTap", _v$, _$p);
+			He(() => props.onTap, (_v$, _$p) => {
+				Ye(_el$, "onTap", _v$, _$p);
 			});
 			return _el$;
-		})())(Me(_tpl$1$7));
+		})())(je(_tpl$1$7));
 	}
 	function Row(props) {
-		var _el$4 = We("view");
+		var _el$4 = Ge("view");
 		Z$1(_el$4, () => {
 			return props.children;
 		});
-		Y$1(() => ({
+		He(() => ({
 			direction: "horizontal",
 			gap: props.gap ?? 8,
 			align: "center"
 		}), (_v$, _$p) => {
-			Je(_el$4, "flex", _v$, _$p);
+			Ye(_el$4, "flex", _v$, _$p);
 		});
 		return _el$4;
 	}
 	function MenuItem(props) {
 		return ((_at$2) => (() => {
-			var _el$5 = We("h$gestureDetector", {
+			var _el$5 = Ge("h$gestureDetector", {
 				$t: _at$2,
 				$i: 0
 			});
-			var _el$6 = We("h$view", {
+			var _el$6 = Ge("h$view", {
 				$t: _at$2,
 				$i: 1
 			});
-			var _el$7 = We("h$text", {
+			var _el$7 = Ge("h$text", {
 				$t: _at$2,
 				$i: 2
 			});
-			et(_el$5, _el$6);
-			et(_el$6, _el$7);
+			tt(_el$5, _el$6);
+			tt(_el$6, _el$7);
 			Z$1(_el$7, () => {
 				return props.label;
 			});
-			Y$1(() => props.onTap, (_v$, _$p) => {
-				Je(_el$5, "onTap", _v$, _$p);
+			He(() => props.onTap, (_v$, _$p) => {
+				Ye(_el$5, "onTap", _v$, _$p);
 			});
 			return _el$5;
-		})())(Me(_tpl$2$4));
+		})())(je(_tpl$2$4));
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$6 = /*@__PURE__*/ je([
+	var _tpl$1$6 = /*@__PURE__*/ Ae([
 		"view",
 		{
 			"flex": {
@@ -5226,41 +5241,41 @@
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
 		return ((_at$1) => (() => {
-			var _el$ = We("h$view", {
+			var _el$ = Ge("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = We("h$text", {
+			var _el$2 = Ge("h$text", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = We("h$view", {
+			var _el$3 = Ge("h$view", {
 				$t: _at$1,
 				$i: 2
 			});
-			var _el$4 = We("h$gestureDetector", {
+			var _el$4 = Ge("h$gestureDetector", {
 				$t: _at$1,
 				$i: 3,
 				onTap: () => setCount((c) => c - 1)
 			});
-			var _el$5 = We("h$gestureDetector", {
+			var _el$5 = Ge("h$gestureDetector", {
 				$t: _at$1,
 				$i: 7,
 				onTap: () => setCount(0)
 			});
-			var _el$6 = We("h$gestureDetector", {
+			var _el$6 = Ge("h$gestureDetector", {
 				$t: _at$1,
 				$i: 11,
 				onTap: () => setCount((c) => c + 1)
 			});
-			et(_el$, _el$2);
-			et(_el$, _el$3);
+			tt(_el$, _el$2);
+			tt(_el$, _el$3);
 			Z$1(_el$2, count);
-			et(_el$3, _el$4);
-			et(_el$3, _el$5);
-			et(_el$3, _el$6);
+			tt(_el$3, _el$4);
+			tt(_el$3, _el$5);
+			tt(_el$3, _el$6);
 			return _el$;
-		})())(Me(_tpl$1$6));
+		})())(je(_tpl$1$6));
 	}
 	// ../../packages/solid-fuse/dist/icons/material.js
 	var e = (e, t = !1) => ({
@@ -5276,7 +5291,7 @@
 	var _6e = /*#__PURE__*/ e(58751);
 	var est = /*#__PURE__*/ e(58873);
 	// src/screens/text-field.tsx
-	var _tpl$1$5 = /*@__PURE__*/ je([
+	var _tpl$1$5 = /*@__PURE__*/ Ae([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5441,11 +5456,11 @@
 		],
 		["view", { "padding": 16 }]
 	], 35);
-	var _tpl$2$3 = /*@__PURE__*/ je(["icon", {
+	var _tpl$2$3 = /*@__PURE__*/ Ae(["icon", {
 		"size": 20,
 		"color": "#6B7280"
 	}], 1);
-	var _tpl$3 = /*@__PURE__*/ je(["icon", {
+	var _tpl$3 = /*@__PURE__*/ Ae(["icon", {
 		"size": 20,
 		"color": "#6B7280"
 	}], 1);
@@ -5455,155 +5470,155 @@
 		const [digits, setDigits] = createSignal("");
 		const focus = ue();
 		return ((_at$1) => (() => {
-			var _el$ = We("h$scrollView", {
+			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = We("h$view", {
+			var _el$2 = Ge("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = We("h$view", {
+			var _el$3 = Ge("h$view", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = We("h$text", {
+			var _el$4 = Ge("h$text", {
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = We("h$textField", {
+			var _el$5 = Ge("h$textField", {
 				$t: _at$1,
 				$i: 10,
 				onChanged: setName
 			});
-			var _el$6 = We("h$text", {
+			var _el$6 = Ge("h$text", {
 				$t: _at$1,
 				$i: 11
 			});
-			var _el$7 = We("h$__text__", {
+			var _el$7 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 12
 			});
-			var _el$8 = We("h$__text__", {
+			var _el$8 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 13
 			});
-			var _el$9 = We("h$view", {
+			var _el$9 = Ge("h$view", {
 				$t: _at$1,
 				$i: 14
 			});
-			var _el$10 = We("h$text", {
+			var _el$10 = Ge("h$text", {
 				$t: _at$1,
 				$i: 15
 			});
-			var _el$11 = We("h$textField", {
+			var _el$11 = Ge("h$textField", {
 				$t: _at$1,
 				$i: 17,
 				focusNode: focus
 			});
-			var _el$12 = We("h$text", {
+			var _el$12 = Ge("h$text", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = We("h$__text__", {
+			var _el$13 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 19
 			});
-			var _el$14 = We("h$view", {
+			var _el$14 = Ge("h$view", {
 				$t: _at$1,
 				$i: 20
 			});
-			var _el$15 = We("h$textField", {
+			var _el$15 = Ge("h$textField", {
 				$t: _at$1,
 				$i: 23,
 				onChanged: setDigits
 			});
-			var _el$16 = We("h$view", {
+			var _el$16 = Ge("h$view", {
 				$t: _at$1,
 				$i: 24
 			});
-			var _el$17 = We("h$textField", {
+			var _el$17 = Ge("h$textField", {
 				$t: _at$1,
 				$i: 27
 			});
-			var _el$18 = We("h$textField", {
+			var _el$18 = Ge("h$textField", {
 				$t: _at$1,
 				$i: 28
 			});
-			var _el$19 = We("h$view", {
+			var _el$19 = Ge("h$view", {
 				$t: _at$1,
 				$i: 34
 			});
-			et(_el$, _el$2);
-			et(_el$, _el$19);
-			et(_el$2, _el$3);
-			et(_el$2, _el$9);
-			et(_el$2, _el$14);
-			et(_el$2, _el$16);
-			et(_el$3, _el$4);
-			et(_el$3, _el$5);
-			et(_el$3, _el$6);
-			et(_el$6, _el$7);
-			et(_el$6, _el$8);
+			tt(_el$, _el$2);
+			tt(_el$, _el$19);
+			tt(_el$2, _el$3);
+			tt(_el$2, _el$9);
+			tt(_el$2, _el$14);
+			tt(_el$2, _el$16);
+			tt(_el$3, _el$4);
+			tt(_el$3, _el$5);
+			tt(_el$3, _el$6);
+			tt(_el$6, _el$7);
+			tt(_el$6, _el$8);
 			Z$1(_el$6, name, _el$8);
-			Z$1(_el$3, Qe(Row, { get children() {
-				return [Qe(Button, {
+			Z$1(_el$3, $e(Row, { get children() {
+				return [$e(Button, {
 					onTap: () => setName("Override!"),
 					children: "external setName"
-				}), Qe(Button, {
+				}), $e(Button, {
 					onTap: () => setName(""),
 					children: "clear"
 				})];
 			} }), null);
-			et(_el$9, _el$10);
-			et(_el$9, _el$11);
-			et(_el$9, _el$12);
-			et(_el$12, _el$13);
+			tt(_el$9, _el$10);
+			tt(_el$9, _el$11);
+			tt(_el$9, _el$12);
+			tt(_el$12, _el$13);
 			Z$1(_el$12, () => {
 				return focus.hasFocus() ? "true" : "false";
 			}, null);
-			Z$1(_el$9, Qe(Row, { get children() {
-				return [Qe(Button, {
+			Z$1(_el$9, $e(Row, { get children() {
+				return [$e(Button, {
 					onTap: () => focus.focus(),
 					children: "focus"
-				}), Qe(Button, {
+				}), $e(Button, {
 					onTap: () => focus.unfocus(),
 					children: "unfocus"
 				})];
 			} }), null);
-			et(_el$14, _el$15);
-			et(_el$16, _el$17);
-			et(_el$16, _el$18);
-			Z$1(_el$19, Qe(Button, {
+			tt(_el$14, _el$15);
+			tt(_el$16, _el$17);
+			tt(_el$16, _el$18);
+			Z$1(_el$19, $e(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
-			Y$1(() => {
+			He(() => {
 				return {
 					e: name(),
 					t: digits(),
-					a: ((_at$2) => We("h$icon", {
+					a: ((_at$2) => Ge("h$icon", {
 						$t: _at$2,
 						$i: 0,
 						data: x4e
-					}))(Me(_tpl$2$3)),
-					o: ((_at$3) => We("h$icon", {
+					}))(je(_tpl$2$3)),
+					o: ((_at$3) => Ge("h$icon", {
 						$t: _at$3,
 						$i: 0,
 						data: Bge
-					}))(Me(_tpl$3))
+					}))(je(_tpl$3))
 				};
 			}, ({ e, t, a, o }, _p$) => {
-				e !== _p$?.e && Je(_el$5, "value", e, _p$?.e);
-				t !== _p$?.t && Je(_el$15, "value", t, _p$?.t);
-				a !== _p$?.a && Je(_el$17, "prefixIcon", a, _p$?.a);
-				o !== _p$?.o && Je(_el$18, "prefixIcon", o, _p$?.o);
+				e !== _p$?.e && Ye(_el$5, "value", e, _p$?.e);
+				t !== _p$?.t && Ye(_el$15, "value", t, _p$?.t);
+				a !== _p$?.a && Ye(_el$17, "prefixIcon", a, _p$?.a);
+				o !== _p$?.o && Ye(_el$18, "prefixIcon", o, _p$?.o);
 			});
 			return _el$;
-		})())(Me(_tpl$1$5));
+		})())(je(_tpl$1$5));
 	}
 	// src/screens/icon.tsx
-	var _tpl$1$4 = /*@__PURE__*/ je([
+	var _tpl$1$4 = /*@__PURE__*/ Ae([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5747,170 +5762,170 @@
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
-			var _el$ = We("h$scrollView", {
+			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = We("h$view", {
+			var _el$2 = Ge("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = We("h$view", {
+			var _el$3 = Ge("h$view", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = We("h$view", {
+			var _el$4 = Ge("h$view", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$5 = We("h$icon", {
+			var _el$5 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 11,
 				data: x4e
 			});
-			var _el$6 = We("h$icon", {
+			var _el$6 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 12,
 				data: Bge
 			});
-			var _el$7 = We("h$icon", {
+			var _el$7 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 13,
 				data: lre
 			});
-			var _el$8 = We("h$icon", {
+			var _el$8 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 14,
 				data: _6e
 			});
-			var _el$9 = We("h$icon", {
+			var _el$9 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 15,
 				data: EY
 			});
-			var _el$10 = We("h$icon", {
+			var _el$10 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 16,
 				data: est
 			});
-			var _el$11 = We("h$view", {
+			var _el$11 = Ge("h$view", {
 				$t: _at$1,
 				$i: 17
 			});
-			var _el$12 = We("h$text", {
+			var _el$12 = Ge("h$text", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = We("h$view", {
+			var _el$13 = Ge("h$view", {
 				$t: _at$1,
 				$i: 20
 			});
-			var _el$14 = We("h$icon", {
+			var _el$14 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 21,
 				data: EY
 			});
-			var _el$15 = We("h$text", {
+			var _el$15 = Ge("h$text", {
 				$t: _at$1,
 				$i: 22
 			});
-			var _el$16 = We("h$__text__", {
+			var _el$16 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 23
 			});
-			var _el$17 = We("h$__text__", {
+			var _el$17 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 24
 			});
-			var _el$18 = We("h$view", {
+			var _el$18 = Ge("h$view", {
 				$t: _at$1,
 				$i: 25
 			});
-			var _el$19 = We("h$view", {
+			var _el$19 = Ge("h$view", {
 				$t: _at$1,
 				$i: 28
 			});
-			var _el$20 = We("h$icon", {
+			var _el$20 = Ge("h$icon", {
 				$t: _at$1,
 				$i: 29,
 				data: coe
 			});
-			var _el$21 = We("h$view", {
+			var _el$21 = Ge("h$view", {
 				$t: _at$1,
 				$i: 32
 			});
-			et(_el$, _el$2);
-			et(_el$, _el$21);
-			et(_el$2, _el$3);
-			et(_el$2, _el$11);
-			et(_el$2, _el$18);
-			et(_el$3, _el$4);
-			et(_el$4, _el$5);
-			et(_el$4, _el$6);
-			et(_el$4, _el$7);
-			et(_el$4, _el$8);
-			et(_el$4, _el$9);
-			et(_el$4, _el$10);
-			et(_el$11, _el$12);
-			et(_el$11, _el$13);
-			et(_el$13, _el$14);
-			et(_el$13, _el$15);
-			et(_el$15, _el$16);
-			et(_el$15, _el$17);
+			tt(_el$, _el$2);
+			tt(_el$, _el$21);
+			tt(_el$2, _el$3);
+			tt(_el$2, _el$11);
+			tt(_el$2, _el$18);
+			tt(_el$3, _el$4);
+			tt(_el$4, _el$5);
+			tt(_el$4, _el$6);
+			tt(_el$4, _el$7);
+			tt(_el$4, _el$8);
+			tt(_el$4, _el$9);
+			tt(_el$4, _el$10);
+			tt(_el$11, _el$12);
+			tt(_el$11, _el$13);
+			tt(_el$13, _el$14);
+			tt(_el$13, _el$15);
+			tt(_el$15, _el$16);
+			tt(_el$15, _el$17);
 			Z$1(_el$15, size, _el$17);
 			Z$1(_el$15, color, null);
-			Z$1(_el$11, Qe(Row, { get children() {
+			Z$1(_el$11, $e(Row, { get children() {
 				return [
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setSize(16),
 						children: "16"
 					}),
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setSize(32),
 						children: "32"
 					}),
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setSize(64),
 						children: "64"
 					})
 				];
 			} }), null);
-			Z$1(_el$11, Qe(Row, { get children() {
+			Z$1(_el$11, $e(Row, { get children() {
 				return [
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setColor("#EF4444"),
 						children: "red"
 					}),
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setColor("#10B981"),
 						children: "green"
 					}),
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setColor("#3B82F6"),
 						children: "blue"
 					})
 				];
 			} }), null);
-			et(_el$18, _el$19);
-			et(_el$19, _el$20);
-			Z$1(_el$21, Qe(Button, {
+			tt(_el$18, _el$19);
+			tt(_el$19, _el$20);
+			Z$1(_el$21, $e(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
-			Y$1(() => {
+			He(() => {
 				return {
 					e: size(),
 					t: color()
 				};
 			}, ({ e, t }, _p$) => {
-				e !== _p$?.e && Je(_el$14, "size", e, _p$?.e);
-				t !== _p$?.t && Je(_el$14, "color", t, _p$?.t);
+				e !== _p$?.e && Ye(_el$14, "size", e, _p$?.e);
+				t !== _p$?.t && Ye(_el$14, "color", t, _p$?.t);
 			});
 			return _el$;
-		})())(Me(_tpl$1$4));
+		})())(je(_tpl$1$4));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$3 = /*@__PURE__*/ je([
+	var _tpl$1$3 = /*@__PURE__*/ Ae([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5978,7 +5993,7 @@
 		}],
 		["view", { "padding": 16 }]
 	], 12);
-	var _tpl$2$2 = /*@__PURE__*/ je([
+	var _tpl$2$2 = /*@__PURE__*/ Ae([
 		"view",
 		{ "padding": 16 },
 		[
@@ -5991,55 +6006,55 @@
 		const nav = X();
 		const scroll = le({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
-			var _el$ = We("h$scrollView", {
+			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
 				$i: 0,
 				controller: scroll
 			});
-			var _el$2 = We("h$view", {
+			var _el$2 = Ge("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = We("h$text", {
+			var _el$3 = Ge("h$text", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = We("h$__text__", {
+			var _el$4 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = We("h$scrollView", {
+			var _el$5 = Ge("h$scrollView", {
 				$t: _at$1,
 				$i: 9
 			});
-			var _el$6 = We("h$view", {
+			var _el$6 = Ge("h$view", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$10 = We("h$view", {
+			var _el$10 = Ge("h$view", {
 				$t: _at$1,
 				$i: 11
 			});
-			et(_el$, _el$2);
-			et(_el$, _el$6);
-			et(_el$, _el$10);
-			et(_el$2, _el$3);
-			et(_el$2, _el$5);
-			et(_el$3, _el$4);
+			tt(_el$, _el$2);
+			tt(_el$, _el$6);
+			tt(_el$, _el$10);
+			tt(_el$2, _el$3);
+			tt(_el$2, _el$5);
+			tt(_el$3, _el$4);
 			Z$1(_el$3, () => {
 				return scroll.scrollOffset().toFixed(1);
 			}, null);
-			Z$1(_el$5, Qe(Button, {
+			Z$1(_el$5, $e(Button, {
 				onTap: () => scroll.jumpTo(0),
 				children: "jumpTo(0)"
 			}), null);
-			Z$1(_el$5, Qe(Button, {
+			Z$1(_el$5, $e(Button, {
 				onTap: () => scroll.animateTo(1200, { duration: 800 }),
 				children: "animateTo(1200)"
 			}), null);
 			Z$1(_el$6, () => {
 				return Array.from({ length: 40 }, (_, i) => ((_at$2) => (() => {
-					var _el$7 = We("h$view", {
+					var _el$7 = Ge("h$view", {
 						$t: _at$2,
 						$i: 0,
 						decoration: {
@@ -6047,36 +6062,36 @@
 							borderRadius: 8
 						}
 					});
-					var _el$8 = We("h$text", {
+					var _el$8 = Ge("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					var _el$9 = We("h$__text__", {
+					var _el$9 = Ge("h$__text__", {
 						$t: _at$2,
 						$i: 2
 					});
-					et(_el$7, _el$8);
-					et(_el$8, _el$9);
+					tt(_el$7, _el$8);
+					tt(_el$8, _el$9);
 					Z$1(_el$8, i, null);
 					return _el$7;
-				})())(Me(_tpl$2$2)));
+				})())(je(_tpl$2$2)));
 			});
-			Z$1(_el$10, Qe(Button, {
+			Z$1(_el$10, $e(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Me(_tpl$1$3));
+		})())(je(_tpl$1$3));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$2 = /*@__PURE__*/ je(["view", {
+	var _tpl$1$2 = /*@__PURE__*/ Ae(["view", {
 		"flex": {
 			"direction": "vertical",
 			"gap": 12
 		},
 		"padding": 24
 	}], 1);
-	var _tpl$2$1 = /*@__PURE__*/ je([
+	var _tpl$2$1 = /*@__PURE__*/ Ae([
 		"view",
 		{ "height": 40 },
 		["text", { "fontSize": 16 }]
@@ -6090,46 +6105,46 @@
 			"date"
 		]);
 		return ((_at$1) => (() => {
-			var _el$ = We("h$view", {
+			var _el$ = Ge("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			Z$1(_el$, Qe(Row, { get children() {
+			Z$1(_el$, $e(Row, { get children() {
 				return [
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setRows((r) => r.slice().reverse()),
 						children: "Reverse"
 					}),
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setRows((r) => r.slice().sort()),
 						children: "Sort"
 					}),
-					Qe(Button, {
+					$e(Button, {
 						onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
 						children: "Thin"
 					})
 				];
 			} }), null);
-			Z$1(_el$, Qe(For, {
+			Z$1(_el$, $e(For, {
 				get each() {
 					return rows();
 				},
 				children: (row) => ((_at$2) => (() => {
-					var _el$2 = We("h$view", {
+					var _el$2 = Ge("h$view", {
 						$t: _at$2,
 						$i: 0
 					});
-					var _el$3 = We("h$text", {
+					var _el$3 = Ge("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					et(_el$2, _el$3);
+					tt(_el$2, _el$3);
 					Z$1(_el$3, row);
 					return _el$2;
-				})())(Me(_tpl$2$1))
+				})())(je(_tpl$2$1))
 			}), null);
 			return _el$;
-		})())(Me(_tpl$1$2));
+		})())(je(_tpl$1$2));
 	}
 	// ../../packages/solid-fuse/dist/generated.js
 	function d(e, t, n) {
@@ -6167,7 +6182,7 @@
 		r.ctor && (s.$ctor = r.ctor);
 		let d = {};
 		for (let e of t.s) d[e] = s[e] === void 0 ? r.seeds?.[e] : s[e];
-		let { handle: f, write: p } = x(Fe(e, s), t, d);
+		let { handle: f, write: p } = x(Pe(e, s), t, d);
 		for (let [e, t] of l) createEffect(t, (t, n) => {
 			(n !== void 0 || t !== s[e]) && p(e, t);
 		});
@@ -6175,11 +6190,11 @@
 	}
 	var v = /* @__PURE__ */ new Map();
 	function y(e) {
-		let n = e.$h, a = ze(n)?.handle;
+		let n = e.$h, a = Re(n)?.handle;
 		if (a) {
 			if (!e.o) {
 				let e = v.get(n);
-				e ? e.n++ : he.send("_unborrow", {
+				e ? e.n++ : me.send("_unborrow", {
 					id: n,
 					n: 1
 				});
@@ -6191,8 +6206,8 @@
 			n: +!e.o
 		};
 		e.o || v.set(n, o);
-		let s = Re(e.t, n, () => {
-			v.get(o.id) === o && v.delete(o.id), o.n > 0 && he.send("_unborrow", {
+		let s = Le(e.t, n, () => {
+			v.get(o.id) === o && v.delete(o.id), o.n > 0 && me.send("_unborrow", {
 				id: o.id,
 				n: o.n
 			});
@@ -6214,7 +6229,7 @@
 		}
 		return r ?? e;
 	}
-	Ie(b);
+	Fe(b);
 	function x(e, t, i) {
 		let a = 0, s = /* @__PURE__ */ new Map();
 		for (let e of t.s) {
@@ -6224,13 +6239,13 @@
 			});
 			s.set(e, [t, (e) => n(() => e)]);
 		}
-		Ve(e, "$push", (e) => {
+		Be(e, "$push", (e) => {
 			if (!(e.v < a)) for (let t in e.s) s.get(t)?.[1](e.s[t]);
 		});
-		let c = (t, i) => he.call("_handleCall", {
+		let c = (t, i) => me.call("_handleCall", {
 			node: e.id,
 			method: t,
-			value: Be(i)
+			value: ze(i)
 		}, { timeout: 0 }).then(b), u = { node: e };
 		e.handle = u;
 		for (let [e, [t]] of s) u[e] = t;
@@ -6254,9 +6269,9 @@
 	function C(e, t, n) {
 		return { [Symbol.asyncIterator]() {
 			let r = `$s${S++}`, i = [], a = null, s = !1, c, l = !1, u = () => {
-				l || (l = !0, Ve(e, r, void 0));
+				l || (l = !0, Be(e, r, void 0));
 			};
-			Ve(e, r, (e) => {
+			Be(e, r, (e) => {
 				e.d ? s = !0 : e.e === void 0 ? i.push(e.v) : c = e.e, a?.();
 			});
 			let d = t("$listen", {
@@ -6417,7 +6432,7 @@
 	Offset.zero = "Offset.zero";
 	Offset.infinite = "Offset.infinite";
 	// src/screens/builder.tsx
-	var _tpl$1$1 = /*@__PURE__*/ je([
+	var _tpl$1$1 = /*@__PURE__*/ Ae([
 		"view",
 		{ "flex": {
 			"direction": "vertical",
@@ -6456,7 +6471,7 @@
 			}]
 		]
 	], 8);
-	var _tpl$2 = /*@__PURE__*/ je([
+	var _tpl$2 = /*@__PURE__*/ Ae([
 		"gestureDetector",
 		0,
 		[
@@ -6473,57 +6488,57 @@
 		const scroll = createScrollController();
 		const at = () => Math.round(scroll.position()?.pixels() ?? 0);
 		return ((_at$1) => (() => {
-			var _el$ = We("h$view", {
+			var _el$ = Ge("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = We("h$view", {
+			var _el$2 = Ge("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = We("h$text", {
+			var _el$3 = Ge("h$text", {
 				$t: _at$1,
 				$i: 4
 			});
-			var _el$4 = We("h$text", {
+			var _el$4 = Ge("h$text", {
 				$t: _at$1,
 				$i: 5
 			});
-			var _el$5 = We("h$view", {
+			var _el$5 = Ge("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$6 = We("h$flutter_ListViewBuilder", {
+			var _el$6 = Ge("h$flutter_ListViewBuilder", {
 				$t: _at$1,
 				$i: 7,
 				controller: scroll,
 				itemBuilder: (index) => ((_at$2) => (() => {
-					var _el$7 = We("h$gestureDetector", {
+					var _el$7 = Ge("h$gestureDetector", {
 						$t: _at$2,
 						$i: 0,
 						onTap: () => setPicked(index)
 					});
-					var _el$8 = We("h$view", {
+					var _el$8 = Ge("h$view", {
 						$t: _at$2,
 						$i: 1
 					});
-					var _el$9 = We("h$text", {
+					var _el$9 = Ge("h$text", {
 						$t: _at$2,
 						$i: 2
 					});
-					et(_el$7, _el$8);
-					et(_el$8, _el$9);
+					tt(_el$7, _el$8);
+					tt(_el$8, _el$9);
 					Z$1(_el$9, `Row ${index}`);
-					Y$1(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
-						Je(_el$8, "decoration", _v$, _$p);
+					He(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
+						Ye(_el$8, "decoration", _v$, _$p);
 					});
 					return _el$7;
-				})())(Me(_tpl$2))
+				})())(je(_tpl$2))
 			});
-			et(_el$, _el$2);
-			et(_el$, _el$5);
-			et(_el$2, _el$3);
-			et(_el$2, _el$4);
+			tt(_el$, _el$2);
+			tt(_el$, _el$5);
+			tt(_el$2, _el$3);
+			tt(_el$2, _el$4);
 			Z$1(_el$3, (() => {
 				var _c$ = Ue(() => {
 					return picked() < 0;
@@ -6535,12 +6550,12 @@
 			Z$1(_el$4, () => {
 				return `Scrolled ${at()} px`;
 			});
-			et(_el$5, _el$6);
+			tt(_el$5, _el$6);
 			return _el$;
-		})())(Me(_tpl$1$1));
+		})())(je(_tpl$1$1));
 	}
 	// src/screens/home.tsx
-	var _tpl$1 = /*@__PURE__*/ je([
+	var _tpl$1 = /*@__PURE__*/ Ae([
 		"view",
 		{ "flex": { "direction": "vertical" } },
 		[
@@ -6571,44 +6586,44 @@
 	function HomeScreen() {
 		const nav = X();
 		return ((_at$1) => (() => {
-			var _el$ = We("h$view", {
+			var _el$ = Ge("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			et(_el$, We("h$view", {
+			tt(_el$, Ge("h$view", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Z$1(_el$, Qe(MenuItem, {
+			Z$1(_el$, $e(MenuItem, {
 				label: "counter",
-				onTap: () => nav.push(() => Qe(CounterScreen, {}))
+				onTap: () => nav.push(() => $e(CounterScreen, {}))
 			}), null);
-			Z$1(_el$, Qe(MenuItem, {
+			Z$1(_el$, $e(MenuItem, {
 				label: "textField",
-				onTap: () => nav.push(() => Qe(TextFieldScreen, {}))
+				onTap: () => nav.push(() => $e(TextFieldScreen, {}))
 			}), null);
-			Z$1(_el$, Qe(MenuItem, {
+			Z$1(_el$, $e(MenuItem, {
 				label: "icon",
-				onTap: () => nav.push(() => Qe(IconScreen, {}))
+				onTap: () => nav.push(() => $e(IconScreen, {}))
 			}), null);
-			Z$1(_el$, Qe(MenuItem, {
+			Z$1(_el$, $e(MenuItem, {
 				label: "list",
-				onTap: () => nav.push(() => Qe(ListScreen, {}))
+				onTap: () => nav.push(() => $e(ListScreen, {}))
 			}), null);
-			Z$1(_el$, Qe(MenuItem, {
+			Z$1(_el$, $e(MenuItem, {
 				label: "builder",
-				onTap: () => nav.push(() => Qe(BuilderScreen, {}))
+				onTap: () => nav.push(() => $e(BuilderScreen, {}))
 			}), null);
-			Z$1(_el$, Qe(MenuItem, {
+			Z$1(_el$, $e(MenuItem, {
 				label: "scrollController",
-				onTap: () => nav.push(() => Qe(ScrollScreen, {}))
+				onTap: () => nav.push(() => $e(ScrollScreen, {}))
 			}), null);
 			return _el$;
-		})())(Me(_tpl$1));
+		})())(je(_tpl$1));
 	}
 	// src/index.tsx
-	var App = () => Qe(Z, { initialPage: () => Qe(HomeScreen, {}) });
-	$e(App);
+	var App = () => $e(Z, { initialPage: () => $e(HomeScreen, {}) });
+	et(App);
 })();
 
 //# sourceMappingURL=bundle.js.map

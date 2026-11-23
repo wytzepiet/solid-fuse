@@ -94,7 +94,7 @@ on("_functionCall", (data: { nodeId: number; name: string; value?: any; args?: a
   return (async () => {
     try {
       const value = await (data.args ? handler(...data.args) : handler(data.value));
-      return { value: encodeValue("", value).wire };
+      return { value: encodeValue("", value, null).wire };
     } catch (err) {
       return { error: err instanceof Error ? err.message : String(err) };
     }
@@ -118,7 +118,7 @@ onSync("_callSync", (data: { nodeId: number; name: string; value?: any; args?: a
   const call = () => (data.args ? handler(...data.args) : handler(data.value));
   if (!data.widget) {
     try {
-      return { value: encodeValue("", call()).wire };
+      return { value: encodeValue("", call(), null).wire };
     } catch (err) {
       reportDevError(err);
       return { error: err instanceof Error ? err.message : String(err) };
@@ -234,20 +234,25 @@ let rendering = false;
  * busy in the call, so the messages carrying them are still queued there.
  * Dart skips a batch it already has.
  */
-const unapplied = new Map<number, string>();
+const unapplied = new Map<number, [string, ArrayBuffer[] | undefined]>();
+
+/** Binary prop values of the batch being journalled: a prop holds
+ *  `{ $bytes: i }`, and the bytes ride next to the JSON (see encodeValue). */
+let batchBytes: ArrayBuffer[] = [];
 
 function flushOps() {
   const b = batch;
-  const json = drainOps();
-  if (json === undefined) return;
-  unapplied.set(b, json);
+  const drained = drainOps();
+  if (drained === undefined) return;
+  unapplied.set(b, drained);
   const done = () => unapplied.delete(b);
-  fjs.bridge_call({ channel: "_ops", v: OPS_VERSION, g: generation, b, json })?.then?.(done, done);
+  const [json, bytes] = drained;
+  fjs.bridge_call({ channel: "_ops", v: OPS_VERSION, g: generation, b, json, ...(bytes ? { bytes } : {}) })?.then?.(done, done);
 }
 
-/** The journal as one JSON string, and a fresh journal; undefined when
- *  there is nothing to send. */
-function drainOps(): string | undefined {
+/** The journal as one JSON string (and its binary values), and a fresh
+ *  journal; undefined when there is nothing to send. */
+function drainOps(): [string, ArrayBuffer[] | undefined] | undefined {
   flush();
   flushScheduled = false;
   if (ops.length === 0) return;
@@ -273,17 +278,20 @@ function drainOps(): string | undefined {
   defining.length = 0;
   ops.length = 0;
   batch++;
-  return json;
+  const bytes = batchBytes.length ? batchBytes : undefined;
+  if (bytes) batchBytes = [];
+  return json === undefined ? undefined : [json, bytes];
 }
 
 /** What a synchronous call returns with its result: every batch Dart may
  *  lack, oldest first, then the journal so far. */
-function syncOps(): { v: number; g: number; batches: [number, string][] } {
+function syncOps(): { v: number; g: number; batches: [number, string, ArrayBuffer[]?][] } {
   const b = batch;
-  const json = drainOps();
-  const batches = [...unapplied];
+  const drained = drainOps();
+  const batches: [number, string, ArrayBuffer[]?][] = [];
+  for (const [n, [json, bytes]] of unapplied) batches.push(bytes ? [n, json, bytes] : [n, json]);
   unapplied.clear();
-  if (json !== undefined) batches.push([b, json]);
+  if (drained !== undefined) batches.push(drained[1] ? [b, drained[0], drained[1]] : [b, drained[0]]);
   return { v: OPS_VERSION, g: generation, batches };
 }
 
@@ -481,7 +489,7 @@ function nodeById(id: number): FuseNode | undefined {
 
 /** The wire form of a value a channel call carries (no functions). */
 function wireOf(value: any): any {
-  return value == null ? value : encodeValue("", value).wire;
+  return value == null ? value : encodeValue("", value, null).wire;
 }
 
 /** Registers (or with `undefined`, removes) a function Dart calls by name on
@@ -518,17 +526,26 @@ interface Encoded {
  *   becomes `{ _node: id }`, the same shape as a node prop.
  * - A function inside a value becomes `{ $fn: "<prop>#<i>" }`, a handler
  *   name Dart calls through `_functionCall`.
+ * - Binary data (an ArrayBuffer or a view of one) becomes `{ $bytes: i }`
+ *   and its bytes go in [bytes], which rides next to the batch's JSON. With
+ *   no [bytes] (a value a channel carries, which takes bytes as they are),
+ *   it stays.
  *
  * Returns `value` itself unless something inside it had to change, so the
  * common case allocates nothing.
  */
-function encodeValue(name: string, value: any): Encoded {
+function encodeValue(name: string, value: any, bytes: ArrayBuffer[] | null = batchBytes): Encoded {
   const e: Encoded = { wire: value, refs: null, fns: null };
   const walk = (v: any, depth: number): any => {
     if (typeof v === "number") return v === v && v !== Infinity && v !== -Infinity ? v : String(v);
     if (typeof v === "function") return { $fn: `${name}#${(e.fns ??= []).push(v) - 1}` };
     // Depth-bounded: a cyclic value is left for JSON.stringify to reject.
     if (v === null || typeof v !== "object" || depth > 16) return v;
+    if (v instanceof ArrayBuffer) return bytes ? { $bytes: bytes.push(v.slice(0)) - 1 } : v;
+    if (ArrayBuffer.isView(v)) {
+      if (!bytes) return v;
+      return { $bytes: bytes.push(v.buffer.slice(v.byteOffset, v.byteOffset + v.byteLength) as ArrayBuffer) - 1 };
+    }
     const ref = nodeOf(v);
     if (ref) {
       (e.refs ??= []).push(ref);

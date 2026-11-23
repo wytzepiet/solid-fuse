@@ -78,9 +78,9 @@ A generic widget is instantiated at its type parameter's bound, `Object?` when i
 <DropdownMenu dropdownMenuEntries={[DropdownMenuEntry({ value: { id: 7 }, label: "Seven" })]} />
 ```
 
-A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function.
+A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it. Named arguments of a callback arrive as one object after the others: TextField's `buildCounter` is `(context, { currentLength, maxLength, isFocused })` in Dart and `({ currentLength, maxLength, isFocused }) => ...` in JS.
 
-Some props take a particular kind of widget: Scaffold's `appBar` is a `PreferredSizeWidget`, `DropdownButton`'s `items` are `DropdownMenuItem`s. Give them that element; anything else is an error that names both. The parent gets the widget itself, built where the parent is, so it can read it (an app bar's height). The parent rebuilds when that element changes. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it.
+Some props take a particular kind of widget: Scaffold's `appBar` is a `PreferredSizeWidget`, `DropdownButton`'s `items` are `DropdownMenuItem`s. Give them that element; anything else is an error that names both. The parent gets the widget itself, built where the parent is, so it can read it (an app bar's height). The parent rebuilds when that element changes.
 
 ### Builders
 
@@ -109,6 +109,12 @@ A Dart value is written the Dart way, with builders the module exports:
 | `MainAxisAlignment.center` | `"center"` |
 
 Enums are plain strings. A builder call with only literal arguments is folded into the template at compile time, so it costs nothing at runtime.
+
+A few Dart types have a JS form of their own:
+
+- **Typed data** (`Uint8List`, `Float32List`, `ByteData`, ...) is an `ArrayBuffer` or any view of one (`new Uint8Array(...)`). Dart gives you an `ArrayBuffer`. The bytes cross as they are, not as JSON.
+- **A map with keys that aren't strings, numbers or enums** (`Map<ShortcutActivator, Intent>`) is a list of `[key, value]` pairs.
+- **A parameter whose default Dart keeps private** (FloatingActionButton's `heroTag`) is optional: leave it out and Dart's default applies.
 
 ### Shorthands
 
@@ -213,5 +219,5 @@ Only the code that called `createRoot` can release it. To create one that belong
 Something that can't cross the bridge yet is skipped, not guessed at, and `gen-report.txt` says why. If an optional parameter is skipped, its prop is missing. If a required one is skipped, the whole widget is missing. Not bridged yet:
 
 - Generic callbacks (`Navigator`'s `pageRouteBuilder`, generic over its own `T`).
-- Typed data (`Uint8List`) and records.
+- Records, and callbacks whose optional parameters aren't nullable.
 - A controller method or setter that takes a function or a widget.

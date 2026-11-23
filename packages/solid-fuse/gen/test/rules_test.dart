@@ -74,7 +74,8 @@ void main() {
 
     test('an optional parameter no rule covers is kept as a skip', () {
       final w = widget('FixtureBox');
-      expect(param(w, 'hidden')['skip'], contains('default'));
+      // A default generated code can't write: passed only when given.
+      expect(param(w, 'hidden'), containsPair('omit', true));
       // A private constant whose value is plain is reproduced by value.
       expect(param(w, 'size')['default'], '3.0');
       // Required but nullable: the adapter passes null.

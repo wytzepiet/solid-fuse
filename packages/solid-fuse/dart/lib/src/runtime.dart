@@ -156,7 +156,7 @@ class FuseRuntime {
         // JS sends each batch as one JSON string (see flushOps in
         // renderer.ts).
         _checkOpsVersion(data['v']);
-        applyBatch(data['g'] as int?, data['b'] as int?, data['json'] as String);
+        applyBatch(data['g'] as int?, data['b'] as int?, data['json'] as String, bytes: data['bytes'] as List?);
       } catch (e, st) {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
@@ -200,7 +200,7 @@ class FuseRuntime {
 
   /// Applies batch [b] of JS evaluation [g], unless it is already applied.
   @visibleForTesting
-  void applyBatch(int? g, int? b, String json, {bool duringFrame = false}) {
+  void applyBatch(int? g, int? b, String json, {List? bytes, bool duringFrame = false}) {
     if (g != _generation) {
       _generation = g;
       _applied = -1;
@@ -209,7 +209,26 @@ class FuseRuntime {
       if (b <= _applied) return;
       _applied = b;
     }
-    applyOps(jsonDecode(json) as List<dynamic>, duringFrame: duringFrame);
+    final ops = jsonDecode(json) as List<dynamic>;
+    if (bytes != null) _resolveBytes(ops, bytes);
+    applyOps(ops, duringFrame: duringFrame);
+  }
+
+  /// Puts the batch's binary values where their `{$bytes: i}` markers are.
+  static Object? _resolveBytes(Object? v, List bytes) {
+    if (v is Map) {
+      if (v[r'$bytes'] case final int i when v.length == 1) return bytes[i] as Uint8List;
+      for (final MapEntry(:key, :value) in v.entries.toList()) {
+        final r = _resolveBytes(value, bytes);
+        if (!identical(r, value)) v[key] = r;
+      }
+    } else if (v is List) {
+      for (var i = 0; i < v.length; i++) {
+        final r = _resolveBytes(v[i], bytes);
+        if (!identical(r, v[i])) v[i] = r;
+      }
+    }
+    return v;
   }
 
   /// Call a JS function and block until it returns, applying the ops it
@@ -236,8 +255,8 @@ class FuseRuntime {
     if (ops is Map) {
       _checkOpsVersion(ops['v']);
       for (final batch in ops['batches'] as List) {
-        final [b as int, json as String] = batch as List;
-        applyBatch(ops['g'] as int?, b, json, duringFrame: true);
+        final l = batch as List;
+        applyBatch(ops['g'] as int?, l[0] as int, l[1] as String, bytes: l.length > 2 ? l[2] as List : null, duringFrame: true);
       }
     }
     final r = reply['result'];

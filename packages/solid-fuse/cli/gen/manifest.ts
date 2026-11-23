@@ -10,7 +10,11 @@ export type Ref =
   | { k: "bool" | "int" | "double" | "num" | "String" | "Object" | "dynamic"; null?: true }
   | { k: "enum" | "data" | "handle"; id: string; null?: true }
   | { k: "list" | "set" | "iterable"; of: Ref; null?: true }
-  | { k: "map"; key: Ref; of: Ref; null?: true }
+  /** `entries`: the key isn't a string, number or enum, so the map crosses
+   *  as `[key, value]` pairs. */
+  | { k: "map"; key: Ref; of: Ref; entries?: true; null?: true }
+  /** Typed data (`Uint8List`, `ByteData`, ...): an ArrayBuffer in JS. */
+  | { k: "bytes"; as: string; null?: true }
   | { k: "widget"; as?: string; null?: true }
   | { k: "key"; null?: true }
   | { k: "typeParam"; name: string; bound?: string; null?: true }
@@ -24,7 +28,8 @@ export type Ref =
 
 export interface FnRef {
   k: "fn";
-  args: { name: string; type: Ref }[];
+  /** Named ones reach JS as one object after the positional ones. */
+  args: { name: string; type: Ref; named?: true; required?: true; optional?: true }[];
   ret: Ref;
   context?: true;
   async?: true;
@@ -50,6 +55,9 @@ export interface Param {
   skip?: string;
   /** Required but nullable and skipped: the adapter passes null. */
   passNull?: true;
+  /** Named, with a default generated code can't write: passed only when
+   *  JS gives it. */
+  omit?: true;
 }
 
 export interface Invocable {

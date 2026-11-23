@@ -42,6 +42,13 @@ RenderObject, Element).
   passes an object of functions (no `$`); a generated subclass calls them.
   An abstract setter, or a member no callback can stand for, leaves it out
   (`implementSkipped`).
+- **Values with a form of their own**: typed data is `{"k": "bytes", "as":
+  "<class>"}` (an ArrayBuffer in JS; in an op batch the bytes ride next to
+  the JSON as `{$bytes: i}`); a map whose key isn't a string, int or enum
+  has `entries` (`[key, value]` pairs); a callback's named parameters
+  (`named`, `required`) reach JS as one object after the positional ones; a
+  named parameter whose default generated code can't write has `omit` and
+  is passed (through `Function.apply`) only when JS gives it.
 - **Typed widget slots** (`PreferredSizeWidget appBar`, `List<Tab> tabs`)
   are `{"k": "widget", "as": "<Dart type>"}`: the adapter builds the child
   node's own widget in its context (every adapter has a static `make`) and
@@ -95,7 +102,7 @@ triggers a second round, which loads that package's public libraries.
            "methods": [{ "name": "animateTo", "params": [...], "ret": {...}, "async": true }],
            "streams": [...], "disposable": true, "memberSkips": { "position": "why" } }
   },
-  "skipped": [{ "item": "…#Image.memory", "reason": "bytes: typed data (not bridged yet)" }]
+  "skipped": [{ "item": "…#Image.file", "reason": "file: not exported: File" }]
 }
 ```
 

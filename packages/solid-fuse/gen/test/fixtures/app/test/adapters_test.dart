@@ -1,6 +1,7 @@
 // Generated adapters, pumped. lib/generated/fuse.generated.dart is written by
 // cli/gen/gen.test.ts before it runs this file.
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:fixture_app/fixture.dart';
 import 'package:fixture_app/src/annotated.dart';
@@ -8,7 +9,7 @@ import 'package:fixture_app/generated/fuse.generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart' as m;
-import 'package:solid_fuse/generated.dart' show FuseCallbackError;
+import 'package:solid_fuse/generated.dart' show FuseCallArgs, FuseCallbackError;
 import 'package:solid_fuse/solid_fuse.dart';
 
 List<Object?> create(int id, String type, [Map<String, dynamic>? props]) => [0, id, type, props ?? <String, dynamic>{}];
@@ -380,6 +381,59 @@ void main() {
     await t.pumpWidget(Builder(builder: (_) => fuseGeneratedWidgets['fixture_app_FixtureBox']!(box)));
     final partial = t.widget<FixtureBox>(find.byType(FixtureBox)).scorer!;
     expect(() => partial.name, throwsA(isA<FuseCallbackError>().having((e) => '$e', 'message', contains('"name"'))));
+  });
+
+  testWidgets('bytes, maps keyed by values, and named callback arguments', (t) async {
+    final sent = <(String, Object?)>[];
+    final reg = FuseNodeRegistry(
+      callFunction: (id, name, [v]) => sent.add((name, v)),
+      callFunctionSync: (id, name, value, {widget = false}) {
+        sent.add((name, value));
+        return (null, null);
+      },
+    );
+    final raw = Float32List.fromList([1.5, 2.5]).buffer.asUint8List();
+    final box = reg.create(1, 'fixture_app_FixtureBox', {
+      'at': {r'$': 'Point', 'x': 0},
+      'bytes': Uint8List.fromList([1, 2, 3]),
+      'samples': raw,
+      'labels': [
+        [{'x': 1}, 'one'],
+        [{'x': 2, 'y': 3}, 'two'],
+      ],
+      'onBytes': true,
+      'onLabels': true,
+      'counted': true,
+    });
+    await t.pumpWidget(Builder(builder: (_) => fuseGeneratedWidgets['fixture_app_FixtureBox']!(box)));
+    final w = t.widget<FixtureBox>(find.byType(FixtureBox));
+    expect(w.bytes, [1, 2, 3]);
+    expect(w.samples, [1.5, 2.5]);
+    expect([for (final MapEntry(:key, :value) in w.labels!.entries) (key.x, key.y, value)], [(1.0, 0.0, 'one'), (2.0, 3.0, 'two')]);
+
+    w.onBytes!(Uint8List.fromList([9]));
+    expect(sent.last.$2, isA<Uint8List>().having((b) => b.toList(), 'bytes', [9]));
+    w.onLabels!({const Point(1, 2): 3});
+    expect(sent.last.$2, [
+      [{'x': 1.0, 'y': 2.0}, 3],
+    ]);
+    w.counted!(t.element(find.byType(FixtureBox)), 4, count: 2, label: 'l');
+    expect(sent.last.$1, 'counted');
+    expect((sent.last.$2! as FuseCallArgs).args, [4, {'count': 2, 'label': 'l'}]);
+  });
+
+  testWidgets('a default Dart keeps private applies unless JS gives the prop', (t) async {
+    await pump(t, [create(1, 'fixture_app_FixtureBox', {'at': {r'$': 'Point', 'x': 0}})], 1);
+    expect(t.widget<FixtureBox>(find.byType(FixtureBox)).hidden, isNot(isA<Square>()));
+    rt.applyOps([...setProp(1, 'hidden', {r'$': 'Square.unit'})]);
+    await t.pump();
+    expect(t.widget<FixtureBox>(find.byType(FixtureBox)).hidden, isA<Square>());
+  });
+
+  test('a batch carries its bytes next to its JSON', () {
+    final rt2 = FuseRuntime.forTest();
+    rt2.applyBatch(null, null, jsonEncode([0, 1, 'view', {'data': {r'$bytes': 0}}]), bytes: [Uint8List.fromList([7, 8])]);
+    expect(rt2.registry.get(1)['data'], [7, 8]);
   });
 
   testWidgets('a missing required prop is an error naming it', (t) async {

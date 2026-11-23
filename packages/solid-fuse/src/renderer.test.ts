@@ -701,6 +701,36 @@ describe("spread (what a wrapper component compiles to)", () => {
   });
 });
 
+describe("binary prop values", () => {
+  test("ride next to the batch's JSON; a view sends only its range", () => {
+    const el = R.createElement("view");
+    R.flushOps();
+    sent.length = 0;
+    const big = new Uint8Array([9, 1, 2, 3, 9]);
+    R.setProp(el, "data", { a: new Uint8Array(big.buffer, 1, 3), b: new Float32Array([1.5]).buffer });
+    R.flushOps();
+    const msg = sent.find((m) => m.channel === "_ops");
+    expect(JSON.parse(msg.json)).toContainEqual({ a: { $bytes: 0 }, b: { $bytes: 1 } });
+    expect([...new Uint8Array(msg.bytes[0])]).toEqual([1, 2, 3]);
+    expect(new Float32Array(msg.bytes[1])[0]).toBe(1.5);
+    sent.length = 0;
+    // The next batch starts with none.
+    R.setProp(el, "width", 1);
+    R.flushOps();
+    expect(sent.find((m) => m.channel === "_ops").bytes).toBeUndefined();
+    sent.length = 0;
+  });
+
+  test("a callback's result keeps its bytes as they are (the channel carries them)", async () => {
+    const buf = new Uint8Array([1]);
+    const el = R.createElement("view", { get: () => buf });
+    R.flushOps();
+    const reply = await (globalThis as any).__dispatch("_functionCall", { nodeId: el.id, name: "get", reply: true });
+    expect(reply.value).toBe(buf);
+    sent.length = 0;
+  });
+});
+
 describe("flush", () => {
   test("a batch that cannot be serialised is dropped, later batches still go out", () => {
     const el = R.createElement("view");

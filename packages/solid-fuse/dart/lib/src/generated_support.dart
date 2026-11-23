@@ -1,6 +1,7 @@
 // Runtime support for the adapters `fuse gen` writes. Generated code calls
 // only into this file, FuseNode, and the libraries it adapts.
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
@@ -43,12 +44,51 @@ List<T>? decList<T>(Object? v, T Function(Object? e) f) => v is List ? [for (fin
 Map<K, V>? decMap<K, V>(Object? v, K Function(String k) kf, V Function(Object? e) vf) =>
     v is Map ? {for (final MapEntry(:key, :value) in v.entries) kf(key as String): vf(value)} : null;
 
+/// A map whose keys JSON can't hold as object keys: `[key, value]` pairs.
+Map<K, V>? decEntries<K, V>(Object? v, K Function(Object? k) kf, V Function(Object? e) vf) =>
+    v is List ? {for (final e in v) kf((e as List)[0]): vf(e[1])} : null;
+
+/// Typed data: bytes arrive as a Uint8List (an ArrayBuffer or a view of one
+/// in JS), read as [T] over the same bytes.
+T? decBytes<T extends TypedData>(Object? v) {
+  var b = switch (v) {
+    Uint8List() => v,
+    ByteBuffer() => v.asUint8List(),
+    TypedData() => v.buffer.asUint8List(v.offsetInBytes, v.lengthInBytes),
+    List() => Uint8List.fromList(v.cast<int>()),
+    _ => null,
+  };
+  if (b == null) return null;
+  if (T == Uint8List) return b as T;
+  // A view of wider elements starts at a multiple of their size.
+  if (b.offsetInBytes % 8 != 0) b = Uint8List.fromList(b);
+  final Object r = switch (T) {
+    const (ByteData) => ByteData.sublistView(b),
+    const (Uint8ClampedList) => Uint8ClampedList.sublistView(b),
+    const (Int8List) => Int8List.sublistView(b),
+    const (Uint16List) => Uint16List.sublistView(b),
+    const (Int16List) => Int16List.sublistView(b),
+    const (Uint32List) => Uint32List.sublistView(b),
+    const (Int32List) => Int32List.sublistView(b),
+    const (Uint64List) => Uint64List.sublistView(b),
+    const (Int64List) => Int64List.sublistView(b),
+    const (Float32List) => Float32List.sublistView(b),
+    const (Float64List) => Float64List.sublistView(b),
+    _ => throw ArgumentError('cannot read bytes as $T'),
+  };
+  return r as T;
+}
+
 /// A JSX `key` prop. Strings and numbers become value keys.
 ValueKey<Object>? decKey(Object? v) => v == null ? null : ValueKey<Object>(v);
 
 /// The `$` tag of a tagged value, or [fallback] (the declared type's unnamed
 /// constructor) for a plain object.
 String fuseTag(Map<Object?, Object?> m, String fallback) => m[r'$'] as String? ?? fallback;
+
+/// [v] as a [T]: gives a closure its parameter types where nothing else
+/// does (an argument passed through `Function.apply`).
+T fuseTyped<T>(T v) => v;
 
 /// A required prop or argument was not given.
 T fuseReq<T>(T? v, String owner, String name) {
@@ -256,6 +296,9 @@ class FuseCallbackError implements Exception {
 
 /// JSON cannot carry NaN or the infinities; they cross as strings.
 Object? encDouble(double? v) => v == null || v.isFinite ? v : v.toString();
+
+/// Typed data as its bytes (an ArrayBuffer in JS).
+Uint8List? encBytes(TypedData? v) => v?.buffer.asUint8List(v.offsetInBytes, v.lengthInBytes);
 
 /// A value of no declared shape: what JSON can carry goes as it is, anything
 /// else as its `toString()`.
