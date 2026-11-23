@@ -62,7 +62,6 @@ class World {
   TypeProvider get tp => _anchor.typeProvider;
 
   late final InterfaceElement? widgetEl = _cls('Widget');
-  late final InterfaceElement? preferredSizeWidgetEl = _cls('PreferredSizeWidget');
   late final InterfaceElement? keyEl = _cls('Key');
   late final InterfaceElement? localKeyEl = _cls('LocalKey');
   late final InterfaceElement? listenableEl = _cls('Listenable');

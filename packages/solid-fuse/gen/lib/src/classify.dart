@@ -42,7 +42,7 @@ class Classifier {
   final DartCode code;
 
   /// Per namespace owner, more constants than this are not offered
-  /// (Icons has ~8.9k; IconData gets a shorthand instead).
+  /// (Icons has ~8.9k).
   final int maxConsts;
 
   /// id -> declaration. Ordered by first use.
