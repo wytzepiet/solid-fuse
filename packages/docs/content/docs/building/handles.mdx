@@ -62,17 +62,17 @@ const scroll = createScrollController({ initialScrollOffset: 200 });
 
 ## FocusNode
 
-`createFocusNode` gives you a Flutter `FocusNode` you can pass to a `TextField` and drive imperatively. It exposes `hasFocus` as a reactive signal.
+`createFocusNode` gives you a Flutter `FocusNode` you can pass to a text field (core's `TextInput`, or a design package's `TextField`) and drive imperatively. It exposes `hasFocus` as a reactive signal.
 
 ```tsx
-import { TextField, Text, View, createFocusNode } from "solid-fuse";
+import { GestureDetector, Text, TextInput, View, createFocusNode } from "solid-fuse";
 
 function FocusDemo() {
   const focus = createFocusNode();
 
   return (
     <View flex={{ gap: 6 }}>
-      <TextField focusNode={focus} placeholder="Type here" />
+      <TextInput focusNode={focus} placeholder="Type here" />
       <Text>hasFocus = {focus.hasFocus() ? "true" : "false"}</Text>
       <GestureDetector onTap={() => focus.focus()}>
         <Text color="blue">Focus the field</Text>

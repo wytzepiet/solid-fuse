@@ -1,0 +1,169 @@
+---
+title: Core widgets
+description: Behaviour without a design: App, Pressable, TextInput, Modal, Menu and more
+---
+
+Core (`solid-fuse`) has no design. Its widgets give behaviour (taps, focus, text editing, overlays) and leave the look to `View` and `Text`, or to a [design package](/docs/building/design-packages). They work under any app root.
+
+Every widget follows the same rules:
+
+- **State is a controlled pair**: `value`/`onChange`, `open`/`onOpenChange`, `expanded`/`onExpandedChange`. Leave out the value to let the widget keep its own state.
+- **Events are `on` + verb**: `onPress`, `onSubmit`, `onShow`.
+- **Commands go through a handle** when you need them: `createFocusNode`, `createScrollController`.
+- **Overlays are components** with `open`, placed anywhere in the tree. They take no space where they sit.
+
+## App
+
+The root of an app without a design: a root navigator (for `Modal` and pages) and an overlay (for `Tooltip`, `Menu`). Pages pushed as bare components are core [`page()`](/docs/building/navigation#page-props)s.
+
+```tsx
+import { App, Navigator, render } from "solid-fuse";
+
+render(() => (
+  <App title="My app" textStyle={{ fontFamily: "Inter", color: "#111827" }}>
+    <Navigator initialPage={() => <Home />} />
+  </App>
+));
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `title` | `string` | Shown by the OS task switcher |
+| `color` | `ColorInput` | The app's color for the OS |
+| `locale` | `string` | BCP 47 tag, e.g. `"en-US"` |
+| `textStyle` | `{ fontFamily, fontSize, fontWeight, color }` | Default text style |
+
+## Pressable
+
+Something the user activates: tap, long press, Enter or Space when focused, and a button to screen readers. It has no look; put a `View` inside. To restyle while pressed, hovered or focused, pass a function as the child.
+
+```tsx
+import { Pressable, Text, View, type PressState } from "solid-fuse";
+
+<Pressable onPress={save} semanticLabel="Save">
+  {(state: () => PressState) => (
+    <View padding={12} decoration={{ color: state().pressed ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
+      <Text color="white">Save</Text>
+    </View>
+  )}
+</Pressable>
+```
+
+For a dim-on-press without a round trip to JS, use `pressedOpacity={0.6}`.
+
+| Prop | Type | Description |
+|---|---|---|
+| `onPress` | `() => void` | Tap, Enter, Space |
+| `onLongPress` | `() => void` | |
+| `onStateChange` | `(state: PressState) => void` | Pressed, hovered or focused changed |
+| `disabled` | `boolean` | |
+| `pressedOpacity` | `number` | Opacity while pressed, applied in Dart |
+| `semanticLabel` | `string` | Read by screen readers |
+| `focusNode` | `FocusNode` | From `createFocusNode()` |
+| `autofocus` | `boolean` | |
+
+## TextInput
+
+Editable text with no box around it. Controlled with `value` + `onChange`: a value set from JS replaces the text, and the user's typing is never pulled back by a value that is still on its way.
+
+```tsx
+const [name, setName] = createSignal("");
+
+<View padding={12} decoration={{ border: { width: 1, color: "#D1D5DB" }, borderRadius: 8 }}>
+  <TextInput value={name()} onChange={setName} placeholder="Name" onSubmit={send} />
+</View>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `value` / `defaultValue` | `string` | Controlled text / starting text |
+| `onChange` | `(value: string) => void` | |
+| `onSubmit` | `(value: string) => void` | The keyboard's action button |
+| `placeholder` | `string` | Shown while empty |
+| `disabled`, `readOnly`, `autofocus`, `obscureText`, `autocorrect` | `boolean` | |
+| `focusNode` | `FocusNode` | |
+| `keyboardType` | `"text" \| "multiline" \| "number" \| "integer" \| "phone" \| "email" \| "url" \| "name" \| "none"` | |
+| `inputAction` | `"done" \| "go" \| "next" \| "search" \| "send" \| ...` | |
+| `textCapitalization` | `"none" \| "words" \| "sentences" \| "characters"` | |
+| `maxLines` / `minLines` | `number` | `maxLines` 0 grows without limit; default 1 |
+| `maxLength` | `number` | |
+| `allowPattern` / `denyPattern` | `string` | Regex source; characters that don't fit are dropped |
+| `autofillHints` | `string[]` | |
+| `color`, `fontSize`, `fontWeight`, `fontFamily`, `letterSpacing`, `lineHeight` | | Text style |
+| `placeholderColor`, `cursorColor`, `selectionColor` | `ColorInput` | |
+
+The design packages' `TextField`s take the same props.
+
+## Modal
+
+A dialog, sheet or popup, shown while `open` is true. When the user dismisses it (barrier tap, back button, a drag), `onOpenChange(false)` is called. `type` picks the route: core has `"dialog"`, which has no surface, so the content brings one. The design packages add their own (`"materialDialog"`, `"materialBottomSheet"`, `"cupertinoDialog"`, `"cupertinoActionSheet"`) and wrap them in components like `<Dialog>`.
+
+```tsx
+const [open, setOpen] = createSignal(false);
+
+<Modal open={open()} onOpenChange={setOpen}>
+  <View padding={24} decoration={{ color: "white", borderRadius: 16 }}>
+    <Text>Hello</Text>
+  </View>
+</Modal>
+```
+
+| Prop | Type | Description |
+|---|---|---|
+| `open` | `boolean` | |
+| `onOpenChange` | `(open: boolean) => void` | |
+| `type` | `string` | Route type. Default `"dialog"` |
+| `dismissible` | `boolean` | Barrier tap closes it. Default true |
+| `barrierColor` | `ColorInput` | |
+| `alignment` | `AlignmentString` | Where a `"dialog"` sits. Default center |
+| `duration` | `number` | ms |
+
+A package registers a route type in Dart with `runtime.registerRoute(type, (context, node, content) => Route)`.
+
+## Menu
+
+A popup anchored to its children: dropdowns, context menus. It shows `content` below the anchor (above it when there is no room). A tap outside, Escape or scrolling closes it.
+
+```tsx
+<Menu open={open()} onOpenChange={setOpen} content={<MenuList />}>
+  <Pressable onPress={() => setOpen(!open())}><Text>Sort by</Text></Pressable>
+</Menu>
+```
+
+Props: `open`, `onOpenChange`, `content`, `align` (`"start"` or `"end"`), `offset` (gap, default 4), `consumeOutsideTaps` (default true).
+
+## Tooltip
+
+Shows `content` near the children on hover, or on long press (`trigger="tap"` for a tap).
+
+```tsx
+<Tooltip content={<View padding={8} decoration={{ color: "#111827" }}><Text color="white">Copy</Text></View>}>
+  <Icon icon={Icons.copy} />
+</Tooltip>
+```
+
+Props: `content`, `label` (for screen readers), `trigger` (`"longPress"`, `"tap"`, `"manual"`), `hoverDelay`, `touchDelay`, `dismissDelay`, `onShow`.
+
+## RadioGroup
+
+Groups the radios inside it, as Flutter's `RadioGroup` does: the radio whose `value` equals the group's is selected. The radios come from a design package.
+
+```tsx
+import { Radio } from "@solid-fuse/material";
+
+<RadioGroup value={plan()} onChange={setPlan}>
+  <Radio value="free" /> <Radio value="pro" />
+</RadioGroup>
+```
+
+## Expandable
+
+A header that shows or hides its body (the children), animated.
+
+```tsx
+<Expandable header={<Text>Details</Text>}>
+  <Text>The body.</Text>
+</Expandable>
+```
+
+Props: `header`, `expanded` / `defaultExpanded` / `onExpandedChange`, `disabled`, `duration` (default 200), `maintainState` (default true).

@@ -2,3 +2,7 @@
 dependency_overrides:
   solid_fuse:
     path: ../node_modules/solid-fuse/dart
+  solid_fuse_cupertino:
+    path: ../node_modules/@solid-fuse/cupertino/dart
+  solid_fuse_material:
+    path: ../node_modules/@solid-fuse/material/dart

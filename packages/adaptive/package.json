@@ -1,0 +1,25 @@
+{
+  "name": "@solid-fuse/adaptive",
+  "version": "0.1.0",
+  "description": "Components that look native on each platform: Material on Android and the rest, Cupertino on iOS and macOS.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "fuse.config.ts"
+  ],
+  "peerDependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "solid-fuse": "workspace:*",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@solid-fuse/material": "workspace:*",
+    "@solid-fuse/cupertino": "workspace:*"
+  }
+}

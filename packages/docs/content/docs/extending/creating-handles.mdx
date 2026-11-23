@@ -45,7 +45,7 @@ export function createFocusNode(): FocusNode {
 
 ### node
 
-A `FuseNode<K>` reference. Include it on the returned object — widgets that accept the handle (like `<TextField focusNode={focus} />`) read this to serialize a `_node: <id>` ref over the bridge.
+A `FuseNode<K>` reference. Include it on the returned object — widgets that accept the handle (like `<TextInput focusNode={focus} />`) read this to serialize a `_node: <id>` ref over the bridge.
 
 The `K` type parameter (`"focusNode"` here) discriminates handle kinds at prop sites, so a `ScrollController` can't be passed where a `FocusNode` is expected.
 

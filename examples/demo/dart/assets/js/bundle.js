@@ -3825,6 +3825,7 @@
 		return r;
 	}
 	// ../../node_modules/.bun/solid-js@2.0.3/node_modules/solid-js/dist/solid.js
+	var IS_DEV = false;
 	function createContext(defaultValue, options) {
 		const id = Symbol(options && options.name || "");
 		function provider(props) {
@@ -3859,6 +3860,9 @@
 	function createComponent(Comp, props, name, loc) {
 		return untrack(() => Comp(props || {}));
 	}
+	var narrowedError = (name) => {
+		throw `Stale read from <${name}>.`;
+	};
 	function For(props) {
 		const options = "fallback" in props ? {
 			keyed: props.keyed,
@@ -3870,6 +3874,25 @@
 		if (sharedConfig.hydrating) mapped = create();
 		const list = () => (mapped ?? (mapped = create()))();
 		return list;
+	}
+	function Show(props) {
+		const keyed = props.keyed;
+		const conditionValue = createMemo$1(() => props.when, void 0);
+		const condition = keyed ? conditionValue : createMemo$1(conditionValue, {
+			equals: (a, b) => !a === !b,
+			sync: true
+		});
+		return createMemo$1(() => {
+			const c = condition();
+			if (c) {
+				const child = props.children;
+				return typeof child === "function" && child.length > 0 ? keyed ? untrack(() => child(c), IS_DEV) : untrack(() => child(() => {
+					condition() || narrowedError("Show");
+					return conditionValue();
+				}), IS_DEV) : child;
+			}
+			return props.fallback;
+		}, { sync: true });
 	}
 	// ../../node_modules/.bun/@solidjs+universal@2.0.3+ef26f217b6584227/node_modules/@solidjs/universal/dist/universal.js
 	var transparentOptions = {
@@ -4220,12 +4243,12 @@
 			ref
 		};
 	}
-	// ../../packages/solid-fuse/dist/renderer-BGhyUgRz.js
+	// ../../packages/solid-fuse/dist/renderer-DxCk1kN3.js
 	function l(e) {
 		let t = globalThis.__fuseDevServer;
 		if (!t) console.error(e);
 		else try {
-			let n = e instanceof Error ? e : Error(String(e)), r = ce(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
+			let n = e instanceof Error ? e : Error(String(e)), r = ce$1(n), i = r !== n && typeof r.stack == "string" ? r.stack : void 0;
 			fetch(`${t}/__fuse_error`, {
 				method: "POST",
 				headers: { "content-type": "application/json" },
@@ -4239,7 +4262,7 @@
 			console.error(e);
 		}
 	}
-	function ce(e) {
+	function ce$1(e) {
 		let t = /* @__PURE__ */ new Set([e]), n = e;
 		for (;;) {
 			let e = n.cause;
@@ -4249,7 +4272,7 @@
 	}
 	var u = /* @__PURE__ */ new Map();
 	var d;
-	function f$1(e, t) {
+	function f(e, t) {
 		u.set(e, t);
 	}
 	function p$1(e, t = {}) {
@@ -4315,14 +4338,14 @@
 	var me = {
 		send: p$1,
 		call: le$1,
-		on: f$1
+		on: f
 	};
 	var _$1 = globalThis.__fuseHost;
 	if (!_$1) throw Error("[solid-fuse] `host` is unavailable — it only exists inside a running solid-fuse app.");
-	var [he, ge] = createSignal(_$1.brightness);
-	f$1("_brightness", (e) => ge(e.value));
+	var [he$1, ge] = createSignal(_$1.brightness);
+	f("_brightness", (e) => ge(e.value));
 	var v$1 = {
-		brightness: he,
+		brightness: he$1,
 		platform: _$1.platform,
 		mode: _$1.mode
 	};
@@ -4339,12 +4362,12 @@
 		}
 	};
 	var S$1 = /* @__PURE__ */ new Map();
-	f$1("_functionCall", (e) => {
-		e.args ? e.args = U$1(e.args) : e.value = U$1(e.value);
+	f("_functionCall", (e) => {
+		e.args ? e.args = W$1(e.args) : e.value = W$1(e.value);
 		let t = S$1.get(e.nodeId)?.deref()?.handlers?.[e.name];
 		if (e.reply) return t === void 0 ? { error: `no function "${e.name}" on node ${e.nodeId}` } : (async () => {
 			try {
-				return { value: G$1("", await (e.args ? t(...e.args) : t(e.value)), null).wire };
+				return { value: K$1("", await (e.args ? t(...e.args) : t(e.value)), null).wire };
 			} catch (e) {
 				return { error: e instanceof Error ? e.message : String(e) };
 			}
@@ -4354,12 +4377,12 @@
 	var C$1 = /* @__PURE__ */ new Map();
 	var _e = 0;
 	ue$1("_callSync", (e) => {
-		e.args ? e.args = U$1(e.args) : e.value = U$1(e.value);
+		e.args ? e.args = W$1(e.args) : e.value = W$1(e.value);
 		let t = S$1.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
 		if (n === void 0) return { error: `no function "${e.name}" on node ${e.nodeId}` };
 		let r = () => e.args ? n(...e.args) : n(e.value);
 		if (!e.widget) try {
-			return { value: G$1("", r(), null).wire };
+			return { value: K$1("", r(), null).wire };
 		} catch (e) {
 			return l(e), { error: e instanceof Error ? e.message : String(e) };
 		}
@@ -4368,194 +4391,194 @@
 			let e = runWithOwner(t.owner ?? null, () => createRoot((e) => {
 				i = e;
 				let t = r();
-				return t == null ? null : ve(t);
+				return t == null ? null : w$1(t);
 			}));
 			if (e === null) return i(), { value: null };
 			let n = _e++;
 			return C$1.set(n, {
 				dispose: i,
 				node: e
-			}), k(e), {
+			}), A$1(e), {
 				value: { _node: e.id },
 				root: n
 			};
 		} catch (e) {
 			return i?.(), l(e), { error: e instanceof Error ? e.message : String(e) };
 		}
-	}), f$1("_unbuild", (e) => {
+	}), f("_unbuild", (e) => {
 		let t = C$1.get(e.root);
 		t && (C$1.delete(e.root), t.dispose());
 	});
-	function ve(e) {
+	function w$1(e) {
 		if (e instanceof x$1 && !e.parent) return e;
-		let t = B("__slot__");
+		let t = V$1("__slot__");
 		return Z$1(t, e), t;
 	}
-	var ye = 0;
-	var be = 1;
-	var w = 2;
-	var xe = 3;
-	var Se = 4;
-	var Ce = 5;
-	var T = 6;
-	var we = 7;
-	var Te = 8;
-	var Ee = 9;
-	var E = 4;
-	var D = [];
-	var O = 0;
-	var De = new FinalizationRegistry((e) => {
-		S$1.delete(e), D.push(T, e), R();
+	var ve = 0;
+	var ye = 1;
+	var T$1 = 2;
+	var be = 3;
+	var xe = 4;
+	var Se$1 = 5;
+	var E$1 = 6;
+	var Ce$1 = 7;
+	var we = 8;
+	var Te = 9;
+	var D$1 = 4;
+	var O$1 = [];
+	var k$1 = 0;
+	var Ee = new FinalizationRegistry((e) => {
+		S$1.delete(e), O$1.push(E$1, e), z$1();
 	});
-	function k(e) {
-		e.tracked || (e.tracked = !0, De.register(e, e.id));
+	function A$1(e) {
+		e.tracked || (e.tracked = !0, Ee.register(e, e.id));
 	}
-	var A = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
-	var j = new x$1("root");
-	var M = !1;
+	var j = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
+	var M = new x$1("root");
 	var N = !1;
-	var P = /* @__PURE__ */ new Map();
-	var F = [];
-	function I() {
-		let e = O, t = L();
+	var P = !1;
+	var F = /* @__PURE__ */ new Map();
+	var I = [];
+	function L() {
+		let e = k$1, t = R$1();
 		if (t === void 0) return;
-		P.set(e, t);
-		let n = () => P.delete(e), [r, i] = t;
+		F.set(e, t);
+		let n = () => F.delete(e), [r, i] = t;
 		fjs.bridge_call({
 			channel: "_ops",
-			v: E,
-			g: A,
+			v: D$1,
+			g: j,
 			b: e,
 			json: r,
 			...i ? { bytes: i } : {}
 		})?.then?.(n, n);
 	}
-	function L() {
-		if (flush(), M = !1, D.length === 0) return;
-		if (A !== globalThis.__fuseGeneration) {
-			D.length = 0;
+	function R$1() {
+		if (flush(), N = !1, O$1.length === 0) return;
+		if (j !== globalThis.__fuseGeneration) {
+			O$1.length = 0;
 			return;
 		}
 		let e;
 		try {
-			e = JSON.stringify(D);
+			e = JSON.stringify(O$1);
 		} catch (e) {
 			l(e);
-			for (let e of z) e.batch = -1;
+			for (let e of B$1) e.batch = -1;
 		}
-		z.length = 0, D.length = 0, O++;
-		let t = F.length ? F : void 0;
-		return t && (F = []), e === void 0 ? void 0 : [e, t];
+		B$1.length = 0, O$1.length = 0, k$1++;
+		let t = I.length ? I : void 0;
+		return t && (I = []), e === void 0 ? void 0 : [e, t];
 	}
-	function Oe() {
-		let e = O, t = L(), n = [];
-		for (let [e, [t, r]] of P) n.push(r ? [
+	function De() {
+		let e = k$1, t = R$1(), n = [];
+		for (let [e, [t, r]] of F) n.push(r ? [
 			e,
 			t,
 			r
 		] : [e, t]);
-		return P.clear(), t !== void 0 && n.push(t[1] ? [
+		return F.clear(), t !== void 0 && n.push(t[1] ? [
 			e,
 			t[0],
 			t[1]
 		] : [e, t[0]]), {
-			v: E,
-			g: A,
+			v: D$1,
+			g: j,
 			batches: n
 		};
 	}
-	de(Oe);
-	function R() {
-		M || N || (M = !0, Promise.resolve().then(I));
+	de(De);
+	function z$1() {
+		N || P || (N = !0, Promise.resolve().then(L));
 	}
-	fe(I), pe(I);
-	var ke = 0;
-	var z = [];
-	function Ae(e, t) {
+	fe(L), pe(L);
+	var Oe = 0;
+	var B$1 = [];
+	function ke(e, t) {
 		return {
-			id: ke++,
+			id: Oe++,
 			shape: e,
 			size: t,
 			batch: -1
 		};
 	}
-	function je(e) {
-		e.batch < 0 && (e.batch = O, z.push(e), D.push(we, e.id, e.shape));
+	function Ae(e) {
+		e.batch < 0 && (e.batch = k$1, B$1.push(e), O$1.push(Ce$1, e.id, e.shape));
 		let t = y$1;
-		return y$1 += e.size, D.push(Te, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
+		return y$1 += e.size, O$1.push(we, e.id, t, v$1.mode !== "release" && b$1 ? b$1 : null), t;
 	}
-	function Me(e, t) {
+	function je(e, t) {
 		let n = t.$i, r = new x$1(e.slice(2), t.$t + n);
-		r.adopt = n !== 0, r.batch = O;
-		for (let e in t) e !== "$t" && e !== "$i" && K$1(r, e, t[e]);
+		r.adopt = n !== 0, r.batch = k$1;
+		for (let e in t) e !== "$t" && e !== "$i" && q$1(r, e, t[e]);
 		return r;
 	}
-	function B(e, t) {
-		let n = new x$1(e), r = {};
-		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = O, n.slot = D.push(ye, n.id, e, r) - 1, t && V$1(n, t), n;
-	}
 	function V$1(e, t) {
+		let n = new x$1(e), r = {};
+		return v$1.mode !== "release" && b$1 && (r._component = b$1), n.batch = k$1, n.slot = O$1.push(ve, n.id, e, r) - 1, t && H$1(n, t), n;
+	}
+	function H$1(e, t) {
 		let n;
 		for (let r in t) {
 			let i = t[r];
 			if (i == null || typeof i == "function") {
-				K$1(e, r, i);
+				q$1(e, r, i);
 				continue;
 			}
-			let a = G$1(r, i);
-			a.refs ? (n ?? (n = [])).push([r, a]) : Y$1(e, r, a);
+			let a = K$1(r, i);
+			a.refs ? (n ?? (n = [])).push([r, a]) : X$1(e, r, a);
 		}
-		if (n) for (let [t, r] of n) Y$1(e, t, r);
+		if (n) for (let [t, r] of n) X$1(e, t, r);
 	}
-	var Ne = new FinalizationRegistry((e) => {
-		e.collected = !0, e.owned || H$1(e);
+	var Me = new FinalizationRegistry((e) => {
+		e.collected = !0, e.owned || U$1(e);
 	});
-	function H$1(e) {
-		S$1.delete(e.id), D.push(T, e.id), R();
+	function U$1(e) {
+		S$1.delete(e.id), O$1.push(E$1, e.id), z$1();
 	}
-	function Pe(e, t) {
-		let n = B(e);
+	function Ne(e, t) {
+		let n = V$1(e);
 		n.tracked = !0;
 		let r = {
 			id: n.id,
 			owned: getOwner() !== null,
 			collected: !1
 		};
-		if (Ne.register(n, r), r.owned) {
-			let e = A;
+		if (Me.register(n, r), r.owned) {
+			let e = j;
 			onCleanup(() => {
-				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && H$1(r);
+				r.owned = !1, r.collected && e === globalThis.__fuseGeneration && U$1(r);
 			});
 		}
-		return t && V$1(n, t), R(), n;
+		return t && H$1(n, t), z$1(), n;
 	}
-	var U$1 = (e) => e;
-	function Fe(e) {
-		U$1 = e;
+	var W$1 = (e) => e;
+	function Pe(e) {
+		W$1 = e;
 	}
-	var Ie = new FinalizationRegistry(({ id: e, done: t }) => {
+	var Fe = new FinalizationRegistry(({ id: e, done: t }) => {
 		S$1.get(e)?.deref() === void 0 && S$1.delete(e), t();
 	});
-	function Le(e, t, n) {
+	function Ie(e, t, n) {
 		let r = new x$1(e, t);
-		return r.tracked = !0, Ie.register(r, {
+		return r.tracked = !0, Fe.register(r, {
 			id: t,
 			done: n
 		}), r;
 	}
-	function Re(e) {
+	function Le(e) {
 		return S$1.get(e)?.deref();
 	}
-	function ze(e) {
-		return e == null ? e : G$1("", e, null).wire;
+	function Re(e) {
+		return e == null ? e : K$1("", e, null).wire;
 	}
-	function Be(e, t, n) {
-		n ? q$1(e)[t] = n : e.handlers && delete e.handlers[t];
+	function ze(e, t, n) {
+		n ? J$1(e)[t] = n : e.handlers && delete e.handlers[t];
 	}
-	function W$1(e) {
+	function G$1(e) {
 		return typeof e != "object" || !e ? null : e instanceof x$1 ? e : e.node instanceof x$1 ? e.node : null;
 	}
-	function G$1(e, t, n = F) {
+	function K$1(e, t, n = I) {
 		let r = {
 			wire: t,
 			refs: null,
@@ -4566,7 +4589,7 @@
 			if (typeof t != "object" || !t || a > 16) return t;
 			if (t instanceof ArrayBuffer) return n ? { $bytes: n.push(t.slice(0)) - 1 } : t;
 			if (ArrayBuffer.isView(t)) return n ? { $bytes: n.push(t.buffer.slice(t.byteOffset, t.byteOffset + t.byteLength)) - 1 } : t;
-			let o = W$1(t);
+			let o = G$1(t);
 			if (o) return (r.refs ?? (r.refs = [])).push(o), { _node: o.id };
 			let s;
 			if (Array.isArray(t)) for (let e = 0; e < t.length; e++) {
@@ -4581,53 +4604,53 @@
 		};
 		return r.wire = i(t, 0), r;
 	}
-	function K$1(e, t, n) {
-		typeof n == "function" ? (J$1(e, t, null), e.refs && delete e.refs[t], q$1(e)[t] = n, X$1(e, t, !0)) : Y$1(e, t, n == null ? {
+	function q$1(e, t, n) {
+		typeof n == "function" ? (Y$1(e, t, null), e.refs && delete e.refs[t], J$1(e)[t] = n, Be(e, t, !0)) : X$1(e, t, n == null ? {
 			wire: n,
 			refs: null,
 			fns: null
-		} : G$1(t, n));
+		} : K$1(t, n));
 	}
-	function q$1(e) {
+	function J$1(e) {
 		let t = e.handlers;
-		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), S$1.set(e.id, new WeakRef(e)), k(e)), t;
+		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), S$1.set(e.id, new WeakRef(e)), A$1(e)), t;
 	}
-	function J$1(e, t, n) {
+	function Y$1(e, t, n) {
 		let r = e.nested?.[t] ?? 0;
 		if (r === 0 && n === null) return;
-		let i = q$1(e);
+		let i = J$1(e);
 		for (let e = n?.length ?? 0; e < r; e++) delete i[`${t}#${e}`];
 		if (n) {
 			for (let e = 0; e < n.length; e++) i[`${t}#${e}`] = n[e];
 			(e.nested ?? (e.nested = {}))[t] = n.length;
 		} else delete e.nested[t];
 	}
-	function Y$1(e, t, n) {
-		if (J$1(e, t, n.fns), n.refs) {
-			let r = n.refs.length === 1 && n.wire?._node === n.refs[0].id && W$1(n.wire) === null;
-			(e.refs ?? (e.refs = {}))[t] = r ? n.refs[0] : n.refs;
-			for (let e of n.refs) k(e);
-			e.batch = -1, D.push(w, e.id, t, n.wire), R();
-		} else e.refs && delete e.refs[t], X$1(e, t, n.wire);
-	}
 	function X$1(e, t, n) {
-		e.batch === O ? (e.slot < 0 && (e.slot = D.push(Ee, e.id, {}) - 1), D[e.slot][t] = n) : D.push(w, e.id, t, n), R();
+		if (Y$1(e, t, n.fns), n.refs) {
+			let r = n.refs.length === 1 && n.wire?._node === n.refs[0].id && G$1(n.wire) === null;
+			(e.refs ?? (e.refs = {}))[t] = r ? n.refs[0] : n.refs;
+			for (let e of n.refs) A$1(e);
+			e.batch = -1, O$1.push(T$1, e.id, t, n.wire), z$1();
+		} else e.refs && delete e.refs[t], Be(e, t, n.wire);
+	}
+	function Be(e, t, n) {
+		e.batch === k$1 ? (e.slot < 0 && (e.slot = O$1.push(Te, e.id, {}) - 1), O$1[e.slot][t] = n) : O$1.push(T$1, e.id, t, n), z$1();
 	}
 	var { render: Ve, effect: He, memo: Ue, createComponent: We, createElement: Ge, createTextNode: Ke, insertNode: qe, insert: Z$1, spread: Je, setProp: Ye, mergeProps: Xe, ...Ze } = createRenderer({
 		createElement(e, t) {
-			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? Me(e, t) : B(e, t);
+			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? je(e, t) : V$1(e, t);
 		},
 		createTextNode(e) {
 			let t = new x$1("__text__");
-			return D.push(be, t.id, e), t;
+			return O$1.push(ye, t.id, e), t;
 		},
 		replaceText(e, t) {
-			D.push(xe, e.id, t), R();
+			O$1.push(be, e.id, t), z$1();
 		},
 		isTextNode(e) {
 			return e.type === "__text__";
 		},
-		setProperty: K$1,
+		setProperty: q$1,
 		insertNode(e, t, n) {
 			if (t !== n) {
 				if (t.parent && Q(t), n && n.parent !== e && (n = void 0), t.parent = e, n) {
@@ -4637,11 +4660,11 @@
 					let n = e.last;
 					t.prev = n, e.last = t, n ? n.next = t : e.first = t;
 				}
-				t.adopt ? t.adopt = !1 : (D.push(Se, e.id, t.id, n ? n.id : null), R());
+				t.adopt ? t.adopt = !1 : (O$1.push(xe, e.id, t.id, n ? n.id : null), z$1());
 			}
 		},
 		removeNode(e, t) {
-			t.parent === e && (Q(t), k(t), D.push(Ce, t.id), R());
+			t.parent === e && (Q(t), A$1(t), O$1.push(Se$1, t.id), z$1());
 		},
 		getParentNode(e) {
 			return e.parent;
@@ -4658,7 +4681,7 @@
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
 	function Qe(e) {
-		D.push(T, e.id), R();
+		O$1.push(E$1, e.id), z$1();
 	}
 	function $e(e, t) {
 		if (v$1.mode === "release") return We(e, t);
@@ -4671,29 +4694,33 @@
 		}
 	}
 	function et(e) {
-		N = !0;
+		P = !0;
 		let t;
 		try {
-			t = Ve(e, j);
+			t = Ve(e, M);
 		} catch (e) {
-			return N = !1, l(e), () => {};
+			return P = !1, l(e), () => {};
 		}
-		return N = !1, I(), () => {
+		return P = !1, L(), () => {
 			typeof t == "function" && t();
-			for (let e = j.first; e; e = j.first) Q(e), D.push(T, e.id);
-			S$1.clear(), R();
+			for (let e = M.first; e; e = M.first) Q(e), O$1.push(E$1, e.id);
+			S$1.clear(), z$1();
 		};
 	}
 	var tt = qe, { ref: nt, applyRef: rt } = Ze;
 	function it(e, n, r, i) {
-		if (typeof n != "object" || !n || Array.isArray(n) || $PROXY in n) {
+		if (typeof n != "object" || !n || Array.isArray(n)) {
 			Je(e, n, r, i);
+			return;
+		}
+		if ($PROXY in n) {
+			Je(e, n, !0, i), r || Z$1(e, () => n.children, void 0, void 0, i);
 			return;
 		}
 		let a;
 		for (let t in n) {
 			let o = Object.getOwnPropertyDescriptor(n, t), s = o === void 0 || o.get !== void 0;
-			t === "children" ? r || Z$1(e, s ? () => n.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(t) : t === "ref" ? $$1(e, o.value) : K$1(e, t, o.value);
+			t === "children" ? r || Z$1(e, s ? () => n.children : o.value, void 0, void 0, i) : s ? (a ?? (a = [])).push(t) : t === "ref" ? $$1(e, o.value) : q$1(e, t, o.value);
 		}
 		if (a === void 0) return;
 		let o = a, s = {};
@@ -4704,7 +4731,7 @@
 		}, (t) => {
 			for (let n = 0; n < o.length; n++) {
 				let r = o[n], i = t[r];
-				i !== s[r] && (r === "ref" ? $$1(e, i) : K$1(e, r, i), s[r] = i);
+				i !== s[r] && (r === "ref" ? $$1(e, i) : q$1(e, r, i), s[r] = i);
 			}
 		}, i);
 	}
@@ -4712,30 +4739,30 @@
 		(typeof t == "function" || Array.isArray(t)) && nt(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function V(e) {
+	function R(e) {
 		"@babel/helpers - typeof";
-		return V = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return R = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, V(e);
+		}, R(e);
 	}
-	function H(e, t) {
-		if (V(e) != "object" || !e) return e;
+	function z(e, t) {
+		if (R(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (V(r) != "object") return r;
+			if (R(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function U(e) {
-		var t = H(e, "string");
-		return V(t) == "symbol" ? t : t + "";
+	function B(e) {
+		var t = z(e, "string");
+		return R(t) == "symbol" ? t : t + "";
 	}
-	function W(e, t, n) {
-		return (t = U(t)) in e ? Object.defineProperty(e, t, {
+	function V(e, t, n) {
+		return (t = B(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4755,14 +4782,14 @@
 		}, Object.setPrototypeOf(globalThis.URL, e), globalThis.URL.prototype = e.prototype;
 	}
 	if (globalThis.WebSocket === void 0) {
-		let e = /* @__PURE__ */ new Map(), t = 0;
-		class n {
-			constructor(n, r) {
-				W(this, "_id", void 0), W(this, "url", void 0), W(this, "readyState", 0), W(this, "protocol", ""), W(this, "binaryType", "blob"), W(this, "bufferedAmount", 0), W(this, "extensions", ""), W(this, "onopen", null), W(this, "onmessage", null), W(this, "onclose", null), W(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), p$1("_ws", {
+		let e = /* @__PURE__ */ new Map(), n = 0;
+		class r {
+			constructor(r, i) {
+				V(this, "_id", void 0), V(this, "url", void 0), V(this, "readyState", 0), V(this, "protocol", ""), V(this, "binaryType", "blob"), V(this, "bufferedAmount", 0), V(this, "extensions", ""), V(this, "onopen", null), V(this, "onmessage", null), V(this, "onclose", null), V(this, "onerror", null), this._id = n++, this.url = r, e.set(this._id, this), p$1("_ws", {
 					op: "open",
 					id: this._id,
-					url: n,
-					protocols: Array.isArray(r) ? r : r ? [r] : []
+					url: r,
+					protocols: Array.isArray(i) ? i : i ? [i] : []
 				});
 			}
 			send(e) {
@@ -4773,12 +4800,12 @@
 					data: e
 				});
 			}
-			close(e, t) {
+			close(e, n) {
 				this.readyState !== 2 && this.readyState !== 3 && (this.readyState = 2, p$1("_ws", {
 					op: "close",
 					id: this._id,
 					code: e ?? 1e3,
-					reason: t ?? ""
+					reason: n ?? ""
 				}));
 			}
 			addEventListener() {}
@@ -4787,7 +4814,7 @@
 				return !0;
 			}
 		}
-		W(n, "CONNECTING", 0), W(n, "OPEN", 1), W(n, "CLOSING", 2), W(n, "CLOSED", 3), f$1("_wsEvent", (t) => {
+		V(r, "CONNECTING", 0), V(r, "OPEN", 1), V(r, "CLOSING", 2), V(r, "CLOSED", 3), f("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4812,7 +4839,7 @@
 					message: t.message
 				});
 			}
-		}), globalThis.WebSocket = n;
+		}), globalThis.WebSocket = r;
 	}
 	{
 		let e = (e) => {
@@ -4824,7 +4851,7 @@
 				return String(e);
 			}
 			return String(e);
-		}, t = (t) => {
+		}, n = (t) => {
 			if (t.length === 0) return "";
 			let n = t[0];
 			if (typeof n != "string" || !n.includes("%")) return t.map(e).join(" ");
@@ -4843,30 +4870,30 @@
 			});
 			for (; r < t.length; r++) i += " " + e(t[r]);
 			return i;
-		}, n = (e, n) => p$1("_log", { message: e + t(n) }), r = () => {};
+		}, r = (e, r) => p$1("_log", { message: e + n(r) }), i = () => {};
 		globalThis.console = {
-			log: (...e) => n("", e),
-			info: (...e) => n("", e),
-			debug: (...e) => n("", e),
-			dir: (...e) => n("", e),
-			trace: (...e) => n("[TRACE] ", [...e, (/* @__PURE__ */ Error()).stack]),
-			warn: (...e) => n("[WARN] ", e),
-			error: (...e) => n("[ERROR] ", e),
-			group: (...e) => n("", e),
-			groupCollapsed: (...e) => n("", e),
-			groupEnd: r,
-			table: (...e) => n("", e),
+			log: (...e) => r("", e),
+			info: (...e) => r("", e),
+			debug: (...e) => r("", e),
+			dir: (...e) => r("", e),
+			trace: (...e) => r("[TRACE] ", [...e, (/* @__PURE__ */ Error()).stack]),
+			warn: (...e) => r("[WARN] ", e),
+			error: (...e) => r("[ERROR] ", e),
+			group: (...e) => r("", e),
+			groupCollapsed: (...e) => r("", e),
+			groupEnd: i,
+			table: (...e) => r("", e),
 			assert: (e, ...t) => {
-				e || n("[ASSERT] ", t);
+				e || r("[ASSERT] ", t);
 			},
-			count: r,
-			countReset: r,
-			time: r,
-			timeEnd: r,
-			timeLog: r
+			count: i,
+			countReset: i,
+			time: i,
+			timeEnd: i,
+			timeLog: i
 		};
 	}
-	function G(e, t) {
+	function H(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
@@ -4879,58 +4906,62 @@
 			}
 		});
 	}
-	function K(e) {
-		return G(() => e.component, omit(e, "component"));
+	function U(e) {
+		return H(() => e.component, omit(e, "component"));
 	}
-	function q({ child: e, ...t }) {
+	function W({ child: e, ...t }) {
 		return {
-			type: "materialPage",
+			type: "page",
 			child: e,
 			props: t
 		};
 	}
-	var J = createContext();
-	function Y(e = {}) {
-		let t = 0, n = untrack(() => {
+	var G = createContext((e) => W({ child: e }));
+	function K() {
+		return getOwner() ? useContext(G) : (e) => W({ child: e });
+	}
+	var q = createContext();
+	function J(e = {}) {
+		let t = 0, n = K(), r = untrack(() => {
 			let t = e.initialPage;
-			return typeof t == "function" ? q({ child: t }) : t;
-		}), [i, a] = createSignal(n ? [{
+			return typeof t == "function" ? n(t) : t;
+		}), [a, o] = createSignal(r ? [{
 			id: t++,
-			config: n,
+			config: r,
 			resolve: () => {}
 		}] : [], { ownedWrite: !0 });
-		function o(e) {
-			let n = typeof e == "function" ? q({ child: e }) : e;
+		function s(e) {
+			let r = typeof e == "function" ? n(e) : e;
 			return new Promise((e) => {
-				let r = {
+				let n = {
 					id: t++,
-					config: n,
+					config: r,
 					resolve: e
 				};
-				a((e) => [...e, r]);
+				o((e) => [...e, n]);
 			});
 		}
-		function s(e, t) {
+		function c(e, t) {
 			let n;
-			a((t) => t.filter((t) => t.id !== e || (n = t, !1))), n?.resolve(t);
+			o((t) => t.filter((t) => t.id !== e || (n = t, !1))), n?.resolve(t);
 		}
 		return getOwner() && onCleanup(() => {
-			for (let e of i()) e.resolve(null);
-			a([]);
+			for (let e of a()) e.resolve(null);
+			o([]);
 		}), {
-			pages: i,
-			stackDepth: () => i().length,
-			push: (e) => o(e),
+			pages: a,
+			stackDepth: () => a().length,
+			push: (e) => s(e),
 			pop: (e) => {
-				let t = i();
-				t.length <= 1 ? console.warn("[Fuse] nav.pop() ignored — cannot pop the root page") : s(t[t.length - 1].id, e);
+				let t = a();
+				t.length <= 1 ? console.warn("[Fuse] nav.pop() ignored — cannot pop the root page") : c(t[t.length - 1].id, e);
 			},
 			pushReplacement: (e, t) => {
-				let n = i();
-				return n.length > 0 && s(n[n.length - 1].id, t), o(e);
+				let n = a();
+				return n.length > 0 && c(n[n.length - 1].id, t), s(e);
 			},
 			popUntil: (e) => {
-				let t = i();
+				let t = a();
 				if (e) {
 					let n = t.findLastIndex((t) => t.config.props.name === e);
 					if (n < 0) {
@@ -4938,32 +4969,32 @@
 						return;
 					}
 					let r = t.slice(n + 1);
-					a(t.slice(0, n + 1));
+					o(t.slice(0, n + 1));
 					for (let e of r) e.resolve(null);
 				} else {
 					let e = t.slice(1);
-					a(t.slice(0, 1));
+					o(t.slice(0, 1));
 					for (let t of e) t.resolve(null);
 				}
 			},
 			replaceAll: (e) => {
 				if (e.length === 0) return console.warn("[Fuse] nav.replaceAll([]) ignored — would leave the navigator empty"), [];
-				let t = i();
-				a([]);
+				let t = a();
+				o([]);
 				for (let e of t) e.resolve(null);
-				return e.map((e) => o(e));
+				return e.map((e) => s(e));
 			},
-			onDidRemovePage: (e) => s(e, null)
+			onDidRemovePage: (e) => c(e, null)
 		};
 	}
-	function X() {
-		let e = useContext(J);
+	function Y() {
+		let e = useContext(q);
 		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
 		return e;
 	}
-	function Z(e) {
-		let t = untrack(() => e.controller ?? Y({ initialPage: e.initialPage }));
-		return $e(J, {
+	function ae(e) {
+		let t = untrack(() => e.controller ?? J({ initialPage: e.initialPage }));
+		return $e(q, {
 			value: t,
 			get children() {
 				var e = Ge("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
@@ -4972,7 +5003,7 @@
 						return t.pages();
 					},
 					keyed: (e) => e.id,
-					children: (e) => $e(K, Xe({
+					children: (e) => $e(U, Xe({
 						get component() {
 							return e().config.type;
 						},
@@ -4986,23 +5017,122 @@
 			}
 		});
 	}
-	function $(t, n = {}) {
-		let r = B(t, n);
-		R();
-		let a = !1, o = () => {
-			a || (a = !0, Qe(r));
+	var ce = {
+		red: "#f44336",
+		blue: "#2196f3",
+		green: "#4caf50",
+		white: "#ffffff",
+		black: "#000000",
+		grey: "#9e9e9e",
+		orange: "#ff9800",
+		purple: "#9c27b0",
+		yellow: "#ffeb3b",
+		teal: "#009688",
+		cyan: "#00bcd4",
+		amber: "#ffc107",
+		indigo: "#3f51b5",
+		pink: "#e91e63",
+		brown: "#795548",
+		transparent: "#00000000"
+	};
+	var X = (e) => Math.round(Math.min(255, Math.max(0, e))).toString(16).padStart(2, "0");
+	function le(e, t, n) {
+		e = (e % 360 + 360) % 360, t = Math.min(1, Math.max(0, t / 100)), n = Math.min(1, Math.max(0, n / 100));
+		let r = (1 - Math.abs(2 * n - 1)) * t, i = r * (1 - Math.abs(e / 60 % 2 - 1)), a = n - r / 2, [o, s, c] = e < 60 ? [
+			r,
+			i,
+			0
+		] : e < 120 ? [
+			i,
+			r,
+			0
+		] : e < 180 ? [
+			0,
+			r,
+			i
+		] : e < 240 ? [
+			0,
+			i,
+			r
+		] : e < 300 ? [
+			i,
+			0,
+			r
+		] : [
+			r,
+			0,
+			i
+		];
+		return [
+			(o + a) * 255,
+			(s + a) * 255,
+			(c + a) * 255
+		];
+	}
+	function Z(e) {
+		if (e == null) return;
+		if (typeof e == "string") {
+			if (e.startsWith("#")) return e;
+			let t = ce[e.toLowerCase()];
+			if (t) return t;
+			throw Error(`[solid-fuse] unknown color ${JSON.stringify(e)}`);
+		}
+		let [t, n, r] = "r" in e ? [
+			e.r,
+			e.g,
+			e.b
+		] : le(e.h, e.s, e.l), i = e.a ?? 1;
+		return `#${X(t)}${X(n)}${X(r)}${i >= 1 ? "" : X(i * 255)}`;
+	}
+	function ue(e) {
+		var t = Ge("flutter_Icon");
+		return He(() => ({
+			e: e.icon,
+			t: e.size,
+			a: Z(e.color),
+			o: e.semanticLabel,
+			i: e.fill,
+			n: e.weight,
+			s: e.grade,
+			h: e.opticalSize,
+			r: e.applyTextScaling
+		}), ({ e, t: n, a: r, o: i, i: a, n: o, s: c, h: l, r: u }, d) => {
+			e !== d?.e && Ye(t, "icon", e, d?.e), n !== d?.t && Ye(t, "size", n, d?.t), r !== d?.a && Ye(t, "color", r, d?.a), i !== d?.o && Ye(t, "semanticLabel", i, d?.o), a !== d?.i && Ye(t, "fill", a, d?.i), o !== d?.n && Ye(t, "weight", o, d?.n), c !== d?.s && Ye(t, "grade", c, d?.s), l !== d?.h && Ye(t, "opticalSize", l, d?.h), u !== d?.r && Ye(t, "applyTextScaling", u, d?.r);
+		}), t;
+	}
+	function he(e) {
+		let t = untrack(() => e.children);
+		if (typeof t != "function") return (() => {
+			var t = Ge("pressable");
+			return it(t, e, !1), t;
+		})();
+		let [r, i] = createSignal({
+			pressed: !1,
+			hovered: !1,
+			focused: !1
+		}), a = t;
+		var o = Ge("pressable");
+		return it(o, [e, { onStateChange: (t) => {
+			i(t), e.onStateChange?.(t);
+		} }], !0), Z$1(o, () => a(r)), o;
+	}
+	function $(e, t = {}) {
+		let n = V$1(e, t);
+		z$1();
+		let r = !1, i = () => {
+			r || (r = !0, Qe(n));
 		};
-		return getOwner() && onCleanup(o), {
-			node: r,
-			call: (e, t, n) => me.call("_handleCall", {
-				node: r.id,
+		return getOwner() && onCleanup(i), {
+			node: n,
+			call: (e, t, r) => me.call("_handleCall", {
+				node: n.id,
 				method: e,
 				value: t
-			}, n),
-			dispose: o
+			}, r),
+			dispose: i
 		};
 	}
-	function le(e = {}) {
+	function Se(e = {}) {
 		let [t, n] = createSignal(e.initialScrollOffset ?? 0), { node: r, call: i, dispose: a } = $("scrollController", {
 			...e,
 			setScrollOffset: n
@@ -5018,7 +5148,7 @@
 			dispose: a
 		};
 	}
-	function ue() {
+	function Ce() {
 		let [e, t] = createSignal(!1), { node: n, call: r, dispose: i } = $("focusNode", { setHasFocus: t });
 		return {
 			node: n,
@@ -5028,8 +5158,3166 @@
 			dispose: i
 		};
 	}
+	// ../../packages/solid-fuse/dist/generated.js
+	function p(e, t, n) {
+		let r = { $: e }, i = t.length;
+		for (let e = 0; e < i && e < n.length; e++) n[e] !== void 0 && (r[t[e]] = n[e]);
+		let a = n[i];
+		return typeof a == "object" && a && Object.assign(r, a), r;
+	}
+	function m(e) {
+		for (; typeof e == "function";) e = e();
+		return e;
+	}
+	function h(e, t) {
+		if (e = m(e), Array.isArray(e)) for (let n of e) h(n, t);
+		else e != null && typeof e != "boolean" && t.push(e);
+		return t;
+	}
+	var g = (e) => e instanceof x$1 && !e.parent ? e : w$1(e);
+	function _(e) {
+		let t = h(e, []);
+		return t.length === 0 ? null : t.length === 1 ? g(t[0]) : w$1(t);
+	}
+	function v(e) {
+		return h(e, []).map(g);
+	}
+	var y = (e, t) => {
+		if (e === t) return !0;
+		if (typeof e != "object" || typeof t != "object" || e === null || t === null || Array.isArray(e) !== Array.isArray(t)) return !1;
+		let n = Object.keys(e);
+		if (n.length !== Object.keys(t).length) return !1;
+		for (let r of n) if (!y(e[r], t[r])) return !1;
+		return !0;
+	};
+	var b = (e) => e.catch(l);
+	var x = /* @__PURE__ */ new Map();
+	var S = {
+		s: [],
+		w: [],
+		o: [],
+		m: [],
+		st: []
+	};
+	function C(e, t) {
+		x.set(e, t);
+	}
+	function w(e, t, n, r) {
+		let i = new Set(r.fns), o = new Set(r.live), s = {}, c = [];
+		if (n) for (let e in n) {
+			let t = n[e];
+			typeof t == "function" && !i.has(e) ? (s[e] = untrack(t), o.has(e) && c.push([e, t])) : s[e] = t;
+		}
+		r.ctor && (s.$ctor = r.ctor);
+		let l = {};
+		for (let e of t.s) l[e] = s[e] === void 0 ? r.seeds?.[e] : s[e];
+		let { handle: d, write: p } = O(Ne(e, s), t, l);
+		for (let [e, t] of c) createEffect(t, (t, n) => {
+			(n !== void 0 || t !== s[e]) && p(e, t);
+		});
+		return d;
+	}
+	var T = /* @__PURE__ */ new Map();
+	function E(e) {
+		let t = e.$h, i = Le(t)?.handle;
+		if (i) {
+			if (!e.o) {
+				let e = T.get(t);
+				e ? e.n++ : me.send("_unborrow", {
+					id: t,
+					n: 1
+				});
+			}
+			return i;
+		}
+		let a = {
+			id: t,
+			n: +!e.o
+		};
+		e.o || T.set(t, a);
+		let s = Ie(e.t, t, () => {
+			T.get(a.id) === a && T.delete(a.id), a.n > 0 && me.send("_unborrow", {
+				id: a.id,
+				n: a.n
+			});
+		}), c = x.get(e.t) ?? S, { handle: l, call: u } = O(s, c, e.s ? D(e.s) : {});
+		return !e.s && c.s.length && b(u("$sync", null)), l;
+	}
+	function D(e, t = 0) {
+		if (typeof e != "object" || !e || t > 32) return e;
+		let n = e;
+		if (typeof n.$h == "number" && typeof n.t == "string") return E(n);
+		let r;
+		if (Array.isArray(e)) for (let n = 0; n < e.length; n++) {
+			let i = D(e[n], t + 1);
+			i !== e[n] && ((r ?? (r = e.slice()))[n] = i);
+		}
+		else for (let e in n) {
+			let i = D(n[e], t + 1);
+			i !== n[e] && ((r ?? (r = { ...n }))[e] = i);
+		}
+		return r ?? e;
+	}
+	Pe(D);
+	function O(n, i, a) {
+		let o = 0, s = /* @__PURE__ */ new Map();
+		for (let e of i.s) {
+			let [t, n] = createSignal(a[e], {
+				equals: y,
+				ownedWrite: !0
+			});
+			s.set(e, [t, (e) => n(() => e)]);
+		}
+		ze(n, "$push", (e) => {
+			if (!(e.v < o)) for (let t in e.s) s.get(t)?.[1](e.s[t]);
+		});
+		let c = (t, i) => me.call("_handleCall", {
+			node: n.id,
+			method: t,
+			value: Re(i)
+		}, { timeout: 0 }).then(D), l = { node: n };
+		n.handle = l;
+		for (let [e, [t]] of s) l[e] = t;
+		let u = new Set(i.o), f = (e, t) => {
+			o++, u.has(e) && s.get(e)?.[1](t), b(c("$set", {
+				n: e,
+				v: t,
+				ver: o
+			}));
+		};
+		for (let e of i.w) l[`set${e[0].toUpperCase()}${e.slice(1)}`] = (t) => f(e, t);
+		for (let e of i.m) l[e] = (...t) => c(e, t);
+		for (let e of i.st) l[e] = () => A(n, c, e);
+		return {
+			handle: l,
+			write: f,
+			call: c
+		};
+	}
+	var k = 0;
+	function A(e, n, r) {
+		return { [Symbol.asyncIterator]() {
+			let i = `$s${k++}`, a = [], o = null, s = !1, c, l = !1, u = () => {
+				l || (l = !0, ze(e, i, void 0));
+			};
+			ze(e, i, (e) => {
+				e.d ? s = !0 : e.e === void 0 ? a.push(e.v) : c = e.e, o?.();
+			});
+			let d = n("$listen", {
+				stream: r,
+				fn: i
+			}).catch((e) => {
+				c = e instanceof Error ? e.message : String(e), o?.();
+			});
+			return {
+				async next() {
+					for (await d;;) {
+						if (a.length) return {
+							value: a.shift(),
+							done: !1
+						};
+						if (c !== void 0) throw u(), Error(c);
+						if (s) return u(), {
+							value: void 0,
+							done: !0
+						};
+						await new Promise((e) => o = e), o = null;
+					}
+				},
+				async return() {
+					return s || b(n("$cancel", { fn: i })), s = !0, u(), {
+						value: void 0,
+						done: !0
+					};
+				}
+			};
+		} };
+	}
+	C("listen_ChangeNotifier", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("listen_Listenable", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("listen_ValueNotifier", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("listen_ValueNotifier2", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [],
+		"st": []
+	});
+	C("vector_math_Matrix4", {
+		"s": [],
+		"w": [
+			"row0",
+			"row1",
+			"row2",
+			"row3"
+		],
+		"o": [],
+		"m": [
+			"index",
+			"entry",
+			"setEntry",
+			"splatDiagonal",
+			"setValues",
+			"setColumns",
+			"setFrom",
+			"setFromTranslationRotation",
+			"setFromTranslationRotationScale",
+			"setUpper2x2",
+			"setDiagonal",
+			"setOuter",
+			"setRow",
+			"getRow",
+			"setColumn",
+			"getColumn",
+			"clone",
+			"copyInto",
+			"translateByDouble",
+			"translateByVector2",
+			"translateByVector3",
+			"translateByVector4",
+			"leftTranslateByDouble",
+			"leftTranslateByVector2",
+			"leftTranslateByVector3",
+			"leftTranslateByVector4",
+			"rotate",
+			"rotateX",
+			"rotateY",
+			"rotateZ",
+			"scaleByDouble",
+			"scaleByVector3",
+			"scaleByVector4",
+			"scaledByDouble",
+			"scaledByVector3",
+			"scaledByVector4",
+			"setZero",
+			"setIdentity",
+			"transposed",
+			"transpose",
+			"absolute",
+			"determinant",
+			"dotRow",
+			"dotColumn",
+			"trace",
+			"infinityNorm",
+			"relativeError",
+			"absoluteError",
+			"getTranslation",
+			"setTranslation",
+			"setTranslationRaw",
+			"getRotation",
+			"copyRotation",
+			"setRotation",
+			"getNormalMatrix",
+			"getMaxScaleOnAxis",
+			"transposeRotation",
+			"invert",
+			"copyInverse",
+			"invertRotation",
+			"setRotationX",
+			"setRotationY",
+			"setRotationZ",
+			"scaleAdjoint",
+			"absoluteRotate",
+			"add",
+			"sub",
+			"negate",
+			"multiply",
+			"leftMultiply",
+			"multiplied",
+			"transposeMultiply",
+			"multiplyTranspose",
+			"decompose",
+			"rotate3",
+			"rotated3",
+			"transform3",
+			"transformed3",
+			"transform",
+			"perspectiveTransform",
+			"transformed",
+			"copyIntoArray",
+			"copyFromArray",
+			"applyToVector3Array",
+			"isIdentity",
+			"isZero"
+		],
+		"st": []
+	});
+	C("vector_math_Matrix3", {
+		"s": [],
+		"w": [
+			"row0",
+			"row1",
+			"row2"
+		],
+		"o": [],
+		"m": [
+			"index",
+			"entry",
+			"setEntry",
+			"setValues",
+			"setColumns",
+			"setFrom",
+			"setOuter",
+			"splatDiagonal",
+			"setDiagonal",
+			"setUpper2x2",
+			"setRow",
+			"getRow",
+			"setColumn",
+			"getColumn",
+			"clone",
+			"copyInto",
+			"setZero",
+			"setIdentity",
+			"transposed",
+			"transpose",
+			"absolute",
+			"determinant",
+			"dotRow",
+			"dotColumn",
+			"trace",
+			"infinityNorm",
+			"relativeError",
+			"absoluteError",
+			"invert",
+			"copyInverse",
+			"copyNormalMatrix",
+			"setRotationX",
+			"setRotationY",
+			"setRotationZ",
+			"scaleAdjoint",
+			"absoluteRotate",
+			"absoluteRotate2",
+			"transform2",
+			"scale",
+			"scaled",
+			"add",
+			"sub",
+			"negate",
+			"multiply",
+			"multiplied",
+			"transposeMultiply",
+			"multiplyTranspose",
+			"transform",
+			"transformed",
+			"copyIntoArray",
+			"copyFromArray",
+			"applyToVector3Array",
+			"isIdentity",
+			"isZero"
+		],
+		"st": []
+	});
+	C("vector_math_Vector2", {
+		"s": [],
+		"w": [
+			"length",
+			"xy",
+			"yx",
+			"r",
+			"g",
+			"s",
+			"t",
+			"x",
+			"y",
+			"rg",
+			"gr",
+			"st",
+			"ts"
+		],
+		"o": [],
+		"m": [
+			"setValues",
+			"setZero",
+			"setFrom",
+			"splat",
+			"normalize",
+			"normalized",
+			"normalizeInto",
+			"distanceTo",
+			"distanceToSquared",
+			"angleTo",
+			"angleToSigned",
+			"dot",
+			"postmultiply",
+			"cross",
+			"scaleOrthogonalInto",
+			"reflect",
+			"reflected",
+			"relativeError",
+			"absoluteError",
+			"add",
+			"addScaled",
+			"sub",
+			"multiply",
+			"divide",
+			"scale",
+			"scaled",
+			"negate",
+			"absolute",
+			"clamp",
+			"clampScalar",
+			"floor",
+			"ceil",
+			"round",
+			"roundToZero",
+			"clone",
+			"copyInto",
+			"copyIntoArray",
+			"copyFromArray"
+		],
+		"st": []
+	});
+	C("vector_math_Vector3", {
+		"s": [],
+		"w": [
+			"length",
+			"xy",
+			"xz",
+			"yx",
+			"yz",
+			"zx",
+			"zy",
+			"xyz",
+			"xzy",
+			"yxz",
+			"yzx",
+			"zxy",
+			"zyx",
+			"r",
+			"g",
+			"b",
+			"s",
+			"t",
+			"p",
+			"x",
+			"y",
+			"z",
+			"rg",
+			"rb",
+			"gr",
+			"gb",
+			"br",
+			"bg",
+			"rgb",
+			"rbg",
+			"grb",
+			"gbr",
+			"brg",
+			"bgr",
+			"st",
+			"sp",
+			"ts",
+			"tp",
+			"ps",
+			"pt",
+			"stp",
+			"spt",
+			"tsp",
+			"tps",
+			"pst",
+			"pts"
+		],
+		"o": [],
+		"m": [
+			"setValues",
+			"setZero",
+			"setFrom",
+			"splat",
+			"normalize",
+			"normalized",
+			"normalizeInto",
+			"distanceTo",
+			"distanceToSquared",
+			"angleTo",
+			"angleToSigned",
+			"dot",
+			"postmultiply",
+			"cross",
+			"crossInto",
+			"reflect",
+			"reflected",
+			"applyProjection",
+			"applyAxisAngle",
+			"applyQuaternion",
+			"applyMatrix3",
+			"applyMatrix4",
+			"relativeError",
+			"absoluteError",
+			"add",
+			"addScaled",
+			"sub",
+			"multiply",
+			"divide",
+			"scale",
+			"scaled",
+			"negate",
+			"absolute",
+			"clamp",
+			"clampScalar",
+			"floor",
+			"ceil",
+			"round",
+			"roundToZero",
+			"clone",
+			"copyInto",
+			"copyIntoArray",
+			"copyFromArray"
+		],
+		"st": []
+	});
+	C("vector_math_Vector4", {
+		"s": [],
+		"w": [
+			"length",
+			"xy",
+			"xz",
+			"xw",
+			"yx",
+			"yz",
+			"yw",
+			"zx",
+			"zy",
+			"zw",
+			"wx",
+			"wy",
+			"wz",
+			"xyz",
+			"xyw",
+			"xzy",
+			"xzw",
+			"xwy",
+			"xwz",
+			"yxz",
+			"yxw",
+			"yzx",
+			"yzw",
+			"ywx",
+			"ywz",
+			"zxy",
+			"zxw",
+			"zyx",
+			"zyw",
+			"zwx",
+			"zwy",
+			"wxy",
+			"wxz",
+			"wyx",
+			"wyz",
+			"wzx",
+			"wzy",
+			"xyzw",
+			"xywz",
+			"xzyw",
+			"xzwy",
+			"xwyz",
+			"xwzy",
+			"yxzw",
+			"yxwz",
+			"yzxw",
+			"yzwx",
+			"ywxz",
+			"ywzx",
+			"zxyw",
+			"zxwy",
+			"zyxw",
+			"zywx",
+			"zwxy",
+			"zwyx",
+			"wxyz",
+			"wxzy",
+			"wyxz",
+			"wyzx",
+			"wzxy",
+			"wzyx",
+			"r",
+			"g",
+			"b",
+			"a",
+			"s",
+			"t",
+			"p",
+			"q",
+			"x",
+			"y",
+			"z",
+			"w",
+			"rg",
+			"rb",
+			"ra",
+			"gr",
+			"gb",
+			"ga",
+			"br",
+			"bg",
+			"ba",
+			"ar",
+			"ag",
+			"ab",
+			"rgb",
+			"rga",
+			"rbg",
+			"rba",
+			"rag",
+			"rab",
+			"grb",
+			"gra",
+			"gbr",
+			"gba",
+			"gar",
+			"gab",
+			"brg",
+			"bra",
+			"bgr",
+			"bga",
+			"bar",
+			"bag",
+			"arg",
+			"arb",
+			"agr",
+			"agb",
+			"abr",
+			"abg",
+			"rgba",
+			"rgab",
+			"rbga",
+			"rbag",
+			"ragb",
+			"rabg",
+			"grba",
+			"grab",
+			"gbra",
+			"gbar",
+			"garb",
+			"gabr",
+			"brga",
+			"brag",
+			"bgra",
+			"bgar",
+			"barg",
+			"bagr",
+			"argb",
+			"arbg",
+			"agrb",
+			"agbr",
+			"abrg",
+			"abgr",
+			"st",
+			"sp",
+			"sq",
+			"ts",
+			"tp",
+			"tq",
+			"ps",
+			"pt",
+			"pq",
+			"qs",
+			"qt",
+			"qp",
+			"stp",
+			"stq",
+			"spt",
+			"spq",
+			"sqt",
+			"sqp",
+			"tsp",
+			"tsq",
+			"tps",
+			"tpq",
+			"tqs",
+			"tqp",
+			"pst",
+			"psq",
+			"pts",
+			"ptq",
+			"pqs",
+			"pqt",
+			"qst",
+			"qsp",
+			"qts",
+			"qtp",
+			"qps",
+			"qpt",
+			"stpq",
+			"stqp",
+			"sptq",
+			"spqt",
+			"sqtp",
+			"sqpt",
+			"tspq",
+			"tsqp",
+			"tpsq",
+			"tpqs",
+			"tqsp",
+			"tqps",
+			"pstq",
+			"psqt",
+			"ptsq",
+			"ptqs",
+			"pqst",
+			"pqts",
+			"qstp",
+			"qspt",
+			"qtsp",
+			"qtps",
+			"qpst",
+			"qpts"
+		],
+		"o": [],
+		"m": [
+			"setValues",
+			"setZero",
+			"setIdentity",
+			"setFrom",
+			"splat",
+			"normalize",
+			"normalized",
+			"normalizeInto",
+			"distanceTo",
+			"distanceToSquared",
+			"dot",
+			"applyMatrix4",
+			"relativeError",
+			"absoluteError",
+			"add",
+			"addScaled",
+			"sub",
+			"multiply",
+			"div",
+			"scale",
+			"scaled",
+			"negate",
+			"absolute",
+			"clamp",
+			"clampScalar",
+			"floor",
+			"ceil",
+			"round",
+			"roundToZero",
+			"clone",
+			"copyInto",
+			"copyIntoArray",
+			"copyFromArray"
+		],
+		"st": []
+	});
+	// fuse/flutter.tsx
+	/**
+	* Creates a scrollable, linear array of widgets that are created on demand.
+	* Dart: `ListView.builder`
+	*/
+	function ListViewBuilder(props) {
+		var _el$154 = Ge("flutter_ListViewBuilder");
+		it(_el$154, [props, { get prototypeItem() {
+			return _(props.prototypeItem);
+		} }], false);
+		return _el$154;
+	}
+	C("flutter_AnimationController", {
+		"s": [
+			"lowerBound",
+			"upperBound",
+			"animationBehavior",
+			"view",
+			"duration",
+			"reverseDuration",
+			"value",
+			"velocity",
+			"lastElapsedDuration",
+			"isAnimating",
+			"status",
+			"isDismissed",
+			"isCompleted",
+			"isForwardOrCompleted"
+		],
+		"w": [
+			"duration",
+			"reverseDuration",
+			"value"
+		],
+		"o": ["value"],
+		"m": [
+			"reset",
+			"forward",
+			"reverse",
+			"toggle",
+			"animateTo",
+			"animateBack",
+			"repeat",
+			"fling",
+			"animateWith",
+			"animateBackWith",
+			"stop"
+		],
+		"st": []
+	});
+	C("flutter_AnimationMean", {
+		"s": [
+			"value",
+			"first",
+			"next",
+			"status",
+			"isDismissed",
+			"isCompleted",
+			"isAnimating",
+			"isForwardOrCompleted"
+		],
+		"w": [],
+		"o": [],
+		"m": ["didStartListening", "didStopListening"],
+		"st": []
+	});
+	C("flutter_BannerPainter", {
+		"s": [
+			"message",
+			"textDirection",
+			"location",
+			"layoutDirection",
+			"color",
+			"textStyle",
+			"shadow"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"paint",
+			"shouldRepaint",
+			"hitTest",
+			"shouldRebuildSemantics"
+		],
+		"st": []
+	});
+	C("flutter_ClipboardStatusNotifier", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": ["update", "didChangeAppLifecycleState"],
+		"st": []
+	});
+	C("flutter_CurvedAnimation", {
+		"s": [
+			"parent",
+			"curve",
+			"reverseCurve",
+			"isDisposed",
+			"value",
+			"status",
+			"isDismissed",
+			"isCompleted",
+			"isAnimating",
+			"isForwardOrCompleted"
+		],
+		"w": [
+			"curve",
+			"reverseCurve",
+			"isDisposed"
+		],
+		"o": ["isDisposed"],
+		"m": [],
+		"st": []
+	});
+	C("flutter_DraggableScrollableController", {
+		"s": [
+			"size",
+			"pixels",
+			"isAttached"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"sizeToPixels",
+			"pixelsToSize",
+			"animateTo",
+			"jumpTo",
+			"reset"
+		],
+		"st": []
+	});
+	C("flutter_ExpansibleController", {
+		"s": ["isExpanded"],
+		"w": [],
+		"o": [],
+		"m": [
+			"expand",
+			"collapse",
+			"toggle"
+		],
+		"st": []
+	});
+	C("flutter_FixedExtentScrollController", {
+		"s": [
+			"initialItem",
+			"selectedItem",
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"animateToItem",
+			"jumpToItem",
+			"createScrollPosition",
+			"animateTo",
+			"jumpTo",
+			"attach",
+			"detach"
+		],
+		"st": []
+	});
+	C("flutter_FocusManager", {
+		"s": [
+			"highlightStrategy",
+			"highlightMode",
+			"rootScope",
+			"primaryFocus"
+		],
+		"w": ["highlightStrategy"],
+		"o": ["highlightStrategy"],
+		"m": ["registerGlobalHandlers", "applyFocusChangesIfNeeded"],
+		"st": []
+	});
+	C("flutter_FocusNode", {
+		"s": [
+			"skipTraversal",
+			"canRequestFocus",
+			"descendantsAreFocusable",
+			"descendantsAreTraversable",
+			"parent",
+			"children",
+			"traversalChildren",
+			"descendants",
+			"traversalDescendants",
+			"ancestors",
+			"hasFocus",
+			"hasPrimaryFocus",
+			"highlightMode",
+			"nearestScope",
+			"enclosingScope",
+			"size",
+			"offset",
+			"rect"
+		],
+		"w": [
+			"skipTraversal",
+			"canRequestFocus",
+			"descendantsAreFocusable",
+			"descendantsAreTraversable"
+		],
+		"o": [
+			"skipTraversal",
+			"canRequestFocus",
+			"descendantsAreFocusable",
+			"descendantsAreTraversable"
+		],
+		"m": [
+			"unfocus",
+			"consumeKeyboardToken",
+			"attach",
+			"requestFocus",
+			"nextFocus",
+			"previousFocus",
+			"focusInDirection"
+		],
+		"st": []
+	});
+	C("flutter_FocusScopeNode", {
+		"s": [
+			"nearestScope",
+			"descendantsAreFocusable",
+			"traversalEdgeBehavior",
+			"directionalTraversalEdgeBehavior",
+			"isFirstFocus",
+			"focusedChild",
+			"traversalChildren",
+			"traversalDescendants",
+			"skipTraversal",
+			"canRequestFocus",
+			"descendantsAreTraversable",
+			"parent",
+			"children",
+			"descendants",
+			"ancestors",
+			"hasFocus",
+			"hasPrimaryFocus",
+			"highlightMode",
+			"enclosingScope",
+			"size",
+			"offset",
+			"rect"
+		],
+		"w": [
+			"traversalEdgeBehavior",
+			"directionalTraversalEdgeBehavior",
+			"skipTraversal",
+			"canRequestFocus",
+			"descendantsAreFocusable",
+			"descendantsAreTraversable"
+		],
+		"o": [
+			"traversalEdgeBehavior",
+			"directionalTraversalEdgeBehavior",
+			"skipTraversal",
+			"canRequestFocus",
+			"descendantsAreFocusable",
+			"descendantsAreTraversable"
+		],
+		"m": [
+			"setFirstFocus",
+			"autofocus",
+			"requestScopeFocus",
+			"unfocus",
+			"consumeKeyboardToken",
+			"attach",
+			"requestFocus",
+			"nextFocus",
+			"previousFocus",
+			"focusInDirection"
+		],
+		"st": []
+	});
+	C("flutter_InspectorSelection", {
+		"s": ["index", "active"],
+		"w": ["index"],
+		"o": ["index"],
+		"m": ["clear", "clearCandidates"],
+		"st": []
+	});
+	C("flutter_KeepAliveHandle", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_LiveTextInputStatusNotifier", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": ["update", "didChangeAppLifecycleState"],
+		"st": []
+	});
+	C("flutter_LocalizationsResolver", {
+		"s": ["locale", "supportedLocales"],
+		"w": [],
+		"o": [],
+		"m": ["update", "didChangeLocales"],
+		"st": []
+	});
+	C("flutter_OverlayEntry", {
+		"s": [
+			"opaque",
+			"maintainState",
+			"canSizeOverlay",
+			"mounted"
+		],
+		"w": ["opaque", "maintainState"],
+		"o": ["opaque", "maintainState"],
+		"m": ["remove", "markNeedsBuild"],
+		"st": []
+	});
+	C("flutter_PageController", {
+		"s": [
+			"initialPage",
+			"keepPage",
+			"viewportFraction",
+			"page",
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"animateToPage",
+			"jumpToPage",
+			"nextPage",
+			"previousPage",
+			"createScrollPosition",
+			"attach",
+			"animateTo",
+			"jumpTo",
+			"detach"
+		],
+		"st": []
+	});
+	C("flutter_PlatformRouteInformationProvider", {
+		"s": ["value"],
+		"w": [],
+		"o": [],
+		"m": ["routerReportsNewRouteInformation", "didPushRouteInformation"],
+		"st": []
+	});
+	C("flutter_ProxyAnimation", {
+		"s": [
+			"parent",
+			"status",
+			"value",
+			"isDismissed",
+			"isCompleted",
+			"isAnimating",
+			"isForwardOrCompleted"
+		],
+		"w": ["parent"],
+		"o": [],
+		"m": ["didStartListening", "didStopListening"],
+		"st": []
+	});
+	C("flutter_RestorableBool", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"fromPrimitives",
+			"toPrimitives",
+			"createDefaultValue",
+			"didUpdateValue",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableBoolN", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableDateTime", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": [],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableDateTimeN", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": [],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableDouble", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"fromPrimitives",
+			"toPrimitives",
+			"createDefaultValue",
+			"didUpdateValue",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableDoubleN", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableInt", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"fromPrimitives",
+			"toPrimitives",
+			"createDefaultValue",
+			"didUpdateValue",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableIntN", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableString", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"fromPrimitives",
+			"toPrimitives",
+			"createDefaultValue",
+			"didUpdateValue",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableStringN", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": ["value"],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_RestorableTextEditingController", {
+		"s": ["value", "enabled"],
+		"w": [],
+		"o": [],
+		"m": [
+			"createDefaultValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("flutter_ReverseAnimation", {
+		"s": [
+			"parent",
+			"status",
+			"value",
+			"isDismissed",
+			"isCompleted",
+			"isAnimating",
+			"isForwardOrCompleted"
+		],
+		"w": [],
+		"o": [],
+		"m": ["didStartListening", "didStopListening"],
+		"st": []
+	});
+	var $ScrollController = {
+		"s": [
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"animateTo",
+			"jumpTo",
+			"attach",
+			"detach",
+			"createScrollPosition"
+		],
+		"st": []
+	};
+	C("flutter_ScrollController", $ScrollController);
+	/**
+	* Controls a scrollable widget.
+	* Dart: `ScrollController(...)`. Lives while the calling owner does, and after that while JS still holds it.
+	*/
+	function createScrollController(options) {
+		return w("flutter_ScrollController", $ScrollController, options, {
+			"fns": ["onAttach", "onDetach"],
+			"seeds": {
+				"initialScrollOffset": 0,
+				"keepScrollOffset": true
+			}
+		});
+	}
+	C("flutter_ScrollPositionWithSingleContext", {
+		"s": [
+			"axisDirection",
+			"userScrollDirection",
+			"physics",
+			"context",
+			"keepScrollOffset",
+			"minScrollExtent",
+			"maxScrollExtent",
+			"hasContentDimensions",
+			"pixels",
+			"hasPixels",
+			"viewportDimension",
+			"hasViewportDimension",
+			"haveDimensions",
+			"shouldIgnorePointer",
+			"devicePixelRatio",
+			"isScrollingNotifier",
+			"allowImplicitScrolling"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"setPixels",
+			"absorb",
+			"applyNewDimensions",
+			"beginActivity",
+			"applyUserOffset",
+			"goIdle",
+			"goBallistic",
+			"animateTo",
+			"jumpTo",
+			"pointerScroll",
+			"correctPixels",
+			"correctBy",
+			"restoreOffset",
+			"applyViewportDimension",
+			"applyContentDimensions",
+			"moveTo",
+			"didStartScroll",
+			"didUpdateScrollPositionBy",
+			"didEndScroll",
+			"didOverscrollBy",
+			"didUpdateScrollDirection",
+			"didUpdateScrollMetrics"
+		],
+		"st": []
+	});
+	C("flutter_ScrollbarPainter", {
+		"s": [
+			"color",
+			"trackColor",
+			"trackBorderColor",
+			"trackRadius",
+			"textDirection",
+			"thickness",
+			"fadeoutOpacityAnimation",
+			"mainAxisMargin",
+			"crossAxisMargin",
+			"radius",
+			"shape",
+			"padding",
+			"minLength",
+			"minOverscrollLength",
+			"scrollbarOrientation",
+			"ignorePointer"
+		],
+		"w": [
+			"trackRadius",
+			"textDirection",
+			"thickness",
+			"mainAxisMargin",
+			"crossAxisMargin",
+			"radius",
+			"padding",
+			"minLength",
+			"minOverscrollLength",
+			"scrollbarOrientation",
+			"ignorePointer"
+		],
+		"o": [
+			"textDirection",
+			"thickness",
+			"mainAxisMargin",
+			"crossAxisMargin",
+			"minLength",
+			"minOverscrollLength",
+			"scrollbarOrientation",
+			"ignorePointer"
+		],
+		"m": [
+			"update",
+			"updateThickness",
+			"paint",
+			"getTrackToScroll",
+			"getThumbScrollOffset",
+			"hitTest",
+			"hitTestInteractive",
+			"hitTestOnlyThumbInteractive",
+			"shouldRepaint",
+			"shouldRebuildSemantics"
+		],
+		"st": []
+	});
+	C("flutter_SelectionListenerNotifier", {
+		"s": ["selection", "registered"],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_ShapeBorderClipper", {
+		"s": ["shape", "textDirection"],
+		"w": [],
+		"o": [],
+		"m": [
+			"getClip",
+			"shouldReclip",
+			"getApproximateClipRect"
+		],
+		"st": []
+	});
+	C("flutter_ShortcutManager", {
+		"s": ["modal"],
+		"w": ["shortcuts"],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_ShortcutRegistry", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": ["addAll"],
+		"st": []
+	});
+	C("flutter_SliverOverlapAbsorberHandle", {
+		"s": ["layoutExtent", "scrollExtent"],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_SnapshotController", {
+		"s": ["allowSnapshotting"],
+		"w": ["allowSnapshotting"],
+		"o": ["allowSnapshotting"],
+		"m": ["clear"],
+		"st": []
+	});
+	C("flutter_StaticSelectionContainerDelegate", {
+		"s": [
+			"selectables",
+			"value",
+			"contentLength",
+			"hasSize",
+			"containerSize"
+		],
+		"w": ["selectables"],
+		"o": [],
+		"m": [
+			"remove",
+			"handleSelectAll",
+			"handleSelectWord",
+			"handleSelectParagraph",
+			"handleClearSelection",
+			"handleSelectionEdgeUpdate",
+			"dispatchSelectionEventToChild",
+			"ensureChildUpdated",
+			"didChangeSelectables",
+			"add",
+			"layoutDidChange",
+			"pushHandleLayers",
+			"getSelectedContent",
+			"getSelection",
+			"dispatchSelectionEvent",
+			"getTransformFrom",
+			"getTransformTo"
+		],
+		"st": []
+	});
+	C("flutter_TextEditingController", {
+		"s": [
+			"text",
+			"selection",
+			"value"
+		],
+		"w": [
+			"text",
+			"value",
+			"selection"
+		],
+		"o": ["text"],
+		"m": ["clear", "clearComposing"],
+		"st": []
+	});
+	C("flutter_TrackingScrollController", {
+		"s": [
+			"mostRecentlyUpdatedPosition",
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"attach",
+			"detach",
+			"animateTo",
+			"jumpTo",
+			"createScrollPosition"
+		],
+		"st": []
+	});
+	C("flutter_TrainHoppingAnimation", {
+		"s": [
+			"currentTrain",
+			"status",
+			"value",
+			"isDismissed",
+			"isCompleted",
+			"isAnimating",
+			"isForwardOrCompleted"
+		],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_TransformationController", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": [],
+		"m": ["toScene"],
+		"st": []
+	});
+	C("flutter_TwoDimensionalChildBuilderDelegate", {
+		"s": [
+			"maxXIndex",
+			"maxYIndex",
+			"addRepaintBoundaries",
+			"addAutomaticKeepAlives"
+		],
+		"w": ["maxXIndex", "maxYIndex"],
+		"o": ["maxXIndex", "maxYIndex"],
+		"m": ["shouldRebuild"],
+		"st": []
+	});
+	C("flutter_TwoDimensionalChildListDelegate", {
+		"s": ["addRepaintBoundaries", "addAutomaticKeepAlives"],
+		"w": [],
+		"o": [],
+		"m": ["shouldRebuild"],
+		"st": []
+	});
+	C("flutter_UndoHistoryController", {
+		"s": [
+			"onUndo",
+			"onRedo",
+			"value"
+		],
+		"w": ["value"],
+		"o": [],
+		"m": ["undo", "redo"],
+		"st": []
+	});
+	C("flutter_WidgetStatesController", {
+		"s": ["value"],
+		"w": ["value"],
+		"o": [],
+		"m": ["update"],
+		"st": []
+	});
+	C("flutter_Selectable", {
+		"s": [
+			"size",
+			"boundingBoxes",
+			"contentLength",
+			"value"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"getTransformTo",
+			"pushHandleLayers",
+			"getSelectedContent",
+			"getSelection",
+			"dispatchSelectionEvent"
+		],
+		"st": []
+	});
+	C("flutter_ViewportOffset", {
+		"s": [
+			"pixels",
+			"hasPixels",
+			"userScrollDirection",
+			"allowImplicitScrolling"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"applyViewportDimension",
+			"applyContentDimensions",
+			"correctBy",
+			"jumpTo",
+			"animateTo",
+			"moveTo"
+		],
+		"st": []
+	});
+	C("flutter_HardwareKeyboard", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [
+			"lookUpLayout",
+			"isLogicalKeyPressed",
+			"isPhysicalKeyPressed",
+			"syncKeyboardState",
+			"handleKeyEvent"
+		],
+		"st": []
+	});
+	C("flutter_Action", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [
+			"isEnabled",
+			"consumesKey",
+			"toKeyEventResult"
+		],
+		"st": []
+	});
+	C("flutter_Animation", {
+		"s": [
+			"status",
+			"value",
+			"isDismissed",
+			"isCompleted",
+			"isAnimating",
+			"isForwardOrCompleted"
+		],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_MagnifierController", {
+		"s": [],
+		"w": ["animationController"],
+		"o": [],
+		"m": ["hide"],
+		"st": []
+	});
+	C("flutter_MenuController", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [
+			"open",
+			"close",
+			"closeChildren"
+		],
+		"st": []
+	});
+	C("flutter_Paint", {
+		"s": [],
+		"w": [
+			"isAntiAlias",
+			"blendMode",
+			"style",
+			"strokeWidth",
+			"strokeCap",
+			"strokeJoin",
+			"strokeMiterLimit",
+			"maskFilter",
+			"filterQuality",
+			"shader",
+			"invertColors"
+		],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	C("flutter_Path", {
+		"s": [],
+		"w": ["fillType"],
+		"o": [],
+		"m": [
+			"moveTo",
+			"relativeMoveTo",
+			"lineTo",
+			"relativeLineTo",
+			"quadraticBezierTo",
+			"relativeQuadraticBezierTo",
+			"cubicTo",
+			"relativeCubicTo",
+			"conicTo",
+			"relativeConicTo",
+			"arcTo",
+			"arcToPoint",
+			"relativeArcToPoint",
+			"addRect",
+			"addOval",
+			"addArc",
+			"addPolygon",
+			"addRRect",
+			"addRSuperellipse",
+			"addPath",
+			"extendWithPath",
+			"close",
+			"reset",
+			"contains",
+			"shift",
+			"transform",
+			"getBounds",
+			"computeMetrics"
+		],
+		"st": []
+	});
+	C("flutter_Route", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": ["onPopInvokedWithResult", "didPop"],
+		"st": []
+	});
+	C("flutter_ScrollPosition", {
+		"s": [
+			"physics",
+			"context",
+			"keepScrollOffset",
+			"minScrollExtent",
+			"maxScrollExtent",
+			"hasContentDimensions",
+			"pixels",
+			"hasPixels",
+			"viewportDimension",
+			"hasViewportDimension",
+			"haveDimensions",
+			"shouldIgnorePointer",
+			"devicePixelRatio",
+			"isScrollingNotifier",
+			"allowImplicitScrolling",
+			"userScrollDirection"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"setPixels",
+			"correctPixels",
+			"correctBy",
+			"restoreOffset",
+			"applyViewportDimension",
+			"applyContentDimensions",
+			"animateTo",
+			"jumpTo",
+			"pointerScroll",
+			"moveTo",
+			"beginActivity",
+			"didStartScroll",
+			"didUpdateScrollPositionBy",
+			"didEndScroll",
+			"didOverscrollBy",
+			"didUpdateScrollDirection",
+			"didUpdateScrollMetrics"
+		],
+		"st": []
+	});
+	C("flutter_TreeSliverNode", {
+		"s": [],
+		"w": [],
+		"o": [],
+		"m": [],
+		"st": []
+	});
+	// fuse/material_ui/Icons.tsx
+	var add = "Icons.add";
+	var arrow_back = "Icons.arrow_back";
+	var delete_ = "Icons.delete";
+	var email = "Icons.email";
+	var favorite = "Icons.favorite";
+	var favorite_border = "Icons.favorite_border";
+	var home = "Icons.home";
+	var home_outlined = "Icons.home_outlined";
+	var info$1 = "Icons.info";
+	var lock = "Icons.lock";
+	var notifications = "Icons.notifications";
+	var person$1 = "Icons.person";
+	var person_outline = "Icons.person_outline";
+	var search = "Icons.search";
+	var send = "Icons.send";
+	var settings = "Icons.settings";
+	var star = "Icons.star";
+	var wifi$1 = "Icons.wifi";
+	// fuse/material_ui/ThemeData.tsx
+	function ThemeData$from(...a) {
+		return p("ThemeData.from", [], a);
+	}
+	function ThemeData$light(...a) {
+		return p("ThemeData.light", [], a);
+	}
+	function ThemeData$dark(...a) {
+		return p("ThemeData.dark", [], a);
+	}
+	function ThemeData$fallback(...a) {
+		return p("ThemeData.fallback", [], a);
+	}
+	function ThemeData$call(...a) {
+		return p("ThemeData", [], a);
+	}
+	var ThemeData = /* @__PURE__ */ Object.assign(ThemeData$call, {
+		from: ThemeData$from,
+		light: ThemeData$light,
+		dark: ThemeData$dark,
+		fallback: ThemeData$fallback
+	});
+	// fuse/material_ui.tsx
+	/**
+	* Create a chip that acts like a button.
+	* Dart: `ActionChip`
+	*/
+	function ActionChip(props) {
+		var _el$4 = Ge("material_ui_ActionChip");
+		it(_el$4, [props, {
+			get avatar() {
+				return _(props.avatar);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$4;
+	}
+	/**
+	* Creates an alert dialog.
+	* Dart: `AlertDialog`
+	*/
+	function AlertDialog(props) {
+		var _el$11 = Ge("material_ui_AlertDialog");
+		it(_el$11, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get title() {
+				return _(props.title);
+			},
+			get content() {
+				return _(props.content);
+			},
+			get actions() {
+				return v(props.actions);
+			}
+		}], false);
+		return _el$11;
+	}
+	/**
+	* Creates a Material Design app bar.
+	* Dart: `AppBar`
+	*/
+	function AppBar$1(props) {
+		var _el$15 = Ge("material_ui_AppBar");
+		it(_el$15, [props, {
+			get leading() {
+				return _(props.leading);
+			},
+			get title() {
+				return _(props.title);
+			},
+			get actions() {
+				return v(props.actions);
+			},
+			get flexibleSpace() {
+				return _(props.flexibleSpace);
+			},
+			get bottom() {
+				return _(props.bottom);
+			}
+		}], false);
+		return _el$15;
+	}
+	/**
+	* Create a Badge that stacks [label] on top of [child].
+	* Dart: `Badge`
+	*/
+	function Badge$1(props) {
+		var _el$20 = Ge("material_ui_Badge");
+		it(_el$20, [props, { get label() {
+			return _(props.label);
+		} }], false);
+		return _el$20;
+	}
+	/**
+	* Creates an elevated variant of Card.
+	* Dart: `Card`
+	*/
+	function Card$1(props) {
+		var _el$33 = Ge("material_ui_Card");
+		it(_el$33, props, false);
+		return _el$33;
+	}
+	/**
+	* Create a filled variant of Card.
+	* Dart: `Card.filled`
+	*/
+	function CardFilled(props) {
+		var _el$34 = Ge("material_ui_CardFilled");
+		it(_el$34, props, false);
+		return _el$34;
+	}
+	/**
+	* Create an outlined variant of Card.
+	* Dart: `Card.outlined`
+	*/
+	function CardOutlined(props) {
+		var _el$35 = Ge("material_ui_CardOutlined");
+		it(_el$35, props, false);
+		return _el$35;
+	}
+	/**
+	* Creates a Material Design chip.
+	* Dart: `Chip`
+	*/
+	function Chip$1(props) {
+		var _el$49 = Ge("material_ui_Chip");
+		it(_el$49, [props, {
+			get avatar() {
+				return _(props.avatar);
+			},
+			get label() {
+				return _(props.label);
+			},
+			get deleteIcon() {
+				return _(props.deleteIcon);
+			}
+		}], false);
+		return _el$49;
+	}
+	/**
+	* Creates a circular progress indicator.
+	* Dart: `CircularProgressIndicator`
+	*/
+	function CircularProgressIndicator(props) {
+		var _el$54 = Ge("material_ui_CircularProgressIndicator");
+		it(_el$54, props, false);
+		return _el$54;
+	}
+	/**
+	* Creates a Material Design divider.
+	* Dart: `Divider`
+	*/
+	function Divider$1(props) {
+		var _el$70 = Ge("material_ui_Divider");
+		it(_el$70, props, false);
+		return _el$70;
+	}
+	/**
+	* Create an ElevatedButton.
+	* Dart: `ElevatedButton`
+	*/
+	function ElevatedButton(props) {
+		var _el$85 = Ge("material_ui_ElevatedButton");
+		it(_el$85, props, false);
+		return _el$85;
+	}
+	/**
+	* Create an elevated button from a pair of widgets that serve as the button's [icon] and [label].
+	* Dart: `ElevatedButton.icon`
+	*/
+	function ElevatedButtonIcon(props) {
+		var _el$86 = Ge("material_ui_ElevatedButtonIcon");
+		it(_el$86, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$86;
+	}
+	/**
+	* Create a FilledButton.
+	* Dart: `FilledButton`
+	*/
+	function FilledButton(props) {
+		var _el$95 = Ge("material_ui_FilledButton");
+		it(_el$95, props, false);
+		return _el$95;
+	}
+	/**
+	* Create a filled button from [icon] and [label].
+	* Dart: `FilledButton.icon`
+	*/
+	function FilledButtonIcon(props) {
+		var _el$96 = Ge("material_ui_FilledButtonIcon");
+		it(_el$96, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$96;
+	}
+	/**
+	* Create a tonal variant of FilledButton.
+	* Dart: `FilledButton.tonal`
+	*/
+	function FilledButtonTonal(props) {
+		var _el$97 = Ge("material_ui_FilledButtonTonal");
+		it(_el$97, props, false);
+		return _el$97;
+	}
+	/**
+	* Create a filled tonal button from [icon] and [label].
+	* Dart: `FilledButton.tonalIcon`
+	*/
+	function FilledButtonTonalIcon(props) {
+		var _el$98 = Ge("material_ui_FilledButtonTonalIcon");
+		it(_el$98, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$98;
+	}
+	/**
+	* Create a chip that acts like a checkbox.
+	* Dart: `FilterChip`
+	*/
+	function FilterChip(props) {
+		var _el$100 = Ge("material_ui_FilterChip");
+		it(_el$100, [props, {
+			get avatar() {
+				return _(props.avatar);
+			},
+			get label() {
+				return _(props.label);
+			},
+			get deleteIcon() {
+				return _(props.deleteIcon);
+			}
+		}], false);
+		return _el$100;
+	}
+	/**
+	* Creates a circular floating action button.
+	* Dart: `FloatingActionButton`
+	*/
+	function FloatingActionButton$1(props) {
+		var _el$104 = Ge("material_ui_FloatingActionButton");
+		it(_el$104, props, false);
+		return _el$104;
+	}
+	/**
+	* Creates a small circular floating action button.
+	* Dart: `FloatingActionButton.small`
+	*/
+	function FloatingActionButtonSmall(props) {
+		var _el$105 = Ge("material_ui_FloatingActionButtonSmall");
+		it(_el$105, props, false);
+		return _el$105;
+	}
+	/**
+	* Creates a large circular floating action button.
+	* Dart: `FloatingActionButton.large`
+	*/
+	function FloatingActionButtonLarge(props) {
+		var _el$106 = Ge("material_ui_FloatingActionButtonLarge");
+		it(_el$106, props, false);
+		return _el$106;
+	}
+	/**
+	* Creates a wider [StadiumBorder]-shaped floating action button with an optional [icon] and a [label].
+	* Dart: `FloatingActionButton.extended`
+	*/
+	function FloatingActionButtonExtended(props) {
+		var _el$107 = Ge("material_ui_FloatingActionButtonExtended");
+		it(_el$107, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$107;
+	}
+	/**
+	* Creates an icon button.
+	* Dart: `IconButton`
+	*/
+	function IconButton$1(props) {
+		var _el$111 = Ge("material_ui_IconButton");
+		it(_el$111, [props, {
+			get selectedIcon() {
+				return _(props.selectedIcon);
+			},
+			get icon() {
+				return _(props.icon);
+			}
+		}], false);
+		return _el$111;
+	}
+	/**
+	* Create a filled variant of IconButton.
+	* Dart: `IconButton.filled`
+	*/
+	function IconButtonFilled(props) {
+		var _el$112 = Ge("material_ui_IconButtonFilled");
+		it(_el$112, [props, {
+			get selectedIcon() {
+				return _(props.selectedIcon);
+			},
+			get icon() {
+				return _(props.icon);
+			}
+		}], false);
+		return _el$112;
+	}
+	/**
+	* Create a filled tonal variant of IconButton.
+	* Dart: `IconButton.filledTonal`
+	*/
+	function IconButtonFilledTonal(props) {
+		var _el$113 = Ge("material_ui_IconButtonFilledTonal");
+		it(_el$113, [props, {
+			get selectedIcon() {
+				return _(props.selectedIcon);
+			},
+			get icon() {
+				return _(props.icon);
+			}
+		}], false);
+		return _el$113;
+	}
+	/**
+	* Create an outlined variant of IconButton.
+	* Dart: `IconButton.outlined`
+	*/
+	function IconButtonOutlined(props) {
+		var _el$114 = Ge("material_ui_IconButtonOutlined");
+		it(_el$114, [props, {
+			get selectedIcon() {
+				return _(props.selectedIcon);
+			},
+			get icon() {
+				return _(props.icon);
+			}
+		}], false);
+		return _el$114;
+	}
+	/**
+	* Creates a linear progress indicator.
+	* Dart: `LinearProgressIndicator`
+	*/
+	function LinearProgressIndicator(props) {
+		var _el$125 = Ge("material_ui_LinearProgressIndicator");
+		it(_el$125, props, false);
+		return _el$125;
+	}
+	/**
+	* Creates a list tile.
+	* Dart: `ListTile`
+	*/
+	function ListTile$2(props) {
+		var _el$126 = Ge("material_ui_ListTile");
+		it(_el$126, [props, {
+			get leading() {
+				return _(props.leading);
+			},
+			get title() {
+				return _(props.title);
+			},
+			get subtitle() {
+				return _(props.subtitle);
+			},
+			get trailing() {
+				return _(props.trailing);
+			}
+		}], false);
+		return _el$126;
+	}
+	/**
+	* Creates a MaterialApp.
+	* Dart: `MaterialApp`
+	*/
+	function MaterialApp$1(props) {
+		var _el$130 = Ge("material_ui_MaterialApp");
+		it(_el$130, [props, { get home() {
+			return _(props.home);
+		} }], false);
+		return _el$130;
+	}
+	/**
+	* Creates a Material 3 Navigation Bar component.
+	* Dart: `NavigationBar`
+	*/
+	function NavigationBar$2(props) {
+		var _el$145 = Ge("material_ui_NavigationBar");
+		it(_el$145, [props, { get destinations() {
+			return v(props.destinations);
+		} }], false);
+		return _el$145;
+	}
+	/**
+	* Creates a navigation bar destination with an icon and a label, to be used in the [NavigationBar.destinations].
+	* Dart: `NavigationDestination`
+	*/
+	function NavigationDestination$1(props) {
+		var _el$147 = Ge("material_ui_NavigationDestination");
+		it(_el$147, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get selectedIcon() {
+				return _(props.selectedIcon);
+			}
+		}], false);
+		return _el$147;
+	}
+	/**
+	* Create an OutlinedButton.
+	* Dart: `OutlinedButton`
+	*/
+	function OutlinedButton(props) {
+		var _el$154 = Ge("material_ui_OutlinedButton");
+		it(_el$154, props, false);
+		return _el$154;
+	}
+	/**
+	* Create an outlined button from a pair of widgets that serve as the button's [icon] and [label].
+	* Dart: `OutlinedButton.icon`
+	*/
+	function OutlinedButtonIcon(props) {
+		var _el$155 = Ge("material_ui_OutlinedButtonIcon");
+		it(_el$155, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$155;
+	}
+	/**
+	* Creates a visual scaffold for Material Design widgets.
+	* Dart: `Scaffold`
+	*/
+	function Scaffold$1(props) {
+		var _el$177 = Ge("material_ui_Scaffold");
+		it(_el$177, [props, {
+			get appBar() {
+				return _(props.appBar);
+			},
+			get body() {
+				return _(props.body);
+			},
+			get floatingActionButton() {
+				return _(props.floatingActionButton);
+			},
+			get persistentFooterButtons() {
+				return v(props.persistentFooterButtons);
+			},
+			get drawer() {
+				return _(props.drawer);
+			},
+			get endDrawer() {
+				return _(props.endDrawer);
+			},
+			get bottomNavigationBar() {
+				return _(props.bottomNavigationBar);
+			},
+			get bottomSheet() {
+				return _(props.bottomSheet);
+			}
+		}], false);
+		return _el$177;
+	}
+	/**
+	* Create a [TextButton].
+	* Dart: `TextButton`
+	*/
+	function TextButton(props) {
+		var _el$218 = Ge("material_ui_TextButton");
+		it(_el$218, props, false);
+		return _el$218;
+	}
+	/**
+	* Create a text button from a pair of widgets that serve as the button's [icon] and [label].
+	* Dart: `TextButton.icon`
+	*/
+	function TextButtonIcon(props) {
+		var _el$219 = Ge("material_ui_TextButtonIcon");
+		it(_el$219, [props, {
+			get icon() {
+				return _(props.icon);
+			},
+			get label() {
+				return _(props.label);
+			}
+		}], false);
+		return _el$219;
+	}
+	/**
+	* Creates a Material Design vertical divider.
+	* Dart: `VerticalDivider`
+	*/
+	function VerticalDivider(props) {
+		var _el$236 = Ge("material_ui_VerticalDivider");
+		it(_el$236, props, false);
+		return _el$236;
+	}
+	C("material_ui_CarouselController", {
+		"s": [
+			"initialItem",
+			"leadingItem",
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"animateToItem",
+			"createScrollPosition",
+			"attach",
+			"animateTo",
+			"jumpTo",
+			"detach"
+		],
+		"st": []
+	});
+	C("material_ui_RestorableTimeOfDay", {
+		"s": ["value", "enabled"],
+		"w": ["value"],
+		"o": [],
+		"m": [
+			"createDefaultValue",
+			"didUpdateValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	C("material_ui_SearchController", {
+		"s": [
+			"isAttached",
+			"isOpen",
+			"text",
+			"selection",
+			"value"
+		],
+		"w": [
+			"text",
+			"value",
+			"selection"
+		],
+		"o": ["text"],
+		"m": [
+			"openView",
+			"closeView",
+			"clear",
+			"clearComposing"
+		],
+		"st": []
+	});
+	C("material_ui_TabBarScrollController", {
+		"s": [
+			"initialScrollOffset",
+			"keepScrollOffset",
+			"positions",
+			"hasClients",
+			"position",
+			"offset"
+		],
+		"w": [],
+		"o": [],
+		"m": [
+			"createScrollPosition",
+			"animateTo",
+			"jumpTo",
+			"attach",
+			"detach"
+		],
+		"st": []
+	});
+	C("material_ui_TabController", {
+		"s": [
+			"animation",
+			"animationDuration",
+			"length",
+			"index",
+			"previousIndex",
+			"indexIsChanging",
+			"offset"
+		],
+		"w": ["index", "offset"],
+		"o": ["index", "offset"],
+		"m": ["animateTo"],
+		"st": []
+	});
+	// ../../packages/material/src/page.ts
+	/** A Material page: the platform's Material transition, on a Material surface. */
+	function materialPage({ child, ...props }) {
+		return {
+			type: "materialPage",
+			child,
+			props
+		};
+	}
+	// ../../packages/material/src/app.tsx
+	function themeOf(t, brightness) {
+		if (t == null) return brightness === "dark" ? ThemeData.dark() : void 0;
+		if ("$" in t) return t;
+		const brief = t;
+		return ThemeData({
+			colorSchemeSeed: Z(brief.seedColor ?? "#6750a4"),
+			brightness: brief.brightness ?? brightness,
+			fontFamily: brief.fontFamily,
+			contrastLevel: brief.contrast
+		});
+	}
+	/**
+	* The root of a Material app: themes, a root navigator, and pages that
+	* are `materialPage()`s.
+	*/
+	function MaterialApp(props) {
+		return $e(G, {
+			value: (child) => materialPage({ child }),
+			get children() {
+				return $e(MaterialApp$1, {
+					get title() {
+						return props.title ?? "";
+					},
+					get theme() {
+						return themeOf(props.theme, "light");
+					},
+					get darkTheme() {
+						return Ue(() => {
+							return props.darkTheme !== void 0;
+						})() ? themeOf(props.darkTheme, "dark") : Ue(() => {
+							return !!(props.theme && !("$" in props.theme));
+						})() ? themeOf({
+							...props.theme,
+							brightness: "dark"
+						}, "dark") : void 0;
+					},
+					get themeMode() {
+						return props.themeMode ?? "system";
+					},
+					get color() {
+						return Z(props.color);
+					},
+					get debugShowCheckedModeBanner() {
+						return props.debugShowCheckedModeBanner ?? false;
+					},
+					get home() {
+						return props.children;
+					}
+				});
+			}
+		});
+	}
+	// ../../packages/material/src/slots.tsx
+	function label$1(v) {
+		return typeof v === "string" || typeof v === "number" ? (() => {
+			var _el$ = Ge("text");
+			Z$1(_el$, () => {
+				return String(v);
+			});
+			return _el$;
+		})() : v;
+	}
+	function icon$1(v, size) {
+		return typeof v === "string" ? $e(ue, {
+			icon: v,
+			size
+		}) : v;
+	}
+	// ../../packages/material/src/scaffold.tsx
+	/** A Material screen: app bar, body (the children), and the bars around them. */
+	function Scaffold(props) {
+		return $e(Scaffold$1, {
+			get appBar() {
+				return props.appBar;
+			},
+			get floatingActionButton() {
+				return props.floatingActionButton;
+			},
+			get bottomNavigationBar() {
+				return props.bottomNavigationBar;
+			},
+			get drawer() {
+				return props.drawer;
+			},
+			get endDrawer() {
+				return props.endDrawer;
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			},
+			get extendBodyBehindAppBar() {
+				return props.extendBodyBehindAppBar;
+			},
+			get resizeToAvoidBottomInset() {
+				return props.resizeToAvoidBottomInset;
+			},
+			get body() {
+				return props.children;
+			}
+		});
+	}
+	function AppBar(props) {
+		return $e(AppBar$1, {
+			get title() {
+				return label$1(props.title);
+			},
+			get leading() {
+				return icon$1(props.leading);
+			},
+			get actions() {
+				return props.actions;
+			},
+			get centerTitle() {
+				return props.centerTitle;
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			},
+			get foregroundColor() {
+				return Z(props.foregroundColor);
+			},
+			get elevation() {
+				return props.elevation;
+			},
+			get bottom() {
+				return props.bottom;
+			}
+		});
+	}
+	// ../../packages/material/src/buttons.tsx
+	var plain = {
+		filled: FilledButton,
+		tonal: FilledButtonTonal,
+		outlined: OutlinedButton,
+		text: TextButton,
+		elevated: ElevatedButton
+	};
+	var withIcon = {
+		filled: FilledButtonIcon,
+		tonal: FilledButtonTonalIcon,
+		outlined: OutlinedButtonIcon,
+		text: TextButtonIcon,
+		elevated: ElevatedButtonIcon
+	};
+	/** Material's buttons, one component: pick the look with `variant`. */
+	function Button$3(props) {
+		const onPressed = () => props.disabled ? null : props.onPress ?? null;
+		const onLongPress = () => props.disabled ? null : props.onLongPress ?? null;
+		return Ue(() => {
+			return Ue(() => {
+				return props.icon !== void 0;
+			})() ? $e(U, {
+				get component() {
+					return withIcon[props.variant ?? "filled"];
+				},
+				get onPressed() {
+					return onPressed();
+				},
+				get onLongPress() {
+					return onLongPress();
+				},
+				get autofocus() {
+					return props.autofocus;
+				},
+				get icon() {
+					return icon$1(props.icon);
+				},
+				get label() {
+					return label$1(props.children) ?? [];
+				}
+			}) : $e(U, {
+				get component() {
+					return plain[props.variant ?? "filled"];
+				},
+				get onPressed() {
+					return onPressed();
+				},
+				get onLongPress() {
+					return onLongPress();
+				},
+				get autofocus() {
+					return props.autofocus;
+				},
+				get children() {
+					return label$1(props.children);
+				}
+			});
+		});
+	}
+	var iconButtons = {
+		standard: IconButton$1,
+		filled: IconButtonFilled,
+		tonal: IconButtonFilledTonal,
+		outlined: IconButtonOutlined
+	};
+	function IconButton(props) {
+		return $e(U, {
+			get component() {
+				return iconButtons[props.variant ?? "standard"];
+			},
+			get icon() {
+				return icon$1(props.icon);
+			},
+			get selectedIcon() {
+				return icon$1(props.selectedIcon);
+			},
+			get isSelected() {
+				return props.selected;
+			},
+			get onPressed() {
+				return Ue(() => {
+					return !!props.disabled;
+				})() ? null : props.onPress ?? null;
+			},
+			get onLongPress() {
+				return Ue(() => {
+					return !!props.disabled;
+				})() ? null : props.onLongPress ?? null;
+			},
+			get tooltip() {
+				return props.tooltip;
+			},
+			get color() {
+				return Z(props.color);
+			},
+			get iconSize() {
+				return props.size;
+			}
+		});
+	}
+	var fabs = {
+		small: FloatingActionButtonSmall,
+		regular: FloatingActionButton$1,
+		large: FloatingActionButtonLarge
+	};
+	function FloatingActionButton(props) {
+		return Ue(() => {
+			return Ue(() => {
+				return props.label !== void 0;
+			})() ? $e(FloatingActionButtonExtended, {
+				get onPressed() {
+					return props.onPress ?? null;
+				},
+				get tooltip() {
+					return props.tooltip;
+				},
+				get backgroundColor() {
+					return Z(props.backgroundColor);
+				},
+				get foregroundColor() {
+					return Z(props.foregroundColor);
+				},
+				get icon() {
+					return icon$1(props.icon);
+				},
+				get label() {
+					return label$1(props.label);
+				}
+			}) : $e(U, {
+				get component() {
+					return fabs[props.size ?? "regular"];
+				},
+				get onPressed() {
+					return props.onPress ?? null;
+				},
+				get tooltip() {
+					return props.tooltip;
+				},
+				get backgroundColor() {
+					return Z(props.backgroundColor);
+				},
+				get foregroundColor() {
+					return Z(props.foregroundColor);
+				},
+				get children() {
+					return icon$1(props.icon);
+				}
+			});
+		});
+	}
+	// ../../packages/material/src/controls.tsx
+	function Switch$2(props) {
+		var _el$ = Ge("material_ui_Switch");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.disabled ? null : props.onChange ?? null,
+				a: Z(props.color)
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$, "onChanged", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$, "activeTrackColor", a, _p$?.a);
+		});
+		return _el$;
+	}
+	function Checkbox$2(props) {
+		var _el$2 = Ge("material_ui_Checkbox");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.tristate ?? props.value === null,
+				a: props.disabled ? null : props.onChange ?? null,
+				o: props.error,
+				i: Z(props.color),
+				n: props.semanticLabel
+			};
+		}, ({ e, t, a, o, i, n }, _p$) => {
+			e !== _p$?.e && Ye(_el$2, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$2, "tristate", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$2, "onChanged", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$2, "isError", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$2, "activeColor", i, _p$?.i);
+			n !== _p$?.n && Ye(_el$2, "semanticLabel", n, _p$?.n);
+		});
+		return _el$2;
+	}
+	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
+	function Radio$1(props) {
+		var _el$3 = Ge("material_ui_Radio");
+		He(() => {
+			return {
+				e: props.value,
+				t: !props.disabled,
+				a: props.toggleable,
+				o: Z(props.color)
+			};
+		}, ({ e, t, a, o }, _p$) => {
+			e !== _p$?.e && Ye(_el$3, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$3, "enabled", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$3, "toggleable", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$3, "activeColor", o, _p$?.o);
+		});
+		return _el$3;
+	}
+	function Slider$2(props) {
+		var _el$4 = Ge("material_ui_Slider");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.disabled ? null : props.onChange ?? null,
+				a: props.onChangeEnd ?? null,
+				o: props.min,
+				i: props.max,
+				n: props.steps ?? null,
+				s: props.label ?? null,
+				h: Z(props.color)
+			};
+		}, ({ e, t, a, o, i, n, s, h }, _p$) => {
+			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$4, "onChanged", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$4, "onChangeEnd", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$4, "min", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$4, "max", i, _p$?.i);
+			n !== _p$?.n && Ye(_el$4, "divisions", n, _p$?.n);
+			s !== _p$?.s && Ye(_el$4, "label", s, _p$?.s);
+			h !== _p$?.h && Ye(_el$4, "activeColor", h, _p$?.h);
+		});
+		return _el$4;
+	}
+	// ../../packages/material/src/text-field.tsx
+	/** Material's text field. Controlled with `value` + `onChange`. */
+	function TextField$2(props) {
+		var _el$ = Ge("materialTextField");
+		it(_el$, [props, {
+			get prefixIcon() {
+				return icon$1(props.prefixIcon);
+			},
+			get suffixIcon() {
+				return icon$1(props.suffixIcon);
+			}
+		}], false);
+		return _el$;
+	}
+	// ../../packages/material/src/content.tsx
+	var cards = {
+		elevated: Card$1,
+		filled: CardFilled,
+		outlined: CardOutlined
+	};
+	function Card(props) {
+		const body = () => (() => {
+			var _el$ = Ge("view");
+			Z$1(_el$, () => {
+				return props.children;
+			});
+			He(() => props.padding, (_v$, _$p) => {
+				Ye(_el$, "padding", _v$, _$p);
+			});
+			return _el$;
+		})();
+		return $e(U, {
+			get component() {
+				return cards[props.variant ?? "elevated"];
+			},
+			get margin() {
+				return props.margin;
+			},
+			get color() {
+				return Z(props.color);
+			},
+			get elevation() {
+				return props.elevation;
+			},
+			clipBehavior: "antiAlias",
+			get children() {
+				return Ue(() => {
+					return Ue(() => {
+						return !!props.onPress;
+					})() ? (() => {
+						var _el$2 = Ge("material_ui_InkWell");
+						Z$1(_el$2, body);
+						He(() => props.onPress, (_v$, _$p) => {
+							Ye(_el$2, "onTap", _v$, _$p);
+						});
+						return _el$2;
+					})() : body();
+				});
+			}
+		});
+	}
+	function ListTile$1(props) {
+		return $e(ListTile$2, {
+			get title() {
+				return label$1(props.title);
+			},
+			get subtitle() {
+				return label$1(props.subtitle);
+			},
+			get leading() {
+				return icon$1(props.leading);
+			},
+			get trailing() {
+				return icon$1(props.trailing);
+			},
+			get onTap() {
+				return props.onPress ?? null;
+			},
+			get onLongPress() {
+				return props.onLongPress ?? null;
+			},
+			get selected() {
+				return props.selected;
+			},
+			get enabled() {
+				return !props.disabled;
+			},
+			get dense() {
+				return props.dense;
+			},
+			get isThreeLine() {
+				return props.threeLine;
+			}
+		});
+	}
+	function Divider(props) {
+		return $e(U, {
+			get component() {
+				return props.vertical ? VerticalDivider : Divider$1;
+			},
+			get thickness() {
+				return props.thickness;
+			},
+			get indent() {
+				return props.indent;
+			},
+			get endIndent() {
+				return props.endIndent;
+			},
+			get color() {
+				return Z(props.color);
+			},
+			get width() {
+				return Ue(() => {
+					return !!props.vertical;
+				})() ? props.size : void 0;
+			},
+			get height() {
+				return Ue(() => {
+					return !!props.vertical;
+				})() ? void 0 : props.size;
+			}
+		});
+	}
+	function Chip(props) {
+		return Ue(() => {
+			return Ue(() => {
+				return props.selected !== void 0;
+			})() ? $e(FilterChip, {
+				get label() {
+					return label$1(props.label);
+				},
+				get avatar() {
+					return icon$1(props.icon);
+				},
+				get selected() {
+					return props.selected;
+				},
+				get onSelected() {
+					return Ue(() => {
+						return !!props.disabled;
+					})() ? null : props.onSelect ?? null;
+				},
+				get onDeleted() {
+					return props.onDelete ?? null;
+				}
+			}) : $e(Show, {
+				get when() {
+					return props.onPress;
+				},
+				get fallback() {
+					return $e(Chip$1, {
+						get label() {
+							return label$1(props.label);
+						},
+						get avatar() {
+							return icon$1(props.icon);
+						},
+						get onDeleted() {
+							return props.onDelete ?? null;
+						}
+					});
+				},
+				get children() {
+					return $e(ActionChip, {
+						get label() {
+							return label$1(props.label);
+						},
+						get avatar() {
+							return icon$1(props.icon);
+						},
+						get onPressed() {
+							return Ue(() => {
+								return !!props.disabled;
+							})() ? null : props.onPress;
+						}
+					});
+				}
+			});
+		});
+	}
+	function Badge(props) {
+		return Ue(() => {
+			return Ue(() => {
+				return typeof props.label === "number";
+			})() ? (() => {
+				var _el$3 = Ge("material_ui_BadgeCount");
+				Z$1(_el$3, () => {
+					return props.children;
+				});
+				He(() => {
+					return {
+						e: props.label,
+						t: props.max,
+						a: props.visible ?? true,
+						o: Z(props.color)
+					};
+				}, ({ e, t, a, o }, _p$) => {
+					e !== _p$?.e && Ye(_el$3, "count", e, _p$?.e);
+					t !== _p$?.t && Ye(_el$3, "maxCount", t, _p$?.t);
+					a !== _p$?.a && Ye(_el$3, "isLabelVisible", a, _p$?.a);
+					o !== _p$?.o && Ye(_el$3, "backgroundColor", o, _p$?.o);
+				});
+				return _el$3;
+			})() : $e(Badge$1, {
+				get label() {
+					return label$1(props.label);
+				},
+				get isLabelVisible() {
+					return props.visible ?? true;
+				},
+				get backgroundColor() {
+					return Z(props.color);
+				},
+				get children() {
+					return props.children;
+				}
+			});
+		});
+	}
+	function ProgressIndicator$1(props) {
+		return $e(U, {
+			get component() {
+				return props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator;
+			},
+			get value() {
+				return props.value ?? null;
+			},
+			get color() {
+				return Z(props.color);
+			},
+			get backgroundColor() {
+				return Z(props.trackColor);
+			}
+		});
+	}
+	// ../../packages/material/src/navigation.tsx
+	/** Material's bottom navigation bar. */
+	function NavigationBar$1(props) {
+		return $e(NavigationBar$2, {
+			get selectedIndex() {
+				return props.selected;
+			},
+			get onDestinationSelected() {
+				return props.onSelect ?? null;
+			},
+			get labelBehavior() {
+				return props.labels ?? null;
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			},
+			get indicatorColor() {
+				return Z(props.indicatorColor);
+			},
+			get destinations() {
+				return props.children;
+			}
+		});
+	}
+	function NavigationDestination(props) {
+		return $e(NavigationDestination$1, {
+			get icon() {
+				return icon$1(props.icon);
+			},
+			get selectedIcon() {
+				return icon$1(props.selectedIcon);
+			},
+			get label() {
+				return props.label;
+			},
+			get tooltip() {
+				return props.tooltip;
+			},
+			get enabled() {
+				return !props.disabled;
+			}
+		});
+	}
+	// ../../packages/material/src/overlays.tsx
+	var _tpl$1$14 = /*@__PURE__*/ ke(["modal", { "type": "materialDialog" }], 1);
+	var _tpl$2$8 = /*@__PURE__*/ ke(["modal", { "type": "materialBottomSheet" }], 1);
+	/** Material's alert dialog, open while `open` is true. */
+	function Dialog$2(props) {
+		return ((_at$1) => (() => {
+			var _el$ = Ge("h$modal", {
+				$t: _at$1,
+				$i: 0
+			});
+			Z$1(_el$, $e(AlertDialog, {
+				get title() {
+					return label$1(props.title);
+				},
+				get icon() {
+					return icon$1(props.icon);
+				},
+				get content() {
+					return label$1(props.children);
+				},
+				get actions() {
+					return props.actions;
+				},
+				get scrollable() {
+					return props.scrollable;
+				}
+			}));
+			He(() => {
+				return {
+					e: props.open,
+					t: props.onOpenChange,
+					a: props.dismissible
+				};
+			}, ({ e, t, a }, _p$) => {
+				e !== _p$?.e && Ye(_el$, "open", e, _p$?.e);
+				t !== _p$?.t && Ye(_el$, "onOpenChange", t, _p$?.t);
+				a !== _p$?.a && Ye(_el$, "dismissible", a, _p$?.a);
+			});
+			return _el$;
+		})())(Ae(_tpl$1$14));
+	}
+	/** A modal sheet from the bottom, open while `open` is true. */
+	function BottomSheet(props) {
+		return ((_at$2) => (() => {
+			var _el$2 = Ge("h$modal", {
+				$t: _at$2,
+				$i: 0
+			});
+			Z$1(_el$2, () => {
+				return props.children;
+			});
+			He(() => {
+				return {
+					e: props.open,
+					t: props.onOpenChange,
+					a: props.dismissible,
+					o: props.enableDrag,
+					i: props.showDragHandle,
+					n: props.fullHeight,
+					s: props.backgroundColor
+				};
+			}, ({ e, t, a, o, i, n, s }, _p$) => {
+				e !== _p$?.e && Ye(_el$2, "open", e, _p$?.e);
+				t !== _p$?.t && Ye(_el$2, "onOpenChange", t, _p$?.t);
+				a !== _p$?.a && Ye(_el$2, "dismissible", a, _p$?.a);
+				o !== _p$?.o && Ye(_el$2, "enableDrag", o, _p$?.o);
+				i !== _p$?.i && Ye(_el$2, "showDragHandle", i, _p$?.i);
+				n !== _p$?.n && Ye(_el$2, "scrollControlled", n, _p$?.n);
+				s !== _p$?.s && Ye(_el$2, "backgroundColor", s, _p$?.s);
+			});
+			return _el$2;
+		})())(Ae(_tpl$2$8));
+	}
 	// src/ui.tsx
-	var _tpl$1$7 = /*@__PURE__*/ Ae([
+	var _tpl$1$13 = /*@__PURE__*/ ke([
 		"gestureDetector",
 		0,
 		[
@@ -5050,7 +8338,7 @@
 			}]
 		]
 	], 3);
-	var _tpl$2$4 = /*@__PURE__*/ Ae([
+	var _tpl$2$7 = /*@__PURE__*/ ke([
 		"gestureDetector",
 		0,
 		[
@@ -5065,7 +8353,7 @@
 			["text", { "fontSize": 16 }]
 		]
 	], 3);
-	function Button(props) {
+	function Button$2(props) {
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$gestureDetector", {
 				$t: _at$1,
@@ -5088,7 +8376,7 @@
 				Ye(_el$, "onTap", _v$, _$p);
 			});
 			return _el$;
-		})())(je(_tpl$1$7));
+		})())(Ae(_tpl$1$13));
 	}
 	function Row(props) {
 		var _el$4 = Ge("view");
@@ -5127,10 +8415,10 @@
 				Ye(_el$5, "onTap", _v$, _$p);
 			});
 			return _el$5;
-		})())(je(_tpl$2$4));
+		})())(Ae(_tpl$2$7));
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$6 = /*@__PURE__*/ Ae([
+	var _tpl$1$12 = /*@__PURE__*/ ke([
 		"view",
 		{
 			"flex": {
@@ -5275,23 +8563,10 @@
 			tt(_el$3, _el$5);
 			tt(_el$3, _el$6);
 			return _el$;
-		})())(je(_tpl$1$6));
+		})())(Ae(_tpl$1$12));
 	}
-	// ../../packages/solid-fuse/dist/icons/material.js
-	var e = (e, t = !1) => ({
-		codePoint: e,
-		fontFamily: "MaterialIcons",
-		...t && { matchTextDirection: !0 }
-	});
-	var EY = /*#__PURE__*/ e(57947);
-	var lre = /*#__PURE__*/ e(58136);
-	var coe = /*#__PURE__*/ e(58172);
-	var Bge = /*#__PURE__*/ e(58286);
-	var x4e = /*#__PURE__*/ e(58727);
-	var _6e = /*#__PURE__*/ e(58751);
-	var est = /*#__PURE__*/ e(58873);
 	// src/screens/text-field.tsx
-	var _tpl$1$5 = /*@__PURE__*/ Ae([
+	var _tpl$1$11 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5341,13 +8616,6 @@
 					{ "fontWeight": "semiBold" },
 					"Name"
 				],
-				["textField", {
-					"placeholder": "Your name",
-					"decoration": {
-						"border": "outline",
-						"contentPadding": 12
-					}
-				}],
 				[
 					"text",
 					{
@@ -5369,13 +8637,6 @@
 					{ "fontWeight": "semiBold" },
 					"Focus control"
 				],
-				["textField", {
-					"placeholder": "Controlled by buttons below",
-					"decoration": {
-						"border": "outline",
-						"contentPadding": 12
-					}
-				}],
 				[
 					"text",
 					{
@@ -5395,16 +8656,7 @@
 					"text",
 					{ "fontWeight": "semiBold" },
 					"Digits only"
-				],
-				["textField", {
-					"placeholder": "Type letters, they vanish",
-					"keyboardType": "number",
-					"allowPattern": "[0-9]",
-					"decoration": {
-						"border": "outline",
-						"contentPadding": 12
-					}
-				}]
+				]
 			],
 			[
 				"view",
@@ -5416,22 +8668,7 @@
 					"text",
 					{ "fontWeight": "semiBold" },
 					"Slot widgets"
-				],
-				["textField", {
-					"placeholder": "Search…",
-					"decoration": {
-						"border": "outline",
-						"contentPadding": 12
-					}
-				}],
-				["textField", {
-					"placeholder": "Password",
-					"obscureText": true,
-					"decoration": {
-						"border": "outline",
-						"contentPadding": 12
-					}
-				}]
+				]
 			],
 			[
 				"view",
@@ -5455,20 +8692,12 @@
 			]
 		],
 		["view", { "padding": 16 }]
-	], 35);
-	var _tpl$2$3 = /*@__PURE__*/ Ae(["icon", {
-		"size": 20,
-		"color": "#6B7280"
-	}], 1);
-	var _tpl$3 = /*@__PURE__*/ Ae(["icon", {
-		"size": 20,
-		"color": "#6B7280"
-	}], 1);
+	], 30);
 	function TextFieldScreen() {
-		const nav = X();
+		const nav = Y();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
-		const focus = ue();
+		const focus = Ce();
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -5486,12 +8715,11 @@
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = Ge("h$textField", {
+			var _el$5 = Ge("h$text", {
 				$t: _at$1,
-				$i: 10,
-				onChanged: setName
+				$i: 10
 			});
-			var _el$6 = Ge("h$text", {
+			var _el$6 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 11
 			});
@@ -5499,126 +8727,122 @@
 				$t: _at$1,
 				$i: 12
 			});
-			var _el$8 = Ge("h$__text__", {
+			var _el$8 = Ge("h$view", {
 				$t: _at$1,
 				$i: 13
 			});
-			var _el$9 = Ge("h$view", {
+			var _el$9 = Ge("h$text", {
 				$t: _at$1,
 				$i: 14
 			});
 			var _el$10 = Ge("h$text", {
 				$t: _at$1,
-				$i: 15
+				$i: 16
 			});
-			var _el$11 = Ge("h$textField", {
+			var _el$11 = Ge("h$__text__", {
 				$t: _at$1,
-				$i: 17,
-				focusNode: focus
+				$i: 17
 			});
-			var _el$12 = Ge("h$text", {
+			var _el$12 = Ge("h$view", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = Ge("h$__text__", {
+			var _el$13 = Ge("h$text", {
 				$t: _at$1,
 				$i: 19
 			});
 			var _el$14 = Ge("h$view", {
 				$t: _at$1,
-				$i: 20
+				$i: 21
 			});
-			var _el$15 = Ge("h$textField", {
+			var _el$15 = Ge("h$text", {
 				$t: _at$1,
-				$i: 23,
-				onChanged: setDigits
+				$i: 22
 			});
 			var _el$16 = Ge("h$view", {
 				$t: _at$1,
-				$i: 24
-			});
-			var _el$17 = Ge("h$textField", {
-				$t: _at$1,
-				$i: 27
-			});
-			var _el$18 = Ge("h$textField", {
-				$t: _at$1,
-				$i: 28
-			});
-			var _el$19 = Ge("h$view", {
-				$t: _at$1,
-				$i: 34
+				$i: 29
 			});
 			tt(_el$, _el$2);
-			tt(_el$, _el$19);
+			tt(_el$, _el$16);
 			tt(_el$2, _el$3);
-			tt(_el$2, _el$9);
+			tt(_el$2, _el$8);
+			tt(_el$2, _el$12);
 			tt(_el$2, _el$14);
-			tt(_el$2, _el$16);
 			tt(_el$3, _el$4);
 			tt(_el$3, _el$5);
-			tt(_el$3, _el$6);
-			tt(_el$6, _el$7);
-			tt(_el$6, _el$8);
-			Z$1(_el$6, name, _el$8);
+			Z$1(_el$3, $e(TextField$2, {
+				get value() {
+					return name();
+				},
+				onChange: setName,
+				label: "Name",
+				placeholder: "Your name"
+			}), _el$5);
+			tt(_el$5, _el$6);
+			tt(_el$5, _el$7);
+			Z$1(_el$5, name, _el$7);
 			Z$1(_el$3, $e(Row, { get children() {
-				return [$e(Button, {
+				return [$e(Button$2, {
 					onTap: () => setName("Override!"),
 					children: "external setName"
-				}), $e(Button, {
+				}), $e(Button$2, {
 					onTap: () => setName(""),
 					children: "clear"
 				})];
 			} }), null);
-			tt(_el$9, _el$10);
-			tt(_el$9, _el$11);
-			tt(_el$9, _el$12);
-			tt(_el$12, _el$13);
-			Z$1(_el$12, () => {
+			tt(_el$8, _el$9);
+			tt(_el$8, _el$10);
+			Z$1(_el$8, $e(TextField$2, {
+				focusNode: focus,
+				placeholder: "Controlled by buttons below"
+			}), _el$10);
+			tt(_el$10, _el$11);
+			Z$1(_el$10, () => {
 				return focus.hasFocus() ? "true" : "false";
 			}, null);
-			Z$1(_el$9, $e(Row, { get children() {
-				return [$e(Button, {
+			Z$1(_el$8, $e(Row, { get children() {
+				return [$e(Button$2, {
 					onTap: () => focus.focus(),
 					children: "focus"
-				}), $e(Button, {
+				}), $e(Button$2, {
 					onTap: () => focus.unfocus(),
 					children: "unfocus"
 				})];
 			} }), null);
+			tt(_el$12, _el$13);
+			Z$1(_el$12, $e(TextField$2, {
+				get value() {
+					return digits();
+				},
+				onChange: setDigits,
+				placeholder: "Type letters, they vanish",
+				keyboardType: "number",
+				allowPattern: "[0-9]"
+			}), null);
 			tt(_el$14, _el$15);
-			tt(_el$16, _el$17);
-			tt(_el$16, _el$18);
-			Z$1(_el$19, $e(Button, {
+			Z$1(_el$14, $e(TextField$2, {
+				placeholder: "Search…",
+				get prefixIcon() {
+					return search;
+				}
+			}), null);
+			Z$1(_el$14, $e(TextField$2, {
+				placeholder: "Password",
+				obscureText: true,
+				get prefixIcon() {
+					return lock;
+				}
+			}), null);
+			Z$1(_el$16, $e(Button$2, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
-			He(() => {
-				return {
-					e: name(),
-					t: digits(),
-					a: ((_at$2) => Ge("h$icon", {
-						$t: _at$2,
-						$i: 0,
-						data: x4e
-					}))(je(_tpl$2$3)),
-					o: ((_at$3) => Ge("h$icon", {
-						$t: _at$3,
-						$i: 0,
-						data: Bge
-					}))(je(_tpl$3))
-				};
-			}, ({ e, t, a, o }, _p$) => {
-				e !== _p$?.e && Ye(_el$5, "value", e, _p$?.e);
-				t !== _p$?.t && Ye(_el$15, "value", t, _p$?.t);
-				a !== _p$?.a && Ye(_el$17, "prefixIcon", a, _p$?.a);
-				o !== _p$?.o && Ye(_el$18, "prefixIcon", o, _p$?.o);
-			});
 			return _el$;
-		})())(je(_tpl$1$5));
+		})())(Ae(_tpl$1$11));
 	}
 	// src/screens/icon.tsx
-	var _tpl$1$4 = /*@__PURE__*/ Ae([
+	var _tpl$1$10 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5668,26 +8892,11 @@
 					{ "fontWeight": "semiBold" },
 					"Static grid"
 				],
-				[
-					"view",
-					{ "flex": {
-						"direction": "horizontal",
-						"gap": 16,
-						"align": "center"
-					} },
-					["icon", { "size": 32 }],
-					["icon", { "size": 32 }],
-					["icon", { "size": 32 }],
-					["icon", { "size": 32 }],
-					["icon", {
-						"size": 32,
-						"color": "#EF4444"
-					}],
-					["icon", {
-						"size": 32,
-						"color": "#F59E0B"
-					}]
-				]
+				["view", { "flex": {
+					"direction": "horizontal",
+					"gap": 16,
+					"align": "center"
+				} }]
 			],
 			[
 				"view",
@@ -5710,7 +8919,6 @@
 						},
 						"padding": 12
 					},
-					["icon", 0],
 					[
 						"text",
 						{
@@ -5743,10 +8951,6 @@
 						},
 						"padding": 12
 					},
-					["icon", {
-						"size": 20,
-						"color": "#3B82F6"
-					}],
 					[
 						"text",
 						0,
@@ -5756,9 +8960,9 @@
 			]
 		],
 		["view", { "padding": 16 }]
-	], 33);
+	], 25);
 	function IconScreen() {
-		const nav = X();
+		const nav = Y();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
@@ -5778,154 +8982,158 @@
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$5 = Ge("h$icon", {
+			var _el$5 = Ge("h$view", {
 				$t: _at$1,
-				$i: 11,
-				data: x4e
+				$i: 11
 			});
-			var _el$6 = Ge("h$icon", {
+			var _el$6 = Ge("h$text", {
 				$t: _at$1,
-				$i: 12,
-				data: Bge
+				$i: 12
 			});
-			var _el$7 = Ge("h$icon", {
+			var _el$7 = Ge("h$view", {
 				$t: _at$1,
-				$i: 13,
-				data: lre
+				$i: 14
 			});
-			var _el$8 = Ge("h$icon", {
+			var _el$8 = Ge("h$text", {
 				$t: _at$1,
-				$i: 14,
-				data: _6e
+				$i: 15
 			});
-			var _el$9 = Ge("h$icon", {
+			var _el$9 = Ge("h$__text__", {
 				$t: _at$1,
-				$i: 15,
-				data: EY
+				$i: 16
 			});
-			var _el$10 = Ge("h$icon", {
-				$t: _at$1,
-				$i: 16,
-				data: est
-			});
-			var _el$11 = Ge("h$view", {
+			var _el$10 = Ge("h$__text__", {
 				$t: _at$1,
 				$i: 17
 			});
-			var _el$12 = Ge("h$text", {
+			var _el$11 = Ge("h$view", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = Ge("h$view", {
+			var _el$12 = Ge("h$view", {
 				$t: _at$1,
-				$i: 20
+				$i: 21
 			});
-			var _el$14 = Ge("h$icon", {
-				$t: _at$1,
-				$i: 21,
-				data: EY
-			});
-			var _el$15 = Ge("h$text", {
+			var _el$13 = Ge("h$text", {
 				$t: _at$1,
 				$i: 22
 			});
-			var _el$16 = Ge("h$__text__", {
-				$t: _at$1,
-				$i: 23
-			});
-			var _el$17 = Ge("h$__text__", {
+			var _el$14 = Ge("h$view", {
 				$t: _at$1,
 				$i: 24
 			});
-			var _el$18 = Ge("h$view", {
-				$t: _at$1,
-				$i: 25
-			});
-			var _el$19 = Ge("h$view", {
-				$t: _at$1,
-				$i: 28
-			});
-			var _el$20 = Ge("h$icon", {
-				$t: _at$1,
-				$i: 29,
-				data: coe
-			});
-			var _el$21 = Ge("h$view", {
-				$t: _at$1,
-				$i: 32
-			});
 			tt(_el$, _el$2);
-			tt(_el$, _el$21);
+			tt(_el$, _el$14);
 			tt(_el$2, _el$3);
+			tt(_el$2, _el$5);
 			tt(_el$2, _el$11);
-			tt(_el$2, _el$18);
 			tt(_el$3, _el$4);
-			tt(_el$4, _el$5);
-			tt(_el$4, _el$6);
-			tt(_el$4, _el$7);
-			tt(_el$4, _el$8);
-			tt(_el$4, _el$9);
-			tt(_el$4, _el$10);
-			tt(_el$11, _el$12);
-			tt(_el$11, _el$13);
-			tt(_el$13, _el$14);
-			tt(_el$13, _el$15);
-			tt(_el$15, _el$16);
-			tt(_el$15, _el$17);
-			Z$1(_el$15, size, _el$17);
-			Z$1(_el$15, color, null);
-			Z$1(_el$11, $e(Row, { get children() {
+			Z$1(_el$4, $e(ue, {
+				get icon() {
+					return search;
+				},
+				size: 32
+			}), null);
+			Z$1(_el$4, $e(ue, {
+				get icon() {
+					return lock;
+				},
+				size: 32
+			}), null);
+			Z$1(_el$4, $e(ue, {
+				get icon() {
+					return home;
+				},
+				size: 32
+			}), null);
+			Z$1(_el$4, $e(ue, {
+				get icon() {
+					return settings;
+				},
+				size: 32
+			}), null);
+			Z$1(_el$4, $e(ue, {
+				get icon() {
+					return favorite;
+				},
+				size: 32,
+				color: "#EF4444"
+			}), null);
+			Z$1(_el$4, $e(ue, {
+				get icon() {
+					return star;
+				},
+				size: 32,
+				color: "#F59E0B"
+			}), null);
+			tt(_el$5, _el$6);
+			tt(_el$5, _el$7);
+			tt(_el$7, _el$8);
+			Z$1(_el$7, $e(ue, {
+				get icon() {
+					return favorite;
+				},
+				get size() {
+					return size();
+				},
+				get color() {
+					return color();
+				}
+			}), _el$8);
+			tt(_el$8, _el$9);
+			tt(_el$8, _el$10);
+			Z$1(_el$8, size, _el$10);
+			Z$1(_el$8, color, null);
+			Z$1(_el$5, $e(Row, { get children() {
 				return [
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setSize(16),
 						children: "16"
 					}),
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setSize(32),
 						children: "32"
 					}),
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setSize(64),
 						children: "64"
 					})
 				];
 			} }), null);
-			Z$1(_el$11, $e(Row, { get children() {
+			Z$1(_el$5, $e(Row, { get children() {
 				return [
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setColor("#EF4444"),
 						children: "red"
 					}),
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setColor("#10B981"),
 						children: "green"
 					}),
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setColor("#3B82F6"),
 						children: "blue"
 					})
 				];
 			} }), null);
-			tt(_el$18, _el$19);
-			tt(_el$19, _el$20);
-			Z$1(_el$21, $e(Button, {
+			tt(_el$11, _el$12);
+			tt(_el$12, _el$13);
+			Z$1(_el$12, $e(ue, {
+				get icon() {
+					return info$1;
+				},
+				size: 20,
+				color: "#3B82F6"
+			}), _el$13);
+			Z$1(_el$14, $e(Button$2, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
-			He(() => {
-				return {
-					e: size(),
-					t: color()
-				};
-			}, ({ e, t }, _p$) => {
-				e !== _p$?.e && Ye(_el$14, "size", e, _p$?.e);
-				t !== _p$?.t && Ye(_el$14, "color", t, _p$?.t);
-			});
 			return _el$;
-		})())(je(_tpl$1$4));
+		})())(Ae(_tpl$1$10));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$3 = /*@__PURE__*/ Ae([
+	var _tpl$1$9 = /*@__PURE__*/ ke([
 		"scrollView",
 		{ "flex": {
 			"direction": "vertical",
@@ -5993,7 +9201,7 @@
 		}],
 		["view", { "padding": 16 }]
 	], 12);
-	var _tpl$2$2 = /*@__PURE__*/ Ae([
+	var _tpl$2$6 = /*@__PURE__*/ ke([
 		"view",
 		{ "padding": 16 },
 		[
@@ -6003,8 +9211,8 @@
 		]
 	], 3);
 	function ScrollScreen() {
-		const nav = X();
-		const scroll = le({ initialScrollOffset: 120 });
+		const nav = Y();
+		const scroll = Se({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
 			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
@@ -6044,11 +9252,11 @@
 			Z$1(_el$3, () => {
 				return scroll.scrollOffset().toFixed(1);
 			}, null);
-			Z$1(_el$5, $e(Button, {
+			Z$1(_el$5, $e(Button$2, {
 				onTap: () => scroll.jumpTo(0),
 				children: "jumpTo(0)"
 			}), null);
-			Z$1(_el$5, $e(Button, {
+			Z$1(_el$5, $e(Button$2, {
 				onTap: () => scroll.animateTo(1200, { duration: 800 }),
 				children: "animateTo(1200)"
 			}), null);
@@ -6074,24 +9282,24 @@
 					tt(_el$8, _el$9);
 					Z$1(_el$8, i, null);
 					return _el$7;
-				})())(je(_tpl$2$2)));
+				})())(Ae(_tpl$2$6)));
 			});
-			Z$1(_el$10, $e(Button, {
+			Z$1(_el$10, $e(Button$2, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(je(_tpl$1$3));
+		})())(Ae(_tpl$1$9));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$2 = /*@__PURE__*/ Ae(["view", {
+	var _tpl$1$8 = /*@__PURE__*/ ke(["view", {
 		"flex": {
 			"direction": "vertical",
 			"gap": 12
 		},
 		"padding": 24
 	}], 1);
-	var _tpl$2$1 = /*@__PURE__*/ Ae([
+	var _tpl$2$5 = /*@__PURE__*/ ke([
 		"view",
 		{ "height": 40 },
 		["text", { "fontSize": 16 }]
@@ -6111,15 +9319,15 @@
 			});
 			Z$1(_el$, $e(Row, { get children() {
 				return [
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setRows((r) => r.slice().reverse()),
 						children: "Reverse"
 					}),
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setRows((r) => r.slice().sort()),
 						children: "Sort"
 					}),
-					$e(Button, {
+					$e(Button$2, {
 						onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
 						children: "Thin"
 					})
@@ -6141,249 +9349,13 @@
 					tt(_el$2, _el$3);
 					Z$1(_el$3, row);
 					return _el$2;
-				})())(je(_tpl$2$1))
+				})())(Ae(_tpl$2$5))
 			}), null);
 			return _el$;
-		})())(je(_tpl$1$2));
+		})())(Ae(_tpl$1$8));
 	}
-	// ../../packages/solid-fuse/dist/generated.js
-	var f = (e, t) => {
-		if (e === t) return !0;
-		if (typeof e != "object" || typeof t != "object" || e === null || t === null || Array.isArray(e) !== Array.isArray(t)) return !1;
-		let n = Object.keys(e);
-		if (n.length !== Object.keys(t).length) return !1;
-		for (let r of n) if (!f(e[r], t[r])) return !1;
-		return !0;
-	};
-	var p = (t) => t.catch(l);
-	var m = /* @__PURE__ */ new Map();
-	var h = {
-		s: [],
-		w: [],
-		o: [],
-		m: [],
-		st: []
-	};
-	function g(e, t) {
-		m.set(e, t);
-	}
-	function _(e, t, n, r) {
-		let i = new Set(r.fns), o = new Set(r.live), s = {}, l = [];
-		if (n) for (let e in n) {
-			let t = n[e];
-			typeof t == "function" && !i.has(e) ? (s[e] = untrack(t), o.has(e) && l.push([e, t])) : s[e] = t;
-		}
-		r.ctor && (s.$ctor = r.ctor);
-		let d = {};
-		for (let e of t.s) d[e] = s[e] === void 0 ? r.seeds?.[e] : s[e];
-		let { handle: f, write: p } = x(Pe(e, s), t, d);
-		for (let [e, t] of l) createEffect(t, (t, n) => {
-			(n !== void 0 || t !== s[e]) && p(e, t);
-		});
-		return f;
-	}
-	var v = /* @__PURE__ */ new Map();
-	function y(e) {
-		let n = e.$h, a = Re(n)?.handle;
-		if (a) {
-			if (!e.o) {
-				let e = v.get(n);
-				e ? e.n++ : me.send("_unborrow", {
-					id: n,
-					n: 1
-				});
-			}
-			return a;
-		}
-		let o = {
-			id: n,
-			n: +!e.o
-		};
-		e.o || v.set(n, o);
-		let s = Le(e.t, n, () => {
-			v.get(o.id) === o && v.delete(o.id), o.n > 0 && me.send("_unborrow", {
-				id: o.id,
-				n: o.n
-			});
-		}), c = m.get(e.t) ?? h, { handle: l, call: u } = x(s, c, e.s ? b(e.s) : {});
-		return !e.s && c.s.length && p(u("$sync", null)), l;
-	}
-	function b(e, t = 0) {
-		if (typeof e != "object" || !e || t > 32) return e;
-		let n = e;
-		if (typeof n.$h == "number" && typeof n.t == "string") return y(n);
-		let r;
-		if (Array.isArray(e)) for (let n = 0; n < e.length; n++) {
-			let i = b(e[n], t + 1);
-			i !== e[n] && ((r ?? (r = e.slice()))[n] = i);
-		}
-		else for (let e in n) {
-			let i = b(n[e], t + 1);
-			i !== n[e] && ((r ?? (r = { ...n }))[e] = i);
-		}
-		return r ?? e;
-	}
-	Fe(b);
-	function x(e, t, i) {
-		let a = 0, s = /* @__PURE__ */ new Map();
-		for (let e of t.s) {
-			let [t, n] = createSignal(i[e], {
-				equals: f,
-				ownedWrite: !0
-			});
-			s.set(e, [t, (e) => n(() => e)]);
-		}
-		Be(e, "$push", (e) => {
-			if (!(e.v < a)) for (let t in e.s) s.get(t)?.[1](e.s[t]);
-		});
-		let c = (t, i) => me.call("_handleCall", {
-			node: e.id,
-			method: t,
-			value: ze(i)
-		}, { timeout: 0 }).then(b), u = { node: e };
-		e.handle = u;
-		for (let [e, [t]] of s) u[e] = t;
-		let d = new Set(t.o), m = (e, t) => {
-			a++, d.has(e) && s.get(e)?.[1](t), p(c("$set", {
-				n: e,
-				v: t,
-				ver: a
-			}));
-		};
-		for (let e of t.w) u[`set${e[0].toUpperCase()}${e.slice(1)}`] = (t) => m(e, t);
-		for (let e of t.m) u[e] = (...t) => c(e, t);
-		for (let n of t.st) u[n] = () => C(e, c, n);
-		return {
-			handle: u,
-			write: m,
-			call: c
-		};
-	}
-	var S = 0;
-	function C(e, t, n) {
-		return { [Symbol.asyncIterator]() {
-			let r = `$s${S++}`, i = [], a = null, s = !1, c, l = !1, u = () => {
-				l || (l = !0, Be(e, r, void 0));
-			};
-			Be(e, r, (e) => {
-				e.d ? s = !0 : e.e === void 0 ? i.push(e.v) : c = e.e, a?.();
-			});
-			let d = t("$listen", {
-				stream: n,
-				fn: r
-			}).catch((e) => {
-				c = e instanceof Error ? e.message : String(e), a?.();
-			});
-			return {
-				async next() {
-					for (await d;;) {
-						if (i.length) return {
-							value: i.shift(),
-							done: !1
-						};
-						if (c !== void 0) throw u(), Error(c);
-						if (s) return u(), {
-							value: void 0,
-							done: !0
-						};
-						await new Promise((e) => a = e), a = null;
-					}
-				},
-				async return() {
-					return s || p(t("$cancel", { fn: r })), s = !0, u(), {
-						value: void 0,
-						done: !0
-					};
-				}
-			};
-		} };
-	}
-	// fuse/flutter.tsx
-	var $ScrollController = {
-		"s": [
-			"initialScrollOffset",
-			"keepScrollOffset",
-			"positions",
-			"hasClients",
-			"position",
-			"offset"
-		],
-		"w": [],
-		"o": [],
-		"m": [
-			"animateTo",
-			"jumpTo",
-			"attach",
-			"detach",
-			"createScrollPosition"
-		],
-		"st": []
-	};
-	g("flutter_ScrollController", $ScrollController);
-	/**
-	* Controls a scrollable widget.
-	* Dart: `ScrollController(...)`. Lives while the calling owner does, and after that while JS still holds it.
-	*/
-	function createScrollController(options) {
-		return _("flutter_ScrollController", $ScrollController, options, {
-			"fns": ["onAttach", "onDetach"],
-			"seeds": {
-				"initialScrollOffset": 0,
-				"keepScrollOffset": true
-			}
-		});
-	}
-	g("flutter_ScrollPosition", {
-		"s": [
-			"physics",
-			"context",
-			"keepScrollOffset",
-			"minScrollExtent",
-			"maxScrollExtent",
-			"hasContentDimensions",
-			"pixels",
-			"hasPixels",
-			"viewportDimension",
-			"hasViewportDimension",
-			"haveDimensions",
-			"shouldIgnorePointer",
-			"devicePixelRatio",
-			"isScrollingNotifier",
-			"allowImplicitScrolling",
-			"userScrollDirection"
-		],
-		"w": [],
-		"o": [],
-		"m": [
-			"setPixels",
-			"correctPixels",
-			"correctBy",
-			"restoreOffset",
-			"applyViewportDimension",
-			"applyContentDimensions",
-			"animateTo",
-			"jumpTo",
-			"pointerScroll",
-			"moveTo",
-			"beginActivity",
-			"didStartScroll",
-			"didUpdateScrollPositionBy",
-			"didEndScroll",
-			"didOverscrollBy",
-			"didUpdateScrollDirection",
-			"didUpdateScrollMetrics"
-		],
-		"st": []
-	});
-	g("flutter_ValueNotifier", {
-		"s": ["value"],
-		"w": ["value"],
-		"o": ["value"],
-		"m": [],
-		"st": []
-	});
 	// src/screens/builder.tsx
-	var _tpl$1$1 = /*@__PURE__*/ Ae([
+	var _tpl$1$7 = /*@__PURE__*/ ke([
 		"view",
 		{ "flex": {
 			"direction": "vertical",
@@ -6413,16 +9385,9 @@
 				"fontSize": 14
 			}]
 		],
-		[
-			"view",
-			{ "grow": 1 },
-			["flutter_ListViewBuilder", {
-				"itemCount": 1e4,
-				"itemExtent": 48
-			}]
-		]
-	], 8);
-	var _tpl$2 = /*@__PURE__*/ Ae([
+		["view", { "grow": 1 }]
+	], 7);
+	var _tpl$2$4 = /*@__PURE__*/ ke([
 		"gestureDetector",
 		0,
 		[
@@ -6459,33 +9424,6 @@
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$6 = Ge("h$flutter_ListViewBuilder", {
-				$t: _at$1,
-				$i: 7,
-				controller: scroll,
-				itemBuilder: (index) => ((_at$2) => (() => {
-					var _el$7 = Ge("h$gestureDetector", {
-						$t: _at$2,
-						$i: 0,
-						onTap: () => setPicked(index)
-					});
-					var _el$8 = Ge("h$view", {
-						$t: _at$2,
-						$i: 1
-					});
-					var _el$9 = Ge("h$text", {
-						$t: _at$2,
-						$i: 2
-					});
-					tt(_el$7, _el$8);
-					tt(_el$8, _el$9);
-					Z$1(_el$9, `Row ${index}`);
-					He(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
-						Ye(_el$8, "decoration", _v$, _$p);
-					});
-					return _el$7;
-				})())(je(_tpl$2))
-			});
 			tt(_el$, _el$2);
 			tt(_el$, _el$5);
 			tt(_el$2, _el$3);
@@ -6501,19 +9439,2001 @@
 			Z$1(_el$4, () => {
 				return `Scrolled ${at()} px`;
 			});
-			tt(_el$5, _el$6);
+			Z$1(_el$5, $e(ListViewBuilder, {
+				controller: scroll,
+				itemCount: 1e4,
+				itemExtent: 48,
+				itemBuilder: (index) => ((_at$2) => (() => {
+					var _el$6 = Ge("h$gestureDetector", {
+						$t: _at$2,
+						$i: 0,
+						onTap: () => setPicked(index)
+					});
+					var _el$7 = Ge("h$view", {
+						$t: _at$2,
+						$i: 1
+					});
+					var _el$8 = Ge("h$text", {
+						$t: _at$2,
+						$i: 2
+					});
+					tt(_el$6, _el$7);
+					tt(_el$7, _el$8);
+					Z$1(_el$8, `Row ${index}`);
+					He(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
+						Ye(_el$7, "decoration", _v$, _$p);
+					});
+					return _el$6;
+				})())(Ae(_tpl$2$4))
+			}));
 			return _el$;
-		})())(je(_tpl$1$1));
+		})())(Ae(_tpl$1$7));
+	}
+	// src/screens/core.tsx
+	var _tpl$1$6 = /*@__PURE__*/ ke([
+		"scrollView",
+		{
+			"flex": {
+				"direction": "vertical",
+				"gap": 20
+			},
+			"padding": 16
+		},
+		[
+			"text",
+			{
+				"fontSize": 24,
+				"fontWeight": "bold"
+			},
+			"core widgets"
+		]
+	], 3);
+	var _tpl$2$3 = /*@__PURE__*/ ke([
+		"view",
+		{ "padding": {
+			"horizontal": 16,
+			"vertical": 12
+		} },
+		["text", { "color": "white" }]
+	], 2);
+	var _tpl$3$1 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"padding": 12,
+			"decoration": {
+				"border": {
+					"width": 1,
+					"color": "#D1D5DB"
+				},
+				"borderRadius": 8
+			}
+		},
+		["textInput", { "placeholder": "Type here" }]
+	], 2);
+	var _tpl$4 = /*@__PURE__*/ ke(["text", { "color": "#6B7280" }], 1);
+	var _tpl$5 = /*@__PURE__*/ ke([
+		"modal",
+		0,
+		[
+			"view",
+			{
+				"padding": 24,
+				"width": 280,
+				"decoration": {
+					"color": "white",
+					"borderRadius": 16
+				},
+				"flex": { "gap": 16 }
+			},
+			[
+				"text",
+				{
+					"fontSize": 18,
+					"fontWeight": "bold"
+				},
+				"Core dialog"
+			],
+			[
+				"text",
+				0,
+				"No design: the content brings its own surface."
+			]
+		]
+	], 6);
+	var _tpl$6 = /*@__PURE__*/ ke(["view", {
+		"width": 160,
+		"decoration": {
+			"color": "white",
+			"borderRadius": 8,
+			"shadow": {
+				"blurRadius": 8,
+				"color": "#00000033"
+			}
+		}
+	}], 1);
+	var _tpl$7 = /*@__PURE__*/ ke([
+		"view",
+		{ "padding": 12 },
+		["text", 0]
+	], 2);
+	var _tpl$8 = /*@__PURE__*/ ke([
+		"radioGroup",
+		0,
+		["text", 0]
+	], 2);
+	var _tpl$9 = /*@__PURE__*/ ke([
+		"tooltip",
+		{ "trigger": "tap" },
+		[
+			"text",
+			{ "color": "#2563eb" },
+			"tap for a tooltip"
+		]
+	], 3);
+	var _tpl$10 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"padding": 8,
+			"decoration": {
+				"color": "#111827",
+				"borderRadius": 4
+			}
+		},
+		[
+			"text",
+			{ "color": "white" },
+			"A tooltip"
+		]
+	], 3);
+	var _tpl$11 = /*@__PURE__*/ ke([
+		"expandable",
+		0,
+		[
+			"view",
+			{ "padding": 12 },
+			[
+				"text",
+				0,
+				"The body, animated in."
+			]
+		]
+	], 4);
+	var _tpl$12 = /*@__PURE__*/ ke([
+		"view",
+		{
+			"padding": 12,
+			"decoration": { "color": "#F3F4F6" }
+		},
+		[
+			"text",
+			0,
+			"Show more"
+		]
+	], 3);
+	var _tpl$13 = /*@__PURE__*/ ke([
+		"view",
+		{ "flex": {
+			"direction": "vertical",
+			"gap": 8
+		} },
+		["text", { "fontWeight": "semiBold" }]
+	], 2);
+	function CoreScreen() {
+		const [presses, setPresses] = createSignal(0);
+		const [text, setText] = createSignal("");
+		const [open, setOpen] = createSignal(false);
+		const [menu, setMenu] = createSignal(false);
+		const [fruit, setFruit] = createSignal("apple");
+		const [size, setSize] = createSignal("M");
+		return ((_at$1) => (() => {
+			var _el$ = Ge("h$scrollView", {
+				$t: _at$1,
+				$i: 0
+			});
+			tt(_el$, Ge("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Z$1(_el$, $e(Section, {
+				title: "Pressable",
+				get children() {
+					return $e(he, {
+						onPress: () => setPresses((n) => n + 1),
+						semanticLabel: "Press me",
+						children: (state) => ((_at$2) => (() => {
+							var _el$4 = Ge("h$view", {
+								$t: _at$2,
+								$i: 0
+							});
+							var _el$5 = Ge("h$text", {
+								$t: _at$2,
+								$i: 1
+							});
+							tt(_el$4, _el$5);
+							Z$1(_el$5, () => {
+								return `Pressed ${presses()} times`;
+							});
+							He(() => ({
+								color: state().pressed ? "#1e40af" : state().hovered ? "#1d4ed8" : "#2563eb",
+								borderRadius: 8
+							}), (_v$, _$p) => {
+								Ye(_el$4, "decoration", _v$, _$p);
+							});
+							return _el$4;
+						})())(Ae(_tpl$2$3))
+					});
+				}
+			}), null);
+			Z$1(_el$, $e(Section, {
+				title: "TextInput",
+				get children() {
+					return [
+						Ue(() => {
+							return ((_at$3) => (() => {
+								var _el$6 = Ge("h$view", {
+									$t: _at$3,
+									$i: 0
+								});
+								var _el$7 = Ge("h$textInput", {
+									$t: _at$3,
+									$i: 1,
+									onChange: setText
+								});
+								tt(_el$6, _el$7);
+								He(() => text(), (_v$, _$p) => {
+									Ye(_el$7, "value", _v$, _$p);
+								});
+								return _el$6;
+							})())(Ae(_tpl$3$1));
+						}),
+						Ue(() => {
+							return ((_at$4) => (() => {
+								var _el$8 = Ge("h$text", {
+									$t: _at$4,
+									$i: 0
+								});
+								Z$1(_el$8, () => {
+									return `input = "${text()}"`;
+								});
+								return _el$8;
+							})())(Ae(_tpl$4));
+						}),
+						$e(Row, { get children() {
+							return $e(Button$2, {
+								onTap: () => setText("from JS"),
+								children: "set from JS"
+							});
+						} })
+					];
+				}
+			}), null);
+			Z$1(_el$, $e(Section, {
+				title: "Modal",
+				get children() {
+					return [$e(Row, { get children() {
+						return $e(Button$2, {
+							onTap: () => setOpen(true),
+							children: "open dialog"
+						});
+					} }), Ue(() => {
+						return ((_at$5) => (() => {
+							var _el$9 = Ge("h$modal", {
+								$t: _at$5,
+								$i: 0,
+								onOpenChange: setOpen
+							});
+							var _el$10 = Ge("h$view", {
+								$t: _at$5,
+								$i: 1
+							});
+							var _el$11 = Ge("h$text", {
+								$t: _at$5,
+								$i: 2
+							});
+							var _el$12 = Ge("h$text", {
+								$t: _at$5,
+								$i: 4
+							});
+							tt(_el$9, _el$10);
+							tt(_el$10, _el$11);
+							tt(_el$10, _el$12);
+							Z$1(_el$10, $e(Button$2, {
+								onTap: () => setOpen(false),
+								children: "close"
+							}), null);
+							He(() => open(), (_v$, _$p) => {
+								Ye(_el$9, "open", _v$, _$p);
+							});
+							return _el$9;
+						})())(Ae(_tpl$5));
+					})];
+				}
+			}), null);
+			Z$1(_el$, $e(Section, {
+				title: "Menu",
+				get children() {
+					var _el$3 = Ge("menu", { onOpenChange: setMenu });
+					Z$1(_el$3, $e(Button$2, {
+						onTap: () => setMenu(!menu()),
+						get children() {
+							return `fruit: ${fruit()}`;
+						}
+					}));
+					He(() => {
+						return {
+							e: menu(),
+							t: ((_at$6) => (() => {
+								var _el$13 = Ge("h$view", {
+									$t: _at$6,
+									$i: 0
+								});
+								Z$1(_el$13, $e(For, {
+									each: [
+										"apple",
+										"banana",
+										"cherry"
+									],
+									children: (f) => $e(he, {
+										onPress: () => (setFruit(f), setMenu(false)),
+										get children() {
+											return ((_at$7) => (() => {
+												var _el$14 = Ge("h$view", {
+													$t: _at$7,
+													$i: 0
+												});
+												var _el$15 = Ge("h$text", {
+													$t: _at$7,
+													$i: 1
+												});
+												tt(_el$14, _el$15);
+												Z$1(_el$15, f);
+												return _el$14;
+											})())(Ae(_tpl$7));
+										}
+									})
+								}));
+								return _el$13;
+							})())(Ae(_tpl$6))
+						};
+					}, ({ e, t }, _p$) => {
+						e !== _p$?.e && Ye(_el$3, "open", e, _p$?.e);
+						t !== _p$?.t && Ye(_el$3, "content", t, _p$?.t);
+					});
+					return _el$3;
+				}
+			}), null);
+			Z$1(_el$, $e(Section, {
+				title: "RadioGroup + Tooltip",
+				get children() {
+					return [Ue(() => {
+						return ((_at$8) => (() => {
+							var _el$16 = Ge("h$radioGroup", {
+								$t: _at$8,
+								$i: 0,
+								onChange: setSize
+							});
+							var _el$17 = Ge("h$text", {
+								$t: _at$8,
+								$i: 1
+							});
+							tt(_el$16, _el$17);
+							Z$1(_el$17, () => {
+								return `size = ${size()}`;
+							});
+							He(() => size(), (_v$, _$p) => {
+								Ye(_el$16, "value", _v$, _$p);
+							});
+							return _el$16;
+						})())(Ae(_tpl$8));
+					}), Ue(() => {
+						return ((_at$9) => (() => {
+							var _el$18 = Ge("h$tooltip", {
+								$t: _at$9,
+								$i: 0
+							});
+							He(() => ((_at$10) => Ge("h$view", {
+								$t: _at$10,
+								$i: 0
+							}))(Ae(_tpl$10)), (_v$, _$p) => {
+								Ye(_el$18, "content", _v$, _$p);
+							});
+							return _el$18;
+						})())(Ae(_tpl$9));
+					})];
+				}
+			}), null);
+			Z$1(_el$, $e(Section, {
+				title: "Expandable",
+				get children() {
+					return ((_at$11) => (() => {
+						var _el$20 = Ge("h$expandable", {
+							$t: _at$11,
+							$i: 0
+						});
+						He(() => ((_at$12) => Ge("h$view", {
+							$t: _at$12,
+							$i: 0
+						}))(Ae(_tpl$12)), (_v$, _$p) => {
+							Ye(_el$20, "header", _v$, _$p);
+						});
+						return _el$20;
+					})())(Ae(_tpl$11));
+				}
+			}), null);
+			return _el$;
+		})())(Ae(_tpl$1$6));
+	}
+	function Section(props) {
+		return ((_at$13) => (() => {
+			var _el$22 = Ge("h$view", {
+				$t: _at$13,
+				$i: 0
+			});
+			var _el$23 = Ge("h$text", {
+				$t: _at$13,
+				$i: 1
+			});
+			tt(_el$22, _el$23);
+			Z$1(_el$23, () => {
+				return props.title;
+			});
+			Z$1(_el$22, () => {
+				return props.children;
+			}, null);
+			return _el$22;
+		})())(Ae(_tpl$13));
+	}
+	// src/screens/material.tsx
+	var _tpl$1$5 = /*@__PURE__*/ ke([
+		"scrollView",
+		{
+			"flex": {
+				"direction": "vertical",
+				"gap": 16
+			},
+			"padding": 16
+		},
+		["text", 0],
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 8
+		} }],
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 8
+		} }],
+		[
+			"view",
+			{ "flex": {
+				"direction": "horizontal",
+				"gap": 8,
+				"align": "center"
+			} },
+			["text", 0]
+		],
+		[
+			"radioGroup",
+			0,
+			[
+				"view",
+				{ "flex": {
+					"direction": "horizontal",
+					"align": "center"
+				} },
+				[
+					"text",
+					0,
+					"Free"
+				],
+				[
+					"text",
+					0,
+					"Pro"
+				]
+			]
+		],
+		["text", 0],
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 8
+		} }]
+	], 14);
+	var _tpl$2$2 = /*@__PURE__*/ ke([
+		"text",
+		0,
+		"An outlined card. Tap it."
+	], 2);
+	var _tpl$3 = /*@__PURE__*/ ke([
+		"view",
+		{ "padding": 24 },
+		[
+			"text",
+			0,
+			"A modal bottom sheet. Drag it down."
+		]
+	], 3);
+	function MaterialScreen() {
+		const nav = Y();
+		const [on, setOn] = createSignal(true);
+		const [checked, setChecked] = createSignal(false);
+		const [volume, setVolume] = createSignal(.4);
+		const [plan, setPlan] = createSignal("free");
+		const [tab, setTab] = createSignal(0);
+		const [dialog, setDialog] = createSignal(false);
+		const [sheet, setSheet] = createSignal(false);
+		const [email$1, setEmail] = createSignal("");
+		const [taps, setTaps] = createSignal(0);
+		const [filter, setFilter] = createSignal(false);
+		return $e(Scaffold, {
+			get appBar() {
+				return $e(AppBar, {
+					title: "Material",
+					get leading() {
+						return $e(IconButton, {
+							get icon() {
+								return arrow_back;
+							},
+							tooltip: "Back",
+							onPress: () => nav.pop()
+						});
+					},
+					get actions() {
+						return $e(IconButton, {
+							get icon() {
+								return settings;
+							},
+							tooltip: "Settings"
+						});
+					}
+				});
+			},
+			get floatingActionButton() {
+				return $e(FloatingActionButton, {
+					get icon() {
+						return add;
+					},
+					tooltip: "Add",
+					onPress: () => setTaps((n) => n + 1)
+				});
+			},
+			get bottomNavigationBar() {
+				return $e(NavigationBar$1, {
+					get selected() {
+						return tab();
+					},
+					onSelect: setTab,
+					get children() {
+						return [
+							$e(NavigationDestination, {
+								get icon() {
+									return home_outlined;
+								},
+								get selectedIcon() {
+									return home;
+								},
+								label: "Home"
+							}),
+							$e(NavigationDestination, {
+								get icon() {
+									return favorite_border;
+								},
+								get selectedIcon() {
+									return favorite;
+								},
+								label: "Saved"
+							}),
+							$e(NavigationDestination, {
+								get icon() {
+									return person_outline;
+								},
+								get selectedIcon() {
+									return person$1;
+								},
+								label: "Profile"
+							})
+						];
+					}
+				});
+			},
+			get children() {
+				return ((_at$1) => (() => {
+					var _el$ = Ge("h$scrollView", {
+						$t: _at$1,
+						$i: 0
+					});
+					var _el$2 = Ge("h$text", {
+						$t: _at$1,
+						$i: 1
+					});
+					var _el$3 = Ge("h$view", {
+						$t: _at$1,
+						$i: 2
+					});
+					var _el$4 = Ge("h$view", {
+						$t: _at$1,
+						$i: 3
+					});
+					var _el$5 = Ge("h$view", {
+						$t: _at$1,
+						$i: 4
+					});
+					var _el$6 = Ge("h$text", {
+						$t: _at$1,
+						$i: 5
+					});
+					var _el$7 = Ge("h$radioGroup", {
+						$t: _at$1,
+						$i: 6,
+						onChange: setPlan
+					});
+					var _el$8 = Ge("h$view", {
+						$t: _at$1,
+						$i: 7
+					});
+					var _el$9 = Ge("h$text", {
+						$t: _at$1,
+						$i: 8
+					});
+					var _el$10 = Ge("h$text", {
+						$t: _at$1,
+						$i: 10
+					});
+					var _el$11 = Ge("h$text", {
+						$t: _at$1,
+						$i: 12
+					});
+					var _el$12 = Ge("h$view", {
+						$t: _at$1,
+						$i: 13
+					});
+					tt(_el$, _el$2);
+					tt(_el$, _el$3);
+					tt(_el$, _el$4);
+					tt(_el$, _el$5);
+					tt(_el$, _el$7);
+					tt(_el$, _el$11);
+					tt(_el$, _el$12);
+					Z$1(_el$2, () => {
+						return `Tab ${tab()}, FAB pressed ${taps()} times`;
+					});
+					Z$1(_el$3, $e(Button$3, {
+						onPress: () => setDialog(true),
+						children: "Dialog"
+					}), null);
+					Z$1(_el$3, $e(Button$3, {
+						variant: "tonal",
+						onPress: () => setSheet(true),
+						children: "Sheet"
+					}), null);
+					Z$1(_el$3, $e(Button$3, {
+						variant: "outlined",
+						get icon() {
+							return send;
+						},
+						children: "Send"
+					}), null);
+					Z$1(_el$4, $e(Button$3, {
+						variant: "text",
+						children: "Text"
+					}), null);
+					Z$1(_el$4, $e(Button$3, {
+						variant: "elevated",
+						children: "Elevated"
+					}), null);
+					Z$1(_el$4, $e(Button$3, {
+						disabled: true,
+						children: "Disabled"
+					}), null);
+					Z$1(_el$, $e(Divider, {}), _el$5);
+					tt(_el$5, _el$6);
+					Z$1(_el$5, $e(Switch$2, {
+						get value() {
+							return on();
+						},
+						onChange: setOn
+					}), _el$6);
+					Z$1(_el$5, $e(Checkbox$2, {
+						get value() {
+							return checked();
+						},
+						onChange: setChecked,
+						tristate: true
+					}), _el$6);
+					Z$1(_el$6, () => {
+						return `switch ${on() ? "on" : "off"}, checkbox ${String(checked())}`;
+					});
+					Z$1(_el$, $e(Slider$2, {
+						get value() {
+							return volume();
+						},
+						onChange: setVolume
+					}), _el$7);
+					tt(_el$7, _el$8);
+					tt(_el$8, _el$9);
+					tt(_el$8, _el$10);
+					Z$1(_el$8, $e(Radio$1, { value: "free" }), _el$9);
+					Z$1(_el$8, $e(Radio$1, { value: "pro" }), _el$10);
+					Z$1(_el$11, () => {
+						return `plan = ${plan()}`;
+					});
+					Z$1(_el$, $e(TextField$2, {
+						label: "Email",
+						get value() {
+							return email$1();
+						},
+						onChange: setEmail,
+						keyboardType: "email",
+						get prefixIcon() {
+							return email;
+						}
+					}), _el$12);
+					Z$1(_el$12, $e(Chip, {
+						label: "Chip",
+						get icon() {
+							return star;
+						}
+					}), null);
+					Z$1(_el$12, $e(Chip, {
+						label: "Filter",
+						get selected() {
+							return filter();
+						},
+						onSelect: setFilter
+					}), null);
+					Z$1(_el$12, $e(Badge, {
+						label: 3,
+						get children() {
+							return $e(IconButton, { get icon() {
+								return notifications;
+							} });
+						}
+					}), null);
+					Z$1(_el$, $e(Card, {
+						variant: "outlined",
+						padding: 16,
+						onPress: () => setTaps((n) => n + 1),
+						get children() {
+							return ((_at$2) => Ge("h$text", {
+								$t: _at$2,
+								$i: 0
+							}))(Ae(_tpl$2$2));
+						}
+					}), null);
+					Z$1(_el$, $e(ListTile$1, {
+						get leading() {
+							return wifi$1;
+						},
+						title: "Wi-Fi",
+						subtitle: "Connected",
+						get trailing() {
+							return $e(Switch$2, {
+								get value() {
+									return on();
+								},
+								onChange: setOn
+							});
+						}
+					}), null);
+					Z$1(_el$, $e(ProgressIndicator$1, {
+						variant: "linear",
+						get value() {
+							return volume();
+						}
+					}), null);
+					Z$1(_el$, $e(ProgressIndicator$1, {}), null);
+					Z$1(_el$, $e(Dialog$2, {
+						get open() {
+							return dialog();
+						},
+						onOpenChange: setDialog,
+						title: "Discard draft?",
+						get icon() {
+							return delete_;
+						},
+						get actions() {
+							return [$e(Button$3, {
+								variant: "text",
+								onPress: () => setDialog(false),
+								children: "Cancel"
+							}), $e(Button$3, {
+								variant: "text",
+								onPress: () => setDialog(false),
+								children: "Discard"
+							})];
+						},
+						children: "The draft will be gone."
+					}), null);
+					Z$1(_el$, $e(BottomSheet, {
+						get open() {
+							return sheet();
+						},
+						onOpenChange: setSheet,
+						showDragHandle: true,
+						get children() {
+							return ((_at$3) => Ge("h$view", {
+								$t: _at$3,
+								$i: 0
+							}))(Ae(_tpl$3));
+						}
+					}), null);
+					He(() => plan(), (_v$, _$p) => {
+						Ye(_el$7, "value", _v$, _$p);
+					});
+					return _el$;
+				})())(Ae(_tpl$1$5));
+			}
+		});
+	}
+	// fuse/cupertino_ui/CupertinoIcons.tsx
+	var info = "CupertinoIcons.info";
+	var bluetooth = "CupertinoIcons.bluetooth";
+	var person = "CupertinoIcons.person";
+	var heart = "CupertinoIcons.heart";
+	var wifi = "CupertinoIcons.wifi";
+	// fuse/cupertino_ui.tsx
+	/**
+	* Creates an iOS-style action sheet.
+	* Dart: `CupertinoActionSheet`
+	*/
+	function CupertinoActionSheet(props) {
+		var _el$ = Ge("cupertino_ui_CupertinoActionSheet");
+		it(_el$, [props, {
+			get title() {
+				return _(props.title);
+			},
+			get message() {
+				return _(props.message);
+			},
+			get actions() {
+				return v(props.actions);
+			},
+			get cancelButton() {
+				return _(props.cancelButton);
+			}
+		}], false);
+		return _el$;
+	}
+	/**
+	* Creates an iOS-style alert dialog.
+	* Dart: `CupertinoAlertDialog`
+	*/
+	function CupertinoAlertDialog(props) {
+		var _el$9 = Ge("cupertino_ui_CupertinoAlertDialog");
+		it(_el$9, [props, {
+			get title() {
+				return _(props.title);
+			},
+			get content() {
+				return _(props.content);
+			},
+			get actions() {
+				return v(props.actions);
+			}
+		}], false);
+		return _el$9;
+	}
+	/**
+	* Creates an iOS-style button.
+	* Dart: `CupertinoButton`
+	*/
+	function CupertinoButton(props) {
+		var _el$12 = Ge("cupertino_ui_CupertinoButton");
+		it(_el$12, props, false);
+		return _el$12;
+	}
+	/**
+	* Creates an iOS-style button with a tinted background.
+	* Dart: `CupertinoButton.tinted`
+	*/
+	function CupertinoButtonTinted(props) {
+		var _el$13 = Ge("cupertino_ui_CupertinoButtonTinted");
+		it(_el$13, props, false);
+		return _el$13;
+	}
+	/**
+	* Creates an iOS-style button with a filled background.
+	* Dart: `CupertinoButton.filled`
+	*/
+	function CupertinoButtonFilled(props) {
+		var _el$14 = Ge("cupertino_ui_CupertinoButtonFilled");
+		it(_el$14, props, false);
+		return _el$14;
+	}
+	/**
+	* Creates a section that mimics standard iOS forms.
+	* Dart: `CupertinoListSection`
+	*/
+	function CupertinoListSection(props) {
+		var _el$34 = Ge("cupertino_ui_CupertinoListSection");
+		it(_el$34, [props, {
+			get header() {
+				return _(props.header);
+			},
+			get footer() {
+				return _(props.footer);
+			}
+		}], false);
+		return _el$34;
+	}
+	/**
+	* Creates a section that mimics standard "Inset Grouped" iOS list section.
+	* Dart: `CupertinoListSection.insetGrouped`
+	*/
+	function CupertinoListSectionInsetGrouped(props) {
+		var _el$35 = Ge("cupertino_ui_CupertinoListSectionInsetGrouped");
+		it(_el$35, [props, {
+			get header() {
+				return _(props.header);
+			},
+			get footer() {
+				return _(props.footer);
+			}
+		}], false);
+		return _el$35;
+	}
+	/**
+	* Creates an edge-to-edge iOS-style list tile like the tiles in iOS Settings app.
+	* Dart: `CupertinoListTile`
+	*/
+	function CupertinoListTile(props) {
+		var _el$36 = Ge("cupertino_ui_CupertinoListTile");
+		it(_el$36, [props, {
+			get title() {
+				return _(props.title);
+			},
+			get subtitle() {
+				return _(props.subtitle);
+			},
+			get additionalInfo() {
+				return _(props.additionalInfo);
+			},
+			get leading() {
+				return _(props.leading);
+			},
+			get trailing() {
+				return _(props.trailing);
+			}
+		}], false);
+		return _el$36;
+	}
+	/**
+	* Creates a static iOS style navigation bar, with a centered [middle] title.
+	* Dart: `CupertinoNavigationBar`
+	*/
+	function CupertinoNavigationBar(props) {
+		var _el$43 = Ge("cupertino_ui_CupertinoNavigationBar");
+		it(_el$43, [props, {
+			get leading() {
+				return _(props.leading);
+			},
+			get middle() {
+				return _(props.middle);
+			},
+			get trailing() {
+				return _(props.trailing);
+			},
+			get bottom() {
+				return _(props.bottom);
+			}
+		}], false);
+		return _el$43;
+	}
+	/**
+	* Creates a static iOS style navigation bar, with a left aligned [largeTitle].
+	* Dart: `CupertinoNavigationBar.large`
+	*/
+	function CupertinoNavigationBarLarge(props) {
+		var _el$44 = Ge("cupertino_ui_CupertinoNavigationBarLarge");
+		it(_el$44, [props, {
+			get largeTitle() {
+				return _(props.largeTitle);
+			},
+			get leading() {
+				return _(props.leading);
+			},
+			get trailing() {
+				return _(props.trailing);
+			},
+			get bottom() {
+				return _(props.bottom);
+			}
+		}], false);
+		return _el$44;
+	}
+	/**
+	* Creates a layout for pages with a navigation bar at the top.
+	* Dart: `CupertinoPageScaffold`
+	*/
+	function CupertinoPageScaffold(props) {
+		var _el$46 = Ge("cupertino_ui_CupertinoPageScaffold");
+		it(_el$46, [props, { get navigationBar() {
+			return _(props.navigationBar);
+		} }], false);
+		return _el$46;
+	}
+	C("cupertino_ui_CupertinoTabController", {
+		"s": ["index"],
+		"w": ["index"],
+		"o": ["index"],
+		"m": [],
+		"st": []
+	});
+	C("cupertino_ui_RestorableCupertinoTabController", {
+		"s": ["value", "enabled"],
+		"w": [],
+		"o": [],
+		"m": [
+			"createDefaultValue",
+			"fromPrimitives",
+			"toPrimitives",
+			"initWithValue"
+		],
+		"st": []
+	});
+	// ../../packages/cupertino/src/slots.tsx
+	function label(v) {
+		return typeof v === "string" || typeof v === "number" ? (() => {
+			var _el$ = Ge("text");
+			Z$1(_el$, () => {
+				return String(v);
+			});
+			return _el$;
+		})() : v;
+	}
+	function icon(v, size) {
+		return typeof v === "string" ? $e(ue, {
+			icon: v,
+			size
+		}) : v;
+	}
+	// ../../packages/cupertino/src/scaffold.tsx
+	/** An iOS screen: a navigation bar over the content. */
+	function PageScaffold(props) {
+		return $e(CupertinoPageScaffold, {
+			get navigationBar() {
+				return props.navigationBar;
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			},
+			get resizeToAvoidBottomInset() {
+				return props.resizeToAvoidBottomInset;
+			},
+			get children() {
+				return props.children;
+			}
+		});
+	}
+	function NavigationBar(props) {
+		return $e(U, {
+			get component() {
+				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
+			},
+			get largeTitle() {
+				return Ue(() => {
+					return !!props.large;
+				})() ? label(props.title) : void 0;
+			},
+			get middle() {
+				return Ue(() => {
+					return !!props.large;
+				})() ? void 0 : label(props.title);
+			},
+			get leading() {
+				return icon(props.leading);
+			},
+			get trailing() {
+				return icon(props.trailing);
+			},
+			get previousPageTitle() {
+				return props.previousPageTitle;
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			}
+		});
+	}
+	// ../../packages/cupertino/src/controls.tsx
+	var _tpl$1$4 = /*@__PURE__*/ ke(["view", { "flex": {
+		"direction": "horizontal",
+		"gap": 6,
+		"align": "center"
+	} }], 1);
+	var buttons = {
+		plain: CupertinoButton,
+		tinted: CupertinoButtonTinted,
+		filled: CupertinoButtonFilled
+	};
+	/** iOS buttons, one component: pick the look with `variant`. */
+	function Button$1(props) {
+		return $e(U, {
+			get component() {
+				return buttons[props.variant ?? "plain"];
+			},
+			get sizeStyle() {
+				return props.size ?? "large";
+			},
+			get onPressed() {
+				return Ue(() => {
+					return !!props.disabled;
+				})() ? null : props.onPress ?? null;
+			},
+			get onLongPress() {
+				return Ue(() => {
+					return !!props.disabled;
+				})() ? null : props.onLongPress ?? null;
+			},
+			get color() {
+				return Z(props.color);
+			},
+			get children() {
+				return $e(Show, {
+					get when() {
+						return props.icon !== void 0;
+					},
+					get fallback() {
+						return label(props.children);
+					},
+					get children() {
+						return ((_at$1) => (() => {
+							var _el$ = Ge("h$view", {
+								$t: _at$1,
+								$i: 0
+							});
+							Z$1(_el$, () => {
+								return icon(props.icon);
+							}, null);
+							Z$1(_el$, () => {
+								return label(props.children);
+							}, null);
+							return _el$;
+						})())(Ae(_tpl$1$4));
+					}
+				});
+			}
+		});
+	}
+	function Switch$1(props) {
+		var _el$2 = Ge("cupertino_ui_CupertinoSwitch");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.disabled ? null : props.onChange ?? null,
+				a: Z(props.color)
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$2, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$2, "onChanged", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$2, "activeTrackColor", a, _p$?.a);
+		});
+		return _el$2;
+	}
+	function Checkbox$1(props) {
+		var _el$3 = Ge("cupertino_ui_CupertinoCheckbox");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.tristate ?? props.value === null,
+				a: props.disabled ? null : props.onChange ?? null,
+				o: Z(props.color),
+				i: props.semanticLabel
+			};
+		}, ({ e, t, a, o, i }, _p$) => {
+			e !== _p$?.e && Ye(_el$3, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$3, "tristate", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$3, "onChanged", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$3, "activeColor", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$3, "semanticLabel", i, _p$?.i);
+		});
+		return _el$3;
+	}
+	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
+	function Radio(props) {
+		var _el$4 = Ge("cupertino_ui_CupertinoRadio");
+		He(() => {
+			return {
+				e: props.value,
+				t: !props.disabled,
+				a: props.toggleable,
+				o: props.checkmark,
+				i: Z(props.color)
+			};
+		}, ({ e, t, a, o, i }, _p$) => {
+			e !== _p$?.e && Ye(_el$4, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$4, "enabled", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$4, "toggleable", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$4, "useCheckmarkStyle", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$4, "activeColor", i, _p$?.i);
+		});
+		return _el$4;
+	}
+	function Slider$1(props) {
+		var _el$5 = Ge("cupertino_ui_CupertinoSlider");
+		He(() => {
+			return {
+				e: props.value,
+				t: props.disabled ? null : props.onChange ?? null,
+				a: props.onChangeEnd ?? null,
+				o: props.min,
+				i: props.max,
+				n: props.steps ?? null,
+				s: Z(props.color)
+			};
+		}, ({ e, t, a, o, i, n, s }, _p$) => {
+			e !== _p$?.e && Ye(_el$5, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$5, "onChanged", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$5, "onChangeEnd", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$5, "min", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$5, "max", i, _p$?.i);
+			n !== _p$?.n && Ye(_el$5, "divisions", n, _p$?.n);
+			s !== _p$?.s && Ye(_el$5, "activeColor", s, _p$?.s);
+		});
+		return _el$5;
+	}
+	function ActivityIndicator(props) {
+		var _el$6 = Ge("cupertino_ui_CupertinoActivityIndicator");
+		He(() => {
+			return {
+				e: props.animating,
+				t: props.radius,
+				a: Z(props.color)
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$6, "animating", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$6, "radius", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$6, "color", a, _p$?.a);
+		});
+		return _el$6;
+	}
+	/** iOS's sliding segmented control. */
+	function SegmentedControl(props) {
+		var _el$7 = Ge("cupertinoSegmentedControl");
+		Z$1(_el$7, $e(For, {
+			get each() {
+				return props.options;
+			},
+			children: (o) => label(o.label)
+		}));
+		He(() => {
+			return {
+				e: props.value,
+				t: props.onChange,
+				a: props.options.map((o) => o.value),
+				o: props.options.filter((o) => o.disabled).map((o) => o.value),
+				i: props.proportional,
+				n: props.backgroundColor,
+				s: props.thumbColor
+			};
+		}, ({ e, t, a, o, i, n, s }, _p$) => {
+			e !== _p$?.e && Ye(_el$7, "value", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$7, "onChange", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$7, "values", a, _p$?.a);
+			o !== _p$?.o && Ye(_el$7, "disabledValues", o, _p$?.o);
+			i !== _p$?.i && Ye(_el$7, "proportionalWidth", i, _p$?.i);
+			n !== _p$?.n && Ye(_el$7, "backgroundColor", n, _p$?.n);
+			s !== _p$?.s && Ye(_el$7, "thumbColor", s, _p$?.s);
+		});
+		return _el$7;
+	}
+	// ../../packages/cupertino/src/list.tsx
+	function ListSection(props) {
+		return $e(U, {
+			get component() {
+				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
+			},
+			get header() {
+				return label(props.header);
+			},
+			get footer() {
+				return label(props.footer);
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			},
+			get children() {
+				return props.children;
+			}
+		});
+	}
+	function ListTile(props) {
+		return $e(CupertinoListTile, {
+			get title() {
+				return label(props.title);
+			},
+			get subtitle() {
+				return label(props.subtitle);
+			},
+			get additionalInfo() {
+				return label(props.additionalInfo);
+			},
+			get leading() {
+				return icon(props.leading);
+			},
+			get trailing() {
+				return Ue(() => {
+					return props.trailing !== void 0;
+				})() ? icon(props.trailing) : Ue(() => {
+					return !!props.onPress;
+				})() ? Ge("cupertino_ui_CupertinoListTileChevron") : void 0;
+			},
+			get onTap() {
+				return props.onPress;
+			},
+			get backgroundColor() {
+				return Z(props.backgroundColor);
+			}
+		});
+	}
+	// ../../packages/cupertino/src/text-field.tsx
+	/** iOS text field. Controlled with `value` + `onChange`. */
+	function TextField$1(props) {
+		var _el$ = Ge("cupertinoTextField");
+		it(_el$, [props, {
+			get prefix() {
+				return icon(props.prefix);
+			},
+			get suffix() {
+				return icon(props.suffix);
+			}
+		}], false);
+		return _el$;
+	}
+	// ../../packages/cupertino/src/overlays.tsx
+	var _tpl$1$3 = /*@__PURE__*/ ke(["modal", { "type": "cupertinoDialog" }], 1);
+	var _tpl$2$1 = /*@__PURE__*/ ke(["modal", { "type": "cupertinoActionSheet" }], 1);
+	/** iOS alert, open while `open` is true. */
+	function Dialog$1(props) {
+		return ((_at$1) => (() => {
+			var _el$ = Ge("h$modal", {
+				$t: _at$1,
+				$i: 0
+			});
+			Z$1(_el$, $e(CupertinoAlertDialog, {
+				get title() {
+					return label(props.title);
+				},
+				get content() {
+					return label(props.children);
+				},
+				get actions() {
+					return props.actions;
+				}
+			}));
+			He(() => {
+				return {
+					e: props.open,
+					t: props.onOpenChange,
+					a: props.dismissible
+				};
+			}, ({ e, t, a }, _p$) => {
+				e !== _p$?.e && Ye(_el$, "open", e, _p$?.e);
+				t !== _p$?.t && Ye(_el$, "onOpenChange", t, _p$?.t);
+				a !== _p$?.a && Ye(_el$, "dismissible", a, _p$?.a);
+			});
+			return _el$;
+		})())(Ae(_tpl$1$3));
+	}
+	function DialogAction(props) {
+		var _el$2 = Ge("cupertino_ui_CupertinoDialogAction");
+		Z$1(_el$2, () => {
+			return label(props.children);
+		});
+		He(() => {
+			return {
+				e: props.onPress ?? null,
+				t: props.default,
+				a: props.destructive
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$2, "onPressed", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$2, "isDefaultAction", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$2, "isDestructiveAction", a, _p$?.a);
+		});
+		return _el$2;
+	}
+	/** iOS action sheet, sliding up while `open` is true. */
+	function ActionSheet(props) {
+		return ((_at$2) => (() => {
+			var _el$3 = Ge("h$modal", {
+				$t: _at$2,
+				$i: 0
+			});
+			Z$1(_el$3, $e(CupertinoActionSheet, {
+				get title() {
+					return label(props.title);
+				},
+				get message() {
+					return label(props.message);
+				},
+				get actions() {
+					return props.children;
+				},
+				get cancelButton() {
+					return props.cancel;
+				}
+			}));
+			He(() => {
+				return {
+					e: props.open,
+					t: props.onOpenChange
+				};
+			}, ({ e, t }, _p$) => {
+				e !== _p$?.e && Ye(_el$3, "open", e, _p$?.e);
+				t !== _p$?.t && Ye(_el$3, "onOpenChange", t, _p$?.t);
+			});
+			return _el$3;
+		})())(Ae(_tpl$2$1));
+	}
+	function ActionSheetAction(props) {
+		var _el$4 = Ge("cupertino_ui_CupertinoActionSheetAction");
+		Z$1(_el$4, () => {
+			return label(props.children);
+		});
+		He(() => {
+			return {
+				e: props.onPress,
+				t: props.default,
+				a: props.destructive
+			};
+		}, ({ e, t, a }, _p$) => {
+			e !== _p$?.e && Ye(_el$4, "onPressed", e, _p$?.e);
+			t !== _p$?.t && Ye(_el$4, "isDefaultAction", t, _p$?.t);
+			a !== _p$?.a && Ye(_el$4, "isDestructiveAction", a, _p$?.a);
+		});
+		return _el$4;
+	}
+	// src/screens/cupertino.tsx
+	var _tpl$1$2 = /*@__PURE__*/ ke([
+		"scrollView",
+		{
+			"flex": {
+				"direction": "vertical",
+				"gap": 16
+			},
+			"padding": {
+				"horizontal": 16,
+				"top": 110,
+				"bottom": 32
+			}
+		},
+		["text", 0],
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 8
+		} }],
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 12,
+			"align": "center"
+		} }],
+		[
+			"radioGroup",
+			0,
+			[
+				"view",
+				{ "flex": {
+					"direction": "horizontal",
+					"gap": 8,
+					"align": "center"
+				} },
+				[
+					"text",
+					0,
+					"One"
+				],
+				[
+					"text",
+					0,
+					"Two"
+				]
+			]
+		]
+	], 10);
+	function CupertinoScreen() {
+		const [on, setOn] = createSignal(false);
+		const [checked, setChecked] = createSignal(true);
+		const [brightness, setBrightness] = createSignal(.7);
+		const [view, setView] = createSignal("day");
+		const [alert, setAlert] = createSignal(false);
+		const [sheet, setSheet] = createSignal(false);
+		const [name, setName] = createSignal("");
+		const [pick, setPick] = createSignal(1);
+		const [last, setLast] = createSignal("nothing yet");
+		return $e(PageScaffold, {
+			get navigationBar() {
+				return $e(NavigationBar, {
+					title: "Cupertino",
+					get trailing() {
+						return info;
+					}
+				});
+			},
+			get children() {
+				return ((_at$1) => (() => {
+					var _el$ = Ge("h$scrollView", {
+						$t: _at$1,
+						$i: 0
+					});
+					var _el$2 = Ge("h$text", {
+						$t: _at$1,
+						$i: 1
+					});
+					var _el$3 = Ge("h$view", {
+						$t: _at$1,
+						$i: 2
+					});
+					var _el$4 = Ge("h$view", {
+						$t: _at$1,
+						$i: 3
+					});
+					var _el$5 = Ge("h$radioGroup", {
+						$t: _at$1,
+						$i: 4,
+						onChange: setPick
+					});
+					var _el$6 = Ge("h$view", {
+						$t: _at$1,
+						$i: 5
+					});
+					var _el$7 = Ge("h$text", {
+						$t: _at$1,
+						$i: 6
+					});
+					var _el$8 = Ge("h$text", {
+						$t: _at$1,
+						$i: 8
+					});
+					tt(_el$, _el$2);
+					tt(_el$, _el$3);
+					tt(_el$, _el$4);
+					tt(_el$, _el$5);
+					Z$1(_el$, $e(SegmentedControl, {
+						get value() {
+							return view();
+						},
+						onChange: setView,
+						options: [
+							{
+								value: "day",
+								label: "Day"
+							},
+							{
+								value: "week",
+								label: "Week"
+							},
+							{
+								value: "month",
+								label: "Month"
+							}
+						]
+					}), _el$2);
+					Z$1(_el$2, () => {
+						return `view = ${view()}, last action: ${last()}`;
+					});
+					Z$1(_el$3, $e(Button$1, {
+						variant: "filled",
+						onPress: () => setAlert(true),
+						children: "Alert"
+					}), null);
+					Z$1(_el$3, $e(Button$1, {
+						variant: "tinted",
+						onPress: () => setSheet(true),
+						children: "Sheet"
+					}), null);
+					Z$1(_el$3, $e(Button$1, {
+						get icon() {
+							return heart;
+						},
+						children: "Like"
+					}), null);
+					Z$1(_el$, $e(TextField$1, {
+						get value() {
+							return name();
+						},
+						onChange: setName,
+						placeholder: "Name",
+						clearButton: true,
+						get prefix() {
+							return person;
+						}
+					}), _el$4);
+					Z$1(_el$4, $e(Switch$1, {
+						get value() {
+							return on();
+						},
+						onChange: setOn
+					}), null);
+					Z$1(_el$4, $e(Checkbox$1, {
+						get value() {
+							return checked();
+						},
+						onChange: setChecked
+					}), null);
+					Z$1(_el$4, $e(ActivityIndicator, { get animating() {
+						return on();
+					} }), null);
+					Z$1(_el$, $e(Slider$1, {
+						get value() {
+							return brightness();
+						},
+						onChange: setBrightness
+					}), _el$5);
+					tt(_el$5, _el$6);
+					tt(_el$6, _el$7);
+					tt(_el$6, _el$8);
+					Z$1(_el$6, $e(Radio, { value: 1 }), _el$7);
+					Z$1(_el$6, $e(Radio, { value: 2 }), _el$8);
+					Z$1(_el$, $e(ListSection, {
+						header: "Settings",
+						get children() {
+							return [$e(ListTile, {
+								get leading() {
+									return wifi;
+								},
+								title: "Wi-Fi",
+								additionalInfo: "Home",
+								onPress: () => setLast("wi-fi")
+							}), $e(ListTile, {
+								get leading() {
+									return bluetooth;
+								},
+								title: "Bluetooth",
+								get trailing() {
+									return $e(Switch$1, {
+										get value() {
+											return on();
+										},
+										onChange: setOn
+									});
+								}
+							})];
+						}
+					}), null);
+					Z$1(_el$, $e(Dialog$1, {
+						get open() {
+							return alert();
+						},
+						onOpenChange: setAlert,
+						title: "Allow notifications?",
+						get actions() {
+							return [$e(DialogAction, {
+								onPress: () => (setLast("don't allow"), setAlert(false)),
+								children: "Don't Allow"
+							}), $e(DialogAction, {
+								default: true,
+								onPress: () => (setLast("allow"), setAlert(false)),
+								children: "Allow"
+							})];
+						},
+						children: "You can change this in Settings."
+					}), null);
+					Z$1(_el$, $e(ActionSheet, {
+						get open() {
+							return sheet();
+						},
+						onOpenChange: setSheet,
+						title: "Share photo",
+						get cancel() {
+							return $e(ActionSheetAction, {
+								onPress: () => setSheet(false),
+								children: "Cancel"
+							});
+						},
+						get children() {
+							return [$e(ActionSheetAction, {
+								onPress: () => (setLast("copy"), setSheet(false)),
+								children: "Copy"
+							}), $e(ActionSheetAction, {
+								destructive: true,
+								onPress: () => (setLast("delete"), setSheet(false)),
+								children: "Delete"
+							})];
+						}
+					}), null);
+					He(() => pick(), (_v$, _$p) => {
+						Ye(_el$5, "value", _v$, _$p);
+					});
+					return _el$;
+				})())(Ae(_tpl$1$2));
+			}
+		});
+	}
+	// ../../packages/adaptive/src/platform.tsx
+	/** Cupertino on iOS and macOS, Material everywhere else. */
+	function platformDesign() {
+		return v$1.platform === "ios" || v$1.platform === "macos" ? "cupertino" : "material";
+	}
+	var DesignContext = createContext(void 0);
+	/** Overrides the design below it, e.g. to preview iOS on Android. */
+	function AdaptiveProvider(props) {
+		return $e(DesignContext, {
+			get value() {
+				return props.design;
+			},
+			get children() {
+				return props.children;
+			}
+		});
+	}
+	/** The design adaptive components render here. */
+	function useDesign() {
+		return useContext(DesignContext) ?? platformDesign();
+	}
+	// ../../packages/adaptive/src/components.tsx
+	/** Material on one side, Cupertino on the other, picked where it renders. */
+	function adapt(material, cupertino) {
+		return (props) => {
+			return $e(Show, {
+				when: useDesign() === "cupertino",
+				get fallback() {
+					return material(props);
+				},
+				get children() {
+					return cupertino(props);
+				}
+			});
+		};
+	}
+	var Button = adapt((p) => $e(Button$3, {
+		get variant() {
+			return p.variant === "plain" ? "text" : "filled";
+		},
+		get onPress() {
+			return p.onPress;
+		},
+		get disabled() {
+			return p.disabled;
+		},
+		get children() {
+			return p.children;
+		}
+	}), (p) => $e(Button$1, {
+		get variant() {
+			return p.variant === "plain" ? "plain" : "filled";
+		},
+		get onPress() {
+			return p.onPress;
+		},
+		get disabled() {
+			return p.disabled;
+		},
+		get children() {
+			return p.children;
+		}
+	}));
+	var Switch = adapt((p) => $e(Switch$2, p), (p) => $e(Switch$1, p));
+	var Checkbox = adapt((p) => $e(Checkbox$2, p), (p) => $e(Checkbox$1, p));
+	var Slider = adapt((p) => $e(Slider$2, p), (p) => $e(Slider$1, p));
+	var TextField = adapt((p) => $e(TextField$2, Xe(p, {
+		get prefixIcon() {
+			return p.prefix;
+		},
+		get suffixIcon() {
+			return p.suffix;
+		}
+	})), (p) => $e(TextField$1, Xe(p, { get placeholder() {
+		return p.placeholder ?? p.label;
+	} })));
+	/** An indeterminate spinner. */
+	var ProgressIndicator = adapt((p) => $e(ProgressIndicator$1, { get color() {
+		return p.color;
+	} }), (p) => $e(ActivityIndicator, { get color() {
+		return p.color;
+	} }));
+	/** An alert with a title, a message and buttons. */
+	var Dialog = adapt((p) => $e(Dialog$2, {
+		get open() {
+			return p.open;
+		},
+		get onOpenChange() {
+			return p.onOpenChange;
+		},
+		get title() {
+			return p.title;
+		},
+		get dismissible() {
+			return p.dismissible;
+		},
+		get actions() {
+			return (p.actions ?? []).map((a) => $e(Button$3, {
+				variant: "text",
+				get onPress() {
+					return a.onPress;
+				},
+				get children() {
+					return a.label;
+				}
+			}));
+		},
+		get children() {
+			return p.children;
+		}
+	}), (p) => $e(Dialog$1, {
+		get open() {
+			return p.open;
+		},
+		get onOpenChange() {
+			return p.onOpenChange;
+		},
+		get title() {
+			return p.title;
+		},
+		get dismissible() {
+			return p.dismissible;
+		},
+		get actions() {
+			return (p.actions ?? []).map((a) => $e(DialogAction, {
+				get onPress() {
+					return a.onPress;
+				},
+				get "default"() {
+					return a.default;
+				},
+				get destructive() {
+					return a.destructive;
+				},
+				get children() {
+					return a.label;
+				}
+			}));
+		},
+		get children() {
+			return p.children;
+		}
+	}));
+	// src/screens/adaptive.tsx
+	var _tpl$1$1 = /*@__PURE__*/ ke([
+		"scrollView",
+		{
+			"flex": {
+				"direction": "vertical",
+				"gap": 16
+			},
+			"padding": {
+				"horizontal": 16,
+				"top": 48
+			}
+		},
+		[
+			"text",
+			{
+				"fontSize": 24,
+				"fontWeight": "bold"
+			},
+			"adaptive"
+		]
+	], 3);
+	var _tpl$2 = /*@__PURE__*/ ke([
+		"view",
+		{ "flex": {
+			"direction": "vertical",
+			"gap": 16
+		} },
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 12,
+			"align": "center"
+		} }],
+		["view", { "flex": {
+			"direction": "horizontal",
+			"gap": 8
+		} }]
+	], 3);
+	function AdaptiveScreen() {
+		const [design, setDesign] = createSignal("material");
+		return ((_at$1) => (() => {
+			var _el$ = Ge("h$scrollView", {
+				$t: _at$1,
+				$i: 0
+			});
+			tt(_el$, Ge("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Z$1(_el$, $e(Button$2, {
+				onTap: () => setDesign(design() === "material" ? "cupertino" : "material"),
+				get children() {
+					return `design: ${design()}`;
+				}
+			}), null);
+			Z$1(_el$, $e(Show, {
+				get when() {
+					return design();
+				},
+				keyed: true,
+				children: (d) => $e(AdaptiveProvider, {
+					design: d,
+					get children() {
+						return $e(Gallery, {});
+					}
+				})
+			}), null);
+			return _el$;
+		})())(Ae(_tpl$1$1));
+	}
+	function Gallery() {
+		const [on, setOn] = createSignal(true);
+		const [checked, setChecked] = createSignal(false);
+		const [level, setLevel] = createSignal(.5);
+		const [text, setText] = createSignal("");
+		const [open, setOpen] = createSignal(false);
+		return ((_at$2) => (() => {
+			var _el$3 = Ge("h$view", {
+				$t: _at$2,
+				$i: 0
+			});
+			var _el$4 = Ge("h$view", {
+				$t: _at$2,
+				$i: 1
+			});
+			var _el$5 = Ge("h$view", {
+				$t: _at$2,
+				$i: 2
+			});
+			tt(_el$3, _el$4);
+			tt(_el$3, _el$5);
+			Z$1(_el$4, $e(Switch, {
+				get value() {
+					return on();
+				},
+				onChange: setOn
+			}), null);
+			Z$1(_el$4, $e(Checkbox, {
+				get value() {
+					return checked();
+				},
+				onChange: setChecked
+			}), null);
+			Z$1(_el$4, $e(ProgressIndicator, {}), null);
+			Z$1(_el$3, $e(Slider, {
+				get value() {
+					return level();
+				},
+				onChange: setLevel
+			}), _el$5);
+			Z$1(_el$3, $e(TextField, {
+				label: "Search",
+				get value() {
+					return text();
+				},
+				onChange: setText
+			}), _el$5);
+			Z$1(_el$5, $e(Button, {
+				onPress: () => setOpen(true),
+				children: "Delete"
+			}), null);
+			Z$1(_el$5, $e(Button, {
+				variant: "plain",
+				children: "Later"
+			}), null);
+			Z$1(_el$3, $e(Dialog, {
+				get open() {
+					return open();
+				},
+				onOpenChange: setOpen,
+				title: "Delete item?",
+				actions: [{
+					label: "Cancel",
+					onPress: () => setOpen(false)
+				}, {
+					label: "Delete",
+					destructive: true,
+					onPress: () => setOpen(false)
+				}],
+				children: "This can't be undone."
+			}), null);
+			return _el$3;
+		})())(Ae(_tpl$2));
 	}
 	// src/screens/home.tsx
-	var _tpl$1 = /*@__PURE__*/ Ae([
-		"view",
+	var _tpl$1 = /*@__PURE__*/ ke([
+		"scrollView",
 		{ "flex": { "direction": "vertical" } },
 		[
 			"view",
 			{ "padding": {
 				"horizontal": 16,
-				"top": 24,
+				"top": 48,
 				"bottom": 12
 			} },
 			[
@@ -6535,9 +11455,9 @@
 		]
 	], 6);
 	function HomeScreen() {
-		const nav = X();
+		const nav = Y();
 		return ((_at$1) => (() => {
-			var _el$ = Ge("h$view", {
+			var _el$ = Ge("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
@@ -6569,11 +11489,34 @@
 				label: "scrollController",
 				onTap: () => nav.push(() => $e(ScrollScreen, {}))
 			}), null);
+			Z$1(_el$, $e(MenuItem, {
+				label: "core widgets",
+				onTap: () => nav.push(() => $e(CoreScreen, {}))
+			}), null);
+			Z$1(_el$, $e(MenuItem, {
+				label: "material",
+				onTap: () => nav.push(() => $e(MaterialScreen, {}))
+			}), null);
+			Z$1(_el$, $e(MenuItem, {
+				label: "cupertino",
+				onTap: () => nav.push(() => $e(CupertinoScreen, {}))
+			}), null);
+			Z$1(_el$, $e(MenuItem, {
+				label: "adaptive",
+				onTap: () => nav.push(() => $e(AdaptiveScreen, {}))
+			}), null);
 			return _el$;
-		})())(je(_tpl$1));
+		})())(Ae(_tpl$1));
 	}
 	// src/index.tsx
-	var App = () => $e(Z, { initialPage: () => $e(HomeScreen, {}) });
+	var App = () => $e(MaterialApp, {
+		title: "solid-fuse demo",
+		theme: { seedColor: "#2563eb" },
+		themeMode: "light",
+		get children() {
+			return $e(ae, { initialPage: () => $e(HomeScreen, {}) });
+		}
+	});
 	et(App);
 })();
 

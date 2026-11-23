@@ -16,11 +16,14 @@ Solid 2.0 reference: read the vendored mirror at `packages/solid-fuse/vendor/sol
 
 ```
 packages/
-  solid-fuse/      ← the npm package (JS + Dart + CLI)
+  solid-fuse/      ← the npm package (JS + Dart + CLI), design-free core
     src/           ← JS source: custom Solid renderer, polyfills, channels
     dart/          ← Dart package: FuseRuntime, FuseView, widget builders
     cli/           ← `fuse link` / `fuse dev` / `fuse build`
     dist/          ← Vite build output (published)
+  material/        ← @solid-fuse/material (TS source + Dart solid_fuse_material)
+  cupertino/       ← @solid-fuse/cupertino (TS source + Dart solid_fuse_cupertino)
+  adaptive/        ← @solid-fuse/adaptive (TS only)
   docs/            ← Fumadocs site — source of truth for user-facing behaviour
 examples/
   demo/            ← local demo app
@@ -34,7 +37,9 @@ examples/
 - **Node lifetime is the JS garbage collector's.** `remove` only detaches; `dispose` is journalled when JS lets go of a node (`released` in `src/renderer.ts`). Don't dispose on the Dart side on your own.
 - **Handles Dart hands to JS are lent and counted.** A Dart object of a handle type crosses as `{$h, t}` (`FuseNodeRegistry.lend`): the node JS created for it (`o`), or a borrowed node with a negative id, its state in `s` the first time. Dart counts every reference it sends; JS decodes every incoming value (`decodeIn`, even for calls nothing handles) and gives the count back with `_unborrow` when it collects the handle. A reference Dart builds but doesn't send (an unchanged state value) is given back on the Dart side (`_giveBack`).
 - **Synchronous calls (builders) carry their ops in the reply.** `engine.callSync` blocks the Dart thread, so `_ops` messages JS sent earlier are still queued in Dart when the builder's result needs them. The reply hands over every batch Dart hasn't acknowledged plus the new one (`syncOps` in `src/renderer.ts`); batches are numbered per bundle evaluation and Dart skips the ones it has (`applyBatch`). Ops applied during a frame notify their nodes after it.
-- **Core Dart imports `package:flutter/widgets.dart`, never `package:flutter/material.dart` or `cupertino.dart`** (deprecated since Flutter 3.47; frozen copies whose types differ from the `material_ui` / `cupertino_ui` pub packages). Material widgets (`textField`, `materialPage`) import `package:material_ui/material_ui.dart`.
+- **Core is design-free.** `packages/solid-fuse` imports only `package:flutter/widgets.dart` (never `material.dart` / `cupertino.dart`, deprecated since Flutter 3.47, nor the `material_ui` / `cupertino_ui` pub packages). Design lives in `packages/material`, `packages/cupertino` (Dart imports `package:material_ui/...` / `package:cupertino_ui/...`) and `packages/adaptive`. The rules every component follows are in `notes/widget-api.md`.
+- **Design packages ship TS source over the generated layer.** Their `dart/lib/fuse.dart` exports the whole Flutter library; their `src/` imports `#fuse/material_ui` etc., which the *app* generates, so the app compiles them (`exports: ./src/index.ts`; Vite excludes fuse packages from pre-bundling). They type-check against `examples/demo/fuse` (tsconfig `paths`); run `fuse gen` in the demo first.
+- **Generated named widget slots go through `$slot` / `$slots`** (`src/generated.ts`): a slot holds whatever JSX gave (a component's memo, a `<Show>`, a list), read in the prop's tracking. Widgets with such slots are not compile-plugin intrinsics.
 - The `solid-fuse` dist is an ESM bundle with `solid-js` and `@solidjs/universal` externalised — Vite in consumer apps resolves them to its pre-bundled deps at serve time.
 - `fuse dev` / `fuse build` auto-configure `@solidjs/vite-plugin` with `generate: "universal"` and `moduleName: "solid-fuse"` — consumer apps don't need their own `vite.config.ts`.
 

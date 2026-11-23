@@ -98,7 +98,17 @@ void registerFusePackages(FuseRuntime runtime) {
 }
 ```
 
-The consumer app just calls `registerFusePackages(runtime)` in `main.dart` and everything is wired up. `fuse dev` runs `fuse link` automatically, so consumers don't need to re-run it manually after adding a package.
+The consumer app just calls `registerFusePackages(runtime)` in `main.dart` and everything is wired up.
+
+## Packages over generated widgets
+
+A package whose components sit on [generated](/docs/extending/generating) widgets (the way `@solid-fuse/material` sits on `material_ui`) ships its TypeScript source instead of a build: the generated modules (`#fuse/material_ui`) belong to the app, so the app compiles the package against them.
+
+- `package.json`: `"exports": { ".": "./src/index.ts" }`, and `src` in `files`.
+- `dart/lib/fuse.dart`: what of the Flutter library crosses (`export 'package:material_ui/material_ui.dart';`). Generation reads it in every package the app resolves.
+- Import from `#fuse/<package>` in `src/`. For type checking inside the package, point a `paths` entry at an app's generated output.
+
+The app's Vite skips pre-bundling packages that have a `fuse.config`, so their source goes through the app's compile step. A package with only JS (no `dart/`, no `register`) is fine: `@solid-fuse/adaptive` is one. `fuse dev` runs `fuse link` automatically, so consumers don't need to re-run it manually after adding a package.
 
 ## Package structure
 

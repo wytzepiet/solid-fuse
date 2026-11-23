@@ -8,14 +8,18 @@ Fuse provides a `Navigator` component that manages a page stack, backed by Flutt
 ## Basic setup
 
 ```tsx
-import { Navigator } from "solid-fuse";
+import { App, Navigator } from "solid-fuse";
 
-function App() {
-  return <Navigator initialPage={() => <HomePage />} />;
+function Root() {
+  return (
+    <App>
+      <Navigator initialPage={() => <HomePage />} />
+    </App>
+  );
 }
 ```
 
-`initialPage` accepts either a JSX thunk (sugar for a default Material page) or a `PageConfig` built with `materialPage({...})` when you want to customize the transition or page options.
+`initialPage` accepts either a JSX thunk or a `PageConfig` built with `page({...})`, `materialPage({...})` or `cupertinoPage({...})` when you want to choose the transition or page options. A thunk becomes a page of the app's type: `page` under `<App>`, `materialPage` under `<MaterialApp>`, `cupertinoPage` under `<CupertinoApp>`.
 
 ## useNavigation
 
@@ -54,10 +58,11 @@ function HomePage() {
 
 ## Pages are configs, not JSX
 
-A page in Fuse is a configuration object — `{ type, child, props }` — not a JSX element you render directly. The built-in `materialPage({...})` factory returns one of these configs for a Material-style transition.
+A page in Fuse is a configuration object — `{ type, child, props }` — not a JSX element you render directly. Core's `page({...})` returns one; the design packages add `materialPage` and `cupertinoPage`.
 
 ```tsx
-import { Text, View, materialPage, useNavigation } from "solid-fuse";
+import { Text, View, useNavigation } from "solid-fuse";
+import { materialPage } from "@solid-fuse/material";
 
 function HomePage() {
   const nav = useNavigation();
@@ -79,9 +84,23 @@ function HomePage() {
 }
 ```
 
-When you pass a plain thunk to `nav.push(() => <X />)`, it's sugar for `materialPage({ child: () => <X /> })`.
+When you pass a plain thunk to `nav.push(() => <X />)`, it's sugar for a page of the app's type (see above).
 
-### materialPage props
+### page props
+
+Core's page has no design: the content brings its own background.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `child` | `() => JSX.Element` | required | Page contents |
+| `name` | `string` | — | Route name. Used by `popUntil(name)` |
+| `transition` | `"slide" \| "fade" \| "none"` | `"slide"` | How the page comes in |
+| `duration` | `number` | `300` | Transition length in ms |
+| `opaque` | `boolean` | `true` | False lets the page below show through |
+| `fullscreenDialog` | `boolean` | `false` | |
+| `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
+
+### materialPage props (`@solid-fuse/material`)
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
@@ -90,9 +109,11 @@ When you pass a plain thunk to `nav.push(() => <X />)`, it's sugar for `material
 | `fullscreenDialog` | `boolean` | `false` | Slides up instead of sideways, shows close button |
 | `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
 
+`cupertinoPage` (`@solid-fuse/cupertino`) takes the same, plus `title`, which the next page's back button shows.
+
 ## Back gestures
 
-iOS swipe-back and Android back button are handled automatically. The Navigator's `onDidRemovePage` callback fires when the system removes a page (back gesture, declarative mid-stack removal) and resolves the corresponding push promise with `null`. You don't need to wire this up.
+iOS swipe-back and Android back button are handled automatically, also for a `<Navigator>` inside the app's own: it takes the back button while it has pages to pop. The Navigator's `onDidRemovePage` callback fires when the system removes a page (back gesture, declarative mid-stack removal) and resolves the corresponding push promise with `null`. You don't need to wire this up.
 
 ## Full example
 

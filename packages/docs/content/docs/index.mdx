@@ -44,7 +44,7 @@ export default function App() {
 ```
 
 ```dart title="dart/lib/main.dart"
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 import '_generated/fuse_packages.dart';
 
@@ -55,7 +55,7 @@ void main() async {
   registerFusePackages(runtime);
   await runtime.start();
 
-  runApp(MaterialApp(home: FuseView(runtime: runtime)));
+  runApp(FuseView(runtime: runtime));
 }
 ```
 

@@ -1,0 +1,22 @@
+{
+  "name": "@solid-fuse/cupertino",
+  "version": "0.1.0",
+  "description": "Cupertino (iOS) design for solid-fuse: Flutter's cupertino_ui as Solid components.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "dart",
+    "fuse.config.ts"
+  ],
+  "peerDependencies": {
+    "solid-fuse": "workspace:*",
+    "solid-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "solid-fuse": "workspace:*",
+    "typescript": "^7.0.2"
+  }
+}

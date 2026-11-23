@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "solid-fuse": "workspace:*",
-    "solid-js": "^2.0.3"
+    "solid-js": "^2.0.3",
+    "@solid-fuse/material": "workspace:*",
+    "@solid-fuse/cupertino": "workspace:*",
+    "@solid-fuse/adaptive": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^7.0.2"

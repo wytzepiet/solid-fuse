@@ -23,6 +23,13 @@ Future<void> pumpUntil(WidgetTester tester, Finder finder) async {
   fail('timed out waiting for $finder');
 }
 
+/// Lets animations run on a screen that never settles (a spinner).
+Future<void> settle(WidgetTester tester) async {
+  for (var i = 0; i < 8; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+}
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -34,7 +41,8 @@ void main() {
       await runtime.start();
     });
 
-    await tester.pumpWidget(MaterialApp(home: FuseView(runtime: runtime)));
+    // The app root (MaterialApp) is rendered by JS.
+    await tester.pumpWidget(FuseView(runtime: runtime));
     await pumpUntil(tester, find.text('solid-fuse demos'));
 
     // Keyed list: reorders move the existing rows (remove + insert of the
@@ -88,8 +96,8 @@ void main() {
     await tester.tap(find.text('+'));
     await pumpUntil(tester, find.text('1'));
 
-    // textField is a material_ui widget: it needs material_ui's Material,
-    // Theme and localizations, not the deprecated package:flutter ones.
+    // textField is @solid-fuse/material's: a material_ui TextField under the
+    // MaterialApp JS renders.
     tester.state<NavigatorState>(find.byType(Navigator).last).pop();
     await pumpUntil(tester, find.text('textField'));
     await tester.pumpAndSettle();
@@ -127,5 +135,96 @@ void main() {
     expect(shown.first, greaterThan(500));
     await tester.tap(find.text('Row ${shown[1]}'));
     await pumpUntil(tester, find.text('Picked row ${shown[1]}'));
+
+    // @solid-fuse/material: generated widgets behind thin components.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('material'));
+    await settle(tester);
+    await tester.tap(find.text('material'));
+    await pumpUntil(tester, find.byType(Scaffold));
+    await settle(tester);
+    expect(find.byType(FilledButton), findsWidgets);
+    expect(find.byIcon(Icons.settings), findsOneWidget);
+    await tester.tap(find.byType(Switch).first);
+    await pumpUntil(tester, find.textContaining('switch off'));
+    await tester.tap(find.byType(FloatingActionButton));
+    await pumpUntil(tester, find.text('Tab 0, FAB pressed 1 times'));
+    await tester.tap(find.text('Saved'));
+    await pumpUntil(tester, find.text('Tab 1, FAB pressed 1 times'));
+    // The radios join core's RadioGroup.
+    await tester.tap(find.byType(Radio<Object?>).last);
+    await pumpUntil(tester, find.text('plan = pro'));
+    // A dialog is a component with `open`; Cancel closes it from JS.
+    await tester.tap(find.text('Dialog'));
+    await pumpUntil(tester, find.text('Discard draft?'));
+    await settle(tester);
+    await tester.tap(find.text('Cancel'));
+    for (var i = 0; i < 100 && find.text('Discard draft?').evaluate().isNotEmpty; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump();
+    }
+    expect(find.text('Discard draft?'), findsNothing);
+    // A barrier tap closes it from Dart; JS hears onOpenChange(false) and
+    // can open it again.
+    await tester.tap(find.text('Dialog'));
+    await pumpUntil(tester, find.text('Discard draft?'));
+    await settle(tester);
+    await tester.tapAt(const Offset(5, 5));
+    await settle(tester);
+    expect(find.text('Discard draft?'), findsNothing);
+    await tester.tap(find.text('Dialog'));
+    await pumpUntil(tester, find.text('Discard draft?'));
+    await settle(tester);
+    await tester.tap(find.text('Cancel'));
+    await settle(tester);
+
+    // @solid-fuse/cupertino.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('cupertino'));
+    await settle(tester);
+    await tester.tap(find.text('cupertino'));
+    await pumpUntil(tester, find.text('Week'));
+    await settle(tester);
+    await tester.tap(find.text('Week'));
+    await pumpUntil(tester, find.textContaining('view = week'));
+    await tester.tap(find.text('Wi-Fi'));
+    await pumpUntil(tester, find.textContaining('last action: wi-fi'));
+    await tester.tap(find.text('Alert'));
+    await pumpUntil(tester, find.text('Allow'));
+    await settle(tester);
+    await tester.tap(find.text('Allow'));
+    await pumpUntil(tester, find.textContaining('last action: allow'));
+    await settle(tester);
+    expect(find.text('Allow notifications?'), findsNothing);
+
+    // Core's design-free widgets.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('core widgets'));
+    await settle(tester);
+    await tester.tap(find.text('core widgets'));
+    await pumpUntil(tester, find.text('Pressed 0 times'));
+    await settle(tester);
+    await tester.tap(find.text('Pressed 0 times'));
+    await pumpUntil(tester, find.text('Pressed 1 times'));
+    await tester.enterText(find.byType(EditableText), 'abc');
+    await pumpUntil(tester, find.text('input = "abc"'));
+    await tester.tap(find.text('set from JS'));
+    await pumpUntil(tester, find.text('input = "from JS"'));
+    expect(tester.widget<EditableText>(find.byType(EditableText)).controller.text, 'from JS');
+    await tester.tap(find.text('fruit: apple'));
+    await pumpUntil(tester, find.text('cherry'));
+    await settle(tester);
+    await tester.tap(find.text('cherry'));
+    await pumpUntil(tester, find.text('fruit: cherry'));
+    await tester.tap(find.text('open dialog'));
+    await pumpUntil(tester, find.text('Core dialog'));
+    await settle(tester);
+    await tester.tap(find.text('close'));
+    await settle(tester);
+    for (var i = 0; i < 100 && find.text('Core dialog').evaluate().isNotEmpty; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await settle(tester);
+    }
+    expect(find.text('Core dialog'), findsNothing);
   });
 }

@@ -72,7 +72,7 @@ A generic widget is instantiated at its type parameter's bound, `Object?` when i
 <DropdownMenu dropdownMenuEntries={[DropdownMenuEntry({ value: { id: 7 }, label: "Seven" })]} />
 ```
 
-A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`), and a callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it. Named arguments of a callback arrive as one object after the others: TextField's `buildCounter` is `(context, { currentLength, maxLength, isFocused })` in Dart and `({ currentLength, maxLength, isFocused }) => ...` in JS.
+A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`): anything `children` takes, a component, a `<Show>`, a list, text. Nothing (`null`, `false`, an empty list) is Dart's `null`. A callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it. Named arguments of a callback arrive as one object after the others: TextField's `buildCounter` is `(context, { currentLength, maxLength, isFocused })` in Dart and `({ currentLength, maxLength, isFocused }) => ...` in JS.
 
 Some props take a particular kind of widget: Scaffold's `appBar` is a `PreferredSizeWidget`, `DropdownButton`'s `items` are `DropdownMenuItem`s. Give them that element; anything else is an error that names both. The parent gets the widget itself, built where the parent is, so it can read it (an app bar's height). The parent rebuilds when that element changes.
 
@@ -170,7 +170,7 @@ function Search() {
 }
 ```
 
-(With `export 'package:material_ui/material_ui.dart' show TextField;` in `fuse.dart`. The import uses the generated component, not the built-in `TextField`.)
+(With `export 'package:material_ui/material_ui.dart' show TextField;` in `fuse.dart`. The import uses the generated component, not `@solid-fuse/material`'s `TextField`.)
 
 - **Options** are the constructor's parameters. Each one takes a value or an accessor. An accessor is read once, unless the controller has a setter of the same name: then it stays in sync.
 - **State**: every getter is an accessor (`query.text()`) that updates when Dart notifies. It's `undefined` until Dart first reports it, unless an option or default gives the value.

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    // The package compiles in the app, against the app's generated layer.
+    // Type-checked here against the demo's.
+    "paths": { "#fuse/*": ["../../examples/demo/fuse/*"] }
+  },
+  "include": ["src"]
+}

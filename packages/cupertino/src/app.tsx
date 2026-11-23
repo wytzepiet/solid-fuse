@@ -1,0 +1,50 @@
+import { CupertinoApp as GCupertinoApp, type CupertinoThemeData as ThemeDataValue } from "#fuse/cupertino_ui";
+import { CupertinoThemeData } from "#fuse/cupertino_ui/CupertinoThemeData";
+import { PageTypeContext, toHex, type ColorInput } from "solid-fuse";
+import { cupertinoPage } from "./page";
+
+/** A theme in brief, or a full generated `CupertinoThemeData(...)`. */
+export type CupertinoTheme = ThemeDataValue | BriefCupertinoTheme;
+
+export type BriefCupertinoTheme = {
+  /** Tint of buttons, switches, links. Default system blue. */
+  primaryColor?: ColorInput;
+  /** Leave out to follow the system. */
+  brightness?: "light" | "dark";
+  barBackgroundColor?: ColorInput;
+  scaffoldBackgroundColor?: ColorInput;
+};
+
+export interface CupertinoAppProps {
+  title?: string;
+  theme?: CupertinoTheme;
+  color?: ColorInput;
+  debugShowCheckedModeBanner?: boolean;
+  children?: JSX.Element;
+}
+
+function themeOf(t: CupertinoTheme | undefined): ThemeDataValue | undefined {
+  if (t == null || "$" in t) return t as ThemeDataValue | undefined;
+  const brief = t as BriefCupertinoTheme;
+  return CupertinoThemeData({
+    brightness: brief.brightness ?? null,
+    primaryColor: toHex(brief.primaryColor) ?? null,
+    barBackgroundColor: toHex(brief.barBackgroundColor) ?? null,
+    scaffoldBackgroundColor: toHex(brief.scaffoldBackgroundColor) ?? null,
+  });
+}
+
+/** The root of an iOS-style app; pages are `cupertinoPage()`s. */
+export function CupertinoApp(props: CupertinoAppProps) {
+  return (
+    <PageTypeContext value={(child) => cupertinoPage({ child })}>
+      <GCupertinoApp
+        title={props.title ?? ""}
+        theme={themeOf(props.theme)}
+        color={toHex(props.color)}
+        debugShowCheckedModeBanner={props.debugShowCheckedModeBanner ?? false}
+        home={props.children}
+      />
+    </PageTypeContext>
+  );
+}

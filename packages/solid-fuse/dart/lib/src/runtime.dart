@@ -22,10 +22,11 @@ typedef FuseWidgetBuilder = Widget Function(FuseNode node);
 /// particular widget type (generated adapters register one).
 typedef FuseWidgetMaker = Widget Function(FuseNode node, BuildContext context);
 
-/// Makes the route a `<modal>` node pushes while it is open. [content]
-/// builds the node's children; put it where the route shows its page.
-/// Registered per route type with [FuseRuntime.registerRoute].
-typedef FuseRouteFactory = Route<Object?> Function(FuseNode node, WidgetBuilder content);
+/// Makes the route a `<modal>` node pushes while it is open. [context] is
+/// the modal's (for themes to carry over); [content] builds the node's
+/// children; put it where the route shows its page. Registered per route
+/// type with [FuseRuntime.registerRoute].
+typedef FuseRouteFactory = Route<Object?> Function(BuildContext context, FuseNode node, WidgetBuilder content);
 
 /// Host for the WebSocket dev server.
 /// Pass via: --dart-define=FUSE_HOST=192.168.x.x

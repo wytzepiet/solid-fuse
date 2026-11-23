@@ -93,6 +93,8 @@ async function scanDir(dir: string, results: FusePackageInfo[]) {
       const dartPath = config.dart ?? "dart";
       const pubspecPath = join(pkgDir, dartPath, "pubspec.yaml");
       if (!existsSync(pubspecPath)) {
+        // A JS-only package (components over other packages' widgets).
+        if (config.register === undefined && config.dart === undefined) continue;
         console.warn(
           `[fuse] ${pkgJson.name}: fuse.config register set but no pubspec.yaml at ${dartPath}/`
         );

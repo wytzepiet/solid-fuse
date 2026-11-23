@@ -1,14 +1,6 @@
 import { createSignal } from "solid-js";
-import {
-  Icon,
-  ScrollView,
-  Text,
-  TextField,
-  View,
-  createFocusNode,
-  useNavigation,
-} from "solid-fuse";
-import { search, lock } from "solid-fuse/icons/material";
+import { ScrollView, Text, View, createFocusNode, useNavigation } from "solid-fuse";
+import { Icons, TextField } from "@solid-fuse/material";
 import { Button, Row } from "../ui";
 
 export function TextFieldScreen() {
@@ -35,9 +27,9 @@ export function TextFieldScreen() {
             <Text fontWeight="semiBold">Name</Text>
             <TextField
               value={name()}
-              onChanged={setName}
+              onChange={setName}
+              label="Name"
               placeholder="Your name"
-              decoration={{ border: "outline", contentPadding: 12 }}
             />
             <Text color="#6B7280" fontSize={13}>
               value = "{name()}"
@@ -54,7 +46,6 @@ export function TextFieldScreen() {
             <TextField
               focusNode={focus}
               placeholder="Controlled by buttons below"
-              decoration={{ border: "outline", contentPadding: 12 }}
             />
             <Text color="#6B7280" fontSize={13}>
               hasFocus = {focus.hasFocus() ? "true" : "false"}
@@ -70,11 +61,10 @@ export function TextFieldScreen() {
             <Text fontWeight="semiBold">Digits only</Text>
             <TextField
               value={digits()}
-              onChanged={setDigits}
+              onChange={setDigits}
               placeholder="Type letters, they vanish"
               keyboardType="number"
               allowPattern="[0-9]"
-              decoration={{ border: "outline", contentPadding: 12 }}
             />
           </View>
 
@@ -83,14 +73,12 @@ export function TextFieldScreen() {
             <Text fontWeight="semiBold">Slot widgets</Text>
             <TextField
               placeholder="Search…"
-              prefixIcon={<Icon data={search} size={20} color="#6B7280" />}
-              decoration={{ border: "outline", contentPadding: 12 }}
+              prefixIcon={Icons.search}
             />
             <TextField
               placeholder="Password"
               obscureText
-              prefixIcon={<Icon data={lock} size={20} color="#6B7280" />}
-              decoration={{ border: "outline", contentPadding: 12 }}
+              prefixIcon={Icons.lock}
             />
           </View>
 

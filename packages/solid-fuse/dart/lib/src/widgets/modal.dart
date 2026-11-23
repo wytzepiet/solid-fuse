@@ -62,7 +62,7 @@ class _FuseModalState extends State<FuseModal> {
           runtime: runtime,
           child: ListenableBuilder(listenable: node, builder: (_, _) => node.flexChildren),
         );
-    final route = factory(node, content);
+    final route = factory(context, node, content);
     _route = route;
     final navigator = Navigator.of(context, rootNavigator: node.bool('useRootNavigator') ?? true);
     navigator.push(route).whenComplete(() {
@@ -112,7 +112,7 @@ class _FuseModalState extends State<FuseModal> {
 
 /// Core's `dialog` route: content centred over a dimmed barrier, faded and
 /// scaled in. No surface of its own: the content brings its look.
-Route<Object?> fuseDialogRoute(FuseNode node, WidgetBuilder content) {
+Route<Object?> fuseDialogRoute(BuildContext context, FuseNode node, WidgetBuilder content) {
   final duration = Duration(milliseconds: node.int('duration') ?? 200);
   return RawDialogRoute<Object?>(
     barrierDismissible: node.bool('dismissible') ?? true,

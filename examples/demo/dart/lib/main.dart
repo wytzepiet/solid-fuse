@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
 import 'package:solid_fuse/solid_fuse.dart';
 
 import '_generated/fuse_packages.dart';
@@ -10,13 +10,6 @@ void main() async {
   registerFusePackages(runtime);
   await runtime.start();
 
-  runApp(
-    MaterialApp(
-      title: 'solid-fuse demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
-      home: SafeArea(child: FuseView(runtime: runtime)),
-    ),
-  );
+  // The app root (MaterialApp, theme, navigator) is in JS: src/index.tsx.
+  runApp(FuseView(runtime: runtime));
 }

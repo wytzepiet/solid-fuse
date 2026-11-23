@@ -6,7 +6,7 @@ import {
   View,
   useNavigation,
 } from "solid-fuse";
-import * as md from "solid-fuse/icons/material";
+import { Icons as md } from "@solid-fuse/material";
 import { Button, Row } from "../ui";
 
 export function IconScreen() {
@@ -30,12 +30,12 @@ export function IconScreen() {
           <View flex={{ direction: "vertical", gap: 6 }}>
             <Text fontWeight="semiBold">Static grid</Text>
             <View flex={{ direction: "horizontal", gap: 16, align: "center" }}>
-              <Icon data={md.search} size={32} />
-              <Icon data={md.lock} size={32} />
-              <Icon data={md.home} size={32} />
-              <Icon data={md.settings} size={32} />
-              <Icon data={md.favorite} size={32} color="#EF4444" />
-              <Icon data={md.star} size={32} color="#F59E0B" />
+              <Icon icon={md.search} size={32} />
+              <Icon icon={md.lock} size={32} />
+              <Icon icon={md.home} size={32} />
+              <Icon icon={md.settings} size={32} />
+              <Icon icon={md.favorite} size={32} color="#EF4444" />
+              <Icon icon={md.star} size={32} color="#F59E0B" />
             </View>
           </View>
 
@@ -46,7 +46,7 @@ export function IconScreen() {
               flex={{ direction: "horizontal", gap: 12, align: "center" }}
               padding={12}
             >
-              <Icon data={md.favorite} size={size()} color={color()} />
+              <Icon icon={md.favorite} size={size()} color={color()} />
               <Text color="#6B7280" fontSize={13}>
                 size = {size()}, color = {color()}
               </Text>
@@ -71,7 +71,7 @@ export function IconScreen() {
               flex={{ direction: "horizontal", gap: 8, align: "center" }}
               padding={12}
             >
-              <Icon data={md.info} size={20} color="#3B82F6" />
+              <Icon icon={md.info} size={20} color="#3B82F6" />
               <Text>Inline icon + text composition</Text>
             </View>
           </View>

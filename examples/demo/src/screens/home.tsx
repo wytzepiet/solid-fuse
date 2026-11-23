@@ -1,4 +1,4 @@
-import { Text, View, useNavigation } from "solid-fuse";
+import { ScrollView, Text, View, useNavigation } from "solid-fuse";
 import { MenuItem } from "../ui";
 import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
@@ -6,13 +6,17 @@ import { IconScreen } from "./icon";
 import { ScrollScreen } from "./scroll";
 import { ListScreen } from "./list";
 import { BuilderScreen } from "./builder";
+import { CoreScreen } from "./core";
+import { MaterialScreen } from "./material";
+import { CupertinoScreen } from "./cupertino";
+import { AdaptiveScreen } from "./adaptive";
 
 export function HomeScreen() {
   const nav = useNavigation();
 
   return (
-    <View flex={{ direction: "vertical" }}>
-      <View padding={{ horizontal: 16, top: 24, bottom: 12 }}>
+    <ScrollView flex={{ direction: "vertical" }}>
+      <View padding={{ horizontal: 16, top: 48, bottom: 12 }}>
         <Text fontSize={28} fontWeight="bold">
           solid-fuse demos
         </Text>
@@ -44,6 +48,10 @@ export function HomeScreen() {
         label="scrollController"
         onTap={() => nav.push(() => <ScrollScreen />)}
       />
-    </View>
+      <MenuItem label="core widgets" onTap={() => nav.push(() => <CoreScreen />)} />
+      <MenuItem label="material" onTap={() => nav.push(() => <MaterialScreen />)} />
+      <MenuItem label="cupertino" onTap={() => nav.push(() => <CupertinoScreen />)} />
+      <MenuItem label="adaptive" onTap={() => nav.push(() => <AdaptiveScreen />)} />
+    </ScrollView>
   );
 }

@@ -3,7 +3,7 @@ title: Creating Pages
 description: Custom navigation transitions and page types
 ---
 
-Pages define both the **content** and the **transition** for navigation. When you push a page, the page type itself decides how it animates in and out. This page covers creating custom page types beyond the built-in `materialPage`.
+Pages define both the **content** and the **transition** for navigation. When you push a page, the page type itself decides how it animates in and out. This page covers creating custom page types beyond core's `page` and the design packages' `materialPage` and `cupertinoPage`.
 
 ## How pages work
 
@@ -124,9 +124,15 @@ export function fadePage(opts: { child: () => JSX.Element; duration?: number }) 
 }
 ```
 
-## Fallback behavior
+## Bare components
 
-If the Navigator encounters a page config whose `type` isn't registered, it falls back to wrapping the child in a plain `MaterialPage`. That means `nav.push(() => <X />)` works even before you've defined any custom page types — the thunk is sugar for `materialPage({ child })`, and any unrecognized type still renders something visible.
+`nav.push(() => <X />)` makes a page of the app root's type: core's `page` under `<App>`, `materialPage` under `<MaterialApp>`, `cupertinoPage` under `<CupertinoApp>`. A root of your own sets it with `PageTypeContext`:
+
+```tsx
+import { PageTypeContext } from "solid-fuse";
+
+<PageTypeContext value={(child) => fadePage({ child })}>{props.children}</PageTypeContext>
+```
 
 ## Key points
 
