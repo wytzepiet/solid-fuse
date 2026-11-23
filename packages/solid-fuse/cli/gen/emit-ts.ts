@@ -74,6 +74,7 @@ class Module {
   readonly builders: Record<string, BuilderEntry | { const: string }> = {};
   usesHandle = false;
   usesHandleType = false;
+  usesSlot = false;
   /** Modules loaded for what they register (a handle type that arrives from Dart). */
   readonly loads = new Set<string>();
   usesBuild = false;
@@ -526,7 +527,19 @@ export function emitTs(m: Manifest): TsOutput {
       fields.push(`${jsdoc("  ", doc)}  children${required ? "" : "?"}: JSX.Element;`);
     }
     const tag = tagOf(w);
-    module.intrinsics[name] = tag;
+    // Named widget slots (`appBar`, `actions`) hold whatever JSX gave: a
+    // component's reactive result, a list, text. `$slot` makes that a node
+    // (or none), so a slot takes what `children` takes. Such a widget is
+    // not a plain forward, so the compile step leaves it a component.
+    const slots: string[] = [];
+    for (const p of w.params) {
+      if (!p.type || p.name === w.children?.param || p.name === "children") continue;
+      const t = p.type;
+      if (t.k === "widget") slots.push(`${p.name}={$slot(props.${p.name})}`);
+      else if ((t.k === "list" || t.k === "iterable") && t.of.k === "widget") slots.push(`${p.name}={$slots(props.${p.name})}`);
+    }
+    if (slots.length) module.usesSlot = true;
+    else module.intrinsics[name] = tag;
     module.uses[name] = { widget: w.id };
     module.parts.push(
       [
@@ -535,7 +548,7 @@ export function emitTs(m: Manifest): TsOutput {
         "}",
         "",
         `${jsdoc("", w.doc, w.deprecated, [`Dart: \`${w.class}${w.ctor ? `.${w.ctor}` : ""}\``])}export function ${name}(props: ${propsName}): JSX.Element {`,
-        `  return <${tag} {...props} />;`,
+        `  return <${tag} {...props}${slots.map((a) => ` ${a}`).join("")} />;`,
         "}",
       ].join("\n"),
     );
@@ -684,7 +697,7 @@ export function emitTs(m: Manifest): TsOutput {
       `// Manifest fingerprint: ${m.fingerprint}`,
       "/* eslint-disable */",
     ];
-    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : [])];
+    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : []), ...(module.usesSlot ? ["$slot", "$slots"] : [])];
     if (fromFuse.length) head.push(`import { ${fromFuse.join(", ")} } from "solid-fuse/generated";`);
     if (module.usesConst) head.push('import type { Const } from "solid-fuse/generated";');
     if (module.usesHandle) head.push('import type { Handle } from "solid-fuse";');

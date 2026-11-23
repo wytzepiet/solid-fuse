@@ -4,7 +4,7 @@
 import { createEffect, createSignal, untrack } from "solid-js";
 import { channels } from "./channels";
 import { reportDevError } from "./dev-error";
-import { type FuseNode, _setDecodeIn, adoptNode, createOwnedNode, nodeById, setHandler, wireOf } from "./renderer";
+import { FuseNode, _setDecodeIn, adoptNode, asNode, createOwnedNode, nodeById, setHandler, wireOf } from "./renderer";
 
 /**
  * Builds the wire value of a Dart constructor call: `$build("EdgeInsets.only",
@@ -22,6 +22,41 @@ export function $build(tag: string, positional: readonly string[], args: readonl
   const named = args[n];
   if (named != null && typeof named === "object") Object.assign(value, named);
   return value;
+}
+
+// --- Slots ---
+
+/** What a JSX value is once its reactive parts are read: no functions. */
+function resolve(v: unknown): unknown {
+  while (typeof v === "function") v = (v as () => unknown)();
+  return v;
+}
+
+/** Flattens [v] into the elements it holds, reading reactive parts. */
+function flatten(v: unknown, out: unknown[]): unknown[] {
+  v = resolve(v);
+  if (Array.isArray(v)) for (const item of v) flatten(item, out);
+  else if (v != null && typeof v !== "boolean") out.push(v);
+  return out;
+}
+
+const one = (v: unknown): FuseNode => (v instanceof FuseNode && !v.parent ? v : asNode(v));
+
+/**
+ * A named widget slot's value (`appBar={...}`) as one node, or null when
+ * it holds nothing. JSX can give a component's reactive result, a list or
+ * text there; it is read here, in the prop's own tracking, so the slot
+ * follows it. More than one element shows as `children` does.
+ */
+export function $slot(v: unknown): FuseNode | null {
+  const items = flatten(v, []);
+  if (items.length === 0) return null;
+  return items.length === 1 ? one(items[0]) : asNode(items);
+}
+
+/** A list slot's value (`actions={[...]}`): one node per element. */
+export function $slots(v: unknown): FuseNode[] {
+  return flatten(v, []).map(one);
 }
 
 declare const constName: unique symbol;

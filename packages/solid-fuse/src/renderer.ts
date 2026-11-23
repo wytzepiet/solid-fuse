@@ -158,7 +158,7 @@ on("_unbuild", (data: { root: number }) => {
 
 /** The node for what a component returned: itself, or a `__slot__` node
  *  holding it (text, a list, a reactive function, nothing). */
-function asNode(value: any): FuseNode {
+export function asNode(value: any): FuseNode {
   if (value instanceof FuseNode && !value.parent) return value;
   const slot = createNode("__slot__");
   insert(slot, value);
@@ -821,8 +821,15 @@ function spread(
   skipChildren?: boolean,
   options?: RendererEffectOptions,
 ): void {
-  if (props === null || typeof props !== "object" || Array.isArray(props) || $PROXY in props) {
+  if (props === null || typeof props !== "object" || Array.isArray(props)) {
     universalSpread(node, props, skipChildren, options);
+    return;
+  }
+  if ($PROXY in props) {
+    // A props proxy (`omit`, `merge`: what `<Dynamic>` passes on). The
+    // universal spread drops its children, so they are inserted here.
+    universalSpread(node, props, true, options);
+    if (!skipChildren) insert(node, () => props.children, undefined, undefined, options);
     return;
   }
   let dynamic: string[] | undefined;
