@@ -22,7 +22,7 @@ export function CoreScreen() {
           {(state) => (
             <View
               padding={{ horizontal: 16, vertical: 12 }}
-              decoration={{ color: state().pressed ? "#1e40af" : state().hovered ? "#1d4ed8" : "#2563eb", borderRadius: 8 }}
+              decoration={{ color: state.pressed() ? "#1e40af" : state.hovered() ? "#1d4ed8" : "#2563eb", borderRadius: 8 }}
             >
               <Text color="white">{`Pressed ${presses()} times`}</Text>
             </View>

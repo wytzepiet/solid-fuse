@@ -5106,15 +5106,17 @@
 			var t = Ge("pressable");
 			return it(t, e, !1), t;
 		})();
-		let [r, i] = createSignal({
-			pressed: !1,
-			hovered: !1,
-			focused: !1
-		}), a = t;
-		var o = Ge("pressable");
-		return it(o, [e, { onStateChange: (t) => {
-			i(t), e.onStateChange?.(t);
-		} }], !0), Z$1(o, () => a(r)), o;
+		let [r, i] = createSignal(!1), [a, o] = createSignal(!1), [s, l] = createSignal(!1), u = t;
+		var d = Ge("pressable");
+		return it(d, [e, {
+			onPressedChange: (t) => (i(t), e.onPressedChange?.(t)),
+			onHoveredChange: (t) => (o(t), e.onHoveredChange?.(t)),
+			onFocusedChange: (t) => (l(t), e.onFocusedChange?.(t))
+		}], !0), Z$1(d, () => u({
+			pressed: r,
+			hovered: a,
+			focused: s
+		})), d;
 	}
 	function $(e, t = {}) {
 		let n = V$1(e, t);
@@ -9654,7 +9656,7 @@
 								return `Pressed ${presses()} times`;
 							});
 							He(() => ({
-								color: state().pressed ? "#1e40af" : state().hovered ? "#1d4ed8" : "#2563eb",
+								color: state.pressed() ? "#1e40af" : state.hovered() ? "#1d4ed8" : "#2563eb",
 								borderRadius: 8
 							}), (_v$, _$p) => {
 								Ye(_el$4, "decoration", _v$, _$p);

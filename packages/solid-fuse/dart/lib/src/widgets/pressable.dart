@@ -4,9 +4,9 @@ import '../node.dart';
 
 /// `<pressable>`: something the user activates, with no look of its own.
 /// Tap, long press, Enter/Space when focused, a button to assistive tech.
-/// Reports pressed / hovered / focused to JS (`onStateChange`) when JS
-/// listens, and can dim itself while pressed without a round trip
-/// (`pressedOpacity`).
+/// Reports pressed / hovered / focused to JS (`onPressedChange`,
+/// `onHoveredChange`, `onFocusedChange`), each only when JS listens, and
+/// can dim itself while pressed without a round trip (`pressedOpacity`).
 class FusePressable extends StatefulWidget {
   const FusePressable(this.node, {super.key});
 
@@ -27,12 +27,19 @@ class _FusePressableState extends State<FusePressable> {
   void _set({bool? pressed, bool? hovered, bool? focused}) {
     final p = pressed ?? _pressed, h = hovered ?? _hovered, f = focused ?? _focused;
     if (p == _pressed && h == _hovered && f == _focused) return;
+    final changed = [
+      if (p != _pressed) ('onPressedChange', p),
+      if (h != _hovered) ('onHoveredChange', h),
+      if (f != _focused) ('onFocusedChange', f),
+    ];
     setState(() {
       _pressed = p;
       _hovered = h;
       _focused = f;
     });
-    node.callback('onStateChange')?.call({'pressed': p, 'hovered': h, 'focused': f});
+    for (final (name, value) in changed) {
+      node.callback(name)?.call(value);
+    }
   }
 
   void _press() {

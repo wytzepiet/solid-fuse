@@ -35,14 +35,28 @@ render(() => (
 
 ## Pressable
 
-Something the user activates: tap, long press, Enter or Space when focused, and a button to screen readers. It has no look; put a `View` inside. To restyle while pressed, hovered or focused, pass a function as the child.
+Something the user activates: tap, long press, Enter or Space when focused, and a button to screen readers. It has no look; put a `View` inside. To restyle while pressed, keep the flag in a signal. Dart only reports a flag you listen to.
 
 ```tsx
+import { createSignal } from "solid-js";
 import { Pressable, Text, View } from "solid-fuse";
+
+const [pressed, setPressed] = createSignal(false);
+
+<Pressable onPress={save} onPressedChange={setPressed} semanticLabel="Save">
+  <View padding={12} decoration={{ color: pressed() ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
+    <Text color="white">Save</Text>
+  </View>
+</Pressable>
+```
+
+Inline, for example in each row of a list, a function child gets the flags as accessors:
+
+```tsx
 
 <Pressable onPress={save} semanticLabel="Save">
   {(state) => (
-    <View padding={12} decoration={{ color: state().pressed ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
+    <View padding={12} decoration={{ color: state.pressed() ? "#1e40af" : "#2563eb", borderRadius: 8 }}>
       <Text color="white">Save</Text>
     </View>
   )}
@@ -55,7 +69,9 @@ For a dim-on-press without a round trip to JS, use `pressedOpacity={0.6}`.
 |---|---|---|
 | `onPress` | `() => void` | Tap, Enter, Space |
 | `onLongPress` | `() => void` | |
-| `onStateChange` | `(state: PressState) => void` | Pressed, hovered or focused changed |
+| `onPressedChange` | `(pressed: boolean) => void` | Pressed down or let go |
+| `onHoveredChange` | `(hovered: boolean) => void` | Pointer came over it or left |
+| `onFocusedChange` | `(focused: boolean) => void` | Gained or lost the focus highlight |
 | `disabled` | `boolean` | |
 | `pressedOpacity` | `number` | Opacity while pressed, applied in Dart |
 | `semanticLabel` | `string` | Read by screen readers |

@@ -68,7 +68,7 @@ generated modules.
 | `App` | WidgetsApp | Root: title, color, locale, text style. Hosts an Overlay so tooltips and menus work without a Navigator. |
 | `View`, `Text`, `Stack`, `Positioned`, `ScrollView`, `GestureDetector` | (existing) | Unchanged. |
 | `Icon` | generated `Icon` | `icon={Icons.x}`; tree-shaken. Icon sets live in the design packages. |
-| `Pressable` | GestureDetector + FocusableActionDetector | `onPress`, `onLongPress`, `disabled`; pressed/hovered/focused state as a render function: `{(s) => <View opacity={s.pressed() ? 0.5 : 1} />}`. Keyboard activation, semantics as a button. |
+| `Pressable` | GestureDetector + FocusableActionDetector | `onPress`, `onLongPress`, `disabled`; `onPressedChange` / `onHoveredChange` / `onFocusedChange` (one event per flag, like `onOpenChange`; Dart reports only those passed); a function child gets them as accessors: `{(s) => <View opacity={s.pressed() ? 0.5 : 1} />}`. Keyboard activation, semantics as a button. |
 | `TextInput` | EditableText | Unstyled text editing: `value`/`onChange`, `placeholder`, text style props, keyboard options, `onSubmit`, `focusNode`. Dart owns the live text; JS writes win only when they're not an echo of what Dart sent. |
 | `Navigator`, `page()` | Navigator 2.0 pages | `page({ transition: "fade" | "slide" | "none" })`. `materialPage`/`cupertinoPage` move to their packages. |
 | `Modal` | RawDialogRoute | `open`/`onOpenChange`, `dismissible`, `barrierColor`. The generic overlay route: design packages register their own route types (`materialDialog`, `bottomSheet`, `cupertinoModalPopup`) on the same mechanism. |
