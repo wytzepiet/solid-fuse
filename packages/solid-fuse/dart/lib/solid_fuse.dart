@@ -4,6 +4,7 @@ export 'src/channels.dart';
 export 'src/connection.dart';
 export 'src/dev_connection.dart';
 export 'src/engine.dart';
+export 'src/frame_clock.dart';
 export 'src/fuse_handle.dart';
 export 'src/fuse_package.dart';
 export 'src/fuse_page_handle.dart';

@@ -1,4 +1,5 @@
 import "./polyfills";
+import "./frames";
 
 export {
   render,

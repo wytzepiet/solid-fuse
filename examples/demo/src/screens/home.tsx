@@ -1,4 +1,4 @@
-import { ScrollView, Text, View, useNavigation } from "solid-fuse";
+import { ScrollView, Text, View, on, useNavigation } from "solid-fuse";
 import { MenuItem } from "../ui";
 import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
@@ -10,9 +10,15 @@ import { CoreScreen } from "./core";
 import { MaterialScreen } from "./material";
 import { CupertinoScreen } from "./cupertino";
 import { AdaptiveScreen } from "./adaptive";
+import { FramesScreen } from "./frames";
 
 export function HomeScreen() {
   const nav = useNavigation();
+  // The frame benchmark (dart/lib/frame_bench.dart) opens and closes it.
+  on("benchFrames", ({ count }: { count?: number }) => {
+    if (count) nav.push(() => <FramesScreen count={count} />);
+    else nav.pop();
+  });
 
   return (
     <ScrollView layout={{ direction: "vertical" }}>
@@ -52,6 +58,7 @@ export function HomeScreen() {
       <MenuItem label="material" onTap={() => nav.push(() => <MaterialScreen />)} />
       <MenuItem label="cupertino" onTap={() => nav.push(() => <CupertinoScreen />)} />
       <MenuItem label="adaptive" onTap={() => nav.push(() => <AdaptiveScreen />)} />
+      <MenuItem label="animation frames" onTap={() => nav.push(() => <FramesScreen />)} />
     </ScrollView>
   );
 }
