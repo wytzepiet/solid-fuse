@@ -68,3 +68,22 @@ export type { Host, Brightness, Platform, BuildMode } from "./host";
 export { defineConfig } from "./config";
 export type { FuseConfig } from "./config";
 export type * from "./types";
+export {
+  createMotion,
+  createSpring,
+  createElapsed,
+  spring,
+  springCoefficients,
+  smooth,
+  snappy,
+  bouncy,
+  lerp,
+  lerpColor,
+  type Step,
+  type MotionState,
+  type MotionSetter,
+  type MotionSetOptions,
+  type MotionOptions,
+  type SpringConfig,
+  type LerpableColor,
+} from "./animation";

@@ -1,0 +1,114 @@
+---
+title: Animation
+description: Springs, clocks and requestAnimationFrame, drawn in the frame they run in
+---
+
+An animated value is a signal that moves to its target over time instead of jumping. Read it in JSX like any signal. Drive one value and derive the rest from it.
+
+```tsx
+import { createSignal } from "solid-js";
+import { Pressable, View, createSpring } from "solid-fuse";
+
+function Bubble() {
+  const [pressed, setPressed] = createSignal(false);
+  const [scale] = createSpring(() => (pressed() ? 1.2 : 1));
+
+  return (
+    <Pressable onPressedChange={setPressed}>
+      <View width={64} height={64} decoration={{ color: "#2563eb", borderRadius: 32 }} transform={{ scale: scale() }} />
+    </Pressable>
+  );
+}
+```
+
+## createSpring
+
+```ts
+const [value, set] = createSpring(target, config?);
+```
+
+`target` is a number, or a function to follow: the spring retargets whenever it changes and keeps its speed, so a press released halfway turns around smoothly.
+
+| Config | Default | |
+|---|---|---|
+| `duration` | `0.5` | Seconds, roughly how long it takes to settle |
+| `bounce` | `0` | `0` no overshoot, up to `1` bouncier, below `0` slower than critically damped |
+| `stiffness`, `damping` | | Instead of `duration` and `bounce` (mass 1) |
+| `from` | | Start here and spring to the target on mount: an entrance |
+| `delay` | | Seconds before the entrance |
+
+Presets: `smooth` (the default), `snappy`, `bouncy`: `createSpring(1, { ...bouncy, from: 0 })`.
+
+`set(target, options?)` moves it elsewhere (until a followed target changes again) and returns a promise of `"settled"` or `"interrupted"`, so steps can be awaited in order:
+
+```ts
+const [x, setX] = createSpring(0);
+await setX(100);
+await setX(0);
+```
+
+| Option | |
+|---|---|
+| `instant` | Jump there: no animation, speed zero |
+| `delay` | Seconds to wait first; nothing runs meanwhile |
+| `velocity` | Start with this speed (units per second), e.g. a fling's |
+
+The spring is solved exactly each frame, so it moves the same at 60 Hz, 120 Hz or after a dropped frame.
+
+## One driver, derive many
+
+Animate one value from 0 to 1 and compute every prop from it:
+
+```tsx
+const [t] = createSpring(() => (open() ? 1 : 0));
+
+<View
+  opacity={t()}
+  transform={{ translateY: lerp(t(), 20, 0), scale: lerp(t(), 0.95, 1) }}
+  decoration={{ color: lerpColor(t(), "#ffffff", "#2563eb") }}
+/>
+```
+
+`lerp(t, a, b)` is `a` at 0 and `b` at 1. `lerpColor(t, a, b)` takes hex strings or `{ r, g, b, a }` and mixes in OKLab, so the middle looks halfway to the eye; it returns `{ r, g, b, a }`. A spring that bounces takes `t` past 1, and the derived values follow.
+
+Composite values are separate springs per part when the parts move on their own (`x` and `y` of a dragged card), and one progress spring with `lerp` when they move together (a color, a path).
+
+## createMotion
+
+`createSpring` is `createMotion` with a spring step. Bring your own physics with a step function: it gets the state (`value`, `velocity`), the target and the frame time in seconds, and returns the next state, or nothing once at rest.
+
+```ts
+// Constant speed of 200 units per second.
+const linear = (speed: number): Step => ({ value }, target, dt) => {
+  const d = target - value;
+  if (Math.abs(d) <= speed * dt) return;
+  return { value: value + Math.sign(d) * speed * dt, velocity: Math.sign(d) * speed };
+};
+const [x, setX] = createMotion(0, linear(200));
+```
+
+## createElapsed
+
+Milliseconds since it was created, updated every frame while its owner lives. For motion that is a function of time and never settles:
+
+```tsx
+const elapsed = createElapsed();
+<View transform={{ rotate: elapsed() / 500 }} />
+```
+
+## requestAnimationFrame
+
+`requestAnimationFrame` and `cancelAnimationFrame` work as in a browser: the callbacks run once per frame, on Flutter's vsync, with the frame's time in milliseconds. The primitives above are built on it.
+
+## Timing
+
+At the start of each frame, before Flutter builds it, solid-fuse runs the frame's callbacks and everything they change: signals, effects, props. The frame then draws the result. A value set in a frame is on screen in that frame, in step with scrolling, route transitions and Dart animations.
+
+The frame waits for the callbacks. A few springs or a few dozen prop writes take about a millisecond; heavy work in a callback delays the whole frame, scrolling included. In debug builds solid-fuse prints a warning when a frame's callbacks take more than a third of the frame.
+
+Callbacks queued during a frame run in the next one. When nothing moves, nothing runs.
+
+## When not to use it
+
+- **Dart can animate it.** Generated `AnimatedOpacity`, `AnimatedContainer` and `createAnimationController` run in Dart without crossing to JS each frame.
+- **Following a finger.** Set the value from the gesture's own event (`set(x, { instant: true })`), and on release spring back with the gesture's speed (`set(0, { velocity })`). A drag that must stick to the finger exactly belongs in a Dart widget.

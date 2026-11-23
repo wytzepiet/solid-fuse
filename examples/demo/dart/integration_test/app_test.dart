@@ -229,6 +229,28 @@ void main() {
     }
     expect(find.text('Core dialog'), findsNothing);
 
+    // Springs: requestAnimationFrame ticks JS inside each frame; a spring
+    // set from a tap moves there and its promise settles, twice in a row.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('springs'));
+    await settle(tester);
+    await tester.tap(find.text('springs'));
+    await pumpUntil(tester, find.bySemanticsIdentifier('run'));
+    await settle(tester);
+    await tester.tap(find.bySemanticsIdentifier('run'));
+    final runBox = find.descendant(of: find.bySemanticsIdentifier('run'), matching: find.byType(Transform));
+    var furthest = 0.0;
+    for (var i = 0; i < 400 && find.text('done').evaluate().isEmpty; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 2)));
+      await tester.pump(const Duration(milliseconds: 16));
+      if (runBox.evaluate().isNotEmpty) {
+        final dx = tester.widget<Transform>(runBox.first).transform.getTranslation().x;
+        if (dx > furthest) furthest = dx;
+      }
+    }
+    expect(find.text('done'), findsOneWidget);
+    expect(furthest, closeTo(160, 1));
+
     // Adaptive: flipping AdaptiveApp's platform restyles the screen in
     // place (state kept) and switches Flutter's platform with it.
     tester.state<NavigatorState>(find.byType(Navigator).last).pop();

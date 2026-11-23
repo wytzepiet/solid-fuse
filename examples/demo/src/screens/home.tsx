@@ -11,6 +11,7 @@ import { MaterialScreen } from "./material";
 import { CupertinoScreen } from "./cupertino";
 import { AdaptiveScreen } from "./adaptive";
 import { FramesScreen } from "./frames";
+import { SpringsScreen } from "./springs";
 
 export function HomeScreen() {
   const nav = useNavigation();
@@ -60,6 +61,7 @@ export function HomeScreen() {
       <MenuItem label="cupertino" onTap={() => nav.push(() => <CupertinoScreen />)} />
       <MenuItem label="adaptive" onTap={() => nav.push(() => <AdaptiveScreen />)} />
       <MenuItem label="animation frames" onTap={() => nav.push(() => <FramesScreen />)} />
+      <MenuItem label="springs" onTap={() => nav.push(() => <SpringsScreen />)} />
     </ScrollView>
   );
 }
