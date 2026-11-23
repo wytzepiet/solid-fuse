@@ -65,16 +65,20 @@ export function fusePackageNames(projectRoot: string): string[] {
 export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | null, use?: BundleUse): InlineConfig {
   const dartRoot = join(projectRoot, fuseConfig?.dart ?? "dart");
 
+  // `fuse gen` output: modules imported as `#fuse/<package>`, and the tables
+  // that let the compile step treat their components and builders as constant.
+  const genDir = resolve(projectRoot, fuseConfig?.gen?.out ?? "fuse");
+
   const solidOptions = defu(fuseConfig?.solid ?? {}, {
     solid: {
       generate: "universal" as const,
       moduleName: "solid-fuse",
     },
+    // `fuse/<package>/<Owner>.tsx` hold value builders, no JSX. Solid's dev
+    // refresh pass takes their PascalCase overloaded functions (`Cubic$call`)
+    // for components and redeclares them, which fails to parse.
+    exclude: [`${genDir}/*/**`],
   });
-
-  // `fuse gen` output: modules imported as `#fuse/<package>`, and the tables
-  // that let the compile step treat their components and builders as constant.
-  const genDir = resolve(projectRoot, fuseConfig?.gen?.out ?? "fuse");
   const compile = { ...fuseConfig?.compile };
   const gen = fuseGenPlugin({ projectRoot, dartRoot, genDir, config: fuseConfig, use });
 
