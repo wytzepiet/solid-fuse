@@ -1,8 +1,8 @@
-import { Text, View, page as pageOf, type PageType } from "solid-fuse";
+import { Navigator, Text, View, page as pageOf, type PageType } from "solid-fuse";
 import { FadeTransition, ScaleTransition } from "#fuse/flutter";
 
-// A layout: the routes in this folder push inside it, under the banner,
-// which stays put. It comes in with a transition written in JS.
+// Holds share/: its pages open in this stack, under the banner, which
+// stays put. The sheet comes in with a transition written in JS.
 export const page: PageType = (child) =>
   pageOf({
     child,
@@ -13,13 +13,16 @@ export const page: PageType = (child) =>
     ),
   });
 
-export default function Share(props: { children?: JSX.Element }) {
+export default function Share() {
   return (
     <View layout={{ direction: "vertical" }} decoration={{ color: "#EEF2FF" }} width={Infinity} height={Infinity}>
       <View padding={{ horizontal: 16, top: 48, bottom: 12 }}>
         <Text fontSize={20} fontWeight={700}>Share flow</Text>
       </View>
-      <View flex={1}>{props.children}</View>
+      <View flex={1}>
+        {/* Starts at share/index.tsx. */}
+        <Navigator />
+      </View>
     </View>
   );
 }

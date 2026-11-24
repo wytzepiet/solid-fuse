@@ -4,14 +4,14 @@ import {
   ScrollView,
   Text,
   View,
-  useNavigation,
+  useNav,
 } from "solid-fuse";
 import { Icons as md } from "@solid-fuse/material";
 import { LucideIcons } from "@solid-fuse/lucide";
 import { Button, Row } from "../ui";
 
 export function IconScreen() {
-  const nav = useNavigation();
+  const nav = useNav();
   const [size, setSize] = createSignal(32);
   const [color, setColor] = createSignal<`#${string}`>("#111827");
 

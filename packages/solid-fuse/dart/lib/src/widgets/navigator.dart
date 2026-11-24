@@ -17,7 +17,7 @@ import '../node.dart';
 ///
 /// The system back gesture reaches the app's root Navigator first; a
 /// [NavigatorPopHandler] hands it to this one while it has pages to pop and
-/// it's shown (not a hidden tab).
+/// it's shown (not a hidden tab) and in front among its page's stacks.
 class FuseNavigatorWidget extends StatefulWidget {
   const FuseNavigatorWidget(this.node, {super.key});
 
@@ -68,10 +68,11 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       }
     }
     if (pages.isEmpty) return const SizedBox.shrink();
-    // A hidden tab (`<tabs>` turns its tickers off) doesn't take back. Every
-    // pop handler on a route hears a back press, enabled or not, so the
-    // handler checks too.
-    final shown = TickerMode.valuesOf(context).enabled;
+    // Only one stack of a page takes back: the one JS says is in front
+    // (`takesBack`), and never a hidden tab (`<tabs>` turns its tickers
+    // off). Every pop handler on a route hears a back press, enabled or
+    // not, so the handler checks too.
+    final shown = TickerMode.valuesOf(context).enabled && (node.bool('takesBack') ?? true);
     return NavigatorPopHandler<Object?>(
       enabled: shown,
       onPopWithResult: (_) {

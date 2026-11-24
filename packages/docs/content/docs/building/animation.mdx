@@ -121,7 +121,7 @@ Callbacks queued during a frame run in the next one. When nothing moves, nothing
 import { CupertinoMotion, DragDismissable, Heroine, createHeroineController, heroinePage } from "@solid-fuse/heroine";
 
 const heroine = createHeroineController();
-<Navigator initialPage={() => <Gallery />} observers={[heroine]} />;
+<Navigator observers={[heroine]} />;
 
 // In Gallery:
 <Heroine tag="photo" motion={CupertinoMotion.bouncy()}>

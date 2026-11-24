@@ -1,5 +1,5 @@
 import { createContext, getOwner, useContext } from "solid-js";
-import type { PageConfig } from "../navigation-controller";
+import type { PageConfig } from "../navigation";
 import { createElement } from "../renderer";
 import type { Color } from "../flutter";
 import type { Animation } from "../types";
@@ -29,7 +29,7 @@ export function transitionProp(t: Transition): (animation: Animation, secondaryA
 
 export type PageProps = {
   child: () => JSX.Element;
-  /** Names the page for `nav.popUntil(name)`. */
+  /** Names the page: Flutter's `Page.name`. */
   name?: string;
   /** How the page comes in: `"slide"` (default), `"fade"`, `"none"`, or your own. */
   transition?: "slide" | "fade" | "none" | Transition;

@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { RadioGroup, ScrollView, Text, View, useNavigation } from "solid-fuse";
+import { RadioGroup, ScrollView, Text, View, useNav } from "solid-fuse";
 import {
   AppBar, Badge, BottomSheet, Button, Card, Checkbox, Chip, Dialog, Divider, FloatingActionButton,
   IconButton, Icons, ListTile, NavigationBar, NavigationDestination, ProgressIndicator, Radio,
@@ -7,7 +7,7 @@ import {
 } from "@solid-fuse/material";
 
 export function MaterialScreen() {
-  const nav = useNavigation();
+  const nav = useNav();
   const [on, setOn] = createSignal(true);
   const [checked, setChecked] = createSignal<boolean | null>(false);
   const [volume, setVolume] = createSignal(0.4);

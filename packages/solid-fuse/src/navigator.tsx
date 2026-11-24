@@ -1,87 +1,72 @@
 import { For, untrack } from "solid-js";
 import { Dynamic } from "./dynamic";
-import {
-  NavigationContext,
-  _setLayoutRenderer,
-  _setTabsRenderer,
-  createNavigationController,
-  type NavigationController,
-} from "./navigation-controller";
-import type { PageConfig } from "./navigation-controller";
-import type { Route } from "./routes";
+import { PageContext, createStack, pageConfigOf, usePage, type PageEntry } from "./navigation";
+import { usePageType } from "./pages/page";
 
 export {
-  createNavigationController,
+  createStack,
   openAppLink,
-  useNavigation,
-  type NavigationController,
+  saveNavigation,
+  useNav,
+  usePage,
+  type MountedStack,
+  type Nav,
+  type Page,
   type PageConfig,
   type PageEntry,
   type PushOptions,
-  type SavedStack,
   type SavedEntry,
-  type TabsState,
-  useTabs,
-} from "./navigation-controller";
+  type SavedHolder,
+  type Stack as StackHandle,
+} from "./navigation";
+
+const wrap = (e: PageEntry, child: () => JSX.Element) => <PageContext value={e as any}>{child()}</PageContext>;
 
 /**
- * Mounts a Flutter Navigator and drives its pages list from a
- * `NavigationController`. Either accepts a pre-built `controller` (useful
- * for sub-navigators whose state is owned outside the wrapper — e.g. a
- * tab that resets to home from a parent), or builds its own from
- * `initialPage`: a route, a page, or a component thunk.
- *
- * The `controller` prop is read once at mount; reactive swaps are ignored.
- * `observers` are Flutter's NavigatorObservers: generated handles, such as
- * a package's hero controller.
+ * A Flutter Navigator drawing one of the page's stacks (the app's,
+ * outside any page). `index` is its first page's address; without it, the
+ * page's own address (the folder's `index.tsx`). `observers` are Flutter's
+ * NavigatorObservers: generated handles, such as a package's hero controller.
  */
-export function Navigator(props: {
-  controller?: NavigationController;
-  initialPage?: Route | (() => JSX.Element) | PageConfig;
-  observers?: import("./types").NavigatorObserversInput;
-}): JSX.Element {
-  const nav = untrack(
-    () =>
-      props.controller ??
-      createNavigationController({ initialPage: props.initialPage }),
-  );
-
+export function Navigator(props: { index?: string; observers?: import("./types").NavigatorObserversInput }): JSX.Element {
+  const stack = createStack({ index: untrack(() => props.index) });
+  const asPage = usePageType();
   return (
-    <NavigationContext value={nav}>
-      <navigator
-        observers={props.observers}
-        onDidRemovePage={(e: { id: number }) => nav.onDidRemovePage(e.id)}
-      >
-        <For each={nav.pages()} keyed={(e) => e.id}>
-          {(entry) => (
-            <Dynamic
-              component={entry().config.type}
-              _pageId={entry().id}
-              {...entry().config.props}
-            >
-              {entry().config.child()}
+    <navigator
+      observers={props.observers}
+      takesBack={stack.takesBack()}
+      onDidRemovePage={(e: { id: number }) => stack.removed(e.id)}
+    >
+      <For each={stack.entries()} keyed={(e) => e.id}>
+        {(entry) => {
+          const config = pageConfigOf(entry(), asPage, wrap);
+          return (
+            <Dynamic component={config.type} _pageId={entry().id} {...config.props}>
+              {config.child()}
             </Dynamic>
-          )}
-        </For>
-      </navigator>
-    </NavigationContext>
+          );
+        }}
+      </For>
+    </navigator>
   );
 }
 
-// A layout route's component gets its own navigator as `children`.
-_setLayoutRenderer((controller) => <Navigator controller={controller} />);
-
-// A tabs layout's `children`: every tab's navigator, kept alive; only the
-// visible one ticks and takes back. Back on another tab's first page goes
-// to the first tab.
-_setTabsRenderer((tabs) => (
-  <tabs
-    index={tabs.index()}
-    backToFirst={tabs.index() !== 0 && tabs.navigators[tabs.index()]!.stackDepth() <= 1}
-    onBack={() => tabs.select(0)}
-  >
-    {tabs.navigators.map((controller) => (
-      <Navigator controller={controller} />
-    ))}
-  </tabs>
-));
+/**
+ * Shows one of the page's stacks and keeps the rest alive: hidden ones
+ * don't tick or take back. Its children are the `<Navigator>`s, in tab order.
+ * Back on another tab's first page goes to the first tab. A small helper
+ * over `usePage()`: write your own for a pager or a rail.
+ */
+export function Tabs(props: { children?: JSX.Element }): JSX.Element {
+  const page = usePage();
+  const index = () => Math.max(0, page.stacks().indexOf(page.active() ?? ""));
+  return (
+    <tabs
+      index={index()}
+      backToFirst={index() > 0 && page.stack(page.active()).pages().length <= 1}
+      onBack={() => page.show(page.stacks()[0]!)}
+    >
+      {props.children}
+    </tabs>
+  );
+}

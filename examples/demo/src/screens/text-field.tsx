@@ -1,11 +1,11 @@
 import { createSignal } from "solid-js";
-import { ScrollView, Text, View, useNavigation } from "solid-fuse";
+import { ScrollView, Text, View, useNav } from "solid-fuse";
 import { createFocusNode } from "#fuse/flutter";
 import { Icons, TextField } from "@solid-fuse/material";
 import { Button, Row } from "../ui";
 
 export function TextFieldScreen() {
-  const nav = useNavigation();
+  const nav = useNav();
 
   const [name, setName] = createSignal("");
   const [digits, setDigits] = createSignal("");

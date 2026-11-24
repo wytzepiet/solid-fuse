@@ -13,11 +13,10 @@ function app(files: Record<string, string>): string {
   return dir;
 }
 const screen = "export default () => null;";
-const table = (rs: FileRoute[]) =>
-  Object.fromEntries(rs.map((r) => [r.key, [r.path ?? null, r.parent ?? null, ...(r.tabs ? [r.tabs] : []), ...(r.tab ? ["tab"] : [])]]));
+const table = (rs: FileRoute[]) => Object.fromEntries(rs.map((r) => [r.key, [r.path, r.in ?? null, ...(r.holder ? ["holds"] : [])]]));
 
 describe("file routes", () => {
-  test("paths and parents follow the folders", () => {
+  test("addresses follow the files", () => {
     const rs = scanRoutes(
       app({
         "index.tsx": screen,
@@ -25,98 +24,99 @@ describe("file routes", () => {
         "users/index.tsx": screen,
         "users/[id].tsx": `${screen}\nexport const parse = { id: Number };`,
         "users/[id]/posts.tsx": screen,
-        "about/team.tsx": screen,
         "_helpers.tsx": "export const x = 1;",
+        "users/_components/card.tsx": "export const x = 1;",
         "users/card.test.tsx": "",
       }),
     );
     expect(table(rs)).toEqual({
-      "/": ["/", null],
-      "/settings": ["/settings", "/"],
-      "/users": ["/users", "/"],
-      "/users/[id]": ["/users/:id", "/users"],
-      "/users/[id]/posts": ["/users/:id/posts", "/users/[id]"],
-      // No index in about/: the route above it.
-      "/about/team": ["/about/team", "/"],
+      "/index": ["/", null],
+      "/settings": ["/settings", null],
+      "/users/index": ["/users", null],
+      // No users.tsx: users/ isn't held, its pages open on the app's stack.
+      "/users/[id]": ["/users/:id", null],
+      // [id]/ has no index: [id].tsx doesn't hold it.
+      "/users/[id]/posts": ["/users/:id/posts", null],
     });
     expect(rs.find((r) => r.key === "/users/[id]")!.parse).toBe(true);
   });
 
-  test("a layout holds its folder; tabs are the names it lists", () => {
+  test("x.tsx next to x/ with an index holds it, and shares its address", () => {
     const rs = scanRoutes(
       app({
         "index.tsx": screen,
-        "share/_layout.tsx": `${screen}\nexport const page = (c) => c;`,
+        "share.tsx": `${screen}\nexport const page = (c) => c;`,
         "share/index.tsx": screen,
         "share/contact.tsx": screen,
-        "tabs/_layout.tsx": `${screen}\nexport const tabs = ["feed", "profile"];`,
-        "tabs/feed/index.tsx": screen,
-        "tabs/feed/post/[id].tsx": screen,
-        "tabs/profile.tsx": screen,
-        "tabs/video/[id].tsx": screen,
+        "share/deep/more.tsx": screen,
       }),
     );
     expect(table(rs)).toEqual({
-      "/": ["/", null],
-      "/share/_layout": ["/share", "/"],
-      "/share": ["/share", "/share/_layout"],
-      "/share/contact": ["/share/contact", "/share/_layout"],
-      "/tabs/_layout": ["/tabs", "/", ["/tabs/feed", "/tabs/profile"]],
-      "/tabs/feed": ["/tabs/feed", null, "tab"],
-      "/tabs/feed/post/[id]": ["/tabs/feed/post/:id", "/tabs/feed"],
-      "/tabs/profile": ["/tabs/profile", null, "tab"],
-      // Not in a tab: opens in the visible one.
-      "/tabs/video/[id]": ["/tabs/video/:id", "/tabs/_layout"],
+      "/index": ["/", null],
+      "/share": ["/share", null, "holds"],
+      "/share/index": ["/share", "/share"],
+      "/share/contact": ["/share/contact", "/share"],
+      "/share/deep/more": ["/share/deep/more", "/share"],
     });
-    expect(rs.find((r) => r.key === "/share/_layout")!.page).toBe(true);
+    expect(rs.find((r) => r.key === "/share")!.page).toBe(true);
   });
 
-  test("groups stay out of the path", () => {
+  test("groups stay out of the address; tabs are a holder with stacks under it", () => {
     const rs = scanRoutes(
       app({
-        "(tabs)/_layout.tsx": `${screen}\nexport const tabs = ["home", "me"];`,
-        "(tabs)/home.tsx": screen,
-        "(tabs)/me.tsx": screen,
-        "(auth)/_layout.tsx": screen,
-        "(auth)/login.tsx": screen,
+        "(tabs).tsx": screen,
+        "(tabs)/index.tsx": screen,
+        "(tabs)/search.tsx": screen,
+        "(tabs)/search/filters.tsx": screen,
+        "(tabs)/video/[id].tsx": screen,
         "settings.tsx": screen,
+        "about@app.tsx": screen,
+        "(tabs)/me@app.tsx": screen,
+        "(tabs)/share.tsx": screen,
+        "(tabs)/share/index.tsx": screen,
+        "(tabs)/contact@share.tsx": screen,
       }),
     );
     expect(table(rs)).toEqual({
-      // The tabs open at /.
-      "/(tabs)/_layout": ["/", null, ["/(tabs)/home", "/(tabs)/me"]],
-      "/(tabs)/home": ["/home", null, "tab"],
-      "/(tabs)/me": ["/me", null, "tab"],
-      // A stack group with no index has no link of its own.
-      "/(auth)/_layout": [null, "/(tabs)/_layout"],
-      "/(auth)/login": ["/login", "/(auth)/_layout"],
-      "/settings": ["/settings", "/(tabs)/_layout"],
+      "/(tabs)": ["/", null, "holds"],
+      "/(tabs)/index": ["/", "/(tabs)"],
+      "/(tabs)/search": ["/search", "/(tabs)"],
+      // No search/index: filters opens where search does (and its stack picks the search tab).
+      "/(tabs)/search/filters": ["/search/filters", "/(tabs)"],
+      "/(tabs)/video/[id]": ["/video/:id", "/(tabs)"],
+      "/settings": ["/settings", null],
+      "/about@app": ["/about", null],
+      "/(tabs)/me@app": ["/me", null],
+      "/(tabs)/share": ["/share", "/(tabs)", "holds"],
+      "/(tabs)/share/index": ["/share", "/(tabs)/share"],
+      "/(tabs)/contact@share": ["/contact", "/(tabs)/share"],
     });
   });
 
   test("files that don't make an app", () => {
-    expect(() => scanRoutes(app({ "a.tsx": screen }))).toThrow("no route at /");
+    expect(() => scanRoutes(app({ "a.tsx": screen }))).toThrow("no page at /");
     expect(() => scanRoutes(app({ "index.tsx": "export const x = 1;" }))).toThrow("no default export");
     expect(() => scanRoutes(app({ "index.tsx": screen, "(x)/index.tsx": screen }))).toThrow("all at /");
-    expect(() => scanRoutes(app({ "index.tsx": screen, "t/_layout.tsx": `${screen}\nexport const tabs = ["a"];` }))).toThrow('tab "a"');
+    expect(() => scanRoutes(app({ "index.tsx": screen, "a.tsx": screen, "a/index.tsx": screen, "a/b.tsx": screen, "c.tsx": screen, "c/index.tsx": screen, "c/b.tsx": screen, "x@b.tsx": screen }))).toThrow("names no page");
+    expect(() => scanRoutes(app({ "index.tsx": screen, "a/s.tsx": screen, "a/s/index.tsx": screen, "b/s.tsx": screen, "b/s/index.tsx": screen, "x@s.tsx": screen }))).toThrow("could be");
   });
 
-  test("emits route() values, typed links and Routes", () => {
+  test("emits route() values, typed addresses and FileRoutes", () => {
     const rs = scanRoutes(
       app({
         "index.tsx": screen,
         "users/[id].tsx": `${screen}\nexport const parse = { id: Number };`,
-        "t/_layout.tsx": `${screen}\nexport const tabs = ["a"];`,
-        "t/a.tsx": screen,
+        "share.tsx": screen,
+        "share/index.tsx": screen,
       }),
     );
-    const code = emitRoutes(rs, (f) => `../src/app/${f.replace(/\.tsx$/, "")}`);
-    expect(code).toContain('import * as m1 from "../src/app/t/_layout";');
-    expect(code).toContain('const r2 = route({ path: "/t/a", component: m2.default });');
-    expect(code).toContain('const r1 = route({ path: "/t", parent: r0, navigator: tabs(r2), component: m1.default });');
-    expect(code).toContain('route({ path: "/users/:id", parent: r0, parse: m3.parse, component: m3.default })');
-    expect(code.indexOf("const r2 =")).toBeLessThan(code.indexOf("const r1 ="));
-    expect(code).toContain('type Links = "/" | "/t" | "/t/a" | `/users/${string}`;');
-    expect(code).toContain("initialPage={r0}");
+    const code = emitRoutes(rs, (f) => `../src/app/${f.replace(/\.tsx$/, "")}`, "../src/app");
+    expect(code).toContain('import App from "../src/app";');
+    expect(code).toContain('const r1 = route({ path: "/share", component: m1.default });');
+    expect(code).toContain('const r2 = route({ path: "/share", in: r1, component: m2.default });');
+    expect(code).toContain('route({ path: "/users/:id", parse: m3.parse, component: m3.default })');
+    expect(code).toContain('type Addresses = "/" | "/share" | `/users/${string}`;');
+    expect(code).toContain("return <App />;");
+    expect(emitRoutes(rs, (f) => f)).toContain("return <Navigator />;");
   });
 });

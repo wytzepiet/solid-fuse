@@ -1,4 +1,4 @@
-import { ScrollView, Text, View, on, useNavigation } from "solid-fuse";
+import { ScrollView, Text, View, on, useNav } from "solid-fuse";
 import { MenuItem } from "../ui";
 import { CounterScreen } from "./counter";
 import { TextFieldScreen } from "./text-field";
@@ -13,10 +13,9 @@ import { AdaptiveScreen } from "./adaptive";
 import { FramesScreen } from "./frames";
 import { SpringsScreen } from "./springs";
 import { HeroineScreen } from "./heroine";
-import { routes } from "#fuse/routes";
 
 export function HomeScreen() {
-  const nav = useNavigation();
+  const nav = useNav();
   // The frame benchmark (dart/lib/frame_bench.dart) opens and closes it.
   on("benchFrames", ({ count }: { count?: number }) => {
     if (count) nav.push(() => <FramesScreen count={count} />);
@@ -65,8 +64,8 @@ export function HomeScreen() {
       <MenuItem label="animation frames" onTap={() => nav.push(() => <FramesScreen />)} />
       <MenuItem label="springs" onTap={() => nav.push(() => <SpringsScreen />)} />
       <MenuItem label="heroine" onTap={() => nav.push(() => <HeroineScreen />)} />
-      <MenuItem label="routes" onTap={() => nav.push(routes["/users"])} />
-      <MenuItem label="tabs" onTap={() => nav.push(routes["/tabs/_layout"])} />
+      <MenuItem label="routes" onTap={() => nav.push("/users")} />
+      <MenuItem label="tabs" onTap={() => nav.push("/tabs")} />
     </ScrollView>
   );
 }

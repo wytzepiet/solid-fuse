@@ -1,10 +1,10 @@
-import { ScrollView, Text, View, useNavigation } from "solid-fuse";
+import { ScrollView, Text, View, useNav } from "solid-fuse";
 import { createScrollController } from "#fuse/flutter";
 import { easeInOut } from "#fuse/flutter/Curves";
 import { Button } from "../ui";
 
 export function ScrollScreen() {
-  const nav = useNavigation();
+  const nav = useNav();
 
   // initialScrollOffset tests that plain props flow inline through the create
   // op so the Dart-side handle factory sees them before constructing the

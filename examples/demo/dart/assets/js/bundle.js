@@ -4360,9 +4360,9 @@
 		viewPadding: y$1,
 		textScale: 1,
 		...v$1.view
-	}, x$1 = (e, t) => e.left === t.left && e.top === t.top && e.right === t.right && e.bottom === t.bottom, [S$1, ge] = createSignal(b$1.size, { equals: (e, t) => e.width === t.width && e.height === t.height }), [_e, ve] = createSignal(b$1.devicePixelRatio), [ye, be$1] = createSignal(b$1.padding, { equals: x$1 }), [xe$1, Se$1] = createSignal(b$1.viewInsets, { equals: x$1 }), [Ce$1, we$1] = createSignal(b$1.viewPadding, { equals: x$1 }), [Te$1, Ee$1] = createSignal(b$1.textScale);
+	}, x$1 = (e, t) => e.left === t.left && e.top === t.top && e.right === t.right && e.bottom === t.bottom, [S$1, ge] = createSignal(b$1.size, { equals: (e, t) => e.width === t.width && e.height === t.height }), [_e, ve] = createSignal(b$1.devicePixelRatio), [ye, be] = createSignal(b$1.padding, { equals: x$1 }), [xe, Se] = createSignal(b$1.viewInsets, { equals: x$1 }), [Ce, we$1] = createSignal(b$1.viewPadding, { equals: x$1 }), [Te$1, Ee$1] = createSignal(b$1.textScale);
 	p("_view", (e) => {
-		ge(e.size), ve(e.devicePixelRatio), be$1(e.padding), Se$1(e.viewInsets), we$1(e.viewPadding), Ee$1(e.textScale);
+		ge(e.size), ve(e.devicePixelRatio), be(e.padding), Se(e.viewInsets), we$1(e.viewPadding), Ee$1(e.textScale);
 	});
 	var C$1 = {
 		brightness: me,
@@ -4372,14 +4372,14 @@
 		orientation: () => S$1().width > S$1().height ? "landscape" : "portrait",
 		devicePixelRatio: _e,
 		padding: ye,
-		viewInsets: xe$1,
-		viewPadding: Ce$1,
+		viewInsets: xe,
+		viewPadding: Ce,
 		textScale: Te$1
 	};
-	var w$1 = 0;
-	var T$1;
-	var E$1 = class {
-		constructor(e, t = w$1++) {
+	var w$2 = 0;
+	var T$2;
+	var E$2 = class {
+		constructor(e, t = w$2++) {
 			this.id = t, this.type = e, this.parent = void 0, this.first = void 0, this.last = void 0, this.prev = void 0, this.next = void 0, this.batch = -1, this.slot = -1, this.adopt = !1, this.handlers = void 0;
 		}
 		get children() {
@@ -4388,10 +4388,10 @@
 			return e;
 		}
 	};
-	var D$1 = /* @__PURE__ */ new Map();
+	var D$2 = /* @__PURE__ */ new Map();
 	p("_functionCall", (e) => {
 		e.args ? e.args = q$1(e.args) : e.value = q$1(e.value);
-		let t = D$1.get(e.nodeId)?.deref()?.handlers?.[e.name];
+		let t = D$2.get(e.nodeId)?.deref()?.handlers?.[e.name];
 		if (e.reply) return t === void 0 ? { error: `no function "${e.name}" on node ${e.nodeId}` } : (async () => {
 			try {
 				return { value: J$1("", await (e.args ? t(...e.args) : t(e.value)), null).wire };
@@ -4405,7 +4405,7 @@
 	var De$1 = 0;
 	le("_callSync", (e) => {
 		e.args ? e.args = q$1(e.args) : e.value = q$1(e.value);
-		let t = D$1.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
+		let t = D$2.get(e.nodeId)?.deref(), n = t?.handlers?.[e.name];
 		if (n === void 0) return { error: `no function "${e.name}" on node ${e.nodeId}` };
 		let r = () => e.args ? n(...e.args) : n(e.value);
 		if (!e.widget) try {
@@ -4437,7 +4437,7 @@
 		t && (O$2.delete(e.root), t.dispose());
 	});
 	function k$2(e) {
-		if (e instanceof E$1 && !e.parent) return e;
+		if (e instanceof E$2 && !e.parent) return e;
 		let t = G$1("__slot__");
 		return Q$1(t, e), t;
 	}
@@ -4455,13 +4455,13 @@
 	var M$1 = [];
 	var N$1 = 0;
 	var Le$1 = new FinalizationRegistry((e) => {
-		D$1.delete(e), M$1.push(j$2, e), U$1();
+		D$2.delete(e), M$1.push(j$2, e), U$1();
 	});
 	function P$1(e) {
 		e.tracked || (e.tracked = !0, Le$1.register(e, e.id));
 	}
 	var F$1 = globalThis.__fuseGeneration = (globalThis.__fuseGeneration ?? 0) + 1;
-	var I$1 = new E$1("root");
+	var I$1 = new E$2("root");
 	var L$1 = !1;
 	var R$1 = !1;
 	var z$1 = /* @__PURE__ */ new Map();
@@ -4531,18 +4531,18 @@
 	}
 	function Ve$1(e) {
 		e.batch < 0 && (e.batch = N$1, W$1.push(e), M$1.push(Ne$1, e.id, e.shape));
-		let t = w$1;
-		return w$1 += e.size, M$1.push(Pe$1, e.id, t, C$1.mode !== "release" && T$1 ? T$1 : null), t;
+		let t = w$2;
+		return w$2 += e.size, M$1.push(Pe$1, e.id, t, C$1.mode !== "release" && T$2 ? T$2 : null), t;
 	}
 	function He$1(e, t) {
-		let n = t.$i, r = new E$1(e.slice(2), t.$t + n);
+		let n = t.$i, r = new E$2(e.slice(2), t.$t + n);
 		r.adopt = n !== 0, r.batch = N$1;
 		for (let e in t) e !== "$t" && e !== "$i" && Y$1(r, e, t[e]);
 		return r;
 	}
 	function G$1(e, t) {
-		let n = new E$1(e), r = {};
-		return C$1.mode !== "release" && T$1 && (r._component = T$1), n.batch = N$1, n.slot = M$1.push(Oe$1, n.id, e, r) - 1, t && K$1(n, t), n;
+		let n = new E$2(e), r = {};
+		return C$1.mode !== "release" && T$2 && (r._component = T$2), n.batch = N$1, n.slot = M$1.push(Oe$1, n.id, e, r) - 1, t && K$1(n, t), n;
 	}
 	function K$1(e, t) {
 		let n;
@@ -4561,7 +4561,7 @@
 		e.collected = !0, e.owned || We$1(e);
 	});
 	function We$1(e) {
-		D$1.delete(e.id), M$1.push(j$2, e.id), U$1();
+		D$2.delete(e.id), M$1.push(j$2, e.id), U$1();
 	}
 	function Ge$1(e, t) {
 		let n = G$1(e);
@@ -4584,17 +4584,17 @@
 		q$1 = e;
 	}
 	var qe$1 = new FinalizationRegistry(({ id: e, done: t }) => {
-		D$1.get(e)?.deref() === void 0 && D$1.delete(e), t();
+		D$2.get(e)?.deref() === void 0 && D$2.delete(e), t();
 	});
 	function Je$1(e, t, n) {
-		let r = new E$1(e, t);
+		let r = new E$2(e, t);
 		return r.tracked = !0, qe$1.register(r, {
 			id: t,
 			done: n
 		}), r;
 	}
 	function Ye$1(e) {
-		return D$1.get(e)?.deref();
+		return D$2.get(e)?.deref();
 	}
 	function Xe$1(e) {
 		return e == null ? e : J$1("", e, null).wire;
@@ -4603,7 +4603,7 @@
 		n ? X$1(e)[t] = n : e.handlers && delete e.handlers[t];
 	}
 	function Qe$1(e) {
-		return typeof e != "object" || !e ? null : e instanceof E$1 ? e : e.node instanceof E$1 ? e.node : null;
+		return typeof e != "object" || !e ? null : e instanceof E$2 ? e : e.node instanceof E$2 ? e.node : null;
 	}
 	function J$1(e, t, n = B$1) {
 		let r = {
@@ -4640,7 +4640,7 @@
 	}
 	function X$1(e) {
 		let t = e.handlers;
-		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), D$1.set(e.id, new WeakRef(e)), P$1(e)), t;
+		return t === void 0 && (t = e.handlers = {}, e.owner = getOwner(), D$2.set(e.id, new WeakRef(e)), P$1(e)), t;
 	}
 	function $e$1(e, t, n) {
 		let r = e.nested?.[t] ?? 0;
@@ -4663,12 +4663,12 @@
 	function et$1(e, t, n) {
 		e.batch === N$1 ? (e.slot < 0 && (e.slot = M$1.push(Fe$1, e.id, {}) - 1), M$1[e.slot][t] = n) : M$1.push(A$2, e.id, t, n), U$1();
 	}
-	var { render: tt$1, effect: nt, memo: rt, createComponent: it$1, createElement: at, createTextNode: ot, insertNode: st, insert: Q$1, spread: ct, setProp: lt$1, mergeProps: ut, ...dt$1 } = createRenderer({
+	var { render: tt$1, effect: nt$1, memo: rt$1, createComponent: it$1, createElement: at$1, createTextNode: ot$1, insertNode: st$1, insert: Q$1, spread: ct$1, setProp: lt$1, mergeProps: ut$1, ...dt$1 } = createRenderer({
 		createElement(e, t) {
 			return e.charCodeAt(1) === 36 && e.charCodeAt(0) === 104 ? He$1(e, t) : G$1(e, t);
 		},
 		createTextNode(e) {
-			let t = new E$1("__text__");
+			let t = new E$2("__text__");
 			return M$1.push(ke$1, t.id, e), t;
 		},
 		replaceText(e, t) {
@@ -4707,17 +4707,17 @@
 		let t = e.parent, { prev: n, next: r } = e;
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
-	function pt(e, t) {
+	function pt$1(e, t) {
 		if (C$1.mode === "release") return it$1(e, t);
-		let n = T$1;
-		T$1 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
+		let n = T$2;
+		T$2 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
 			return it$1(e, t);
 		} finally {
-			T$1 = n;
+			T$2 = n;
 		}
 	}
-	function mt(e) {
+	function mt$1(e) {
 		R$1 = !0;
 		let t;
 		try {
@@ -4728,17 +4728,17 @@
 		return R$1 = !1, V$1(), () => {
 			typeof t == "function" && t();
 			for (let e = I$1.first; e; e = I$1.first) $$1(e), M$1.push(j$2, e.id);
-			D$1.clear(), U$1();
+			D$2.clear(), U$1();
 		};
 	}
-	var ht = st, { ref: gt, applyRef: _t$1 } = dt$1;
+	var ht$1 = st$1, { ref: gt$1, applyRef: _t$1 } = dt$1;
 	function vt$1(t, n, r, i) {
 		if (typeof n != "object" || !n || Array.isArray(n)) {
-			ct(t, n, r, i);
+			ct$1(t, n, r, i);
 			return;
 		}
 		if ($PROXY in n) {
-			ct(t, n, !0, i), r || Q$1(t, () => n.children, void 0, void 0, i);
+			ct$1(t, n, !0, i), r || Q$1(t, () => n.children, void 0, void 0, i);
 			return;
 		}
 		let a;
@@ -4748,7 +4748,7 @@
 		}
 		if (a === void 0) return;
 		let o = a, s = {};
-		nt(() => {
+		nt$1(() => {
 			let e = {};
 			for (let t = 0; t < o.length; t++) e[o[t]] = n[o[t]];
 			return e;
@@ -4760,33 +4760,33 @@
 		}, i);
 	}
 	function yt$1(e, t) {
-		(typeof t == "function" || Array.isArray(t)) && gt(() => t, e);
+		(typeof t == "function" || Array.isArray(t)) && gt$1(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function O$1(e) {
+	function w$1(e) {
 		"@babel/helpers - typeof";
-		return O$1 = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return w$1 = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, O$1(e);
+		}, w$1(e);
 	}
-	function be(e, t) {
-		if (O$1(e) != "object" || !e) return e;
+	function we(e, t) {
+		if (w$1(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (O$1(r) != "object") return r;
+			if (w$1(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function xe(e) {
-		var t = be(e, "string");
-		return O$1(t) == "symbol" ? t : t + "";
+	function Te(e) {
+		var t = we(e, "string");
+		return w$1(t) == "symbol" ? t : t + "";
 	}
-	function k$1(e, t, n) {
-		return (t = xe(t)) in e ? Object.defineProperty(e, t, {
+	function T$1(e, t, n) {
+		return (t = Te(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4809,7 +4809,7 @@
 		let e = /* @__PURE__ */ new Map(), t = 0;
 		class n {
 			constructor(n, r) {
-				k$1(this, "_id", void 0), k$1(this, "url", void 0), k$1(this, "readyState", 0), k$1(this, "protocol", ""), k$1(this, "binaryType", "blob"), k$1(this, "bufferedAmount", 0), k$1(this, "extensions", ""), k$1(this, "onopen", null), k$1(this, "onmessage", null), k$1(this, "onclose", null), k$1(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), m$1("_ws", {
+				T$1(this, "_id", void 0), T$1(this, "url", void 0), T$1(this, "readyState", 0), T$1(this, "protocol", ""), T$1(this, "binaryType", "blob"), T$1(this, "bufferedAmount", 0), T$1(this, "extensions", ""), T$1(this, "onopen", null), T$1(this, "onmessage", null), T$1(this, "onclose", null), T$1(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), m$1("_ws", {
 					op: "open",
 					id: this._id,
 					url: n,
@@ -4838,7 +4838,7 @@
 				return !0;
 			}
 		}
-		k$1(n, "CONNECTING", 0), k$1(n, "OPEN", 1), k$1(n, "CLOSING", 2), k$1(n, "CLOSED", 3), p("_wsEvent", (t) => {
+		T$1(n, "CONNECTING", 0), T$1(n, "OPEN", 1), T$1(n, "CLOSING", 2), T$1(n, "CLOSED", 3), p("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4920,125 +4920,91 @@
 			timeLog: r
 		};
 	}
-	var A$1 = /* @__PURE__ */ new Map();
-	var Se = 1;
-	var j$1 = !1;
+	var E$1 = /* @__PURE__ */ new Map();
+	var Ee = 1;
+	var D$1 = !1;
 	globalThis.requestAnimationFrame = (e) => {
-		let t = Se++;
-		return A$1.set(t, e), j$1 || (j$1 = !0, m$1("_frames", { op: "start" })), t;
+		let t = Ee++;
+		return E$1.set(t, e), D$1 || (D$1 = !0, m$1("_frames", { op: "start" })), t;
 	}, globalThis.cancelAnimationFrame = (e) => {
-		A$1.delete(e);
+		E$1.delete(e);
 	}, le("_frame", (e) => {
-		let t = A$1;
-		A$1 = /* @__PURE__ */ new Map();
+		let t = E$1;
+		E$1 = /* @__PURE__ */ new Map();
 		for (let n of t.values()) try {
 			n(e.t);
 		} catch (e) {
 			console.error(e);
 		}
-		return flush(), j$1 = A$1.size > 0, { more: j$1 };
+		return flush(), D$1 = E$1.size > 0, { more: D$1 };
 	});
-	function Ce(e, t) {
+	function De(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
 			switch (typeof e) {
 				case "function": return untrack(() => e(t));
 				case "string": {
-					let n = at(e);
+					let n = at$1(e);
 					return vt$1(n, t), n;
 				}
 			}
 		});
 	}
-	function we(e) {
-		return Ce(() => e.component, omit(e, "component"));
+	function Oe(e) {
+		return De(() => e.component, omit(e, "component"));
 	}
-	function Te(e) {
-		return (t, n) => e(at("routeChild"), {
-			animation: t,
-			secondaryAnimation: n
-		});
-	}
-	function M({ child: e, transition: t, ...n }) {
-		return {
-			type: "page",
-			child: e,
-			props: {
-				...n,
-				transition: typeof t == "function" ? Te(t) : t
-			}
-		};
-	}
-	var N = createContext((e) => M({ child: e }));
-	function Ee() {
-		return getOwner() ? useContext(N) : (e) => M({ child: e });
-	}
-	var P = [];
-	function De(e, t) {
-		return t.startsWith("/") ? F(t) : F(`${e ?? ""}/${t}`);
-	}
-	function F(e) {
+	var O$1 = [];
+	function k$1(e) {
 		return "/" + e.split("/").filter(Boolean).join("/");
 	}
-	function Oe(...e) {
-		return {
-			kind: "tabs",
-			tabs: e
-		};
-	}
 	function ke(e) {
-		let t = e.parent, n = {
-			get path() {
-				if (e.path !== void 0) return De(t ? I(t) : void 0, e.path);
-			},
-			get parent() {
-				return t;
-			},
+		let t = e.path === void 0 ? void 0 : k$1(e.path), n = {
+			path: t,
+			in: e.in,
 			page: e.page,
-			navigator: e.navigator,
 			parse: e.parse,
 			get key() {
-				let r = n.path;
-				return r !== void 0 && t?.navigator && r === I(t) ? `${r}#index` : r ?? e.name;
+				if (t !== void 0) return e.in && e.in.path === t ? `${t}#${e.in.key ?? ""}` : t;
 			},
 			component: e.component,
 			returns: () => n
 		};
-		if (typeof e.navigator == "object") for (let t of e.navigator.tabs) {
-			if (t.parent) throw Error("[Fuse] a tab can't have a parent of its own; tabs() gives it the layout");
-			t._setParent(n);
-		}
-		return Object.defineProperty(n, "_setParent", { value: (e) => t = e }), P.push(n), n;
-	}
-	function I(e) {
-		let t = e;
-		for (; t;) {
-			if (t.path !== void 0) return t.path;
-			t = t.parent;
-		}
+		return O$1.push(n), n;
 	}
 	function Ae(e) {
-		return P.findLast((t) => t.key === e);
+		return typeof e == "object" && !!e && "component" in e && "returns" in e;
 	}
 	function je(e) {
-		return typeof e?.navigator == "object" ? e.navigator.tabs : void 0;
+		return O$1.findLast((t) => t.key === e);
 	}
 	function Me(e) {
 		let t = [];
-		for (let n = e; n; n = n.parent) t.unshift(n);
+		for (let n = e.in; n; n = n.in) {
+			if (t.includes(n)) throw Error(`[Fuse] route ${e.path}: its holders go round in a circle`);
+			t.unshift(n);
+		}
 		return t;
 	}
-	function Ne(e) {
-		if (!je(e)) return P.find((t) => t.parent === e && t.path !== void 0 && t.path === I(e));
+	function A$1(e, t) {
+		return O$1.findLast((n) => n.in === e && n.path !== void 0 && Ne(n.path, t));
 	}
-	function L(e) {
+	function Ne(e, t) {
+		let n = e.split("/").filter(Boolean), r = k$1(t).split("/").filter(Boolean);
+		return n.length === r.length && n.every((e, t) => e === r[t] || e.startsWith(":"));
+	}
+	function j$1(e) {
 		return e ? e.split("/").filter((e) => e.startsWith(":")).map((e) => e.slice(1)) : [];
 	}
 	function Pe(e) {
-		let [t, n = ""] = e.split("?", 2), r = F(t.replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]*/i, "")).split("/").filter(Boolean), i;
-		for (let e of P) {
-			if (e.path === void 0 || e.navigator && Ne(e)) continue;
+		let t = 0;
+		for (let n = e.in; n; n = n.in) t++;
+		return t;
+	}
+	function M(e) {
+		let [t, n = ""] = e.split("?", 2), r = k$1(t.replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]*/i, "")).split("/").filter(Boolean), i;
+		for (let e of O$1) {
+			if (e.path === void 0) continue;
 			let t = e.path.split("/").filter(Boolean);
 			if (t.length !== r.length) continue;
 			let n = {}, a = 0, o = !0;
@@ -5051,11 +5017,11 @@
 					break;
 				}
 			}
-			o && (!i || a > i.score) && (i = {
+			o && (a = a * 64 + Pe(e), (!i || a >= i.score) && (i = {
 				route: e,
 				raw: n,
 				score: a
-			});
+			}));
 		}
 		if (i) {
 			for (let [e, t] of new URLSearchParams(n)) e in i.raw || (i.raw[e] = t);
@@ -5067,377 +5033,519 @@
 	}
 	function Fe(e, t) {
 		let n = { ...t };
-		for (let r = e; r; r = r.parent) for (let [e, i] of Object.entries(r.parse ?? {})) typeof t[e] == "string" && typeof i == "function" && (n[e] = i(t[e]));
+		for (let r = e; r; r = r.in) for (let [e, i] of Object.entries(r.parse ?? {})) typeof t[e] == "string" && typeof i == "function" && (n[e] = i(t[e]));
 		return n;
 	}
 	function Ie(e, t) {
-		if (e.path === void 0) throw Error("[Fuse] linkTo: this route has no path");
+		if (e.path === void 0) throw Error("[Fuse] addressOf: this route has no path");
 		let n = t ?? {};
 		return e.path.split("/").map((t) => {
 			if (!t.startsWith(":")) return t;
 			let r = n[t.slice(1)];
-			if (r === void 0) throw Error(`[Fuse] linkTo ${e.path}: missing param ${t.slice(1)}`);
+			if (r === void 0) throw Error(`[Fuse] addressOf ${e.path}: missing param ${t.slice(1)}`);
 			return encodeURIComponent(String(r));
 		}).join("/") || "/";
 	}
-	var R = createContext();
-	var z = /* @__PURE__ */ new Set();
 	var Le = 0;
-	function Re(e, t) {
-		let n = e?.tabs;
-		if (!n) return e?.inner;
-		let r = t ? n.routes.indexOf(t) : -1;
-		return r >= 0 && n._set(r), n.navigators[r >= 0 ? r : n.index()];
+	var N = /* @__PURE__ */ new Set();
+	function Re(e, t, n) {
+		let [r, i] = createSignal([], { ownedWrite: !0 }), [a, o] = createSignal(void 0, { ownedWrite: !0 }), s = {
+			route: e,
+			params: t,
+			entry: n,
+			stacks: /* @__PURE__ */ new Map(),
+			order: [],
+			setOrder: (e) => {
+				s.order = e, i(e);
+			},
+			readOrder: () => (r(), s.order),
+			active: void 0,
+			setActive: (e) => {
+				s.active = e, o(e);
+			},
+			readActive: () => (a(), s.active)
+		};
+		return s;
 	}
-	function B(e, t = {}, n = {}, r) {
-		let i = L(e.path);
-		return (i.length || !r ? i : [.../* @__PURE__ */ new Set([...Object.keys(t), ...Object.keys(n)])]).every((e) => String(t[e]) === String(n[e]));
+	var P = Re(void 0, {});
+	function F(e) {
+		return e.route?.path ?? "/";
 	}
-	function ze(e, t, n) {
-		let r = (e) => t.navigator ? e.layout === t && B(t, e._layoutParams, n, !1) : e._entries().some((e) => e.route === t && B(t, e.params, n, !1));
-		for (let t = e; t; t = t.parent) if (r(t)) return t;
-		for (let e of z) if (r(e) && e._shown()) return e;
-		for (let e of z) if (r(e)) return e;
+	function I(e, t) {
+		let n = e.stacks.get(t);
+		if (n) return n;
+		let [r, i] = createSignal([], { ownedWrite: !0 }), a = {
+			key: t,
+			holder: e,
+			list: [],
+			read: () => (r(), a.list),
+			write: (e) => {
+				a.list = e, i(e), bt();
+			},
+			mounted: 0
+		};
+		return e.stacks.set(t, a), e.order.includes(t) || e.setOrder([...e.order, t]), a;
 	}
-	function V(e, t, n, r, i) {
-		let a = e;
-		for (let e = 0; e < t.length; e++) {
-			let o = t[e], s = e === t.length - 1, c = a._entries().at(-1);
-			if ((i || !s) && c?.route === o && B(o, c.params, n, s)) {
-				if (s) return Promise.resolve(null);
-				let n = Re(c, t[e + 1]);
-				n && (i && n._reset(), a = n);
-				continue;
-			}
-			let l = s ? n : Be(n, L(o.path)), u = a._add(o, l, s ? r : void 0);
-			if (s) return u.promise;
-			a = Re(u, t[e + 1]) ?? a;
-		}
-		return Promise.resolve(null);
-	}
-	function Be(e, t) {
+	function ze(e, t) {
 		let n = {};
 		for (let r of t) r in e && (n[r] = e[r]);
 		return n;
 	}
-	function Ve(e) {
-		let t = e;
-		for (; t.parent;) t = t.parent;
-		return t;
+	function L(e, t, n) {
+		return j$1(e.path).every((e) => String(t[e]) === String(n[e]));
 	}
-	function He(e = {}) {
-		let t = getOwner(), n = Ee(), r = t ? et() : void 0, i = H({
-			asPage: n,
-			parent: r
-		}), a = untrack(() => e.initialPage);
-		if (a && (Ue(a) ? i._add(a, {}) : i.push(a)), t && onCleanup(() => i._dispose()), !r) {
-			if (U.add(i), q !== void 0) {
-				let e = q;
-				q = void 0, W = void 0, i.restore(e);
-			} else if (W !== void 0) {
-				let e = W;
-				W = void 0, G(i, e);
-			}
+	function Be(e, t, n, r) {
+		let i, a = new Promise((e) => i = e), o = Ae(t) ? t : void 0, s = {
+			id: Le++,
+			route: o,
+			params: n,
+			address: o?.path === void 0 ? void 0 : Ve(o, n),
+			stack: e,
+			content: o ? void 0 : t,
+			pageType: r?.page,
+			resolve: i,
+			promise: a,
+			gone: !1
+		};
+		return s.holder = Re(o, n, s), s;
+	}
+	function Ve(e, t) {
+		try {
+			return Ie(e, t);
+		} catch {
+			return;
 		}
-		return i;
 	}
-	function Ue(e) {
-		return typeof e == "object" && !!e && "component" in e && "returns" in e;
+	function R(e, t, n, r) {
+		z(e);
+		let i = Be(e, t, n, r);
+		return N.add(i), e.write([...e.list, i]), i;
+	}
+	function z(e) {
+		if (e.list.length) return;
+		let t = e.holder, n = A$1(t.route, e.key);
+		if (!n) {
+			console.warn(`[Fuse] no page at ${e.key} for a stack to start on`);
+			return;
+		}
+		let r = Be(e, n, {
+			...t.params,
+			...He(n, e.key)
+		});
+		N.add(r), e.write([r]);
+	}
+	function He(e, t) {
+		let n = {}, r = (e.path ?? "").split("/").filter(Boolean), i = t.split("/").filter(Boolean);
+		return r.forEach((e, t) => {
+			e.startsWith(":") && i[t] !== void 0 && !i[t].startsWith(":") && (n[e.slice(1)] = decodeURIComponent(i[t]));
+		}), n;
+	}
+	function Ue(e, t) {
+		for (let n of e) n.gone = !0, N.delete(n), We(n, (e) => {
+			e.gone = !0, N.delete(e), e.resolve(null);
+		}), n.resolve(t);
+	}
+	function We(e, t) {
+		for (let n of e.holder.stacks.values()) for (let e of n.list) We(e, t), t(e);
+	}
+	function B(e, t, n) {
+		let r = e.list.filter((e) => t.has(e.id));
+		r.length && (e.write(e.list.filter((e) => !t.has(e.id))), Ue(r, n));
+	}
+	function V(e, t) {
+		let n = e.list.slice(t);
+		n.length && (e.write(e.list.slice(0, t)), Ue(n, null));
+	}
+	function Ge(e) {
+		return !e.gone && e.stack.list.at(-1) === e && Ke(e.stack);
+	}
+	function Ke(e) {
+		let t = e.holder;
+		return t.active !== void 0 && t.active !== e.key ? !1 : !t.entry || Ge(t.entry);
 	}
 	function H(e) {
-		let { asPage: t } = e, [n, r] = createSignal([], { ownedWrite: !0 }), i = () => (n(), a), a = [], o = (e) => {
-			a = typeof e == "function" ? e(a) : e, r(a), Ke();
+		e.holder.active !== e.key && e.holder.setActive(e.key), bt(), e.holder.entry && H(e.holder.entry.stack);
+	}
+	function qe(e, t) {
+		let n = e.order;
+		if (!n.length) return;
+		for (let r of n) if (A$1(e.route, r) === t) return r;
+		let r = t.path;
+		if (r !== void 0) {
+			let t;
+			for (let i of n) i !== F(e) && Je(r, i) && (!t || i.length > t.length) && (t = i);
+			if (t) return t;
+		}
+		return e.active !== void 0 && n.includes(e.active) ? e.active : n[0];
+	}
+	function Je(e, t) {
+		let n = e.split("/").filter(Boolean), r = t.split("/").filter(Boolean);
+		return n.length > r.length && r.every((e, t) => e === n[t] || e.startsWith(":") || n[t].startsWith(":"));
+	}
+	function Ye(e, t, n) {
+		for (let r = n; r; r = r.stack.holder.entry) if (r.route === e && L(e, r.params, t)) return r.holder;
+		let r;
+		for (let n of N) if (n.route === e && L(e, n.params, t)) {
+			if (Ge(n) || [...n.holder.stacks.values()].some((e) => e.list.some(Ge))) return n.holder;
+			r = n;
+		}
+		return r?.holder;
+	}
+	function Xe(e, t, n, r) {
+		let i = P;
+		if (e.in) {
+			let a = Ye(e.in, t, r), o = a?.entry && Ze(a.entry);
+			if (o) return {
+				done: !0,
+				promise: R(o, e, t, n).promise
+			};
+			if (a) i = a;
+			else {
+				let n = Xe(e.in, ze(t, j$1(e.in.path)), void 0, r);
+				if (!n.done) return n;
+				let a = [...N].findLast((n) => n.route === e.in && L(e.in, n.params, t));
+				if (!a) return { done: !1 };
+				i = a.holder;
+			}
+		}
+		let a = qe(i, e);
+		if (a === void 0) return { done: !1 };
+		let o = I(i, a);
+		return z(o), H(o), A$1(i.route, a) === e ? {
+			done: !0,
+			promise: Promise.resolve(null)
+		} : {
+			done: !0,
+			promise: R(o, e, t, n).promise
 		};
-		function s(e, t) {
-			let n, r = new Promise((e) => n = e);
+	}
+	function Ze(e) {
+		for (let t = e; t; t = t.stack.holder.entry) if (t.stack.list.at(-1) !== t) return t.stack;
+	}
+	var U = [];
+	var Qe = !1;
+	function $e(e) {
+		e.link && (U = U.filter((e) => !e.link)), U.push(e), et();
+	}
+	function et() {
+		Qe || (Qe = !0, queueMicrotask(() => {
+			Qe = !1, tt();
+		}));
+	}
+	function tt() {
+		U = U.filter((e) => !e.run(!0));
+	}
+	function nt(e, t, n, r) {
+		let i = Xe(e, t, n, r);
+		if (i.done) return i.promise;
+		let a, o = new Promise((e) => a = e);
+		return $e({
+			link: !1,
+			run: () => {
+				let i = Xe(e, t, n, r);
+				return i.done && i.promise.then(a), i.done;
+			}
+		}), o;
+	}
+	function rt(e, t) {
+		let n = P;
+		for (let r of [...Me(e), e]) {
+			let i = r === e, a = qe(n, r);
+			if (a === void 0) return !1;
+			let o = I(n, a);
+			z(o), H(o);
+			let s = i ? t : ze(t, j$1(r.path)), c = o.list[0];
+			if (c?.route === r && L(r, c.params, s)) {
+				V(o, 1), n = c.holder;
+				continue;
+			}
+			let l = o.list[1];
+			if (!i && l?.route === r && L(r, l.params, s)) V(o, 2), n = l.holder;
+			else {
+				if (V(o, 1), i) for (let [r, i] of it(n, a, e, t)) R(o, r, i);
+				n = R(o, r, s).holder;
+			}
+		}
+		return !0;
+	}
+	function it(e, t, n, r) {
+		let i = Ve(n, r);
+		if (!i) return [];
+		let a = [], o = i.split("/").filter(Boolean), s = t.split("/").filter(Boolean).length + 1;
+		for (let r = Math.max(1, s); r < o.length; r++) {
+			let i = M("/" + o.slice(0, r).join("/"));
+			i && i.route !== n && i.route.in === e.route && qe(e, i.route) === t && A$1(e.route, t) !== i.route && a.push([i.route, i.params]);
+		}
+		return a;
+	}
+	function at(e) {
+		let t = M(e);
+		t ? rt(t.route, t.params) ? U = U.filter((e) => !e.link) : $e({
+			link: !0,
+			run: () => rt(t.route, t.params)
+		}) : console.warn(`[Fuse] no page at ${JSON.stringify(e)}`);
+	}
+	function ot(e) {
+		G ? at(e) : K = e;
+	}
+	var st = createContext(void 0);
+	function W() {
+		if (getOwner()) try {
+			return useContext(st);
+		} catch {
+			return;
+		}
+	}
+	var G = !1;
+	var K;
+	function ct() {
+		if (!G) {
+			if (G = !0, X) {
+				let e = X;
+				X = void 0, K = void 0, _t(P, e);
+			}
+			if (K !== void 0) {
+				let e = K;
+				K = void 0, queueMicrotask(() => at(e));
+			}
+		}
+	}
+	function lt(e = {}) {
+		let t = W(), n = t ? t.holder : P;
+		n === P && ct();
+		let r = k$1(untrack(() => e.index) ?? F(n)), i = I(n, r);
+		return i.mounted++, n.active === void 0 && n.setActive(r), z(i), getOwner() && onCleanup(() => i.mounted--), et(), {
+			...J(i),
+			takesBack: () => n.readActive() === r,
+			entries: i.read,
+			removed: (e) => B(i, /* @__PURE__ */ new Set([e]), null)
+		};
+	}
+	function q(e, t, n) {
+		if (typeof e == "string") {
+			let n = M(e);
+			if (!n) throw Error(`[Fuse] no page at ${JSON.stringify(e)}`);
 			return {
-				id: Le++,
-				config: e,
-				resolve: n,
-				promise: r,
-				...t
+				route: n.route,
+				params: n.params,
+				options: t
 			};
 		}
-		function c(e) {
-			o((t) => [...t, e]);
-		}
-		function l(e, t) {
-			for (let n of e) {
-				n.inner?._dispose();
-				for (let e of n.tabs?.navigators ?? []) e._dispose();
-				n.resolve(t);
-			}
-		}
-		function u(e, t) {
-			let n = a.filter((t) => t.id === e);
-			n.length && (o((t) => t.filter((t) => t.id !== e)), l(n, t));
-		}
-		function d(e) {
-			let n = s(typeof e == "function" ? t(e) : e);
-			return c(n), n.promise;
-		}
-		function f(e, n, r) {
-			let i = r?.page ?? e.page ?? t, a, o, l = { ...n }, u = s(i(() => {
-				if (a) return createComponent(e.component, {
-					...l,
-					get children() {
-						return Qe(a);
-					}
-				});
-				if (o) {
-					let t = o;
-					return createComponent(Je, {
-						value: t,
-						get children() {
-							return createComponent(e.component, {
-								...l,
-								get children() {
-									return Xe(t);
-								}
-							});
-						}
-					});
-				}
-				return createComponent(e.component, l);
-			}), {
-				route: e,
-				params: l
-			}), d = je(e);
-			if (d) o = qe(d), u.tabs = o, d.forEach((r, i) => {
-				let a = H({
-					asPage: t,
-					parent: p,
-					layout: e,
-					layoutParams: l,
-					tab: {
-						tabs: o,
-						index: i
-					}
-				});
-				a._add(r, Be(n, L(r.path))), o.navigators.push(a);
-			});
-			else if (e.navigator) {
-				a = H({
-					asPage: t,
-					parent: p,
-					layout: e,
-					layoutEntry: u,
-					layoutParams: l
-				}), u.inner = a;
-				let r = Ne(e);
-				r && a._add(r, n);
-			}
-			return c(u), u;
-		}
-		let p = {
-			pages: i,
-			stackDepth: () => i().length,
-			parent: e.parent,
-			layout: e.layout,
-			_layoutEntry: e.layoutEntry,
-			_layoutParams: e.layoutParams,
-			_reveal: () => {
-				e.tab && e.tab.tabs._set(e.tab.index), e.parent?._reveal();
-			},
-			_shown: () => (!e.tab || e.tab.tabs.index() === e.tab.index) && (e.parent?._shown() ?? !0),
-			push: ((e, t, n) => {
-				if (!Ue(e)) return d(e);
-				let r = t ?? {}, i = Me(e);
-				for (let e = i.length - 2; e >= 0; e--) {
-					let t = ze(p, i[e], r);
-					if (t) return t._reveal(), V(t, i.slice(e + 1), r, n, !1);
-				}
-				return V(p, i, r, n, !1);
+		if (Ae(e)) return {
+			route: e,
+			params: t ?? {},
+			options: n
+		};
+	}
+	function J(e) {
+		let t = () => e.read();
+		return {
+			index: e.key,
+			pages: t,
+			top: () => t().at(-1),
+			push: ((t, n, r) => {
+				let i = q(t, n, r);
+				return i ? (H(e), R(e, i.route, i.params, i.options).promise) : R(e, t, {}).promise;
 			}),
-			go: ((e, t) => {
-				G(Ve(p), typeof e == "string" ? e : Ie(e, t));
-			}),
-			pop: (e) => {
-				let t = a;
-				if (t.length <= 1) {
-					if (p._layoutEntry && p.parent) {
-						p.parent._remove(p._layoutEntry.id, e);
-						return;
-					}
-					console.warn("[Fuse] nav.pop() ignored — cannot pop the root page");
-				} else u(t[t.length - 1].id, e);
-			},
-			pushReplacement: (e, t) => {
-				let n = a;
-				return n.length > 0 && u(n[n.length - 1].id, t), d(e);
-			},
-			popUntil: (e) => {
-				let t = a, n = 0;
-				e !== void 0 && (n = t.findLastIndex((t) => typeof e == "string" ? t.config.props?.name === e : t.route === e), n < 0) ? console.warn(`[Fuse] nav.popUntil(${typeof e == "string" ? JSON.stringify(e) : e.key ?? "route"}) ignored — not on the stack`) : (o(t.slice(0, n + 1)), l(t.slice(n + 1), null));
-			},
-			replaceAll: (e) => {
-				if (e.length === 0) return console.warn("[Fuse] nav.replaceAll([]) ignored — would leave the navigator empty"), [];
-				let t = a;
-				return o([]), l(t, null), e.map((e) => d(e));
-			},
-			save: () => {
-				let e = [];
-				for (let [t, n] of a.entries()) {
-					if (!n.route) {
-						if (t === 0) {
-							e.push({ r: null });
-							continue;
-						}
-						break;
-					}
-					if (n.route.key === void 0 || !We(n.params)) break;
-					let r = { r: n.route.key };
-					n.params && Object.keys(n.params).length && (r.p = n.params), n.inner && (r.i = n.inner.save()), n.tabs && (r.t = n.tabs.navigators.map((e) => e.save()), r.at = untrack(n.tabs.index)), e.push(r);
+			pop: (t) => ut(e, t),
+			set: (t) => {
+				V(e, 1), z(e);
+				for (let n of t) {
+					let t = q(n);
+					R(e, t.route, t.params);
 				}
-				return e;
-			},
-			restore: (e) => {
-				let t = a, n = e[0]?.r === null && t[0] && !t[0].route;
-				o(n ? t.slice(0, 1) : []), l(n ? t.slice(1) : t, null);
-				for (let t of e) {
-					if (t.r === null) continue;
-					let e = Ae(t.r);
-					if (!e) break;
-					let n = f(e, t.p ?? {});
-					if (n.inner && t.i && n.inner.restore(t.i), n.tabs && t.t) {
-						let e = n.tabs;
-						t.t.forEach((t, n) => e.navigators[n]?.restore(t)), e._set(Math.min(t.at ?? 0, e.navigators.length - 1));
-					}
-				}
-			},
-			onDidRemovePage: (e) => u(e, null),
-			_entries: () => a,
-			_add: f,
-			_remove: u,
-			_reset: () => {
-				let e = a;
-				o(e.slice(0, 1)), l(e.slice(1), null);
-			},
-			_dispose: () => {
-				z.delete(p), U.delete(p);
-				let e = a;
-				o([]), l(e, null);
 			}
 		};
-		return z.add(p), p;
 	}
-	function We(e) {
+	function ut(e, t) {
+		if (e.list.length > 1) {
+			B(e, /* @__PURE__ */ new Set([e.list.at(-1).id]), t);
+			return;
+		}
+		let n = e.holder.entry;
+		n && n.stack.list.length > 1 && !n.gone ? B(n.stack, /* @__PURE__ */ new Set([n.id]), t) : n ? ut(n.stack, t) : console.warn("[Fuse] pop() ignored: this is the app's first page");
+	}
+	function dt(e) {
+		let t = () => e?.stack ?? ft();
+		return {
+			push: ((n, r, i) => {
+				let a = q(n, r, i);
+				return a ? nt(a.route, a.params, a.options, e) : R(t(), n, {}).promise;
+			}),
+			pop: (e) => ut(t(), e),
+			replace: ((n, r, i) => {
+				let a = t();
+				a.list.length > 1 && B(a, /* @__PURE__ */ new Set([a.list.at(-1).id]), null);
+				let o = q(n, r, i);
+				return o ? nt(o.route, o.params, o.options, e) : R(a, n, {}).promise;
+			}),
+			go: (e) => at(e),
+			get stack() {
+				return J(t());
+			},
+			get app() {
+				return J(ft());
+			}
+		};
+	}
+	function ft() {
+		return I(P, P.active ?? P.order[0] ?? "/");
+	}
+	function pt() {
+		return dt(W());
+	}
+	function mt() {
+		let e = W(), t = e?.holder ?? P;
+		return {
+			id: e?.id ?? -1,
+			route: e?.route,
+			params: e?.params ?? {},
+			address: e?.address,
+			stack: (e) => {
+				let n = e === void 0 ? t.order[0] ?? F(t) : k$1(e);
+				return J(I(t, n));
+			},
+			stacks: t.readOrder,
+			active: t.readActive,
+			show: (e) => {
+				let n = k$1(e), r = I(t, n);
+				z(r), t.active === n ? V(r, 1) : H(r);
+			}
+		};
+	}
+	function ht(e, t, n) {
+		let r = e, i = r.content;
+		if (i && typeof i == "object") return {
+			...i,
+			child: () => n(e, i.child)
+		};
+		let a = i || (() => createComponent(r.route.component, r.params));
+		return (r.pageType ?? r.route?.page ?? t)(() => n(e, a));
+	}
+	function gt(e) {
+		let t = {};
+		for (let [n, r] of e.stacks) {
+			let e = [];
+			for (let t of r.list) {
+				if (!t.route || t.route.key === void 0 || !yt(t.params)) break;
+				let n = {
+					r: t.route.key,
+					...gt(t.holder)
+				};
+				Object.keys(t.params).length && (n.p = t.params), e.push(n);
+			}
+			e.length && ((t.s ?? (t.s = {}))[n] = e);
+		}
+		return e.active !== void 0 && t.s && (t.a = e.active), t;
+	}
+	function _t(e, t) {
+		for (let [n, r] of Object.entries(t.s ?? {})) {
+			let t = I(e, n), i = [];
+			for (let e of r) {
+				let n = je(e.r);
+				if (!n) break;
+				let r = Be(t, n, e.p ?? {});
+				N.add(r), i.push(r), _t(r.holder, e);
+			}
+			t.list = i, t.write(i);
+		}
+		t.a !== void 0 && e.setActive(t.a);
+	}
+	function vt() {
+		return gt(P);
+	}
+	function yt(e) {
 		try {
 			return JSON.stringify(JSON.parse(JSON.stringify(e ?? {}))) === JSON.stringify(e ?? {});
 		} catch {
 			return !1;
 		}
 	}
-	var U = /* @__PURE__ */ new Set();
-	var W;
-	function G(e, t) {
-		let n = Pe(t);
-		n ? (e._reset(), V(e, Me(n.route), n.params, void 0, !0)) : console.warn(`[Fuse] no route for the link ${JSON.stringify(t)}`);
-	}
-	function Ge(e) {
-		let t = [...U].at(-1);
-		t ? G(t, e) : W = e;
-	}
-	var K = globalThis.__fuseHost;
-	{
-		let e = K?.link;
-		e && e !== "/" && (W = e), p("_link", (e) => Ge(e.link));
-	}
-	var q;
+	var Y = globalThis.__fuseHost;
+	var X;
 	try {
-		K?.restore && (q = JSON.parse(K.restore));
+		let e = Y?.restore ? JSON.parse(Y.restore) : void 0;
+		e && !Array.isArray(e) && typeof e == "object" && (X = e);
 	} catch {
-		q = void 0;
+		X = void 0;
 	}
-	var J = !1;
-	function Ke() {
-		K?.restoration && !J && (J = !0, queueMicrotask(() => {
-			J = !1;
-			let e = [...U].at(-1);
-			e && m$1("_navSave", { stack: JSON.stringify(e.save()) });
+	{
+		let e = Y?.link;
+		e && e !== "/" && (K = e), p("_link", (e) => ot(e.link));
+	}
+	var Z = !1;
+	function bt() {
+		Y?.restoration && !Z && (Z = !0, queueMicrotask(() => {
+			Z = !1, m$1("_navSave", { stack: JSON.stringify(vt()) });
 		}));
 	}
-	function qe(e) {
-		let t = 0, [n, r] = createSignal(0, { ownedWrite: !0 }), i = {
-			routes: e,
-			navigators: [],
-			index: () => (n(), t),
-			_set: (e) => {
-				t = e, r(e), Ke();
-			},
-			select: (e) => {
-				e === t ? i.navigators[e]?.popUntil() : i._set(e);
-			}
-		};
-		return i;
-	}
-	var Je = createContext();
-	function Ye() {
-		try {
-			return useContext(Je);
-		} catch {
-			throw Error("useTabs must be called inside a tabs layout");
-		}
-	}
-	var Xe = () => null;
-	function Ze(e) {
-		Xe = e;
-	}
-	var Qe = () => null;
-	function $e(e) {
-		Qe = e;
-	}
-	function et() {
-		try {
-			return useContext(R);
-		} catch {
-			return;
-		}
-	}
-	function tt() {
-		let e = useContext(R);
-		if (!e) throw Error("useNavigation must be called inside a <Navigator>");
-		return e;
-	}
-	function Y(e) {
-		let t = untrack(() => e.controller ?? He({ initialPage: e.initialPage }));
-		return pt(R, {
-			value: t,
-			get children() {
-				var i = at("navigator", { onDidRemovePage: (e) => t.onDidRemovePage(e.id) });
-				return Q$1(i, pt(For, {
-					get each() {
-						return t.pages();
-					},
-					keyed: (e) => e.id,
-					children: (e) => pt(we, ut({
-						get component() {
-							return e().config.type;
-						},
-						get _pageId() {
-							return e().id;
-						}
-					}, () => e().config.props, { get children() {
-						return e().config.child();
-					} }))
-				})), nt(() => e.observers, (e, t) => {
-					lt$1(i, "observers", e, t);
-				}), i;
-			}
+	function xt(e) {
+		return (t, n) => e(at$1("routeChild"), {
+			animation: t,
+			secondaryAnimation: n
 		});
 	}
-	$e((e) => pt(Y, { controller: e })), Ze((e) => (() => {
-		var t = at("tabs", { onBack: () => e.select(0) });
-		return Q$1(t, () => e.navigators.map((e) => pt(Y, { controller: e }))), nt(() => ({
-			e: e.index(),
-			t: e.index() !== 0 && e.navigators[e.index()].stackDepth() <= 1
-		}), ({ e, t: n }, r) => {
-			e !== r?.e && lt$1(t, "index", e, r?.e), n !== r?.t && lt$1(t, "backToFirst", n, r?.t);
-		}), t;
-	})());
-	function it(e) {
-		var t = at("flutter_Icon");
-		return nt(() => ({
+	function Q({ child: e, transition: t, ...n }) {
+		return {
+			type: "page",
+			child: e,
+			props: {
+				...n,
+				transition: typeof t == "function" ? xt(t) : t
+			}
+		};
+	}
+	var St = createContext((e) => Q({ child: e }));
+	function Ct() {
+		return getOwner() ? useContext(St) : (e) => Q({ child: e });
+	}
+	var wt = (e, t) => pt$1(st, {
+		value: e,
+		get children() {
+			return t();
+		}
+	});
+	function Tt(e) {
+		let t = lt({ index: untrack(() => e.index) }), i = Ct();
+		var a = at$1("navigator", { onDidRemovePage: (e) => t.removed(e.id) });
+		return Q$1(a, pt$1(For, {
+			get each() {
+				return t.entries();
+			},
+			keyed: (e) => e.id,
+			children: (e) => {
+				let t = ht(e(), i, wt);
+				return pt$1(Oe, ut$1({
+					get component() {
+						return t.type;
+					},
+					get _pageId() {
+						return e().id;
+					}
+				}, () => t.props, { get children() {
+					return t.child();
+				} }));
+			}
+		})), nt$1(() => ({
+			e: e.observers,
+			t: t.takesBack()
+		}), ({ e, t }, n) => {
+			e !== n?.e && lt$1(a, "observers", e, n?.e), t !== n?.t && lt$1(a, "takesBack", t, n?.t);
+		}), a;
+	}
+	function Et(e) {
+		let t = mt(), r = () => Math.max(0, t.stacks().indexOf(t.active() ?? ""));
+		var i = at$1("tabs", { onBack: () => t.show(t.stacks()[0]) });
+		return Q$1(i, () => e.children), nt$1(() => ({
+			e: r(),
+			t: r() > 0 && t.stack(t.active()).pages().length <= 1
+		}), ({ e, t }, n) => {
+			e !== n?.e && lt$1(i, "index", e, n?.e), t !== n?.t && lt$1(i, "backToFirst", t, n?.t);
+		}), i;
+	}
+	function kt(e) {
+		var t = at$1("flutter_Icon");
+		return nt$1(() => ({
 			e: e.icon,
 			t: e.size,
 			a: e.color,
@@ -5453,14 +5561,14 @@
 			e !== p?.e && lt$1(t, "icon", e, p?.e), n !== p?.t && lt$1(t, "size", n, p?.t), r !== p?.a && lt$1(t, "color", r, p?.a), i !== p?.o && lt$1(t, "semanticLabel", i, p?.o), a !== p?.i && lt$1(t, "fill", a, p?.i), o !== p?.n && lt$1(t, "weight", o, p?.n), c !== p?.s && lt$1(t, "grade", c, p?.s), l !== p?.h && lt$1(t, "opticalSize", l, p?.h), u !== p?.r && lt$1(t, "applyTextScaling", u, p?.r), d !== p?.d && lt$1(t, "flex", d, p?.d), f !== p?.l && lt$1(t, "testId", f, p?.l);
 		}), t;
 	}
-	function lt(e) {
+	function Pt(e) {
 		let t = untrack(() => e.children);
 		if (typeof t != "function") return (() => {
-			var t = at("pressable");
+			var t = at$1("pressable");
 			return vt$1(t, e, !1), t;
 		})();
 		let [r, i] = createSignal(!1), [a, o] = createSignal(!1), [s, l] = createSignal(!1), u = t;
-		var d = at("pressable");
+		var d = at$1("pressable");
 		return vt$1(d, [e, {
 			onPressedChange: (t) => (i(t), e.onPressedChange?.(t)),
 			onHoveredChange: (t) => (o(t), e.onHoveredChange?.(t)),
@@ -5471,10 +5579,10 @@
 			focused: s
 		})), d;
 	}
-	function dt(e) {
+	function It(e) {
 		let [t, r] = createSignal(!1);
-		var i = at("modal");
-		return vt$1(i, [e, { onRouteLive: r }], !0), Q$1(i, pt(Show, {
+		var i = at$1("modal");
+		return vt$1(i, [e, { onRouteLive: r }], !0), Q$1(i, pt$1(Show, {
 			get when() {
 				return e.open || t();
 			},
@@ -5483,8 +5591,8 @@
 			}
 		})), i;
 	}
-	var _t = 1 / 20;
-	function vt(e, t, n = {}) {
+	var Ht = 1 / 20;
+	function Ut(e, t, n = {}) {
 		let r = typeof e == "function" ? e : void 0, i = r ? untrack(r) : e, a = n.from ?? i, [o, s] = createSignal(a, { ownedWrite: !0 }), c = {
 			value: a,
 			velocity: 0
@@ -5495,7 +5603,7 @@
 			p = void 0, t?.(e);
 		}, _ = (e) => {
 			if (u = 0, !m) return;
-			let n = d === void 0 ? 1 / 60 : Math.min((e - d) / 1e3, _t);
+			let n = d === void 0 ? 1 / 60 : Math.min((e - d) / 1e3, Ht);
 			d = e;
 			let r = n > 0 ? t(c, l, n) : c;
 			r ? (c = r, s(r.value), u = requestAnimationFrame(_)) : (c = {
@@ -5525,15 +5633,15 @@
 		} else i !== a && v(i, { delay: n.delay });
 		return [o, v];
 	}
-	var yt = {
+	var Wt = {
 		duration: .5,
 		bounce: 0
 	};
-	var xt = {
+	var Kt = {
 		duration: .5,
 		bounce: .3
 	};
-	function St(e = yt) {
+	function qt(e = Wt) {
 		if (e.stiffness !== void 0) {
 			let t = e.stiffness;
 			return {
@@ -5547,8 +5655,8 @@
 			damping: n >= 0 ? 4 * Math.PI * (1 - n) / t : 4 * Math.PI / (t * (1 + n))
 		};
 	}
-	function X(e) {
-		let { stiffness: t, damping: n } = St(e), r = Math.sqrt(t), i = n / (2 * r);
+	function Jt(e) {
+		let { stiffness: t, damping: n } = qt(e), r = Math.sqrt(t), i = n / (2 * r);
 		return ({ value: e, velocity: t }, n, a) => {
 			let o = e - n, s = t, c, l;
 			if (i < 1) {
@@ -5567,16 +5675,16 @@
 			};
 		};
 	}
-	function Ct(e, t = {}) {
-		return vt(e, X(t), {
+	function Yt(e, t = {}) {
+		return Ut(e, Jt(t), {
 			from: t.from,
 			delay: t.delay
 		});
 	}
-	function Z(e, t, n) {
+	function $(e, t, n) {
 		return t + (n - t) * e;
 	}
-	function Tt(e) {
+	function Zt(e) {
 		if (typeof e != "string") return [
 			e.r,
 			e.g,
@@ -5593,41 +5701,41 @@
 			t.length >= 8 ? n(6) / 255 : 1
 		];
 	}
-	var Q = (e) => {
+	var Qt = (e) => {
 		let t = e / 255;
 		return t <= .04045 ? t / 12.92 : ((t + .055) / 1.055) ** 2.4;
 	};
-	var $ = (e) => {
+	var $t = (e) => {
 		let t = e <= .0031308 ? 12.92 * e : 1.055 * Math.max(e, 0) ** (1 / 2.4) - .055;
 		return Math.round(Math.max(0, Math.min(1, t)) * 255);
 	};
-	function Et([e, t, n]) {
-		let r = Q(e), i = Q(t), a = Q(n), o = Math.cbrt(.4122214708 * r + .5363325363 * i + .0514459929 * a), s = Math.cbrt(.2119034982 * r + .6806995451 * i + .1073969566 * a), c = Math.cbrt(.0883024619 * r + .2817188376 * i + .6299787005 * a);
+	function en([e, t, n]) {
+		let r = Qt(e), i = Qt(t), a = Qt(n), o = Math.cbrt(.4122214708 * r + .5363325363 * i + .0514459929 * a), s = Math.cbrt(.2119034982 * r + .6806995451 * i + .1073969566 * a), c = Math.cbrt(.0883024619 * r + .2817188376 * i + .6299787005 * a);
 		return [
 			.2104542553 * o + .793617785 * s - .0040720468 * c,
 			1.9779984951 * o - 2.428592205 * s + .4505937099 * c,
 			.0259040371 * o + .7827717662 * s - .808675766 * c
 		];
 	}
-	function Dt([e, t, n]) {
+	function tn([e, t, n]) {
 		let r = (e + .3963377774 * t + .2158037573 * n) ** 3, i = (e - .1055613458 * t - .0638541728 * n) ** 3, a = (e - .0894841775 * t - 1.291485548 * n) ** 3;
 		return [
-			$(4.0767416621 * r - 3.3077115913 * i + .2309699292 * a),
-			$(-1.2684380046 * r + 2.6097574011 * i - .3413193965 * a),
-			$(-.0041960863 * r - .7034186147 * i + 1.707614701 * a)
+			$t(4.0767416621 * r - 3.3077115913 * i + .2309699292 * a),
+			$t(-1.2684380046 * r + 2.6097574011 * i - .3413193965 * a),
+			$t(-.0041960863 * r - .7034186147 * i + 1.707614701 * a)
 		];
 	}
-	function Ot(e, t, n) {
-		let r = Tt(t), i = Tt(n), a = Et(r), o = Et(i), [s, c, l] = Dt([
-			Z(e, a[0], o[0]),
-			Z(e, a[1], o[1]),
-			Z(e, a[2], o[2])
+	function nn(e, t, n) {
+		let r = Zt(t), i = Zt(n), a = en(r), o = en(i), [s, c, l] = tn([
+			$(e, a[0], o[0]),
+			$(e, a[1], o[1]),
+			$(e, a[2], o[2])
 		]);
 		return {
 			r: s,
 			g: c,
 			b: l,
-			a: Z(e, r[3], i[3])
+			a: $(e, r[3], i[3])
 		};
 	}
 	// ../../packages/adaptive/src/platform.tsx
@@ -5639,7 +5747,7 @@
 	var DesignContext = createContext(void 0);
 	/** Overrides the design below it, e.g. to preview iOS on Android. Reactive. */
 	function AdaptiveProvider(props) {
-		return pt(DesignContext, {
+		return pt$1(DesignContext, {
 			value: () => props.design,
 			get children() {
 				return props.children;
@@ -5666,7 +5774,7 @@
 		else e != null && typeof e != "boolean" && t.push(e);
 		return t;
 	}
-	var _ = (e) => e instanceof E$1 && !e.parent ? e : k$2(e);
+	var _ = (e) => e instanceof E$2 && !e.parent ? e : k$2(e);
 	function v(e) {
 		return createMemo(() => {
 			let t = g(e(), []);
@@ -6422,7 +6530,7 @@
 	*/
 	function ListViewBuilder(props) {
 		const $prototypeItem = v(() => props.prototypeItem);
-		var _el$154 = at("flutter_ListViewBuilder");
+		var _el$154 = at$1("flutter_ListViewBuilder");
 		vt$1(_el$154, [props, { get prototypeItem() {
 			return $prototypeItem();
 		} }], false);
@@ -7659,7 +7767,7 @@
 		const $message = v(() => props.message);
 		const $actions = y(() => props.actions);
 		const $cancelButton = v(() => props.cancelButton);
-		var _el$ = at("cupertino_ui_CupertinoActionSheet");
+		var _el$ = at$1("cupertino_ui_CupertinoActionSheet");
 		vt$1(_el$, [props, {
 			get title() {
 				return $title();
@@ -7684,7 +7792,7 @@
 		const $title = v(() => props.title);
 		const $content = v(() => props.content);
 		const $actions = y(() => props.actions);
-		var _el$9 = at("cupertino_ui_CupertinoAlertDialog");
+		var _el$9 = at$1("cupertino_ui_CupertinoAlertDialog");
 		vt$1(_el$9, [props, {
 			get title() {
 				return $title();
@@ -7703,7 +7811,7 @@
 	* Dart: `CupertinoButton`
 	*/
 	function CupertinoButton(props) {
-		var _el$12 = at("cupertino_ui_CupertinoButton");
+		var _el$12 = at$1("cupertino_ui_CupertinoButton");
 		vt$1(_el$12, props, false);
 		return _el$12;
 	}
@@ -7712,7 +7820,7 @@
 	* Dart: `CupertinoButton.tinted`
 	*/
 	function CupertinoButtonTinted(props) {
-		var _el$13 = at("cupertino_ui_CupertinoButtonTinted");
+		var _el$13 = at$1("cupertino_ui_CupertinoButtonTinted");
 		vt$1(_el$13, props, false);
 		return _el$13;
 	}
@@ -7721,7 +7829,7 @@
 	* Dart: `CupertinoButton.filled`
 	*/
 	function CupertinoButtonFilled(props) {
-		var _el$14 = at("cupertino_ui_CupertinoButtonFilled");
+		var _el$14 = at$1("cupertino_ui_CupertinoButtonFilled");
 		vt$1(_el$14, props, false);
 		return _el$14;
 	}
@@ -7732,7 +7840,7 @@
 	function CupertinoListSection(props) {
 		const $header = v(() => props.header);
 		const $footer = v(() => props.footer);
-		var _el$34 = at("cupertino_ui_CupertinoListSection");
+		var _el$34 = at$1("cupertino_ui_CupertinoListSection");
 		vt$1(_el$34, [props, {
 			get header() {
 				return $header();
@@ -7750,7 +7858,7 @@
 	function CupertinoListSectionInsetGrouped(props) {
 		const $header = v(() => props.header);
 		const $footer = v(() => props.footer);
-		var _el$35 = at("cupertino_ui_CupertinoListSectionInsetGrouped");
+		var _el$35 = at$1("cupertino_ui_CupertinoListSectionInsetGrouped");
 		vt$1(_el$35, [props, {
 			get header() {
 				return $header();
@@ -7771,7 +7879,7 @@
 		const $additionalInfo = v(() => props.additionalInfo);
 		const $leading = v(() => props.leading);
 		const $trailing = v(() => props.trailing);
-		var _el$36 = at("cupertino_ui_CupertinoListTile");
+		var _el$36 = at$1("cupertino_ui_CupertinoListTile");
 		vt$1(_el$36, [props, {
 			get title() {
 				return $title();
@@ -7800,7 +7908,7 @@
 		const $middle = v(() => props.middle);
 		const $trailing = v(() => props.trailing);
 		const $bottom = v(() => props.bottom);
-		var _el$43 = at("cupertino_ui_CupertinoNavigationBar");
+		var _el$43 = at$1("cupertino_ui_CupertinoNavigationBar");
 		vt$1(_el$43, [props, {
 			get leading() {
 				return $leading();
@@ -7826,7 +7934,7 @@
 		const $leading = v(() => props.leading);
 		const $trailing = v(() => props.trailing);
 		const $bottom = v(() => props.bottom);
-		var _el$44 = at("cupertino_ui_CupertinoNavigationBarLarge");
+		var _el$44 = at$1("cupertino_ui_CupertinoNavigationBarLarge");
 		vt$1(_el$44, [props, {
 			get largeTitle() {
 				return $largeTitle();
@@ -7849,7 +7957,7 @@
 	*/
 	function CupertinoPageScaffold(props) {
 		const $navigationBar = v(() => props.navigationBar);
-		var _el$46 = at("cupertino_ui_CupertinoPageScaffold");
+		var _el$46 = at$1("cupertino_ui_CupertinoPageScaffold");
 		vt$1(_el$46, [props, { get navigationBar() {
 			return $navigationBar();
 		} }], false);
@@ -7877,7 +7985,7 @@
 	// ../../packages/cupertino/src/slots.tsx
 	function label$1(v) {
 		return typeof v === "string" || typeof v === "number" ? (() => {
-			var _el$ = at("text");
+			var _el$ = at$1("text");
 			Q$1(_el$, () => {
 				return String(v);
 			});
@@ -7885,7 +7993,7 @@
 		})() : v;
 	}
 	function icon$1(v, size) {
-		return typeof v === "string" ? pt(it, {
+		return typeof v === "string" ? pt$1(kt, {
 			icon: v,
 			size
 		}) : v;
@@ -7893,7 +8001,7 @@
 	// ../../packages/cupertino/src/scaffold.tsx
 	/** An iOS screen: a navigation bar over the content. */
 	function PageScaffold(props) {
-		return pt(CupertinoPageScaffold, {
+		return pt$1(CupertinoPageScaffold, {
 			get navigationBar() {
 				return props.navigationBar;
 			},
@@ -7909,17 +8017,17 @@
 		});
 	}
 	function NavigationBar$2(props) {
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
 			},
 			get largeTitle() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.large;
 				})() ? label$1(props.title) : void 0;
 			},
 			get middle() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.large;
 				})() ? void 0 : label$1(props.title);
 			},
@@ -7938,7 +8046,7 @@
 		});
 	}
 	// ../../packages/cupertino/src/controls.tsx
-	var _tpl$1$26 = /*@__PURE__*/ Be$1(["view", { "layout": {
+	var _tpl$1$27 = /*@__PURE__*/ Be$1(["view", { "layout": {
 		"direction": "horizontal",
 		"gap": 6,
 		"align": "center"
@@ -7950,7 +8058,7 @@
 	};
 	/** iOS buttons, one component: pick the look with `variant`. */
 	function Button$3(props) {
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return buttons[props.variant ?? "plain"];
 			},
@@ -7958,12 +8066,12 @@
 				return props.size ?? "large";
 			},
 			get onPressed() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.disabled;
 				})() ? null : props.onPress ?? null;
 			},
 			get onLongPress() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.disabled;
 				})() ? null : props.onLongPress ?? null;
 			},
@@ -7971,7 +8079,7 @@
 				return props.color;
 			},
 			get children() {
-				return pt(Show, {
+				return pt$1(Show, {
 					get when() {
 						return props.icon !== void 0;
 					},
@@ -7980,7 +8088,7 @@
 					},
 					get children() {
 						return ((_at$1) => (() => {
-							var _el$ = at("h$view", {
+							var _el$ = at$1("h$view", {
 								$t: _at$1,
 								$i: 0
 							});
@@ -7991,15 +8099,15 @@
 								return label$1(props.children);
 							}, null);
 							return _el$;
-						})())(Ve$1(_tpl$1$26));
+						})())(Ve$1(_tpl$1$27));
 					}
 				});
 			}
 		});
 	}
 	function Switch$2(props) {
-		var _el$2 = at("cupertino_ui_CupertinoSwitch");
-		nt(() => {
+		var _el$2 = at$1("cupertino_ui_CupertinoSwitch");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
@@ -8013,8 +8121,8 @@
 		return _el$2;
 	}
 	function Checkbox$2(props) {
-		var _el$3 = at("cupertino_ui_CupertinoCheckbox");
-		nt(() => {
+		var _el$3 = at$1("cupertino_ui_CupertinoCheckbox");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.tristate ?? props.value === null,
@@ -8033,8 +8141,8 @@
 	}
 	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
 	function Radio$1(props) {
-		var _el$4 = at("cupertino_ui_CupertinoRadio");
-		nt(() => {
+		var _el$4 = at$1("cupertino_ui_CupertinoRadio");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: !props.disabled,
@@ -8052,8 +8160,8 @@
 		return _el$4;
 	}
 	function Slider$2(props) {
-		var _el$5 = at("cupertino_ui_CupertinoSlider");
-		nt(() => {
+		var _el$5 = at$1("cupertino_ui_CupertinoSlider");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
@@ -8075,8 +8183,8 @@
 		return _el$5;
 	}
 	function ActivityIndicator(props) {
-		var _el$6 = at("cupertino_ui_CupertinoActivityIndicator");
-		nt(() => {
+		var _el$6 = at$1("cupertino_ui_CupertinoActivityIndicator");
+		nt$1(() => {
 			return {
 				e: props.animating,
 				t: props.radius,
@@ -8091,14 +8199,14 @@
 	}
 	/** iOS's sliding segmented control. */
 	function SegmentedControl(props) {
-		var _el$7 = at("cupertinoSegmentedControl");
-		Q$1(_el$7, pt(For, {
+		var _el$7 = at$1("cupertinoSegmentedControl");
+		Q$1(_el$7, pt$1(For, {
 			get each() {
 				return props.options;
 			},
 			children: (o) => label$1(o.label)
 		}));
-		nt(() => {
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.onChange,
@@ -8121,7 +8229,7 @@
 	}
 	// ../../packages/cupertino/src/list.tsx
 	function ListSection(props) {
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
 			},
@@ -8140,7 +8248,7 @@
 		});
 	}
 	function ListTile$2(props) {
-		return pt(CupertinoListTile, {
+		return pt$1(CupertinoListTile, {
 			get title() {
 				return label$1(props.title);
 			},
@@ -8154,11 +8262,11 @@
 				return icon$1(props.leading);
 			},
 			get trailing() {
-				return rt(() => {
+				return rt$1(() => {
 					return props.trailing !== void 0;
-				})() ? icon$1(props.trailing) : rt(() => {
+				})() ? icon$1(props.trailing) : rt$1(() => {
 					return !!props.onPress;
-				})() ? at("cupertino_ui_CupertinoListTileChevron") : void 0;
+				})() ? at$1("cupertino_ui_CupertinoListTileChevron") : void 0;
 			},
 			get onTap() {
 				return props.onPress;
@@ -8171,7 +8279,7 @@
 	// ../../packages/cupertino/src/text-field.tsx
 	/** iOS text field. Controlled with `value` + `onChange`. */
 	function TextField$2(props) {
-		var _el$ = at("cupertinoTextField");
+		var _el$ = at$1("cupertinoTextField");
 		vt$1(_el$, [props, {
 			get prefix() {
 				return icon$1(props.prefix);
@@ -8185,7 +8293,7 @@
 	// ../../packages/cupertino/src/overlays.tsx
 	/** iOS alert, open while `open` is true. */
 	function Dialog$2(props) {
-		return pt(dt, {
+		return pt$1(It, {
 			type: "cupertinoDialog",
 			get open() {
 				return props.open;
@@ -8197,7 +8305,7 @@
 				return props.dismissible;
 			},
 			get children() {
-				return pt(CupertinoAlertDialog, {
+				return pt$1(CupertinoAlertDialog, {
 					get title() {
 						return label$1(props.title);
 					},
@@ -8212,11 +8320,11 @@
 		});
 	}
 	function DialogAction(props) {
-		var _el$ = at("cupertino_ui_CupertinoDialogAction");
+		var _el$ = at$1("cupertino_ui_CupertinoDialogAction");
 		Q$1(_el$, () => {
 			return label$1(props.children);
 		});
-		nt(() => {
+		nt$1(() => {
 			return {
 				e: props.onPress ?? null,
 				t: props.default,
@@ -8231,7 +8339,7 @@
 	}
 	/** iOS action sheet, sliding up while `open` is true. */
 	function ActionSheet(props) {
-		return pt(dt, {
+		return pt$1(It, {
 			type: "cupertinoActionSheet",
 			get open() {
 				return props.open;
@@ -8240,7 +8348,7 @@
 				return props.onOpenChange;
 			},
 			get children() {
-				return pt(CupertinoActionSheet, {
+				return pt$1(CupertinoActionSheet, {
 					get title() {
 						return label$1(props.title);
 					},
@@ -8258,11 +8366,11 @@
 		});
 	}
 	function ActionSheetAction(props) {
-		var _el$2 = at("cupertino_ui_CupertinoActionSheetAction");
+		var _el$2 = at$1("cupertino_ui_CupertinoActionSheetAction");
 		Q$1(_el$2, () => {
 			return label$1(props.children);
 		});
-		nt(() => {
+		nt$1(() => {
 			return {
 				e: props.onPress,
 				t: props.default,
@@ -8324,7 +8432,7 @@
 	function ActionChip(props) {
 		const $avatar = v(() => props.avatar);
 		const $label = v(() => props.label);
-		var _el$4 = at("material_ui_ActionChip");
+		var _el$4 = at$1("material_ui_ActionChip");
 		vt$1(_el$4, [props, {
 			get avatar() {
 				return $avatar();
@@ -8344,7 +8452,7 @@
 		const $title = v(() => props.title);
 		const $content = v(() => props.content);
 		const $actions = y(() => props.actions);
-		var _el$11 = at("material_ui_AlertDialog");
+		var _el$11 = at$1("material_ui_AlertDialog");
 		vt$1(_el$11, [props, {
 			get icon() {
 				return $icon();
@@ -8371,7 +8479,7 @@
 		const $actions = y(() => props.actions);
 		const $flexibleSpace = v(() => props.flexibleSpace);
 		const $bottom = v(() => props.bottom);
-		var _el$15 = at("material_ui_AppBar");
+		var _el$15 = at$1("material_ui_AppBar");
 		vt$1(_el$15, [props, {
 			get leading() {
 				return $leading();
@@ -8397,7 +8505,7 @@
 	*/
 	function Badge$1(props) {
 		const $label = v(() => props.label);
-		var _el$20 = at("material_ui_Badge");
+		var _el$20 = at$1("material_ui_Badge");
 		vt$1(_el$20, [props, { get label() {
 			return $label();
 		} }], false);
@@ -8408,7 +8516,7 @@
 	* Dart: `Card`
 	*/
 	function Card$1(props) {
-		var _el$33 = at("material_ui_Card");
+		var _el$33 = at$1("material_ui_Card");
 		vt$1(_el$33, props, false);
 		return _el$33;
 	}
@@ -8417,7 +8525,7 @@
 	* Dart: `Card.filled`
 	*/
 	function CardFilled(props) {
-		var _el$34 = at("material_ui_CardFilled");
+		var _el$34 = at$1("material_ui_CardFilled");
 		vt$1(_el$34, props, false);
 		return _el$34;
 	}
@@ -8426,7 +8534,7 @@
 	* Dart: `Card.outlined`
 	*/
 	function CardOutlined(props) {
-		var _el$35 = at("material_ui_CardOutlined");
+		var _el$35 = at$1("material_ui_CardOutlined");
 		vt$1(_el$35, props, false);
 		return _el$35;
 	}
@@ -8438,7 +8546,7 @@
 		const $avatar = v(() => props.avatar);
 		const $label = v(() => props.label);
 		const $deleteIcon = v(() => props.deleteIcon);
-		var _el$49 = at("material_ui_Chip");
+		var _el$49 = at$1("material_ui_Chip");
 		vt$1(_el$49, [props, {
 			get avatar() {
 				return $avatar();
@@ -8457,7 +8565,7 @@
 	* Dart: `CircularProgressIndicator`
 	*/
 	function CircularProgressIndicator(props) {
-		var _el$54 = at("material_ui_CircularProgressIndicator");
+		var _el$54 = at$1("material_ui_CircularProgressIndicator");
 		vt$1(_el$54, props, false);
 		return _el$54;
 	}
@@ -8466,7 +8574,7 @@
 	* Dart: `Divider`
 	*/
 	function Divider$1(props) {
-		var _el$70 = at("material_ui_Divider");
+		var _el$70 = at$1("material_ui_Divider");
 		vt$1(_el$70, props, false);
 		return _el$70;
 	}
@@ -8475,7 +8583,7 @@
 	* Dart: `ElevatedButton`
 	*/
 	function ElevatedButton(props) {
-		var _el$85 = at("material_ui_ElevatedButton");
+		var _el$85 = at$1("material_ui_ElevatedButton");
 		vt$1(_el$85, props, false);
 		return _el$85;
 	}
@@ -8486,7 +8594,7 @@
 	function ElevatedButtonIcon(props) {
 		const $icon = v(() => props.icon);
 		const $label = v(() => props.label);
-		var _el$86 = at("material_ui_ElevatedButtonIcon");
+		var _el$86 = at$1("material_ui_ElevatedButtonIcon");
 		vt$1(_el$86, [props, {
 			get icon() {
 				return $icon();
@@ -8502,7 +8610,7 @@
 	* Dart: `FilledButton`
 	*/
 	function FilledButton(props) {
-		var _el$95 = at("material_ui_FilledButton");
+		var _el$95 = at$1("material_ui_FilledButton");
 		vt$1(_el$95, props, false);
 		return _el$95;
 	}
@@ -8513,7 +8621,7 @@
 	function FilledButtonIcon(props) {
 		const $icon = v(() => props.icon);
 		const $label = v(() => props.label);
-		var _el$96 = at("material_ui_FilledButtonIcon");
+		var _el$96 = at$1("material_ui_FilledButtonIcon");
 		vt$1(_el$96, [props, {
 			get icon() {
 				return $icon();
@@ -8529,7 +8637,7 @@
 	* Dart: `FilledButton.tonal`
 	*/
 	function FilledButtonTonal(props) {
-		var _el$97 = at("material_ui_FilledButtonTonal");
+		var _el$97 = at$1("material_ui_FilledButtonTonal");
 		vt$1(_el$97, props, false);
 		return _el$97;
 	}
@@ -8540,7 +8648,7 @@
 	function FilledButtonTonalIcon(props) {
 		const $icon = v(() => props.icon);
 		const $label = v(() => props.label);
-		var _el$98 = at("material_ui_FilledButtonTonalIcon");
+		var _el$98 = at$1("material_ui_FilledButtonTonalIcon");
 		vt$1(_el$98, [props, {
 			get icon() {
 				return $icon();
@@ -8559,7 +8667,7 @@
 		const $avatar = v(() => props.avatar);
 		const $label = v(() => props.label);
 		const $deleteIcon = v(() => props.deleteIcon);
-		var _el$100 = at("material_ui_FilterChip");
+		var _el$100 = at$1("material_ui_FilterChip");
 		vt$1(_el$100, [props, {
 			get avatar() {
 				return $avatar();
@@ -8578,7 +8686,7 @@
 	* Dart: `FloatingActionButton`
 	*/
 	function FloatingActionButton$1(props) {
-		var _el$104 = at("material_ui_FloatingActionButton");
+		var _el$104 = at$1("material_ui_FloatingActionButton");
 		vt$1(_el$104, props, false);
 		return _el$104;
 	}
@@ -8587,7 +8695,7 @@
 	* Dart: `FloatingActionButton.small`
 	*/
 	function FloatingActionButtonSmall(props) {
-		var _el$105 = at("material_ui_FloatingActionButtonSmall");
+		var _el$105 = at$1("material_ui_FloatingActionButtonSmall");
 		vt$1(_el$105, props, false);
 		return _el$105;
 	}
@@ -8596,7 +8704,7 @@
 	* Dart: `FloatingActionButton.large`
 	*/
 	function FloatingActionButtonLarge(props) {
-		var _el$106 = at("material_ui_FloatingActionButtonLarge");
+		var _el$106 = at$1("material_ui_FloatingActionButtonLarge");
 		vt$1(_el$106, props, false);
 		return _el$106;
 	}
@@ -8607,7 +8715,7 @@
 	function FloatingActionButtonExtended(props) {
 		const $icon = v(() => props.icon);
 		const $label = v(() => props.label);
-		var _el$107 = at("material_ui_FloatingActionButtonExtended");
+		var _el$107 = at$1("material_ui_FloatingActionButtonExtended");
 		vt$1(_el$107, [props, {
 			get icon() {
 				return $icon();
@@ -8625,7 +8733,7 @@
 	function IconButton$1(props) {
 		const $selectedIcon = v(() => props.selectedIcon);
 		const $icon = v(() => props.icon);
-		var _el$111 = at("material_ui_IconButton");
+		var _el$111 = at$1("material_ui_IconButton");
 		vt$1(_el$111, [props, {
 			get selectedIcon() {
 				return $selectedIcon();
@@ -8643,7 +8751,7 @@
 	function IconButtonFilled(props) {
 		const $selectedIcon = v(() => props.selectedIcon);
 		const $icon = v(() => props.icon);
-		var _el$112 = at("material_ui_IconButtonFilled");
+		var _el$112 = at$1("material_ui_IconButtonFilled");
 		vt$1(_el$112, [props, {
 			get selectedIcon() {
 				return $selectedIcon();
@@ -8661,7 +8769,7 @@
 	function IconButtonFilledTonal(props) {
 		const $selectedIcon = v(() => props.selectedIcon);
 		const $icon = v(() => props.icon);
-		var _el$113 = at("material_ui_IconButtonFilledTonal");
+		var _el$113 = at$1("material_ui_IconButtonFilledTonal");
 		vt$1(_el$113, [props, {
 			get selectedIcon() {
 				return $selectedIcon();
@@ -8679,7 +8787,7 @@
 	function IconButtonOutlined(props) {
 		const $selectedIcon = v(() => props.selectedIcon);
 		const $icon = v(() => props.icon);
-		var _el$114 = at("material_ui_IconButtonOutlined");
+		var _el$114 = at$1("material_ui_IconButtonOutlined");
 		vt$1(_el$114, [props, {
 			get selectedIcon() {
 				return $selectedIcon();
@@ -8695,7 +8803,7 @@
 	* Dart: `LinearProgressIndicator`
 	*/
 	function LinearProgressIndicator(props) {
-		var _el$125 = at("material_ui_LinearProgressIndicator");
+		var _el$125 = at$1("material_ui_LinearProgressIndicator");
 		vt$1(_el$125, props, false);
 		return _el$125;
 	}
@@ -8708,7 +8816,7 @@
 		const $title = v(() => props.title);
 		const $subtitle = v(() => props.subtitle);
 		const $trailing = v(() => props.trailing);
-		var _el$126 = at("material_ui_ListTile");
+		var _el$126 = at$1("material_ui_ListTile");
 		vt$1(_el$126, [props, {
 			get leading() {
 				return $leading();
@@ -8731,7 +8839,7 @@
 	*/
 	function MaterialApp$1(props) {
 		const $home = v(() => props.home);
-		var _el$130 = at("material_ui_MaterialApp");
+		var _el$130 = at$1("material_ui_MaterialApp");
 		vt$1(_el$130, [props, { get home() {
 			return $home();
 		} }], false);
@@ -8743,7 +8851,7 @@
 	*/
 	function NavigationBar$1(props) {
 		const $destinations = y(() => props.destinations);
-		var _el$145 = at("material_ui_NavigationBar");
+		var _el$145 = at$1("material_ui_NavigationBar");
 		vt$1(_el$145, [props, { get destinations() {
 			return $destinations();
 		} }], false);
@@ -8756,7 +8864,7 @@
 	function NavigationDestination$1(props) {
 		const $icon = v(() => props.icon);
 		const $selectedIcon = v(() => props.selectedIcon);
-		var _el$147 = at("material_ui_NavigationDestination");
+		var _el$147 = at$1("material_ui_NavigationDestination");
 		vt$1(_el$147, [props, {
 			get icon() {
 				return $icon();
@@ -8772,7 +8880,7 @@
 	* Dart: `OutlinedButton`
 	*/
 	function OutlinedButton(props) {
-		var _el$154 = at("material_ui_OutlinedButton");
+		var _el$154 = at$1("material_ui_OutlinedButton");
 		vt$1(_el$154, props, false);
 		return _el$154;
 	}
@@ -8783,7 +8891,7 @@
 	function OutlinedButtonIcon(props) {
 		const $icon = v(() => props.icon);
 		const $label = v(() => props.label);
-		var _el$155 = at("material_ui_OutlinedButtonIcon");
+		var _el$155 = at$1("material_ui_OutlinedButtonIcon");
 		vt$1(_el$155, [props, {
 			get icon() {
 				return $icon();
@@ -8807,7 +8915,7 @@
 		const $endDrawer = v(() => props.endDrawer);
 		const $bottomNavigationBar = v(() => props.bottomNavigationBar);
 		const $bottomSheet = v(() => props.bottomSheet);
-		var _el$177 = at("material_ui_Scaffold");
+		var _el$177 = at$1("material_ui_Scaffold");
 		vt$1(_el$177, [props, {
 			get appBar() {
 				return $appBar();
@@ -8841,7 +8949,7 @@
 	* Dart: `TextButton`
 	*/
 	function TextButton(props) {
-		var _el$218 = at("material_ui_TextButton");
+		var _el$218 = at$1("material_ui_TextButton");
 		vt$1(_el$218, props, false);
 		return _el$218;
 	}
@@ -8852,7 +8960,7 @@
 	function TextButtonIcon(props) {
 		const $icon = v(() => props.icon);
 		const $label = v(() => props.label);
-		var _el$219 = at("material_ui_TextButtonIcon");
+		var _el$219 = at$1("material_ui_TextButtonIcon");
 		vt$1(_el$219, [props, {
 			get icon() {
 				return $icon();
@@ -8868,7 +8976,7 @@
 	* Dart: `VerticalDivider`
 	*/
 	function VerticalDivider(props) {
-		var _el$236 = at("material_ui_VerticalDivider");
+		var _el$236 = at$1("material_ui_VerticalDivider");
 		vt$1(_el$236, props, false);
 		return _el$236;
 	}
@@ -9031,10 +9139,10 @@
 	* are `materialPage()`s.
 	*/
 	function MaterialApp(props) {
-		return pt(N, {
+		return pt$1(St, {
 			value: (child) => materialPage({ child }),
 			get children() {
-				return pt(MaterialApp$1, {
+				return pt$1(MaterialApp$1, {
 					get title() {
 						return props.title ?? "";
 					},
@@ -9042,9 +9150,9 @@
 						return themeOf(props.theme, "light", props.platform);
 					},
 					get darkTheme() {
-						return rt(() => {
+						return rt$1(() => {
 							return props.darkTheme !== void 0;
-						})() ? themeOf(props.darkTheme, "dark", props.platform) : rt(() => {
+						})() ? themeOf(props.darkTheme, "dark", props.platform) : rt$1(() => {
 							return !!(props.theme && !("$" in props.theme));
 						})() ? themeOf({
 							...props.theme,
@@ -9071,7 +9179,7 @@
 	// ../../packages/material/src/slots.tsx
 	function label(v) {
 		return typeof v === "string" || typeof v === "number" ? (() => {
-			var _el$ = at("text");
+			var _el$ = at$1("text");
 			Q$1(_el$, () => {
 				return String(v);
 			});
@@ -9079,7 +9187,7 @@
 		})() : v;
 	}
 	function icon(v, size) {
-		return typeof v === "string" ? pt(it, {
+		return typeof v === "string" ? pt$1(kt, {
 			icon: v,
 			size
 		}) : v;
@@ -9087,7 +9195,7 @@
 	// ../../packages/material/src/scaffold.tsx
 	/** A Material screen: app bar, body (the children), and the bars around them. */
 	function Scaffold(props) {
-		return pt(Scaffold$1, {
+		return pt$1(Scaffold$1, {
 			get appBar() {
 				return props.appBar;
 			},
@@ -9118,7 +9226,7 @@
 		});
 	}
 	function AppBar(props) {
-		return pt(AppBar$1, {
+		return pt$1(AppBar$1, {
 			get title() {
 				return label(props.title);
 			},
@@ -9164,10 +9272,10 @@
 	function Button$2(props) {
 		const onPressed = () => props.disabled ? null : props.onPress ?? null;
 		const onLongPress = () => props.disabled ? null : props.onLongPress ?? null;
-		return rt(() => {
-			return rt(() => {
+		return rt$1(() => {
+			return rt$1(() => {
 				return props.icon !== void 0;
-			})() ? pt(we, {
+			})() ? pt$1(Oe, {
 				get component() {
 					return withIcon[props.variant ?? "filled"];
 				},
@@ -9186,7 +9294,7 @@
 				get label() {
 					return label(props.children) ?? [];
 				}
-			}) : pt(we, {
+			}) : pt$1(Oe, {
 				get component() {
 					return plain[props.variant ?? "filled"];
 				},
@@ -9212,7 +9320,7 @@
 		outlined: IconButtonOutlined
 	};
 	function IconButton(props) {
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return iconButtons[props.variant ?? "standard"];
 			},
@@ -9226,12 +9334,12 @@
 				return props.selected;
 			},
 			get onPressed() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.disabled;
 				})() ? null : props.onPress ?? null;
 			},
 			get onLongPress() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.disabled;
 				})() ? null : props.onLongPress ?? null;
 			},
@@ -9252,10 +9360,10 @@
 		large: FloatingActionButtonLarge
 	};
 	function FloatingActionButton(props) {
-		return rt(() => {
-			return rt(() => {
+		return rt$1(() => {
+			return rt$1(() => {
 				return props.label !== void 0;
-			})() ? pt(FloatingActionButtonExtended, {
+			})() ? pt$1(FloatingActionButtonExtended, {
 				get onPressed() {
 					return props.onPress ?? null;
 				},
@@ -9274,7 +9382,7 @@
 				get label() {
 					return label(props.label);
 				}
-			}) : pt(we, {
+			}) : pt$1(Oe, {
 				get component() {
 					return fabs[props.size ?? "regular"];
 				},
@@ -9298,8 +9406,8 @@
 	}
 	// ../../packages/material/src/controls.tsx
 	function Switch$1(props) {
-		var _el$ = at("material_ui_Switch");
-		nt(() => {
+		var _el$ = at$1("material_ui_Switch");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
@@ -9313,8 +9421,8 @@
 		return _el$;
 	}
 	function Checkbox$1(props) {
-		var _el$2 = at("material_ui_Checkbox");
-		nt(() => {
+		var _el$2 = at$1("material_ui_Checkbox");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.tristate ?? props.value === null,
@@ -9335,8 +9443,8 @@
 	}
 	/** A radio button. Put it in a core `<RadioGroup value onChange>`. */
 	function Radio(props) {
-		var _el$3 = at("material_ui_Radio");
-		nt(() => {
+		var _el$3 = at$1("material_ui_Radio");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: !props.disabled,
@@ -9352,8 +9460,8 @@
 		return _el$3;
 	}
 	function Slider$1(props) {
-		var _el$4 = at("material_ui_Slider");
-		nt(() => {
+		var _el$4 = at$1("material_ui_Slider");
+		nt$1(() => {
 			return {
 				e: props.value,
 				t: props.disabled ? null : props.onChange ?? null,
@@ -9379,7 +9487,7 @@
 	// ../../packages/material/src/text-field.tsx
 	/** Material's text field. Controlled with `value` + `onChange`. */
 	function TextField$1(props) {
-		var _el$ = at("materialTextField");
+		var _el$ = at$1("materialTextField");
 		vt$1(_el$, [props, {
 			get prefixIcon() {
 				return icon(props.prefixIcon);
@@ -9398,16 +9506,16 @@
 	};
 	function Card(props) {
 		const body = () => (() => {
-			var _el$ = at("view");
+			var _el$ = at$1("view");
 			Q$1(_el$, () => {
 				return props.children;
 			});
-			nt(() => props.padding, (_v$, _$p) => {
+			nt$1(() => props.padding, (_v$, _$p) => {
 				lt$1(_el$, "padding", _v$, _$p);
 			});
 			return _el$;
 		})();
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return cards[props.variant ?? "elevated"];
 			},
@@ -9422,13 +9530,13 @@
 			},
 			clipBehavior: "antiAlias",
 			get children() {
-				return rt(() => {
-					return rt(() => {
+				return rt$1(() => {
+					return rt$1(() => {
 						return !!props.onPress;
 					})() ? (() => {
-						var _el$2 = at("material_ui_InkWell");
+						var _el$2 = at$1("material_ui_InkWell");
 						Q$1(_el$2, body);
-						nt(() => props.onPress, (_v$, _$p) => {
+						nt$1(() => props.onPress, (_v$, _$p) => {
 							lt$1(_el$2, "onTap", _v$, _$p);
 						});
 						return _el$2;
@@ -9438,7 +9546,7 @@
 		});
 	}
 	function ListTile(props) {
-		return pt(ListTile$1, {
+		return pt$1(ListTile$1, {
 			get title() {
 				return label(props.title);
 			},
@@ -9472,7 +9580,7 @@
 		});
 	}
 	function Divider(props) {
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return props.vertical ? VerticalDivider : Divider$1;
 			},
@@ -9489,22 +9597,22 @@
 				return props.color;
 			},
 			get width() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.vertical;
 				})() ? props.size : void 0;
 			},
 			get height() {
-				return rt(() => {
+				return rt$1(() => {
 					return !!props.vertical;
 				})() ? void 0 : props.size;
 			}
 		});
 	}
 	function Chip(props) {
-		return rt(() => {
-			return rt(() => {
+		return rt$1(() => {
+			return rt$1(() => {
 				return props.selected !== void 0;
-			})() ? pt(FilterChip, {
+			})() ? pt$1(FilterChip, {
 				get label() {
 					return label(props.label);
 				},
@@ -9515,19 +9623,19 @@
 					return props.selected;
 				},
 				get onSelected() {
-					return rt(() => {
+					return rt$1(() => {
 						return !!props.disabled;
 					})() ? null : props.onSelect ?? null;
 				},
 				get onDeleted() {
 					return props.onDelete ?? null;
 				}
-			}) : pt(Show, {
+			}) : pt$1(Show, {
 				get when() {
 					return props.onPress;
 				},
 				get fallback() {
-					return pt(Chip$1, {
+					return pt$1(Chip$1, {
 						get label() {
 							return label(props.label);
 						},
@@ -9540,7 +9648,7 @@
 					});
 				},
 				get children() {
-					return pt(ActionChip, {
+					return pt$1(ActionChip, {
 						get label() {
 							return label(props.label);
 						},
@@ -9548,7 +9656,7 @@
 							return icon(props.icon);
 						},
 						get onPressed() {
-							return rt(() => {
+							return rt$1(() => {
 								return !!props.disabled;
 							})() ? null : props.onPress;
 						}
@@ -9558,15 +9666,15 @@
 		});
 	}
 	function Badge(props) {
-		return rt(() => {
-			return rt(() => {
+		return rt$1(() => {
+			return rt$1(() => {
 				return typeof props.label === "number";
 			})() ? (() => {
-				var _el$3 = at("material_ui_BadgeCount");
+				var _el$3 = at$1("material_ui_BadgeCount");
 				Q$1(_el$3, () => {
 					return props.children;
 				});
-				nt(() => {
+				nt$1(() => {
 					return {
 						e: props.label,
 						t: props.max,
@@ -9580,7 +9688,7 @@
 					o !== _p$?.o && lt$1(_el$3, "backgroundColor", o, _p$?.o);
 				});
 				return _el$3;
-			})() : pt(Badge$1, {
+			})() : pt$1(Badge$1, {
 				get label() {
 					return label(props.label);
 				},
@@ -9597,7 +9705,7 @@
 		});
 	}
 	function ProgressIndicator$1(props) {
-		return pt(we, {
+		return pt$1(Oe, {
 			get component() {
 				return props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator;
 			},
@@ -9615,7 +9723,7 @@
 	// ../../packages/material/src/navigation.tsx
 	/** Material's bottom navigation bar. */
 	function NavigationBar(props) {
-		return pt(NavigationBar$1, {
+		return pt$1(NavigationBar$1, {
 			get selectedIndex() {
 				return props.selected;
 			},
@@ -9637,7 +9745,7 @@
 		});
 	}
 	function NavigationDestination(props) {
-		return pt(NavigationDestination$1, {
+		return pt$1(NavigationDestination$1, {
 			get icon() {
 				return icon(props.icon);
 			},
@@ -9658,7 +9766,7 @@
 	// ../../packages/material/src/overlays.tsx
 	/** Material's alert dialog, open while `open` is true. */
 	function Dialog$1(props) {
-		return pt(dt, {
+		return pt$1(It, {
 			type: "materialDialog",
 			get open() {
 				return props.open;
@@ -9670,7 +9778,7 @@
 				return props.dismissible;
 			},
 			get children() {
-				return pt(AlertDialog, {
+				return pt$1(AlertDialog, {
 					get title() {
 						return label(props.title);
 					},
@@ -9692,7 +9800,7 @@
 	}
 	/** A modal sheet from the bottom, open while `open` is true. */
 	function BottomSheet(props) {
-		return pt(dt, {
+		return pt$1(It, {
 			type: "materialBottomSheet",
 			get open() {
 				return props.open;
@@ -9725,7 +9833,7 @@
 	function adapt(material, cupertino) {
 		return (props) => {
 			const design = useDesign();
-			return pt(Show, {
+			return pt$1(Show, {
 				get when() {
 					return design() === "cupertino";
 				},
@@ -9744,8 +9852,8 @@
 	* adaptive components below pick their design from the platform.
 	*/
 	function AdaptiveApp(props) {
-		return pt(MaterialApp, ut(props, { get children() {
-			return pt(AdaptiveProvider, {
+		return pt$1(MaterialApp, ut$1(props, { get children() {
+			return pt$1(AdaptiveProvider, {
 				get design() {
 					return props.design ?? platformDesign(props.platform);
 				},
@@ -9755,7 +9863,7 @@
 			});
 		} }));
 	}
-	var Button$1 = adapt((p) => pt(Button$2, {
+	var Button$1 = adapt((p) => pt$1(Button$2, {
 		get variant() {
 			return p.variant === "plain" ? "text" : "filled";
 		},
@@ -9768,7 +9876,7 @@
 		get children() {
 			return p.children;
 		}
-	}), (p) => pt(Button$3, {
+	}), (p) => pt$1(Button$3, {
 		get variant() {
 			return p.variant === "plain" ? "plain" : "filled";
 		},
@@ -9782,27 +9890,27 @@
 			return p.children;
 		}
 	}));
-	var Switch = adapt((p) => pt(Switch$1, p), (p) => pt(Switch$2, p));
-	var Checkbox = adapt((p) => pt(Checkbox$1, p), (p) => pt(Checkbox$2, p));
-	var Slider = adapt((p) => pt(Slider$1, p), (p) => pt(Slider$2, p));
-	var TextField = adapt((p) => pt(TextField$1, ut(p, {
+	var Switch = adapt((p) => pt$1(Switch$1, p), (p) => pt$1(Switch$2, p));
+	var Checkbox = adapt((p) => pt$1(Checkbox$1, p), (p) => pt$1(Checkbox$2, p));
+	var Slider = adapt((p) => pt$1(Slider$1, p), (p) => pt$1(Slider$2, p));
+	var TextField = adapt((p) => pt$1(TextField$1, ut$1(p, {
 		get prefixIcon() {
 			return p.prefix;
 		},
 		get suffixIcon() {
 			return p.suffix;
 		}
-	})), (p) => pt(TextField$2, ut(p, { get placeholder() {
+	})), (p) => pt$1(TextField$2, ut$1(p, { get placeholder() {
 		return p.placeholder ?? p.label;
 	} })));
 	/** An indeterminate spinner. */
-	var ProgressIndicator = adapt((p) => pt(ProgressIndicator$1, { get color() {
+	var ProgressIndicator = adapt((p) => pt$1(ProgressIndicator$1, { get color() {
 		return p.color;
-	} }), (p) => pt(ActivityIndicator, { get color() {
+	} }), (p) => pt$1(ActivityIndicator, { get color() {
 		return p.color;
 	} }));
 	/** An alert with a title, a message and buttons. */
-	var Dialog = adapt((p) => pt(Dialog$1, {
+	var Dialog = adapt((p) => pt$1(Dialog$1, {
 		get open() {
 			return p.open;
 		},
@@ -9816,7 +9924,7 @@
 			return p.dismissible;
 		},
 		get actions() {
-			return (p.actions ?? []).map((a) => pt(Button$2, {
+			return (p.actions ?? []).map((a) => pt$1(Button$2, {
 				variant: "text",
 				get onPress() {
 					return a.onPress;
@@ -9829,7 +9937,7 @@
 		get children() {
 			return p.children;
 		}
-	}), (p) => pt(Dialog$2, {
+	}), (p) => pt$1(Dialog$2, {
 		get open() {
 			return p.open;
 		},
@@ -9843,7 +9951,7 @@
 			return p.dismissible;
 		},
 		get actions() {
-			return (p.actions ?? []).map((a) => pt(DialogAction, {
+			return (p.actions ?? []).map((a) => pt$1(DialogAction, {
 				get onPress() {
 					return a.onPress;
 				},
@@ -9868,7 +9976,7 @@
 	* Dart: `DragDismissable`
 	*/
 	function DragDismissable(props) {
-		var _el$ = at("heroine_DragDismissable");
+		var _el$ = at$1("heroine_DragDismissable");
 		vt$1(_el$, props, false);
 		return _el$;
 	}
@@ -9877,7 +9985,7 @@
 	* Dart: `Heroine`
 	*/
 	function Heroine(props) {
-		var _el$3 = at("heroine_Heroine");
+		var _el$3 = at$1("heroine_Heroine");
 		vt$1(_el$3, props, false);
 		return _el$3;
 	}
@@ -9938,12 +10046,30 @@
 			child,
 			props: {
 				...props,
-				transition: transition && Te(transition)
+				transition: transition && xt(transition)
 			}
 		};
 	}
+	// src/platform.ts
+	/** The platform the whole demo behaves like. `undefined`: the device's. */
+	var [platform, setPlatform] = createSignal(void 0);
+	// src/app.tsx
+	function App() {
+		const heroine = createHeroineController();
+		return pt$1(AdaptiveApp, {
+			title: "solid-fuse demo",
+			theme: { seedColor: "#2563eb" },
+			themeMode: "light",
+			get platform() {
+				return platform();
+			},
+			get children() {
+				return pt$1(Tt, { observers: [heroine] });
+			}
+		});
+	}
 	// src/ui.tsx
-	var _tpl$1$25 = /*@__PURE__*/ Be$1([
+	var _tpl$1$26 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"padding": {
@@ -9976,35 +10102,35 @@
 		["text", { "fontSize": 16 }]
 	], 2);
 	function Button(props) {
-		return pt(lt, {
+		return pt$1(Pt, {
 			get onPress() {
 				return props.onTap;
 			},
 			get children() {
 				return ((_at$1) => (() => {
-					var _el$ = at("h$view", {
+					var _el$ = at$1("h$view", {
 						$t: _at$1,
 						$i: 0
 					});
-					var _el$2 = at("h$text", {
+					var _el$2 = at$1("h$text", {
 						$t: _at$1,
 						$i: 1
 					});
-					ht(_el$, _el$2);
+					ht$1(_el$, _el$2);
 					Q$1(_el$2, () => {
 						return props.children;
 					});
 					return _el$;
-				})())(Ve$1(_tpl$1$25));
+				})())(Ve$1(_tpl$1$26));
 			}
 		});
 	}
 	function Row(props) {
-		var _el$3 = at("view");
+		var _el$3 = at$1("view");
 		Q$1(_el$3, () => {
 			return props.children;
 		});
-		nt(() => ({
+		nt$1(() => ({
 			direction: "horizontal",
 			gap: props.gap ?? 8,
 			align: "center"
@@ -10014,21 +10140,21 @@
 		return _el$3;
 	}
 	function MenuItem(props) {
-		return pt(lt, {
+		return pt$1(Pt, {
 			get onPress() {
 				return props.onTap;
 			},
 			get children() {
 				return ((_at$2) => (() => {
-					var _el$4 = at("h$view", {
+					var _el$4 = at$1("h$view", {
 						$t: _at$2,
 						$i: 0
 					});
-					var _el$5 = at("h$text", {
+					var _el$5 = at$1("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					ht(_el$4, _el$5);
+					ht$1(_el$4, _el$5);
 					Q$1(_el$5, () => {
 						return props.label;
 					});
@@ -10038,7 +10164,7 @@
 		});
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$24 = /*@__PURE__*/ Be$1([
+	var _tpl$1$25 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -10135,55 +10261,55 @@
 	function CounterScreen() {
 		const [count, setCount] = createSignal(0);
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = at("h$text", {
+			var _el$2 = at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$1,
 				$i: 2
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$3);
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$3);
 			Q$1(_el$2, count);
-			Q$1(_el$3, pt(lt, {
+			Q$1(_el$3, pt$1(Pt, {
 				testId: "decrement",
 				onPress: () => setCount((c) => c - 1),
 				get children() {
-					return ((_at$2) => at("h$view", {
+					return ((_at$2) => at$1("h$view", {
 						$t: _at$2,
 						$i: 0
 					}))(Ve$1(_tpl$2$10));
 				}
 			}), null);
-			Q$1(_el$3, pt(lt, {
+			Q$1(_el$3, pt$1(Pt, {
 				onPress: () => setCount(0),
 				get children() {
-					return ((_at$3) => at("h$view", {
+					return ((_at$3) => at$1("h$view", {
 						$t: _at$3,
 						$i: 0
 					}))(Ve$1(_tpl$3$4));
 				}
 			}), null);
-			Q$1(_el$3, pt(lt, {
+			Q$1(_el$3, pt$1(Pt, {
 				testId: "increment",
 				onPress: () => setCount((c) => c + 1),
 				get children() {
-					return ((_at$4) => at("h$view", {
+					return ((_at$4) => at$1("h$view", {
 						$t: _at$4,
 						$i: 0
 					}))(Ve$1(_tpl$4$3));
 				}
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$24));
+		})())(Ve$1(_tpl$1$25));
 	}
 	// src/screens/text-field.tsx
-	var _tpl$1$23 = /*@__PURE__*/ Be$1([
+	var _tpl$1$24 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -10311,84 +10437,84 @@
 		["view", { "padding": 16 }]
 	], 30);
 	function TextFieldScreen() {
-		const nav = tt();
+		const nav = pt();
 		const [name, setName] = createSignal("");
 		const [digits, setDigits] = createSignal("");
 		const focus = createFocusNode();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$scrollView", {
+			var _el$ = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = at("h$view", {
+			var _el$2 = at$1("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = at("h$text", {
+			var _el$4 = at$1("h$text", {
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = at("h$text", {
+			var _el$5 = at$1("h$text", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$6 = at("h$__text__", {
+			var _el$6 = at$1("h$__text__", {
 				$t: _at$1,
 				$i: 11
 			});
-			var _el$7 = at("h$__text__", {
+			var _el$7 = at$1("h$__text__", {
 				$t: _at$1,
 				$i: 12
 			});
-			var _el$8 = at("h$view", {
+			var _el$8 = at$1("h$view", {
 				$t: _at$1,
 				$i: 13
 			});
-			var _el$9 = at("h$text", {
+			var _el$9 = at$1("h$text", {
 				$t: _at$1,
 				$i: 14
 			});
-			var _el$10 = at("h$text", {
+			var _el$10 = at$1("h$text", {
 				$t: _at$1,
 				$i: 16
 			});
-			var _el$11 = at("h$__text__", {
+			var _el$11 = at$1("h$__text__", {
 				$t: _at$1,
 				$i: 17
 			});
-			var _el$12 = at("h$view", {
+			var _el$12 = at$1("h$view", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$13 = at("h$text", {
+			var _el$13 = at$1("h$text", {
 				$t: _at$1,
 				$i: 19
 			});
-			var _el$14 = at("h$view", {
+			var _el$14 = at$1("h$view", {
 				$t: _at$1,
 				$i: 21
 			});
-			var _el$15 = at("h$text", {
+			var _el$15 = at$1("h$text", {
 				$t: _at$1,
 				$i: 22
 			});
-			var _el$16 = at("h$view", {
+			var _el$16 = at$1("h$view", {
 				$t: _at$1,
 				$i: 29
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$16);
-			ht(_el$2, _el$3);
-			ht(_el$2, _el$8);
-			ht(_el$2, _el$12);
-			ht(_el$2, _el$14);
-			ht(_el$3, _el$4);
-			ht(_el$3, _el$5);
-			Q$1(_el$3, pt(TextField$1, {
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$16);
+			ht$1(_el$2, _el$3);
+			ht$1(_el$2, _el$8);
+			ht$1(_el$2, _el$12);
+			ht$1(_el$2, _el$14);
+			ht$1(_el$3, _el$4);
+			ht$1(_el$3, _el$5);
+			Q$1(_el$3, pt$1(TextField$1, {
 				get value() {
 					return name();
 				},
@@ -10396,39 +10522,39 @@
 				label: "Name",
 				placeholder: "Your name"
 			}), _el$5);
-			ht(_el$5, _el$6);
-			ht(_el$5, _el$7);
+			ht$1(_el$5, _el$6);
+			ht$1(_el$5, _el$7);
 			Q$1(_el$5, name, _el$7);
-			Q$1(_el$3, pt(Row, { get children() {
-				return [pt(Button, {
+			Q$1(_el$3, pt$1(Row, { get children() {
+				return [pt$1(Button, {
 					onTap: () => setName("Override!"),
 					children: "external setName"
-				}), pt(Button, {
+				}), pt$1(Button, {
 					onTap: () => setName(""),
 					children: "clear"
 				})];
 			} }), null);
-			ht(_el$8, _el$9);
-			ht(_el$8, _el$10);
-			Q$1(_el$8, pt(TextField$1, {
+			ht$1(_el$8, _el$9);
+			ht$1(_el$8, _el$10);
+			Q$1(_el$8, pt$1(TextField$1, {
 				focusNode: focus,
 				placeholder: "Controlled by buttons below"
 			}), _el$10);
-			ht(_el$10, _el$11);
+			ht$1(_el$10, _el$11);
 			Q$1(_el$10, () => {
 				return focus.hasFocus() ? "true" : "false";
 			}, null);
-			Q$1(_el$8, pt(Row, { get children() {
-				return [pt(Button, {
+			Q$1(_el$8, pt$1(Row, { get children() {
+				return [pt$1(Button, {
 					onTap: () => focus.requestFocus(),
 					children: "focus"
-				}), pt(Button, {
+				}), pt$1(Button, {
 					onTap: () => focus.unfocus(),
 					children: "unfocus"
 				})];
 			} }), null);
-			ht(_el$12, _el$13);
-			Q$1(_el$12, pt(TextField$1, {
+			ht$1(_el$12, _el$13);
+			Q$1(_el$12, pt$1(TextField$1, {
 				get value() {
 					return digits();
 				},
@@ -10437,33 +10563,33 @@
 				keyboardType: "number",
 				allowPattern: "[0-9]"
 			}), null);
-			ht(_el$14, _el$15);
-			Q$1(_el$14, pt(TextField$1, {
+			ht$1(_el$14, _el$15);
+			Q$1(_el$14, pt$1(TextField$1, {
 				placeholder: "Search…",
 				get prefixIcon() {
 					return search;
 				}
 			}), null);
-			Q$1(_el$14, pt(TextField$1, {
+			Q$1(_el$14, pt$1(TextField$1, {
 				placeholder: "Password",
 				obscureText: true,
 				get prefixIcon() {
 					return lock;
 				}
 			}), null);
-			Q$1(_el$16, pt(Button, {
+			Q$1(_el$16, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$23));
+		})())(Ve$1(_tpl$1$24));
 	}
 	// fuse/flutter_lucide/LucideIcons.tsx
 	var git_branch = "LucideIcons.git_branch";
 	var heart = "LucideIcons.heart";
 	var rocket = "LucideIcons.rocket";
 	// src/screens/icon.tsx
-	var _tpl$1$22 = /*@__PURE__*/ Be$1([
+	var _tpl$1$23 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -10600,121 +10726,121 @@
 		["view", { "padding": 16 }]
 	], 29);
 	function IconScreen() {
-		const nav = tt();
+		const nav = pt();
 		const [size, setSize] = createSignal(32);
 		const [color, setColor] = createSignal("#111827");
 		return ((_at$1) => (() => {
-			var _el$ = at("h$scrollView", {
+			var _el$ = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = at("h$view", {
+			var _el$2 = at$1("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = at("h$view", {
+			var _el$4 = at$1("h$view", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$5 = at("h$view", {
+			var _el$5 = at$1("h$view", {
 				$t: _at$1,
 				$i: 11
 			});
-			var _el$6 = at("h$view", {
+			var _el$6 = at$1("h$view", {
 				$t: _at$1,
 				$i: 14
 			});
-			var _el$7 = at("h$view", {
+			var _el$7 = at$1("h$view", {
 				$t: _at$1,
 				$i: 15
 			});
-			var _el$8 = at("h$text", {
+			var _el$8 = at$1("h$text", {
 				$t: _at$1,
 				$i: 16
 			});
-			var _el$9 = at("h$view", {
+			var _el$9 = at$1("h$view", {
 				$t: _at$1,
 				$i: 18
 			});
-			var _el$10 = at("h$text", {
+			var _el$10 = at$1("h$text", {
 				$t: _at$1,
 				$i: 19
 			});
-			var _el$11 = at("h$__text__", {
+			var _el$11 = at$1("h$__text__", {
 				$t: _at$1,
 				$i: 20
 			});
-			var _el$12 = at("h$__text__", {
+			var _el$12 = at$1("h$__text__", {
 				$t: _at$1,
 				$i: 21
 			});
-			var _el$13 = at("h$view", {
+			var _el$13 = at$1("h$view", {
 				$t: _at$1,
 				$i: 22
 			});
-			var _el$14 = at("h$view", {
+			var _el$14 = at$1("h$view", {
 				$t: _at$1,
 				$i: 25
 			});
-			var _el$15 = at("h$text", {
+			var _el$15 = at$1("h$text", {
 				$t: _at$1,
 				$i: 26
 			});
-			var _el$16 = at("h$view", {
+			var _el$16 = at$1("h$view", {
 				$t: _at$1,
 				$i: 28
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$16);
-			ht(_el$2, _el$3);
-			ht(_el$2, _el$5);
-			ht(_el$2, _el$7);
-			ht(_el$2, _el$13);
-			ht(_el$3, _el$4);
-			Q$1(_el$4, pt(it, {
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$16);
+			ht$1(_el$2, _el$3);
+			ht$1(_el$2, _el$5);
+			ht$1(_el$2, _el$7);
+			ht$1(_el$2, _el$13);
+			ht$1(_el$3, _el$4);
+			Q$1(_el$4, pt$1(kt, {
 				get icon() {
 					return search;
 				},
 				size: 32
 			}), null);
-			Q$1(_el$4, pt(it, {
+			Q$1(_el$4, pt$1(kt, {
 				get icon() {
 					return lock;
 				},
 				size: 32
 			}), null);
-			Q$1(_el$4, pt(it, {
+			Q$1(_el$4, pt$1(kt, {
 				get icon() {
 					return home;
 				},
 				size: 32
 			}), null);
-			Q$1(_el$4, pt(it, {
+			Q$1(_el$4, pt$1(kt, {
 				get icon() {
 					return settings;
 				},
 				size: 32
 			}), null);
-			Q$1(_el$4, pt(it, {
+			Q$1(_el$4, pt$1(kt, {
 				get icon() {
 					return favorite;
 				},
 				size: 32,
 				color: "#EF4444"
 			}), null);
-			Q$1(_el$4, pt(it, {
+			Q$1(_el$4, pt$1(kt, {
 				get icon() {
 					return star;
 				},
 				size: 32,
 				color: "#F59E0B"
 			}), null);
-			ht(_el$5, _el$6);
-			Q$1(_el$6, pt(it, {
+			ht$1(_el$5, _el$6);
+			Q$1(_el$6, pt$1(kt, {
 				testId: "lucide-heart",
 				get icon() {
 					return heart;
@@ -10722,22 +10848,22 @@
 				size: 32,
 				color: "#EF4444"
 			}), null);
-			Q$1(_el$6, pt(it, {
+			Q$1(_el$6, pt$1(kt, {
 				get icon() {
 					return rocket;
 				},
 				size: 32
 			}), null);
-			Q$1(_el$6, pt(it, {
+			Q$1(_el$6, pt$1(kt, {
 				get icon() {
 					return git_branch;
 				},
 				size: 32
 			}), null);
-			ht(_el$7, _el$8);
-			ht(_el$7, _el$9);
-			ht(_el$9, _el$10);
-			Q$1(_el$9, pt(it, {
+			ht$1(_el$7, _el$8);
+			ht$1(_el$7, _el$9);
+			ht$1(_el$9, _el$10);
+			Q$1(_el$9, pt$1(kt, {
 				get icon() {
 					return favorite;
 				},
@@ -10748,60 +10874,60 @@
 					return color();
 				}
 			}), _el$10);
-			ht(_el$10, _el$11);
-			ht(_el$10, _el$12);
+			ht$1(_el$10, _el$11);
+			ht$1(_el$10, _el$12);
 			Q$1(_el$10, size, _el$12);
 			Q$1(_el$10, color, null);
-			Q$1(_el$7, pt(Row, { get children() {
+			Q$1(_el$7, pt$1(Row, { get children() {
 				return [
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setSize(16),
 						children: "16"
 					}),
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setSize(32),
 						children: "32"
 					}),
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setSize(64),
 						children: "64"
 					})
 				];
 			} }), null);
-			Q$1(_el$7, pt(Row, { get children() {
+			Q$1(_el$7, pt$1(Row, { get children() {
 				return [
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setColor("#EF4444"),
 						children: "red"
 					}),
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setColor("#10B981"),
 						children: "green"
 					}),
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setColor("#3B82F6"),
 						children: "blue"
 					})
 				];
 			} }), null);
-			ht(_el$13, _el$14);
-			ht(_el$14, _el$15);
-			Q$1(_el$14, pt(it, {
+			ht$1(_el$13, _el$14);
+			ht$1(_el$14, _el$15);
+			Q$1(_el$14, pt$1(kt, {
 				get icon() {
 					return info;
 				},
 				size: 20,
 				color: "#3B82F6"
 			}), _el$15);
-			Q$1(_el$16, pt(Button, {
+			Q$1(_el$16, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$22));
+		})())(Ve$1(_tpl$1$23));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$21 = /*@__PURE__*/ Be$1([
+	var _tpl$1$22 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -10879,52 +11005,52 @@
 		]
 	], 3);
 	function ScrollScreen() {
-		const nav = tt();
+		const nav = pt();
 		const scroll = createScrollController({ initialScrollOffset: 120 });
 		return ((_at$1) => (() => {
-			var _el$ = at("h$scrollView", {
+			var _el$ = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 0,
 				controller: scroll
 			});
-			var _el$2 = at("h$view", {
+			var _el$2 = at$1("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			var _el$3 = at("h$text", {
+			var _el$3 = at$1("h$text", {
 				$t: _at$1,
 				$i: 7
 			});
-			var _el$4 = at("h$__text__", {
+			var _el$4 = at$1("h$__text__", {
 				$t: _at$1,
 				$i: 8
 			});
-			var _el$5 = at("h$scrollView", {
+			var _el$5 = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 9
 			});
-			var _el$6 = at("h$view", {
+			var _el$6 = at$1("h$view", {
 				$t: _at$1,
 				$i: 10
 			});
-			var _el$10 = at("h$view", {
+			var _el$10 = at$1("h$view", {
 				$t: _at$1,
 				$i: 11
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$6);
-			ht(_el$, _el$10);
-			ht(_el$2, _el$3);
-			ht(_el$2, _el$5);
-			ht(_el$3, _el$4);
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$6);
+			ht$1(_el$, _el$10);
+			ht$1(_el$2, _el$3);
+			ht$1(_el$2, _el$5);
+			ht$1(_el$3, _el$4);
 			Q$1(_el$3, () => {
 				return (scroll.offset() ?? 0).toFixed(1);
 			}, null);
-			Q$1(_el$5, pt(Button, {
+			Q$1(_el$5, pt$1(Button, {
 				onTap: () => scroll.jumpTo(0),
 				children: "jumpTo(0)"
 			}), null);
-			Q$1(_el$5, pt(Button, {
+			Q$1(_el$5, pt$1(Button, {
 				onTap: () => scroll.animateTo(1200, {
 					duration: 800,
 					curve: easeInOut
@@ -10933,7 +11059,7 @@
 			}), null);
 			Q$1(_el$6, () => {
 				return Array.from({ length: 40 }, (_, i) => ((_at$2) => (() => {
-					var _el$7 = at("h$view", {
+					var _el$7 = at$1("h$view", {
 						$t: _at$2,
 						$i: 0,
 						decoration: {
@@ -10941,29 +11067,29 @@
 							borderRadius: 8
 						}
 					});
-					var _el$8 = at("h$text", {
+					var _el$8 = at$1("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					var _el$9 = at("h$__text__", {
+					var _el$9 = at$1("h$__text__", {
 						$t: _at$2,
 						$i: 2
 					});
-					ht(_el$7, _el$8);
-					ht(_el$8, _el$9);
+					ht$1(_el$7, _el$8);
+					ht$1(_el$8, _el$9);
 					Q$1(_el$8, i, null);
 					return _el$7;
 				})())(Ve$1(_tpl$2$9)));
 			});
-			Q$1(_el$10, pt(Button, {
+			Q$1(_el$10, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$21));
+		})())(Ve$1(_tpl$1$22));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$20 = /*@__PURE__*/ Be$1(["view", {
+	var _tpl$1$21 = /*@__PURE__*/ Be$1(["view", {
 		"layout": {
 			"direction": "vertical",
 			"gap": 12
@@ -10984,49 +11110,49 @@
 			"date"
 		]);
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			Q$1(_el$, pt(Row, { get children() {
+			Q$1(_el$, pt$1(Row, { get children() {
 				return [
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setRows((r) => r.slice().reverse()),
 						children: "Reverse"
 					}),
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setRows((r) => r.slice().sort()),
 						children: "Sort"
 					}),
-					pt(Button, {
+					pt$1(Button, {
 						onTap: () => setRows((r) => r.filter((_, i) => i % 2 === 0)),
 						children: "Thin"
 					})
 				];
 			} }), null);
-			Q$1(_el$, pt(For, {
+			Q$1(_el$, pt$1(For, {
 				get each() {
 					return rows();
 				},
 				children: (row) => ((_at$2) => (() => {
-					var _el$2 = at("h$view", {
+					var _el$2 = at$1("h$view", {
 						$t: _at$2,
 						$i: 0
 					});
-					var _el$3 = at("h$text", {
+					var _el$3 = at$1("h$text", {
 						$t: _at$2,
 						$i: 1
 					});
-					ht(_el$2, _el$3);
+					ht$1(_el$2, _el$3);
 					Q$1(_el$3, row);
 					return _el$2;
 				})())(Ve$1(_tpl$2$8))
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$20));
+		})())(Ve$1(_tpl$1$21));
 	}
 	// src/screens/builder.tsx
-	var _tpl$1$19 = /*@__PURE__*/ Be$1([
+	var _tpl$1$20 = /*@__PURE__*/ Be$1([
 		"view",
 		{ "layout": {
 			"direction": "vertical",
@@ -11069,34 +11195,34 @@
 	function BuilderScreen() {
 		const [picked, setPicked] = createSignal(-1);
 		const scroll = createScrollController();
-		const at$1 = () => Math.round(scroll.position()?.pixels() ?? 0);
+		const at = () => Math.round(scroll.position()?.pixels() ?? 0);
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = at("h$view", {
+			var _el$2 = at$1("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = at("h$text", {
+			var _el$3 = at$1("h$text", {
 				$t: _at$1,
 				$i: 4
 			});
-			var _el$4 = at("h$text", {
+			var _el$4 = at$1("h$text", {
 				$t: _at$1,
 				$i: 5
 			});
-			var _el$5 = at("h$view", {
+			var _el$5 = at$1("h$view", {
 				$t: _at$1,
 				$i: 6
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$5);
-			ht(_el$2, _el$3);
-			ht(_el$2, _el$4);
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$5);
+			ht$1(_el$2, _el$3);
+			ht$1(_el$2, _el$4);
 			Q$1(_el$3, (() => {
-				var _c$ = rt(() => {
+				var _c$ = rt$1(() => {
 					return picked() < 0;
 				});
 				return () => {
@@ -11104,27 +11230,27 @@
 				};
 			})());
 			Q$1(_el$4, () => {
-				return `Scrolled ${at$1()} px`;
+				return `Scrolled ${at()} px`;
 			});
-			Q$1(_el$5, pt(ListViewBuilder, {
+			Q$1(_el$5, pt$1(ListViewBuilder, {
 				controller: scroll,
 				itemCount: 1e4,
 				itemExtent: 48,
-				itemBuilder: (index) => pt(lt, {
+				itemBuilder: (index) => pt$1(Pt, {
 					onPress: () => setPicked(index),
 					get children() {
 						return ((_at$2) => (() => {
-							var _el$6 = at("h$view", {
+							var _el$6 = at$1("h$view", {
 								$t: _at$2,
 								$i: 0
 							});
-							var _el$7 = at("h$text", {
+							var _el$7 = at$1("h$text", {
 								$t: _at$2,
 								$i: 1
 							});
-							ht(_el$6, _el$7);
+							ht$1(_el$6, _el$7);
 							Q$1(_el$7, `Row ${index}`);
-							nt(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
+							nt$1(() => ({ color: picked() === index ? "#DBEAFE" : "#FFFFFF" }), (_v$, _$p) => {
 								lt$1(_el$6, "decoration", _v$, _$p);
 							});
 							return _el$6;
@@ -11133,10 +11259,10 @@
 				})
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$19));
+		})())(Ve$1(_tpl$1$20));
 	}
 	// src/screens/core.tsx
-	var _tpl$1$18 = /*@__PURE__*/ Be$1([
+	var _tpl$1$19 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -11288,34 +11414,34 @@
 		const [fruit, setFruit] = createSignal("apple");
 		const [size, setSize] = createSignal("M");
 		return ((_at$1) => (() => {
-			var _el$ = at("h$scrollView", {
+			var _el$ = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Section, {
+			Q$1(_el$, pt$1(Section, {
 				title: "Pressable",
 				get children() {
-					return pt(lt, {
+					return pt$1(Pt, {
 						onPress: () => setPresses((n) => n + 1),
 						semanticLabel: "Press me",
 						children: (state) => ((_at$2) => (() => {
-							var _el$4 = at("h$view", {
+							var _el$4 = at$1("h$view", {
 								$t: _at$2,
 								$i: 0
 							});
-							var _el$5 = at("h$text", {
+							var _el$5 = at$1("h$text", {
 								$t: _at$2,
 								$i: 1
 							});
-							ht(_el$4, _el$5);
+							ht$1(_el$4, _el$5);
 							Q$1(_el$5, () => {
 								return `Pressed ${presses()} times`;
 							});
-							nt(() => ({
+							nt$1(() => ({
 								color: state.pressed() ? "#1e40af" : state.hovered() ? "#1d4ed8" : "#2563eb",
 								borderRadius: 8
 							}), (_v$, _$p) => {
@@ -11326,31 +11452,31 @@
 					});
 				}
 			}), null);
-			Q$1(_el$, pt(Section, {
+			Q$1(_el$, pt$1(Section, {
 				title: "TextInput",
 				get children() {
 					return [
-						rt(() => {
+						rt$1(() => {
 							return ((_at$3) => (() => {
-								var _el$6 = at("h$view", {
+								var _el$6 = at$1("h$view", {
 									$t: _at$3,
 									$i: 0
 								});
-								var _el$7 = at("h$textInput", {
+								var _el$7 = at$1("h$textInput", {
 									$t: _at$3,
 									$i: 1,
 									onChange: setText
 								});
-								ht(_el$6, _el$7);
-								nt(() => text(), (_v$, _$p) => {
+								ht$1(_el$6, _el$7);
+								nt$1(() => text(), (_v$, _$p) => {
 									lt$1(_el$7, "value", _v$, _$p);
 								});
 								return _el$6;
 							})())(Ve$1(_tpl$3$3));
 						}),
-						rt(() => {
+						rt$1(() => {
 							return ((_at$4) => (() => {
-								var _el$8 = at("h$text", {
+								var _el$8 = at$1("h$text", {
 									$t: _at$4,
 									$i: 0
 								});
@@ -11360,8 +11486,8 @@
 								return _el$8;
 							})())(Ve$1(_tpl$4$2));
 						}),
-						pt(Row, { get children() {
-							return pt(Button, {
+						pt$1(Row, { get children() {
+							return pt$1(Button, {
 								onTap: () => setText("from JS"),
 								children: "set from JS"
 							});
@@ -11369,36 +11495,36 @@
 					];
 				}
 			}), null);
-			Q$1(_el$, pt(Section, {
+			Q$1(_el$, pt$1(Section, {
 				title: "Modal",
 				get children() {
-					return [pt(Row, { get children() {
-						return pt(Button, {
+					return [pt$1(Row, { get children() {
+						return pt$1(Button, {
 							onTap: () => setOpen(true),
 							children: "open dialog"
 						});
-					} }), pt(dt, {
+					} }), pt$1(It, {
 						get open() {
 							return open();
 						},
 						onOpenChange: setOpen,
 						get children() {
 							return ((_at$5) => (() => {
-								var _el$9 = at("h$view", {
+								var _el$9 = at$1("h$view", {
 									$t: _at$5,
 									$i: 0
 								});
-								var _el$10 = at("h$text", {
+								var _el$10 = at$1("h$text", {
 									$t: _at$5,
 									$i: 1
 								});
-								var _el$11 = at("h$text", {
+								var _el$11 = at$1("h$text", {
 									$t: _at$5,
 									$i: 3
 								});
-								ht(_el$9, _el$10);
-								ht(_el$9, _el$11);
-								Q$1(_el$9, pt(Button, {
+								ht$1(_el$9, _el$10);
+								ht$1(_el$9, _el$11);
+								Q$1(_el$9, pt$1(Button, {
 									onTap: () => setOpen(false),
 									children: "close"
 								}), null);
@@ -11408,43 +11534,43 @@
 					})];
 				}
 			}), null);
-			Q$1(_el$, pt(Section, {
+			Q$1(_el$, pt$1(Section, {
 				title: "Menu",
 				get children() {
-					var _el$3 = at("menu", { onOpenChange: setMenu });
-					Q$1(_el$3, pt(Button, {
+					var _el$3 = at$1("menu", { onOpenChange: setMenu });
+					Q$1(_el$3, pt$1(Button, {
 						onTap: () => setMenu(!menu()),
 						get children() {
 							return `fruit: ${fruit()}`;
 						}
 					}));
-					nt(() => {
+					nt$1(() => {
 						return {
 							e: menu(),
 							t: ((_at$6) => (() => {
-								var _el$12 = at("h$view", {
+								var _el$12 = at$1("h$view", {
 									$t: _at$6,
 									$i: 0
 								});
-								Q$1(_el$12, pt(For, {
+								Q$1(_el$12, pt$1(For, {
 									each: [
 										"apple",
 										"banana",
 										"cherry"
 									],
-									children: (f) => pt(lt, {
+									children: (f) => pt$1(Pt, {
 										onPress: () => (setFruit(f), setMenu(false)),
 										get children() {
 											return ((_at$7) => (() => {
-												var _el$13 = at("h$view", {
+												var _el$13 = at$1("h$view", {
 													$t: _at$7,
 													$i: 0
 												});
-												var _el$14 = at("h$text", {
+												var _el$14 = at$1("h$text", {
 													$t: _at$7,
 													$i: 1
 												});
-												ht(_el$13, _el$14);
+												ht$1(_el$13, _el$14);
 												Q$1(_el$14, f);
 												return _el$13;
 											})())(Ve$1(_tpl$7));
@@ -11461,36 +11587,36 @@
 					return _el$3;
 				}
 			}), null);
-			Q$1(_el$, pt(Section, {
+			Q$1(_el$, pt$1(Section, {
 				title: "RadioGroup + Tooltip",
 				get children() {
-					return [rt(() => {
+					return [rt$1(() => {
 						return ((_at$8) => (() => {
-							var _el$15 = at("h$radioGroup", {
+							var _el$15 = at$1("h$radioGroup", {
 								$t: _at$8,
 								$i: 0,
 								onChange: setSize
 							});
-							var _el$16 = at("h$text", {
+							var _el$16 = at$1("h$text", {
 								$t: _at$8,
 								$i: 1
 							});
-							ht(_el$15, _el$16);
+							ht$1(_el$15, _el$16);
 							Q$1(_el$16, () => {
 								return `size = ${size()}`;
 							});
-							nt(() => size(), (_v$, _$p) => {
+							nt$1(() => size(), (_v$, _$p) => {
 								lt$1(_el$15, "value", _v$, _$p);
 							});
 							return _el$15;
 						})())(Ve$1(_tpl$8));
-					}), rt(() => {
+					}), rt$1(() => {
 						return ((_at$9) => (() => {
-							var _el$17 = at("h$tooltip", {
+							var _el$17 = at$1("h$tooltip", {
 								$t: _at$9,
 								$i: 0
 							});
-							nt(() => ((_at$10) => at("h$view", {
+							nt$1(() => ((_at$10) => at$1("h$view", {
 								$t: _at$10,
 								$i: 0
 							}))(Ve$1(_tpl$10)), (_v$, _$p) => {
@@ -11501,15 +11627,15 @@
 					})];
 				}
 			}), null);
-			Q$1(_el$, pt(Section, {
+			Q$1(_el$, pt$1(Section, {
 				title: "Expandable",
 				get children() {
 					return ((_at$11) => (() => {
-						var _el$19 = at("h$expandable", {
+						var _el$19 = at$1("h$expandable", {
 							$t: _at$11,
 							$i: 0
 						});
-						nt(() => ((_at$12) => at("h$view", {
+						nt$1(() => ((_at$12) => at$1("h$view", {
 							$t: _at$12,
 							$i: 0
 						}))(Ve$1(_tpl$12)), (_v$, _$p) => {
@@ -11520,19 +11646,19 @@
 				}
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$18));
+		})())(Ve$1(_tpl$1$19));
 	}
 	function Section(props) {
 		return ((_at$13) => (() => {
-			var _el$21 = at("h$view", {
+			var _el$21 = at$1("h$view", {
 				$t: _at$13,
 				$i: 0
 			});
-			var _el$22 = at("h$text", {
+			var _el$22 = at$1("h$text", {
 				$t: _at$13,
 				$i: 1
 			});
-			ht(_el$21, _el$22);
+			ht$1(_el$21, _el$22);
 			Q$1(_el$22, () => {
 				return props.title;
 			});
@@ -11543,7 +11669,7 @@
 		})())(Ve$1(_tpl$13));
 	}
 	// src/screens/material.tsx
-	var _tpl$1$17 = /*@__PURE__*/ Be$1([
+	var _tpl$1$18 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -11612,7 +11738,7 @@
 		]
 	], 3);
 	function MaterialScreen() {
-		const nav = tt();
+		const nav = pt();
 		const [on, setOn] = createSignal(true);
 		const [checked, setChecked] = createSignal(false);
 		const [volume, setVolume] = createSignal(.4);
@@ -11623,12 +11749,12 @@
 		const [email$1, setEmail] = createSignal("");
 		const [taps, setTaps] = createSignal(0);
 		const [filter, setFilter] = createSignal(false);
-		return pt(Scaffold, {
+		return pt$1(Scaffold, {
 			get appBar() {
-				return pt(AppBar, {
+				return pt$1(AppBar, {
 					title: "Material",
 					get leading() {
-						return pt(IconButton, {
+						return pt$1(IconButton, {
 							get icon() {
 								return arrow_back;
 							},
@@ -11637,7 +11763,7 @@
 						});
 					},
 					get actions() {
-						return pt(IconButton, {
+						return pt$1(IconButton, {
 							get icon() {
 								return settings;
 							},
@@ -11647,7 +11773,7 @@
 				});
 			},
 			get floatingActionButton() {
-				return pt(FloatingActionButton, {
+				return pt$1(FloatingActionButton, {
 					get icon() {
 						return add;
 					},
@@ -11656,14 +11782,14 @@
 				});
 			},
 			get bottomNavigationBar() {
-				return pt(NavigationBar, {
+				return pt$1(NavigationBar, {
 					get selected() {
 						return tab();
 					},
 					onSelect: setTab,
 					get children() {
 						return [
-							pt(NavigationDestination, {
+							pt$1(NavigationDestination, {
 								get icon() {
 									return home_outlined;
 								},
@@ -11672,7 +11798,7 @@
 								},
 								label: "Home"
 							}),
-							pt(NavigationDestination, {
+							pt$1(NavigationDestination, {
 								get icon() {
 									return favorite_border;
 								},
@@ -11681,7 +11807,7 @@
 								},
 								label: "Saved"
 							}),
-							pt(NavigationDestination, {
+							pt$1(NavigationDestination, {
 								get icon() {
 									return person_outline;
 								},
@@ -11696,102 +11822,102 @@
 			},
 			get children() {
 				return ((_at$1) => (() => {
-					var _el$ = at("h$scrollView", {
+					var _el$ = at$1("h$scrollView", {
 						$t: _at$1,
 						$i: 0
 					});
-					var _el$2 = at("h$text", {
+					var _el$2 = at$1("h$text", {
 						$t: _at$1,
 						$i: 1
 					});
-					var _el$3 = at("h$view", {
+					var _el$3 = at$1("h$view", {
 						$t: _at$1,
 						$i: 2
 					});
-					var _el$4 = at("h$view", {
+					var _el$4 = at$1("h$view", {
 						$t: _at$1,
 						$i: 3
 					});
-					var _el$5 = at("h$view", {
+					var _el$5 = at$1("h$view", {
 						$t: _at$1,
 						$i: 4
 					});
-					var _el$6 = at("h$text", {
+					var _el$6 = at$1("h$text", {
 						$t: _at$1,
 						$i: 5
 					});
-					var _el$7 = at("h$radioGroup", {
+					var _el$7 = at$1("h$radioGroup", {
 						$t: _at$1,
 						$i: 6,
 						onChange: setPlan
 					});
-					var _el$8 = at("h$view", {
+					var _el$8 = at$1("h$view", {
 						$t: _at$1,
 						$i: 7
 					});
-					var _el$9 = at("h$text", {
+					var _el$9 = at$1("h$text", {
 						$t: _at$1,
 						$i: 8
 					});
-					var _el$10 = at("h$text", {
+					var _el$10 = at$1("h$text", {
 						$t: _at$1,
 						$i: 10
 					});
-					var _el$11 = at("h$text", {
+					var _el$11 = at$1("h$text", {
 						$t: _at$1,
 						$i: 12
 					});
-					var _el$12 = at("h$view", {
+					var _el$12 = at$1("h$view", {
 						$t: _at$1,
 						$i: 13
 					});
-					ht(_el$, _el$2);
-					ht(_el$, _el$3);
-					ht(_el$, _el$4);
-					ht(_el$, _el$5);
-					ht(_el$, _el$7);
-					ht(_el$, _el$11);
-					ht(_el$, _el$12);
+					ht$1(_el$, _el$2);
+					ht$1(_el$, _el$3);
+					ht$1(_el$, _el$4);
+					ht$1(_el$, _el$5);
+					ht$1(_el$, _el$7);
+					ht$1(_el$, _el$11);
+					ht$1(_el$, _el$12);
 					Q$1(_el$2, () => {
 						return `Tab ${tab()}, FAB pressed ${taps()} times`;
 					});
-					Q$1(_el$3, pt(Button$2, {
+					Q$1(_el$3, pt$1(Button$2, {
 						onPress: () => setDialog(true),
 						children: "Dialog"
 					}), null);
-					Q$1(_el$3, pt(Button$2, {
+					Q$1(_el$3, pt$1(Button$2, {
 						variant: "tonal",
 						onPress: () => setSheet(true),
 						children: "Sheet"
 					}), null);
-					Q$1(_el$3, pt(Button$2, {
+					Q$1(_el$3, pt$1(Button$2, {
 						variant: "outlined",
 						get icon() {
 							return send;
 						},
 						children: "Send"
 					}), null);
-					Q$1(_el$4, pt(Button$2, {
+					Q$1(_el$4, pt$1(Button$2, {
 						variant: "text",
 						children: "Text"
 					}), null);
-					Q$1(_el$4, pt(Button$2, {
+					Q$1(_el$4, pt$1(Button$2, {
 						variant: "elevated",
 						children: "Elevated"
 					}), null);
-					Q$1(_el$4, pt(Button$2, {
+					Q$1(_el$4, pt$1(Button$2, {
 						disabled: true,
 						children: "Disabled"
 					}), null);
-					Q$1(_el$, pt(Divider, {}), _el$5);
-					ht(_el$5, _el$6);
-					Q$1(_el$5, pt(Switch$1, {
+					Q$1(_el$, pt$1(Divider, {}), _el$5);
+					ht$1(_el$5, _el$6);
+					Q$1(_el$5, pt$1(Switch$1, {
 						get value() {
 							return on();
 						},
 						onChange: setOn
 					}), _el$6);
-					Q$1(_el$5, pt(Checkbox$1, {
+					Q$1(_el$5, pt$1(Checkbox$1, {
 						get value() {
 							return checked();
 						},
@@ -11801,21 +11927,21 @@
 					Q$1(_el$6, () => {
 						return `switch ${on() ? "on" : "off"}, checkbox ${String(checked())}`;
 					});
-					Q$1(_el$, pt(Slider$1, {
+					Q$1(_el$, pt$1(Slider$1, {
 						get value() {
 							return volume();
 						},
 						onChange: setVolume
 					}), _el$7);
-					ht(_el$7, _el$8);
-					ht(_el$8, _el$9);
-					ht(_el$8, _el$10);
-					Q$1(_el$8, pt(Radio, { value: "free" }), _el$9);
-					Q$1(_el$8, pt(Radio, { value: "pro" }), _el$10);
+					ht$1(_el$7, _el$8);
+					ht$1(_el$8, _el$9);
+					ht$1(_el$8, _el$10);
+					Q$1(_el$8, pt$1(Radio, { value: "free" }), _el$9);
+					Q$1(_el$8, pt$1(Radio, { value: "pro" }), _el$10);
 					Q$1(_el$11, () => {
 						return `plan = ${plan()}`;
 					});
-					Q$1(_el$, pt(TextField$1, {
+					Q$1(_el$, pt$1(TextField$1, {
 						label: "Email",
 						get value() {
 							return email$1();
@@ -11826,46 +11952,46 @@
 							return email;
 						}
 					}), _el$12);
-					Q$1(_el$12, pt(Chip, {
+					Q$1(_el$12, pt$1(Chip, {
 						label: "Chip",
 						get icon() {
 							return star;
 						}
 					}), null);
-					Q$1(_el$12, pt(Chip, {
+					Q$1(_el$12, pt$1(Chip, {
 						label: "Filter",
 						get selected() {
 							return filter();
 						},
 						onSelect: setFilter
 					}), null);
-					Q$1(_el$12, pt(Badge, {
+					Q$1(_el$12, pt$1(Badge, {
 						label: 3,
 						get children() {
-							return pt(IconButton, { get icon() {
+							return pt$1(IconButton, { get icon() {
 								return notifications;
 							} });
 						}
 					}), null);
-					Q$1(_el$, pt(Card, {
+					Q$1(_el$, pt$1(Card, {
 						variant: "outlined",
 						padding: 16,
 						onPress: () => setTaps((n) => n + 1),
 						get children() {
-							return ((_at$2) => at("h$text", {
+							return ((_at$2) => at$1("h$text", {
 								$t: _at$2,
 								$i: 0
 							}))(Ve$1(_tpl$2$5));
 						}
 					}), null);
-					Q$1(_el$, pt(ListTile, {
+					Q$1(_el$, pt$1(ListTile, {
 						get leading() {
 							return wifi;
 						},
 						title: "Wi-Fi",
 						subtitle: "Connected",
 						get trailing() {
-							return pt(Switch$1, {
+							return pt$1(Switch$1, {
 								get value() {
 									return on();
 								},
@@ -11873,14 +11999,14 @@
 							});
 						}
 					}), null);
-					Q$1(_el$, pt(ProgressIndicator$1, {
+					Q$1(_el$, pt$1(ProgressIndicator$1, {
 						variant: "linear",
 						get value() {
 							return volume();
 						}
 					}), null);
-					Q$1(_el$, pt(ProgressIndicator$1, {}), null);
-					Q$1(_el$, pt(Dialog$1, {
+					Q$1(_el$, pt$1(ProgressIndicator$1, {}), null);
+					Q$1(_el$, pt$1(Dialog$1, {
 						get open() {
 							return dialog();
 						},
@@ -11890,11 +12016,11 @@
 							return delete_;
 						},
 						get actions() {
-							return [pt(Button$2, {
+							return [pt$1(Button$2, {
 								variant: "text",
 								onPress: () => setDialog(false),
 								children: "Cancel"
-							}), pt(Button$2, {
+							}), pt$1(Button$2, {
 								variant: "text",
 								onPress: () => setDialog(false),
 								children: "Discard"
@@ -11902,29 +12028,29 @@
 						},
 						children: "The draft will be gone."
 					}), null);
-					Q$1(_el$, pt(BottomSheet, {
+					Q$1(_el$, pt$1(BottomSheet, {
 						get open() {
 							return sheet();
 						},
 						onOpenChange: setSheet,
 						showDragHandle: true,
 						get children() {
-							return ((_at$3) => at("h$view", {
+							return ((_at$3) => at$1("h$view", {
 								$t: _at$3,
 								$i: 0
 							}))(Ve$1(_tpl$3$2));
 						}
 					}), null);
-					nt(() => plan(), (_v$, _$p) => {
+					nt$1(() => plan(), (_v$, _$p) => {
 						lt$1(_el$7, "value", _v$, _$p);
 					});
 					return _el$;
-				})())(Ve$1(_tpl$1$17));
+				})())(Ve$1(_tpl$1$18));
 			}
 		});
 	}
 	// src/screens/cupertino.tsx
-	var _tpl$1$16 = /*@__PURE__*/ Be$1([
+	var _tpl$1$17 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -11980,9 +12106,9 @@
 		const [name, setName] = createSignal("");
 		const [pick, setPick] = createSignal(1);
 		const [last, setLast] = createSignal("nothing yet");
-		return pt(PageScaffold, {
+		return pt$1(PageScaffold, {
 			get navigationBar() {
-				return pt(NavigationBar$2, {
+				return pt$1(NavigationBar$2, {
 					title: "Cupertino",
 					get trailing() {
 						return info$1;
@@ -11991,44 +12117,44 @@
 			},
 			get children() {
 				return ((_at$1) => (() => {
-					var _el$ = at("h$scrollView", {
+					var _el$ = at$1("h$scrollView", {
 						$t: _at$1,
 						$i: 0
 					});
-					var _el$2 = at("h$text", {
+					var _el$2 = at$1("h$text", {
 						$t: _at$1,
 						$i: 1
 					});
-					var _el$3 = at("h$view", {
+					var _el$3 = at$1("h$view", {
 						$t: _at$1,
 						$i: 2
 					});
-					var _el$4 = at("h$view", {
+					var _el$4 = at$1("h$view", {
 						$t: _at$1,
 						$i: 3
 					});
-					var _el$5 = at("h$radioGroup", {
+					var _el$5 = at$1("h$radioGroup", {
 						$t: _at$1,
 						$i: 4,
 						onChange: setPick
 					});
-					var _el$6 = at("h$view", {
+					var _el$6 = at$1("h$view", {
 						$t: _at$1,
 						$i: 5
 					});
-					var _el$7 = at("h$text", {
+					var _el$7 = at$1("h$text", {
 						$t: _at$1,
 						$i: 6
 					});
-					var _el$8 = at("h$text", {
+					var _el$8 = at$1("h$text", {
 						$t: _at$1,
 						$i: 8
 					});
-					ht(_el$, _el$2);
-					ht(_el$, _el$3);
-					ht(_el$, _el$4);
-					ht(_el$, _el$5);
-					Q$1(_el$, pt(SegmentedControl, {
+					ht$1(_el$, _el$2);
+					ht$1(_el$, _el$3);
+					ht$1(_el$, _el$4);
+					ht$1(_el$, _el$5);
+					Q$1(_el$, pt$1(SegmentedControl, {
 						get value() {
 							return view();
 						},
@@ -12051,23 +12177,23 @@
 					Q$1(_el$2, () => {
 						return `view = ${view()}, last action: ${last()}`;
 					});
-					Q$1(_el$3, pt(Button$3, {
+					Q$1(_el$3, pt$1(Button$3, {
 						variant: "filled",
 						onPress: () => setAlert(true),
 						children: "Alert"
 					}), null);
-					Q$1(_el$3, pt(Button$3, {
+					Q$1(_el$3, pt$1(Button$3, {
 						variant: "tinted",
 						onPress: () => setSheet(true),
 						children: "Sheet"
 					}), null);
-					Q$1(_el$3, pt(Button$3, {
+					Q$1(_el$3, pt$1(Button$3, {
 						get icon() {
 							return heart$1;
 						},
 						children: "Like"
 					}), null);
-					Q$1(_el$, pt(TextField$2, {
+					Q$1(_el$, pt$1(TextField$2, {
 						get value() {
 							return name();
 						},
@@ -12078,49 +12204,49 @@
 							return person$1;
 						}
 					}), _el$4);
-					Q$1(_el$4, pt(Switch$2, {
+					Q$1(_el$4, pt$1(Switch$2, {
 						get value() {
 							return on();
 						},
 						onChange: setOn
 					}), null);
-					Q$1(_el$4, pt(Checkbox$2, {
+					Q$1(_el$4, pt$1(Checkbox$2, {
 						get value() {
 							return checked();
 						},
 						onChange: setChecked
 					}), null);
-					Q$1(_el$4, pt(ActivityIndicator, { get animating() {
+					Q$1(_el$4, pt$1(ActivityIndicator, { get animating() {
 						return on();
 					} }), null);
-					Q$1(_el$, pt(Slider$2, {
+					Q$1(_el$, pt$1(Slider$2, {
 						get value() {
 							return brightness();
 						},
 						onChange: setBrightness
 					}), _el$5);
-					ht(_el$5, _el$6);
-					ht(_el$6, _el$7);
-					ht(_el$6, _el$8);
-					Q$1(_el$6, pt(Radio$1, { value: 1 }), _el$7);
-					Q$1(_el$6, pt(Radio$1, { value: 2 }), _el$8);
-					Q$1(_el$, pt(ListSection, {
+					ht$1(_el$5, _el$6);
+					ht$1(_el$6, _el$7);
+					ht$1(_el$6, _el$8);
+					Q$1(_el$6, pt$1(Radio$1, { value: 1 }), _el$7);
+					Q$1(_el$6, pt$1(Radio$1, { value: 2 }), _el$8);
+					Q$1(_el$, pt$1(ListSection, {
 						header: "Settings",
 						get children() {
-							return [pt(ListTile$2, {
+							return [pt$1(ListTile$2, {
 								get leading() {
 									return wifi$1;
 								},
 								title: "Wi-Fi",
 								additionalInfo: "Home",
 								onPress: () => setLast("wi-fi")
-							}), pt(ListTile$2, {
+							}), pt$1(ListTile$2, {
 								get leading() {
 									return bluetooth;
 								},
 								title: "Bluetooth",
 								get trailing() {
-									return pt(Switch$2, {
+									return pt$1(Switch$2, {
 										get value() {
 											return on();
 										},
@@ -12130,17 +12256,17 @@
 							})];
 						}
 					}), null);
-					Q$1(_el$, pt(Dialog$2, {
+					Q$1(_el$, pt$1(Dialog$2, {
 						get open() {
 							return alert();
 						},
 						onOpenChange: setAlert,
 						title: "Allow notifications?",
 						get actions() {
-							return [pt(DialogAction, {
+							return [pt$1(DialogAction, {
 								onPress: () => (setLast("don't allow"), setAlert(false)),
 								children: "Don't Allow"
-							}), pt(DialogAction, {
+							}), pt$1(DialogAction, {
 								default: true,
 								onPress: () => (setLast("allow"), setAlert(false)),
 								children: "Allow"
@@ -12148,42 +12274,39 @@
 						},
 						children: "You can change this in Settings."
 					}), null);
-					Q$1(_el$, pt(ActionSheet, {
+					Q$1(_el$, pt$1(ActionSheet, {
 						get open() {
 							return sheet();
 						},
 						onOpenChange: setSheet,
 						title: "Share photo",
 						get cancel() {
-							return pt(ActionSheetAction, {
+							return pt$1(ActionSheetAction, {
 								onPress: () => setSheet(false),
 								children: "Cancel"
 							});
 						},
 						get children() {
-							return [pt(ActionSheetAction, {
+							return [pt$1(ActionSheetAction, {
 								onPress: () => (setLast("copy"), setSheet(false)),
 								children: "Copy"
-							}), pt(ActionSheetAction, {
+							}), pt$1(ActionSheetAction, {
 								destructive: true,
 								onPress: () => (setLast("delete"), setSheet(false)),
 								children: "Delete"
 							})];
 						}
 					}), null);
-					nt(() => pick(), (_v$, _$p) => {
+					nt$1(() => pick(), (_v$, _$p) => {
 						lt$1(_el$5, "value", _v$, _$p);
 					});
 					return _el$;
-				})())(Ve$1(_tpl$1$16));
+				})())(Ve$1(_tpl$1$17));
 			}
 		});
 	}
-	// src/platform.ts
-	/** The platform the whole demo behaves like. `undefined`: the device's. */
-	var [platform, setPlatform] = createSignal(void 0);
 	// src/screens/adaptive.tsx
-	var _tpl$1$15 = /*@__PURE__*/ Be$1([
+	var _tpl$1$16 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -12223,23 +12346,23 @@
 	function AdaptiveScreen() {
 		const design = useDesign();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$scrollView", {
+			var _el$ = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Button, {
+			Q$1(_el$, pt$1(Button, {
 				onTap: () => setPlatform(design() === "material" ? "iOS" : "android"),
 				get children() {
 					return `design: ${design()}`;
 				}
 			}), null);
-			Q$1(_el$, pt(Gallery, {}), null);
+			Q$1(_el$, pt$1(Gallery, {}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$15));
+		})())(Ve$1(_tpl$1$16));
 	}
 	function Gallery() {
 		const [on, setOn] = createSignal(true);
@@ -12248,55 +12371,55 @@
 		const [text, setText] = createSignal("");
 		const [open, setOpen] = createSignal(false);
 		return ((_at$2) => (() => {
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$2,
 				$i: 0
 			});
-			var _el$4 = at("h$view", {
+			var _el$4 = at$1("h$view", {
 				$t: _at$2,
 				$i: 1
 			});
-			var _el$5 = at("h$view", {
+			var _el$5 = at$1("h$view", {
 				$t: _at$2,
 				$i: 2
 			});
-			ht(_el$3, _el$4);
-			ht(_el$3, _el$5);
-			Q$1(_el$4, pt(Switch, {
+			ht$1(_el$3, _el$4);
+			ht$1(_el$3, _el$5);
+			Q$1(_el$4, pt$1(Switch, {
 				get value() {
 					return on();
 				},
 				onChange: setOn
 			}), null);
-			Q$1(_el$4, pt(Checkbox, {
+			Q$1(_el$4, pt$1(Checkbox, {
 				get value() {
 					return checked();
 				},
 				onChange: setChecked
 			}), null);
-			Q$1(_el$4, pt(ProgressIndicator, {}), null);
-			Q$1(_el$3, pt(Slider, {
+			Q$1(_el$4, pt$1(ProgressIndicator, {}), null);
+			Q$1(_el$3, pt$1(Slider, {
 				get value() {
 					return level();
 				},
 				onChange: setLevel
 			}), _el$5);
-			Q$1(_el$3, pt(TextField, {
+			Q$1(_el$3, pt$1(TextField, {
 				label: "Search",
 				get value() {
 					return text();
 				},
 				onChange: setText
 			}), _el$5);
-			Q$1(_el$5, pt(Button$1, {
+			Q$1(_el$5, pt$1(Button$1, {
 				onPress: () => setOpen(true),
 				children: "Delete"
 			}), null);
-			Q$1(_el$5, pt(Button$1, {
+			Q$1(_el$5, pt$1(Button$1, {
 				variant: "plain",
 				children: "Later"
 			}), null);
-			Q$1(_el$3, pt(Dialog, {
+			Q$1(_el$3, pt$1(Dialog, {
 				get open() {
 					return open();
 				},
@@ -12316,7 +12439,7 @@
 		})())(Ve$1(_tpl$2$4));
 	}
 	// src/screens/frames.tsx
-	var _tpl$1$14 = /*@__PURE__*/ Be$1([
+	var _tpl$1$15 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12360,39 +12483,39 @@
 		});
 		onCleanup(() => cancelAnimationFrame(frame));
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = at("h$text", {
+			var _el$2 = at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			});
-			ht(_el$, _el$2);
+			ht$1(_el$, _el$2);
 			Q$1(_el$2, () => {
 				return `${fps()} fps, ${count} boxes`;
 			});
-			Q$1(_el$, pt(For, {
+			Q$1(_el$, pt$1(For, {
 				get each() {
 					return Array.from({ length: count }, (_, i) => i);
 				},
 				children: (i) => ((_at$2) => (() => {
-					var _el$3 = at("h$view", {
+					var _el$3 = at$1("h$view", {
 						$t: _at$2,
 						$i: 0,
 						height: count > 20 ? 2 : 24
 					});
-					nt(() => ({ translateX: 120 + 100 * Math.sin(t() / 300 + i * .3) }), (_v$, _$p) => {
+					nt$1(() => ({ translateX: 120 + 100 * Math.sin(t() / 300 + i * .3) }), (_v$, _$p) => {
 						lt$1(_el$3, "transform", _v$, _$p);
 					});
 					return _el$3;
 				})())(Ve$1(_tpl$2$3))
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$14));
+		})())(Ve$1(_tpl$1$15));
 	}
 	// src/screens/springs.tsx
-	var _tpl$1$13 = /*@__PURE__*/ Be$1([
+	var _tpl$1$14 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12443,10 +12566,10 @@
 	}], 1);
 	function SpringsScreen() {
 		const [pressed, setPressed] = createSignal(false);
-		const [scale] = Ct(() => pressed() ? 1.2 : 1, xt);
+		const [scale] = Yt(() => pressed() ? 1.2 : 1, Kt);
 		const [open, setOpen] = createSignal(false);
-		const [t] = Ct(() => open() ? 1 : 0);
-		const [x, setX] = Ct(0);
+		const [t] = Yt(() => open() ? 1 : 0);
+		const [x, setX] = Yt(0);
 		const [steps, setSteps] = createSignal("");
 		const run = async () => {
 			setSteps("right");
@@ -12456,66 +12579,66 @@
 			setSteps("done");
 		};
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0
 			});
-			var _el$2 = at("h$view", {
+			var _el$2 = at$1("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = at("h$text", {
+			var _el$3 = at$1("h$text", {
 				$t: _at$1,
 				$i: 2
 			});
-			var _el$4 = at("h$text", {
+			var _el$4 = at$1("h$text", {
 				$t: _at$1,
 				$i: 3
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$3);
-			ht(_el$, _el$4);
-			Q$1(_el$, pt(lt, {
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$3);
+			ht$1(_el$, _el$4);
+			Q$1(_el$, pt$1(Pt, {
 				testId: "bubble",
 				onPressedChange: setPressed,
 				get children() {
 					return ((_at$2) => (() => {
-						var _el$5 = at("h$view", {
+						var _el$5 = at$1("h$view", {
 							$t: _at$2,
 							$i: 0
 						});
-						nt(() => ({ scale: scale() }), (_v$, _$p) => {
+						nt$1(() => ({ scale: scale() }), (_v$, _$p) => {
 							lt$1(_el$5, "transform", _v$, _$p);
 						});
 						return _el$5;
 					})())(Ve$1(_tpl$2$2));
 				}
 			}), _el$2);
-			Q$1(_el$, pt(lt, {
+			Q$1(_el$, pt$1(Pt, {
 				testId: "toggle",
 				onPress: () => setOpen((o) => !o),
 				get children() {
 					return ((_at$3) => (() => {
-						var _el$6 = at("h$view", {
+						var _el$6 = at$1("h$view", {
 							$t: _at$3,
 							$i: 0
 						});
-						var _el$7 = at("h$text", {
+						var _el$7 = at$1("h$text", {
 							$t: _at$3,
 							$i: 1
 						});
-						ht(_el$6, _el$7);
+						ht$1(_el$6, _el$7);
 						Q$1(_el$7, () => {
 							return open() ? "On" : "Off";
 						});
-						nt(() => {
+						nt$1(() => {
 							return {
 								e: {
-									color: Ot(t(), "#e5e7eb", "#16a34a"),
+									color: nn(t(), "#e5e7eb", "#16a34a"),
 									borderRadius: 12
 								},
-								t: { translateX: Z(t(), 0, 40) },
-								a: Ot(t(), "#111827", "#ffffff")
+								t: { translateX: $(t(), 0, 40) },
+								a: nn(t(), "#111827", "#ffffff")
 							};
 						}, ({ e, t, a }, _p$) => {
 							e !== _p$?.e && lt$1(_el$6, "decoration", e, _p$?.e);
@@ -12526,7 +12649,7 @@
 					})())(Ve$1(_tpl$3$1));
 				}
 			}), _el$2);
-			Q$1(_el$2, pt(For, {
+			Q$1(_el$2, pt$1(For, {
 				each: [
 					0,
 					1,
@@ -12535,32 +12658,32 @@
 					4
 				],
 				children: (i) => {
-					const [y] = Ct(0, {
+					const [y] = Yt(0, {
 						from: 40,
 						delay: i * .05
 					});
 					return ((_at$4) => (() => {
-						var _el$8 = at("h$view", {
+						var _el$8 = at$1("h$view", {
 							$t: _at$4,
 							$i: 0
 						});
-						nt(() => ({ translateY: y() }), (_v$, _$p) => {
+						nt$1(() => ({ translateY: y() }), (_v$, _$p) => {
 							lt$1(_el$8, "transform", _v$, _$p);
 						});
 						return _el$8;
 					})())(Ve$1(_tpl$4$1));
 				}
 			}));
-			Q$1(_el$, pt(lt, {
+			Q$1(_el$, pt$1(Pt, {
 				testId: "run",
 				onPress: run,
 				get children() {
 					return ((_at$5) => (() => {
-						var _el$9 = at("h$view", {
+						var _el$9 = at$1("h$view", {
 							$t: _at$5,
 							$i: 0
 						});
-						nt(() => ({ translateX: x() }), (_v$, _$p) => {
+						nt$1(() => ({ translateX: x() }), (_v$, _$p) => {
 							lt$1(_el$9, "transform", _v$, _$p);
 						});
 						return _el$9;
@@ -12572,10 +12695,10 @@
 				return `${C$1.size().width} x ${C$1.size().height}, ${C$1.orientation()}`;
 			});
 			return _el$;
-		})())(Ve$1(_tpl$1$13));
+		})())(Ve$1(_tpl$1$14));
 	}
 	// src/screens/heroine.tsx
-	var _tpl$1$12 = /*@__PURE__*/ Be$1(["view", { "layout": {
+	var _tpl$1$13 = /*@__PURE__*/ Be$1(["view", { "layout": {
 		"justify": "center",
 		"align": "center"
 	} }], 1);
@@ -12614,22 +12737,22 @@
 		"#f59e0b"
 	];
 	function HeroineScreen() {
-		const nav = tt();
-		const open = (color) => nav.push(heroinePage({ child: () => pt(DragDismissable, { get children() {
+		const nav = pt();
+		const open = (color) => nav.push(heroinePage({ child: () => pt$1(DragDismissable, { get children() {
 			return ((_at$1) => (() => {
-				var _el$ = at("h$view", {
+				var _el$ = at$1("h$view", {
 					$t: _at$1,
 					$i: 0,
 					width: Infinity,
 					height: Infinity
 				});
-				Q$1(_el$, pt(Heroine, {
+				Q$1(_el$, pt$1(Heroine, {
 					tag: color,
 					get motion() {
 						return CupertinoMotion.bouncy();
 					},
 					get children() {
-						return ((_at$2) => at("h$view", {
+						return ((_at$2) => at$1("h$view", {
 							$t: _at$2,
 							$i: 0,
 							decoration: {
@@ -12640,31 +12763,31 @@
 					}
 				}));
 				return _el$;
-			})())(Ve$1(_tpl$1$12));
+			})())(Ve$1(_tpl$1$13));
 		} }) }));
 		return ((_at$3) => (() => {
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$3,
 				$i: 0
 			});
-			var _el$4 = at("h$view", {
+			var _el$4 = at$1("h$view", {
 				$t: _at$3,
 				$i: 1
 			});
-			ht(_el$3, _el$4);
-			Q$1(_el$4, pt(For, {
+			ht$1(_el$3, _el$4);
+			Q$1(_el$4, pt$1(For, {
 				each: colors,
-				children: (color) => pt(lt, {
+				children: (color) => pt$1(Pt, {
 					testId: `heroine-${color}`,
 					onPress: () => open(color),
 					get children() {
-						return pt(Heroine, {
+						return pt$1(Heroine, {
 							tag: color,
 							get motion() {
 								return CupertinoMotion.bouncy();
 							},
 							get children() {
-								return ((_at$4) => at("h$view", {
+								return ((_at$4) => at$1("h$view", {
 									$t: _at$4,
 									$i: 0,
 									decoration: {
@@ -12681,7 +12804,7 @@
 		})())(Ve$1(_tpl$3));
 	}
 	// src/screens/home.tsx
-	var _tpl$1$11 = /*@__PURE__*/ Be$1([
+	var _tpl$1$12 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": { "direction": "vertical" } },
 		[
@@ -12710,86 +12833,86 @@
 		]
 	], 6);
 	function HomeScreen() {
-		const nav = tt();
+		const nav = pt();
 		p("benchFrames", ({ count }) => {
-			if (count) nav.push(() => pt(FramesScreen, { count }));
+			if (count) nav.push(() => pt$1(FramesScreen, { count }));
 			else nav.pop();
 		});
 		p("benchPing", () => Date.now());
 		return ((_at$1) => (() => {
-			var _el$ = at("h$scrollView", {
+			var _el$ = at$1("h$scrollView", {
 				$t: _at$1,
 				$i: 0
 			});
-			ht(_el$, at("h$view", {
+			ht$1(_el$, at$1("h$view", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "counter",
-				onTap: () => nav.push(() => pt(CounterScreen, {}))
+				onTap: () => nav.push(() => pt$1(CounterScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "textField",
-				onTap: () => nav.push(() => pt(TextFieldScreen, {}))
+				onTap: () => nav.push(() => pt$1(TextFieldScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "icon",
-				onTap: () => nav.push(() => pt(IconScreen, {}))
+				onTap: () => nav.push(() => pt$1(IconScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "list",
-				onTap: () => nav.push(() => pt(ListScreen, {}))
+				onTap: () => nav.push(() => pt$1(ListScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "builder",
-				onTap: () => nav.push(() => pt(BuilderScreen, {}))
+				onTap: () => nav.push(() => pt$1(BuilderScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "scrollController",
-				onTap: () => nav.push(() => pt(ScrollScreen, {}))
+				onTap: () => nav.push(() => pt$1(ScrollScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "core widgets",
-				onTap: () => nav.push(() => pt(CoreScreen, {}))
+				onTap: () => nav.push(() => pt$1(CoreScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "material",
-				onTap: () => nav.push(() => pt(MaterialScreen, {}))
+				onTap: () => nav.push(() => pt$1(MaterialScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "cupertino",
-				onTap: () => nav.push(() => pt(CupertinoScreen, {}))
+				onTap: () => nav.push(() => pt$1(CupertinoScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "adaptive",
-				onTap: () => nav.push(() => pt(AdaptiveScreen, {}))
+				onTap: () => nav.push(() => pt$1(AdaptiveScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "animation frames",
-				onTap: () => nav.push(() => pt(FramesScreen, {}))
+				onTap: () => nav.push(() => pt$1(FramesScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "springs",
-				onTap: () => nav.push(() => pt(SpringsScreen, {}))
+				onTap: () => nav.push(() => pt$1(SpringsScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "heroine",
-				onTap: () => nav.push(() => pt(HeroineScreen, {}))
+				onTap: () => nav.push(() => pt$1(HeroineScreen, {}))
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "routes",
-				onTap: () => nav.push(routes["/users"])
+				onTap: () => nav.push("/users")
 			}), null);
-			Q$1(_el$, pt(MenuItem, {
+			Q$1(_el$, pt$1(MenuItem, {
 				label: "tabs",
-				onTap: () => nav.push(routes["/tabs/_layout"])
+				onTap: () => nav.push("/tabs")
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$11));
+		})())(Ve$1(_tpl$1$12));
 	}
 	// src/app/settings.tsx
-	var _tpl$1$10 = /*@__PURE__*/ Be$1([
+	var _tpl$1$11 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12812,27 +12935,27 @@
 		]
 	], 3);
 	function Settings() {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Button, {
+			Q$1(_el$, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Done"
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$10));
+		})())(Ve$1(_tpl$1$11));
 	}
-	// src/app/share/_layout.tsx
-	var _tpl$1$9 = /*@__PURE__*/ Be$1([
+	// src/app/share.tsx
+	var _tpl$1$10 = /*@__PURE__*/ Be$1([
 		"flutter_FadeTransition",
 		0,
 		["flutter_ScaleTransition", 0]
@@ -12861,42 +12984,107 @@
 		],
 		["view", { "flex": 1 }]
 	], 5);
-	var page = (child) => M({
+	var page = (child) => Q({
 		child,
 		transition: (content, { animation }) => ((_at$1) => (() => {
-			var _el$ = at("h$flutter_FadeTransition", {
+			var _el$ = at$1("h$flutter_FadeTransition", {
 				$t: _at$1,
 				$i: 0,
 				opacity: animation
 			});
-			var _el$2 = at("h$flutter_ScaleTransition", {
+			var _el$2 = at$1("h$flutter_ScaleTransition", {
 				$t: _at$1,
 				$i: 1,
 				scale: animation
 			});
-			ht(_el$, _el$2);
+			ht$1(_el$, _el$2);
 			Q$1(_el$2, content);
 			return _el$;
-		})())(Ve$1(_tpl$1$9))
+		})())(Ve$1(_tpl$1$10))
 	});
-	function Share(props) {
+	function Share() {
 		return ((_at$2) => (() => {
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$2,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			var _el$4 = at("h$view", {
+			var _el$4 = at$1("h$view", {
 				$t: _at$2,
 				$i: 4
 			});
-			ht(_el$3, _el$4);
-			Q$1(_el$4, () => {
-				return props.children;
-			});
+			ht$1(_el$3, _el$4);
+			Q$1(_el$4, pt$1(Tt, {}));
 			return _el$3;
 		})())(Ve$1(_tpl$2));
+	}
+	// src/app/tabs.tsx
+	var _tpl$1$9 = /*@__PURE__*/ Be$1([
+		"view",
+		{ "layout": { "direction": "vertical" } },
+		["view", { "flex": 1 }],
+		["view", {
+			"layout": {
+				"direction": "horizontal",
+				"justify": "spaceAround"
+			},
+			"padding": 16,
+			"decoration": { "color": "#F3F4F6" }
+		}]
+	], 3);
+	var tabs = [{
+		index: "/tabs",
+		label: "Feed tab"
+	}, {
+		index: "/tabs/profile",
+		label: "Profile tab"
+	}];
+	function TabsPage() {
+		const page = mt();
+		return ((_at$1) => (() => {
+			var _el$ = at$1("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$2 = at$1("h$view", {
+				$t: _at$1,
+				$i: 1
+			});
+			var _el$3 = at$1("h$view", {
+				$t: _at$1,
+				$i: 2
+			});
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$3);
+			Q$1(_el$2, pt$1(Et, { get children() {
+				return pt$1(For, {
+					each: tabs,
+					children: (t) => pt$1(Tt, { get index() {
+						return t.index;
+					} })
+				});
+			} }));
+			Q$1(_el$3, pt$1(For, {
+				each: tabs,
+				children: (t) => pt$1(Pt, {
+					onPress: () => page.show(t.index),
+					get children() {
+						var _el$4 = at$1("text");
+						Q$1(_el$4, () => {
+							return t.label;
+						});
+						nt$1(() => page.active() === t.index ? 700 : 400, (_v$, _$p) => {
+							lt$1(_el$4, "fontWeight", _v$, _$p);
+						});
+						return _el$4;
+					}
+				})
+			}));
+			return _el$;
+		})())(Ve$1(_tpl$1$9));
 	}
 	// src/app/share/contact.tsx
 	var _tpl$1$8 = /*@__PURE__*/ Be$1([
@@ -12916,19 +13104,19 @@
 		]
 	], 3);
 	function Contact() {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Button, {
+			Q$1(_el$, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}), null);
@@ -12953,84 +13141,31 @@
 		]
 	], 3);
 	function ShareHome() {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/share/contact"]),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/share/contact"),
 				children: "Pick contact"
 			}), null);
-			Q$1(_el$, pt(Button, {
+			Q$1(_el$, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Close"
 			}), null);
 			return _el$;
 		})())(Ve$1(_tpl$1$7));
 	}
-	// src/app/tabs/_layout.tsx
+	// src/app/tabs/index.tsx
 	var _tpl$1$6 = /*@__PURE__*/ Be$1([
-		"view",
-		{ "layout": { "direction": "vertical" } },
-		["view", { "flex": 1 }],
-		["view", {
-			"layout": {
-				"direction": "horizontal",
-				"justify": "spaceAround"
-			},
-			"padding": 16,
-			"decoration": { "color": "#F3F4F6" }
-		}]
-	], 3);
-	function Tabs(props) {
-		const t = Ye();
-		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
-				$t: _at$1,
-				$i: 0,
-				width: Infinity,
-				height: Infinity
-			});
-			var _el$2 = at("h$view", {
-				$t: _at$1,
-				$i: 1
-			});
-			var _el$3 = at("h$view", {
-				$t: _at$1,
-				$i: 2
-			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$3);
-			Q$1(_el$2, () => {
-				return props.children;
-			});
-			Q$1(_el$3, pt(For, {
-				each: ["Feed tab", "Profile tab"],
-				children: (label, i) => pt(lt, {
-					onPress: () => t.select(i()),
-					get children() {
-						var _el$4 = at("text");
-						Q$1(_el$4, label);
-						nt(() => t.index() === i() ? 700 : 400, (_v$, _$p) => {
-							lt$1(_el$4, "fontWeight", _v$, _$p);
-						});
-						return _el$4;
-					}
-				})
-			}));
-			return _el$;
-		})())(Ve$1(_tpl$1$6));
-	}
-	// src/app/tabs/feed/index.tsx
-	var _tpl$1$5 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -13053,74 +13188,35 @@
 		]
 	], 3);
 	function Feed() {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/tabs/feed/post/[id]"], { id: "1" }),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/tabs/post/1"),
 				children: "Open post"
 			}), null);
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/tabs/video/[id]"], { id: "7" }),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/tabs/video/7"),
 				children: "Open video"
 			}), null);
-			return _el$;
-		})())(Ve$1(_tpl$1$5));
-	}
-	// src/app/tabs/feed/post/[id].tsx
-	var _tpl$1$4 = /*@__PURE__*/ Be$1([
-		"view",
-		{
-			"layout": {
-				"direction": "vertical",
-				"gap": 12
-			},
-			"padding": {
-				"horizontal": 16,
-				"top": 48
-			},
-			"decoration": { "color": "#FFFFFF" }
-		},
-		["text", {
-			"fontSize": 24,
-			"fontWeight": 700
-		}]
-	], 2);
-	function Post(props) {
-		const nav = tt();
-		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
-				$t: _at$1,
-				$i: 0,
-				width: Infinity,
-				height: Infinity
-			});
-			var _el$2 = at("h$text", {
-				$t: _at$1,
-				$i: 1
-			});
-			ht(_el$, _el$2);
-			Q$1(_el$2, () => {
-				return `Post ${props.id}`;
-			});
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.pop(),
-				children: "Back"
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/tabs/profile/edit"),
+				children: "Edit profile"
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$4));
+		})())(Ve$1(_tpl$1$6));
 	}
 	// src/app/tabs/profile.tsx
-	var _tpl$1$3 = /*@__PURE__*/ Be$1([
+	var _tpl$1$5 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -13143,25 +13239,111 @@
 		]
 	], 3);
 	function Profile() {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			ht(_el$, at("h$text", {
+			ht$1(_el$, at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			}));
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/tabs/video/[id]"], { id: "8" }),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/tabs/video/8"),
 				children: "Open video"
 			}), null);
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/settings"]),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/settings"),
 				children: "Settings"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$5));
+	}
+	// src/app/tabs/post/[id].tsx
+	var _tpl$1$4 = /*@__PURE__*/ Be$1([
+		"view",
+		{
+			"layout": {
+				"direction": "vertical",
+				"gap": 12
+			},
+			"padding": {
+				"horizontal": 16,
+				"top": 48
+			},
+			"decoration": { "color": "#FFFFFF" }
+		},
+		["text", {
+			"fontSize": 24,
+			"fontWeight": 700
+		}]
+	], 2);
+	function Post(props) {
+		const nav = pt();
+		return ((_at$1) => (() => {
+			var _el$ = at$1("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$2 = at$1("h$text", {
+				$t: _at$1,
+				$i: 1
+			});
+			ht$1(_el$, _el$2);
+			Q$1(_el$2, () => {
+				return `Post ${props.id}`;
+			});
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$4));
+	}
+	// src/app/tabs/profile/edit.tsx
+	var _tpl$1$3 = /*@__PURE__*/ Be$1([
+		"view",
+		{
+			"layout": {
+				"direction": "vertical",
+				"gap": 12
+			},
+			"padding": {
+				"horizontal": 16,
+				"top": 48
+			},
+			"decoration": { "color": "#FFFFFF" }
+		},
+		[
+			"text",
+			{
+				"fontSize": 24,
+				"fontWeight": 700
+			},
+			"Editing profile"
+		]
+	], 3);
+	function EditProfile() {
+		const nav = pt();
+		return ((_at$1) => (() => {
+			var _el$ = at$1("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			ht$1(_el$, at$1("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
 			}), null);
 			return _el$;
 		})())(Ve$1(_tpl$1$3));
@@ -13186,27 +13368,31 @@
 		}]
 	], 2);
 	function Video(props) {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			var _el$2 = at("h$text", {
+			var _el$2 = at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			});
-			ht(_el$, _el$2);
+			ht$1(_el$, _el$2);
 			Q$1(_el$2, () => {
 				return `Video ${props.id}`;
 			});
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/tabs/feed/post/[id]"], { id: props.id }),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push(`/tabs/post/${props.id}`),
 				children: "Post about it"
 			}), null);
-			Q$1(_el$, pt(Button, {
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push(`/tabs/video/${Number(props.id) + 1}`),
+				children: "Next video"
+			}), null);
+			Q$1(_el$, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}), null);
@@ -13240,27 +13426,27 @@
 	], 2);
 	var parse = { id: Number };
 	function User(props) {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			var _el$2 = at("h$text", {
+			var _el$2 = at$1("h$text", {
 				$t: _at$1,
 				$i: 1
 			});
-			ht(_el$, _el$2);
+			ht$1(_el$, _el$2);
 			Q$1(_el$2, () => {
 				return `User ${people[props.id]}`;
 			});
-			Q$1(_el$, pt(Button, {
-				onTap: () => nav.push(routes["/share/_layout"]),
+			Q$1(_el$, pt$1(Button, {
+				onTap: () => nav.push("/share"),
 				children: "Share"
 			}), null);
-			Q$1(_el$, pt(Button, {
+			Q$1(_el$, pt$1(Button, {
 				onTap: () => nav.pop(),
 				children: "Back"
 			}), null);
@@ -13290,134 +13476,105 @@
 		["view", { "padding": 16 }]
 	], 5);
 	function Users() {
-		const nav = tt();
+		const nav = pt();
 		return ((_at$1) => (() => {
-			var _el$ = at("h$view", {
+			var _el$ = at$1("h$view", {
 				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			var _el$2 = at("h$view", {
+			var _el$2 = at$1("h$view", {
 				$t: _at$1,
 				$i: 1
 			});
-			var _el$3 = at("h$view", {
+			var _el$3 = at$1("h$view", {
 				$t: _at$1,
 				$i: 4
 			});
-			ht(_el$, _el$2);
-			ht(_el$, _el$3);
-			Q$1(_el$, pt(For, {
+			ht$1(_el$, _el$2);
+			ht$1(_el$, _el$3);
+			Q$1(_el$, pt$1(For, {
 				each: people,
-				children: (name, i) => pt(MenuItem, {
+				children: (name, i) => pt$1(MenuItem, {
 					label: name,
-					onTap: () => nav.push(routes["/users/[id]"], { id: i() })
+					onTap: () => nav.push(`/users/${i()}`)
 				})
 			}), _el$3);
-			Q$1(_el$3, pt(Button, {
+			Q$1(_el$3, pt$1(Button, {
 				onTap: () => nav.go("/share/contact"),
 				children: "Open /share/contact"
 			}));
 			return _el$;
 		})())(Ve$1(_tpl$1));
 	}
-	// fuse/routes.tsx
-	var r0 = ke({
+	ke({
 		path: "/",
 		component: HomeScreen
 	});
-	var r1 = ke({
+	ke({
 		path: "/settings",
-		parent: r0,
 		component: Settings
 	});
 	var r2 = ke({
 		path: "/share",
-		parent: r0,
-		navigator: "stack",
 		page,
 		component: Share
 	});
 	var r3 = ke({
+		path: "/tabs",
+		component: TabsPage
+	});
+	ke({
 		path: "/share/contact",
-		parent: r2,
+		in: r2,
 		component: Contact
 	});
-	var r4 = ke({
+	ke({
 		path: "/share",
-		parent: r2,
+		in: r2,
 		component: ShareHome
 	});
-	var r6 = ke({
-		path: "/tabs/feed",
+	ke({
+		path: "/tabs",
+		in: r3,
 		component: Feed
 	});
-	var r8 = ke({
+	ke({
 		path: "/tabs/profile",
+		in: r3,
 		component: Profile
 	});
-	var r5 = ke({
-		path: "/tabs",
-		parent: r0,
-		navigator: Oe(r6, r8),
-		component: Tabs
-	});
-	var r7 = ke({
-		path: "/tabs/feed/post/:id",
-		parent: r6,
+	ke({
+		path: "/tabs/post/:id",
+		in: r3,
 		component: Post
 	});
-	var r9 = ke({
+	ke({
+		path: "/tabs/profile/edit",
+		in: r3,
+		component: EditProfile
+	});
+	ke({
 		path: "/tabs/video/:id",
-		parent: r5,
+		in: r3,
 		component: Video
 	});
-	var r11 = ke({
+	ke({
+		path: "/users/:id",
+		parse,
+		component: User
+	});
+	ke({
 		path: "/users",
-		parent: r0,
 		component: Users
 	});
-	/** The app's routes, by file: `routes["/users/[id]"]`. */
-	var routes = {
-		"/": r0,
-		"/settings": r1,
-		"/share/_layout": r2,
-		"/share/contact": r3,
-		"/share": r4,
-		"/tabs/_layout": r5,
-		"/tabs/feed": r6,
-		"/tabs/feed/post/[id]": r7,
-		"/tabs/profile": r8,
-		"/tabs/video/[id]": r9,
-		"/users/[id]": ke({
-			path: "/users/:id",
-			parent: r11,
-			parse,
-			component: User
-		}),
-		"/users": r11
-	};
-	/** The app's navigator: it opens on the route at `/`. */
-	function Routes(props) {
-		return pt(Y, ut({ initialPage: r0 }, props));
+	/** The app: `src/app.tsx`, which draws the app's own stack. */
+	function FileRoutes() {
+		return pt$1(App, {});
 	}
 	// src/index.tsx
-	var App = () => {
-		const heroine = createHeroineController();
-		return pt(AdaptiveApp, {
-			title: "solid-fuse demo",
-			theme: { seedColor: "#2563eb" },
-			themeMode: "light",
-			get platform() {
-				return platform();
-			},
-			get children() {
-				return pt(Routes, { observers: [heroine] });
-			}
-		});
-	};
-	mt(App);
+	mt$1(() => pt$1(FileRoutes, {}));
 })();
 
 //# sourceMappingURL=bundle.js.map

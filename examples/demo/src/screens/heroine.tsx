@@ -1,5 +1,5 @@
 import { For } from "solid-js";
-import { Pressable, Text, View, useNavigation } from "solid-fuse";
+import { Pressable, Text, View, useNav } from "solid-fuse";
 import { CupertinoMotion, DragDismissable, Heroine, heroinePage } from "@solid-fuse/heroine";
 
 const colors = ["#2563eb", "#db2777", "#16a34a", "#f59e0b"] as const;
@@ -8,7 +8,7 @@ type Tile = (typeof colors)[number];
 // heroine: tiles fly on a spring into a page you can drag away. The app's
 // Navigator has the HeroineController as an observer (src/index.tsx).
 export function HeroineScreen() {
-  const nav = useNavigation();
+  const nav = useNav();
   const open = (color: Tile) =>
     nav.push(
       heroinePage({

@@ -2,7 +2,7 @@ import { transitionProp, type PageConfig, type Transition } from "solid-fuse";
 
 export type HeroinePageProps = {
   child: () => JSX.Element;
-  /** Names the page for `nav.popUntil(name)`. */
+  /** Names the page: Flutter's `Page.name`. */
   name?: string;
   /** Transition length in ms. Default 300. */
   duration?: number;

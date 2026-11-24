@@ -334,8 +334,8 @@ void main() {
     await settle(tester);
     expect(Theme.of(tester.element(find.byType(Switch))).platform, TargetPlatform.android);
 
-    // Routes: typed params and parents, a layout with its own stack, and
-    // a link from the OS opening a page with its parents below it.
+    // File routes: typed params, a page holding its own stack, and a link
+    // from the OS opening a page with the pages leading to it below it.
     tester.state<NavigatorState>(find.byType(Navigator).last).pop();
     await pumpUntil(tester, find.text('routes'));
     await settle(tester);
@@ -357,7 +357,7 @@ void main() {
     await tester.tap(find.text('Pick contact'));
     await pumpUntil(tester, find.text('Contact picker'));
     await settle(tester);
-    // The banner is the layout's, around its own Navigator: it stays.
+    // The banner is the sheet's, around its own stack: it stays.
     expect(find.text('Share flow'), findsOneWidget);
     await tester.tap(find.text('Back'));
     await pumpUntil(tester, find.text('Share home'));
@@ -378,7 +378,7 @@ void main() {
     await tester.tap(find.text('Back'));
     await pumpUntil(tester, find.text('Ada'));
     await settle(tester);
-    // nav.go from JS opens the layout with its first page below the link's.
+    // nav.go from JS opens the sheet with its first page below the link's.
     await tester.tap(find.text('Open /share/contact'));
     await pumpUntil(tester, find.text('Contact picker'));
     await settle(tester);
@@ -389,7 +389,7 @@ void main() {
     await pumpUntil(tester, find.text('solid-fuse demos'));
     await settle(tester);
 
-    // Tabs: a stack per tab, and the back button goes to the visible one.
+    // Tabs: a stack per tab, and the back button goes to the one in front.
     Future<void> systemBack() => tester.runAsync(() async {
           final message = const JSONMethodCodec().encodeMethodCall(const MethodCall('popRoute'));
           await tester.binding.defaultBinaryMessenger.handlePlatformMessage('flutter/navigation', message, (_) {});
@@ -405,31 +405,41 @@ void main() {
     await tapAndWait('tabs', 'Open post');
     await tapAndWait('Open post', 'Post 1');
     expect(find.text('Feed tab'), findsOneWidget, reason: 'the bar stays');
-    await tapAndWait('Profile tab', 'Profile');
+    await tapAndWait('Profile tab', 'Settings');
     await tapAndWait('Open video', 'Video 8');
-    // A post belongs to the feed tab: it opens there and shows it.
-    await tapAndWait('Post about it', 'Post 8');
-    // Back pops the visible tab only; the profile tab keeps its video.
+    // A video opens on the tab in front, and so does what it opens.
+    await tapAndWait('Next video', 'Video 9');
+    // Back pops the tab in front only; the feed tab keeps its post.
     await systemBack();
-    await pumpUntil(tester, find.text('Post 1'));
+    await pumpUntil(tester, find.text('Video 8'));
     await settle(tester);
-    await tapAndWait('Profile tab', 'Video 8');
+    await tapAndWait('Feed tab', 'Post 1');
+    await systemBack();
+    await pumpUntil(tester, find.text('Edit profile'));
+    await settle(tester);
+    // A page under the profile tab's first page opens on that tab, and shows it.
+    await tapAndWait('Edit profile', 'Editing profile');
+    await systemBack();
+    await pumpUntil(tester, find.text('Video 8'));
+    await settle(tester);
     await systemBack();
     await pumpUntil(tester, find.text('Settings'));
     await settle(tester);
-    // On a tab's first page, back goes to the first tab.
+    // On another tab's first page, back goes to the first tab.
     await systemBack();
-    await pumpUntil(tester, find.text('Post 1'));
+    await pumpUntil(tester, find.text('Edit profile'));
     await settle(tester);
     await tapAndWait('Profile tab', 'Settings');
-    // Settings sits on the root stack, over the bar.
+    // Nothing holds settings: it opens on the app's stack, over the bar.
     await tapAndWait('Settings', 'Done');
     expect(find.text('Feed tab'), findsNothing);
     await tapAndWait('Done', 'Profile');
-    // Tapping the visible tab again pops it to its first page.
-    await tapAndWait('Feed tab', 'Post 1');
-    await tapAndWait('Feed tab', 'Open post');
+    // Showing the tab in front again pops it to its first page.
+    await tapAndWait('Open video', 'Video 8');
+    await tapAndWait('Profile tab', 'Settings');
+    expect(find.text('Video 8'), findsNothing);
     // Back on the first tab's first page leaves the tabs.
+    await tapAndWait('Feed tab', 'Edit profile');
     await systemBack();
     await pumpUntil(tester, find.text('solid-fuse demos'));
   });

@@ -80,15 +80,23 @@ await runtime.start();
 ## JS entry point
 
 ```tsx title="src/index.tsx"
-import { MaterialApp } from "@solid-fuse/material";
 import { render } from "solid-fuse";
-import { Routes } from "#fuse/routes";
+import { FileRoutes } from "#fuse/routes";
 
-render(() => (
-  <MaterialApp theme={{ seedColor: "#2563eb" }}>
-    <Routes />
-  </MaterialApp>
-));
+render(() => <FileRoutes />);
+```
+
+```tsx title="src/app.tsx"
+import { MaterialApp } from "@solid-fuse/material";
+import { Navigator } from "solid-fuse";
+
+export default function App() {
+  return (
+    <MaterialApp theme={{ seedColor: "#2563eb" }}>
+      <Navigator />
+    </MaterialApp>
+  );
+}
 ```
 
 ```tsx title="src/app/index.tsx"
@@ -104,7 +112,7 @@ export default function Home() {
 }
 ```
 
-Each file in `src/app/` is a screen: `src/app/settings.tsx` opens at `/settings`. See [Navigation](/docs/building/navigation#file-routes).
+`src/app.tsx` is the app; each file in `src/app/` is a page: `src/app/settings.tsx` opens at `/settings`. See [Navigation](/docs/building/navigation#file-routes).
 
 The app root picks the design: `<MaterialApp>` from `@solid-fuse/material`, `<CupertinoApp>` from `@solid-fuse/cupertino`, `<AdaptiveApp>` from `@solid-fuse/adaptive`, or core's `<App>` for no design at all (see [Design packages](/docs/building/design-packages)). `View` and `Text` come from `solid-fuse` and work under any of them. The Solid compiler is pre-configured — you don't need a `vite.config.ts`.
 

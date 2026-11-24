@@ -36,7 +36,7 @@ import { Navigator } from "solid-fuse";
 
 render(() => (
   <MaterialApp theme={{ seedColor: "#2563eb" }} themeMode="system">
-    <Navigator initialPage={() => <Home />} />
+    <Navigator />{/* starts at src/app/index.tsx */}
   </MaterialApp>
 ));
 
@@ -79,14 +79,19 @@ A dialog:
 import { CupertinoApp, PageScaffold, NavigationBar, ListSection, ListTile, CupertinoIcons } from "@solid-fuse/cupertino";
 
 <CupertinoApp theme={{ primaryColor: "#ff2d55" }}>
-  <Navigator initialPage={() => (
+  <Navigator />
+</CupertinoApp>
+
+// src/app/index.tsx
+export default function Settings() {
+  return (
     <PageScaffold navigationBar={<NavigationBar title="Settings" />}>
       <ListSection header="Network">
         <ListTile leading={CupertinoIcons.wifi} title="Wi-Fi" additionalInfo="Home" onPress={openWifi} />
       </ListSection>
     </PageScaffold>
-  )} />
-</CupertinoApp>
+  );
+}
 ```
 
 `SegmentedControl` takes its segments as data: `options={[{ value: "day", label: "Day" }, ...]}`.
@@ -112,7 +117,7 @@ import { AdaptiveApp, Switch, Dialog } from "@solid-fuse/adaptive";
 const [platform, setPlatform] = createSignal<TargetPlatform>();
 
 <AdaptiveApp theme={{ seedColor: "#2563eb" }} platform={platform()}>
-  <Navigator initialPage={() => <Home />} />
+  <Navigator />
 </AdaptiveApp>
 
 // somewhere in a debug menu

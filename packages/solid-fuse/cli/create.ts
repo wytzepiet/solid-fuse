@@ -93,7 +93,7 @@ function copyTemplate(from: string, to: string, design: Design, vars: Record<str
     recursive: true,
     filter: (src) => !/[\\/](\.git|node_modules)$/.test(src),
   });
-  // One source file per design: src/index.<design>.tsx → src/index.tsx, and
+  // One source file per design: src/app.<design>.tsx → src/app.tsx, and
   // so on in src/app.
   const pick = (dir: string) => {
     for (const f of readdirSync(dir)) {

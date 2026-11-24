@@ -148,7 +148,7 @@ const [scale] = createSpring(() => (pressed() ? 1.2 : 1), bouncy);
         `const [platform, setPlatform] = createSignal<TargetPlatform>();
 
 <AdaptiveApp theme={{ seedColor: "#ff8a2a" }} platform={platform()}>
-  <Navigator initialPage={() => <Settings />} />
+  <Navigator />
 </AdaptiveApp>
 
 // in Settings
