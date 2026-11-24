@@ -67,6 +67,9 @@ describe("addresses", () => {
     expect(matchAddress("/video/7")?.params).toEqual({ id: 7 });
     expect(matchAddress("app://host/search/p/2?x=1")?.params).toEqual({ id: 2, x: "1" });
     expect(addressOf(R.Edit, { id: 4 })).toBe("/search/p/4/edit");
+    // Other plain params go in the query, so the address opens the same page.
+    expect(addressOf(R.Video, { id: 7, from: "feed", n: 2, f: () => {} } as any)).toBe("/video/7?from=feed&n=2");
+    expect(matchAddress("/video/7?from=feed&n=2")?.params).toEqual({ id: 7, from: "feed", n: "2" });
   });
 
   test("a parse that throws doesn't match: the next page gets a go", () => {

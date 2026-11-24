@@ -203,12 +203,23 @@ export function parseParams(r: Route, raw: Record<string, string>, own = false):
   return out;
 }
 
-/** The address of a route with these params: `addressOf(User, { id: 42 })` is `"/users/42"`. */
+/**
+ * The address of a route with these params: `addressOf(User, { id: 42 })` is
+ * `"/users/42"`. Other params that are strings, numbers or booleans go in the
+ * query, so the address opens the same page: `{ id: 42, tab: "likes" }` is
+ * `"/users/42?tab=likes"`.
+ */
 export function addressOf<P>(r: Route<P, any>, params?: P): string {
   if (r.path === undefined) throw new Error("[Fuse] addressOf: this route has no path");
   const p = (params ?? {}) as Record<string, unknown>;
+  const names = paramNames(r.path);
+  const query = new URLSearchParams();
+  for (const [k, v] of Object.entries(p)) {
+    if (!names.includes(k) && ["string", "number", "boolean"].includes(typeof v)) query.append(k, String(v));
+  }
+  const q = query.size ? `?${query}` : "";
   return (
-    r.path
+    (r.path
       .split("/")
       .map((s) => {
         if (!s.startsWith(":")) return s;
@@ -216,7 +227,7 @@ export function addressOf<P>(r: Route<P, any>, params?: P): string {
         if (v === undefined) throw new Error(`[Fuse] addressOf ${r.path}: missing param ${s.slice(1)}`);
         return encodeURIComponent(String(v));
       })
-      .join("/") || "/"
+      .join("/") || "/") + q
   );
 }
 
