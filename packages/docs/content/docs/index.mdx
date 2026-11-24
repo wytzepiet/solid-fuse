@@ -1,41 +1,23 @@
 ---
-title: What is Fuse?
-description: SolidJS 2.0 inside Flutter, rendering native widgets
+title: What is Solid Fuse?
+description: SolidJS 2.0 inside Flutter, rendering real Flutter widgets
 ---
 
-Fuse lets you write your UI in [SolidJS](https://www.solidjs.com/) and render native [Flutter](https://flutter.dev/) widgets. It's not a webview — your JSX compiles to real Flutter layout, gestures, and navigation via [FJS](https://github.com/fluttercandies/fjs), a high-performance JavaScript runtime built with Rust and powered by QuickJS.
+Solid Fuse lets you write an app in [SolidJS](https://www.solidjs.com/) and TSX, and draws it with [Flutter](https://flutter.dev/). There is no webview. Your JSX becomes real Flutter widgets: Flutter's layout, gestures, text, navigation and renderer, on every platform Flutter runs on.
 
-Signals update widget props. Flutter rebuilds. Events flow back as function calls. The reactive loop is seamless.
-
-Because the native side is just Flutter, the whole [pub.dev](https://pub.dev) ecosystem is yours — drop in a charting, maps, or video package and [wrap it for JSX](/docs/extending/using-packages) in a few lines of Dart.
-
-## Quick taste
-
-A counter app — the JS component and the Dart entry point that boots it:
-
-```tsx title="App.tsx"
+```tsx title="src/app/index.tsx"
 import { createSignal } from "solid-js";
 import { Pressable, Text, View } from "solid-fuse";
 
-export default function App() {
+export default function Home() {
   const [count, setCount] = createSignal(0);
 
   return (
-    <View
-      layout={{ align: "center", justify: "center", expand: true }}
-      padding={24}
-    >
-      <Text fontSize={48} fontWeight={700}>
-        {count()}
-      </Text>
-      <Pressable onPress={() => setCount((c) => c + 1)}>
-        <View
-          padding={{ horizontal: 24, vertical: 12 }}
-          decoration={{ color: "#2563EB", borderRadius: 8 }}
-        >
-          <Text color="#FFFFFF" fontSize={16}>
-            Tap me
-          </Text>
+    <View width={Infinity} height={Infinity} layout={{ align: "center", justify: "center", gap: 16 }}>
+      <Text fontSize={48}>{count()}</Text>
+      <Pressable onPress={() => setCount(count() + 1)}>
+        <View padding={{ horizontal: 20, vertical: 12 }} decoration={{ color: "#2563eb", borderRadius: 8 }}>
+          <Text color="#ffffff">Add one</Text>
         </View>
       </Pressable>
     </View>
@@ -43,30 +25,21 @@ export default function App() {
 }
 ```
 
-```dart title="dart/lib/main.dart"
-import 'package:flutter/widgets.dart';
-import 'package:solid_fuse/solid_fuse.dart';
-import '_generated/fuse_packages.dart';
+That file is a page of an app. A signal changes, the one widget that reads it rebuilds, and Flutter draws the frame.
 
-void main() async {
-  FuseBinding.ensureInitialized();
+## What you get
 
-  final runtime = await FuseRuntime.create();
-  registerFusePackages(runtime);
-  await runtime.start();
+- **Solid decides, Flutter draws.** State, effects and async are Solid 2.0, running in a small JavaScript engine on its own thread. Layout and pixels are Flutter's. Neither is watered down.
+- **All of Flutter, typed.** Every Flutter widget is a component you can import: `import { ListViewBuilder } from "#fuse/flutter"`. A [pub.dev](https://pub.dev) package is one `export` line away, with no wrapper to write. See [All of Flutter from JSX](/docs/flutter/widgets).
+- **No Dart to start.** A new app has one Dart file and you don't edit it. Dart is there when you want it: [your own widgets](/docs/flutter/your-own-dart) cross to JSX the same way Flutter's do.
+- **An agent can run it.** Flutter runs on Linux, so a coding agent on a cloud machine with no screen can start your mobile app, tap through it and look at screenshots. That is built in. See [Agents](/docs/agents).
 
-  runApp(FuseView(runtime: runtime));
-}
-```
-
-That's the entire app. `fuse dev` starts both Vite and Flutter — hot module replacement included.
-
-## What's next
+## Where to go
 
 <Cards>
-  <Card title="Getting Started" href="/docs/getting-started" description="Set up your first Fuse project" />
-  <Card title="UI & Layout" href="/docs/building/ui-and-layout" description="Build interfaces with views, text, and layout" />
-  <Card title="Creating Widgets" href="/docs/extending/creating-widgets" description="Add your own Flutter widgets to Fuse" />
-  <Card title="Using pub.dev packages" href="/docs/extending/using-packages" description="Wrap any Flutter package and use it from JSX" />
-  <Card title="Architecture" href="/docs/architecture" description="How the pipeline works under the hood" />
+  <Card title="Quick start" href="/docs/start/quick-start" description="A running app in a few minutes" />
+  <Card title="How to think about it" href="/docs/start/mental-model" description="The few ideas everything else builds on" />
+  <Card title="Coming from..." href="/docs/start/coming-from" description="Solid 1.x, Flutter, React Native or the web" />
+  <Card title="Layout" href="/docs/build/layout" description="Boxes, rows, columns and filling space" />
+  <Card title="Agents" href="/docs/agents" description="Let an agent run, drive and check your app" />
 </Cards>

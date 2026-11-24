@@ -1,0 +1,67 @@
+---
+title: Coming from...
+description: What carries over from Solid 1.x, Flutter, React Native and the web, and what doesn't
+---
+
+## Solid 1.x
+
+Solid Fuse runs Solid 2.0. The ideas are the same; some APIs changed. The full Solid 2.0 docs ship with the package, in `node_modules/solid-fuse/dist/docs/solid-2.0/`. Start with `MIGRATION.md` there.
+
+| Solid 1.x | Solid 2.0 |
+|---|---|
+| A setter changes what reads return at once | Writes show after the batch flushes (a microtask), or after `flush()` |
+| `createEffect(() => ...)` | Split in two: compute, then apply. Cleanup is returned |
+| `onMount` | `onSettled` |
+| `<Suspense>`, `createResource` | `<Loading>`, async in memos, `isPending` |
+| `<Index>` | `<For keyed={false}>` |
+| `mergeProps`, `splitProps` | `merge`, `omit` |
+| `solid-js/store` | Stores are in `solid-js` |
+| `solid-js/web` | Not used here: `render` comes from `solid-fuse` |
+
+Import reactivity and control flow (`createSignal`, `For`, `Show`) from `solid-js`, and `render` and the components from `solid-fuse`.
+
+## Flutter
+
+You keep Flutter's widgets, layout and packages. You swap the language of the widget tree and the state model.
+
+| Flutter | Solid Fuse |
+|---|---|
+| `Padding(padding: EdgeInsets.all(8), child: Text('Hi'))` | `<Padding padding={8}><Text data="Hi" /></Padding>` from `#fuse/flutter`, or core's `<View padding={8}><Text>Hi</Text></View>` |
+| `setState`, `ChangeNotifier`, providers | Signals. A component function runs once; only what reads a signal updates |
+| `child:` / `children:` | JSX children |
+| `onPressed: () {}` | `onPressed={() => {}}` on generated widgets; `onPress` on core and design components |
+| `MainAxisAlignment.center` | `"center"`: enums are strings |
+| `final c = ScrollController()` + `dispose()` | `const c = createScrollController()`; disposed with its component |
+| `Row` / `Column` | `layout={{ direction: "horizontal" }}` on any element with children. `Row` and `Column` exist too |
+| `Navigator.push(...)` | `nav.push("/settings")`; pages are files in `src/app/` |
+| `main.dart` runs `MaterialApp` | `src/app.tsx` renders `<MaterialApp>`; `main.dart` only starts the runtime |
+| A widget of your own | Write it in Dart as always, export it from `dart/lib/fuse.dart`, use it in JSX |
+
+## React Native
+
+| React Native | Solid Fuse |
+|---|---|
+| Components re-render | Components run once. Read a signal where it's used |
+| `useState`, `useEffect`, `useMemo` | `createSignal`, `createEffect`, `createMemo` |
+| `style={{ ... }}` and Yoga flexbox | Props on the element, and Flutter's layout. A column child does not stretch by default |
+| `flex: 1` | `flex={1}` |
+| `TouchableOpacity` | `<Pressable pressedOpacity={0.6}>` |
+| `FlatList` | `ListViewBuilder` from `#fuse/flutter` |
+| Native modules | A Dart class exported from `fuse.dart`, or a [channel](/docs/flutter/channels) |
+| Native components per platform | Flutter draws every pixel, the same everywhere |
+| Needs a Mac or a device to see iOS | Runs on Linux, headless too, with an iOS look switch |
+
+## The web
+
+There is no DOM: no `window`, `document`, CSS, `className` or HTML elements. `fetch`, `WebSocket`, timers, `URL` and `crypto` are there. See [Data and the JS runtime](/docs/build/data).
+
+| Web | Solid Fuse |
+|---|---|
+| `<div>` | `<View>` |
+| `<span>` | `<Text>`. Bare text in a `View` draws with the default style |
+| `display: flex; gap: 8px` | `layout={{ gap: 8 }}` |
+| `width: 100%` | `width={Infinity}` |
+| `overflow: scroll` | `<ScrollView>` |
+| `onClick` | `<Pressable onPress>` |
+| CSS transitions | [Springs](/docs/build/animation), or Flutter's `AnimatedContainer` |
+| `localStorage` | [`@solid-fuse/secure-storage`](/docs/build/data#storing-data) or a pub.dev package |

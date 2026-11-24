@@ -1,0 +1,76 @@
+---
+title: Drive the app
+description: "fuse drive: tap, type, scroll, take screenshots and read logs in the running app"
+---
+
+`fuse drive` sends a command to the app `fuse dev` is running, on a simulator, a device, the desktop, or [headless](/docs/agents/headless).
+
+```bash
+fuse drive get-interactive-elements      # what's on screen, and where
+fuse drive tap --text "Send code"
+fuse drive enter-text --identifier phone --input "0612345678"
+fuse drive scroll-to --text "Settings"
+fuse drive take-screenshots -o screen.png
+fuse drive get-logs                      # console.log output and errors
+fuse drive set-device-config --platform-brightness dark
+fuse drive hot-restart
+```
+
+`fuse drive help-ai` prints every command, written for agents. Point your agent at it.
+
+## Find elements
+
+By text, which needs nothing from you: `--text "Send code"` finds the element showing that text.
+
+By `testId`, for elements without unique text. Every element takes one, core and generated:
+
+```tsx
+<Pressable testId="submit" onPress={submit}>
+  <Icon icon={Icons.send} />
+</Pressable>
+```
+
+```bash
+fuse drive tap --identifier submit
+```
+
+`testId` is the element's semantics identifier, so Appium and the platform accessibility tools find it by the same id.
+
+## Both platforms
+
+A Linux machine renders the app as Linux does, which is Android's Material look. To check the iOS look too, build the app on `AdaptiveApp` and give it a debug toggle for `platform` ([Previewing the other platform](/docs/build/design-packages#previewing-the-other-platform)), with a `testId`:
+
+```bash
+fuse drive tap --identifier platform-toggle
+fuse drive take-screenshots -o ios.png
+```
+
+## MCP
+
+Agents that prefer MCP get the same commands as tools:
+
+```bash
+claude mcp add fuse -- bunx fuse drive mcp
+```
+
+The agent connects to the URI `fuse dev` saved in `dart/.dart_tool/fuse/drive.json`.
+
+## Recipes
+
+**Check a change.** Screenshot, edit, wait for the reload, screenshot again, read the logs.
+
+```bash
+fuse drive take-screenshots -o before.png
+# edit files; the app hot reloads
+fuse drive take-screenshots -o after.png
+fuse drive get-logs
+```
+
+**Start clean.** State survives a hot reload. `fuse drive hot-restart` starts the app's JS again from nothing.
+
+**Light and dark.**
+
+```bash
+fuse drive set-device-config --platform-brightness dark
+fuse drive take-screenshots -o dark.png
+```

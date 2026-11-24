@@ -1,0 +1,123 @@
+---
+title: All of Flutter from JSX
+description: Every Flutter widget as a typed component, generated from Dart
+---
+
+Every Flutter widget can be a component in your app, with Flutter's own name and props, typed. Nobody wrote wrappers for them: Solid Fuse reads the Dart signatures and generates the component and the Dart code that reads its props.
+
+```tsx
+import { Opacity, Wrap } from "#fuse/flutter";
+
+<Opacity opacity={0.8}>
+  <Wrap spacing={8} runSpacing={8}>
+    <For each={tags()}>{(tag) => <Tag name={tag} />}</For>
+  </Wrap>
+</Opacity>
+```
+
+Core's components (`View`, `Text`...) and the design packages stay the ones to reach for first: they are shaped for JSX. A generated component mirrors Flutter as it is. Use it for everything else.
+
+## What crosses
+
+What crosses to JS is what a `fuse.dart` exports. It is an ordinary Dart library, so Dart's own `export`, `show` and `hide` say what goes in.
+
+- **A design package brings its whole library.** With `@solid-fuse/material` you have all of Material in `#fuse/material_ui`, and all of Flutter's widgets in `#fuse/flutter`. Cupertino the same, in `#fuse/cupertino_ui`.
+- **Your app adds to it** in `dart/lib/fuse.dart`. Create the file if the app has none:
+
+```dart title="dart/lib/fuse.dart"
+export 'package:flutter/widgets.dart';          // all of Flutter's widgets
+export 'package:fl_chart/fl_chart.dart';        // a pub.dev package
+export 'src/badge.dart';                        // your own Dart
+```
+
+Export whole libraries freely: a release build keeps only what the app uses ([below](#release-builds-keep-what-you-use)). The analyzer and your editor check the file, so a misspelled name is an error.
+
+`fuse dev` generates when it starts and again whenever a Dart file under `dart/lib/` changes. The TypeScript reloads at once; restart the app for a new widget's Dart side. Each Dart package becomes a module, `#fuse/<package>`; Flutter's own libraries and `dart:*` are `#fuse/flutter`. `fuse/gen-report.txt` lists every item that crossed, and every one that didn't with the reason.
+
+## From Dart to JSX
+
+| Dart | JSX |
+|---|---|
+| `Padding(padding: ..., child: ...)` | `<Padding padding={...}>...</Padding>` |
+| `child:`, `children:` | JSX children |
+| A positional parameter (`Text('Hi')`) | A prop with its Dart name: `<Text data="Hi" />` |
+| A named constructor (`Image.network`) | Its own component: `ImageNetwork` |
+| A parameter that takes a widget (`appBar:`) | JSX: `appBar={<AppBar />}` |
+| A callback (`onPressed: () {}`) | A function: `onPressed={() => {}}` |
+| An enum (`MainAxisAlignment.center`) | A string: `"center"` |
+| A value (`EdgeInsets.all(8)`) | The same builder, or its [short form](/docs/build/values): `8` |
+| A constant (`Icons.home`) | The same, imported: `Icons.home` |
+| A controller (`ScrollController()`) | [`createScrollController()`](/docs/flutter/controllers) |
+
+## Components
+
+A widget becomes a component with the widget's constructor parameters as props. A named constructor gets its own component (`Image.network` is `ImageNetwork`). A `child` or `children` parameter becomes JSX children. Every other parameter is a prop with its Dart name, positional ones too (`Text`'s text is `data`):
+
+```tsx
+import { Padding, Text, EdgeInsets } from "#fuse/flutter";
+
+<Padding padding={EdgeInsets.symmetric({ horizontal: 8 })}>
+  <Text data="Hello" maxLines={2} />
+</Padding>;
+```
+
+A widget with one `child` takes several children too, laid out like a `View`'s: a column, or what its `layout` prop says (`<Card layout={{ direction: "horizontal", gap: 8 }}>`). Every widget also takes `flex`, its share of a layout's free space (`<Card flex={1}>`), except one with a `flex` parameter of its own (`Expanded`, `Flexible`), which keeps Flutter's meaning.
+
+Some parameters are never props, because Dart supplies them: a `TickerProvider` (`vsync`) gets one from the runtime, and a `BuildContext` (`MediaQuery.removePadding`'s `context`) is the context the widget is built in.
+
+A generic widget is instantiated at its type parameter's bound, `Object?` when it has none, and so is everything generic over that parameter. `DropdownMenu<T>`'s entries take any value:
+
+```tsx
+<DropdownMenu dropdownMenuEntries={[DropdownMenuEntry({ value: { id: 7 }, label: "Seven" })]} />
+```
+
+A prop that takes a widget takes JSX (`appBar={<AppBar title={<Text>Home</Text>} />}`): anything `children` takes, a component, a `<Show>`, a list, text. Nothing (`null`, `false`, an empty list) is Dart's `null`. A callback is a function. A callback that returns a `Future` in Dart can return a Promise, and Dart waits for it. Named arguments of a callback arrive as one object after the others: TextField's `buildCounter` is `(context, { currentLength, maxLength, isFocused })` in Dart and `({ currentLength, maxLength, isFocused }) => ...` in JS.
+
+Some props take a particular kind of widget: Scaffold's `appBar` is a `PreferredSizeWidget`, `DropdownButton`'s `items` are `DropdownMenuItem`s. Give them that element; anything else is an error that names both. The parent gets the widget itself, built where the parent is, so it can read it (an app bar's height). The parent rebuilds when that element changes.
+
+### Builders
+
+A callback that returns a value at once, such as `ListView.builder`'s `itemBuilder`, is called synchronously: Dart waits for JS during the frame. A builder returns JSX, or `null` where Dart takes nothing (the end of a list without `itemCount`):
+
+```tsx
+import { ListViewBuilder } from "#fuse/flutter";
+
+<ListViewBuilder itemCount={items().length} itemBuilder={(index) => <Text>{items()[index].title}</Text>} />;
+```
+
+Each row Flutter builds runs the function in a root of its own, under the component that rendered the list, so context and signals work in it as anywhere else. The row stays reactive, and its root is disposed when Flutter drops the row (it scrolled out, or the list rebuilt). The `BuildContext` argument stays in Dart, so `itemBuilder` gets only `index`.
+
+The function must return without waiting: it can't be `async`, and anything it starts that does wait (a `fetch`) finishes after the row is shown. Keep it short, because the frame waits for it.
+
+## Values with a JS form of their own
+
+A few Dart types have a JS form of their own:
+
+- **Typed data** (`Uint8List`, `Float32List`, `ByteData`, ...) is an `ArrayBuffer` or any view of one (`new Uint8Array(...)`). Dart gives you an `ArrayBuffer`. The bytes cross as they are, not as JSON.
+- **A map with keys that aren't strings, numbers or enums** (`Map<ShortcutActivator, Intent>`) is a list of `[key, value]` pairs.
+- **A parameter whose default Dart keeps private** (FloatingActionButton's `heroTag`) is optional: leave it out and Dart's default applies.
+
+## Release builds keep what you use
+
+`fuse dev` has every exported widget, controller and constant, so a new one works without a Dart rebuild. `fuse build` keeps only what the bundle uses: after bundling, it writes the Dart adapters again for just those, and Flutter's tree shaker drops the rest of the widgets they would have pulled in. Exporting a whole library costs nothing in the release app. On the demo, exporting all of `widgets` and `material_ui` gives a 15 MB `libapp.so` in full and 6 MB with only what it uses.
+
+What counts as used is what the bundler keeps: an element you render, a `createX` you call, a constant you name. A computed access such as `Icons[name]` keeps every member of `Icons`, as it does in any bundle. A component picked at run time by its tag string is not seen.
+
+`fuse dev` and `fuse gen` write the full adapters again.
+
+## What is skipped
+
+Something that can't cross the bridge yet is skipped, not guessed at, and `gen-report.txt` says why. If an optional parameter is skipped, its prop is missing. If a required one is skipped, the whole widget is missing. Not bridged yet:
+
+- Generic callbacks (`Navigator`'s `pageRouteBuilder`, generic over its own `T`).
+- Records, and callbacks whose optional parameters aren't nullable.
+- A controller method or setter that takes a function or a widget.
+
+## The files it writes
+
+- `fuse/<package>.tsx`: one module per Dart package, imported as `#fuse/<package>`. The values of each class (`EdgeInsets`, `Icons`) are in a module of their own next to it, `fuse/<package>/<Class>.tsx`.
+- `fuse/gen-report.txt`: every exported item, and every skipped one with the reason.
+- `dart/lib/_generated/fuse.generated.dart`: the Dart adapters. `registerFusePackages` registers them.
+- `fuse/intrinsics.json` and `fuse/uses.json`: tables for the compile step and for release builds.
+
+All of it is gitignored: every command that needs it writes it again. `fuse gen` runs it on its own. When nothing changed, a run takes under half a second; inside `fuse dev`, about a tenth.

@@ -1,0 +1,46 @@
+---
+title: Platform folders
+description: dart/android, dart/ios and the rest are ordinary Flutter folders, and yours
+---
+
+Each platform has a folder in `dart/`: `android/`, `ios/`, `macos/`, `linux/`, `windows/`. They are Flutter's own, made by `flutter create`. Everything Flutter's docs and a plugin's README say about them applies as written.
+
+## Where they come from
+
+`fuse.config.ts` lists the app's platforms:
+
+```ts title="fuse.config.ts"
+import { defineConfig } from "solid-fuse/config";
+
+export default defineConfig({
+  platforms: ["android", "ios"],
+  org: "com.example",
+});
+```
+
+`fuse dev` and `fuse build` add the folder of a listed platform when it's missing. So do a build for a platform (`fuse build macos`) and `fuse dev --headless` (Linux). `org` is the reverse domain of the bundle id: `com.example` gives `com.example.<pubspec name>`.
+
+**Commit the folder.** From then on it is your code. Solid Fuse never writes to it again.
+
+## What you edit there
+
+| To change | Edit |
+|---|---|
+| App name, bundle id, version | `dart/pubspec.yaml` (version), `ios/Runner/Info.plist`, `android/app/build.gradle.kts` |
+| App icon, launch screen | The platform's asset folders, or a package such as `flutter_launcher_icons` |
+| Permissions | `Info.plist` usage strings, `AndroidManifest.xml` |
+| Deep links | An intent filter on Android, associated domains or a URL scheme on iOS ([Links](/docs/navigate/links-back-restore#links)) |
+| Signing | As in any Flutter app |
+
+## The rest of `dart/`
+
+| Path | |
+|---|---|
+| `dart/pubspec.yaml` | Flutter dependencies, assets, fonts. Yours |
+| `dart/lib/main.dart` | Starts the runtime. Rarely changes ([Dart API](/docs/reference/dart-api)) |
+| `dart/lib/fuse.dart` | What Dart crosses to JS. Yours ([All of Flutter from JSX](/docs/flutter/widgets#what-crosses)) |
+| `dart/lib/_generated/`, `dart/pubspec_overrides.yaml` | Generated. Don't edit, don't commit |
+
+<Callout type="warn" title="Planned">
+Setting the app's name, id, icon and permissions once in `fuse.config.ts`, applied to these folders. Today you edit the folders. Tracked in [Planned](/docs/internals/planned).
+</Callout>

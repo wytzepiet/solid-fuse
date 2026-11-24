@@ -1,0 +1,47 @@
+---
+title: Build and release
+description: fuse build for each platform, what it keeps, and what it passes to Flutter
+---
+
+```bash
+fuse build apk --release
+fuse build ipa
+fuse build macos
+```
+
+`fuse build` bundles your JS, then runs `flutter build` with every argument you gave it. So the targets, flags, signing and store upload are Flutter's: see [Flutter's deployment docs](https://docs.flutter.dev/deployment).
+
+## What it does
+
+1. Links the app's packages and generates the Flutter layer.
+2. Bundles `src/` into one file with Vite and puts it in `dart/assets/js/`.
+3. Writes the Dart adapters again for only what the bundle uses.
+4. Adds the platform folder when it's missing ([Platform folders](/docs/flutter/platform-folders)).
+5. Runs `flutter build`.
+
+## Only what you use
+
+`fuse dev` has every exported widget, so a new one works without a rebuild. A release build keeps what the bundle uses: an element you render, a `createX` you call, a constant you name. Flutter's tree shaker then drops the rest, icon fonts included. On the demo app, exporting all of Flutter's widgets and Material gives a 15 MB `libapp.so` in full and 6 MB shaken.
+
+A computed access such as `Icons[name]` keeps every member of `Icons`. A component picked at run time by a tag string is not seen.
+
+## Starting fast
+
+The app compiles the bundle to QuickJS bytecode the first time it starts and caches it, so later starts skip parsing.
+
+## Only the JS
+
+```bash
+fuse build --js-only
+```
+
+Stops after writing the bundle into `dart/assets/js/`: for when only JS changed and you run `flutter build` yourself.
+
+## Run a release build locally
+
+```bash
+fuse dev --release
+fuse dev --profile
+```
+
+Builds the bundle and runs the app without the dev server, to check speed and size.

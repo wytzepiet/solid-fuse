@@ -1,11 +1,21 @@
 {
   "pages": [
     "index",
-    "getting-started",
-    "architecture",
-    "---Building Your App---",
-    "...building",
-    "---Extending Fuse---",
-    "...extending"
+    "---Start---",
+    "...start",
+    "---Build---",
+    "...build",
+    "---Navigate---",
+    "...navigate",
+    "---Flutter---",
+    "...flutter",
+    "---Agents---",
+    "...agents",
+    "---Ship---",
+    "...ship",
+    "---Reference---",
+    "...reference",
+    "---How it works---",
+    "...internals"
   ]
 }

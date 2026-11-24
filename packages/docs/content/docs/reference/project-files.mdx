@@ -1,0 +1,49 @@
+---
+title: Project files
+description: Every file and folder of an app, who writes it, and whether to commit it
+---
+
+```
+my-app/
+  src/
+    index.tsx
+    app.tsx
+    app/
+  dart/
+    lib/
+      main.dart
+      fuse.dart
+      _generated/
+    assets/js/
+    android/ ios/ ...
+    pubspec.yaml
+    pubspec_overrides.yaml
+  fuse/
+  fuse.config.ts
+  package.json
+  tsconfig.json
+  AGENTS.md
+  CLAUDE.md
+```
+
+| Path | What | Written by | Commit |
+|---|---|---|---|
+| `src/index.tsx` | Starts the app: `render(() => <FileRoutes />)` | You | Yes |
+| `src/app.tsx` | The app root: the design, and the app's `<Navigator>` | You | Yes |
+| `src/app/` | The pages, one file each ([Pages and files](/docs/navigate/pages)) | You | Yes |
+| `fuse.config.ts` | [Config](/docs/reference/config) | You | Yes |
+| `package.json` | npm packages. Fuse packages go here too | You | Yes |
+| `tsconfig.json` | `fuse gen` adds the `#fuse/*` path | You, fuse | Yes |
+| `AGENTS.md`, `CLAUDE.md` | Instructions for coding agents | `fuse create`, then you | Yes |
+| `fuse/` | Generated: `#fuse/flutter` and the rest, `routes.tsx`, `gen-report.txt` | `fuse dev`, `build`, `gen` | No |
+| `dart/pubspec.yaml` | Flutter packages, assets, fonts | You | Yes |
+| `dart/lib/main.dart` | Starts the runtime ([Dart API](/docs/reference/dart-api)) | `fuse create`, rarely you | Yes |
+| `dart/lib/fuse.dart` | What Dart crosses to JS. Optional | You | Yes |
+| `dart/lib/src/` | Your own Dart | You | Yes |
+| `dart/lib/_generated/` | Package registration and generated adapters | `fuse link`, `gen` | No |
+| `dart/pubspec_overrides.yaml` | Paths to the Dart of Fuse packages | `fuse link` | No |
+| `dart/assets/js/` | The built bundle | `fuse build` | No |
+| `dart/android/`, `dart/ios/`... | [Platform folders](/docs/flutter/platform-folders) | `flutter create`, once, then you | Yes |
+| `dart/.dart_tool/fuse/` | The running app's address for `fuse drive`, the headless keyring | `fuse dev` | No |
+
+The generated paths are in the `.gitignore` a new app comes with.

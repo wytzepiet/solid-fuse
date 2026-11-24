@@ -1,0 +1,22 @@
+---
+title: Testing
+description: Planned. What works today for testing a Solid Fuse app
+---
+
+<Callout type="warn" title="Planned">
+There is no test runner for Solid Fuse apps yet. This page says what works today and what is to be built.
+</Callout>
+
+## Today
+
+- **Logic** that doesn't render (stores, data, helpers) is plain TypeScript: test it with `bun test` or Vitest.
+- **The running app**: drive it with [`fuse drive`](/docs/agents/drive) and check screenshots and logs. This works headless, so it runs in CI.
+- **Your own Dart** widgets and classes: `flutter test` in `dart/`, as in any Flutter project.
+- **`testId`** on any element is its accessibility identifier, so Appium, Maestro and Patrol find it too.
+
+## To be built
+
+- [ ] Render a component in a test and assert on it, without a device
+- [ ] A scripted run of the app (`fuse test`): steps, expectations, screenshots compared
+- [ ] Fakes for platform APIs (storage, location...), so a test or a preview runs without them
+- [ ] A recipe for CI

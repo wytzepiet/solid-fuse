@@ -1,0 +1,27 @@
+---
+title: Shorthands
+description: Every short form of a Flutter value
+---
+
+A short form works wherever a prop takes that type or a supertype of it (`padding` takes `EdgeInsetsGeometry`), on core, design and generated components alike. The full builder is always there too. Guide: [Styling and values](/docs/build/values).
+
+| Type | Short form | Means |
+|---|---|---|
+| `Color` | `"#rgb"`, `"#rgba"`, `"#rrggbb"`, `"#rrggbbaa"` | The CSS hex color, alpha last |
+| `Color` | `{ r, g, b, a? }` | `Color.fromRGBO(r, g, b, a)`: 0–255, alpha 0–1 |
+| `EdgeInsets` | `16` | `EdgeInsets.all(16)` |
+| `EdgeInsets` | `{ horizontal, vertical, top, right, bottom, left }` | A side wins over its axis; the rest is 0 |
+| `BorderRadius` | `12` | `BorderRadius.circular(12)` |
+| `BorderRadius` | `{ topLeft, topRight, bottomLeft, bottomRight }` | `BorderRadius.only(...)` |
+| `Radius` | `12` | `Radius.circular(12)` |
+| `Border` | `{ width?, color? }` | `Border.all(...)`: the same side all around |
+| `Gradient` | `{ colors, stops?, begin?, end? }` | A `LinearGradient`, left to right by default |
+| `Alignment` | `"topLeft"`, `"topCenter"`, `"topRight"`, `"centerLeft"`, `"center"`, `"centerRight"`, `"bottomLeft"`, `"bottomCenter"`, `"bottomRight"` | `Alignment.topLeft`... |
+| `FontWeight` | `100`–`900` | `FontWeight.w100`... |
+| `TextDecoration` | `"none"`, `"underline"`, `"overline"`, `"lineThrough"` | |
+| `Offset` | `[dx, dy]` | `Offset(dx, dy)` |
+| `Duration` | `300` | 300 milliseconds |
+| Any enum | `"center"` | The enum value of that name |
+| Any class | `{ ... }` without a builder | Its object short form if it has one, else its unnamed constructor: `decoration={{ color }}` is `BoxDecoration(color:)` |
+
+They are defined in Dart, in solid-fuse's `shorthands.dart`. Only a type's owner gives it short forms, so `padding={{...}}` means the same in every app. To add them for your own types: [Your own Dart](/docs/flutter/your-own-dart#shorthands).

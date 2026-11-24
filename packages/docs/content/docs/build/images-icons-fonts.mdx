@@ -1,0 +1,114 @@
+---
+title: Images, icons and fonts
+description: Network and asset images, icon constants, and adding fonts and files to the app
+---
+
+## Images
+
+Images are Flutter's `Image`. Its named constructors are components of their own:
+
+```tsx
+import { ImageNetwork, ImageAsset } from "#fuse/flutter";
+
+<ImageNetwork src="https://example.com/cat.jpg" width={120} height={120} fit="cover" />
+<ImageAsset name="assets/logo.png" width={48} />
+```
+
+`fit` is Flutter's `BoxFit`: `"cover"`, `"contain"`, `"fill"`... Round the corners by clipping the box around it:
+
+```tsx
+<View decoration={{ borderRadius: 12 }} clipBehavior="antiAlias">
+  <ImageNetwork src={url()} fit="cover" />
+</View>
+```
+
+`loadingBuilder` and `errorBuilder` return what to show meanwhile and on failure.
+
+A design package brings `Image`. In an app without one, add it to `dart/lib/fuse.dart` first: see [All of Flutter from JSX](/docs/flutter/widgets#what-crosses).
+
+## Assets
+
+Files that ship with the app are Flutter assets. List them in `dart/pubspec.yaml`, with paths from `dart/`:
+
+```yaml title="dart/pubspec.yaml"
+flutter:
+  assets:
+    - assets/js/        # the app's bundle: keep this line
+    - assets/logo.png
+```
+
+## Fonts
+
+Fonts are declared the same way, then named in `fontFamily`:
+
+```yaml title="dart/pubspec.yaml"
+flutter:
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+```
+
+```tsx
+<Text fontFamily="Inter" fontWeight={700}>Hello</Text>
+```
+
+To use it everywhere, set it on the app root: `theme={{ fontFamily: "Inter" }}` on `MaterialApp`, `textStyle={{ fontFamily: "Inter" }}` on core's `App`.
+
+Restart the app after changing `pubspec.yaml`.
+
+## Icons
+
+`Icon` draws one glyph. Its `icon` is a constant from a design package: `Icons` from `@solid-fuse/material`, `CupertinoIcons` from `@solid-fuse/cupertino`. The names are Flutter's.
+
+```tsx
+import { Icon } from "solid-fuse";
+import { Icons } from "@solid-fuse/material";
+
+<Icon icon={Icons.search} size={24} color="#111827" />
+```
+
+```tsx
+import { CupertinoIcons } from "@solid-fuse/cupertino";
+
+<Icon icon={CupertinoIcons.heart} />
+```
+
+An icon constant is the Dart constant's name (`"Icons.search"`), not a code point. The bundle keeps only the icons it uses, and `fuse build` keeps only their Dart side, so Flutter's icon tree shaking keeps working: the app ships the glyphs it uses, not the whole font.
+
+### Reactive props
+
+Every prop is reactive.
+
+```tsx
+const [liked, setLiked] = createSignal(false);
+
+<Icon icon={liked() ? Icons.favorite : Icons.favorite_border} color={liked() ? "#EF4444" : "#6B7280"} />
+```
+
+### Icons in other widgets
+
+The design packages' slots that take an icon (`leading`, `prefixIcon`, a button's `icon`) take the constant itself, or any element:
+
+```tsx
+<TextField label="Search" prefixIcon={Icons.search} />
+<ListTile leading={<Icon icon={Icons.wifi} color="#16A34A" />} title="Wi-Fi" />
+```
+
+### Lucide
+
+`@solid-fuse/lucide` wraps the [`flutter_lucide`](https://pub.dev/packages/flutter_lucide) font. Add it to `package.json` and run `fuse link`.
+
+```tsx
+import { LucideIcons } from "@solid-fuse/lucide";
+
+<Icon icon={LucideIcons.heart} />
+```
+
+### Your own icon font
+
+Export your icons from your app's `dart/lib/fuse.dart` as a class of `IconData` constants; [generation](/docs/flutter/widgets) turns them into constants like `Icons`. To share one as a package, copy `packages/lucide`: it is a `fuse.dart` with one `export ... show` line and an `index.ts` that re-exports the generated class.
+
+Props: [Icon](/docs/reference/components#icon).

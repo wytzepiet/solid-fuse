@@ -1,0 +1,145 @@
+---
+title: Layout
+description: Boxes, rows and columns, filling space, layering and scrolling
+---
+
+Every element is a box. Layout is Flutter's, with nothing added: a parent hands its child constraints (the least and most it may be), the child picks a size within them, and the parent places it. There is no CSS.
+
+```tsx
+import { Text, View } from "solid-fuse";
+
+<View padding={16} layout={{ gap: 8 }}>
+  <Text fontSize={18}>Title</Text>
+  <Text>Body</Text>
+</View>
+```
+
+## Rows and columns
+
+Several children are a column. `layout` on the parent says otherwise: a row, a gap, how they align. Every element with children takes it, generated widgets with a single `child` too (`Card`, `Padding`, `DecoratedBox`...), so you rarely need Flutter's `Row` and `Column`. A `<Modal>` among the children takes no part in the layout.
+
+```tsx
+{/* Horizontal row with spacing */}
+<View layout={{ direction: "horizontal", gap: 12 }}>
+  <Text>Left</Text>
+  <Text>Right</Text>
+</View>
+
+{/* Centered content filling available space */}
+<View layout={{ align: "center", justify: "center", expand: true }}>
+  <Text>Centered</Text>
+</View>
+
+{/* Space between items */}
+<View layout={{ justify: "spaceBetween" }}>
+  <Text>Start</Text>
+  <Text>End</Text>
+</View>
+```
+
+### layout
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `direction` | `string` | `"vertical"` | `"horizontal"` or `"vertical"` |
+| `gap` | `number` | `0` | Spacing between children (pixels) |
+| `align` | `string` | `"start"` | Cross-axis: `"start"`, `"center"`, `"end"`, `"stretch"` |
+| `justify` | `string` | `"start"` | Main-axis: `"start"`, `"center"`, `"end"`, `"spaceBetween"`, `"spaceAround"`, `"spaceEvenly"` |
+| `expand` | `boolean` | `false` | Fill available space on main axis |
+
+## Filling the width
+
+Layout follows Flutter: a child of a column takes its own width, not the column's. To make one child fill the cross axis, give it `width={Infinity}` (Flutter's `double.infinity`). To make every child fill it, use `align: "stretch"`; as in Flutter, that overrides the children's own widths.
+
+```tsx
+<View layout={{ gap: 12 }}>
+  <View width={64} height={64} decoration={{ shape: "circle", color: "#F97316" }} />
+  <View width={Infinity} height={48} decoration={{ color: "#F97316", borderRadius: 12 }} />
+  <View width={Infinity}>
+    <Text textAlign="center">Centered in the full width</Text>
+  </View>
+</View>
+```
+
+## flex
+
+`flex` on a child gives it a share of the free space along the layout's main axis, as CSS `flex: 1` and Flutter's `Expanded(flex: 1)` do. Every element takes it, generated widgets too (`<Card flex={1}>`); it means something only inside a layout (an element with several children, a `Row`, a `Column`).
+
+```tsx
+<View layout={{ direction: "horizontal", expand: true }}>
+  <View flex={1} decoration={{ color: "#EF4444" }}>
+    <Text>Takes remaining space</Text>
+  </View>
+  <View width={100} decoration={{ color: "#2563EB" }}>
+    <Text>Fixed 100px</Text>
+  </View>
+</View>
+```
+
+## Sizes
+
+`width`, `height`, `minWidth`, `maxWidth`, `minHeight`, `maxHeight` and `aspectRatio` on a `View` size the box. `Infinity` means "as large as the parent allows". `margin` is space outside the box, `padding` inside. `alignment` places a single child within a box larger than it.
+
+```tsx
+<View width={Infinity} height={200} alignment="center">
+  <Text>In the middle</Text>
+</View>
+```
+
+## Layering
+
+`Stack` layers children on top of each other. `Positioned` places children at specific coordinates within the stack.
+
+```tsx
+import { Positioned, Stack, Text, View } from "solid-fuse";
+
+<Stack alignment="center">
+  <View width={200} height={200} decoration={{ color: "#2563EB" }} />
+  <Positioned top={10} right={10}>
+    <Text color="#FFFFFF">Badge</Text>
+  </Positioned>
+</Stack>
+```
+
+| Stack prop | Type | Description |
+|---|---|---|
+| `alignment` | `AlignmentGeometry` | Default alignment for children |
+| `fit` | `string` | `"loose"`, `"expand"`, `"passthrough"` |
+| `clipBehavior` | `string` | Clip overflowing children |
+
+| Positioned prop | Type | Description |
+|---|---|---|
+| `top` / `left` / `right` / `bottom` | `number` | Offset from stack edges |
+| `width` / `height` | `number` | Fixed dimensions |
+
+## Scrolling
+
+A box doesn't scroll. Put content that may not fit in a `ScrollView`:
+
+```tsx
+import { ScrollView, Text, View } from "solid-fuse";
+
+<ScrollView padding={16}>
+  <View layout={{ gap: 8 }}>
+    <For each={items()}>{(item) => <Text>{item}</Text>}</For>
+  </View>
+</ScrollView>
+```
+
+For long lists, see [Lists and scrolling](/docs/build/lists).
+
+## Not like CSS
+
+| You expect | What happens | Do this |
+|---|---|---|
+| A column child is as wide as the column | It is as wide as its content | `width={Infinity}` on the child, or `align: "stretch"` on the parent |
+| A box with `flex={1}` fills the screen | `flex` only means something inside a layout that has a size | Give the parent a size (`height={Infinity}`, or `flex` in its own parent) |
+| Content that doesn't fit scrolls | It overflows, with a striped warning in debug | Wrap it in a `ScrollView` |
+| A `ScrollView` in a column scrolls | It grows as tall as its content and overflows the column | Give it `flex={1}` |
+| `margin: auto` centres | There is no auto margin | `layout={{ align: "center", justify: "center" }}` on the parent, or `alignment="center"` |
+
+Flutter's own guide, [Understanding constraints](https://docs.flutter.dev/ui/layout/constraints), applies as written.
+
+## Reference
+
+Props of `View`, `Stack`, `Positioned` and `ScrollView`: [Components](/docs/reference/components).

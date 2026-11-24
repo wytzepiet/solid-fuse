@@ -135,7 +135,7 @@ export function CleanStage({ chapters, copy }: { chapters: Chapter[]; copy: Stag
           <h1>{copy.what.title}</h1>
           <p>{copy.what.body}</p>
           <div className="cx-actions">
-            <Link href="/docs/getting-started" className="cx-btn">
+            <Link href="/docs/start/quick-start" className="cx-btn">
               Get started
             </Link>
             <a href={github} className="cx-link">

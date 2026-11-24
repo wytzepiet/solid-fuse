@@ -1,0 +1,103 @@
+---
+title: Page types and transitions
+description: How a page comes in, transitions written in JSX, and routes without files
+---
+
+## A page is a config
+
+How a page comes in is a config, `{ type, child, props }`. Core's `page({...})` makes one; the design packages add `materialPage` and `cupertinoPage`, and heroine `heroinePage`. A page without a `page` export is one of the app's type: `page` under `<App>`, `materialPage` under `<MaterialApp>`, `cupertinoPage` under `<CupertinoApp>`.
+
+```tsx title="src/app/settings.tsx"
+import { materialPage } from "@solid-fuse/material";
+
+export const page = (child) => materialPage({ child, fullscreenDialog: true });
+```
+
+### page props
+
+Core's page has no design: the content brings its own background.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `child` | `() => JSX.Element` | required | Page contents |
+| `name` | `string` | — | Flutter's `Page.name` |
+| `transition` | `"slide" \| "fade" \| "none"` or a function | `"slide"` | How the page comes in (see below) |
+| `duration` | `number` | `300` | Transition length in ms |
+| `reverseDuration` | `number` | `duration` | Length going out |
+| `barrierColor` | `Color` | — | Covers the page below (with `opaque: false`) |
+| `barrierDismissible` | `boolean` | `false` | A tap on the barrier pops the page |
+| `opaque` | `boolean` | `true` | False lets the page below show through |
+| `fullscreenDialog` | `boolean` | `false` | |
+| `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
+
+### Transitions in JS
+
+`transition` can be your own: wrap the page in Flutter's transition widgets, driven by the route's animations. It runs once per route; the widgets follow the animations in Dart, so nothing runs in JS per frame.
+
+```tsx
+import { page as pageOf } from "solid-fuse";
+import { FadeTransition, ScaleTransition } from "#fuse/flutter";
+
+export const page = (child) =>
+  pageOf({
+    child,
+    transition: (content, { animation }) => (
+      <FadeTransition opacity={animation}>
+        <ScaleTransition scale={animation}>{content}</ScaleTransition>
+      </FadeTransition>
+    ),
+  });
+```
+
+`animation` runs as the page comes and goes; `secondaryAnimation` as the next page covers it. Curves come from `createCurvedAnimation({ parent: animation, curve: Curves.easeOut })`. `heroinePage` takes a `transition` too.
+
+### materialPage props (`@solid-fuse/material`)
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `child` | `() => JSX.Element` | required | Page contents |
+| `name` | `string` | — | Flutter's `Page.name` |
+| `fullscreenDialog` | `boolean` | `false` | Slides up instead of sideways, shows close button |
+| `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
+
+`cupertinoPage` (`@solid-fuse/cupertino`) takes the same, plus `title`, which the next page's back button shows.
+
+## Heroes and observers
+
+Flutter's `Hero` flies between pages of a `<Navigator>`. `observers` takes Flutter's `NavigatorObserver`s, which see every push and pop. They are generated handles: `createNavigatorObserver()` and `createHeroController()` from `#fuse/flutter`, or a package's own, such as heroine's controller ([Animation](/docs/build/animation#hero-transitions-on-springs)).
+
+```tsx
+const heroine = createHeroineController();
+
+<Navigator observers={[heroine]} />
+```
+
+## Routes without files
+
+Each file is a `route()`, and anything a file can say, `route()` can say. Use it for an app without file routes, or a package that brings its own pages.
+
+```tsx
+import { Navigator, route } from "solid-fuse";
+
+const Home = route({ path: "/", component: HomePage });
+const Share = route({ path: "/share", page: sheet, component: ShareSheet });
+route({ path: "/share", in: Share, component: ShareHome }); // share/index.tsx
+const Contact = route({ path: "/share/contact", in: Share, component: ContactPicker });
+const Picker = route({ component: PickerPage }).returns<string>();
+
+render(() => <App><Navigator /></App>);
+```
+
+| Option | |
+|---|---|
+| `component` | The page. Gets the params as props. |
+| `path` | Its address, `"/users/:id"`. Without one, it can be pushed but not linked to or restored. |
+| `in` | The page whose stacks it opens in. Without it, the app's own stack. |
+| `page` | How it comes in: `(child) => materialPage({ child, fullscreenDialog: true })`. Default: the app's page type. |
+| `parse` | Turns the params an address brings (strings) into what the component takes. Its result is merged over them; a throw means the address isn't this page's. |
+
+`.returns<T>()` types what `pop(result)` gives back. `addressOf(User, { id: 42 })` is `"/users/42"`. Declare your addresses to type `push` and `go`: `` declare module "solid-fuse" { interface Register { address: "/" | `/users/${string}` } } ``.
+
+## Your own page type
+
+A page type with a `Route` of its own is written in Dart: see [Pages by hand](/docs/flutter/by-hand/pages).

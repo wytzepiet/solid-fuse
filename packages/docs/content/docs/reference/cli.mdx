@@ -1,0 +1,91 @@
+---
+title: CLI
+description: Every fuse command and flag
+---
+
+`fuse` comes with the `solid-fuse` package: `bunx fuse <command>`, or through the app's scripts (`bun dev`). It runs on [Bun](https://bun.sh/).
+
+| Command | Does |
+|---|---|
+| [`fuse create`](#fuse-create) | Create an app |
+| [`fuse dev`](#fuse-dev) | Run the app with hot reload |
+| [`fuse build`](#fuse-build) | Build for release |
+| [`fuse drive`](#fuse-drive) | Tap, type, screenshot in the running app |
+| [`fuse doctor`](#fuse-doctor) | Check the machine and the app |
+| [`fuse link`](#fuse-link) | Wire the app's packages into the Flutter project |
+| [`fuse gen`](#fuse-gen) | Generate components from Dart |
+
+## fuse create
+
+```bash
+fuse create [dir]
+bun create solid-fuse [dir]   # the same
+```
+
+| Flag | |
+|---|---|
+| `--design` | `material` (default), `cupertino`, `adaptive` or `none` |
+| `--platforms` | Comma-separated: `android,ios,macos,linux,windows`. Default `android,ios` |
+| `--org` | Reverse domain for the bundle id. Default `com.example` |
+| `--template` | A template directory, or `github:owner/repo[/path][#ref]` |
+| `--no-install` | Don't install packages |
+| `--no-git` | Don't `git init` |
+| `-y`, `--yes` | Take the defaults for everything not given |
+
+## fuse dev
+
+```bash
+fuse dev [--headless] [flutter run arguments]
+```
+
+Starts Vite and `flutter run` together. Edits to TypeScript hot reload; edits to Dart under `dart/lib/` regenerate, and `R` restarts the app for the new Dart. It links again when a lock file or `pubspec.yaml` changes.
+
+| Flag | |
+|---|---|
+| `--headless` | Run the Linux app on a virtual display ([Run headless](/docs/agents/headless)) |
+| `--release`, `--profile` | Build the bundle and run without the dev server |
+| anything else | Passed to `flutter run`: `-d <device>`, `--flavor`... |
+
+When the app is up it prints `Ready for fuse drive`.
+
+## fuse build
+
+```bash
+fuse build [--js-only] [flutter build arguments]
+```
+
+Bundles the JS, keeps only the Dart the bundle uses, then runs `flutter build` with your arguments: `fuse build apk --release`. See [Build and release](/docs/ship/build).
+
+| Flag | |
+|---|---|
+| `--js-only` | Stop after the bundle; no Flutter build |
+
+In a package with `library: true`, it builds the package instead ([Writing a package](/docs/ship/packages)).
+
+## fuse drive
+
+```bash
+fuse drive <command> [options]
+```
+
+Sends a command to the app `fuse dev` is running. `fuse drive help-ai` lists every command; `fuse drive mcp` serves them over MCP. See [Drive the app](/docs/agents/drive).
+
+## fuse doctor
+
+```bash
+fuse doctor [--no-flutter]
+```
+
+Checks Flutter, Rust, the Linux tools and the app's setup, then runs `flutter doctor` (`--no-flutter` skips that).
+
+## fuse link
+
+Finds the Fuse packages the app depends on, directly or through another package, and wires their Dart into the Flutter project: `dart/pubspec_overrides.yaml` and `dart/lib/_generated/fuse_packages.dart`. It names the pub dependencies `dart/lib/fuse.dart` doesn't export. `fuse dev` and `fuse build` run it for you.
+
+## fuse gen
+
+```bash
+fuse gen [--force]
+```
+
+Generates the `#fuse/*` modules and the Dart adapters from what `fuse.dart` exports ([All of Flutter from JSX](/docs/flutter/widgets)). `fuse dev` and `fuse build` run it for you; run it yourself before type checking on a fresh checkout. `--force` generates even when nothing changed.

@@ -10,6 +10,8 @@ User-facing behaviour (APIs, JSX elements, config, runtime lifecycle, widgets, c
 
 When you change framework behaviour, **update the corresponding doc in the same change**. Docs and code ship together; drifted docs are worse than no docs.
 
+Things that aren't built yet have a place in the docs already: a shell page or a `<Callout type="warn" title="Planned">`, all listed in `internals/planned.mdx`. When you build one, fill in its page, remove the callout and take it off that list. When you find a gap you can't close now, add it there.
+
 Solid 2.0 reference: read the vendored mirror at `packages/solid-fuse/vendor/solid-2.0-docs/` (upstream: https://github.com/solidjs/solid/tree/next/documentation/solid-2.0). Refresh it with `bun run sync-solid-docs` when Solid updates; it ships to consumers in `dist/docs/solid-2.0/`.
 
 ## Repo layout

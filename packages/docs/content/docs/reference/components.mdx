@@ -1,0 +1,207 @@
+---
+title: Components
+description: Props of every component in solid-fuse
+---
+
+The components `solid-fuse` exports, with their props. Guides: [Layout](/docs/build/layout), [Text and input](/docs/build/text-and-input), [Pressing and gestures](/docs/build/pressing-and-gestures), [Overlays](/docs/build/overlays). Value types (`Color`, `EdgeInsetsGeometry`...) and their short forms: [Shorthands](/docs/reference/shorthands).
+
+Every element, generated ones too, also takes:
+
+| Prop | Type | Description |
+|---|---|---|
+| `flex` | `number` | Share of the parent layout's free space |
+| `layout` | `LayoutInput` | How its children lay out, when it has children |
+| `testId` | `string` | Finds the element in tests and tools ([Drive the app](/docs/agents/drive#find-elements)) |
+
+## LayoutInput
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `direction` | `"vertical" \| "horizontal"` | `"vertical"` | |
+| `gap` | `number` | `0` | Space between children |
+| `align` | `"start" \| "center" \| "end" \| "stretch"` | `"start"` | Cross axis |
+| `justify` | `"start" \| "center" \| "end" \| "spaceBetween" \| "spaceAround" \| "spaceEvenly"` | `"start"` | Main axis |
+| `expand` | `boolean` | `false` | Fill the main axis |
+
+## View
+
+| Prop | Type | Description |
+|---|---|---|
+| `layout` | `LayoutInput` | How the children lay out (see [Layout](#layout) below) |
+| `padding` | `EdgeInsetsGeometry` | Inner spacing |
+| `margin` | `EdgeInsetsGeometry` | Outer spacing |
+| `width` / `height` | `number` | Fixed dimensions |
+| `minWidth` / `maxWidth` | `number` | Size constraints |
+| `minHeight` / `maxHeight` | `number` | Size constraints |
+| `aspectRatio` | `number` | Width-to-height ratio |
+| `alignment` | `AlignmentGeometry` | Align child within view |
+| `decoration` | `BoxDecoration` | Background, borders, shadows, gradients |
+| `foregroundDecoration` | `BoxDecoration` | Decoration painted on top |
+| `opacity` | `number` | 0–1 transparency |
+| `transform` | `TransformInput` | Rotate, scale, translate |
+| `clipBehavior` | `string` | Clip behavior (`"hardEdge"`, `"antiAlias"`, `"none"`) |
+| `flex` | `number` | Share of the parent layout's free space (see [flex](#flex)) |
+| `testId` | `string` | Finds the element in tests and tools; on every element (see [Developing with agents](/docs/agents/drive#find-elements)) |
+| `visible` | `boolean` | Show/hide without removing from tree |
+| `ignorePointer` | `boolean` | Disable hit testing |
+
+`transform` takes `{ rotate }` (radians), `{ scale }`, `{ translateX, translateY }`.
+
+## Text
+
+| Prop | Type | Description |
+|---|---|---|
+| `fontSize` | `number` | Font size in logical pixels |
+| `fontWeight` | `FontWeight` | `100`–`900`, as in CSS |
+| `fontFamily` | `string` | Font family name |
+| `fontStyle` | `string` | `"normal"` or `"italic"` |
+| `color` | `Color` | Text color |
+| `lineHeight` | `number` | Line height multiplier |
+| `letterSpacing` | `number` | Space between characters |
+| `textAlign` | `string` | `"left"`, `"right"`, `"center"`, `"justify"`, `"start"`, `"end"` |
+| `maxLines` | `number` | Maximum number of lines |
+| `overflow` | `string` | `"clip"`, `"fade"`, `"ellipsis"`, `"visible"` |
+| `textDecoration` | `TextDecoration` | `"underline"`, `"overline"`, `"lineThrough"`, `"none"` |
+| `backgroundColor` | `Color` | Highlight behind text |
+| `shadows` | `Shadow[]` | Text shadows, e.g. `[{ blurRadius: 4, offset: [0, 2], color: "#0004" }]` |
+
+## Stack
+
+| Prop | Type | Description |
+|---|---|---|
+| `alignment` | `AlignmentGeometry` | Default alignment for children |
+| `fit` | `string` | `"loose"`, `"expand"`, `"passthrough"` |
+| `clipBehavior` | `string` | Clip overflowing children |
+
+## Positioned
+
+| Prop | Type | Description |
+|---|---|---|
+| `top` / `left` / `right` / `bottom` | `number` | Offset from the stack's edges |
+| `width` / `height` | `number` | Fixed size |
+
+## ScrollView
+
+| Prop | Type | Description |
+|---|---|---|
+| `scrollDirection` | `string` | `"vertical"` (default) or `"horizontal"` |
+| `physics` | `string` | `"bouncing"`, `"clamping"`, `"always"`, `"never"`, `"page"` |
+| `reverse` | `boolean` | Reverse scroll direction |
+| `padding` | `EdgeInsetsGeometry` | Inner padding |
+| `controller` | `ScrollController` | Programmatic scroll control (see [Handles](/docs/flutter/controllers)) |
+| `clipBehavior` | `string` | Clip behavior |
+| `keyboardDismissBehavior` | `string` | `"manual"` or `"onDrag"` |
+
+## Icon
+
+| Prop | Type | Description |
+|---|---|---|
+| `icon` | `IconData` | The glyph: `Icons.home`, `CupertinoIcons.add` |
+| `size` | `number` | Width and height in logical pixels |
+| `color` | `Color` | |
+| `semanticLabel` | `string` | Read by screen readers |
+| `fill`, `weight`, `grade`, `opticalSize` | `number` | Variable-font axes (Material Symbols) |
+| `applyTextScaling` | `boolean` | Scale with the platform text size |
+
+## App
+
+| Prop | Type | Description |
+|---|---|---|
+| `title` | `string` | Shown by the OS task switcher |
+| `color` | `Color` | The app's color for the OS |
+| `locale` | `string` | BCP 47 tag, e.g. `"en-US"` |
+| `textStyle` | `TextStyle` | Default text style, merged over 14px black |
+
+## Pressable
+
+| Prop | Type | Description |
+|---|---|---|
+| `onPress` | `() => void` | Tap, Enter, Space |
+| `onLongPress` | `() => void` | |
+| `onPressedChange` | `(pressed: boolean) => void` | Pressed down or let go |
+| `onHoveredChange` | `(hovered: boolean) => void` | Pointer came over it or left |
+| `onFocusedChange` | `(focused: boolean) => void` | Gained or lost the focus highlight |
+| `disabled` | `boolean` | |
+| `pressedOpacity` | `number` | Opacity while pressed, applied in Dart |
+| `semanticLabel` | `string` | Read by screen readers |
+| `focusNode` | `FocusNode` | From `createFocusNode()` (`#fuse/flutter`) |
+| `autofocus` | `boolean` | |
+
+## TextInput
+
+| Prop | Type | Description |
+|---|---|---|
+| `value` / `defaultValue` | `string` | Controlled text / starting text |
+| `onChange` | `(value: string) => void` | |
+| `onSubmit` | `(value: string) => void` | The keyboard's action button |
+| `placeholder` | `string` | Shown while empty |
+| `disabled`, `readOnly`, `autofocus`, `obscureText`, `autocorrect` | `boolean` | |
+| `focusNode` | `FocusNode` | |
+| `keyboardType` | `"text" \| "multiline" \| "number" \| "integer" \| "phone" \| "email" \| "url" \| "name" \| "none"` | |
+| `inputAction` | `"done" \| "go" \| "next" \| "search" \| "send" \| ...` | |
+| `textCapitalization` | `"none" \| "words" \| "sentences" \| "characters"` | |
+| `maxLines` / `minLines` | `number` | `maxLines` 0 grows without limit; default 1 |
+| `maxLength` | `number` | |
+| `allowPattern` / `denyPattern` | `string` | Regex source; characters that don't fit are dropped |
+| `autofillHints` | `string[]` | |
+| `color`, `fontSize`, `fontWeight`, `fontFamily`, `letterSpacing`, `lineHeight` | | Text style |
+| `placeholderColor`, `cursorColor`, `selectionColor` | `Color` | |
+
+The design packages' `TextField`s take the same props.
+
+## Modal
+
+| Prop | Type | Description |
+|---|---|---|
+| `open` | `boolean` | |
+| `onOpenChange` | `(open: boolean) => void` | |
+| `type` | `string` | Route type. Default `"dialog"` |
+| `dismissible` | `boolean` | Barrier tap closes it. Default true |
+| `barrierColor` | `Color` | |
+| `alignment` | `AlignmentGeometry` | Where a `"dialog"` sits. Default center |
+| `duration` | `number` | ms |
+
+## Menu
+
+| Prop | Type | Description |
+|---|---|---|
+| `open` / `onOpenChange` | | Controlled pair |
+| `content` | `JSX.Element` | What pops up |
+| `align` | `"start" \| "end"` | Which edge of the anchor it lines up with |
+| `offset` | `number` | Gap to the anchor. Default 4 |
+| `consumeOutsideTaps` | `boolean` | Default true |
+
+## Tooltip
+
+| Prop | Type | Description |
+|---|---|---|
+| `content` | `JSX.Element` | What shows |
+| `label` | `string` | For screen readers |
+| `trigger` | `"longPress" \| "tap" \| "manual"` | Hover always shows it |
+| `hoverDelay`, `touchDelay`, `dismissDelay` | `number` | ms |
+| `onShow` | `() => void` | |
+
+## RadioGroup
+
+Groups the radios inside it, as Flutter's `RadioGroup` does: the radio whose `value` equals the group's is selected. The radios come from a design package.
+
+```tsx
+import { Radio } from "@solid-fuse/material";
+
+<RadioGroup value={plan()} onChange={setPlan}>
+  <Radio value="free" /> <Radio value="pro" />
+</RadioGroup>
+```
+
+
+## Expandable
+
+A header that shows or hides its body (the children), animated.
+
+```tsx
+<Expandable header={<Text>Details</Text>}>
+  <Text>The body.</Text>
+</Expandable>
+```
+
+Props: `header`, `expanded` / `defaultExpanded` / `onExpandedChange`, `disabled`, `duration` (default 200), `maintainState` (default true).

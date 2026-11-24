@@ -1,0 +1,22 @@
+---
+title: By hand
+description: The layer under generation, for the rare case it can't cover
+---
+
+You probably don't need this. [Generation](/docs/flutter/widgets) covers Flutter's widgets, pub.dev packages and [your own Dart](/docs/flutter/your-own-dart), and a nicer API on top is TypeScript.
+
+Write the bridge by hand when:
+
+- the generator skips what you need (`fuse/gen-report.txt` says why), and a small Dart class around it doesn't solve it,
+- a widget must read its props in a way a constructor can't express,
+- you are adding a page type with a `Route` of its own, or a modal route.
+
+This is the layer core's own components are built on. It is three things:
+
+| | Dart | JS |
+|---|---|---|
+| [Widgets](/docs/flutter/by-hand/widgets) | `runtime.registerWidget(name, builder)`, reading props from a `FuseNode` | A lowercase element: `<badge {...props} />` |
+| [Handles](/docs/flutter/by-hand/handles) | `runtime.registerHandle(name, factory)`, a `FuseHandle<T>` | `createHandle(name, props)` |
+| [Pages](/docs/flutter/by-hand/pages) | A `FusePageHandle`, or `runtime.registerRoute(type, builder)` for a modal | A function that returns `{ type, child, props }` |
+
+Register them in `dart/lib/main.dart`, between `registerFusePackages(runtime)` and `runtime.start()`, or in a package's `register` function ([Writing a package](/docs/ship/packages)).

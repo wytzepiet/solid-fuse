@@ -1,0 +1,50 @@
+---
+title: Troubleshooting
+description: Problems you may hit, by symptom
+---
+
+Start with `bunx fuse doctor`: it checks Flutter, Rust, the Linux tools and the app's setup.
+
+## The first build takes minutes
+
+It compiles the JavaScript engine from Rust, once per machine and build mode. Set `CARGO_TARGET_DIR` to a shared folder so every app and every `flutter clean` reuses it.
+
+## A widget or package isn't in `#fuse/...`
+
+It isn't exported. Add it to `dart/lib/fuse.dart` ([What crosses](/docs/flutter/widgets#what-crosses)). `fuse dev` prints the pub dependencies that `fuse.dart` doesn't mention. If it is exported and still missing, `fuse/gen-report.txt` says why it was skipped.
+
+## A new widget shows nothing, or "unknown type"
+
+The TypeScript side reloads at once; the Dart side needs the app restarted. Press `R` in `fuse dev`, or stop and start it.
+
+## Changes to solid-fuse or a package don't show
+
+Vite keeps a pre-bundle. Delete `node_modules/.vite` and start `fuse dev` again.
+
+## "The JS bundle speaks op format N, this runtime..."
+
+The JS bundle and the Dart runtime come from different solid-fuse versions. Reinstall (`bun install`), then rebuild the app, not just reload.
+
+## Yellow and black stripes, "overflowed by N pixels"
+
+Content doesn't fit its box. Wrap it in a `ScrollView`, or give the child that should shrink `flex={1}`. See [Not like CSS](/docs/build/layout#not-like-css).
+
+## A child doesn't fill the width
+
+A column child is as wide as its content. `width={Infinity}`, or `align: "stretch"` on the parent.
+
+## "No Material widget found"
+
+A Material component is under a root that isn't Material. Use `MaterialApp` or `AdaptiveApp` ([Design packages](/docs/build/design-packages#mixing)).
+
+## Reading a signal right after setting it gives the old value
+
+Solid 2.0 applies writes when the batch flushes. Read it in JSX or an effect, or call `flush()` first. See [Coming from Solid 1.x](/docs/start/coming-from#solid-1x).
+
+## Something from the web is missing
+
+There is no DOM and no `localStorage`. See [Data and the JS runtime](/docs/build/data).
+
+## An agent's app shows a white screen in dev
+
+In dev mode the first load fetches every module; on a large app that takes up to a minute. Wait for `Ready for fuse drive`, then `fuse drive get-logs`.

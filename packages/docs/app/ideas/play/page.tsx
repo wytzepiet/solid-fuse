@@ -23,7 +23,7 @@ export default function PlayIdea() {
         </Link>
         <nav>
           <Link href="/docs">Docs</Link>
-          <Link href="/docs/architecture">Architecture</Link>
+          <Link href="/docs/internals/architecture">Architecture</Link>
           <a href={github}>GitHub</a>
         </nav>
       </header>
@@ -35,7 +35,7 @@ export default function PlayIdea() {
           <div>
             <p>{what.body}</p>
             <div className="dt-actions">
-              <Link href="/docs/getting-started" className="dt-btn">
+              <Link href="/docs/start/quick-start" className="dt-btn">
                 Get started
               </Link>
               <a href={github} className="dt-link">
@@ -55,7 +55,7 @@ export default function PlayIdea() {
         <DitherCanvas scene="rise" cell={8} />
         <h2>Start with the guide.</h2>
         <div className="dt-actions">
-          <Link href="/docs/getting-started" className="dt-btn">
+          <Link href="/docs/start/quick-start" className="dt-btn">
             Read the docs
           </Link>
           <a href={github} className="dt-link">

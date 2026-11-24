@@ -1,0 +1,77 @@
+---
+title: Functions
+description: Everything solid-fuse exports that isn't a component
+---
+
+Components are in [Components](/docs/reference/components). Reactivity (`createSignal`, `createMemo`, `createEffect`, `For`, `Show`, `Loading`...) comes from `solid-js`; its docs ship in `node_modules/solid-fuse/dist/docs/solid-2.0/`.
+
+## Starting
+
+| | |
+|---|---|
+| `render(() => <App />)` | Start the app. Call it once, in `src/index.tsx` |
+| `<FileRoutes />` from `#fuse/routes` | Renders `src/app.tsx` over the pages in `src/app/` |
+
+## Navigation
+
+Guides: [Pages and files](/docs/navigate/pages), [Stacks and tabs](/docs/navigate/stacks-and-tabs), [Links, back and restore](/docs/navigate/links-back-restore), [Page types](/docs/navigate/page-types).
+
+| | |
+|---|---|
+| `useNav()` | The stack you're on: `push`, `pop`, `replace`, `go`, `stack`, `app` |
+| `usePage()` | The page you're in, as a holder of stacks: `stacks()`, `active()`, `show(index)`, `stack(index?)` |
+| `<Navigator index? observers? />` | Draws one stack |
+| `<Tabs>` | Shows the stack in front, keeps the rest alive |
+| `route({ path, in, page, parse, component })` | A page without a file. `.returns<T>()` types its result |
+| `addressOf(route, params)` | The address that opens a route with those params |
+| `matchAddress(address)` | The route at an address, with its params |
+| `createStack({ index })` | A stack's data, without drawing it |
+| `page({ child, transition, ... })` | Core's page type |
+| `PageTypeContext`, `usePageType()` | The page type bare pushes get |
+
+## Device
+
+| | |
+|---|---|
+| `host` | Brightness, size, insets, text scale, platform, build mode ([Device and platform](/docs/build/device)) |
+
+## Animation
+
+[Animation](/docs/build/animation).
+
+| | |
+|---|---|
+| `createSpring(target, config?)` | A value that springs to its target: `[value, set]` |
+| `createMotion(initial, step)` | The same with your own physics |
+| `createElapsed()` | Milliseconds since created, every frame |
+| `smooth`, `snappy`, `bouncy` | Spring presets |
+| `lerp(t, a, b)`, `lerpColor(t, a, b)` | Mix two numbers, two colors |
+| `requestAnimationFrame`, `cancelAnimationFrame` | Globals, on Flutter's vsync |
+
+## Talking to Dart
+
+[Channels](/docs/flutter/channels).
+
+| | |
+|---|---|
+| `send(channel, data)` | A message to Dart, no answer |
+| `call(channel, data, options?)` | A message to Dart, and its answer as a Promise |
+| `on(channel, handler)` | Handle messages from Dart |
+| `channels` | The three as one object |
+
+## By hand
+
+[By hand](/docs/flutter/by-hand).
+
+| | |
+|---|---|
+| `createHandle(type, props)` | A hand-written handle: `{ node, call, dispose }` |
+| `Dynamic`, `createDynamic` | Render a component or element picked at run time |
+
+## Config
+
+| | |
+|---|---|
+| `defineConfig({...})` from `solid-fuse/config` | Types [`fuse.config.ts`](/docs/reference/config) |
+
+The renderer functions `solid-fuse` also exports (`createElement`, `insert`, `spread`, `template`...) are what compiled JSX calls. Don't call them yourself.

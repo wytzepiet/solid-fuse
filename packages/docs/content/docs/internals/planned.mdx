@@ -1,0 +1,31 @@
+---
+title: Planned
+description: What isn't built yet, so nobody forgets
+---
+
+Things the docs mention that don't exist yet. Each has a place in the docs already, marked **Planned**, so the page is there to fill in when the feature lands. When you build one: fill in its page, remove the callout, and take it off this list.
+
+## Pages that are shells
+
+| Page | What's missing |
+|---|---|
+| [Testing](/docs/ship/testing) | A test runner: render a component in a test, a scripted app run, fakes for platform APIs |
+| [Over-the-air updates](/docs/ship/updates) | Loading a downloaded bundle, compatibility check, rollback, signing, publishing |
+
+## Gaps inside pages
+
+| Where | What's missing |
+|---|---|
+| [Theming](/docs/build/theming) | Reading a Material or Cupertino theme's colors from your own components |
+| [Platform folders](/docs/flutter/platform-folders) | App name, id, icon and permissions set once in `fuse.config.ts` |
+| [Quick start](/docs/start/quick-start) | Rust as a prerequisite: goes away with prebuilt engine binaries |
+| [CLI](/docs/reference/cli) | The CLI needs Bun; running it on Node |
+| [Links, back and restore](/docs/navigate/links-back-restore) | A result of `push` is lost when the OS kills the app while the pushed page is open |
+
+## Not in the docs yet
+
+- Publishing `solid-fuse` and the `@solid-fuse/*` packages to npm
+- A web target, for preview links
+- A lazy list in core (today: Flutter's `ListViewBuilder`)
+- A tutorial, "Your first app", checked against a running app
+- Reference tables generated from the TypeScript types, and examples pulled from files the demo compiles

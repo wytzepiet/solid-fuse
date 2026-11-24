@@ -1,0 +1,110 @@
+---
+title: Controllers
+description: "createX: Flutter's controllers as objects with signals, setters and methods"
+---
+
+Some things in Flutter are objects, not values: you can't write "scroll to 500" or "focus this field" as a prop. Flutter calls them controllers. Each one has a `createX` function, generated from its Dart class: `createScrollController`, `createFocusNode`, `createTextEditingController`, `createAnimationController`, and your own.
+
+```tsx
+import { Pressable, Text, View } from "solid-fuse";
+import { createTextEditingController } from "#fuse/flutter";
+import { TextField } from "#fuse/material_ui";
+
+function Search() {
+  const query = createTextEditingController({ text: "" });
+  return (
+    <View>
+      <TextField controller={query} />
+      <Text>{query.text()}</Text>
+      <Pressable onPress={() => query.setText("")}>
+        <Text>Clear</Text>
+      </Pressable>
+    </View>
+  );
+}
+```
+
+(This `TextField` is the generated one, not `@solid-fuse/material`'s, which takes `value` and `onChange` and needs no controller.)
+
+- **Options** are the constructor's parameters. Each one takes a value or an accessor. An accessor is read once, unless the controller has a setter of the same name: then it stays in sync.
+- **State**: every getter is an accessor (`query.text()`) that updates when Dart notifies. It's `undefined` until Dart first reports it, unless an option or default gives the value.
+- **Setters** are `setX(value)`. A simple value (a number, string, boolean or enum) shows up in the accessor at once. A value Dart had before your write arrived is never shown over it, so the cursor of a text field you write to doesn't jump back.
+- **Methods** return a Promise of their result (`await anim.forward()` resolves when the animation ends).
+- **Streams** are async iterables: `for await (const v of x.changes()) ...`. Leaving the loop cancels the subscription.
+
+A Dart parameter that takes a `TickerProvider` (`vsync`) is supplied for you.
+
+A handle prop only takes controllers that fit: a `ScrollController` can't go where a `TextEditingController` is expected.
+
+## Controllers Dart hands to JS
+
+Dart also gives you controllers: as a callback argument, a getter's value (`ScrollController.position`), or a method's result. You get the same kind of object, with the same state, setters, methods and streams:
+
+```tsx
+const scroll = createScrollController();
+const at = () => scroll.position()?.pixels() ?? 0;
+return <ListView controller={scroll}>...</ListView>;
+```
+
+The object is Dart's, so JS never disposes it, and there is no `createX` for a type only Dart makes. The same Dart object always gives you the same JS object, and one you created comes back as itself. You can pass it back to Dart anywhere a controller of its type fits.
+
+## Lifetime
+
+A controller lives as long as the component (the reactive owner) that created it. If something still holds it after that, for example because it was handed to a parent, it lives until nothing does. Then Dart disposes it. There is no `dispose()` method, because anyone holding the controller could call it.
+
+To release one early, give it its own owner and keep the dispose function:
+
+```tsx
+import { createRoot } from "solid-js";
+
+const [anim, release] = createRoot((dispose) => [createAnimationController({ duration: 300 }), dispose] as const);
+// ... later
+release();
+```
+
+Only the code that called `createRoot` can release it. To create one that belongs to no component (a module-level controller), use `runWithOwner(null, () => createX())`. It then lives until JS lets go of it.
+
+
+## Example: a scroll controller
+
+Pass `createScrollController()` to a `ScrollView` (or a generated `ListView`) and drive it. Its `offset()` is a signal that follows the scroll.
+
+```tsx
+import { For } from "solid-js";
+import { Pressable, ScrollView, Text, View } from "solid-fuse";
+import { createScrollController } from "#fuse/flutter";
+import { easeOut } from "#fuse/flutter/Curves";
+
+function ScrollableList() {
+  const scroll = createScrollController();
+
+  return (
+    <View layout={{ expand: true }}>
+      <View layout={{ direction: "horizontal", gap: 8 }} padding={8}>
+        <Pressable onPress={() => scroll.animateTo(0, { duration: 300, curve: easeOut })}>
+          <View padding={8} decoration={{ color: "#2563EB", borderRadius: 4 }}>
+            <Text color="#FFFFFF">Top</Text>
+          </View>
+        </Pressable>
+        <Text>Offset: {Math.round(scroll.offset() ?? 0)}</Text>
+      </View>
+
+      <ScrollView controller={scroll} flex={1}>
+        <View layout={{ gap: 4 }} padding={16}>
+          <For each={Array.from({ length: 100 }, (_, i) => i)}>
+            {(i) => <Text>Item {i}</Text>}
+          </For>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+```
+
+`createScrollController({ initialScrollOffset: 200 })` starts somewhere else. The methods are Flutter's: `jumpTo(offset)`, `animateTo(offset, { duration, curve })` (duration in ms), and state such as `offset()` and `hasClients()`.
+
+## Which classes become controllers
+
+A `Listenable` (`ScrollController`, `TextEditingController`, `AnimationController`), a class with mutable state, or an object that must stay one object: one with a `dispose()`, or one the tree attaches itself to, like a `NavigatorObserver`. Everything else is a [value](/docs/build/values).
+
+For a Dart object the generator can't cover, write the bridge yourself: [Handles by hand](/docs/flutter/by-hand/handles).

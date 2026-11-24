@@ -1,0 +1,111 @@
+---
+title: Pages and files
+description: Each file in src/app/ is a page; push, pop and typed addresses
+---
+
+An app is a tree of pages. Some pages hold stacks of pages of their own: a share sheet with its own steps, or tabs with a stack per tab. A `<Navigator>` draws one stack with Flutter's Navigator. The stacks themselves are data in JS, so links and restore can rebuild the whole tree before anything draws.
+
+This page covers what most apps need: files, params, and push and pop. Pages that hold stacks of their own (tabs, a sheet with steps) are in [Stacks and tabs](/docs/navigate/stacks-and-tabs).
+
+## Files
+
+Pages live in `src/app/`. Each file is a page at the address its path names.
+
+```
+src/
+  index.tsx            render(() => <FileRoutes />)
+  app.tsx              the app: draws the app's own stack
+  app/
+    index.tsx          /
+    settings.tsx       /settings
+    users/
+      index.tsx        /users
+      [id].tsx         /users/:id
+    share.tsx          /share: holds share/
+    share/
+      index.tsx        /share, the first page inside it
+      contact.tsx      /share/contact
+    tabs.tsx           /tabs: holds tabs/, a stack per tab
+    tabs/
+      index.tsx        /tabs, the feed tab
+      profile.tsx      /tabs/profile, the profile tab
+      post/[id].tsx    /tabs/post/:id
+      _components/     not pages
+```
+
+- **`index`** is its folder's own page. **`[id]`** is a param. **`(group)`** folders stay out of the address. Files and folders starting with **`_`** aren't pages, so helpers and components can sit next to the pages that use them.
+- **`x.tsx` holds `x/`** when `x/index.tsx` exists. The two share the address `/x`: `x.tsx` is the UI around the folder's stacks, `x/index.tsx` is the first page in them. Without `x/index.tsx`, the pages in `x/` open where `x` opens.
+- **`src/app.tsx` holds `src/app/`.** It draws the app's own stack, usually inside a design's app root.
+- **`name@x.tsx`** opens in the stacks `x.tsx` holds instead of its folder's. `@app` is the app's own stack: `tabs/settings@app.tsx` sits with the tabs in the file tree but covers them when it opens. Two holders with the same name are a build error.
+
+```tsx title="src/index.tsx"
+import { render } from "solid-fuse";
+import { FileRoutes } from "#fuse/routes";
+
+render(() => <FileRoutes />);
+```
+
+```tsx title="src/app.tsx"
+import { MaterialApp } from "@solid-fuse/material";
+import { Navigator } from "solid-fuse";
+
+export default function App() {
+  return (
+    <MaterialApp>
+      <Navigator />
+    </MaterialApp>
+  );
+}
+```
+
+A page's default export is its component; its props are its params. It can also export `page`, how it comes in, and `parse`, which turns the params an address brings into what the page takes. They are always strings, from the path and the query; what `parse` returns is merged over them:
+
+```tsx title="src/app/users/[id].tsx"
+import { useNav } from "solid-fuse";
+
+export const parse = (p: { id: string }) => ({ id: Number(p.id) });
+
+export default function User(props: { id: number }) {
+  const nav = useNav();
+  return <Button onPress={() => nav.push("/share")}>Share</Button>;
+}
+```
+
+Only addresses go through `parse`: `nav.push(routes["/users/[id]"], { id: 42 })` passes the number as it is, and restore brings back what the page had. A schema works too: `export const parse = (p) => schema.parse(p)`. When `parse` throws, the address isn't this page's: the next route that matches it gets a go, and with none left the address opens nothing.
+
+Addresses are typed: `nav.push("/userz")` is an error. `fuse dev` writes `fuse/routes.tsx` again when a file in `src/app/` changes; don't edit it. It also exports `routes`, every page by file: `routes["/users/[id]"]`.
+
+## Pushing
+
+`nav.push(address)` opens a page where its file says:
+
+1. on the stack whose first page it is,
+2. else on the stack whose first page's address starts its own (`/tabs/profile/edit` on the profile tab),
+3. else on the stack in front.
+
+For an app with one stack, that is the app's stack: the page goes on top. With more stacks ([Stacks and tabs](/docs/navigate/stacks-and-tabs)), that's all inside the page holding its folder. If that page isn't open, it opens first; if it's covered by another page, the new page goes on top of the cover, so you always see it. If it's open but hasn't drawn its stacks yet (say they're behind a login), the push waits until they draw.
+
+```tsx
+const nav = useNav();
+nav.push("/users/42");
+nav.push(() => <Detail />); // a page without a file: on the stack you're on
+const fruit = await nav.push<string>(() => <Picker />); // what it gives to pop(result), or null
+```
+
+| | |
+|---|---|
+| `nav.push(address \| route, params?, options?)` | Open a page where its file says. `options.page` overrides how it comes in. |
+| `nav.push(() => <X />)` / `nav.push(page({...}))` | Push a page without a file on the stack you're on. |
+| `nav.pop(result?)` | Pop the top of your stack. On its first page, this closes the page holding it. |
+| `nav.replace(...)` | Swap the page on top of your stack. |
+| `nav.go(address)` | Open an address as a link does (below). |
+| `nav.stack` | The stack this page is on. |
+| `nav.app` | The app's own stack. |
+
+A stack gives `index` (its first page's address), `pages()` and `top()` (reactive), `push` (onto this stack, whatever the file says), `pop(result?)`, and `set(pages)`, which replaces every page above the first; `set([])` goes back to it.
+
+## Next
+
+- [Stacks and tabs](/docs/navigate/stacks-and-tabs): pages that hold stacks, `<Navigator>`, `<Tabs>`
+- [Links, back and restore](/docs/navigate/links-back-restore): `nav.go`, OS links, the back button
+- [Page types and transitions](/docs/navigate/page-types): how a page comes in

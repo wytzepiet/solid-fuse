@@ -23,7 +23,7 @@ export default async function LoopIdea() {
         </Link>
         <nav>
           <Link href="/docs">Docs</Link>
-          <Link href="/docs/architecture">Architecture</Link>
+          <Link href="/docs/internals/architecture">Architecture</Link>
           <a href={github}>GitHub</a>
         </nav>
       </header>
@@ -42,7 +42,7 @@ export default async function LoopIdea() {
               the app on the left.
             </p>
             <div className="lp-actions">
-              <Link href="/docs/getting-started" className="lp-btn lp-btn-main">
+              <Link href="/docs/start/quick-start" className="lp-btn lp-btn-main">
                 Get started
               </Link>
               <a href={github} className="lp-btn">
@@ -168,7 +168,7 @@ export default async function LoopIdea() {
             your TSX. <code>fuse dev</code> runs Vite and Flutter together,
             with hot reload on the device.
           </p>
-          <Link href="/docs/getting-started" className="lp-btn lp-btn-main">
+          <Link href="/docs/start/quick-start" className="lp-btn lp-btn-main">
             Read the getting started guide
           </Link>
         </div>

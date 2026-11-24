@@ -1,0 +1,23 @@
+---
+title: Over-the-air updates
+description: Planned. Shipping a new JS bundle without a store release
+---
+
+<Callout type="warn" title="Planned">
+Not built. This page holds the place and says what it will take.
+</Callout>
+
+An app is a Flutter shell plus one JS bundle. The shell changes rarely; the bundle is where the product is. So a new bundle could reach users without a store release, as CodePush and Expo Updates do for React Native.
+
+## Today
+
+`fuse build --js-only` builds the bundle on its own. The app loads it only from its own assets: nothing downloads or swaps a bundle at run time.
+
+## To be built
+
+- [ ] The runtime loads a bundle from a file the app downloaded, and falls back to the built-in one
+- [ ] A check that the bundle fits the shell: op format, the generated adapters it needs
+- [ ] Rollback when a new bundle fails to start
+- [ ] Signing, so only your bundles load
+- [ ] A command to publish a bundle, and somewhere to host it
+- [ ] What the stores allow, written down

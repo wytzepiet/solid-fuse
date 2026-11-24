@@ -1,0 +1,64 @@
+---
+title: How to think about it
+description: The few ideas everything else builds on
+---
+
+## Solid decides, Flutter draws
+
+Your code runs in a JavaScript engine on its own thread. It holds the state and decides what the UI is. Flutter, on the main thread, lays it out and draws it.
+
+A JSX element is not a DOM node and not a JavaScript widget. It is a small record (a type, props, children) that Flutter turns into a real widget. When a signal changes, only the props that read it are sent across, and only that widget rebuilds.
+
+So: anything about *what* is on screen is Solid, and works as Solid does. Anything about *how* it is laid out, drawn, scrolled or animated between pages is Flutter, and works as Flutter does.
+
+## Three layers of components
+
+| Layer | Import from | What it is |
+|---|---|---|
+| Core | `solid-fuse` | `View`, `Text`, `Pressable`, `TextInput`, `ScrollView`, `Modal`... No design. Short props made for JSX. |
+| Design | `@solid-fuse/material`, `/cupertino`, `/adaptive` | Buttons, app bars, dialogs, switches. Material, Cupertino, or the right one per platform. |
+| Flutter | `#fuse/flutter`, `#fuse/<package>` | Every widget of Flutter and of the pub.dev packages you add, generated from Dart with Flutter's own names and props. |
+
+Reach for them in that order. They mix freely: a `View` inside a Flutter `Card` inside a Material `Scaffold`.
+
+The third layer is generated for your app, into the `fuse/` folder, from what `dart/lib/fuse.dart` exports. You never edit it. See [All of Flutter from JSX](/docs/flutter/widgets).
+
+## One vocabulary of values
+
+Colors, insets, decorations and text styles are Flutter's types, in every layer. Common ones have a short form:
+
+```tsx
+<View padding={16} decoration={{ color: "#ffffff", borderRadius: 12 }} />
+```
+
+and the full Flutter form is always there:
+
+```tsx
+import { EdgeInsets, Border, BorderSide } from "#fuse/flutter";
+
+<View padding={EdgeInsets.only({ left: 16 })} decoration={{ border: Border({ bottom: BorderSide({ width: 1 }) }) }} />
+```
+
+A value built for one component fits any other. See [Styling and values](/docs/build/values).
+
+## Layout is Flutter's
+
+There is no CSS. A parent gives its child constraints, the child picks a size, the parent places it. A child of a column is as wide as its content, not as wide as the column. This is kept on purpose: it is predictable, and everything written about Flutter layout applies. See [Layout](/docs/build/layout).
+
+## Objects that live in Dart
+
+Some things are objects, not values: a scroll controller, a focus node, an animation controller. `createScrollController()` makes one in Dart and gives you a reference with its state as signals and its methods as functions. It lives as long as the component that made it. See [Controllers](/docs/flutter/controllers).
+
+## Pages are files
+
+Each file in `src/app/` is a page with an address. Navigation state is plain data in JS; Flutter's Navigator draws it. See [Pages and files](/docs/navigate/pages).
+
+## What is generated
+
+| Path | Made by | Commit it? |
+|---|---|---|
+| `fuse/` | `fuse dev`, `fuse build`, `fuse gen` | No |
+| `dart/lib/_generated/` | the same | No |
+| `dart/android`, `dart/ios`... | `flutter create`, once, when missing | Yes. Then it's yours. |
+
+Everything else is your code.

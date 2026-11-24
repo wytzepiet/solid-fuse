@@ -1,0 +1,21 @@
+---
+title: Links, back and restore
+description: Opening an address, the back button, and coming back after the OS kills the app
+---
+
+Navigation state is data in JS, so an address can rebuild the whole tree of pages before anything draws. Links, the back button and restore all work from that.
+
+## Links
+
+`nav.go("/tabs/post/1")` opens an address as a link does. The stacks on its way go back to their first page, the pages holding it open outermost first, and pages at the addresses in between open below it, so back goes up: `/users/42` gives `[home, users, user 42]`. Query params become params too: `/search?q=solid`. The other way round, `addressOf(route, params)` (and a page's `address`) puts params that aren't in the path in the query when they are strings, numbers or booleans, so an address always opens the same page.
+
+A link the OS opens goes the same way, at launch and while the app runs. A link into stacks that haven't drawn yet waits for them; only the latest one waits. Your app has to ask the OS for its links first: an intent filter on Android, associated domains or a URL scheme on iOS. See Flutter's deep linking guide; the rest is solid-fuse's.
+
+## Back
+
+The Android back button pops the stack in front, from the innermost page that holds stacks outwards. On its first page, it pops the stack around it. iOS swipe-back and the back gesture work per Navigator, as in Flutter.
+
+## Restore
+
+When the OS kills an app in the background and starts it again, the whole tree comes back: every change saves the pages and their params, and the app puts them back before anything draws. Pages without a file aren't saved, nor anything above them. This works where Flutter's state restoration does: Android, and iOS once the runner gives the Flutter view controller a restoration ID.
+

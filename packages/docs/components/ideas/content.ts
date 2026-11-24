@@ -104,7 +104,7 @@ export const pillars: Pillar[] = [
       'You write TSX, and fuse dev hot reloads it on the device. Every app can also be driven from the command line: tap, type, scroll, take a screenshot, read the logs.',
       'Flutter runs on Linux as well as on phones, so a cloud agent with no screen can run your mobile app, use it, and look at what it built.',
     ],
-    href: '/docs/building/agents',
+    href: '/docs/agents',
     link: 'Developing with agents',
   },
   {
@@ -114,7 +114,7 @@ export const pillars: Pillar[] = [
       'JavaScript packages run in a runtime with fetch, crypto, timers and streams built in. Flutter packages are one export away.',
       'fuse gen reads the Dart signatures and writes a typed component for every widget in the package. Under fuse dev that takes about a tenth of a second, and you import the result like any other module.',
     ],
-    href: '/docs/extending/generating',
+    href: '/docs/flutter/widgets',
     link: 'Generated components',
   },
   {
@@ -124,7 +124,7 @@ export const pillars: Pillar[] = [
       'Solid 2.0 gives you signals, async and fine-grained updates with no virtual DOM. Flutter gives you layout, gestures, navigation and a renderer that owns every pixel, the same on every platform.',
       'Neither is watered down to fit the other. A spring is a signal; it ticks inside Flutter’s frame and is drawn in that same frame.',
     ],
-    href: '/docs/building/animation',
+    href: '/docs/build/animation',
     link: 'Animation',
   },
   {
@@ -132,9 +132,9 @@ export const pillars: Pillar[] = [
     name: 'Only what you use',
     body: [
       'A signal change rebuilds the one widget that reads it. The constant part of your JSX is compiled into a template and sent to Flutter once.',
-      'A release build keeps only the Dart your bundle actually renders, and ships the bundle as QuickJS bytecode.',
+      'A release build keeps only the Dart your bundle actually renders, and the app caches the bundle as QuickJS bytecode.',
     ],
-    href: '/docs/architecture',
+    href: '/docs/internals/architecture',
     link: 'Architecture',
   },
 ];

@@ -38,7 +38,7 @@ export default async function PosterIdea() {
             agent to write, fast without tuning.
           </p>
           <div className="ps-actions">
-            <Link href="/docs/getting-started" className="ps-btn ps-btn-main">
+            <Link href="/docs/start/quick-start" className="ps-btn ps-btn-main">
               Get started
             </Link>
             <a href={github} className="ps-btn">
@@ -87,7 +87,7 @@ export default async function PosterIdea() {
       </section>
 
       <section className="ps-cta">
-        <Link href="/docs/getting-started">Start with the docs.</Link>
+        <Link href="/docs/start/quick-start">Start with the docs.</Link>
         <p>
           Early preview. The source is on <a href={github}>GitHub</a>.
         </p>

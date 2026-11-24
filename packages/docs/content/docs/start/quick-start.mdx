@@ -1,0 +1,79 @@
+---
+title: Quick start
+description: Create an app and see it run
+---
+
+## What you need
+
+- [Bun](https://bun.sh/)
+- [Flutter](https://flutter.dev/docs/get-started/install) 3.50 or newer
+- [Rust](https://rustup.rs/), for now: the first build compiles the JavaScript engine (a few minutes, once)
+
+## Create an app
+
+```bash
+bun create solid-fuse my-app
+cd my-app
+bun dev
+```
+
+`create` asks for a design (`material`, `cupertino`, `adaptive` or `none`) and the platforms, writes the app, installs it and runs `git init`. `-y` takes the defaults.
+
+`bun dev` starts the app on a simulator, a device or your desktop. Not sure your machine is ready? `bunx fuse doctor` checks it.
+
+## Change something
+
+Open `src/app/index.tsx` and change the text. The running app updates when you save, and keeps its state.
+
+```tsx title="src/app/index.tsx"
+import { createSignal } from "solid-js";
+import { AppBar, Button, Scaffold } from "@solid-fuse/material";
+import { Text, View } from "solid-fuse";
+
+export default function Home() {
+  const [count, setCount] = createSignal(0);
+  return (
+    <Scaffold appBar={<AppBar title="My app" />}>
+      <View width={Infinity} height={Infinity} layout={{ align: "center", justify: "center", gap: 16 }}>
+        <Text fontSize={48}>{count()}</Text>
+        <Button onPress={() => setCount(count() + 1)}>Add one</Button>
+      </View>
+    </Scaffold>
+  );
+}
+```
+
+## What's in the folder
+
+```
+my-app/
+  src/
+    index.tsx        starts the app
+    app.tsx          the app root: picks the design, draws the pages
+    app/
+      index.tsx      the first page
+  dart/              the Flutter project; you rarely open it
+  fuse/              generated, don't edit
+  fuse.config.ts
+  AGENTS.md          tells a coding agent how to work here
+```
+
+Each file in `src/app/` is a page: add `src/app/settings.tsx` and `nav.push("/settings")` opens it. Every file is listed in [Project files](/docs/reference/project-files).
+
+## On a machine with no screen
+
+A cloud agent or CI runs the same app on Linux:
+
+```bash
+bunx fuse dev --headless
+bunx fuse drive take-screenshots -o screen.png
+```
+
+See [Agents](/docs/agents).
+
+## Next
+
+- [How to think about it](/docs/start/mental-model): the few ideas the rest builds on
+- [Layout](/docs/build/layout): rows, columns, filling space
+- [Pages and files](/docs/navigate/pages): more pages, and moving between them
+- [Design packages](/docs/build/design-packages): Material, Cupertino, or both

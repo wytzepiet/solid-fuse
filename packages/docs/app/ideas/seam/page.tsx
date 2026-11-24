@@ -108,7 +108,7 @@ export default async function SeamIdea() {
             agent to write, fast without tuning.
           </p>
           <div className="sm-actions">
-            <Link href="/docs/getting-started" className="sm-btn sm-btn-main">
+            <Link href="/docs/start/quick-start" className="sm-btn sm-btn-main">
               Get started
             </Link>
             <a href={github} className="sm-btn">
@@ -149,7 +149,7 @@ export default async function SeamIdea() {
             on phones, so a cloud agent with no screen can run your mobile
             app, use it, and look at what it built.
           </p>
-          <Link href="/docs/building/agents">Developing with agents</Link>
+          <Link href="/docs/agents">Developing with agents</Link>
         </div>
         <PillarArt pillar="agents" />
       </section>
@@ -165,7 +165,7 @@ export default async function SeamIdea() {
             once. <code>fuse dev</code> runs Vite and Flutter together and hot
             reloads on the device.
           </p>
-          <Link href="/docs/getting-started" className="sm-btn sm-btn-main">
+          <Link href="/docs/start/quick-start" className="sm-btn sm-btn-main">
             Read the getting started guide
           </Link>
         </div>

@@ -1,0 +1,81 @@
+---
+title: Stacks and tabs
+description: "Pages that hold stacks of their own: Navigator, usePage and Tabs"
+---
+
+An app is a tree of pages. A page can hold stacks of pages of its own: a share sheet with its steps, or tabs with a stack per tab.
+
+In files, `x.tsx` holds the folder `x/` when `x/index.tsx` exists. The two share the address `/x`: `x.tsx` is the UI around the stacks, `x/index.tsx` the first page in them. `src/app.tsx` holds `src/app/` the same way. See [Files](/docs/navigate/pages#files).
+
+## Holding stacks
+
+A page that holds stacks draws them with `<Navigator>`. UI around it stays put while its pages change.
+
+```tsx title="src/app/share.tsx"
+import { Navigator, Text, View } from "solid-fuse";
+
+export default function Share() {
+  return (
+    <View layout={{ direction: "vertical" }}>
+      <Text fontSize={20}>Share</Text>
+      <View flex={1}>
+        <Navigator />
+      </View>
+    </View>
+  );
+}
+```
+
+`<Navigator />` starts at the page's own address: `share/index.tsx`. `<Navigator index="/share/contact" />` starts somewhere else. A page can draw as many as it likes, each a stack of its own, all kept alive. `usePage()` is the page's own place in the tree:
+
+| | |
+|---|---|
+| `page.stacks()` | The indexes of the stacks it holds, in the order they drew. |
+| `page.active()` | The stack in front: the one that takes the back button and gets pushes that fit no other. |
+| `page.show(index)` | Bring a stack to the front. Showing the one in front again pops it to its first page. |
+| `page.stack(index?)` | A stack it holds; the first without an index. |
+
+## Tabs
+
+`<Tabs>` shows the stack in front and keeps the rest alive. Hidden ones don't tick or take back, and back on another tab's first page goes to the first tab. Write the bar yourself.
+
+```tsx title="src/app/tabs.tsx"
+import { For } from "solid-js";
+import { Navigator, Tabs, usePage } from "solid-fuse";
+import { NavigationBar, NavigationDestination, Icons } from "@solid-fuse/material";
+
+const tabs = ["/tabs", "/tabs/profile"];
+
+export default function Main() {
+  const page = usePage();
+  return (
+    <View layout={{ direction: "vertical" }}>
+      <View flex={1}>
+        <Tabs>
+          <For each={tabs}>{(index) => <Navigator index={index} />}</For>
+        </Tabs>
+      </View>
+      <NavigationBar selected={tabs.indexOf(page.active()!)} onSelect={(i) => page.show(tabs[i]!)}>
+        <NavigationDestination icon={Icons.home} label="Feed" />
+        <NavigationDestination icon={Icons.person} label="Profile" />
+      </NavigationBar>
+    </View>
+  );
+}
+```
+
+`/tabs/post/1` from the profile tab opens on the profile tab, the one in front. `/tabs/profile/edit` from the feed opens on the profile tab and shows it. `Tabs` is a small helper over `usePage()`: write your own for a pager or a rail.
+
+## Where a push lands
+
+`nav.push(address)` opens a page where its file says:
+
+1. on the stack whose first page it is,
+2. else on the stack whose first page's address starts its own (`/tabs/profile/edit` on the profile tab),
+3. else on the stack in front.
+
+That's inside the page holding its folder. If that page isn't open, it opens first. If it's covered by another page, the new page goes on top of the cover, so you always see it. If it hasn't drawn its stacks yet (say they're behind a login), the push waits until they draw.
+
+## Opening somewhere else
+
+`name@x.tsx` opens in the stacks `x.tsx` holds instead of its folder's. `@app` is the app's own stack: `tabs/settings@app.tsx` sits with the tabs in the file tree but covers them when it opens.

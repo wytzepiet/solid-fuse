@@ -1,0 +1,45 @@
+---
+title: fuse.config.ts
+description: Every option of the config file
+---
+
+```ts title="fuse.config.ts"
+import { defineConfig } from "solid-fuse/config";
+
+export default defineConfig({
+  platforms: ["android", "ios"],
+  org: "com.example",
+});
+```
+
+An app needs none of it to run. A package needs `library: true`.
+
+| Option | Type | Default | |
+|---|---|---|---|
+| `platforms` | `("android" \| "ios" \| "macos" \| "linux" \| "windows")[]` | `[]` | The app's platforms. `fuse dev` and `fuse build` add a missing one's folder with `flutter create` ([Platform folders](/docs/flutter/platform-folders)) |
+| `org` | `string` | `"com.example"` | Reverse domain for the bundle id of the folders fuse adds |
+| `dart` | `string` | `"dart"` | Path to the Flutter project |
+| `vite` | `UserConfig` | `{}` | Vite config, merged over Fuse's |
+| `solid` | `object` | `{}` | `@solidjs/vite-plugin` options. Fuse sets `generate: "universal"` and `moduleName: "solid-fuse"` |
+| `compile` | `object` | `{}` | The compile step, below |
+| `gen` | `{ out?: string }` | `{ out: "fuse" }` | Where the generated modules go |
+| `library` | `boolean` | `false` | This is a package, not an app ([Writing a package](/docs/ship/packages)) |
+| `register` | `string` | none | A package's Dart function that registers its hand-written widgets, handles and routes |
+
+## vite
+
+You don't need a `vite.config.ts`. Fuse configures the Solid plugin, an es2020 target and the bundle format. Override only what you need:
+
+```ts
+export default defineConfig({
+  vite: { resolve: { alias: { "~": "./src" } } },
+});
+```
+
+## compile
+
+| Option | |
+|---|---|
+| `templates` | `false` turns [templates](/docs/internals/architecture#templates-the-constant-part-is-sent-once) off. An escape hatch for tracking down a problem |
+| `intrinsics` | Hand-written wrapper components that only forward their props, per module: `{ "my-widgets": { Chart: "chart" } }`. They compile as the element ([Widgets by hand](/docs/flutter/by-hand/widgets#why-wrappers)) |
+| `builders` | Value builders whose calls with literal arguments fold to constants. `fuse gen` writes these for generated modules |

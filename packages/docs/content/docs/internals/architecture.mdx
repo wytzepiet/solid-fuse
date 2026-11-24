@@ -1,0 +1,89 @@
+---
+title: Architecture
+description: How JSX becomes Flutter widgets
+---
+
+How a signal change becomes a Flutter frame. You don't need this to build an app.
+
+## Two threads, one reactive loop
+
+SolidJS runs inside fjs, a QuickJS-based JavaScript runtime built in Rust (our fork of [fluttercandies/fjs](https://github.com/fluttercandies/fjs), built as part of the `solid_fuse` Flutter plugin). It runs on its own isolate thread, off Flutter's main thread, so the JS engine and Flutter's frame pipeline never compete for the same core.
+
+Components create a virtual tree of nodes using `@solidjs/universal` (the same renderer API behind Solid's SSR). Each node has an ID, type, props, and children. When a signal updates, Solid records the changes as operations — create a node, set a prop, insert a child — and batches them into a single list. Ten prop changes become one bridge call, not ten. Props that are known by the time a new node's batch is sent travel inside its create operation, so mounting an element costs one operation rather than one per prop.
+
+The batch crosses to Dart through FJS's Rust bridge as a single FFI call, serialised as one JSON string: a flat array of opcodes and their operands (cheaper to build and convert than an array of op objects, and not subject to FJS's per-value conversion limit). The batch carries a format version, so a bundle and a runtime built from different solid-fuse versions fail with a clear message instead of misreading each other. `FuseRuntime` applies the ops, and each node is a `ChangeNotifier`. Flutter's own `ListenableBuilder` picks up the changes and rebuilds the affected widgets — no custom diffing or reconciler needed.
+
+### Templates: the constant part is sent once
+
+JavaScript in QuickJS is interpreted, so every element a component creates costs real time: a call, a node object, an op. Most of a JSX tree never changes, though: the element types, the literal props, the literal text, how they nest. A compile step in `fuse dev` and `fuse build` (it runs in front of Solid's JSX compiler) lifts that constant part out into a *template*:
+
+```tsx
+<View padding={8}>
+  <Text fontSize={12}>Total</Text>
+  <Text color="#EF4444">{total()}</Text>
+</View>
+```
+
+The shape (a view with padding 8, a text "Total", a red text) crosses to Dart once, the first time the JSX is used. After that, each use is a single "instantiate" op, and Dart builds the nodes natively. JavaScript creates a node only where something is dynamic: here the second `Text`, for `{total()}`. Those elements are still compiled by Solid's compiler, so reactivity, refs, handlers, `<Show>` and `<For>` behave exactly as they always do. The compile step decides only what is provably constant, never how something dynamic behaves.
+
+The same step compiles the built-in wrapper components (`View`, `Text`, `Stack`, ...) as the elements they render, so they cost no component call.
+
+You do not write anything differently for this, and there is nothing to mark. What counts as constant is what is literally constant in the source: a string, number, boolean or `null`, and arrays and objects made only of those (`decoration={{ color: "#fff", radius: 8 }}`). Anything else (a variable, a call, a handler, a ref, a spread) stays dynamic and works as before. If you ever need to rule the step out while tracking down a problem, set `compile: { templates: false }` in `fuse.config.ts`.
+
+### Node lifetime
+
+A node on the Dart side lives exactly as long as JavaScript can still reach it. Removing a node only detaches it, so an element you keep in a variable can leave the tree and come back later (a `<Show>` around it, for example), as it could in the DOM. When the JS garbage collector finds that nothing refers to a detached subtree any more, its Dart nodes are disposed as soon as no widget shows them either: a page animating out or a hero in flight keeps drawing its nodes until it is done.
+
+Events flow back the same way. A `Pressable` fires, Dart calls into JS with the node ID and event name, the signal updates, new ops flush to Dart. The whole loop runs automatically.
+
+```
+signal update → ops journal → bridge_call → Dart applies ops → Flutter rebuilds
+                                                                       ↓
+signal update ← JS handler  ← bridge_call ← Flutter gesture ← user taps
+```
+
+Dart never waits for JS, with one exception: a builder (a [generated](/docs/flutter/widgets#builders) `ListView.builder`'s `itemBuilder`) needs its widget during the frame. Dart then calls JS synchronously, and the reply carries the ops that build the row, together with any batch whose message is still queued behind the waiting Dart thread.
+
+## The runtime
+
+Most hybrid frameworks run JS in a stripped-down environment where IO operations bounce back to the host. fjs implements standard APIs — `fetch`, `crypto`, `setTimeout`, `Buffer`, URL parsing, streams, compression — in Rust. So things like network requests and cryptography run at native speed, not through JS polyfills. SolidJS gets a real environment with the APIs it expects.
+
+Fuse adds a WebSocket polyfill on the Dart side (via `web_socket_channel`) to fill that gap.
+
+In a release build the app compiles the bundle to QuickJS bytecode the first time it starts and caches it, so later starts skip the parse step.
+
+## The bridge
+
+Only things that need Flutter cross the bridge: rendering ops, gesture events, platform APIs. Reactive state, data fetching, timers, module imports — all of that stays inside the Rust/QuickJS layer on its own thread.
+
+Channel messages and event payloads are not JSON: FJS passes structured values directly between Dart and JS through Rust. (Render ops are the exception described above — one string per batch. JSON has no `Infinity` or `NaN`, so those props cross as the strings `"Infinity"`, `"-Infinity"` and `"NaN"`, and `node.double()` reads them back as numbers: `width={Infinity}` still means fill.) On the Dart side, `FuseNode` and `FuseMap` provide typed accessors (`node.string('label')`, `node.value<Color>('color')`) that read these values directly.
+
+## Getting Flutter into JSX
+
+Most components are not written by hand. `fuse gen` reads Dart signatures (Flutter's, a pub.dev package's, your own) and writes a typed component per widget, a `createX` per controller, and the Dart adapter that reads the props. It runs in the app, so every package shares one generated layer. See [All of Flutter from JSX](/docs/flutter/widgets).
+
+Underneath is a small hand-written layer, which core's own components use:
+
+| Method | Purpose |
+|---|---|
+| `registerWidget(name, builder)` | A widget that reads its props from a `FuseNode` |
+| `registerHandle(name, factory)` | A persistent Dart object JS can call: controllers, page types |
+| `registerRoute(type, factory)` | A modal route for `<Modal type>` |
+
+See [By hand](/docs/flutter/by-hand).
+
+## Packages
+
+A Fuse package is an npm package with JS and Dart side by side. `fuse link` follows the app's dependencies, adds each package's Dart to the Flutter project, and generates the code that registers it. `fuse dev` runs it for you.
+
+```bash
+bun add @solid-fuse/material
+```
+
+One package manager for both sides.
+
+## Dev vs production
+
+**Development** — `fuse dev` starts Vite and Flutter together. Dart connects to the Vite dev server via WebSocket, pre-fetches ES modules, and evaluates them in the engine. HMR works — edit, save, see it on device.
+
+**Production** — `fuse build` produces a single IIFE bundle with optional bytecode compilation, then runs `flutter build` (`fuse build --js-only` stops after the bundle). The Dart layer rarely changes; the JS bundle is where product code lives. Shipping a bundle on its own is [planned](/docs/ship/updates).

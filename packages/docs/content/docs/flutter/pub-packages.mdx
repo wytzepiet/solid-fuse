@@ -1,0 +1,82 @@
+---
+title: pub.dev packages
+description: Add a Flutter package, export it, use its widgets from JSX
+---
+
+Any Flutter package on [pub.dev](https://pub.dev) works: charts, maps, video, pickers. Three steps, and no wrapper to write.
+
+## 1. Add it
+
+In `dart/`, as in any Flutter app:
+
+```bash
+cd dart
+flutter pub add fl_chart
+```
+
+## 2. Export it
+
+```dart title="dart/lib/fuse.dart"
+export 'package:fl_chart/fl_chart.dart';
+```
+
+Nothing crosses on its own. `fuse dev` lists the app's pub dependencies that `fuse.dart` doesn't mention, with the line to add.
+
+## 3. Use it
+
+The package is now a module, `#fuse/fl_chart`, with a component per widget and a builder per value class. Names and props are the package's own, so its docs apply:
+
+```tsx
+import { LineChart, LineChartData, LineChartBarData, FlSpot } from "#fuse/fl_chart";
+
+<View height={200}>
+  <LineChart
+    data={LineChartData({
+      lineBarsData: [LineChartBarData({ spots: points().map((p, i) => FlSpot(i, p)), barWidth: 3, color: "#16A34A" })],
+    })}
+  />
+</View>
+```
+
+`points()` is a signal: the chart updates when it changes. Restart the app once after adding a package, for its Dart side.
+
+## When something is missing
+
+`fuse/gen-report.txt` lists what crossed and what was skipped, with the reason. A skipped optional parameter is a missing prop; a skipped required one drops the widget. See [What is skipped](/docs/flutter/widgets#what-is-skipped).
+
+## Plugins without widgets
+
+A plugin that is functions, not widgets (`url_launcher`, `share_plus`, `geolocator`): write a small Dart class that calls it, and export that. See [A class with state or methods](/docs/flutter/your-own-dart#a-class-with-state-or-methods). For one or two calls, a [channel](/docs/flutter/channels) does it too.
+
+Plugins often need native setup (a permission in `Info.plist`, a line in `AndroidManifest.xml`). That goes in the [platform folders](/docs/flutter/platform-folders), as the plugin's docs say.
+
+## A nicer API on top
+
+A generated component mirrors Dart. For props shaped for JSX, write a small component over it in TypeScript:
+
+```tsx
+import { LineChart, LineChartData, LineChartBarData, FlSpot } from "#fuse/fl_chart";
+
+export function Sparkline(props: { values: number[]; color?: Color }) {
+  return (
+    <LineChart
+      data={LineChartData({
+        lineBarsData: [LineChartBarData({ spots: props.values.map((v, i) => FlSpot(i, v)), color: props.color })],
+      })}
+    />
+  );
+}
+```
+
+To share it, see [Writing a package](/docs/ship/packages).
+
+## Fuse packages
+
+A package written for fuse ships a `lib/fuse.dart` of its own, and it is picked up because the app depends on the package: nothing to add to yours. (solid-fuse's own adds the shorthands below.) A package never ships generated code. The app generates it, so it matches the app's solid-fuse and shares one `#fuse/flutter` with everything else. A package that wants a nicer API ships TypeScript on top of its `#fuse/<package>` module.
+
+
+Add one with your package manager; `fuse dev` links it:
+
+```bash
+bun add @solid-fuse/heroine
+```

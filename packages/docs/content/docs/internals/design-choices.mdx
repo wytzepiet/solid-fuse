@@ -1,0 +1,54 @@
+---
+title: Design choices
+description: Why Solid Fuse is built the way it is
+---
+
+Short reasons for the choices that shape everything else. If a change would undo one, read its reason first.
+
+## Flutter's layout, not CSS
+
+A column child is as wide as its content; nothing stretches by default. We keep Flutter's rules exactly, and don't add a CSS-like layer on top. One set of rules is predictable, for people and for coding agents, and everything written about Flutter layout stays true. `width={Infinity}` is the way to fill.
+
+## Core has no design
+
+`solid-fuse` imports only Flutter's `widgets` library. Material and Cupertino live in their own packages, as they now do in Flutter itself. An app that draws its own look ships neither.
+
+## Generated, not wrapped
+
+Flutter's widgets, pub.dev packages and your own Dart cross to JSX by generation from Dart signatures. Nobody maintains wrappers, nothing lags behind Flutter, and the long tail is covered on day one. Hand-written components (`View`, `Text`, the design packages) exist where a shape made for JSX is clearly better, and they are thin.
+
+## Generation happens in the app
+
+A package never ships generated code. The app generates everything against its own solid-fuse version, so all packages share one `#fuse/flutter` and one set of value types.
+
+## One vocabulary of values
+
+Core, design and generated components take the same Flutter types (`Color`, `EdgeInsets`, `BoxDecoration`), read in Dart by generated decoders. No parallel set of style types, no hand-written parsers. Short forms are declared once, in Dart, by the type's owner.
+
+## Dart-style builders
+
+Values are written as Dart writes them: `EdgeInsets.all(8)`, `Color(0xff2563eb)`. Not classes with methods, not tagged objects by hand. Builders tree-shake per member, fold to constants at compile time, and Flutter's docs read one to one.
+
+## Controlled state, `on` + verb, overlays with `open`
+
+Every component follows the same few rules: state is a `value`/`onChange` pair, events are `onPress` and `onSubmit`, an overlay is a component with `open`. An API should be predictable from the JSX alone; there are no rules a reader can't see.
+
+## Strong primitives over special cases
+
+When something doesn't fit, we look for the primitive that makes it fit, not a patch. `layout` and `flex` work on every element, generated ones too. A page is a config. A stack is data. Special cases add up.
+
+## Navigation state is JS data
+
+Stacks are plain data in JS; Flutter's Navigators only draw them. So a link or a restore rebuilds the whole tree of pages before anything mounts.
+
+## Node lifetime is the garbage collector's
+
+Removing an element only detaches it. Dart disposes a node when JS can no longer reach it and nothing draws it. An element kept in a variable can come back, and a page animating out keeps drawing.
+
+## Frames are Flutter's
+
+`requestAnimationFrame` runs inside Flutter's frame, before build, and what it changes is drawn in that frame. A spring in JS is in step with scrolling and page transitions.
+
+## Agents are users
+
+Every app can be run headless and driven from the command line, and the docs ship inside the package. A coding agent should be able to build, run, see and fix an app with no person in the loop.

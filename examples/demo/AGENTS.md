@@ -7,4 +7,4 @@ solid-fuse and SolidJS 2.0 are both new and may not match your training data. Be
 
 ## Check your work in the running app
 
-Start `fuse dev` in the background (`fuse dev --headless` on a machine with no screen), wait for "Ready for fuse drive", then tap through the app and take screenshots with `fuse drive` (`fuse drive help-ai` lists the commands). Docs: `node_modules/solid-fuse/dist/docs/building/agents.mdx`.
+Start `fuse dev` in the background (`fuse dev --headless` on a machine with no screen), wait for "Ready for fuse drive", then tap through the app and take screenshots with `fuse drive` (`fuse drive help-ai` lists the commands). Docs: `node_modules/solid-fuse/dist/docs/agents/`.

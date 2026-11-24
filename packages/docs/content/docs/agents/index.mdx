@@ -1,0 +1,40 @@
+---
+title: Why agents
+description: An agent that writes your app can also run it, use it and look at it
+---
+
+A coding agent is only as good as its feedback. For a mobile app that usually means a person with a phone. With Solid Fuse the agent runs the app itself, taps through it, reads the logs and looks at screenshots, on a Linux machine with no screen. So an agent in the cloud can build a feature, check that it works, and fix what doesn't, before you look.
+
+This works because Flutter draws every pixel itself and runs on Linux: the app an agent sees there is the app your phone runs.
+
+## What ships for it
+
+- **`fuse dev --headless`** runs the app on a virtual display. [Run headless](/docs/agents/headless).
+- **`fuse drive`** taps, types, scrolls, takes screenshots and reads logs in the running app. It is [Marionette](https://pub.dev/packages/marionette_flutter), built into every app in debug and profile builds, and compiled out of release builds. [Drive the app](/docs/agents/drive).
+- **`testId`** on any element gives the agent a stable handle on it.
+- **A platform switch**: one prop makes the running app look and behave like iOS or Android, so both can be checked from Linux.
+- **`AGENTS.md`** in every new app tells the agent to read these docs and to check its work in the running app.
+- **The docs are in the package**, as plain files: `node_modules/solid-fuse/dist/docs/`, with the Solid 2.0 docs next to them. The agent reads the docs of the version it is using.
+
+## The loop
+
+```bash
+bunx fuse dev --headless &                      # start it, in the background
+# ... wait for "Ready for fuse drive"
+bunx fuse drive get-interactive-elements        # what's on screen
+bunx fuse drive tap --text "Add one"
+bunx fuse drive take-screenshots -o after.png   # look at it
+bunx fuse drive get-logs                        # errors and console.log
+```
+
+Edit a file and the running app updates; drive it again.
+
+## Tell your agent
+
+A new app's `AGENTS.md` already says this. For an existing app, add:
+
+```md
+To check a change in the running app: start `fuse dev --headless` in the
+background, wait for "Ready for fuse drive", then use `fuse drive`
+(`fuse drive help-ai` lists the commands). Look at screenshots after changes.
+```

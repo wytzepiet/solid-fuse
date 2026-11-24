@@ -92,7 +92,7 @@ export { Menu, type MenuProps } from "./widgets/menu";
 export { Expandable, type ExpandableProps } from "./widgets/expandable";
 export { createHandle } from "./handle";
 export type { Handle, HandleRuntime } from "./handle";
-export { on, send, channels } from "./channels";
+export { on, send, call, channels } from "./channels";
 export { host } from "./host";
 export type { Host, Brightness, Platform, BuildMode, ViewSize, ViewEdges } from "./host";
 export { defineConfig } from "./config";

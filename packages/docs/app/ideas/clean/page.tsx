@@ -42,7 +42,7 @@ export default async function CleanIdea() {
         </Link>
         <nav>
           <Link href="/docs">Docs</Link>
-          <Link href="/docs/architecture">Architecture</Link>
+          <Link href="/docs/internals/architecture">Architecture</Link>
           <a href={github}>GitHub</a>
         </nav>
       </header>
@@ -68,7 +68,7 @@ export default async function CleanIdea() {
           <p className="cx-agent-links">
             <a href="/llms.txt">llms.txt</a>
             <a href="/llms-full.txt">llms-full.txt</a>
-            <Link href="/docs/building/agents">Developing with agents</Link>
+            <Link href="/docs/agents">Developing with agents</Link>
           </p>
         </div>
         <div>
@@ -99,7 +99,7 @@ export default async function CleanIdea() {
       <section className="cx-end">
         <h2>Start with the guide.</h2>
         <div className="cx-actions">
-          <Link href="/docs/getting-started" className="cx-btn">
+          <Link href="/docs/start/quick-start" className="cx-btn">
             Read the docs
           </Link>
           <a href={github} className="cx-link">
