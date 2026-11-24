@@ -14,7 +14,8 @@ import {
   type FusePackageInfo,
 } from "./utils";
 import { loadFuseConfig } from "./config";
-import { GENERATED_DART, hasBarrels, runGen } from "./gen/command";
+import { GENERATED_DART, genOutDir, hasBarrels, runGen } from "./gen/command";
+import { writeRoutes } from "./routes";
 
 /**
  * Core link logic — exported so other commands (dev, build, install, remove) can call it.
@@ -65,6 +66,15 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
     } catch (err) {
       // The previous output stays; the app still builds with it.
       console.error(`fuse gen failed: ${err instanceof Error ? err.message : err}`);
+    }
+  }
+
+  // File routes (`#fuse/routes`), so the editor finds them before `fuse dev`.
+  if (gen) {
+    try {
+      writeRoutes(root, join(root, genOutDir(fuseConfig)));
+    } catch (err) {
+      console.error(err instanceof Error ? err.message : err);
     }
   }
 

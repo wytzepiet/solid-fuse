@@ -93,16 +93,21 @@ function copyTemplate(from: string, to: string, design: Design, vars: Record<str
     recursive: true,
     filter: (src) => !/[\\/](\.git|node_modules)$/.test(src),
   });
-  // One source file per design: src/index.<design>.tsx → src/index.tsx.
-  const src = join(to, "src");
-  if (existsSync(src)) {
-    for (const f of readdirSync(src)) {
+  // One source file per design: src/index.<design>.tsx → src/index.tsx, and
+  // so on in src/app.
+  const pick = (dir: string) => {
+    for (const f of readdirSync(dir)) {
+      if (statSync(join(dir, f)).isDirectory()) {
+        pick(join(dir, f));
+        continue;
+      }
       const m = f.match(/^(.*)\.(material|cupertino|adaptive|none)(\.[^.]+)$/);
       if (!m) continue;
-      if (m[2] === design) renameSync(join(src, f), join(src, m[1] + m[3]));
-      else rmSync(join(src, f));
+      if (m[2] === design) renameSync(join(dir, f), join(dir, m[1] + m[3]));
+      else rmSync(join(dir, f));
     }
-  }
+  };
+  if (existsSync(join(to, "src"))) pick(join(to, "src"));
   // npm drops .gitignore from published packages.
   for (const dir of [to, join(to, "dart")]) {
     if (existsSync(join(dir, "_gitignore"))) renameSync(join(dir, "_gitignore"), join(dir, ".gitignore"));

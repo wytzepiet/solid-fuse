@@ -1,23 +1,10 @@
-import { createSignal } from "solid-js";
-import { Button, CupertinoApp, NavigationBar, PageScaffold } from "@solid-fuse/cupertino";
-import { Navigator, Text, View, render } from "solid-fuse";
+import { CupertinoApp } from "@solid-fuse/cupertino";
+import { render } from "solid-fuse";
+import { Routes } from "#fuse/routes";
 
-function Home() {
-  const [count, setCount] = createSignal(0);
-  return (
-    <PageScaffold navigationBar={<NavigationBar title="{{title}}" />}>
-      <View width={Infinity} height={Infinity} layout={{ align: "center", justify: "center", gap: 16 }}>
-        <Text fontSize={48}>{count()}</Text>
-        <Button onPress={() => setCount(count() + 1)}>
-          Add one
-        </Button>
-      </View>
-    </PageScaffold>
-  );
-}
-
+// The routes are the files in src/app: src/app/index.tsx is the first page.
 render(() => (
   <CupertinoApp title="{{title}}">
-    <Navigator initialPage={() => <Home />} />
+    <Routes />
   </CupertinoApp>
 ));

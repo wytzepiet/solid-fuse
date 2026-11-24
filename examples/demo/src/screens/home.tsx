@@ -13,7 +13,7 @@ import { AdaptiveScreen } from "./adaptive";
 import { FramesScreen } from "./frames";
 import { SpringsScreen } from "./springs";
 import { HeroineScreen } from "./heroine";
-import { TabsDemo, Users } from "./routes";
+import { routes } from "#fuse/routes";
 
 export function HomeScreen() {
   const nav = useNavigation();
@@ -65,8 +65,8 @@ export function HomeScreen() {
       <MenuItem label="animation frames" onTap={() => nav.push(() => <FramesScreen />)} />
       <MenuItem label="springs" onTap={() => nav.push(() => <SpringsScreen />)} />
       <MenuItem label="heroine" onTap={() => nav.push(() => <HeroineScreen />)} />
-      <MenuItem label="routes" onTap={() => nav.push(Users)} />
-      <MenuItem label="tabs" onTap={() => nav.push(TabsDemo)} />
+      <MenuItem label="routes" onTap={() => nav.push(routes["/users"])} />
+      <MenuItem label="tabs" onTap={() => nav.push(routes["/tabs/_layout"])} />
     </ScrollView>
   );
 }

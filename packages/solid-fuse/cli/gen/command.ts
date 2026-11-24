@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { defineCommand } from "citty";
 import type { FuseConfig } from "../../src/config";
 import { runGenerator, writeGenerated } from "./index";
+import { writeRoutes } from "../routes";
 import type { Manifest } from "./manifest";
 
 /** solid_fuse_gen inside this package (`gen/`, next to `cli/`). */
@@ -175,6 +176,8 @@ export const genCommand = defineCommand({
       `fuse gen: ${r.manifest.widgets.length} widgets, ${r.manifest.handles.length} handles, ${r.manifest.skipped.length} skipped ` +
         `(${Math.round(performance.now() - t0)} ms); ${r.written.length} files written. Details: ${join(genOutDir(config), "gen-report.txt")}`,
     );
+    const routes = writeRoutes(root, join(root, genOutDir(config)));
+    if (routes) console.log(`fuse gen: ${routes.count} file routes from src/app`);
     // Registers the adapters (lib/_generated/fuse_packages.dart).
     await runLink(root, { pubGet: false, gen: false });
   },

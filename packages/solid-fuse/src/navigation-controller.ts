@@ -18,6 +18,7 @@ import {
   routeByKey,
   tabsOf,
   type PageType,
+  type Link,
   type Route,
 } from "./routes";
 
@@ -107,7 +108,7 @@ export type NavigationController = {
    * to its first page, then the route opens on it with its parents below.
    */
   go: {
-    (link: string): void;
+    (link: Link): void;
     <P>(route: Route<P, any>, ...args: ParamsArg<P>): void;
   };
   /**

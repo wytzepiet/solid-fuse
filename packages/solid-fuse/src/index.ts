@@ -53,6 +53,8 @@ export {
   type Tabs,
   type PathParams,
   type ParamParsers,
+  type Register,
+  type Link,
 } from "./routes";
 export {
   page,

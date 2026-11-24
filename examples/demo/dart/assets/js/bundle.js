@@ -7938,7 +7938,7 @@
 		});
 	}
 	// ../../packages/cupertino/src/controls.tsx
-	var _tpl$1$16 = /*@__PURE__*/ Be$1(["view", { "layout": {
+	var _tpl$1$26 = /*@__PURE__*/ Be$1(["view", { "layout": {
 		"direction": "horizontal",
 		"gap": 6,
 		"align": "center"
@@ -7991,7 +7991,7 @@
 								return label$1(props.children);
 							}, null);
 							return _el$;
-						})())(Ve$1(_tpl$1$16));
+						})())(Ve$1(_tpl$1$26));
 					}
 				});
 			}
@@ -9943,7 +9943,7 @@
 		};
 	}
 	// src/ui.tsx
-	var _tpl$1$15 = /*@__PURE__*/ Be$1([
+	var _tpl$1$25 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"padding": {
@@ -9995,7 +9995,7 @@
 						return props.children;
 					});
 					return _el$;
-				})())(Ve$1(_tpl$1$15));
+				})())(Ve$1(_tpl$1$25));
 			}
 		});
 	}
@@ -10038,7 +10038,7 @@
 		});
 	}
 	// src/screens/counter.tsx
-	var _tpl$1$14 = /*@__PURE__*/ Be$1([
+	var _tpl$1$24 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -10084,7 +10084,7 @@
 			"−"
 		]
 	], 3);
-	var _tpl$3$5 = /*@__PURE__*/ Be$1([
+	var _tpl$3$4 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"height": 64,
@@ -10108,7 +10108,7 @@
 			"Reset"
 		]
 	], 3);
-	var _tpl$4$4 = /*@__PURE__*/ Be$1([
+	var _tpl$4$3 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"width": 64,
@@ -10166,7 +10166,7 @@
 					return ((_at$3) => at("h$view", {
 						$t: _at$3,
 						$i: 0
-					}))(Ve$1(_tpl$3$5));
+					}))(Ve$1(_tpl$3$4));
 				}
 			}), null);
 			Q$1(_el$3, pt(lt, {
@@ -10176,14 +10176,14 @@
 					return ((_at$4) => at("h$view", {
 						$t: _at$4,
 						$i: 0
-					}))(Ve$1(_tpl$4$4));
+					}))(Ve$1(_tpl$4$3));
 				}
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$14));
+		})())(Ve$1(_tpl$1$24));
 	}
 	// src/screens/text-field.tsx
-	var _tpl$1$13 = /*@__PURE__*/ Be$1([
+	var _tpl$1$23 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -10456,14 +10456,14 @@
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$13));
+		})())(Ve$1(_tpl$1$23));
 	}
 	// fuse/flutter_lucide/LucideIcons.tsx
 	var git_branch = "LucideIcons.git_branch";
 	var heart = "LucideIcons.heart";
 	var rocket = "LucideIcons.rocket";
 	// src/screens/icon.tsx
-	var _tpl$1$12 = /*@__PURE__*/ Be$1([
+	var _tpl$1$22 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -10798,10 +10798,10 @@
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$12));
+		})())(Ve$1(_tpl$1$22));
 	}
 	// src/screens/scroll.tsx
-	var _tpl$1$11 = /*@__PURE__*/ Be$1([
+	var _tpl$1$21 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": {
 			"direction": "vertical",
@@ -10960,10 +10960,10 @@
 				children: "Back"
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$11));
+		})())(Ve$1(_tpl$1$21));
 	}
 	// src/screens/list.tsx
-	var _tpl$1$10 = /*@__PURE__*/ Be$1(["view", {
+	var _tpl$1$20 = /*@__PURE__*/ Be$1(["view", {
 		"layout": {
 			"direction": "vertical",
 			"gap": 12
@@ -11023,10 +11023,10 @@
 				})())(Ve$1(_tpl$2$8))
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$10));
+		})())(Ve$1(_tpl$1$20));
 	}
 	// src/screens/builder.tsx
-	var _tpl$1$9 = /*@__PURE__*/ Be$1([
+	var _tpl$1$19 = /*@__PURE__*/ Be$1([
 		"view",
 		{ "layout": {
 			"direction": "vertical",
@@ -11133,10 +11133,10 @@
 				})
 			}));
 			return _el$;
-		})())(Ve$1(_tpl$1$9));
+		})())(Ve$1(_tpl$1$19));
 	}
 	// src/screens/core.tsx
-	var _tpl$1$8 = /*@__PURE__*/ Be$1([
+	var _tpl$1$18 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -11162,7 +11162,7 @@
 		} },
 		["text", { "color": "#FFFFFF" }]
 	], 2);
-	var _tpl$3$4 = /*@__PURE__*/ Be$1([
+	var _tpl$3$3 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"padding": 12,
@@ -11176,8 +11176,8 @@
 		},
 		["textInput", { "placeholder": "Type here" }]
 	], 2);
-	var _tpl$4$3 = /*@__PURE__*/ Be$1(["text", { "color": "#6B7280" }], 1);
-	var _tpl$5$2 = /*@__PURE__*/ Be$1([
+	var _tpl$4$2 = /*@__PURE__*/ Be$1(["text", { "color": "#6B7280" }], 1);
+	var _tpl$5$1 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"padding": 24,
@@ -11202,7 +11202,7 @@
 			"No design: the content brings its own surface."
 		]
 	], 5);
-	var _tpl$6$1 = /*@__PURE__*/ Be$1(["view", {
+	var _tpl$6 = /*@__PURE__*/ Be$1(["view", {
 		"width": 160,
 		"decoration": {
 			"color": "#FFFFFF",
@@ -11213,17 +11213,17 @@
 			}]
 		}
 	}], 1);
-	var _tpl$7$1 = /*@__PURE__*/ Be$1([
+	var _tpl$7 = /*@__PURE__*/ Be$1([
 		"view",
 		{ "padding": 12 },
 		["text", 0]
 	], 2);
-	var _tpl$8$1 = /*@__PURE__*/ Be$1([
+	var _tpl$8 = /*@__PURE__*/ Be$1([
 		"radioGroup",
 		0,
 		["text", 0]
 	], 2);
-	var _tpl$9$1 = /*@__PURE__*/ Be$1([
+	var _tpl$9 = /*@__PURE__*/ Be$1([
 		"tooltip",
 		{ "trigger": "tap" },
 		[
@@ -11232,7 +11232,7 @@
 			"tap for a tooltip"
 		]
 	], 3);
-	var _tpl$10$1 = /*@__PURE__*/ Be$1([
+	var _tpl$10 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"padding": 8,
@@ -11247,7 +11247,7 @@
 			"A tooltip"
 		]
 	], 3);
-	var _tpl$11$1 = /*@__PURE__*/ Be$1([
+	var _tpl$11 = /*@__PURE__*/ Be$1([
 		"expandable",
 		0,
 		[
@@ -11260,7 +11260,7 @@
 			]
 		]
 	], 4);
-	var _tpl$12$1 = /*@__PURE__*/ Be$1([
+	var _tpl$12 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"padding": 12,
@@ -11346,7 +11346,7 @@
 									lt$1(_el$7, "value", _v$, _$p);
 								});
 								return _el$6;
-							})())(Ve$1(_tpl$3$4));
+							})())(Ve$1(_tpl$3$3));
 						}),
 						rt(() => {
 							return ((_at$4) => (() => {
@@ -11358,7 +11358,7 @@
 									return `input = "${text()}"`;
 								});
 								return _el$8;
-							})())(Ve$1(_tpl$4$3));
+							})())(Ve$1(_tpl$4$2));
 						}),
 						pt(Row, { get children() {
 							return pt(Button, {
@@ -11403,7 +11403,7 @@
 									children: "close"
 								}), null);
 								return _el$9;
-							})())(Ve$1(_tpl$5$2));
+							})())(Ve$1(_tpl$5$1));
 						}
 					})];
 				}
@@ -11447,12 +11447,12 @@
 												ht(_el$13, _el$14);
 												Q$1(_el$14, f);
 												return _el$13;
-											})())(Ve$1(_tpl$7$1));
+											})())(Ve$1(_tpl$7));
 										}
 									})
 								}));
 								return _el$12;
-							})())(Ve$1(_tpl$6$1))
+							})())(Ve$1(_tpl$6))
 						};
 					}, ({ e, t }, _p$) => {
 						e !== _p$?.e && lt$1(_el$3, "open", e, _p$?.e);
@@ -11483,7 +11483,7 @@
 								lt$1(_el$15, "value", _v$, _$p);
 							});
 							return _el$15;
-						})())(Ve$1(_tpl$8$1));
+						})())(Ve$1(_tpl$8));
 					}), rt(() => {
 						return ((_at$9) => (() => {
 							var _el$17 = at("h$tooltip", {
@@ -11493,11 +11493,11 @@
 							nt(() => ((_at$10) => at("h$view", {
 								$t: _at$10,
 								$i: 0
-							}))(Ve$1(_tpl$10$1)), (_v$, _$p) => {
+							}))(Ve$1(_tpl$10)), (_v$, _$p) => {
 								lt$1(_el$17, "content", _v$, _$p);
 							});
 							return _el$17;
-						})())(Ve$1(_tpl$9$1));
+						})())(Ve$1(_tpl$9));
 					})];
 				}
 			}), null);
@@ -11512,15 +11512,15 @@
 						nt(() => ((_at$12) => at("h$view", {
 							$t: _at$12,
 							$i: 0
-						}))(Ve$1(_tpl$12$1)), (_v$, _$p) => {
+						}))(Ve$1(_tpl$12)), (_v$, _$p) => {
 							lt$1(_el$19, "header", _v$, _$p);
 						});
 						return _el$19;
-					})())(Ve$1(_tpl$11$1));
+					})())(Ve$1(_tpl$11));
 				}
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$8));
+		})())(Ve$1(_tpl$1$18));
 	}
 	function Section(props) {
 		return ((_at$13) => (() => {
@@ -11543,7 +11543,7 @@
 		})())(Ve$1(_tpl$13));
 	}
 	// src/screens/material.tsx
-	var _tpl$1$7 = /*@__PURE__*/ Be$1([
+	var _tpl$1$17 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -11602,7 +11602,7 @@
 		0,
 		"An outlined card. Tap it."
 	], 2);
-	var _tpl$3$3 = /*@__PURE__*/ Be$1([
+	var _tpl$3$2 = /*@__PURE__*/ Be$1([
 		"view",
 		{ "padding": 24 },
 		[
@@ -11912,19 +11912,19 @@
 							return ((_at$3) => at("h$view", {
 								$t: _at$3,
 								$i: 0
-							}))(Ve$1(_tpl$3$3));
+							}))(Ve$1(_tpl$3$2));
 						}
 					}), null);
 					nt(() => plan(), (_v$, _$p) => {
 						lt$1(_el$7, "value", _v$, _$p);
 					});
 					return _el$;
-				})())(Ve$1(_tpl$1$7));
+				})())(Ve$1(_tpl$1$17));
 			}
 		});
 	}
 	// src/screens/cupertino.tsx
-	var _tpl$1$6 = /*@__PURE__*/ Be$1([
+	var _tpl$1$16 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -12175,7 +12175,7 @@
 						lt$1(_el$5, "value", _v$, _$p);
 					});
 					return _el$;
-				})())(Ve$1(_tpl$1$6));
+				})())(Ve$1(_tpl$1$16));
 			}
 		});
 	}
@@ -12183,7 +12183,7 @@
 	/** The platform the whole demo behaves like. `undefined`: the device's. */
 	var [platform, setPlatform] = createSignal(void 0);
 	// src/screens/adaptive.tsx
-	var _tpl$1$5 = /*@__PURE__*/ Be$1([
+	var _tpl$1$15 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{
 			"layout": {
@@ -12239,7 +12239,7 @@
 			}), null);
 			Q$1(_el$, pt(Gallery, {}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$5));
+		})())(Ve$1(_tpl$1$15));
 	}
 	function Gallery() {
 		const [on, setOn] = createSignal(true);
@@ -12316,7 +12316,7 @@
 		})())(Ve$1(_tpl$2$4));
 	}
 	// src/screens/frames.tsx
-	var _tpl$1$4 = /*@__PURE__*/ Be$1([
+	var _tpl$1$14 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12389,10 +12389,10 @@
 				})())(Ve$1(_tpl$2$3))
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$4));
+		})())(Ve$1(_tpl$1$14));
 	}
 	// src/screens/springs.tsx
-	var _tpl$1$3 = /*@__PURE__*/ Be$1([
+	var _tpl$1$13 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12416,7 +12416,7 @@
 			"borderRadius": 32
 		}
 	}], 1);
-	var _tpl$3$2 = /*@__PURE__*/ Be$1([
+	var _tpl$3$1 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"height": 56,
@@ -12425,7 +12425,7 @@
 		},
 		["text", 0]
 	], 2);
-	var _tpl$4$2 = /*@__PURE__*/ Be$1(["view", {
+	var _tpl$4$1 = /*@__PURE__*/ Be$1(["view", {
 		"width": 24,
 		"height": 24,
 		"decoration": {
@@ -12433,7 +12433,7 @@
 			"borderRadius": 4
 		}
 	}], 1);
-	var _tpl$5$1 = /*@__PURE__*/ Be$1(["view", {
+	var _tpl$5 = /*@__PURE__*/ Be$1(["view", {
 		"width": 40,
 		"height": 40,
 		"decoration": {
@@ -12523,7 +12523,7 @@
 							a !== _p$?.a && lt$1(_el$7, "color", a, _p$?.a);
 						});
 						return _el$6;
-					})())(Ve$1(_tpl$3$2));
+					})())(Ve$1(_tpl$3$1));
 				}
 			}), _el$2);
 			Q$1(_el$2, pt(For, {
@@ -12548,7 +12548,7 @@
 							lt$1(_el$8, "transform", _v$, _$p);
 						});
 						return _el$8;
-					})())(Ve$1(_tpl$4$2));
+					})())(Ve$1(_tpl$4$1));
 				}
 			}));
 			Q$1(_el$, pt(lt, {
@@ -12564,7 +12564,7 @@
 							lt$1(_el$9, "transform", _v$, _$p);
 						});
 						return _el$9;
-					})())(Ve$1(_tpl$5$1));
+					})())(Ve$1(_tpl$5));
 				}
 			}), _el$3);
 			Q$1(_el$3, steps);
@@ -12572,10 +12572,10 @@
 				return `${C$1.size().width} x ${C$1.size().height}, ${C$1.orientation()}`;
 			});
 			return _el$;
-		})())(Ve$1(_tpl$1$3));
+		})())(Ve$1(_tpl$1$13));
 	}
 	// src/screens/heroine.tsx
-	var _tpl$1$2 = /*@__PURE__*/ Be$1(["view", { "layout": {
+	var _tpl$1$12 = /*@__PURE__*/ Be$1(["view", { "layout": {
 		"justify": "center",
 		"align": "center"
 	} }], 1);
@@ -12584,7 +12584,7 @@
 		"width": 280,
 		"height": 280
 	}], 1);
-	var _tpl$3$1 = /*@__PURE__*/ Be$1([
+	var _tpl$3 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12603,7 +12603,7 @@
 			"Tap a tile, then drag it away."
 		]
 	], 4);
-	var _tpl$4$1 = /*@__PURE__*/ Be$1(["view", {
+	var _tpl$4 = /*@__PURE__*/ Be$1(["view", {
 		"width": 72,
 		"height": 72
 	}], 1);
@@ -12640,7 +12640,7 @@
 					}
 				}));
 				return _el$;
-			})())(Ve$1(_tpl$1$2));
+			})())(Ve$1(_tpl$1$12));
 		} }) }));
 		return ((_at$3) => (() => {
 			var _el$3 = at("h$view", {
@@ -12671,17 +12671,17 @@
 										color,
 										borderRadius: 12
 									}
-								}))(Ve$1(_tpl$4$1));
+								}))(Ve$1(_tpl$4));
 							}
 						});
 					}
 				})
 			}));
 			return _el$3;
-		})())(Ve$1(_tpl$3$1));
+		})())(Ve$1(_tpl$3));
 	}
 	// src/screens/home.tsx
-	var _tpl$1$1 = /*@__PURE__*/ Be$1([
+	var _tpl$1$11 = /*@__PURE__*/ Be$1([
 		"scrollView",
 		{ "layout": { "direction": "vertical" } },
 		[
@@ -12779,38 +12779,17 @@
 			}), null);
 			Q$1(_el$, pt(MenuItem, {
 				label: "routes",
-				onTap: () => nav.push(Users)
+				onTap: () => nav.push(routes["/users"])
 			}), null);
 			Q$1(_el$, pt(MenuItem, {
 				label: "tabs",
-				onTap: () => nav.push(TabsDemo)
+				onTap: () => nav.push(routes["/tabs/_layout"])
 			}), null);
 			return _el$;
-		})())(Ve$1(_tpl$1$1));
+		})())(Ve$1(_tpl$1$11));
 	}
-	// src/screens/routes.tsx
-	var _tpl$1 = /*@__PURE__*/ Be$1([
-		"view",
-		{
-			"layout": { "direction": "vertical" },
-			"padding": { "top": 48 },
-			"decoration": { "color": "#FFFFFF" }
-		},
-		[
-			"view",
-			{ "padding": 16 },
-			[
-				"text",
-				{
-					"fontSize": 24,
-					"fontWeight": 700
-				},
-				"People"
-			]
-		],
-		["view", { "padding": 16 }]
-	], 5);
-	var _tpl$2 = /*@__PURE__*/ Be$1([
+	// src/app/settings.tsx
+	var _tpl$1$10 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12823,17 +12802,42 @@
 			},
 			"decoration": { "color": "#FFFFFF" }
 		},
-		["text", {
-			"fontSize": 24,
-			"fontWeight": 700
-		}]
-	], 2);
-	var _tpl$3 = /*@__PURE__*/ Be$1([
+		[
+			"text",
+			{
+				"fontSize": 24,
+				"fontWeight": 700
+			},
+			"Settings"
+		]
+	], 3);
+	function Settings() {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			ht(_el$, at("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.pop(),
+				children: "Done"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$10));
+	}
+	// src/app/share/_layout.tsx
+	var _tpl$1$9 = /*@__PURE__*/ Be$1([
 		"flutter_FadeTransition",
 		0,
 		["flutter_ScaleTransition", 0]
 	], 2);
-	var _tpl$4 = /*@__PURE__*/ Be$1([
+	var _tpl$2 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": { "direction": "vertical" },
@@ -12857,23 +12861,45 @@
 		],
 		["view", { "flex": 1 }]
 	], 5);
-	var _tpl$5 = /*@__PURE__*/ Be$1([
-		"view",
-		{
-			"layout": {
-				"direction": "vertical",
-				"gap": 12
-			},
-			"padding": 16,
-			"decoration": { "color": "#FFFFFF" }
-		},
-		[
-			"text",
-			0,
-			"Share home"
-		]
-	], 3);
-	var _tpl$6 = /*@__PURE__*/ Be$1([
+	var page = (child) => M({
+		child,
+		transition: (content, { animation }) => ((_at$1) => (() => {
+			var _el$ = at("h$flutter_FadeTransition", {
+				$t: _at$1,
+				$i: 0,
+				opacity: animation
+			});
+			var _el$2 = at("h$flutter_ScaleTransition", {
+				$t: _at$1,
+				$i: 1,
+				scale: animation
+			});
+			ht(_el$, _el$2);
+			Q$1(_el$2, content);
+			return _el$;
+		})())(Ve$1(_tpl$1$9))
+	});
+	function Share(props) {
+		return ((_at$2) => (() => {
+			var _el$3 = at("h$view", {
+				$t: _at$2,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$4 = at("h$view", {
+				$t: _at$2,
+				$i: 4
+			});
+			ht(_el$3, _el$4);
+			Q$1(_el$4, () => {
+				return props.children;
+			});
+			return _el$3;
+		})())(Ve$1(_tpl$2));
+	}
+	// src/app/share/contact.tsx
+	var _tpl$1$8 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12889,7 +12915,122 @@
 			"Contact picker"
 		]
 	], 3);
-	var _tpl$7 = /*@__PURE__*/ Be$1([
+	function Contact() {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			ht(_el$, at("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$8));
+	}
+	// src/app/share/index.tsx
+	var _tpl$1$7 = /*@__PURE__*/ Be$1([
+		"view",
+		{
+			"layout": {
+				"direction": "vertical",
+				"gap": 12
+			},
+			"padding": 16,
+			"decoration": { "color": "#FFFFFF" }
+		},
+		[
+			"text",
+			0,
+			"Share home"
+		]
+	], 3);
+	function ShareHome() {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			ht(_el$, at("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/share/contact"]),
+				children: "Pick contact"
+			}), null);
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.pop(),
+				children: "Close"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$7));
+	}
+	// src/app/tabs/_layout.tsx
+	var _tpl$1$6 = /*@__PURE__*/ Be$1([
+		"view",
+		{ "layout": { "direction": "vertical" } },
+		["view", { "flex": 1 }],
+		["view", {
+			"layout": {
+				"direction": "horizontal",
+				"justify": "spaceAround"
+			},
+			"padding": 16,
+			"decoration": { "color": "#F3F4F6" }
+		}]
+	], 3);
+	function Tabs(props) {
+		const t = Ye();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$2 = at("h$view", {
+				$t: _at$1,
+				$i: 1
+			});
+			var _el$3 = at("h$view", {
+				$t: _at$1,
+				$i: 2
+			});
+			ht(_el$, _el$2);
+			ht(_el$, _el$3);
+			Q$1(_el$2, () => {
+				return props.children;
+			});
+			Q$1(_el$3, pt(For, {
+				each: ["Feed tab", "Profile tab"],
+				children: (label, i) => pt(lt, {
+					onPress: () => t.select(i()),
+					get children() {
+						var _el$4 = at("text");
+						Q$1(_el$4, label);
+						nt(() => t.index() === i() ? 700 : 400, (_v$, _$p) => {
+							lt$1(_el$4, "fontWeight", _v$, _$p);
+						});
+						return _el$4;
+					}
+				})
+			}));
+			return _el$;
+		})())(Ve$1(_tpl$1$6));
+	}
+	// src/app/tabs/feed/index.tsx
+	var _tpl$1$5 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12911,7 +13052,75 @@
 			"Feed"
 		]
 	], 3);
-	var _tpl$8 = /*@__PURE__*/ Be$1([
+	function Feed() {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			ht(_el$, at("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/tabs/feed/post/[id]"], { id: "1" }),
+				children: "Open post"
+			}), null);
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/tabs/video/[id]"], { id: "7" }),
+				children: "Open video"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$5));
+	}
+	// src/app/tabs/feed/post/[id].tsx
+	var _tpl$1$4 = /*@__PURE__*/ Be$1([
+		"view",
+		{
+			"layout": {
+				"direction": "vertical",
+				"gap": 12
+			},
+			"padding": {
+				"horizontal": 16,
+				"top": 48
+			},
+			"decoration": { "color": "#FFFFFF" }
+		},
+		["text", {
+			"fontSize": 24,
+			"fontWeight": 700
+		}]
+	], 2);
+	function Post(props) {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$2 = at("h$text", {
+				$t: _at$1,
+				$i: 1
+			});
+			ht(_el$, _el$2);
+			Q$1(_el$2, () => {
+				return `Post ${props.id}`;
+			});
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$4));
+	}
+	// src/app/tabs/profile.tsx
+	var _tpl$1$3 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12933,38 +13142,32 @@
 			"Profile"
 		]
 	], 3);
-	var _tpl$9 = /*@__PURE__*/ Be$1([
-		"view",
-		{ "layout": { "direction": "vertical" } },
-		["view", { "flex": 1 }],
-		["view", {
-			"layout": {
-				"direction": "horizontal",
-				"justify": "spaceAround"
-			},
-			"padding": 16,
-			"decoration": { "color": "#F3F4F6" }
-		}]
-	], 3);
-	var _tpl$10 = /*@__PURE__*/ Be$1([
-		"view",
-		{
-			"layout": {
-				"direction": "vertical",
-				"gap": 12
-			},
-			"padding": {
-				"horizontal": 16,
-				"top": 48
-			},
-			"decoration": { "color": "#FFFFFF" }
-		},
-		["text", {
-			"fontSize": 24,
-			"fontWeight": 700
-		}]
-	], 2);
-	var _tpl$11 = /*@__PURE__*/ Be$1([
+	function Profile() {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			ht(_el$, at("h$text", {
+				$t: _at$1,
+				$i: 1
+			}));
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/tabs/video/[id]"], { id: "8" }),
+				children: "Open video"
+			}), null);
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/settings"]),
+				children: "Settings"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$3));
+	}
+	// src/app/tabs/video/[id].tsx
+	var _tpl$1$2 = /*@__PURE__*/ Be$1([
 		"view",
 		{
 			"layout": {
@@ -12982,378 +13185,223 @@
 			"fontWeight": 700
 		}]
 	], 2);
-	var _tpl$12 = /*@__PURE__*/ Be$1([
-		"view",
-		{
-			"layout": {
-				"direction": "vertical",
-				"gap": 12
-			},
-			"padding": {
-				"horizontal": 16,
-				"top": 48
-			},
-			"decoration": { "color": "#FFFFFF" }
-		},
-		[
-			"text",
-			{
-				"fontSize": 24,
-				"fontWeight": 700
-			},
-			"Settings"
-		]
-	], 3);
+	function Video(props) {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$2 = at("h$text", {
+				$t: _at$1,
+				$i: 1
+			});
+			ht(_el$, _el$2);
+			Q$1(_el$2, () => {
+				return `Video ${props.id}`;
+			});
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/tabs/feed/post/[id]"], { id: props.id }),
+				children: "Post about it"
+			}), null);
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$2));
+	}
+	// src/app/users/_people.ts
 	var people = [
 		"Ada",
 		"Grace",
 		"Linus"
 	];
-	/** The app's first page. */
-	var Home = ke({
-		path: "/",
-		component: HomeScreen
-	});
-	var Users = ke({
-		path: "/users",
-		component: () => {
-			const nav = tt();
-			return ((_at$1) => (() => {
-				var _el$ = at("h$view", {
-					$t: _at$1,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				var _el$2 = at("h$view", {
-					$t: _at$1,
-					$i: 1
-				});
-				var _el$3 = at("h$view", {
-					$t: _at$1,
-					$i: 4
-				});
-				ht(_el$, _el$2);
-				ht(_el$, _el$3);
-				Q$1(_el$, pt(For, {
-					each: people,
-					children: (name, i) => pt(MenuItem, {
-						label: name,
-						onTap: () => nav.push(User, { id: i() })
-					})
-				}), _el$3);
-				Q$1(_el$3, pt(Button, {
-					onTap: () => nav.go("/share/contact"),
-					children: "Open /share/contact"
-				}));
-				return _el$;
-			})())(Ve$1(_tpl$1));
-		}
-	});
-	var User = ke({
-		path: ":id",
-		parent: Users,
-		parse: { id: Number },
-		component: (props) => {
-			const nav = tt();
-			return ((_at$2) => (() => {
-				var _el$4 = at("h$view", {
-					$t: _at$2,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				var _el$5 = at("h$text", {
-					$t: _at$2,
-					$i: 1
-				});
-				ht(_el$4, _el$5);
-				Q$1(_el$5, () => {
-					return `User ${people[props.id]}`;
-				});
-				Q$1(_el$4, pt(Button, {
-					onTap: () => nav.push(Share),
-					children: "Share"
-				}), null);
-				Q$1(_el$4, pt(Button, {
-					onTap: () => nav.pop(),
-					children: "Back"
-				}), null);
-				return _el$4;
-			})())(Ve$1(_tpl$2));
-		}
-	});
-	var Share = ke({
-		path: "/share",
-		navigator: "stack",
-		page: (child) => M({
-			child,
-			transition: (content, { animation }) => ((_at$3) => (() => {
-				var _el$6 = at("h$flutter_FadeTransition", {
-					$t: _at$3,
-					$i: 0,
-					opacity: animation
-				});
-				var _el$7 = at("h$flutter_ScaleTransition", {
-					$t: _at$3,
-					$i: 1,
-					scale: animation
-				});
-				ht(_el$6, _el$7);
-				Q$1(_el$7, content);
-				return _el$6;
-			})())(Ve$1(_tpl$3))
-		}),
-		component: (props) => ((_at$4) => (() => {
-			var _el$8 = at("h$view", {
-				$t: _at$4,
+	// src/app/users/[id].tsx
+	var _tpl$1$1 = /*@__PURE__*/ Be$1([
+		"view",
+		{
+			"layout": {
+				"direction": "vertical",
+				"gap": 12
+			},
+			"padding": {
+				"horizontal": 16,
+				"top": 48
+			},
+			"decoration": { "color": "#FFFFFF" }
+		},
+		["text", {
+			"fontSize": 24,
+			"fontWeight": 700
+		}]
+	], 2);
+	var parse = { id: Number };
+	function User(props) {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
 				$i: 0,
 				width: Infinity,
 				height: Infinity
 			});
-			var _el$9 = at("h$view", {
-				$t: _at$4,
+			var _el$2 = at("h$text", {
+				$t: _at$1,
+				$i: 1
+			});
+			ht(_el$, _el$2);
+			Q$1(_el$2, () => {
+				return `User ${people[props.id]}`;
+			});
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.push(routes["/share/_layout"]),
+				children: "Share"
+			}), null);
+			Q$1(_el$, pt(Button, {
+				onTap: () => nav.pop(),
+				children: "Back"
+			}), null);
+			return _el$;
+		})())(Ve$1(_tpl$1$1));
+	}
+	// src/app/users/index.tsx
+	var _tpl$1 = /*@__PURE__*/ Be$1([
+		"view",
+		{
+			"layout": { "direction": "vertical" },
+			"padding": { "top": 48 },
+			"decoration": { "color": "#FFFFFF" }
+		},
+		[
+			"view",
+			{ "padding": 16 },
+			[
+				"text",
+				{
+					"fontSize": 24,
+					"fontWeight": 700
+				},
+				"People"
+			]
+		],
+		["view", { "padding": 16 }]
+	], 5);
+	function Users() {
+		const nav = tt();
+		return ((_at$1) => (() => {
+			var _el$ = at("h$view", {
+				$t: _at$1,
+				$i: 0,
+				width: Infinity,
+				height: Infinity
+			});
+			var _el$2 = at("h$view", {
+				$t: _at$1,
+				$i: 1
+			});
+			var _el$3 = at("h$view", {
+				$t: _at$1,
 				$i: 4
 			});
-			ht(_el$8, _el$9);
-			Q$1(_el$9, () => {
-				return props.children;
-			});
-			return _el$8;
-		})())(Ve$1(_tpl$4))
+			ht(_el$, _el$2);
+			ht(_el$, _el$3);
+			Q$1(_el$, pt(For, {
+				each: people,
+				children: (name, i) => pt(MenuItem, {
+					label: name,
+					onTap: () => nav.push(routes["/users/[id]"], { id: i() })
+				})
+			}), _el$3);
+			Q$1(_el$3, pt(Button, {
+				onTap: () => nav.go("/share/contact"),
+				children: "Open /share/contact"
+			}));
+			return _el$;
+		})())(Ve$1(_tpl$1));
+	}
+	// fuse/routes.tsx
+	var r0 = ke({
+		path: "/",
+		component: HomeScreen
 	});
-	ke({
-		path: "",
-		parent: Share,
-		component: () => {
-			const nav = tt();
-			return ((_at$5) => (() => {
-				var _el$10 = at("h$view", {
-					$t: _at$5,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				ht(_el$10, at("h$text", {
-					$t: _at$5,
-					$i: 1
-				}));
-				Q$1(_el$10, pt(Button, {
-					onTap: () => nav.push(Contact),
-					children: "Pick contact"
-				}), null);
-				Q$1(_el$10, pt(Button, {
-					onTap: () => nav.pop(),
-					children: "Close"
-				}), null);
-				return _el$10;
-			})())(Ve$1(_tpl$5));
-		}
-	});
-	var Contact = ke({
-		path: "contact",
-		parent: Share,
-		component: () => {
-			const nav = tt();
-			return ((_at$6) => (() => {
-				var _el$12 = at("h$view", {
-					$t: _at$6,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				ht(_el$12, at("h$text", {
-					$t: _at$6,
-					$i: 1
-				}));
-				Q$1(_el$12, pt(Button, {
-					onTap: () => nav.pop(),
-					children: "Back"
-				}), null);
-				return _el$12;
-			})())(Ve$1(_tpl$6));
-		}
-	});
-	var FeedTab = ke({
-		path: "feed",
-		component: () => {
-			const nav = tt();
-			return ((_at$7) => (() => {
-				var _el$14 = at("h$view", {
-					$t: _at$7,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				ht(_el$14, at("h$text", {
-					$t: _at$7,
-					$i: 1
-				}));
-				Q$1(_el$14, pt(Button, {
-					onTap: () => nav.push(Post, { id: "1" }),
-					children: "Open post"
-				}), null);
-				Q$1(_el$14, pt(Button, {
-					onTap: () => nav.push(Video, { id: "7" }),
-					children: "Open video"
-				}), null);
-				return _el$14;
-			})())(Ve$1(_tpl$7));
-		}
-	});
-	var TabsDemo = ke({
-		path: "/tabs",
-		navigator: Oe(FeedTab, ke({
-			path: "profile",
-			component: () => {
-				const nav = tt();
-				return ((_at$8) => (() => {
-					var _el$16 = at("h$view", {
-						$t: _at$8,
-						$i: 0,
-						width: Infinity,
-						height: Infinity
-					});
-					ht(_el$16, at("h$text", {
-						$t: _at$8,
-						$i: 1
-					}));
-					Q$1(_el$16, pt(Button, {
-						onTap: () => nav.push(Video, { id: "8" }),
-						children: "Open video"
-					}), null);
-					Q$1(_el$16, pt(Button, {
-						onTap: () => nav.push(Settings),
-						children: "Settings"
-					}), null);
-					return _el$16;
-				})())(Ve$1(_tpl$8));
-			}
-		})),
-		component: (props) => {
-			const t = Ye();
-			return ((_at$9) => (() => {
-				var _el$18 = at("h$view", {
-					$t: _at$9,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				var _el$19 = at("h$view", {
-					$t: _at$9,
-					$i: 1
-				});
-				var _el$20 = at("h$view", {
-					$t: _at$9,
-					$i: 2
-				});
-				ht(_el$18, _el$19);
-				ht(_el$18, _el$20);
-				Q$1(_el$19, () => {
-					return props.children;
-				});
-				Q$1(_el$20, pt(For, {
-					each: ["Feed tab", "Profile tab"],
-					children: (label, i) => pt(lt, {
-						onPress: () => t.select(i()),
-						get children() {
-							var _el$21 = at("text");
-							Q$1(_el$21, label);
-							nt(() => t.index() === i() ? 700 : 400, (_v$, _$p) => {
-								lt$1(_el$21, "fontWeight", _v$, _$p);
-							});
-							return _el$21;
-						}
-					})
-				}));
-				return _el$18;
-			})())(Ve$1(_tpl$9));
-		}
-	});
-	var Post = ke({
-		path: "post/:id",
-		parent: FeedTab,
-		component: (props) => {
-			const nav = tt();
-			return ((_at$10) => (() => {
-				var _el$22 = at("h$view", {
-					$t: _at$10,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				var _el$23 = at("h$text", {
-					$t: _at$10,
-					$i: 1
-				});
-				ht(_el$22, _el$23);
-				Q$1(_el$23, () => {
-					return `Post ${props.id}`;
-				});
-				Q$1(_el$22, pt(Button, {
-					onTap: () => nav.pop(),
-					children: "Back"
-				}), null);
-				return _el$22;
-			})())(Ve$1(_tpl$10));
-		}
-	});
-	var Video = ke({
-		path: "video/:id",
-		parent: TabsDemo,
-		component: (props) => {
-			const nav = tt();
-			return ((_at$11) => (() => {
-				var _el$24 = at("h$view", {
-					$t: _at$11,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				var _el$25 = at("h$text", {
-					$t: _at$11,
-					$i: 1
-				});
-				ht(_el$24, _el$25);
-				Q$1(_el$25, () => {
-					return `Video ${props.id}`;
-				});
-				Q$1(_el$24, pt(Button, {
-					onTap: () => nav.push(Post, { id: props.id }),
-					children: "Post about it"
-				}), null);
-				Q$1(_el$24, pt(Button, {
-					onTap: () => nav.pop(),
-					children: "Back"
-				}), null);
-				return _el$24;
-			})())(Ve$1(_tpl$11));
-		}
-	});
-	var Settings = ke({
+	var r1 = ke({
 		path: "/settings",
-		parent: Home,
-		component: () => {
-			const nav = tt();
-			return ((_at$12) => (() => {
-				var _el$26 = at("h$view", {
-					$t: _at$12,
-					$i: 0,
-					width: Infinity,
-					height: Infinity
-				});
-				ht(_el$26, at("h$text", {
-					$t: _at$12,
-					$i: 1
-				}));
-				Q$1(_el$26, pt(Button, {
-					onTap: () => nav.pop(),
-					children: "Done"
-				}), null);
-				return _el$26;
-			})())(Ve$1(_tpl$12));
-		}
+		parent: r0,
+		component: Settings
 	});
+	var r2 = ke({
+		path: "/share",
+		parent: r0,
+		navigator: "stack",
+		page,
+		component: Share
+	});
+	var r3 = ke({
+		path: "/share/contact",
+		parent: r2,
+		component: Contact
+	});
+	var r4 = ke({
+		path: "/share",
+		parent: r2,
+		component: ShareHome
+	});
+	var r6 = ke({
+		path: "/tabs/feed",
+		component: Feed
+	});
+	var r8 = ke({
+		path: "/tabs/profile",
+		component: Profile
+	});
+	var r5 = ke({
+		path: "/tabs",
+		parent: r0,
+		navigator: Oe(r6, r8),
+		component: Tabs
+	});
+	var r7 = ke({
+		path: "/tabs/feed/post/:id",
+		parent: r6,
+		component: Post
+	});
+	var r9 = ke({
+		path: "/tabs/video/:id",
+		parent: r5,
+		component: Video
+	});
+	var r11 = ke({
+		path: "/users",
+		parent: r0,
+		component: Users
+	});
+	/** The app's routes, by file: `routes["/users/[id]"]`. */
+	var routes = {
+		"/": r0,
+		"/settings": r1,
+		"/share/_layout": r2,
+		"/share/contact": r3,
+		"/share": r4,
+		"/tabs/_layout": r5,
+		"/tabs/feed": r6,
+		"/tabs/feed/post/[id]": r7,
+		"/tabs/profile": r8,
+		"/tabs/video/[id]": r9,
+		"/users/[id]": ke({
+			path: "/users/:id",
+			parent: r11,
+			parse,
+			component: User
+		}),
+		"/users": r11
+	};
+	/** The app's navigator: it opens on the route at `/`. */
+	function Routes(props) {
+		return pt(Y, ut({ initialPage: r0 }, props));
+	}
 	// src/index.tsx
 	var App = () => {
 		const heroine = createHeroineController();
@@ -13365,10 +13413,7 @@
 				return platform();
 			},
 			get children() {
-				return pt(Y, {
-					initialPage: Home,
-					observers: [heroine]
-				});
+				return pt(Routes, { observers: [heroine] });
 			}
 		});
 	};

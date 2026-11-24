@@ -8,6 +8,7 @@ import { fuseDevErrorPlugin } from "./dev-error-plugin";
 import { fuseCompilePlugin } from "./compile-plugin";
 import { fuseGenPlugin, generatedTables } from "./gen/plugin";
 import type { BundleUse } from "./gen/shake";
+import { fuseRoutesPlugin } from "./routes";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -117,6 +118,8 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
     plugins: [
       // Generation first: it writes the modules and tables the others read.
       gen,
+      // `src/app/` as routes (`#fuse/routes`), before anything imports them.
+      fuseRoutesPlugin({ projectRoot, genDir }),
       fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: gen.api.use, tables: generatedTables(genDir) }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),

@@ -3,6 +3,17 @@ import type { PageConfig } from "./navigation-controller";
 /** Turns a page's contents into a page of some type: `page`, `materialPage`, `heroinePage`... */
 export type PageType = (child: () => JSX.Element) => PageConfig;
 
+/**
+ * What the app adds to solid-fuse's types. File routes fill in `link`, the
+ * links the app has, so `nav.go` checks them:
+ * `declare module "solid-fuse" { interface Register { link: "/" | \`/users/${string}\` } }`.
+ */
+// biome-ignore lint: filled in by declaration merging
+export interface Register {}
+
+/** A link into the app: any string, or the app's own links once file routes register them. */
+export type Link = Register extends { link: infer L } ? L : string;
+
 /** Params a path pattern names: `"users/:id"` gives `{ id: string }`. */
 export type PathParams<Path extends string> = string extends Path
   ? Record<string, string>

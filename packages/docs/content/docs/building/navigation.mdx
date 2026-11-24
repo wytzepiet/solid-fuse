@@ -23,6 +23,62 @@ function Root() {
 
 `initialPage` is the first page, which stays at the bottom: a route (`Home = route({ path: "/", component: HomePage })`), a JSX thunk, or a `PageConfig` built with `page({...})`, `materialPage({...})` or `cupertinoPage({...})` when you want to choose the transition or page options. A thunk becomes a page of the app's type: `page` under `<App>`, `materialPage` under `<MaterialApp>`, `cupertinoPage` under `<CupertinoApp>`.
 
+## File routes
+
+New apps keep their screens in `src/app/`. Every file there is a route: `fuse dev`, `fuse build` and `fuse gen` turn the folder into `route()` values (the rest of this page), in `#fuse/routes`.
+
+```
+src/app/
+  index.tsx           /
+  settings.tsx        /settings
+  users/
+    index.tsx         /users
+    [id].tsx          /users/:id
+    [id]/posts.tsx    /users/:id/posts
+  share/
+    _layout.tsx       a layout: share/ pushes inside it
+    index.tsx         /share, its first page
+    contact.tsx       /share/contact
+  (tabs)/             a group: not in the path
+    _layout.tsx       export const tabs = ["feed", "profile"]
+    feed/index.tsx    /feed, the first tab
+    profile.tsx       /profile
+```
+
+```tsx title="src/index.tsx"
+import { MaterialApp } from "@solid-fuse/material";
+import { render } from "solid-fuse";
+import { Routes } from "#fuse/routes";
+
+render(() => (
+  <MaterialApp>
+    <Routes />
+  </MaterialApp>
+));
+```
+
+A file's default export is its component; its props are the params. It can also export the `page` and `parse` options:
+
+```tsx title="src/app/users/[id].tsx"
+import { routes } from "#fuse/routes";
+
+export const parse = { id: Number };
+
+export default function User(props: { id: number }) {
+  const nav = useNavigation();
+  return <Button onPress={() => nav.push(routes["/users/[id]/posts"], { id: props.id })}>Posts</Button>;
+}
+```
+
+- **Paths.** `index` takes its folder's path. `[id]` is a param. `(group)` folders are left out of the path. `users/[id].tsx` next to a `users/[id]/` folder is that folder's index. Files and folders starting with `_` (other than `_layout`) aren't routes, so helpers can sit next to screens.
+- **Parents.** A file's parent is its folder's layout, else its folder's index, else the next folder up's. A link to `/users/42` opens `/`, then `/users`, then the user.
+- **Layouts.** `_layout.tsx` gets its folder's routes as `children`, in a stack of its own. With `export const tabs = [...]` it's a tabs layout: those children (a file, or a folder's index) are the tabs, in order. A file in the tabs folder that isn't a tab opens in the visible tab. A group's stack layout without an index has no link of its own; its routes still do.
+- **`routes`** has every route by file: `routes["/users/[id]"]`, `routes["/share/_layout"]`.
+- **Links are typed.** `nav.go("/users/42")` checks the link against the app's paths.
+- **`<Routes />`** is a `Navigator` on the route at `/`. It takes the Navigator's props, such as `observers`.
+
+`fuse dev` writes the routes again when a file in `src/app/` is added, removed or changed. The generated file is `fuse/routes.tsx`; don't edit it. Routes written with `route()` work next to file routes.
+
 ## Routes
 
 A route is a place in the app: a component, the params it takes, and where it sits.
