@@ -1,0 +1,85 @@
+---
+title: Faking native features
+description: Run an app that uses GPS, sensors or the camera where there are none, headless or on the web
+---
+
+Most apps use something only a phone has: the GPS, the accelerometer, the camera. On a Linux machine (an agent in the cloud, CI) or in a browser, those plugins have nothing to talk to. A fake stands in for them, written in TypeScript next to the app, so the app runs the same everywhere and an agent can check its work.
+
+## Write a fake
+
+Put fakes in `src/fakes.ts`:
+
+```ts title="src/fakes.ts"
+import { fake } from "solid-fuse";
+import { GeolocatorPlatform, Position } from "#fuse/geolocator_platform_interface";
+import { SensorsPlatform, AccelerometerEvent } from "#fuse/sensors_plus_platform_interface";
+import { DateTime } from "#fuse/flutter";
+
+// Amsterdam, Dam Square.
+fake(GeolocatorPlatform, {
+  checkPermission: () => "always",
+  isLocationServiceEnabled: () => true,
+  getCurrentPosition: () =>
+    Position({ latitude: 52.3731, longitude: 4.8926, timestamp: DateTime.now(), accuracy: 5,
+      altitude: 0, altitudeAccuracy: 0, heading: 0, headingAccuracy: 0, speed: 0, speedAccuracy: 0 }),
+});
+
+// The phone tilting back and forth.
+fake(SensorsPlatform, {
+  accelerometerEventStream: async function* () {
+    for (let t = 0; ; t++) {
+      await new Promise((r) => setTimeout(r, 100));
+      yield AccelerometerEvent(Math.sin(t / 10) * 3, 0, 9.81, DateTime.now());
+    }
+  },
+});
+```
+
+The app itself doesn't change. It calls the plugin as usual, and the call reaches the fake:
+
+```tsx
+const p = await Geolocator.getCurrentPosition();
+for await (const e of accelerometerEventStream()) setTilt(e.x);
+```
+
+Dart code that uses the plugin reaches the fake too, because the fake replaces the plugin's platform implementation, not one call site.
+
+## What you can fake
+
+A Flutter plugin talks to the phone through a platform interface: a class with a shared instance that each platform replaces (`GeolocatorPlatform.instance`, `SensorsPlatform.instance`). Export the interface from `dart/lib/fuse.dart` and `fuse gen` makes it fakeable:
+
+```dart title="dart/lib/fuse.dart"
+export 'package:geolocator/geolocator.dart' show Geolocator;
+export 'package:geolocator_platform_interface/geolocator_platform_interface.dart' show GeolocatorPlatform, Position;
+```
+
+The interface package is a dependency of the plugin already. Add it to `dart/pubspec.yaml` too, so you can export it.
+
+`fake(Interface, impl)` takes any of the interface's methods and getters, typed from Dart. A method you leave out goes to the real implementation (and fails as it did before). A method that returns a `Future` can return a value or a Promise. One that returns a `Stream` is an async iterable, usually an `async function*`. Methods whose types don't cross are listed in `fuse/gen-report.txt`.
+
+`fake` returns a function that puts the real implementation back.
+
+## When fakes are on
+
+`src/fakes.ts` runs before the app, and only where fakes are on:
+
+| Command | Fakes |
+|---|---|
+| `fuse dev --headless` | on |
+| `fuse dev -d chrome`, `fuse build web` | on |
+| `fuse dev` on a phone, simulator or desktop | off, unless `--fakes` |
+| `fuse build apk`, `ios`, ... | never |
+
+`--fakes` and `--no-fakes` override the default. A phone build refuses `--fakes`. Where fakes are off, the file isn't in the bundle, and the release build drops their Dart side with everything else the bundle doesn't use.
+
+## For agents
+
+Fakes are how an agent tests a feature that needs a phone. Tell it where they go, in `AGENTS.md`:
+
+```md
+Native features (GPS, sensors, camera) have fakes in `src/fakes.ts`, used by
+`fuse dev --headless`. When you use a new plugin, export its platform
+interface in `dart/lib/fuse.dart` and fake what the app calls.
+```
+
+The real device is for the last check: an emulator, or the phone.

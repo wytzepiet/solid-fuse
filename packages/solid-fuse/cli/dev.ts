@@ -8,6 +8,14 @@ import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
 import { loadFuseConfig, buildViteConfig } from "./config";
 import { runLink } from "./link";
 import { startHeadless, type Headless } from "./headless";
+import { fakesFile, fakesOn, withoutFakeFlags } from "./fakes";
+
+/** `-d chrome`, `-d web-server`: the app runs in a browser. */
+function webDevice(args: string[]): boolean {
+  const i = args.findIndex((a) => a === "-d" || a === "--device-id");
+  const d = i >= 0 ? args[i + 1] : args.find((a) => a.startsWith("--device-id="))?.slice(12);
+  return d === "chrome" || d === "web-server" || d === "edge";
+}
 import { ensureRunners } from "./runners";
 import { clearDriveSession, vmServiceUri, writeDriveSession } from "./drive";
 
@@ -29,12 +37,15 @@ export const devCommand = defineCommand({
     // Step 2: Load fuse config
     const fuseConfig = await loadFuseConfig(projectRoot);
     const dartRoot = getDartRoot(projectRoot, fuseConfig);
-    const viteConfig = buildViteConfig(projectRoot, fuseConfig);
 
     // Step 3: Everything in rawArgs is a flutter passthrough arg (citty strips the subcommand),
-    // except --headless: the Linux app on a virtual display (cloud machines, CI).
+    // except --headless: the Linux app on a virtual display (cloud machines, CI),
+    // and --fakes / --no-fakes (cli/fakes.ts): on by default headless and on the web.
     const headlessMode = rawArgs.includes("--headless");
-    const flutterArgs = rawArgs.filter((a) => a !== "--headless");
+    const flutterArgs = withoutFakeFlags(rawArgs.filter((a) => a !== "--headless"));
+    const fakes = fakesOn(rawArgs, { headless: headlessMode, build: webDevice(flutterArgs) ? "web" : null });
+    if (fakes && fakesFile(projectRoot)) console.log("Fakes on: src/fakes runs before the app.");
+    const viteConfig = buildViteConfig(projectRoot, fuseConfig, undefined, { fakes });
     // The app's platforms, and Linux for --headless.
     ensureRunners(dartRoot, [...(fuseConfig?.platforms ?? []), ...(headlessMode ? (["linux"] as const) : [])], fuseConfig);
     let headless: Headless | undefined;

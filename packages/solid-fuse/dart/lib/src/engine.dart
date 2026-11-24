@@ -117,7 +117,10 @@ Future<EngineResult> createEngine({
   await engine.declareNewModule(
     module: JsModule.code(
       module: '__fuse_dispatch',
-      code: 'export function dispatch(ch, data) { return globalThis.__dispatch(ch, data); }\n'
+      // The result rides in an array: fjs unwraps an async result that is an
+      // object with only a `value` key (the wrapper of an async eval), and a
+      // channel's reply may be just that (`{ value }`).
+      code: 'export async function dispatch(ch, data) { return [await globalThis.__dispatch(ch, data)]; }\n'
           'export function dispatchSync(ch, data) { return globalThis.__dispatchSync(ch, data); }',
     ),
   );

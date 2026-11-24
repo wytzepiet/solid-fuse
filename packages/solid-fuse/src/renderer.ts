@@ -1,6 +1,6 @@
 import { createRenderer, type RendererEffectOptions } from "@solidjs/universal";
 import { $PROXY, createRoot, flush, getOwner, onCleanup, runWithOwner, type Owner } from "solid-js";
-import { on, onAfterDispatch, onSync, _setFlushOps, _setSyncOps } from "~/channels";
+import { on, onAfterDispatch, onSync, send, _setFlushOps, _setSyncOps } from "~/channels";
 import { reportDevError } from "./dev-error";
 import { host } from "./host";
 
@@ -551,6 +551,7 @@ function encodeValue(name: string, value: any, bytes: ArrayBuffer[] | null = bat
       (e.refs ??= []).push(ref);
       return { _node: ref.id };
     }
+    if (typeof v[Symbol.asyncIterator] === "function") return { $stream: giveStream(v) };
     let out: any;
     if (Array.isArray(v)) {
       for (let i = 0; i < v.length; i++) {
@@ -570,6 +571,48 @@ function encodeValue(name: string, value: any, bytes: ArrayBuffer[] | null = bat
   e.wire = walk(value, 0);
   return e;
 }
+
+// --- Streams JS gives Dart ---
+//
+// An async iterable where Dart takes a Stream crosses as `{$stream: id}`.
+// Dart's stream starts reading it when something listens, gets each value
+// as an event (`_jsStream`), and returns the iterator when it cancels.
+// Kept until it ends or Dart cancels; one Dart never listens to stays.
+const jsStreams = new Map<number, { source: AsyncIterable<unknown>; it?: AsyncIterator<unknown> }>();
+let nextJsStream = 0;
+
+function giveStream(source: AsyncIterable<unknown>): number {
+  const id = nextJsStream++;
+  jsStreams.set(id, { source });
+  return id;
+}
+
+on("_jsStream", (data: { id: number; op: "listen" | "cancel" }) => {
+  const s = jsStreams.get(data.id);
+  if (!s) return;
+  if (data.op === "cancel") {
+    jsStreams.delete(data.id);
+    s.it?.return?.();
+    return;
+  }
+  if (s.it) return;
+  const it = (s.it = s.source[Symbol.asyncIterator]());
+  void (async () => {
+    try {
+      for (;;) {
+        const r = await it.next();
+        if (!jsStreams.has(data.id)) return;
+        if (r.done) break;
+        send("_jsStream", { id: data.id, v: encodeValue("", r.value, null).wire });
+      }
+      jsStreams.delete(data.id);
+      send("_jsStream", { id: data.id, d: true });
+    } catch (err) {
+      if (!jsStreams.delete(data.id)) return;
+      send("_jsStream", { id: data.id, e: err instanceof Error ? err.message : String(err) });
+    }
+  })();
+});
 
 function setProperty(node: FuseNode, name: string, value: any) {
   if (typeof value === "function") {

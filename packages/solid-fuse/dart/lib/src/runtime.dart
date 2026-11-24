@@ -47,6 +47,7 @@ class FuseRuntime {
       callFunctionAsync: callFunctionAsync,
       callFunctionSync: callFunctionSync,
       unbuild: unbuild,
+      send: (channel, data) => _connection?.channels?.send(channel, data),
     );
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
@@ -213,6 +214,8 @@ class FuseRuntime {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
     });
+    // An event of a stream JS gave Dart (FuseNodeRegistry.jsStream).
+    channels.on('_jsStream', registry.jsStreamEvent);
     // JS let go of a handle Dart lent it (see FuseNodeRegistry.lend).
     channels.on('_unborrow', (data) {
       registry.unborrow(data['id'] as int, data['n'] as int);

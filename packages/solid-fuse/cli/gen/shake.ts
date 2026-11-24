@@ -13,7 +13,7 @@
  * to JS) follows from the types, as it does for the full output.
  */
 import type { CompileUsage } from "../compile-plugin";
-import { handleTags, tagOf } from "./emit-dart";
+import { handleTags, staticKey, tagOf } from "./emit-dart";
 import type { ExportUse } from "./emit-ts";
 import type { DataType, Manifest } from "./manifest";
 
@@ -40,6 +40,8 @@ export function shake(
   const widgets = new Set<string>();
   const handles = new Set<string>();
   const consts = new Set(use.consts);
+  const statics = new Set<string>();
+  const fakes = new Set<string>();
   for (const [module, names] of use.exports) {
     const table = uses[module];
     if (!table) continue;
@@ -48,6 +50,8 @@ export function shake(
       if (!u) continue;
       if ("widget" in u) widgets.add(u.widget);
       else if ("handle" in u) handles.add(u.handle);
+      else if ("static" in u) statics.add(u.static);
+      else if ("fake" in u) fakes.add(u.fake);
       else u.consts.forEach((c) => consts.add(c));
     }
   }
@@ -60,6 +64,8 @@ export function shake(
       ...m,
       widgets: m.widgets.filter((w) => widgets.has(w.id) || use.tags.has(tagOf(w))),
       handles: m.handles.filter((id) => handles.has(id)),
+      statics: (m.statics ?? []).map((st) => ({ ...st, methods: st.methods.filter((fn) => statics.has(staticKey(st.id, st.owner, fn.name))) })),
+      fakes: (m.fakes ?? []).filter((f) => fakes.has(f.id)),
       types,
     },
     handleTags: handleTags(m),

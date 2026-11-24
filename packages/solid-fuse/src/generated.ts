@@ -1,7 +1,7 @@
 /**
  * Runtime support for the modules `fuse gen` writes. Not for app code.
  */
-import { createEffect, createMemo, createSignal, untrack } from "solid-js";
+import { createEffect, createMemo, createSignal, runWithOwner, untrack } from "solid-js";
 import { channels } from "./channels";
 import { reportDevError } from "./dev-error";
 import { FuseNode, _setDecodeIn, adoptNode, asNode, createOwnedNode, nodeById, setHandler, wireOf } from "./renderer";
@@ -260,9 +260,50 @@ function build(node: FuseNode, spec: HandleSpec, seeds: Record<string, unknown>)
   return { handle, write, call };
 }
 
+// --- Statics ---
+
+let statics: { node: FuseNode; call: (method: string, value: unknown) => Promise<unknown> } | undefined;
+
+/** The one node static calls go through, made at the first call and kept. */
+function staticsNode() {
+  if (!statics) {
+    const node = runWithOwner(null, () => createOwnedNode("$statics", {}));
+    statics = { node, call: build(node, NO_SPEC, {}).call };
+  }
+  return statics;
+}
+
+/** Calls a static method or top-level function (`Geolocator.getCurrentPosition`). */
+export function $static(name: string, args: unknown[]): Promise<unknown> {
+  return staticsNode().call(name, args);
+}
+
+/** A static method that returns a Stream, read as an async iterable. */
+export function $staticStream(name: string, args: unknown[]): AsyncIterable<unknown> {
+  const s = staticsNode();
+  return stream(s.node, s.call, name, args);
+}
+
+// --- Fakes ---
+
+declare const fakeOf: unique symbol;
+
+/**
+ * A class whose shared instance JS can fake (a plugin's platform interface),
+ * as `fuse gen` writes it. `T` lists the members a fake can give.
+ */
+export interface Fakeable<T> {
+  readonly $fake: string;
+  readonly [fakeOf]?: T;
+}
+
+export function $fakeable<T>(tag: string): Fakeable<T> {
+  return { $fake: tag } as Fakeable<T>;
+}
+
 let nextStream = 0;
 
-function stream(node: FuseNode, call: (method: string, value: unknown) => Promise<unknown>, name: string): AsyncIterable<unknown> {
+function stream(node: FuseNode, call: (method: string, value: unknown) => Promise<unknown>, name: string, args?: unknown[]): AsyncIterable<unknown> {
   return {
     [Symbol.asyncIterator](): AsyncIterator<unknown> {
       const fn = `$s${nextStream++}`;
@@ -282,7 +323,7 @@ function stream(node: FuseNode, call: (method: string, value: unknown) => Promis
         else queue.push(e.v);
         wake?.();
       });
-      const started = call("$listen", { stream: name, fn }).catch((err) => {
+      const started = call("$listen", { stream: name, fn, ...(args ? { args } : {}) }).catch((err) => {
         error = err instanceof Error ? err.message : String(err);
         wake?.();
       });

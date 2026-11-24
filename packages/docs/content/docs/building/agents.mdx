@@ -62,6 +62,10 @@ fuse drive tap --identifier platform-toggle
 fuse drive take-screenshots -o ios.png
 ```
 
+## Phone-only features
+
+GPS, sensors and the camera have nothing to talk to on Linux. `fuse dev --headless` runs the app's fakes for them, written in TypeScript in `src/fakes.ts`: see [Faking native features](/docs/building/fakes).
+
 ## MCP
 
 Agents that prefer MCP get the same commands as tools:

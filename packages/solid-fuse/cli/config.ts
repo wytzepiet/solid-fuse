@@ -9,6 +9,7 @@ import { fuseCompilePlugin } from "./compile-plugin";
 import { fuseGenPlugin, generatedTables } from "./gen/plugin";
 import type { BundleUse } from "./gen/shake";
 import { fuseRoutesPlugin } from "./routes";
+import { fuseFakesPlugin } from "./fakes";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -88,7 +89,12 @@ export function fusePackageNames(projectRoot: string): string[] {
  * [use], in `fuse build`, collects what the bundle uses of the generated
  * modules (cli/gen/shake.ts).
  */
-export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | null, use?: BundleUse): InlineConfig {
+export function buildViteConfig(
+  projectRoot: string,
+  fuseConfig: FuseConfig | null,
+  use?: BundleUse,
+  options: { fakes?: boolean } = {},
+): InlineConfig {
   const dartRoot = join(projectRoot, fuseConfig?.dart ?? "dart");
 
   // `fuse gen` output: modules imported as `#fuse/<package>`, and the tables
@@ -120,6 +126,8 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
       gen,
       // `src/app/` as routes (`#fuse/routes`), before anything imports them.
       fuseRoutesPlugin({ projectRoot, genDir }),
+      // `src/fakes.ts` first, where fakes are on (cli/fakes.ts).
+      fuseFakesPlugin({ projectRoot, on: !!options.fakes }),
       fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: gen.api.use, tables: generatedTables(genDir) }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),

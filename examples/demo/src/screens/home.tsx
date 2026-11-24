@@ -13,6 +13,7 @@ import { AdaptiveScreen } from "./adaptive";
 import { FramesScreen } from "./frames";
 import { SpringsScreen } from "./springs";
 import { HeroineScreen } from "./heroine";
+import { SensorsScreen } from "./sensors";
 
 export function HomeScreen() {
   const nav = useNav();
@@ -58,6 +59,7 @@ export function HomeScreen() {
         onTap={() => nav.push(() => <ScrollScreen />)}
       />
       <MenuItem label="core widgets" onTap={() => nav.push(() => <CoreScreen />)} />
+      <MenuItem label="sensors" onTap={() => nav.push(() => <SensorsScreen />)} />
       <MenuItem label="material" onTap={() => nav.push(() => <MaterialScreen />)} />
       <MenuItem label="cupertino" onTap={() => nav.push(() => <CupertinoScreen />)} />
       <MenuItem label="adaptive" onTap={() => nav.push(() => <AdaptiveScreen />)} />

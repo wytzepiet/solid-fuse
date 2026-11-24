@@ -398,6 +398,8 @@
    "Wrap": "flutter_Wrap"
   },
   "flutter_lucide": {},
+  "geolocator": {},
+  "geolocator_platform_interface": {},
   "heroine": {
    "DragDismissable": "heroine_DragDismissable",
    "DragDismissableCustom": "heroine_DragDismissableCustom",
@@ -572,6 +574,8 @@
    "YearPicker": "material_ui_YearPicker"
   },
   "motor": {},
+  "sensors_plus": {},
+  "sensors_plus_platform_interface": {},
   "vector_math": {}
  },
  "builders": {
@@ -6936,6 +6940,32 @@
     "tag": "UndoHistoryValue",
     "positional": []
    },
+   "DeviceGestureSettings.fromView": {
+    "tag": "DeviceGestureSettings.fromView",
+    "positional": [
+     "view"
+    ]
+   },
+   "DeviceGestureSettings": {
+    "tag": "DeviceGestureSettings",
+    "positional": []
+   },
+   "PointerPanZoomStartEvent": {
+    "tag": "PointerPanZoomStartEvent",
+    "positional": []
+   },
+   "PointerDownEvent": {
+    "tag": "PointerDownEvent",
+    "positional": []
+   },
+   "DiagnosticsSerializationDelegate": {
+    "tag": "DiagnosticsSerializationDelegate",
+    "positional": []
+   },
+   "TextTreeConfiguration": {
+    "tag": "TextTreeConfiguration",
+    "positional": []
+   },
    "PhysicalKeyboardKey.hyper": {
     "const": "PhysicalKeyboardKey.hyper"
    },
@@ -9221,6 +9251,19 @@
     "tag": "MagnifierInfo",
     "positional": []
    },
+   "InlineSpanSemanticsInformation.placeholder": {
+    "const": "InlineSpanSemanticsInformation.placeholder"
+   },
+   "InlineSpanSemanticsInformation": {
+    "tag": "InlineSpanSemanticsInformation",
+    "positional": [
+     "text"
+    ]
+   },
+   "ScrollStartNotification": {
+    "tag": "ScrollStartNotification",
+    "positional": []
+   },
    "ViewPadding.zero": {
     "const": "ViewPadding.zero"
    },
@@ -9809,16 +9852,6 @@
      "name",
      "message"
     ]
-   },
-   "DeviceGestureSettings.fromView": {
-    "tag": "DeviceGestureSettings.fromView",
-    "positional": [
-     "view"
-    ]
-   },
-   "DeviceGestureSettings": {
-    "tag": "DeviceGestureSettings",
-    "positional": []
    },
    "DisplayFeature": {
     "tag": "DisplayFeature",
@@ -16324,6 +16357,18 @@
    },
    "LucideIcons.zoom_out": {
     "const": "LucideIcons.zoom_out"
+   }
+  },
+  "geolocator": {
+   "AndroidPosition": {
+    "tag": "AndroidPosition",
+    "positional": []
+   }
+  },
+  "geolocator_platform_interface": {
+   "Position": {
+    "tag": "Position",
+    "positional": []
    }
   },
   "heroine": {
@@ -43983,6 +44028,52 @@
     "tag": "LinearMotion",
     "positional": [
      "duration"
+    ]
+   }
+  },
+  "sensors_plus": {},
+  "sensors_plus_platform_interface": {
+   "AccelerometerEvent": {
+    "tag": "AccelerometerEvent",
+    "positional": [
+     "x",
+     "y",
+     "z",
+     "timestamp"
+    ]
+   },
+   "GyroscopeEvent": {
+    "tag": "GyroscopeEvent",
+    "positional": [
+     "x",
+     "y",
+     "z",
+     "timestamp"
+    ]
+   },
+   "UserAccelerometerEvent": {
+    "tag": "UserAccelerometerEvent",
+    "positional": [
+     "x",
+     "y",
+     "z",
+     "timestamp"
+    ]
+   },
+   "MagnetometerEvent": {
+    "tag": "MagnetometerEvent",
+    "positional": [
+     "x",
+     "y",
+     "z",
+     "timestamp"
+    ]
+   },
+   "BarometerEvent": {
+    "tag": "BarometerEvent",
+    "positional": [
+     "pressure",
+     "timestamp"
     ]
    }
   },

@@ -18,7 +18,7 @@ const manifestFormat = 1;
 
 /// Bumped whenever the generator's output for the same input can change.
 /// Part of the input hash.
-const generatorVersion = '0.4.0';
+const generatorVersion = '0.5.0';
 
 class ManifestBuilder {
   ManifestBuilder(this.w, this.config, {this.values = const []}) : code = DartCode(w) {
@@ -37,6 +37,13 @@ class ManifestBuilder {
   final List<Json> _widgets = [];
   final List<Json> _skipped = [];
   final Set<String> _handleRoots = {};
+  /// Static methods and top-level functions JS calls, by owner.
+  final List<Json> _statics = [];
+  /// Classes with a replaceable shared instance (a plugin's platform
+  /// interface) that JS can fake.
+  final List<Json> _fakes = [];
+  /// One entry per Dart declaration, however many barrels export it.
+  final Set<Element> _seenStatic = {};
   /// Value types a barrel names (`show Color`): hand-written Dart decodes
   /// them with `node.value<Color>(...)`, through the decoder the app
   /// generates and registers.
@@ -77,6 +84,8 @@ class ManifestBuilder {
       'widgets': _widgets,
       'handles': _handleRoots.toList()..sort(),
       'values': _valueRoots.toList()..sort(),
+      'statics': _statics,
+      'fakes': _fakes,
       'types': types,
     };
     return {
@@ -129,6 +138,7 @@ class ManifestBuilder {
       if (el is ClassElement && el.isPublic && _ownedBy(el, lib)) classes.add(el);
     });
     classes.sort((a, b) => a.name!.compareTo(b.name!));
+    _functions(lib, rule);
     // A class name wins over a named constructor that would spell the same
     // component (PositionedDirectional vs Positioned.directional).
     final components = <String, String>{
@@ -137,6 +147,21 @@ class ManifestBuilder {
     };
     for (final cls in classes) {
       final name = cls.name!;
+      if (rule.includes(name) && c.staticsOnly(cls)) {
+        if (_seenStatic.add(cls)) _staticOwner(lib, cls);
+        continue;
+      }
+      if (!rule.includes(name)) {
+        // Only a named constructor is allowed (`Image.network`): no statics.
+      } else if (c.fakeSetter(cls) case final setter? when _seenStatic.add(cls)) {
+        try {
+          _fakes.add({'id': '${lib.uri}#$name', ...c.fake(cls, setter)});
+        } on Skip catch (s) {
+          _skip('${lib.uri}#$name', 'fake: ${s.reason}');
+        } catch (e) {
+          _skip('${lib.uri}#$name', 'fake: internal error: $e');
+        }
+      }
       final isWidget = !cls.isAbstract && w.isSubtypeOfEl(cls.thisType, w.widgetEl);
       if (isWidget) {
         for (final ctor in cls.constructors) {
@@ -199,6 +224,62 @@ class ManifestBuilder {
     }
   }
 
+  // ── statics ───────────────────────────────────────────────────────────────
+
+  /// The library's own top-level functions (sensors_plus's
+  /// `accelerometerEventStream`), as functions JS calls.
+  void _functions(EntryLib lib, LibraryRule rule) {
+    final methods = <Json>[];
+    final names = <String>[];
+    lib.element.exportNamespace.definedNames2.forEach((name, el) {
+      if (el is TopLevelFunctionElement && el.isPublic && _ownedBy(el, lib) && rule.includes(name)) names.add(name);
+    });
+    names.sort();
+    for (final name in names) {
+      final el = lib.element.exportNamespace.definedNames2[name]! as TopLevelFunctionElement;
+      if (fuseAnnotation(el, 'FuseShorthand') != null || name == 'main' || name.startsWith('debug')) continue;
+      if (el.metadata.hasVisibleForTesting || el.metadata.hasInternal || el.metadata.hasDeprecated || !_seenStatic.add(el)) continue;
+      final item = '${lib.uri}#$name';
+      try {
+        methods.add({...c.staticFn(el, name), 'dart': code.ref(el)});
+      } on Skip catch (s) {
+        _skip(item, 'function: ${s.reason}');
+      } on NotNameable catch (e) {
+        _skip(item, 'function: $e');
+      } catch (e) {
+        _skip(item, 'function: internal error: $e');
+      }
+    }
+    if (methods.isNotEmpty) _statics.add({'id': '${lib.uri}#', 'methods': methods});
+  }
+
+  /// A class of only statics (`Geolocator`): its static methods.
+  void _staticOwner(EntryLib lib, ClassElement cls) {
+    final methods = <Json>[];
+    final owner = code.ref(cls);
+    for (final m in [...cls.methods]..sort((a, b) => a.name!.compareTo(b.name!))) {
+      if (!m.isStatic || !m.isPublic || m.metadata.hasProtected || m.metadata.hasVisibleForTesting || m.metadata.hasDeprecated) continue;
+      if (m.name!.startsWith('debug')) continue;
+      final item = '${lib.uri}#${cls.name}.${m.name}';
+      try {
+        methods.add({...c.staticFn(m, m.name!), 'dart': '$owner.${m.name}'});
+      } on Skip catch (s) {
+        _skip(item, 'function: ${s.reason}');
+      } on NotNameable catch (e) {
+        _skip(item, 'function: $e');
+      } catch (e) {
+        _skip(item, 'function: internal error: $e');
+      }
+    }
+    if (methods.isEmpty) return;
+    _statics.add({
+      'id': '${lib.uri}#${cls.name}',
+      'owner': cls.name,
+      if (firstParagraph(cls.documentationComment) case final d?) 'doc': d,
+      'methods': methods,
+    });
+  }
+
   // ── widgets ───────────────────────────────────────────────────────────────
 
   static String _cap(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
@@ -249,7 +330,7 @@ class ManifestBuilder {
     final k = ref['k'];
     if (kinds.contains(k)) return true;
     switch (k) {
-      case 'list' || 'set' || 'iterable':
+      case 'list' || 'set' || 'iterable' || 'stream':
         return _reaches(ref['of'], kinds, seen);
       case 'map':
         return _reaches(ref['of'], kinds, seen);
@@ -306,7 +387,7 @@ class ManifestBuilder {
         case 'data':
           final d = c.types[ref['id']];
           return d == null || d['inputSkipped'] != null || d['variants'] == null;
-        case 'list' || 'set' || 'iterable':
+        case 'list' || 'set' || 'iterable' || 'stream':
           return bad(ref['of']);
         case 'map':
           return bad(ref['key']) || bad(ref['of']);
@@ -325,7 +406,7 @@ class ManifestBuilder {
       bool needs(Object? t) => t is Map && switch (t['k']) {
         'supplied' => t['of'] == 'context',
         'widget' => t['as'] != null,
-        'list' || 'set' || 'iterable' || 'map' => needs(t['of']),
+        'list' || 'set' || 'iterable' || 'stream' || 'map' => needs(t['of']),
         _ => false,
       };
       return needs(p['type']) ? 'needs the BuildContext of a widget' : null;
@@ -370,6 +451,17 @@ class ManifestBuilder {
       }
     }
 
+    // Statics go through a channel call too; a fake's members read the fake's
+    // own node, so they take functions like any callback.
+    for (final st in _statics) {
+      final methods = st['methods']! as List;
+      methods.removeWhere((mj) {
+        final ok = _fix((mj as Json)['params']! as List, (p) => _reaches(p['type'], _notPlain) ? 'holds a function or widget' : null);
+        if (!ok) _skip('${st['id']}${st['owner'] == null ? '' : '.'}${mj['name']}', 'function: a required parameter holds a function or widget');
+        return !ok;
+      });
+    }
+
     var changed = true;
     while (changed) {
       changed = false;
@@ -410,6 +502,21 @@ class ManifestBuilder {
           setters.removeWhere((sj) => bad((sj as Json)['type']));
           if (setters.length != n) changed = true;
         }
+      }
+      for (final st in _statics) {
+        final methods = st['methods']! as List;
+        final n = methods.length;
+        methods.removeWhere((mj) => !_fix((mj as Json)['params']! as List, notBuildable));
+        if (methods.length != n) changed = true;
+      }
+      for (final f in _fakes) {
+        final members = f['members']! as List;
+        members.removeWhere((mb) {
+          if (!bad((mb as Json)['fn'])) return false;
+          ((f['skips'] ??= <String, String>{}) as Map)[mb['name']] = 'a type is not constructible';
+          changed = true;
+          return true;
+        });
       }
       _widgets.removeWhere((wj) {
         if (_fix(wj['params']! as List, notBuildable)) return false;

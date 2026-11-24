@@ -91,6 +91,7 @@ export { Tooltip, type TooltipProps } from "./widgets/tooltip";
 export { Menu, type MenuProps } from "./widgets/menu";
 export { Expandable, type ExpandableProps } from "./widgets/expandable";
 export { createHandle } from "./handle";
+export { fake, type FakeOf } from "./fake";
 export type { Handle, HandleRuntime } from "./handle";
 export { on, send, channels } from "./channels";
 export { host } from "./host";

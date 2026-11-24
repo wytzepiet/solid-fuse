@@ -89,14 +89,14 @@ BarrelRules readBarrels(World w, List<String> barrels) {
       if (name.startsWith('_')) return;
       final declared = el.library?.uri;
       if (declared == null) return;
-      if (el is TopLevelFunctionElement) {
-        if (fuseAnnotation(el, 'FuseShorthand') == null) return;
+      if (el is TopLevelFunctionElement && fuseAnnotation(el, 'FuseShorthand') != null) {
         load.add('$declared');
         (shorthands['$declared'] ??= {}).add(name);
         return;
       }
-      if (el is! ClassElement) return;
-      if (shown.contains(name)) values.add(el);
+      // A class, or a function JS calls (routed the way a class is).
+      if (el is! ClassElement && el is! TopLevelFunctionElement) return;
+      if (el is ClassElement && shown.contains(name)) values.add(el);
       final home = declared.scheme == 'package' ? declared.pathSegments.first : 'flutter';
       final List<String> candidates;
       if (home == pkg) {
@@ -127,7 +127,10 @@ BarrelRules readBarrels(World w, List<String> barrels) {
     // named, so each one it exports crosses.
     final everything = !own.contains(uri) &&
         lib.element.exportNamespace.definedNames2.entries.every((e) =>
-            e.value is! ClassElement || e.key.startsWith('_') || !_sameHome(e.value, uri) || names.contains(e.key));
+            (e.value is! ClassElement && e.value is! TopLevelFunctionElement) ||
+            e.key.startsWith('_') ||
+            !_sameHome(e.value, uri) ||
+            names.contains(e.key));
     rules[uri] = LibraryRule(allow: everything ? null : (names.toList()..sort()));
   }
   shorthands.forEach((uri, names) {

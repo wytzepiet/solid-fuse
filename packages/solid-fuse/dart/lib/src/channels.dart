@@ -62,7 +62,7 @@ class FuseChannels {
           method: 'dispatch',
           params: [JsValue.string(channel), JsValue.from(data)],
         )
-        .then((JsValue result) => result.value);
+        .then((JsValue result) => (result.value as List).first);
     if (timeout == null) return future;
     return future.timeout(
       timeout,

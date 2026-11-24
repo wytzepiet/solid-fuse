@@ -5,6 +5,7 @@ import { buildViteConfig } from "../config";
 import { runLink } from "../link";
 import { buildTargetPlatform, ensureRunners } from "../runners";
 import type { FuseConfig } from "../../src/config";
+import { fakesFile, fakesOn, withoutFakeFlags } from "../fakes";
 
 /**
  * Split `fuse build` arguments into our own flags and the rest, which goes
@@ -24,12 +25,18 @@ export async function buildApp(
   fuseConfig: FuseConfig | null,
   rawArgs: string[],
 ) {
-  const { jsOnly, flutterArgs } = parseBuildArgs(rawArgs);
+  const { jsOnly, flutterArgs: args } = parseBuildArgs(rawArgs);
+  const flutterArgs = withoutFakeFlags(args);
+  const target = buildTargetPlatform(flutterArgs);
+  // Fakes (src/fakes.ts) only where they belong: a web preview by default,
+  // never a phone (cli/fakes.ts).
+  const fakes = fakesOn(rawArgs, { build: flutterArgs.find((a) => !a.startsWith("-")) ?? null });
   // Generation runs in the Vite build (cli/gen/plugin.ts).
   await runLink(projectRoot, { pubGet: false, gen: false });
 
   const dartRoot = getDartRoot(projectRoot, fuseConfig);
-  const viteConfig = buildViteConfig(projectRoot, fuseConfig);
+  const viteConfig = buildViteConfig(projectRoot, fuseConfig, undefined, { fakes });
+  if (fakes && fakesFile(projectRoot)) console.log("Fakes on: src/fakes is in this bundle.");
 
   console.log("\nBuilding JS bundle...");
   await viteBuild(viteConfig);
@@ -39,7 +46,6 @@ export async function buildApp(
     return;
   }
 
-  const target = buildTargetPlatform(flutterArgs);
   ensureRunners(dartRoot, target ? [target] : [], fuseConfig);
 
   console.log("\nBuilding Flutter app...");

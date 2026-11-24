@@ -281,6 +281,14 @@ class _FuseBuiltState extends State<FuseBuiltWidget> {
 T fuseImpl<T extends Function>(T? f, String name) =>
     f ?? (throw FuseCallbackError(name, 'the JS object has no "$name"'));
 
+/// A stream JS gives (an async iterable, `{$stream: id}` on the wire): JS
+/// starts reading it when Dart listens, and stops when Dart cancels. Each
+/// event is decoded with [dec].
+Stream<T>? decStream<T>(FuseNode n, Object? v, T Function(Object? e) dec) {
+  if (v is! Map || v[r'$stream'] is! int) return null;
+  return n.registry.jsStream(v[r'$stream'] as int).map(dec);
+}
+
 /// A JS callback threw or its Promise rejected.
 class FuseCallbackError implements Exception {
   FuseCallbackError(this.name, this.message);
@@ -404,6 +412,10 @@ abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
   /// Stream getter [name], its events encoded.
   Stream<Object?>? stream(String name) => null;
 
+  /// Stream [name] with the arguments JS passed (a method that returns a
+  /// Stream); a getter's by default.
+  Stream<Object?>? streamOf(String name, List<Object?> args) => stream(name);
+
   /// Frees the object (its `dispose()`).
   void release() {}
 
@@ -522,7 +534,7 @@ abstract class FuseGeneratedHandle<T extends Object> extends FuseHandle<T> {
       case r'$listen':
         final m = value as Map;
         final fn = m['fn'] as String;
-        final s = stream(m['stream'] as String);
+        final s = streamOf(m['stream'] as String, (m['args'] as List?)?.cast<Object?>() ?? const []);
         if (s == null) throw StateError('${node.type} has no stream "${m['stream']}"');
         _subs[fn] = s.listen(
           (e) => node.callFunction(node.id, fn, {'v': e}),

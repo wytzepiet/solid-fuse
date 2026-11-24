@@ -228,6 +228,24 @@ release();
 
 Only the code that called `createRoot` can release it. To create one that belongs to no component (a module-level controller), use `runWithOwner(null, () => createX())`. It then lives until JS lets go of it.
 
+## Functions
+
+A top-level function, and a class of only static methods (`Geolocator`), can be called from JS. Export them like anything else (`show Geolocator, accelerometerEventStream`):
+
+```tsx
+import { Geolocator } from "#fuse/geolocator";
+import { accelerometerEventStream } from "#fuse/sensors_plus";
+
+const p = await Geolocator.getCurrentPosition();
+for await (const e of accelerometerEventStream()) setTilt(e.x);
+```
+
+Every call returns a Promise, also for a function that returns at once in Dart. A function that returns a `Stream` gives an async iterable, as a controller's stream does.
+
+Where Dart takes a `Stream` (a parameter, or what a JS function returns to Dart), give an async iterable: an `async function*`, or anything with `Symbol.asyncIterator`. Dart pulls a value each time it listens for one, and stops the iterator when it cancels.
+
+A plugin's platform interface (`GeolocatorPlatform`) can be replaced from JS: see [Faking native features](/docs/building/fakes).
+
 ## Release builds keep what you use
 
 `fuse dev` has every exported widget, controller and constant, so a new one works without a Dart rebuild. `fuse build` keeps only what the bundle uses: after bundling, it writes the Dart adapters again for just those, and Flutter's tree shaker drops the rest of the widgets they would have pulled in. Exporting a whole library costs nothing in the release app. On the demo, exporting all of `widgets` and `material_ui` gives a 15 MB `libapp.so` in full and 6 MB with only what it uses.

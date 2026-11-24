@@ -13,7 +13,7 @@
  *    re-exported as a namespace, so the bundler drops the members nothing
  *    uses and the build can tell the Dart side which are left.
  */
-import { handleIds, handleTags, tagOf } from "./emit-dart";
+import { fakeTag, handleIds, handleTags, staticKey, tagOf } from "./emit-dart";
 import { moduleOf, mustSupply, uriOf, type DataType, type FnRef, type HandleType, type Manifest, type Param, type Ref, type Variant } from "./manifest";
 
 export interface TsModule {
@@ -31,7 +31,7 @@ export interface BuilderEntry {
 
 /** What a generated export stands for, so the build can keep only the Dart
  *  side of what the bundle uses. */
-export type ExportUse = { widget: string } | { handle: string } | { consts: string[] };
+export type ExportUse = { widget: string } | { handle: string } | { consts: string[] } | { static: string } | { fake: string };
 
 export interface TsOutput {
   /** Package modules (`flutter`) and owner modules (`flutter/EdgeInsets`). */
@@ -81,6 +81,9 @@ class Module {
   usesBuild = false;
   usesCreate = false;
   usesConst = false;
+  usesStatic = false;
+  usesStaticStream = false;
+  usesFake = false;
   readonly uses: Record<string, ExportUse> = {};
   /** `export ... from` lines (owner modules). */
   readonly reexports: string[] = [];
@@ -217,6 +220,9 @@ export function emitTs(m: Manifest): TsOutput {
       }
       case "bytes":
         t = "ArrayBuffer | ArrayBufferView";
+        break;
+      case "stream":
+        t = `AsyncIterable<${tsIn(ref.of, from)}>`;
         break;
       case "map": {
         const v = tsIn(ref.of, from);
@@ -711,6 +717,72 @@ export function emitTs(m: Manifest): TsOutput {
     }
   }
 
+  // ── statics: functions JS calls ─────────────────────────────────────────
+
+  /** `(a: A, named?: { b?: B })` for a static's parameters, as for a method. */
+  function staticParams(params: Param[], module: Module): string[] {
+    const out: string[] = [];
+    for (const p of params) {
+      if (p.named || !p.type) continue;
+      out.push(`${safeParam(p.name)}${p.required ? "" : "?"}: ${tsIn(p.type, module)}`);
+    }
+    const named = params.filter((p) => p.named && p.type);
+    if (named.length) {
+      const fields = named.map((p) => `${prop(p.name)}${mustSupply(p) ? "" : "?"}: ${tsIn(p.type!, module)}`);
+      out.push(`named${named.some(mustSupply) ? "" : "?"}: { ${fields.join("; ")} }`);
+    }
+    return out;
+  }
+
+  for (const st of m.statics ?? []) {
+    if (!st.methods.length) continue;
+    const pkg = mod(moduleOf(uriOf(st.id)));
+    // An owner's functions are a namespace of their own (`Geolocator.x`);
+    // a library's top-level functions are the package module's exports.
+    let target = pkg;
+    if (st.owner) {
+      if (pkg.values.has(st.owner)) continue;
+      const name = pkg.claim("value", st.owner);
+      target = mod(`${pkg.name}/${st.owner}`);
+      pkg.reexports.push(`export * as ${name} from "./${target.name}";`);
+    }
+    for (const fn of st.methods) {
+      const key = staticKey(st.id, st.owner, fn.name);
+      const local = target.claim("value", fn.name);
+      const params = staticParams(fn.params, target);
+      const sig = params.join(", ");
+      const names = params.map((p) => p.slice(0, p.search(/[?:]/)));
+      const doc = jsdoc("", fn.doc, fn.deprecated, [`Dart: \`${st.owner ? `${st.owner}.` : ""}${fn.name}\`.`]);
+      let body: string;
+      if (fn.stream) {
+        target.usesStaticStream = true;
+        body = `export function ${local}(${sig}): AsyncIterable<${tsOut(fn.stream, target)}> {\n  return $staticStream(${lit(key)}, [${names.join(", ")}]) as AsyncIterable<any>;\n}`;
+      } else {
+        target.usesStatic = true;
+        const ret = fn.ret.k === "void" ? "void" : tsOut(fn.ret, target);
+        body = `export function ${local}(${sig}): Promise<${ret}> {\n  return $static(${lit(key)}, [${names.join(", ")}]) as Promise<any>;\n}`;
+      }
+      target.parts.push(`${doc}${local === fn.name ? body : body.replace(/^export /, "")}${local === fn.name ? "" : `\nexport { ${local} as ${fn.name} };`}`);
+      target.uses[fn.name] = { static: key };
+    }
+  }
+
+  // ── fakes ───────────────────────────────────────────────────────────────
+
+  for (const f of m.fakes ?? []) {
+    const module = mod(moduleOf(uriOf(f.id)));
+    if (module.values.has(f.name)) continue;
+    const name = module.claim("value", f.name);
+    const iface = module.claim("type", `${f.name}Fake`);
+    module.usesFake = true;
+    const members = f.members.map((mb) => `${jsdoc("  ", undefined, undefined, [`Dart: \`${mb.name}\`.`])}  ${prop(mb.name)}?: ${tsFn(mb.fn, module)};`);
+    module.parts.push(
+      `/** What a fake of \`${f.name}\` can give: any of its members. The rest go to the real instance. */\nexport interface ${iface} {\n${members.join("\n")}\n}`,
+      `${jsdoc("", f.doc, false, [`Dart: \`${f.name}.${f.setter}\`. Fake it with \`fake(${name}, { ... })\` from solid-fuse.`])}export const ${name} = /* @__PURE__ */ $fakeable<${iface}>(${lit(fakeTag(f))});`,
+    );
+    module.uses[name] = { fake: f.id };
+  }
+
   // Types and builders reached from the widgets (and from each other).
   const emittedTypes = new Set<string>();
   const emittedOut = new Set<string>();
@@ -740,7 +812,7 @@ export function emitTs(m: Manifest): TsOutput {
       `// Manifest fingerprint: ${m.fingerprint}`,
       "/* eslint-disable */",
     ];
-    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : []), ...(module.usesSlot ? ["$slot", "$slots"] : [])];
+    const fromFuse = [...(module.usesBuild ? ["$build"] : []), ...(module.usesStatic ? ["$static"] : []), ...(module.usesStaticStream ? ["$staticStream"] : []), ...(module.usesFake ? ["$fakeable"] : []), ...(module.usesCreate ? ["$handle"] : []), ...(module.usesHandleType ? ["$handleType"] : []), ...(module.usesSlot ? ["$slot", "$slots"] : [])];
     if (fromFuse.length) head.push(`import { ${fromFuse.join(", ")} } from "solid-fuse/generated";`);
     if (module.usesConst) head.push('import type { Const } from "solid-fuse/generated";');
     const fromCore = [...(module.usesHandle ? ["Handle"] : []), ...(module.usesLayout ? ["LayoutInput"] : [])];

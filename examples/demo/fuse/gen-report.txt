@@ -1,5 +1,5 @@
 # fuse gen report. Generated; do not edit.
-# 684 widgets, 71 handles, 20 skipped
+# 684 widgets, 71 handles, 61 skipped
 
 ## Widgets
 AbsorbPointer  package:flutter/widgets.dart#AbsorbPointer
@@ -761,13 +761,26 @@ TabController  package:material_ui/material_ui.dart#TabController
 Matrix4  package:vector_math/vector_math_64.dart#Matrix4
 
 ## Skipped
+package:flutter/widgets.dart#intentForMacOSSelector: function: no encodable fields on Intent
+package:flutter/widgets.dart#lerpFontVariations: function: nested too deep
+package:flutter/widgets.dart#showGeneralDialog: function: generic function
+package:flutter/widgets.dart#showRawDialog: function: generic function
 package:flutter/widgets.dart#Actions: actions: Type
+package:flutter/widgets.dart#Feedback.wrapForLongPress: function: unsupported type void Function()
+package:flutter/widgets.dart#Feedback.wrapForTap: function: unsupported type void Function()
 package:flutter/widgets.dart#Image.file: file: not exported: File
 package:flutter/widgets.dart#Positioned.directional: component name PositionedDirectional is taken by the class PositionedDirectional
 package:flutter/widgets.dart#RenderObjectToWidgetAdapter: container: framework object RenderObjectWithChildMixin
 package:flutter/widgets.dart#SystemContextMenu.editableText: editableTextState: framework object EditableTextState
 package:flutter/widgets.dart#WidgetToRenderBoxAdapter: renderBox: framework object RenderBox
+package:geolocator_platform_interface/geolocator_platform_interface.dart#GeolocatorPlatform: not a widget or handle
+package:geolocator_platform_interface/geolocator_platform_interface.dart#Position: not a widget or handle
+package:sensors_plus_platform_interface/sensors_plus_platform_interface.dart#AccelerometerEvent: not a widget or handle
+package:sensors_plus_platform_interface/sensors_plus_platform_interface.dart#SensorsPlatform: not a widget or handle
 package:listen/listen.dart#ValueNotifier: generic class (not bridged yet)
+package:cupertino_ui/cupertino_ui.dart#showCupertinoDialog: function: generic function
+package:cupertino_ui/cupertino_ui.dart#showCupertinoModalPopup: function: generic function
+package:cupertino_ui/cupertino_ui.dart#showCupertinoSheet: function: generic function
 package:cupertino_ui/cupertino_ui.dart#CupertinoAdaptiveTextSelectionToolbar.editableText: editableTextState: framework object EditableTextState
 package:cupertino_ui/cupertino_ui.dart#CupertinoSpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
 package:motor/motor.dart#CupertinoMotion: not a widget or handle
@@ -775,9 +788,37 @@ package:motor/motor.dart#CurvedMotion: not a widget or handle
 package:motor/motor.dart#MaterialSpringMotion: not a widget or handle
 package:motor/motor.dart#Motion: not a widget or handle
 package:motor/motor.dart#SpringMotion: not a widget or handle
+package:material_ui/material_ui.dart#showAdaptiveDialog: function: generic function
+package:material_ui/material_ui.dart#showBottomSheet: function: no encodable fields on PersistentBottomSheetController
+package:material_ui/material_ui.dart#showDialog: function: generic function
+package:material_ui/material_ui.dart#showMenu: function: generic function
+package:material_ui/material_ui.dart#showModalBottomSheet: function: generic function
+package:material_ui/material_ui.dart#showSearch: function: generic function
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.editableText: editableTextState: framework object EditableTextState
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.selectableRegion: selectableRegionState: framework object SelectableRegionState
+package:material_ui/material_ui.dart#DateUtils.firstDayOffset: function: localizations: abstract, no constructible subtype
 package:material_ui/material_ui.dart#PopupMenuButton: itemBuilder: callback returns a typed widget
 package:material_ui/material_ui.dart#SpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
+package:geolocator_platform_interface/src/geolocator_platform_interface.dart#GeolocatorPlatform: abstract, no constructible subtype
 package:flutter_lucide/src/flutter_lucide.dart#LucideIcons: abstract, no constructible subtype
+package:flutter/widgets.dart#buildTextSpanWithSpellCheckSuggestions: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#childDragAnchorStrategy: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#createLocalImageConfiguration: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#getAxisDirectionFromAxisReverseAndDirectionality: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#pointerDragAnchorStrategy: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#precacheImage: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#runApp: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#runWidget: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#Feedback.forLongPress: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#Feedback.forTap: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showAboutDialog: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showAdaptiveAboutDialog: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showDatePicker: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showDateRangePicker: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showLicensePage: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showTimePicker: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.applyOverlay: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.applySurfaceTint: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.colorWithOverlay: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.overlayColor: function: a required parameter holds a function or widget
 package:flutter/widgets.dart#SelectionOverlay: no constructor left that can cross the bridge yet
