@@ -1,6 +1,7 @@
 import { spawn, spawnSync } from "child_process";
 import http from "http";
 import { join } from "path";
+import { existsSync, readFileSync, watch } from "fs";
 import { createServer, build as viteBuild, mergeConfig, type ViteDevServer } from "vite";
 import { defineCommand } from "citty";
 import { findProjectRoot, getDartRoot, detectLanIp } from "./utils";
@@ -101,11 +102,14 @@ export const devCommand = defineCommand({
       );
     }
 
+    const stopRelink = watchDependencies(projectRoot, dartRoot);
+
     // Step 6: Start flutter run with piped stdin so we can intercept R (hot restart)
     let cleaning = false;
     const cleanup = () => {
       if (cleaning) return;
       cleaning = true;
+      stopRelink();
       viteServer.close();
       clearDriveSession(dartRoot);
       headless?.stop();
@@ -162,6 +166,49 @@ export const devCommand = defineCommand({
     }
   },
 });
+
+/**
+ * Link again when the app's dependencies change while it runs (`bun add`,
+ * `flutter pub add`): pub get, generation, Dart glue. Lock files, not
+ * package.json, since they are written when the install is done.
+ */
+function watchDependencies(projectRoot: string, dartRoot: string): () => void {
+  const files = [
+    ...["bun.lock", "bun.lockb", "package-lock.json", "pnpm-lock.yaml", "yarn.lock"].map((f) => join(projectRoot, f)),
+    join(dartRoot, "pubspec.yaml"),
+  ].filter((f) => existsSync(f));
+  const seen = new Map(files.map((f) => [f, readFileSync(f)]));
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  // Link writes pubspec.yaml itself; that isn't a change to answer.
+  let linking = false;
+  const relink = async () => {
+    if (linking) return;
+    linking = true;
+    console.log("\nDependencies changed: linking...");
+    try {
+      await runLink(projectRoot);
+      console.log("Linked. Press R to restart the app with the new Dart.");
+    } catch (err) {
+      console.error(`fuse link failed: ${err instanceof Error ? err.message : err}`);
+    } finally {
+      for (const f of files) if (existsSync(f)) seen.set(f, readFileSync(f));
+      linking = false;
+    }
+  };
+  const watchers = files.map((f) =>
+    watch(f, () => {
+      const now = existsSync(f) ? readFileSync(f) : Buffer.alloc(0);
+      if (linking || now.equals(seen.get(f)!)) return;
+      seen.set(f, now);
+      clearTimeout(timer);
+      timer = setTimeout(relink, 500);
+    }),
+  );
+  return () => {
+    clearTimeout(timer);
+    for (const w of watchers) w.close();
+  };
+}
 
 // Pass flutter's output through, and note where the app's VM service is so
 // `fuse drive` can reach the app.

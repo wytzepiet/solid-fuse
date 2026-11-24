@@ -184,7 +184,6 @@ function runFlutterPubGet(dartRoot: string) {
       stdio: "inherit",
     });
   } catch {
-    console.error("flutter pub get failed");
-    process.exit(1);
+    throw new Error("flutter pub get failed");
   }
 }
