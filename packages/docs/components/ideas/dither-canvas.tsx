@@ -12,6 +12,7 @@ uniform float t;     // seconds
 uniform float cell;  // finest cell size in device pixels
 uniform vec2 m;      // pointer, 0..1, y up; negative when away
 uniform int scene;
+uniform int light;  // 1 on a light page: no cream marks
 uniform sampler2D ta;  // the two platform marks, for the platforms scene
 uniform sampler2D tb;
 
@@ -114,9 +115,10 @@ void main() {
 
   vec3 cold = vec3(0.21, 0.33, 1.0);
   vec3 warm = vec3(1.0, 0.47, 0.12);
-  vec3 hot = vec3(1.0, 0.9, 0.74);
+  vec3 hot = light == 1 ? vec3(0.62, 0.2, 0.02) : vec3(1.0, 0.9, 0.74);
   vec3 col = level <= 2.0 ? cold * (0.55 + 0.25 * level) : level <= 4.0 ? warm : hot;
-  gl_FragColor = vec4(col * ink, 1.0);
+  // Premultiplied: the marks sit on nothing, so the page shows through.
+  gl_FragColor = vec4(col * ink, ink);
 }`;
 
 /** A white-on-black, slightly soft drawing for the shader to sample. */
@@ -221,7 +223,7 @@ export function DitherCanvas({
     gl.enableVertexAttribArray(a);
     gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
     const uniform = (name: string) => gl.getUniformLocation(program, name);
-    const [uR, uT, uCell, uM, uScene] = ['r', 't', 'cell', 'm', 'scene'].map(uniform);
+    const [uR, uT, uCell, uM, uScene, uLight] = ['r', 't', 'cell', 'm', 'scene', 'light'].map(uniform);
     gl.uniform1i(uScene, scenes.indexOf(scene));
 
     if (scene === 'platforms') {
@@ -242,6 +244,7 @@ export function DitherCanvas({
     let frame = 0;
     let visible = true;
 
+    const root = document.documentElement;
     const draw = (now: number) => {
       frame = 0;
       const scale = Math.min(window.devicePixelRatio || 1, 2);
@@ -256,6 +259,7 @@ export function DitherCanvas({
       gl.uniform1f(uT, still ? 4.2 : now / 1000);
       gl.uniform1f(uCell, Math.round(cell * scale));
       gl.uniform2f(uM, pointer.x, pointer.y);
+      gl.uniform1i(uLight, root.classList.contains('dark') ? 0 : 1);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       if (!still && visible) frame = requestAnimationFrame(draw);
     };
@@ -271,6 +275,9 @@ export function DitherCanvas({
       pointer.x = pointer.y = -1;
     };
 
+    const themed = new MutationObserver(kick);
+    themed.observe(root, { attributeFilter: ['class'] });
+
     const seen = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (visible) kick();
@@ -285,6 +292,7 @@ export function DitherCanvas({
     return () => {
       cancelAnimationFrame(frame);
       seen.disconnect();
+      themed.disconnect();
       window.removeEventListener('resize', kick);
       host.removeEventListener('pointermove', move);
       host.removeEventListener('pointerleave', leave);

@@ -34,7 +34,7 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: <FuseLogo />,
     },
-    themeSwitch: { enabled: false },
+    themeSwitch: { mode: 'light-dark-system' },
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };
 }

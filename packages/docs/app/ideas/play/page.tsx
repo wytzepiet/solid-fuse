@@ -6,6 +6,7 @@ import { PlayHero } from '@/components/ideas/play-hero';
 import { github } from '@/components/ideas/content';
 import { what } from '@/components/ideas/tour';
 import { FuseLogo } from '@/lib/layout.shared';
+import { ThemeSwitch } from 'fumadocs-ui/layouts/shared/slots/theme-switch';
 import '../dither/dither.css';
 import './play.css';
 
@@ -68,6 +69,7 @@ export default function PlayIdea() {
         <span>
           <Link href="/docs">Docs</Link>
           <a href={github}>GitHub</a>
+          <ThemeSwitch mode="light-dark-system" className="dt-theme" />
         </span>
       </footer>
       </div>

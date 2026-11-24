@@ -3,37 +3,74 @@
 @import 'fumadocs-ui/css/preset.css';
 
 /* ── The Fuse look ──────────────────────────────────────────────────
-   Black, one typeface, hairline rules, rounded cards a few pixels off
-   those rules, and orange for anything live or linked. The home page
-   (app/(home)) and the docs share these values. */
+   One typeface, hairline rules, rounded cards a few pixels off those rules,
+   and orange for anything live or linked. Every colour on the site is one
+   of these: light by default, dark under .dark (the theme provider sets it
+   on <html>; /ideas is forced dark, components/providers.tsx). Light is
+   warm off-white with a deeper orange, so links pass contrast on white. */
 
 :root {
-  --fuse-text: #f4f4f1;
-  --fuse-soft: #8b8b87;
-  --fuse-rule: #262624;
-  --fuse-edge: #2b2b29;
-  --fuse-tray: #171716;
-  --fuse-card: #060607;
-  --fuse-accent: #ff7a1f;
-}
+  --fuse-strong: #000000;
+  --fuse-text: #1c1c1a;
+  --fuse-body: #3c3c38;
+  --fuse-soft: #686863;
+  --fuse-faint: #8a8a82;
+  --fuse-line: #c9c7c0;
+  --fuse-rule: #e2e0d9;
+  --fuse-edge: #dddbd4;
+  --fuse-page: #faf9f6;
+  --fuse-tray: #efeee8;
+  --fuse-card: #ffffff;
+  --fuse-inset: #faf9f6;
+  --fuse-chip: #efeee8;
+  --fuse-accent: #c2410c;
+  --fuse-on-text: #ffffff;
+  --fuse-fade: rgba(250, 249, 246, 0.85);
+  --fuse-hatch: rgba(0, 0, 0, 0.07);
+  --fuse-dot: rgba(0, 0, 0, 0.13);
+  --fuse-swatch-ring: rgba(0, 0, 0, 0.2);
+  --fuse-phone-shadow: 0 24px 60px rgba(40, 30, 10, 0.18);
 
-.dark {
-  --color-fd-background: #000000;
+  /* Fumadocs' palette, from ours. */
+  --color-fd-background: var(--fuse-page);
   --color-fd-foreground: var(--fuse-text);
-  --color-fd-muted: #0e0e0f;
+  --color-fd-muted: var(--fuse-chip);
   --color-fd-muted-foreground: var(--fuse-soft);
-  --color-fd-popover: #0a0a0b;
+  --color-fd-popover: var(--fuse-card);
   --color-fd-popover-foreground: var(--fuse-text);
   --color-fd-card: var(--fuse-card);
   --color-fd-card-foreground: var(--fuse-text);
   --color-fd-border: var(--fuse-rule);
   --color-fd-primary: var(--fuse-accent);
-  --color-fd-primary-foreground: #000000;
+  --color-fd-primary-foreground: var(--fuse-on-text);
   --color-fd-secondary: var(--fuse-tray);
   --color-fd-secondary-foreground: var(--fuse-text);
-  --color-fd-accent: rgba(255, 255, 255, 0.07);
+  --color-fd-accent: var(--fuse-hatch);
   --color-fd-accent-foreground: var(--fuse-text);
   --color-fd-ring: var(--fuse-accent);
+}
+
+.dark {
+  --fuse-strong: #ffffff;
+  --fuse-text: #f4f4f1;
+  --fuse-body: #c9c9c5;
+  --fuse-soft: #8b8b87;
+  --fuse-faint: #6e6e69;
+  --fuse-line: #3a3a37;
+  --fuse-rule: #29292d;
+  --fuse-edge: #2e2e33;
+  --fuse-page: #131316;
+  --fuse-tray: #1e1e21;
+  --fuse-card: #18181b;
+  --fuse-inset: #131316;
+  --fuse-chip: #1e1e21;
+  --fuse-accent: #ff7a1f;
+  --fuse-on-text: #000000;
+  --fuse-fade: rgba(19, 19, 22, 0.85);
+  --fuse-hatch: rgba(255, 255, 255, 0.075);
+  --fuse-dot: rgba(255, 255, 255, 0.1);
+  --fuse-swatch-ring: rgba(255, 255, 255, 0.35);
+  --fuse-phone-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
 }
 
 html {
@@ -65,12 +102,6 @@ kbd {
 }
 
 /* ── Docs ────────────────────────────────────────────────────────── */
-
-.dark #nd-sidebar {
-  --color-fd-muted: #000000;
-  --color-fd-secondary: var(--fuse-tray);
-  --color-fd-border: var(--fuse-rule);
-}
 
 /* Titles in the home page's voice: medium weight, tight. */
 #nd-page h1 {
@@ -116,16 +147,16 @@ kbd {
   padding: 2px 6px;
   border: 1px solid var(--fuse-edge);
   border-radius: 7px;
-  background: #0e0e0f;
+  background: var(--fuse-chip);
   font-size: 0.86em;
   font-weight: 400;
 }
 
-/* Code blocks are the home page's inset panels. */
+/* Code blocks sit a step above the page, on the same surface as inline code. */
 .prose figure.shiki {
   border-color: var(--fuse-edge);
   border-radius: 17px;
-  background: #000;
+  background: var(--fuse-chip);
   box-shadow: none;
 }
 
@@ -165,7 +196,7 @@ kbd {
   background: var(--fuse-card);
   font-style: normal;
   font-weight: 400;
-  color: #c9c9c5;
+  color: var(--fuse-body);
 }
 
 .prose blockquote p::before,
@@ -173,27 +204,44 @@ kbd {
   content: none;
 }
 
-/* Link cards: rounded, on the card colour, orange on hover. */
-.prose [data-card] {
+/* Link cards: rounded, on the card colour, orange on hover. Heading
+   anchors carry data-card too; they stay plain. */
+.prose [data-card]:not(:is(h1, h2, h3, h4, h5, h6) > *) {
   border-color: var(--fuse-edge);
   border-radius: 17px;
   background: var(--fuse-card);
 }
 
-.prose [data-card]:hover {
+.prose [data-card]:not(:is(h1, h2, h3, h4, h5, h6) > *):hover {
   border-color: var(--fuse-accent);
   background: var(--fuse-card);
 }
 
-/* Sidebar: black like the page, with section names as the home page writes
-   its chapter names. */
+/* Sidebar: the page's colour, no orange. The active page is marked in the
+   text colour (Fumadocs draws it with its primary colour), and section names
+   are small mono labels that outrank the grey page links under them. */
 #nd-sidebar {
-  background: #000;
+  --color-fd-muted: var(--fuse-page);
+  --color-fd-secondary: var(--fuse-tray);
+  --color-fd-border: var(--fuse-rule);
+  --color-fd-primary: var(--fuse-text);
+  background: var(--fuse-page);
+}
+
+/* The current page is a small card: card colour, a hairline edge (drawn
+   inset so the text doesn't move). */
+#nd-sidebar a[data-active='true'] {
+  background: var(--fuse-card);
+  box-shadow: inset 0 0 0 1px var(--fuse-edge);
+}
+
+.dark #nd-sidebar a[data-active='true'] {
+  background: var(--fuse-tray);
 }
 
 #nd-sidebar p {
   font-family: var(--font-mono), monospace;
   font-size: 12px;
-  font-weight: 400;
-  color: var(--fuse-accent);
+  font-weight: 500;
+  color: var(--fuse-text);
 }
