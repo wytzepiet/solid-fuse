@@ -3,7 +3,7 @@ title: CLI
 description: Every fuse command and flag
 ---
 
-`fuse` comes with the `solid-fuse` package: `bunx fuse <command>`, or through the app's scripts (`bun dev`). It runs on [Bun](https://bun.sh/).
+`fuse` comes with the `solid-fuse` package: `npx fuse <command>`, or through the app's scripts (`npm run dev`). It runs on Node 20.19 or newer; any package manager works. With npm, flags reach a script only after `--`: `npm run dev -- --headless`.
 
 | Command | Does |
 |---|---|
@@ -19,7 +19,7 @@ description: Every fuse command and flag
 
 ```bash
 fuse create [dir]
-bun create solid-fuse [dir]   # the same
+npm create solid-fuse@latest [dir]   # the same
 ```
 
 | Flag | |

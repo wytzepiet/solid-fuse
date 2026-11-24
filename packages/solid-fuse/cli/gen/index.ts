@@ -3,7 +3,9 @@
  * manifest into TypeScript modules and Dart adapters.
  */
 import { mkdirSync, readFileSync, readdirSync, rmdirSync, statSync, unlinkSync, writeFileSync, existsSync } from "fs";
+import { spawn } from "child_process";
 import { dirname, join } from "path";
+import { capture } from "../node";
 import { emitDart } from "./emit-dart";
 import { emitTs, GENERATED_HEADER, type TsOutput } from "./emit-ts";
 import { readManifest, type Manifest } from "./manifest";
@@ -50,8 +52,7 @@ export async function runGenerator(o: RunGeneratorOptions): Promise<Manifest> {
   if (o.resident) {
     await residentRun(args, command.cwd, !!o.force);
   } else {
-    const proc = Bun.spawn([...args, ...(o.force ? ["--force"] : [])], { cwd: command.cwd, stdout: "pipe", stderr: "pipe" });
-    const [code, stderr] = await Promise.all([proc.exited, new Response(proc.stderr).text()]);
+    const { code, stderr } = await capture([...args, ...(o.force ? ["--force"] : [])], command.cwd);
     if (code !== 0) throw new Error(`solid_fuse_gen exited with ${code}:\n${stderr}`);
   }
   return readManifest(readFileSync(manifestPath, "utf8"));
@@ -80,7 +81,7 @@ async function residentRun(args: string[], cwd: string, force: boolean): Promise
 
 /** Starts `<args> --serve`: one JSON line per run each way. */
 function serve(args: string[], cwd: string, gone: () => void): Resident {
-  const proc = Bun.spawn([...args, "--serve"], { cwd, stdin: "pipe", stdout: "pipe", stderr: "pipe" });
+  const proc = spawn(args[0], [...args.slice(1), "--serve"], { cwd, stdio: ["pipe", "pipe", "pipe"] });
   const waiting: ((r: { code: number; message: string }) => void)[] = [];
   let stderr = "";
   let done = false;
@@ -90,33 +91,28 @@ function serve(args: string[], cwd: string, gone: () => void): Resident {
     gone();
     for (const w of waiting.splice(0)) w({ code: code || 70, message: stderr.slice(-4000) || "solid_fuse_gen stopped" });
   };
-  void (async () => {
-    const dec = new TextDecoder();
-    for await (const chunk of proc.stderr) stderr = (stderr + dec.decode(chunk, { stream: true })).slice(-16000);
-  })();
-  void (async () => {
-    const dec = new TextDecoder();
-    let buf = "";
-    for await (const chunk of proc.stdout) {
-      buf += dec.decode(chunk, { stream: true });
-      let nl: number;
-      while ((nl = buf.indexOf("\n")) >= 0) {
-        const line = buf.slice(0, nl).trim();
-        buf = buf.slice(nl + 1);
-        // `dart run` may print its own lines first.
-        if (!line.startsWith("{")) continue;
-        waiting.shift()?.(JSON.parse(line));
-      }
+  proc.stderr.setEncoding("utf8").on("data", (d: string) => (stderr = (stderr + d).slice(-16000)));
+  let buf = "";
+  proc.stdout.setEncoding("utf8").on("data", (d: string) => {
+    buf += d;
+    let nl: number;
+    while ((nl = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, nl).trim();
+      buf = buf.slice(nl + 1);
+      // `dart run` may print its own lines first.
+      if (!line.startsWith("{")) continue;
+      waiting.shift()?.(JSON.parse(line));
     }
-  })();
-  void proc.exited.then(finish);
+  });
+  proc.stdin.on("error", () => {});
+  proc.on("error", () => finish(127));
+  proc.on("close", (code) => finish(code ?? 1));
   return {
     send(force) {
       if (done) return Promise.resolve({ code: 70, message: stderr.slice(-4000) || "solid_fuse_gen stopped" });
       return new Promise((resolve) => {
         waiting.push(resolve);
         proc.stdin.write(`${JSON.stringify({ force })}\n`);
-        proc.stdin.flush();
       });
     },
     close() {

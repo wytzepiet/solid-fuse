@@ -9,7 +9,7 @@ There is no test runner for Solid Fuse apps yet. This page says what works today
 
 ## Today
 
-- **Logic** that doesn't render (stores, data, helpers) is plain TypeScript: test it with `bun test` or Vitest.
+- **Logic** that doesn't render (stores, data, helpers) is plain TypeScript: test it with Vitest or `bun test`.
 - **The running app**: drive it with [`fuse drive`](/docs/agents/drive) and check screenshots and logs. This works headless, so it runs in CI.
 - **Your own Dart** widgets and classes: `flutter test` in `dart/`, as in any Flutter project.
 - **`testId`** on any element is its accessibility identifier, so Appium, Maestro and Patrol find it too.

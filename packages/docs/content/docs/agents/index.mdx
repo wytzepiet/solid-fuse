@@ -19,12 +19,12 @@ This works because Flutter draws every pixel itself and runs on Linux: the app a
 ## The loop
 
 ```bash
-bunx fuse dev --headless &                      # start it, in the background
+npx fuse dev --headless &                      # start it, in the background
 # ... wait for "Ready for fuse drive"
-bunx fuse drive get-interactive-elements        # what's on screen
-bunx fuse drive tap --text "Add one"
-bunx fuse drive take-screenshots -o after.png   # look at it
-bunx fuse drive get-logs                        # errors and console.log
+npx fuse drive get-interactive-elements        # what's on screen
+npx fuse drive tap --text "Add one"
+npx fuse drive take-screenshots -o after.png   # look at it
+npx fuse drive get-logs                        # errors and console.log
 ```
 
 Edit a file and the running app updates; drive it again.

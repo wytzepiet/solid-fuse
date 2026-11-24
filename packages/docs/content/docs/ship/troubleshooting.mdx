@@ -3,7 +3,7 @@ title: Troubleshooting
 description: Problems you may hit, by symptom
 ---
 
-Start with `bunx fuse doctor`: it checks Flutter, Rust, the Linux tools and the app's setup.
+Start with `npx fuse doctor`: it checks Flutter, Rust, the Linux tools and the app's setup.
 
 ## The first build takes minutes
 
@@ -23,7 +23,7 @@ Vite keeps a pre-bundle. Delete `node_modules/.vite` and start `fuse dev` again.
 
 ## "The JS bundle speaks op format N, this runtime..."
 
-The JS bundle and the Dart runtime come from different solid-fuse versions. Reinstall (`bun install`), then rebuild the app, not just reload.
+The JS bundle and the Dart runtime come from different solid-fuse versions. Reinstall (`npm install`), then rebuild the app, not just reload.
 
 ## Yellow and black stripes, "overflowed by N pixels"
 

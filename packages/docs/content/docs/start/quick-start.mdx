@@ -5,21 +5,21 @@ description: Create an app and see it run
 
 ## What you need
 
-- [Bun](https://bun.sh/)
+- [Node.js](https://nodejs.org/) 20.19 or newer, with npm, pnpm, yarn or bun
 - [Flutter](https://flutter.dev/docs/get-started/install) 3.50 or newer
 - [Rust](https://rustup.rs/), for now: the first build compiles the JavaScript engine (a few minutes, once)
 
 ## Create an app
 
 ```bash
-bun create solid-fuse my-app
+npm create solid-fuse@latest my-app
 cd my-app
-bun dev
+npm run dev
 ```
 
 `create` asks for a design (`material`, `cupertino`, `adaptive` or `none`) and the platforms, writes the app, installs it and runs `git init`. `-y` takes the defaults.
 
-`bun dev` starts the app on a simulator, a device or your desktop. Not sure your machine is ready? `bunx fuse doctor` checks it.
+`npm run dev` starts the app on a simulator, a device or your desktop. pnpm, yarn and bun work the same way. Not sure your machine is ready? `npx fuse doctor` checks it.
 
 ## Change something
 
@@ -65,8 +65,8 @@ Each file in `src/app/` is a page: add `src/app/settings.tsx` and `nav.push("/se
 A cloud agent or CI runs the same app on Linux:
 
 ```bash
-bunx fuse dev --headless
-bunx fuse drive take-screenshots -o screen.png
+npx fuse dev --headless
+npx fuse drive take-screenshots -o screen.png
 ```
 
 See [Agents](/docs/agents).

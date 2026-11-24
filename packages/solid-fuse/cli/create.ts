@@ -7,11 +7,11 @@ import { defineCommand } from "citty";
 import { runLink } from "./link";
 import { PLATFORMS, ensureRunners } from "./runners";
 import type { FusePlatform } from "../src/config";
+import { packageRoot } from "./node";
 
 const DESIGNS = ["material", "cupertino", "adaptive", "none"] as const;
 type Design = (typeof DESIGNS)[number];
 
-const packageRoot = resolve(import.meta.dirname, "..");
 const ownPackage = JSON.parse(readFileSync(join(packageRoot, "package.json"), "utf-8")) as { version: string };
 
 export interface CreateOptions {
@@ -193,7 +193,9 @@ export async function create(opts: CreateOptions) {
 
   const cd = relative(process.cwd(), target) || ".";
   console.log(`\nDone. Next:\n\n  cd ${cd}${opts.install ? "" : `\n  ${pm} install`}\n  ${runCmd} dev\n`);
-  console.log(`No screen (cloud, CI)? \`${runCmd} dev --headless\`, then \`${pm === "npm" ? "npx" : pm === "bun" ? "bunx" : pm} fuse drive\`.`);
+  // npm passes flags to the script only after `--`.
+  const headless = pm === "npm" ? "npm run dev -- --headless" : `${pm} dev --headless`;
+  console.log(`No screen (cloud, CI)? \`${headless}\`, then \`${runCmd} drive\`.`);
 }
 
 async function ask(question: string, fallback: string): Promise<string> {
