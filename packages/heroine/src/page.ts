@@ -1,11 +1,14 @@
-import type { PageConfig } from "solid-fuse";
+import { transitionProp, type PageConfig, type Transition } from "solid-fuse";
 
 export type HeroinePageProps = {
   child: () => JSX.Element;
   /** Names the page for `nav.popUntil(name)`. */
   name?: string;
-  /** Fade length in ms. Default 300. */
+  /** Transition length in ms. Default 300. */
   duration?: number;
+  reverseDuration?: number;
+  /** Your own, instead of the fade. The heroines fly either way. */
+  transition?: Transition;
   fullscreenDialog?: boolean;
   maintainState?: boolean;
 };
@@ -15,6 +18,6 @@ export type HeroinePageProps = {
  * `DragDismissable` in it drags it away; `ReactToHeroineDismiss` follows
  * the drag.
  */
-export function heroinePage({ child, ...props }: HeroinePageProps): PageConfig<Omit<HeroinePageProps, "child">> {
-  return { type: "heroinePage", child, props };
+export function heroinePage({ child, transition, ...props }: HeroinePageProps): PageConfig<Omit<HeroinePageProps, "child">> {
+  return { type: "heroinePage", child, props: { ...props, transition: transition && transitionProp(transition) } as any };
 }

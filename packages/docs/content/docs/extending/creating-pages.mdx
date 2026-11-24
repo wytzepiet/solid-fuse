@@ -74,6 +74,26 @@ Register it like any other handle:
 runtime.registerHandle('cupertinoPage', FuseCupertinoPage.new);
 ```
 
+## Route options and JS transitions
+
+A page type that builds its own `Route` can still take core's route options and a transition written in JS (`transition: (page, { animation }) => ...`, see [Navigation](/docs/building/navigation#transitions-in-js)). `FusePageRouteOptions` reads them off the handle:
+
+```dart
+return MyRoute<dynamic>(
+  settings: this,
+  transitionDuration: handle.duration(),
+  reverseTransitionDuration: handle.reverseDuration(),
+  barrierColor: handle.barrierColor,
+  pageBuilder: (_, _, _) => handle.pageContent,
+  // JS's `transition` when it gave one, else this.
+  transitionsBuilder: handle.transitionsBuilder(fallback: (_, animation, _, child) => FadeTransition(opacity: animation, child: child)),
+);
+```
+
+On the JS side, pass a `transition` function through `transitionProp(transition)`. So a route with behaviour of its own, like heroine's drag-to-dismiss (a mixin on the route), only writes that behaviour in Dart.
+
+Hand-written Dart can hand any generated handle type to JS the same way: `node.registry.lendAs(animation, 'flutter_Animation')`. It is null when nothing in the app's JS uses that type.
+
 ## Example: custom fade transition
 
 ```dart title="dart/lib/src/handles/fade_page.dart"

@@ -1,5 +1,6 @@
 import { For } from "solid-js";
 import { Pressable, Text, View, page, route, tabs, useNavigation, useTabs } from "solid-fuse";
+import { FadeTransition, ScaleTransition } from "#fuse/flutter";
 import { HomeScreen } from "./home";
 import { Button, MenuItem } from "../ui";
 
@@ -51,7 +52,16 @@ export const User = route({
 export const Share = route({
   path: "/share",
   navigator: "stack",
-  page: (child) => page({ child, transition: "fade" }),
+  // A transition written in JS: Flutter's transition widgets on the route's animation.
+  page: (child) =>
+    page({
+      child,
+      transition: (content, { animation }) => (
+        <FadeTransition opacity={animation}>
+          <ScaleTransition scale={animation}>{content}</ScaleTransition>
+        </FadeTransition>
+      ),
+    }),
   component: (props) => (
     <View layout={{ direction: "vertical" }} decoration={{ color: "#EEF2FF" }} width={Infinity} height={Infinity}>
       <View padding={{ horizontal: 16, top: 48, bottom: 12 }}>

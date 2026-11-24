@@ -54,7 +54,16 @@ export {
   type PathParams,
   type ParamParsers,
 } from "./routes";
-export { page, PageTypeContext, usePageType, type PageProps, type PageFactory } from "./pages/page";
+export {
+  page,
+  PageTypeContext,
+  usePageType,
+  transitionProp,
+  type PageProps,
+  type PageFactory,
+  type Transition,
+  type RouteAnimations,
+} from "./pages/page";
 export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";
 export { Text, type TextProps } from "./widgets/text";

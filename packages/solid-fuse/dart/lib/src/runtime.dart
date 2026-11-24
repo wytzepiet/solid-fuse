@@ -11,7 +11,7 @@ import 'connection.dart';
 import 'dev_connection.dart';
 import 'frame_clock.dart';
 import 'fuse_handle.dart';
-import 'generated_support.dart' show FuseCallArgs, FuseCallbackError;
+import 'generated_support.dart' show FuseCallArgs, FuseCallbackError, FuseGeneratedHandle;
 import 'node.dart';
 import 'quickjs_connection.dart';
 
@@ -104,6 +104,12 @@ class FuseRuntime {
   /// navigator, any persistent Dart object that backs a JS-side handle.
   void registerHandle(String type, FuseHandle Function(FuseNode node) factory) {
     _handleFactories[type] = factory;
+  }
+
+  /// Register how an object Dart hands to JS becomes a handle of node type
+  /// [tag]. Generated code registers one per handle type its widgets lend.
+  void registerBorrow(String tag, FuseGeneratedHandle Function(FuseNode node, Object object) borrow) {
+    registry.borrows[tag] = borrow;
   }
 
   /// Register how a prop of value type [type] decodes, for

@@ -484,6 +484,18 @@ class FuseNodeRegistry {
     return {r'$h': node.id, 't': tag, 's': ?s};
   }
 
+  /// Node type -> how to borrow an object of it ([FuseRuntime.registerBorrow]).
+  final borrows = <String, FuseGeneratedHandle Function(FuseNode node, Object object)>{};
+
+  /// [lend] by node type, for hand-written Dart: an `Animation` crosses as
+  /// `lendAs(animation, 'flutter_Animation')`. Null when the app's generated
+  /// layer has no such handle (nothing in the app's JS uses the type).
+  Map<String, Object?>? lendAs(Object? object, String tag) {
+    final borrow = borrows[tag];
+    if (object == null || borrow == null) return null;
+    return lend<Object>(object, tag, (node, o) => borrow(node, o));
+  }
+
   /// JS gave back [n] references to borrowed handle [id]; at none left the
   /// node goes (the object stays Dart's).
   void unborrow(int id, int n) {

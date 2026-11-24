@@ -46,4 +46,6 @@ export type FocusNodeInput = NonNullable<import("#fuse/flutter").EditableTextPro
 /** What a scroll `controller` prop takes: `createScrollController()` and friends from `#fuse/flutter`. */
 export type ScrollControllerInput = NonNullable<import("#fuse/flutter").SingleChildScrollViewProps["controller"]>;
 /** What a Navigator's `observers` prop takes: `createNavigatorObserver()`, `createHeroController()` and the like from a package (heroine's controller). */
+/** A Flutter `Animation<double>`, such as a route's: what `FadeTransition`'s `opacity` takes. */
+export type Animation = NonNullable<import("#fuse/flutter").FadeTransitionProps["opacity"]>;
 export type NavigatorObserversInput = NonNullable<import("#fuse/flutter").NavigatorProps["observers"]>;

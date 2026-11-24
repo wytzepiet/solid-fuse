@@ -220,6 +220,8 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('cherry'));
     await pumpUntil(tester, find.text('fruit: cherry'));
+    // Let the menu finish closing: until then its barrier takes the tap.
+    await settle(tester);
     await tester.tap(find.text('open dialog'));
     await pumpUntil(tester, find.text('Core dialog'));
     await settle(tester);
@@ -349,6 +351,9 @@ void main() {
     await pumpUntil(tester, find.text('Share home'));
     await settle(tester);
     expect(find.text('Share flow'), findsOneWidget);
+    // Its transition is written in JS: Flutter's widgets on the route's animation.
+    expect(find.ancestor(of: find.text('Share flow'), matching: find.byType(ScaleTransition)), findsOneWidget);
+    expect(tester.widget<ScaleTransition>(find.ancestor(of: find.text('Share flow'), matching: find.byType(ScaleTransition))).scale.value, 1);
     await tester.tap(find.text('Pick contact'));
     await pumpUntil(tester, find.text('Contact picker'));
     await settle(tester);

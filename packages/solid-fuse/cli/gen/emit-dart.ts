@@ -587,6 +587,7 @@ export function emitDart(
 
   const handleCode: string[] = [];
   const handleRegs: string[] = [];
+  const borrowRegs: string[] = [];
   const plain: Cx = { n: "node", prop: "", sub: (d) => d };
 
   /** A value of [dart] decoded from [src]; a non-null one is required. */
@@ -608,7 +609,10 @@ export function emitDart(
     if (roots.has(id)) {
       lines.push(`  ${cls}(super.node) : object = _make(node) {`, "    start();", "  }", "");
     }
-    if (lent.has(id)) lines.push(`  ${cls}.borrow(super.node, this.object) : super.borrowed() {`, "    start();", "  }");
+    if (lent.has(id)) {
+      lines.push(`  ${cls}.borrow(super.node, this.object) : super.borrowed() {`, "    start();", "  }");
+      borrowRegs.push(`  ${q(tag)}: (node, object) => ${cls}.borrow(node, object as ${T}),`);
+    }
     if (roots.has(id)) {
       lines.push("", `  static ${T} _make(FuseNode node) {`);
       if (h.ctors.length === 1) {
@@ -712,6 +716,12 @@ export function emitDart(
     ...valueRegs,
     "};",
     "",
+    "/// Node type -> handle for an object Dart hands to JS, so hand-written",
+    "/// Dart can lend one by its type (`registry.lendAs`).",
+    "final fuseGeneratedBorrows = <String, FuseGeneratedHandle Function(FuseNode, Object)>{",
+    ...borrowRegs,
+    "};",
+    "",
     "/// Node type -> handle, for the handles JS creates.",
     "const fuseGeneratedHandles = <String, FuseHandle Function(FuseNode)>{",
     ...handleRegs,
@@ -721,6 +731,7 @@ export function emitDart(
     "  fuseGeneratedWidgets.forEach((type, b) => runtime.registerWidget(type, b, make: fuseGeneratedMakers[type]));",
     "  fuseGeneratedHandles.forEach(runtime.registerHandle);",
     "  fuseGeneratedDecoders.forEach(runtime.registerDecoder);",
+    "  fuseGeneratedBorrows.forEach(runtime.registerBorrow);",
     "}",
     "",
   ];

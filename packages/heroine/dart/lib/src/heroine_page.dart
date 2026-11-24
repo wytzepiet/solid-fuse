@@ -20,17 +20,19 @@ class _HeroinePage extends Page<dynamic> {
   @override
   Route<dynamic> createRoute(BuildContext context) {
     final node = handle.node;
-    final duration = Duration(milliseconds: node.int('duration') ?? 300);
     return _HeroineRoute<dynamic>(
       settings: this,
       maintainState: node.bool('maintainState') ?? true,
       fullscreenDialog: node.bool('fullscreenDialog') ?? false,
-      transitionDuration: duration,
-      reverseTransitionDuration: duration,
+      transitionDuration: handle.duration(),
+      reverseTransitionDuration: handle.reverseDuration(),
       pageBuilder: (_, _, _) => handle.pageContent,
-      transitionsBuilder: (_, animation, _, child) => FadeTransition(
-        opacity: CurvedAnimation(parent: animation, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic),
-        child: child,
+      // JS's `transition`, else a fade.
+      transitionsBuilder: handle.transitionsBuilder(
+        fallback: (_, animation, _, child) => FadeTransition(
+          opacity: CurvedAnimation(parent: animation, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic),
+          child: child,
+        ),
       ),
     );
   }

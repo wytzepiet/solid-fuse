@@ -1,3 +1,4 @@
+import 'fuse_page_handle.dart';
 import 'handles/page.dart';
 import 'runtime.dart';
 import 'widgets/app.dart';
@@ -30,6 +31,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('scrollView', FuseScrollView.new);
   runtime.registerWidget('stack', FuseStack.new);
   runtime.registerWidget('tabs', FuseTabs.new);
+  runtime.registerWidget('routeChild', FuseRouteChildWidget.new);
   runtime.registerWidget('positioned', FusePositioned.new);
   runtime.registerWidget('modal', FuseModal.new, inFlow: false);
   runtime.registerWidget('radioGroup', FuseRadioGroup.new);

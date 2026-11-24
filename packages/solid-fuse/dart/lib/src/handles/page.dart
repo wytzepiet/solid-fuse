@@ -20,31 +20,38 @@ class _FusePageImpl extends Page<dynamic> {
   @override
   Route<dynamic> createRoute(BuildContext context) {
     final node = handle.node;
-    final transition = node.string('transition') ?? 'slide';
-    final duration = transition == 'none' ? Duration.zero : Duration(milliseconds: node.int('duration') ?? 300);
+    // A name, or `true` for a function: JS's own (transitionsBuilder below).
+    final transition = switch (node['transition']) { final String name => name, _ => 'slide' };
+    final none = transition == 'none';
+    final barrier = handle.barrierColor;
     return PageRouteBuilder<dynamic>(
       settings: this,
       maintainState: node.bool('maintainState') ?? true,
       fullscreenDialog: node.bool('fullscreenDialog') ?? false,
       opaque: node.bool('opaque') ?? true,
-      transitionDuration: duration,
-      reverseTransitionDuration: duration,
+      barrierColor: barrier,
+      barrierDismissible: handle.barrierDismissible,
+      barrierLabel: handle.barrierLabel,
+      transitionDuration: none ? Duration.zero : handle.duration(),
+      reverseTransitionDuration: none ? Duration.zero : handle.reverseDuration(),
       pageBuilder: (_, _, _) => handle.pageContent,
-      transitionsBuilder: (_, animation, secondary, child) {
-        final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic);
-        return switch (transition) {
-          'fade' => FadeTransition(opacity: curved, child: child),
-          'none' => child,
-          _ => SlideTransition(
-              position: Tween(begin: const Offset(1, 0), end: Offset.zero).animate(curved),
-              child: SlideTransition(
-                position: Tween(begin: Offset.zero, end: const Offset(-0.3, 0))
-                    .animate(CurvedAnimation(parent: secondary, curve: Curves.easeOutCubic)),
-                child: child,
+      transitionsBuilder: handle.transitionsBuilder(
+        fallback: (_, animation, secondary, child) {
+          final curved = CurvedAnimation(parent: animation, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic);
+          return switch (transition) {
+            'fade' => FadeTransition(opacity: curved, child: child),
+            'none' => child,
+            _ => SlideTransition(
+                position: Tween(begin: const Offset(1, 0), end: Offset.zero).animate(curved),
+                child: SlideTransition(
+                  position: Tween(begin: Offset.zero, end: const Offset(-0.3, 0))
+                      .animate(CurvedAnimation(parent: secondary, curve: Curves.easeOutCubic)),
+                  child: child,
+                ),
               ),
-            ),
-        };
-      },
+          };
+        },
+      ),
     );
   }
 }

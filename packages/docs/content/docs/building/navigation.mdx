@@ -214,11 +214,33 @@ Core's page has no design: the content brings its own background.
 |---|---|---|---|
 | `child` | `() => JSX.Element` | required | Page contents |
 | `name` | `string` | — | Route name. Used by `popUntil(name)` |
-| `transition` | `"slide" \| "fade" \| "none"` | `"slide"` | How the page comes in |
+| `transition` | `"slide" \| "fade" \| "none"` or a function | `"slide"` | How the page comes in (see below) |
 | `duration` | `number` | `300` | Transition length in ms |
+| `reverseDuration` | `number` | `duration` | Length going out |
+| `barrierColor` | `Color` | — | Covers the page below (with `opaque: false`) |
+| `barrierDismissible` | `boolean` | `false` | A tap on the barrier pops the page |
 | `opaque` | `boolean` | `true` | False lets the page below show through |
 | `fullscreenDialog` | `boolean` | `false` | |
 | `maintainState` | `boolean` | `true` | Keep state alive when not the top page |
+
+### Transitions in JS
+
+`transition` can be your own: wrap the page in Flutter's transition widgets, driven by the route's animations. It runs once per route; the widgets follow the animations in Dart, so nothing runs in JS per frame.
+
+```tsx
+import { FadeTransition, ScaleTransition, SlideTransition } from "#fuse/flutter";
+
+page({
+  child: () => <SharePage />,
+  transition: (page, { animation, secondaryAnimation }) => (
+    <FadeTransition opacity={animation}>
+      <ScaleTransition scale={animation}>{page}</ScaleTransition>
+    </FadeTransition>
+  ),
+});
+```
+
+`animation` runs as the page comes and goes; `secondaryAnimation` as the next page covers it. Curves come from `createCurvedAnimation({ parent: animation, curve: Curves.easeOut })`. `heroinePage` takes a `transition` too.
 
 ### materialPage props (`@solid-fuse/material`)
 

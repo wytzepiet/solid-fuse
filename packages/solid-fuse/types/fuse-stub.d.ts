@@ -4,6 +4,7 @@
 export type EditableTextProps = { focusNode: unknown };
 export type SingleChildScrollViewProps = { controller?: unknown };
 export type NavigatorProps = { observers?: unknown };
+export type FadeTransitionProps = { opacity: unknown };
 export type AlignmentGeometry = unknown;
 export type BoxDecoration = unknown;
 export type Color = unknown;

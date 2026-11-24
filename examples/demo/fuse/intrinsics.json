@@ -11501,6 +11501,9 @@
    "LucideIcons.circle_small": {
     "const": "LucideIcons.circle_small"
    },
+   "LucideIcons.circle_speed_lines": {
+    "const": "LucideIcons.circle_speed_lines"
+   },
    "LucideIcons.circle_star": {
     "const": "LucideIcons.circle_star"
    },
@@ -12734,6 +12737,9 @@
    "LucideIcons.graph_hub": {
     "const": "LucideIcons.graph_hub"
    },
+   "LucideIcons.graph_path": {
+    "const": "LucideIcons.graph_path"
+   },
    "LucideIcons.graph_ring": {
     "const": "LucideIcons.graph_ring"
    },
@@ -12925,6 +12931,9 @@
    },
    "LucideIcons.hockey_stick": {
     "const": "LucideIcons.hockey_stick"
+   },
+   "LucideIcons.hole": {
+    "const": "LucideIcons.hole"
    },
    "LucideIcons.hop": {
     "const": "LucideIcons.hop"
@@ -14011,6 +14020,9 @@
    },
    "LucideIcons.package_2": {
     "const": "LucideIcons.package_2"
+   },
+   "LucideIcons.package_arrow_bend_up_left": {
+    "const": "LucideIcons.package_arrow_bend_up_left"
    },
    "LucideIcons.package_check": {
     "const": "LucideIcons.package_check"
