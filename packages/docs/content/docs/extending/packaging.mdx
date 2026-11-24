@@ -139,9 +139,10 @@ my-fuse-package/
 | Command | Description |
 |---|---|
 | `fuse create [dir]` | Create an app (`--design material\|cupertino\|adaptive\|none`, `--platforms android,ios`, `--org`, `--template <dir or github:owner/repo[/path][#ref]>`, `--no-install`, `--no-git`, `-y`). `bun create solid-fuse` runs the same |
-| `fuse dev` | Start Vite dev server + Flutter app with HMR |
+| `fuse dev` | Start Vite dev server + Flutter app with HMR. Links again when a lock file or `pubspec.yaml` changes (`bun add`, `flutter pub add`); press R for the new Dart |
 | `fuse build` | Production build (Vite IIFE bundle + Flutter release) |
 | `fuse build --js-only` | Build only the JS bundle and skip the Flutter build |
-| `fuse link` | Scan packages, generate Dart glue code |
+| `fuse link` | Scan packages, generate Dart glue code. Names the app's pub dependencies `dart/lib/fuse.dart` doesn't export |
+| `fuse doctor` | Check Flutter, Rust and the Linux tools, and the app's setup, then run `flutter doctor` (`--no-flutter` skips it) |
 
 `fuse build` passes every other argument to `flutter build` (`fuse build apk --release`). With `--js-only` it stops after writing the bundle into the Flutter project's assets — for when only JS changed, or when the bundle ships on its own (for example over the air).

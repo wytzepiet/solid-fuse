@@ -44,3 +44,12 @@ test("link names the pub packages fuse.dart doesn't export", () => {
   const fuse = [{ npmName: "solid-fuse", dartName: "solid_fuse", path: "", dartPath: "dart" }];
   expect(unexposedDependencies(dart, fuse)).toEqual(["http", "lottie"]);
 });
+
+import { atLeast } from "./doctor";
+
+test("doctor compares versions", () => {
+  expect(atLeast([3, 50, 1], [3, 50, 0])).toBe(true);
+  expect(atLeast([3, 50, 0], [3, 50, 0])).toBe(true);
+  expect(atLeast([3, 49, 9], [3, 50, 0])).toBe(false);
+  expect(atLeast([4, 0, 0], [3, 50, 0])).toBe(true);
+});

@@ -6,6 +6,7 @@ import { buildCommand } from "./build";
 import { genCommand } from "./gen/command";
 import { driveCommand } from "./drive";
 import { createCommand } from "./create";
+import { doctorCommand } from "./doctor";
 
 const main = defineCommand({
   meta: {
@@ -20,6 +21,7 @@ const main = defineCommand({
     build: buildCommand,
     gen: genCommand,
     drive: driveCommand,
+    doctor: doctorCommand,
   },
 });
 
