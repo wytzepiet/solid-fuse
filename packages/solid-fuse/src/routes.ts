@@ -23,8 +23,13 @@ export type PathParams<Path extends string> = string extends Path
       ? { [K in Name]: string }
       : {};
 
-/** Turns a param from an address (always a string) into what the page takes. */
-export type ParamParsers<P> = { [K in keyof P]?: (value: string) => P[K] };
+/**
+ * Turns the params from an address (always strings, from the path and the
+ * query) into what the page takes. What it returns is merged over them. A
+ * throw means the address isn't this page's: another page may match it.
+ */
+// `any` in: a file's parse is written on its own, so it names what it reads (`p: { id: string }`).
+export type ParseParams<P> = (params: any) => Partial<P>;
 
 export type RouteOptions<P> = {
   /**
@@ -40,8 +45,8 @@ export type RouteOptions<P> = {
   in?: Route<any, any>;
   /** How the page comes in. Default: the app's page type. */
   page?: PageType;
-  /** Parses params that arrive as strings in an address. */
-  parse?: ParamParsers<P>;
+  /** Parses the params an address brings, which are strings: `(p) => ({ id: Number(p.id) })`. */
+  parse?: ParseParams<P>;
   component: (props: P) => JSX.Element;
 };
 
@@ -55,7 +60,7 @@ export interface Route<P = any, R = unknown> {
   /** The page whose stacks this one opens in; none for the app's own stack. */
   readonly in: Route<any, any> | undefined;
   readonly page: PageType | undefined;
-  readonly parse: ParamParsers<P> | undefined;
+  readonly parse: ParseParams<P> | undefined;
   /** What a saved tree calls this route. */
   readonly key: string | undefined;
   readonly component: (props: P) => JSX.Element;
@@ -154,7 +159,7 @@ export function matchAddress(address: string): Match | undefined {
   const segments = normalize(pathPart.replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]*/i, ""))
     .split("/")
     .filter(Boolean);
-  let best: { route: Route; raw: Record<string, string>; score: number } | undefined;
+  const found: { route: Route; raw: Record<string, string>; score: number }[] = [];
   for (const r of all) {
     if (r.path === undefined) continue;
     const pattern = r.path.split("/").filter(Boolean);
@@ -173,32 +178,48 @@ export function matchAddress(address: string): Match | undefined {
       }
     }
     if (!ok) continue;
-    // Deeper wins a tie: the first page inside its holder.
-    score = score * 64 + depth(r);
-    if (!best || score >= best.score) best = { route: r, raw, score };
+    // Deeper wins a tie: the first page inside its holder; a later route wins a full tie.
+    found.push({ route: r, raw, score: score * 64 + depth(r) });
   }
-  if (!best) return undefined;
-  for (const [k, v] of new URLSearchParams(query)) if (!(k in best.raw)) best.raw[k] = v;
-  return { route: best.route, params: parseParams(best.route, best.raw) };
+  const search = [...new URLSearchParams(query)];
+  // Best first; a page whose parse throws doesn't match, and the next one gets a go.
+  for (const f of found.map((f, i) => [f, i] as const).sort(([a, i], [b, j]) => b.score - a.score || j - i)) {
+    const raw = f[0].raw;
+    for (const [k, v] of search) if (!(k in raw)) raw[k] = v;
+    try {
+      return { route: f[0].route, params: parseParams(f[0].route, raw) };
+    } catch {}
+  }
+  return undefined;
 }
 
-/** Apply a route's parsers, and its holders', to string params. */
-export function parseParams(r: Route, raw: Record<string, unknown>): Record<string, unknown> {
-  const out: Record<string, unknown> = { ...raw };
-  for (let p: Route | undefined = r; p; p = p.in) {
-    for (const [k, parse] of Object.entries(p.parse ?? {})) {
-      if (typeof raw[k] === "string" && typeof parse === "function") out[k] = parse(raw[k] as string);
-    }
-  }
+/**
+ * Apply a route's parse, and its holders' (outermost first), to the string
+ * params an address brings. Throws when one of them does.
+ */
+export function parseParams(r: Route, raw: Record<string, string>, own = false): Record<string, unknown> {
+  let out: Record<string, unknown> = { ...raw };
+  for (const p of own ? [r] : [...holdersOf(r), r]) if (p.parse) out = { ...out, ...(p.parse(raw) as object) };
   return out;
 }
 
-/** The address of a route with these params: `addressOf(User, { id: 42 })` is `"/users/42"`. */
+/**
+ * The address of a route with these params: `addressOf(User, { id: 42 })` is
+ * `"/users/42"`. Other params that are strings, numbers or booleans go in the
+ * query, so the address opens the same page: `{ id: 42, tab: "likes" }` is
+ * `"/users/42?tab=likes"`.
+ */
 export function addressOf<P>(r: Route<P, any>, params?: P): string {
   if (r.path === undefined) throw new Error("[Fuse] addressOf: this route has no path");
   const p = (params ?? {}) as Record<string, unknown>;
+  const names = paramNames(r.path);
+  const query = new URLSearchParams();
+  for (const [k, v] of Object.entries(p)) {
+    if (!names.includes(k) && ["string", "number", "boolean"].includes(typeof v)) query.append(k, String(v));
+  }
+  const q = query.size ? `?${query}` : "";
   return (
-    r.path
+    (r.path
       .split("/")
       .map((s) => {
         if (!s.startsWith(":")) return s;
@@ -206,7 +227,7 @@ export function addressOf<P>(r: Route<P, any>, params?: P): string {
         if (v === undefined) throw new Error(`[Fuse] addressOf ${r.path}: missing param ${s.slice(1)}`);
         return encodeURIComponent(String(v));
       })
-      .join("/") || "/"
+      .join("/") || "/") + q
   );
 }
 

@@ -8,11 +8,12 @@ import { fileURLToPath, pathToFileURL } from "url";
 import { defineCommand } from "citty";
 import type { FuseConfig } from "../../src/config";
 import { runGenerator, writeGenerated } from "./index";
+import { capture, packageRoot } from "../node";
 import { writeRoutes } from "../routes";
 import type { Manifest } from "./manifest";
 
 /** solid_fuse_gen inside this package (`gen/`, next to `cli/`). */
-const genPackage = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "gen");
+const genPackage = join(packageRoot, "gen");
 
 /** Where the generated TypeScript goes, relative to the project root. */
 export function genOutDir(config: FuseConfig | null): string {
@@ -40,9 +41,8 @@ export function hasBarrels(dartRoot: string): boolean {
 export const GENERATED_DART = join("lib", "_generated", "fuse.generated.dart");
 
 async function run(cmd: string[], cwd: string): Promise<{ code: number; output: string }> {
-  const p = Bun.spawn(cmd, { cwd, stdout: "pipe", stderr: "pipe" });
-  const [code, out, err] = await Promise.all([p.exited, new Response(p.stdout).text(), new Response(p.stderr).text()]);
-  return { code, output: out + err };
+  const { code, stdout, stderr } = await capture(cmd, cwd);
+  return { code, output: stdout + stderr };
 }
 
 export interface GenResult {

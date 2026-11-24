@@ -56,18 +56,20 @@ export default function App() {
 }
 ```
 
-A page's default export is its component; its props are its params. It can also export `page`, how it comes in, and `parse`, which turns params from an address (always strings) into what it takes:
+A page's default export is its component; its props are its params. It can also export `page`, how it comes in, and `parse`, which turns the params an address brings into what the page takes. They are always strings, from the path and the query; what `parse` returns is merged over them:
 
 ```tsx title="src/app/users/[id].tsx"
 import { useNav } from "solid-fuse";
 
-export const parse = { id: Number };
+export const parse = (p: { id: string }) => ({ id: Number(p.id) });
 
 export default function User(props: { id: number }) {
   const nav = useNav();
   return <Button onPress={() => nav.push("/share")}>Share</Button>;
 }
 ```
+
+Only addresses go through `parse`: `nav.push(routes["/users/[id]"], { id: 42 })` passes the number as it is, and restore brings back what the page had. A schema works too: `export const parse = (p) => schema.parse(p)`. When `parse` throws, the address isn't this page's: the next route that matches it gets a go, and with none left the address opens nothing.
 
 Addresses are typed: `nav.push("/userz")` is an error. `fuse dev` writes `fuse/routes.tsx` again when a file in `src/app/` changes; don't edit it. It also exports `routes`, every page by file: `routes["/users/[id]"]`.
 
@@ -161,7 +163,7 @@ export default function Main() {
 
 ## Links
 
-`nav.go("/tabs/post/1")` opens an address as a link does. The stacks on its way go back to their first page, the pages holding it open outermost first, and pages at the addresses in between open below it, so back goes up: `/users/42` gives `[home, users, user 42]`. Query params become params too: `/search?q=solid`.
+`nav.go("/tabs/post/1")` opens an address as a link does. The stacks on its way go back to their first page, the pages holding it open outermost first, and pages at the addresses in between open below it, so back goes up: `/users/42` gives `[home, users, user 42]`. Query params become params too: `/search?q=solid`. The other way round, `addressOf(route, params)` (and a page's `address`) puts params that aren't in the path in the query when they are strings, numbers or booleans, so an address always opens the same page.
 
 A link the OS opens goes the same way, at launch and while the app runs. A link into stacks that haven't drawn yet waits for them; only the latest one waits. Your app has to ask the OS for its links first: an intent filter on Android, associated domains or a URL scheme on iOS. See Flutter's deep linking guide; the rest is solid-fuse's.
 
@@ -195,7 +197,7 @@ render(() => <App><Navigator /></App>);
 | `path` | Its address, `"/users/:id"`. Without one, it can be pushed but not linked to or restored. |
 | `in` | The page whose stacks it opens in. Without it, the app's own stack. |
 | `page` | How it comes in: `(child) => materialPage({ child, fullscreenDialog: true })`. Default: the app's page type. |
-| `parse` | Turns params from an address into what the component takes. |
+| `parse` | Turns the params an address brings (strings) into what the component takes. Its result is merged over them; a throw means the address isn't this page's. |
 
 `.returns<T>()` types what `pop(result)` gives back. `addressOf(User, { id: 42 })` is `"/users/42"`. Declare your addresses to type `push` and `go`: `declare module "solid-fuse" { interface Register { address: "/" | \`/users/${string}\` } }`.
 

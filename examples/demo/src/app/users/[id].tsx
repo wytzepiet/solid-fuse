@@ -3,7 +3,7 @@ import { Button } from "../../ui";
 import { people } from "./_people";
 
 // An address gives the id as a string; this makes it a number.
-export const parse = { id: Number };
+export const parse = (p: { id: string }) => ({ id: Number(p.id) });
 
 export default function User(props: { id: number }) {
   const nav = useNav();

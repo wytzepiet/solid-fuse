@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, realpathSync } from "fs";
 import { dirname, join, resolve } from "path";
-import { mergeConfig, type InlineConfig } from "vite";
+import { mergeConfig, runnerImport, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
 import type { FuseConfig } from "../src/config";
@@ -24,8 +24,10 @@ export async function loadFuseConfig(
     const path = join(dir, file);
     if (!existsSync(path)) continue;
 
-    const mod = await import(path);
-    return mod.default ?? mod;
+    // Through Vite, so a .ts config loads on Node too, also from a package
+    // in node_modules (where Node won't strip types).
+    const { module: mod } = await runnerImport<{ default?: FuseConfig }>(path, { configFile: false, logLevel: "silent" });
+    return (mod.default ?? mod) as FuseConfig;
   }
   return null;
 }

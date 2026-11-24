@@ -54,7 +54,7 @@ export {
   type RouteOptions,
   type PageType,
   type PathParams,
-  type ParamParsers,
+  type ParseParams,
   type Register,
   type Address,
 } from "./routes";

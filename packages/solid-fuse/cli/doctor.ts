@@ -2,7 +2,7 @@ import { spawnSync } from "child_process";
 import { existsSync, readFileSync, statSync } from "fs";
 import { join } from "path";
 import { defineCommand } from "citty";
-import { findProjectRoot, getDartRoot } from "./utils";
+import { detectPackageManager, findProjectRoot, getDartRoot } from "./utils";
 import { loadFuseConfig } from "./config";
 
 type Status = "ok" | "warn" | "fail";
@@ -43,7 +43,7 @@ function flutterCheck(): Check {
 }
 
 function toolChecks(): Check[] {
-  const checks: Check[] = [flutterCheck()];
+  const checks: Check[] = [{ status: "ok", what: process.versions.bun ? `Bun ${process.versions.bun}` : `Node ${process.versions.node}` }, flutterCheck()];
   // The JS engine (fjs) is a Rust library the first build compiles.
   checks.push(
     has("cargo")
@@ -82,7 +82,7 @@ async function projectChecks(): Promise<Check[]> {
 
   const core = join(root, "node_modules", "solid-fuse", "package.json");
   if (!existsSync(core)) {
-    checks.push({ status: "fail", what: "Packages not installed", fix: "bun install (or your package manager's install)" });
+    checks.push({ status: "fail", what: "Packages not installed", fix: `${detectPackageManager(root)} install` });
     return checks;
   }
   const version = JSON.parse(readFileSync(core, "utf-8")).version;

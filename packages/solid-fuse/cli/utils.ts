@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "fs";
+import { networkInterfaces } from "os";
 import { dirname, join, resolve } from "path";
 import { loadFuseConfig, CONFIG_FILES, fuseDependencies } from "./config";
 import type { FuseConfig } from "../src/config";
@@ -175,7 +176,6 @@ export function pubspecAddDependency(
  * the first external IPv4 address, else "localhost".
  */
 export function detectLanIp(): string {
-  const { networkInterfaces } = require("os") as typeof import("os");
   for (const addrs of Object.values(networkInterfaces())) {
     for (const a of addrs ?? []) {
       if (a.family === "IPv4" && !a.internal) return a.address;
