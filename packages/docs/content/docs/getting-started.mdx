@@ -5,7 +5,7 @@ description: Set up your first Fuse project
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (or [Bun](https://bun.sh/)) and a package manager (bun, npm, pnpm, yarn)
+- [Node.js](https://nodejs.org/) 20.19 or newer, with npm, pnpm, yarn or bun
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) 3.50 or newer (Dart 3.14)
 - [Rust](https://rustup.rs/) for now: the first build compiles Fuse's JavaScript engine (a few minutes, once)
 
@@ -14,15 +14,15 @@ In an app, `fuse doctor` checks them.
 ## Create an app
 
 ```bash
-bun create solid-fuse my-app
-# or: npm create solid-fuse@latest my-app
+npm create solid-fuse@latest my-app
+# or: bun create solid-fuse my-app, pnpm create solid-fuse my-app
 ```
 
 It asks for a design (`material`, `cupertino`, `adaptive` or `none`) and the platforms, then writes the app, installs it and runs `git init`. `-y` takes the defaults; `fuse create --help` lists the flags. The app comes with an `AGENTS.md` (and a `CLAUDE.md` pointing at it), so a coding agent knows to read the bundled docs and to check its work in the running app.
 
 ```bash
 cd my-app
-bun dev
+npm run dev
 ```
 
 ## Project structure
@@ -119,7 +119,7 @@ The app root picks the design: `<MaterialApp>` from `@solid-fuse/material`, `<Cu
 ## Running the app
 
 ```bash
-bun dev
+npm run dev   # or bun dev, pnpm dev
 ```
 
 This starts Vite and Flutter together. Changes to your JSX hot-reload instantly via HMR.
