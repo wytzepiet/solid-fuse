@@ -40,9 +40,9 @@ beforeEach(() => {
     Home: route({ path: "/", in: Tabs, component: view }),
     Search: route({ path: "/search", in: Tabs, component: view }),
     Filters: route({ path: "/search/filters", in: Tabs, component: view }),
-    Playlist: route({ path: "/search/p/:id", in: Tabs, parse: { id: Number }, component: view }),
-    Edit: route({ path: "/search/p/:id/edit", in: Tabs, parse: { id: Number }, component: view }),
-    Video: route({ path: "/video/:id", in: Tabs, parse: { id: Number }, component: view }),
+    Playlist: route({ path: "/search/p/:id", in: Tabs, parse: (p) => ({ id: Number(p.id) }), component: view }),
+    Edit: route({ path: "/search/p/:id/edit", in: Tabs, parse: (p) => ({ id: Number(p.id) }), component: view }),
+    Video: route({ path: "/video/:id", in: Tabs, parse: (p) => ({ id: Number(p.id) }), component: view }),
     Settings: route({ path: "/settings", component: view }),
     Dms: route({ path: "/dms", component: view }),
     Share,
@@ -67,6 +67,21 @@ describe("addresses", () => {
     expect(matchAddress("/video/7")?.params).toEqual({ id: 7 });
     expect(matchAddress("app://host/search/p/2?x=1")?.params).toEqual({ id: 2, x: "1" });
     expect(addressOf(R.Edit, { id: 4 })).toBe("/search/p/4/edit");
+  });
+
+  test("a parse that throws doesn't match: the next page gets a go", () => {
+    const num = (p: Record<string, string>) => {
+      if (!/^\d+$/.test(p.x!)) throw new Error("not a number");
+      return { x: Number(p.x) };
+    };
+    route({ path: "/u/:x", parse: num, component: () => null as any });
+    const ByName = route({ path: "/u/:x", component: () => null as any });
+    route({ path: "/n/:x", parse: num, component: () => null as any });
+    // Declared later, so it would win a tie; its parse sends ada on.
+    const late = route({ path: "/u/:x", parse: num, component: () => null as any });
+    expect(matchAddress("/u/12")).toEqual({ route: late, params: { x: 12 } });
+    expect(matchAddress("/u/ada")?.route).toBe(ByName);
+    expect(matchAddress("/n/ada")).toBeUndefined();
   });
 });
 

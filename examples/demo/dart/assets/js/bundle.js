@@ -4360,11 +4360,11 @@
 		viewPadding: y$1,
 		textScale: 1,
 		...v$1.view
-	}, x$1 = (e, t) => e.left === t.left && e.top === t.top && e.right === t.right && e.bottom === t.bottom, [S$1, ge] = createSignal(b$1.size, { equals: (e, t) => e.width === t.width && e.height === t.height }), [_e, ve] = createSignal(b$1.devicePixelRatio), [ye, be] = createSignal(b$1.padding, { equals: x$1 }), [xe, Se] = createSignal(b$1.viewInsets, { equals: x$1 }), [Ce, we$1] = createSignal(b$1.viewPadding, { equals: x$1 }), [Te$1, Ee$1] = createSignal(b$1.textScale);
+	}, x$1 = (e, t) => e.left === t.left && e.top === t.top && e.right === t.right && e.bottom === t.bottom, [S$1, ge] = createSignal(b$1.size, { equals: (e, t) => e.width === t.width && e.height === t.height }), [_e, ve] = createSignal(b$1.devicePixelRatio), [ye, be] = createSignal(b$1.padding, { equals: x$1 }), [xe, Se] = createSignal(b$1.viewInsets, { equals: x$1 }), [Ce, we] = createSignal(b$1.viewPadding, { equals: x$1 }), [Te$1, Ee$1] = createSignal(b$1.textScale);
 	p("_view", (e) => {
-		ge(e.size), ve(e.devicePixelRatio), be(e.padding), Se(e.viewInsets), we$1(e.viewPadding), Ee$1(e.textScale);
+		ge(e.size), ve(e.devicePixelRatio), be(e.padding), Se(e.viewInsets), we(e.viewPadding), Ee$1(e.textScale);
 	});
-	var C$1 = {
+	var C$2 = {
 		brightness: me,
 		platform: v$1.platform,
 		mode: v$1.mode,
@@ -4532,7 +4532,7 @@
 	function Ve$1(e) {
 		e.batch < 0 && (e.batch = N$1, W$1.push(e), M$1.push(Ne$1, e.id, e.shape));
 		let t = w$2;
-		return w$2 += e.size, M$1.push(Pe$1, e.id, t, C$1.mode !== "release" && T$2 ? T$2 : null), t;
+		return w$2 += e.size, M$1.push(Pe$1, e.id, t, C$2.mode !== "release" && T$2 ? T$2 : null), t;
 	}
 	function He$1(e, t) {
 		let n = t.$i, r = new E$2(e.slice(2), t.$t + n);
@@ -4542,7 +4542,7 @@
 	}
 	function G$1(e, t) {
 		let n = new E$2(e), r = {};
-		return C$1.mode !== "release" && T$2 && (r._component = T$2), n.batch = N$1, n.slot = M$1.push(Oe$1, n.id, e, r) - 1, t && K$1(n, t), n;
+		return C$2.mode !== "release" && T$2 && (r._component = T$2), n.batch = N$1, n.slot = M$1.push(Oe$1, n.id, e, r) - 1, t && K$1(n, t), n;
 	}
 	function K$1(e, t) {
 		let n;
@@ -4708,7 +4708,7 @@
 		n ? n.next = r : t.first = r, r ? r.prev = n : t.last = n, e.parent = e.prev = e.next = void 0;
 	}
 	function pt$1(e, t) {
-		if (C$1.mode === "release") return it$1(e, t);
+		if (C$2.mode === "release") return it$1(e, t);
 		let n = T$2;
 		T$2 = (e.name || "").replace(/^\[.*?\]/, "") || void 0;
 		try {
@@ -4763,30 +4763,30 @@
 		(typeof t == "function" || Array.isArray(t)) && gt$1(() => t, e);
 	}
 	// ../../packages/solid-fuse/dist/index.js
-	function w$1(e) {
+	function C$1(e) {
 		"@babel/helpers - typeof";
-		return w$1 = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
+		return C$1 = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
 			return typeof e;
 		} : function(e) {
 			return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-		}, w$1(e);
+		}, C$1(e);
 	}
-	function we(e, t) {
-		if (w$1(e) != "object" || !e) return e;
+	function Te(e, t) {
+		if (C$1(e) != "object" || !e) return e;
 		var n = e[Symbol.toPrimitive];
 		if (n !== void 0) {
 			var r = n.call(e, t || "default");
-			if (w$1(r) != "object") return r;
+			if (C$1(r) != "object") return r;
 			throw TypeError("@@toPrimitive must return a primitive value.");
 		}
 		return (t === "string" ? String : Number)(e);
 	}
-	function Te(e) {
-		var t = we(e, "string");
-		return w$1(t) == "symbol" ? t : t + "";
+	function Ee(e) {
+		var t = Te(e, "string");
+		return C$1(t) == "symbol" ? t : t + "";
 	}
-	function T$1(e, t, n) {
-		return (t = Te(t)) in e ? Object.defineProperty(e, t, {
+	function w$1(e, t, n) {
+		return (t = Ee(t)) in e ? Object.defineProperty(e, t, {
 			value: n,
 			enumerable: !0,
 			configurable: !0,
@@ -4809,7 +4809,7 @@
 		let e = /* @__PURE__ */ new Map(), t = 0;
 		class n {
 			constructor(n, r) {
-				T$1(this, "_id", void 0), T$1(this, "url", void 0), T$1(this, "readyState", 0), T$1(this, "protocol", ""), T$1(this, "binaryType", "blob"), T$1(this, "bufferedAmount", 0), T$1(this, "extensions", ""), T$1(this, "onopen", null), T$1(this, "onmessage", null), T$1(this, "onclose", null), T$1(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), m$1("_ws", {
+				w$1(this, "_id", void 0), w$1(this, "url", void 0), w$1(this, "readyState", 0), w$1(this, "protocol", ""), w$1(this, "binaryType", "blob"), w$1(this, "bufferedAmount", 0), w$1(this, "extensions", ""), w$1(this, "onopen", null), w$1(this, "onmessage", null), w$1(this, "onclose", null), w$1(this, "onerror", null), this._id = t++, this.url = n, e.set(this._id, this), m$1("_ws", {
 					op: "open",
 					id: this._id,
 					url: n,
@@ -4838,7 +4838,7 @@
 				return !0;
 			}
 		}
-		T$1(n, "CONNECTING", 0), T$1(n, "OPEN", 1), T$1(n, "CLOSING", 2), T$1(n, "CLOSED", 3), p("_wsEvent", (t) => {
+		w$1(n, "CONNECTING", 0), w$1(n, "OPEN", 1), w$1(n, "CLOSING", 2), w$1(n, "CLOSED", 3), p("_wsEvent", (t) => {
 			let n = e.get(t.id);
 			if (n) switch (t.type) {
 				case "open":
@@ -4920,25 +4920,25 @@
 			timeLog: r
 		};
 	}
-	var E$1 = /* @__PURE__ */ new Map();
-	var Ee = 1;
-	var D$1 = !1;
+	var T$1 = /* @__PURE__ */ new Map();
+	var De = 1;
+	var E$1 = !1;
 	globalThis.requestAnimationFrame = (e) => {
-		let t = Ee++;
-		return E$1.set(t, e), D$1 || (D$1 = !0, m$1("_frames", { op: "start" })), t;
+		let t = De++;
+		return T$1.set(t, e), E$1 || (E$1 = !0, m$1("_frames", { op: "start" })), t;
 	}, globalThis.cancelAnimationFrame = (e) => {
-		E$1.delete(e);
+		T$1.delete(e);
 	}, le("_frame", (e) => {
-		let t = E$1;
-		E$1 = /* @__PURE__ */ new Map();
+		let t = T$1;
+		T$1 = /* @__PURE__ */ new Map();
 		for (let n of t.values()) try {
 			n(e.t);
 		} catch (e) {
 			console.error(e);
 		}
-		return flush(), D$1 = E$1.size > 0, { more: D$1 };
+		return flush(), E$1 = T$1.size > 0, { more: E$1 };
 	});
-	function De(e, t) {
+	function Oe(e, t) {
 		let n = createMemo(e);
 		return createMemo(() => {
 			let e = n();
@@ -4951,15 +4951,15 @@
 			}
 		});
 	}
-	function Oe(e) {
-		return De(() => e.component, omit(e, "component"));
+	function ke(e) {
+		return Oe(() => e.component, omit(e, "component"));
 	}
-	var O$1 = [];
-	function k$1(e) {
+	var D$1 = [];
+	function O$1(e) {
 		return "/" + e.split("/").filter(Boolean).join("/");
 	}
-	function ke(e) {
-		let t = e.path === void 0 ? void 0 : k$1(e.path), n = {
+	function Ae(e) {
+		let t = e.path === void 0 ? void 0 : O$1(e.path), n = {
 			path: t,
 			in: e.in,
 			page: e.page,
@@ -4970,15 +4970,15 @@
 			component: e.component,
 			returns: () => n
 		};
-		return O$1.push(n), n;
-	}
-	function Ae(e) {
-		return typeof e == "object" && !!e && "component" in e && "returns" in e;
+		return D$1.push(n), n;
 	}
 	function je(e) {
-		return O$1.findLast((t) => t.key === e);
+		return typeof e == "object" && !!e && "component" in e && "returns" in e;
 	}
 	function Me(e) {
+		return D$1.findLast((t) => t.key === e);
+	}
+	function Ne(e) {
 		let t = [];
 		for (let n = e.in; n; n = n.in) {
 			if (t.includes(n)) throw Error(`[Fuse] route ${e.path}: its holders go round in a circle`);
@@ -4986,24 +4986,24 @@
 		}
 		return t;
 	}
-	function A$1(e, t) {
-		return O$1.findLast((n) => n.in === e && n.path !== void 0 && Ne(n.path, t));
+	function k$1(e, t) {
+		return D$1.findLast((n) => n.in === e && n.path !== void 0 && Pe(n.path, t));
 	}
-	function Ne(e, t) {
-		let n = e.split("/").filter(Boolean), r = k$1(t).split("/").filter(Boolean);
+	function Pe(e, t) {
+		let n = e.split("/").filter(Boolean), r = O$1(t).split("/").filter(Boolean);
 		return n.length === r.length && n.every((e, t) => e === r[t] || e.startsWith(":"));
 	}
-	function j$1(e) {
+	function A$1(e) {
 		return e ? e.split("/").filter((e) => e.startsWith(":")).map((e) => e.slice(1)) : [];
 	}
-	function Pe(e) {
+	function Fe(e) {
 		let t = 0;
 		for (let n = e.in; n; n = n.in) t++;
 		return t;
 	}
-	function M(e) {
-		let [t, n = ""] = e.split("?", 2), r = k$1(t.replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]*/i, "")).split("/").filter(Boolean), i;
-		for (let e of O$1) {
+	function j$1(e) {
+		let [t, n = ""] = e.split("?", 2), r = O$1(t.replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]*/i, "")).split("/").filter(Boolean), i = [];
+		for (let e of D$1) {
 			if (e.path === void 0) continue;
 			let t = e.path.split("/").filter(Boolean);
 			if (t.length !== r.length) continue;
@@ -5017,26 +5017,33 @@
 					break;
 				}
 			}
-			o && (a = a * 64 + Pe(e), (!i || a >= i.score) && (i = {
+			o && i.push({
 				route: e,
 				raw: n,
-				score: a
-			}));
+				score: a * 64 + Fe(e)
+			});
 		}
-		if (i) {
-			for (let [e, t] of new URLSearchParams(n)) e in i.raw || (i.raw[e] = t);
-			return {
-				route: i.route,
-				params: Fe(i.route, i.raw)
-			};
+		let a = [...new URLSearchParams(n)];
+		for (let e of i.map((e, t) => [e, t]).sort(([e, t], [n, r]) => n.score - e.score || r - t)) {
+			let t = e[0].raw;
+			for (let [e, n] of a) e in t || (t[e] = n);
+			try {
+				return {
+					route: e[0].route,
+					params: Ie(e[0].route, t)
+				};
+			} catch {}
 		}
 	}
-	function Fe(e, t) {
-		let n = { ...t };
-		for (let r = e; r; r = r.in) for (let [e, i] of Object.entries(r.parse ?? {})) typeof t[e] == "string" && typeof i == "function" && (n[e] = i(t[e]));
-		return n;
+	function Ie(e, t, n = !1) {
+		let r = { ...t };
+		for (let i of n ? [e] : [...Ne(e), e]) i.parse && (r = {
+			...r,
+			...i.parse(t)
+		});
+		return r;
 	}
-	function Ie(e, t) {
+	function Le(e, t) {
 		if (e.path === void 0) throw Error("[Fuse] addressOf: this route has no path");
 		let n = t ?? {};
 		return e.path.split("/").map((t) => {
@@ -5046,9 +5053,9 @@
 			return encodeURIComponent(String(r));
 		}).join("/") || "/";
 	}
-	var Le = 0;
-	var N = /* @__PURE__ */ new Set();
-	function Re(e, t, n) {
+	var Re = 0;
+	var M = /* @__PURE__ */ new Set();
+	function ze(e, t, n) {
 		let [r, i] = createSignal([], { ownedWrite: !0 }), [a, o] = createSignal(void 0, { ownedWrite: !0 }), s = {
 			route: e,
 			params: t,
@@ -5067,11 +5074,11 @@
 		};
 		return s;
 	}
-	var P = Re(void 0, {});
-	function F(e) {
+	var N = ze(void 0, {});
+	function Be(e) {
 		return e.route?.path ?? "/";
 	}
-	function I(e, t) {
+	function P(e, t) {
 		let n = e.stacks.get(t);
 		if (n) return n;
 		let [r, i] = createSignal([], { ownedWrite: !0 }), a = {
@@ -5086,20 +5093,20 @@
 		};
 		return e.stacks.set(t, a), e.order.includes(t) || e.setOrder([...e.order, t]), a;
 	}
-	function ze(e, t) {
+	function Ve(e, t) {
 		let n = {};
 		for (let r of t) r in e && (n[r] = e[r]);
 		return n;
 	}
-	function L(e, t, n) {
-		return j$1(e.path).every((e) => String(t[e]) === String(n[e]));
+	function F(e, t, n) {
+		return A$1(e.path).every((e) => String(t[e]) === String(n[e]));
 	}
-	function Be(e, t, n, r) {
-		let i, a = new Promise((e) => i = e), o = Ae(t) ? t : void 0, s = {
-			id: Le++,
+	function I(e, t, n, r) {
+		let i, a = new Promise((e) => i = e), o = je(t) ? t : void 0, s = {
+			id: Re++,
 			route: o,
 			params: n,
-			address: o?.path === void 0 ? void 0 : Ve(o, n),
+			address: o?.path === void 0 ? void 0 : He(o, n),
 			stack: e,
 			content: o ? void 0 : t,
 			pageType: r?.page,
@@ -5107,186 +5114,193 @@
 			promise: a,
 			gone: !1
 		};
-		return s.holder = Re(o, n, s), s;
+		return s.holder = ze(o, n, s), s;
 	}
-	function Ve(e, t) {
+	function He(e, t) {
 		try {
-			return Ie(e, t);
+			return Le(e, t);
 		} catch {
 			return;
 		}
 	}
-	function R(e, t, n, r) {
-		z(e);
-		let i = Be(e, t, n, r);
-		return N.add(i), e.write([...e.list, i]), i;
+	function L(e, t, n, r) {
+		R(e);
+		let i = I(e, t, n, r);
+		return M.add(i), e.write([...e.list, i]), i;
 	}
-	function z(e) {
+	function R(e) {
 		if (e.list.length) return;
-		let t = e.holder, n = A$1(t.route, e.key);
+		let t = e.holder, n = k$1(t.route, e.key);
 		if (!n) {
 			console.warn(`[Fuse] no page at ${e.key} for a stack to start on`);
 			return;
 		}
-		let r = Be(e, n, {
+		let r;
+		try {
+			r = Ie(n, Ue(n, e.key), !0);
+		} catch (t) {
+			console.warn(`[Fuse] ${e.key}: its first page's parse threw: ${t}`);
+			return;
+		}
+		let i = I(e, n, {
 			...t.params,
-			...He(n, e.key)
+			...r
 		});
-		N.add(r), e.write([r]);
+		M.add(i), e.write([i]);
 	}
-	function He(e, t) {
+	function Ue(e, t) {
 		let n = {}, r = (e.path ?? "").split("/").filter(Boolean), i = t.split("/").filter(Boolean);
 		return r.forEach((e, t) => {
 			e.startsWith(":") && i[t] !== void 0 && !i[t].startsWith(":") && (n[e.slice(1)] = decodeURIComponent(i[t]));
 		}), n;
 	}
-	function Ue(e, t) {
-		for (let n of e) n.gone = !0, N.delete(n), We(n, (e) => {
-			e.gone = !0, N.delete(e), e.resolve(null);
+	function We(e, t) {
+		for (let n of e) n.gone = !0, M.delete(n), Ge(n, (e) => {
+			e.gone = !0, M.delete(e), e.resolve(null);
 		}), n.resolve(t);
 	}
-	function We(e, t) {
-		for (let n of e.holder.stacks.values()) for (let e of n.list) We(e, t), t(e);
+	function Ge(e, t) {
+		for (let n of e.holder.stacks.values()) for (let e of n.list) Ge(e, t), t(e);
 	}
-	function B(e, t, n) {
+	function z(e, t, n) {
 		let r = e.list.filter((e) => t.has(e.id));
-		r.length && (e.write(e.list.filter((e) => !t.has(e.id))), Ue(r, n));
+		r.length && (e.write(e.list.filter((e) => !t.has(e.id))), We(r, n));
 	}
-	function V(e, t) {
+	function B(e, t) {
 		let n = e.list.slice(t);
-		n.length && (e.write(e.list.slice(0, t)), Ue(n, null));
-	}
-	function Ge(e) {
-		return !e.gone && e.stack.list.at(-1) === e && Ke(e.stack);
+		n.length && (e.write(e.list.slice(0, t)), We(n, null));
 	}
 	function Ke(e) {
+		return !e.gone && e.stack.list.at(-1) === e && qe(e.stack);
+	}
+	function qe(e) {
 		let t = e.holder;
-		return t.active !== void 0 && t.active !== e.key ? !1 : !t.entry || Ge(t.entry);
+		return t.active !== void 0 && t.active !== e.key ? !1 : !t.entry || Ke(t.entry);
 	}
-	function H(e) {
-		e.holder.active !== e.key && e.holder.setActive(e.key), bt(), e.holder.entry && H(e.holder.entry.stack);
+	function V(e) {
+		e.holder.active !== e.key && e.holder.setActive(e.key), bt(), e.holder.entry && V(e.holder.entry.stack);
 	}
-	function qe(e, t) {
+	function Je(e, t) {
 		let n = e.order;
 		if (!n.length) return;
-		for (let r of n) if (A$1(e.route, r) === t) return r;
+		for (let r of n) if (k$1(e.route, r) === t) return r;
 		let r = t.path;
 		if (r !== void 0) {
 			let t;
-			for (let i of n) i !== F(e) && Je(r, i) && (!t || i.length > t.length) && (t = i);
+			for (let i of n) i !== Be(e) && Ye(r, i) && (!t || i.length > t.length) && (t = i);
 			if (t) return t;
 		}
 		return e.active !== void 0 && n.includes(e.active) ? e.active : n[0];
 	}
-	function Je(e, t) {
+	function Ye(e, t) {
 		let n = e.split("/").filter(Boolean), r = t.split("/").filter(Boolean);
 		return n.length > r.length && r.every((e, t) => e === n[t] || e.startsWith(":") || n[t].startsWith(":"));
 	}
-	function Ye(e, t, n) {
-		for (let r = n; r; r = r.stack.holder.entry) if (r.route === e && L(e, r.params, t)) return r.holder;
+	function Xe(e, t, n) {
+		for (let r = n; r; r = r.stack.holder.entry) if (r.route === e && F(e, r.params, t)) return r.holder;
 		let r;
-		for (let n of N) if (n.route === e && L(e, n.params, t)) {
-			if (Ge(n) || [...n.holder.stacks.values()].some((e) => e.list.some(Ge))) return n.holder;
+		for (let n of M) if (n.route === e && F(e, n.params, t)) {
+			if (Ke(n) || [...n.holder.stacks.values()].some((e) => e.list.some(Ke))) return n.holder;
 			r = n;
 		}
 		return r?.holder;
 	}
-	function Xe(e, t, n, r) {
-		let i = P;
+	function Ze(e, t, n, r) {
+		let i = N;
 		if (e.in) {
-			let a = Ye(e.in, t, r), o = a?.entry && Ze(a.entry);
+			let a = Xe(e.in, t, r), o = a?.entry && Qe(a.entry);
 			if (o) return {
 				done: !0,
-				promise: R(o, e, t, n).promise
+				promise: L(o, e, t, n).promise
 			};
 			if (a) i = a;
 			else {
-				let n = Xe(e.in, ze(t, j$1(e.in.path)), void 0, r);
+				let n = Ze(e.in, Ve(t, A$1(e.in.path)), void 0, r);
 				if (!n.done) return n;
-				let a = [...N].findLast((n) => n.route === e.in && L(e.in, n.params, t));
+				let a = [...M].findLast((n) => n.route === e.in && F(e.in, n.params, t));
 				if (!a) return { done: !1 };
 				i = a.holder;
 			}
 		}
-		let a = qe(i, e);
+		let a = Je(i, e);
 		if (a === void 0) return { done: !1 };
-		let o = I(i, a);
-		return z(o), H(o), A$1(i.route, a) === e ? {
+		let o = P(i, a);
+		return R(o), V(o), k$1(i.route, a) === e ? {
 			done: !0,
 			promise: Promise.resolve(null)
 		} : {
 			done: !0,
-			promise: R(o, e, t, n).promise
+			promise: L(o, e, t, n).promise
 		};
 	}
-	function Ze(e) {
+	function Qe(e) {
 		for (let t = e; t; t = t.stack.holder.entry) if (t.stack.list.at(-1) !== t) return t.stack;
 	}
-	var U = [];
-	var Qe = !1;
-	function $e(e) {
-		e.link && (U = U.filter((e) => !e.link)), U.push(e), et();
-	}
-	function et() {
-		Qe || (Qe = !0, queueMicrotask(() => {
-			Qe = !1, tt();
-		}));
+	var H = [];
+	var $e = !1;
+	function et(e) {
+		e.link && (H = H.filter((e) => !e.link)), H.push(e), tt();
 	}
 	function tt() {
-		U = U.filter((e) => !e.run(!0));
+		$e || ($e = !0, queueMicrotask(() => {
+			$e = !1, nt();
+		}));
 	}
-	function nt(e, t, n, r) {
-		let i = Xe(e, t, n, r);
+	function nt() {
+		H = H.filter((e) => !e.run(!0));
+	}
+	function rt(e, t, n, r) {
+		let i = Ze(e, t, n, r);
 		if (i.done) return i.promise;
 		let a, o = new Promise((e) => a = e);
-		return $e({
+		return et({
 			link: !1,
 			run: () => {
-				let i = Xe(e, t, n, r);
+				let i = Ze(e, t, n, r);
 				return i.done && i.promise.then(a), i.done;
 			}
 		}), o;
 	}
-	function rt(e, t) {
-		let n = P;
-		for (let r of [...Me(e), e]) {
-			let i = r === e, a = qe(n, r);
+	function it(e, t) {
+		let n = N;
+		for (let r of [...Ne(e), e]) {
+			let i = r === e, a = Je(n, r);
 			if (a === void 0) return !1;
-			let o = I(n, a);
-			z(o), H(o);
-			let s = i ? t : ze(t, j$1(r.path)), c = o.list[0];
-			if (c?.route === r && L(r, c.params, s)) {
-				V(o, 1), n = c.holder;
+			let o = P(n, a);
+			R(o), V(o);
+			let s = i ? t : Ve(t, A$1(r.path)), c = o.list[0];
+			if (c?.route === r && F(r, c.params, s)) {
+				B(o, 1), n = c.holder;
 				continue;
 			}
 			let l = o.list[1];
-			if (!i && l?.route === r && L(r, l.params, s)) V(o, 2), n = l.holder;
+			if (!i && l?.route === r && F(r, l.params, s)) B(o, 2), n = l.holder;
 			else {
-				if (V(o, 1), i) for (let [r, i] of it(n, a, e, t)) R(o, r, i);
-				n = R(o, r, s).holder;
+				if (B(o, 1), i) for (let [r, i] of at(n, a, e, t)) L(o, r, i);
+				n = L(o, r, s).holder;
 			}
 		}
 		return !0;
 	}
-	function it(e, t, n, r) {
-		let i = Ve(n, r);
+	function at(e, t, n, r) {
+		let i = He(n, r);
 		if (!i) return [];
 		let a = [], o = i.split("/").filter(Boolean), s = t.split("/").filter(Boolean).length + 1;
 		for (let r = Math.max(1, s); r < o.length; r++) {
-			let i = M("/" + o.slice(0, r).join("/"));
-			i && i.route !== n && i.route.in === e.route && qe(e, i.route) === t && A$1(e.route, t) !== i.route && a.push([i.route, i.params]);
+			let i = j$1("/" + o.slice(0, r).join("/"));
+			i && i.route !== n && i.route.in === e.route && Je(e, i.route) === t && k$1(e.route, t) !== i.route && a.push([i.route, i.params]);
 		}
 		return a;
 	}
-	function at(e) {
-		let t = M(e);
-		t ? rt(t.route, t.params) ? U = U.filter((e) => !e.link) : $e({
+	function U(e) {
+		let t = j$1(e);
+		t ? it(t.route, t.params) ? H = H.filter((e) => !e.link) : et({
 			link: !0,
-			run: () => rt(t.route, t.params)
+			run: () => it(t.route, t.params)
 		}) : console.warn(`[Fuse] no page at ${JSON.stringify(e)}`);
 	}
 	function ot(e) {
-		G ? at(e) : K = e;
+		G ? U(e) : K = e;
 	}
 	var st = createContext(void 0);
 	function W() {
@@ -5302,28 +5316,28 @@
 		if (!G) {
 			if (G = !0, X) {
 				let e = X;
-				X = void 0, K = void 0, _t(P, e);
+				X = void 0, K = void 0, _t(N, e);
 			}
 			if (K !== void 0) {
 				let e = K;
-				K = void 0, queueMicrotask(() => at(e));
+				K = void 0, queueMicrotask(() => U(e));
 			}
 		}
 	}
 	function lt(e = {}) {
-		let t = W(), n = t ? t.holder : P;
-		n === P && ct();
-		let r = k$1(untrack(() => e.index) ?? F(n)), i = I(n, r);
-		return i.mounted++, n.active === void 0 && n.setActive(r), z(i), getOwner() && onCleanup(() => i.mounted--), et(), {
+		let t = W(), n = t ? t.holder : N;
+		n === N && ct();
+		let r = O$1(untrack(() => e.index) ?? Be(n)), i = P(n, r);
+		return i.mounted++, n.active === void 0 && n.setActive(r), R(i), getOwner() && onCleanup(() => i.mounted--), tt(), {
 			...J(i),
 			takesBack: () => n.readActive() === r,
 			entries: i.read,
-			removed: (e) => B(i, /* @__PURE__ */ new Set([e]), null)
+			removed: (e) => z(i, /* @__PURE__ */ new Set([e]), null)
 		};
 	}
 	function q(e, t, n) {
 		if (typeof e == "string") {
-			let n = M(e);
+			let n = j$1(e);
 			if (!n) throw Error(`[Fuse] no page at ${JSON.stringify(e)}`);
 			return {
 				route: n.route,
@@ -5331,7 +5345,7 @@
 				options: t
 			};
 		}
-		if (Ae(e)) return {
+		if (je(e)) return {
 			route: e,
 			params: t ?? {},
 			options: n
@@ -5345,41 +5359,41 @@
 			top: () => t().at(-1),
 			push: ((t, n, r) => {
 				let i = q(t, n, r);
-				return i ? (H(e), R(e, i.route, i.params, i.options).promise) : R(e, t, {}).promise;
+				return i ? (V(e), L(e, i.route, i.params, i.options).promise) : L(e, t, {}).promise;
 			}),
 			pop: (t) => ut(e, t),
 			set: (t) => {
-				V(e, 1), z(e);
+				B(e, 1), R(e);
 				for (let n of t) {
 					let t = q(n);
-					R(e, t.route, t.params);
+					L(e, t.route, t.params);
 				}
 			}
 		};
 	}
 	function ut(e, t) {
 		if (e.list.length > 1) {
-			B(e, /* @__PURE__ */ new Set([e.list.at(-1).id]), t);
+			z(e, /* @__PURE__ */ new Set([e.list.at(-1).id]), t);
 			return;
 		}
 		let n = e.holder.entry;
-		n && n.stack.list.length > 1 && !n.gone ? B(n.stack, /* @__PURE__ */ new Set([n.id]), t) : n ? ut(n.stack, t) : console.warn("[Fuse] pop() ignored: this is the app's first page");
+		n && n.stack.list.length > 1 && !n.gone ? z(n.stack, /* @__PURE__ */ new Set([n.id]), t) : n ? ut(n.stack, t) : console.warn("[Fuse] pop() ignored: this is the app's first page");
 	}
 	function dt(e) {
 		let t = () => e?.stack ?? ft();
 		return {
 			push: ((n, r, i) => {
 				let a = q(n, r, i);
-				return a ? nt(a.route, a.params, a.options, e) : R(t(), n, {}).promise;
+				return a ? rt(a.route, a.params, a.options, e) : L(t(), n, {}).promise;
 			}),
 			pop: (e) => ut(t(), e),
 			replace: ((n, r, i) => {
 				let a = t();
-				a.list.length > 1 && B(a, /* @__PURE__ */ new Set([a.list.at(-1).id]), null);
+				a.list.length > 1 && z(a, /* @__PURE__ */ new Set([a.list.at(-1).id]), null);
 				let o = q(n, r, i);
-				return o ? nt(o.route, o.params, o.options, e) : R(a, n, {}).promise;
+				return o ? rt(o.route, o.params, o.options, e) : L(a, n, {}).promise;
 			}),
-			go: (e) => at(e),
+			go: (e) => U(e),
 			get stack() {
 				return J(t());
 			},
@@ -5389,27 +5403,27 @@
 		};
 	}
 	function ft() {
-		return I(P, P.active ?? P.order[0] ?? "/");
+		return P(N, N.active ?? N.order[0] ?? "/");
 	}
 	function pt() {
 		return dt(W());
 	}
 	function mt() {
-		let e = W(), t = e?.holder ?? P;
+		let e = W(), t = e?.holder ?? N;
 		return {
 			id: e?.id ?? -1,
 			route: e?.route,
 			params: e?.params ?? {},
 			address: e?.address,
 			stack: (e) => {
-				let n = e === void 0 ? t.order[0] ?? F(t) : k$1(e);
-				return J(I(t, n));
+				let n = e === void 0 ? t.order[0] ?? Be(t) : O$1(e);
+				return J(P(t, n));
 			},
 			stacks: t.readOrder,
 			active: t.readActive,
 			show: (e) => {
-				let n = k$1(e), r = I(t, n);
-				z(r), t.active === n ? V(r, 1) : H(r);
+				let n = O$1(e), r = P(t, n);
+				R(r), t.active === n ? B(r, 1) : V(r);
 			}
 		};
 	}
@@ -5440,19 +5454,19 @@
 	}
 	function _t(e, t) {
 		for (let [n, r] of Object.entries(t.s ?? {})) {
-			let t = I(e, n), i = [];
+			let t = P(e, n), i = [];
 			for (let e of r) {
-				let n = je(e.r);
+				let n = Me(e.r);
 				if (!n) break;
-				let r = Be(t, n, e.p ?? {});
-				N.add(r), i.push(r), _t(r.holder, e);
+				let r = I(t, n, e.p ?? {});
+				M.add(r), i.push(r), _t(r.holder, e);
 			}
 			t.list = i, t.write(i);
 		}
 		t.a !== void 0 && e.setActive(t.a);
 	}
 	function vt() {
-		return gt(P);
+		return gt(N);
 	}
 	function yt(e) {
 		try {
@@ -5515,7 +5529,7 @@
 			keyed: (e) => e.id,
 			children: (e) => {
 				let t = ht(e(), i, wt);
-				return pt$1(Oe, ut$1({
+				return pt$1(ke, ut$1({
 					get component() {
 						return t.type;
 					},
@@ -5596,42 +5610,42 @@
 		let r = typeof e == "function" ? e : void 0, i = r ? untrack(r) : e, a = n.from ?? i, [o, s] = createSignal(a, { ownedWrite: !0 }), c = {
 			value: a,
 			velocity: 0
-		}, l = a, u = 0, d, f, p, m = !0, h = () => {
+		}, l = a, u = 0, d, f, p, m = !0, ee = () => {
 			u && cancelAnimationFrame(u), f !== void 0 && clearTimeout(f), u = 0, f = void 0, d = void 0;
-		}, g = (e) => {
+		}, h = (e) => {
 			let t = p;
 			p = void 0, t?.(e);
-		}, _ = (e) => {
+		}, te = (e) => {
 			if (u = 0, !m) return;
 			let n = d === void 0 ? 1 / 60 : Math.min((e - d) / 1e3, Ht);
 			d = e;
 			let r = n > 0 ? t(c, l, n) : c;
-			r ? (c = r, s(r.value), u = requestAnimationFrame(_)) : (c = {
+			r ? (c = r, s(r.value), u = requestAnimationFrame(te)) : (c = {
 				value: l,
 				velocity: 0
-			}, s(l), d = void 0, g("settled"));
-		}, v = (e, t = {}) => {
-			g("interrupted"), h(), l = e;
+			}, s(l), d = void 0, h("settled"));
+		}, g = (e, t = {}) => {
+			h("interrupted"), ee(), l = e;
 			let n = new Promise((e) => p = e), r = () => {
 				f = void 0, t.instant ? (c = {
 					value: e,
 					velocity: 0
-				}, s(e), g("settled")) : (t.velocity !== void 0 && (c = {
+				}, s(e), h("settled")) : (t.velocity !== void 0 && (c = {
 					...c,
 					velocity: t.velocity
-				}), u = requestAnimationFrame(_));
+				}), u = requestAnimationFrame(te));
 			};
 			return t.delay && t.delay > 0 ? f = setTimeout(r, t.delay * 1e3) : r(), n;
 		};
 		if (getOwner() && onCleanup(() => {
-			m = !1, h(), g("interrupted");
+			m = !1, ee(), h("interrupted");
 		}), r) {
 			let e = !1;
 			createEffect(r, (t) => {
-				e ? v(t) : (e = !0, (t !== a || n.delay) && v(t, { delay: n.delay }));
+				e ? g(t) : (e = !0, (t !== a || n.delay) && g(t, { delay: n.delay }));
 			});
-		} else i !== a && v(i, { delay: n.delay });
-		return [o, v];
+		} else i !== a && g(i, { delay: n.delay });
+		return [o, g];
 	}
 	var Wt = {
 		duration: .5,
@@ -5740,7 +5754,7 @@
 	}
 	// ../../packages/adaptive/src/platform.tsx
 	/** Cupertino on iOS and macOS, Material everywhere else. Default: the device's platform. */
-	function platformDesign(platform = C$1.platform) {
+	function platformDesign(platform = C$2.platform) {
 		const p = platform.toLowerCase();
 		return p === "ios" || p === "macos" ? "cupertino" : "material";
 	}
@@ -8017,7 +8031,7 @@
 		});
 	}
 	function NavigationBar$2(props) {
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return props.large ? CupertinoNavigationBarLarge : CupertinoNavigationBar;
 			},
@@ -8058,7 +8072,7 @@
 	};
 	/** iOS buttons, one component: pick the look with `variant`. */
 	function Button$3(props) {
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return buttons[props.variant ?? "plain"];
 			},
@@ -8229,7 +8243,7 @@
 	}
 	// ../../packages/cupertino/src/list.tsx
 	function ListSection(props) {
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return props.insetGrouped ?? true ? CupertinoListSectionInsetGrouped : CupertinoListSection;
 			},
@@ -9275,7 +9289,7 @@
 		return rt$1(() => {
 			return rt$1(() => {
 				return props.icon !== void 0;
-			})() ? pt$1(Oe, {
+			})() ? pt$1(ke, {
 				get component() {
 					return withIcon[props.variant ?? "filled"];
 				},
@@ -9294,7 +9308,7 @@
 				get label() {
 					return label(props.children) ?? [];
 				}
-			}) : pt$1(Oe, {
+			}) : pt$1(ke, {
 				get component() {
 					return plain[props.variant ?? "filled"];
 				},
@@ -9320,7 +9334,7 @@
 		outlined: IconButtonOutlined
 	};
 	function IconButton(props) {
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return iconButtons[props.variant ?? "standard"];
 			},
@@ -9382,7 +9396,7 @@
 				get label() {
 					return label(props.label);
 				}
-			}) : pt$1(Oe, {
+			}) : pt$1(ke, {
 				get component() {
 					return fabs[props.size ?? "regular"];
 				},
@@ -9515,7 +9529,7 @@
 			});
 			return _el$;
 		})();
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return cards[props.variant ?? "elevated"];
 			},
@@ -9580,7 +9594,7 @@
 		});
 	}
 	function Divider(props) {
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return props.vertical ? VerticalDivider : Divider$1;
 			},
@@ -9705,7 +9719,7 @@
 		});
 	}
 	function ProgressIndicator$1(props) {
-		return pt$1(Oe, {
+		return pt$1(ke, {
 			get component() {
 				return props.variant === "linear" ? LinearProgressIndicator : CircularProgressIndicator;
 			},
@@ -12692,7 +12706,7 @@
 			}), _el$3);
 			Q$1(_el$3, steps);
 			Q$1(_el$4, () => {
-				return `${C$1.size().width} x ${C$1.size().height}, ${C$1.orientation()}`;
+				return `${C$2.size().width} x ${C$2.size().height}, ${C$2.orientation()}`;
 			});
 			return _el$;
 		})())(Ve$1(_tpl$1$14));
@@ -13424,7 +13438,7 @@
 			"fontWeight": 700
 		}]
 	], 2);
-	var parse = { id: Number };
+	var parse = (p) => ({ id: Number(p.id) });
 	function User(props) {
 		const nav = pt();
 		return ((_at$1) => (() => {
@@ -13508,64 +13522,64 @@
 			return _el$;
 		})())(Ve$1(_tpl$1));
 	}
-	ke({
+	Ae({
 		path: "/",
 		component: HomeScreen
 	});
-	ke({
+	Ae({
 		path: "/settings",
 		component: Settings
 	});
-	var r2 = ke({
+	var r2 = Ae({
 		path: "/share",
 		page,
 		component: Share
 	});
-	var r3 = ke({
+	var r3 = Ae({
 		path: "/tabs",
 		component: TabsPage
 	});
-	ke({
+	Ae({
 		path: "/share/contact",
 		in: r2,
 		component: Contact
 	});
-	ke({
+	Ae({
 		path: "/share",
 		in: r2,
 		component: ShareHome
 	});
-	ke({
+	Ae({
 		path: "/tabs",
 		in: r3,
 		component: Feed
 	});
-	ke({
+	Ae({
 		path: "/tabs/profile",
 		in: r3,
 		component: Profile
 	});
-	ke({
+	Ae({
 		path: "/tabs/post/:id",
 		in: r3,
 		component: Post
 	});
-	ke({
+	Ae({
 		path: "/tabs/profile/edit",
 		in: r3,
 		component: EditProfile
 	});
-	ke({
+	Ae({
 		path: "/tabs/video/:id",
 		in: r3,
 		component: Video
 	});
-	ke({
+	Ae({
 		path: "/users/:id",
 		parse,
 		component: User
 	});
-	ke({
+	Ae({
 		path: "/users",
 		component: Users
 	});

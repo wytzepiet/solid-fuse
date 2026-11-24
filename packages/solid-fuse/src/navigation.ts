@@ -14,6 +14,7 @@ import {
   matchAddress,
   normalize,
   paramNames,
+  parseParams,
   routeByKey,
   type Address,
   type PageType,
@@ -256,14 +257,21 @@ function ensureIndex(stack: StackState) {
     console.warn(`[Fuse] no page at ${stack.key} for a stack to start on`);
     return;
   }
-  const e = makeEntry(stack, r, { ...h.params, ...paramsAt(r, stack.key) });
+  let own: Record<string, unknown>;
+  try {
+    own = parseParams(r, paramsAt(r, stack.key), true);
+  } catch (err) {
+    console.warn(`[Fuse] ${stack.key}: its first page's parse threw: ${err}`);
+    return;
+  }
+  const e = makeEntry(stack, r, { ...h.params, ...own });
   live.add(e);
   stack.write([e]);
 }
 
 /** The params an address gives a pattern: `/u/:name` at `/u/ada` is `{ name: "ada" }`. */
-function paramsAt(r: Route, address: string): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
+function paramsAt(r: Route, address: string): Record<string, string> {
+  const out: Record<string, string> = {};
   const p = (r.path ?? "").split("/").filter(Boolean);
   const a = address.split("/").filter(Boolean);
   p.forEach((s, i) => {

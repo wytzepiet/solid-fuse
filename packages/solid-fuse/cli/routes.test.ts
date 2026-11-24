@@ -22,7 +22,7 @@ describe("file routes", () => {
         "index.tsx": screen,
         "settings.tsx": screen,
         "users/index.tsx": screen,
-        "users/[id].tsx": `${screen}\nexport const parse = { id: Number };`,
+        "users/[id].tsx": `${screen}\nexport const parse = (p) => ({ id: Number(p.id) });`,
         "users/[id]/posts.tsx": screen,
         "_helpers.tsx": "export const x = 1;",
         "users/_components/card.tsx": "export const x = 1;",
@@ -105,7 +105,7 @@ describe("file routes", () => {
     const rs = scanRoutes(
       app({
         "index.tsx": screen,
-        "users/[id].tsx": `${screen}\nexport const parse = { id: Number };`,
+        "users/[id].tsx": `${screen}\nexport const parse = (p) => ({ id: Number(p.id) });`,
         "share.tsx": screen,
         "share/index.tsx": screen,
       }),
