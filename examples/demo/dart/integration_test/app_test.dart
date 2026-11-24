@@ -8,6 +8,7 @@
 
 import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoSwitch;
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:heroine/heroine.dart';
 import 'package:integration_test/integration_test.dart';
@@ -330,5 +331,101 @@ void main() {
     await pumpUntil(tester, find.byType(Switch));
     await settle(tester);
     expect(Theme.of(tester.element(find.byType(Switch))).platform, TargetPlatform.android);
+
+    // Routes: typed params and parents, a layout with its own stack, and
+    // a link from the OS opening a page with its parents below it.
+    tester.state<NavigatorState>(find.byType(Navigator).last).pop();
+    await pumpUntil(tester, find.text('routes'));
+    await settle(tester);
+    await tester.ensureVisible(find.text('routes'));
+    await settle(tester);
+    await tester.tap(find.text('routes'));
+    await pumpUntil(tester, find.text('Grace'));
+    await settle(tester);
+    await tester.tap(find.text('Grace'));
+    await pumpUntil(tester, find.text('User Grace'));
+    await settle(tester);
+    await tester.tap(find.text('Share'));
+    await pumpUntil(tester, find.text('Share home'));
+    await settle(tester);
+    expect(find.text('Share flow'), findsOneWidget);
+    await tester.tap(find.text('Pick contact'));
+    await pumpUntil(tester, find.text('Contact picker'));
+    await settle(tester);
+    // The banner is the layout's, around its own Navigator: it stays.
+    expect(find.text('Share flow'), findsOneWidget);
+    await tester.tap(find.text('Back'));
+    await pumpUntil(tester, find.text('Share home'));
+    await settle(tester);
+    await tester.tap(find.text('Close'));
+    await pumpUntil(tester, find.text('User Grace'));
+    await settle(tester);
+
+    // The OS opens /users/2: the stack becomes home, People, User Linus.
+    await tester.runAsync(() async {
+      final message = const JSONMethodCodec().encodeMethodCall(
+        const MethodCall('pushRouteInformation', {'location': '/users/2', 'state': null}),
+      );
+      await tester.binding.defaultBinaryMessenger.handlePlatformMessage('flutter/navigation', message, (_) {});
+    });
+    await pumpUntil(tester, find.text('User Linus'));
+    await settle(tester);
+    await tester.tap(find.text('Back'));
+    await pumpUntil(tester, find.text('Ada'));
+    await settle(tester);
+    // nav.go from JS opens the layout with its first page below the link's.
+    await tester.tap(find.text('Open /share/contact'));
+    await pumpUntil(tester, find.text('Contact picker'));
+    await settle(tester);
+    await tester.tap(find.text('Back'));
+    await pumpUntil(tester, find.text('Share home'));
+    await settle(tester);
+    await tester.tap(find.text('Close'));
+    await pumpUntil(tester, find.text('solid-fuse demos'));
+    await settle(tester);
+
+    // Tabs: a stack per tab, and the back button goes to the visible one.
+    Future<void> systemBack() => tester.runAsync(() async {
+          final message = const JSONMethodCodec().encodeMethodCall(const MethodCall('popRoute'));
+          await tester.binding.defaultBinaryMessenger.handlePlatformMessage('flutter/navigation', message, (_) {});
+        });
+    Future<void> tapAndWait(String label, String shows) async {
+      await tester.tap(find.text(label));
+      await pumpUntil(tester, find.text(shows));
+      await settle(tester);
+    }
+
+    await tester.ensureVisible(find.text('tabs'));
+    await settle(tester);
+    await tapAndWait('tabs', 'Open post');
+    await tapAndWait('Open post', 'Post 1');
+    expect(find.text('Feed tab'), findsOneWidget, reason: 'the bar stays');
+    await tapAndWait('Profile tab', 'Profile');
+    await tapAndWait('Open video', 'Video 8');
+    // A post belongs to the feed tab: it opens there and shows it.
+    await tapAndWait('Post about it', 'Post 8');
+    // Back pops the visible tab only; the profile tab keeps its video.
+    await systemBack();
+    await pumpUntil(tester, find.text('Post 1'));
+    await settle(tester);
+    await tapAndWait('Profile tab', 'Video 8');
+    await systemBack();
+    await pumpUntil(tester, find.text('Settings'));
+    await settle(tester);
+    // On a tab's first page, back goes to the first tab.
+    await systemBack();
+    await pumpUntil(tester, find.text('Post 1'));
+    await settle(tester);
+    await tapAndWait('Profile tab', 'Settings');
+    // Settings sits on the root stack, over the bar.
+    await tapAndWait('Settings', 'Done');
+    expect(find.text('Feed tab'), findsNothing);
+    await tapAndWait('Done', 'Profile');
+    // Tapping the visible tab again pops it to its first page.
+    await tapAndWait('Feed tab', 'Post 1');
+    await tapAndWait('Feed tab', 'Open post');
+    // Back on the first tab's first page leaves the tabs.
+    await systemBack();
+    await pumpUntil(tester, find.text('solid-fuse demos'));
   });
 }

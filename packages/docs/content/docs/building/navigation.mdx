@@ -1,25 +1,142 @@
 ---
 title: Navigation
-description: Navigate between pages with push, pop, and replace
+description: "Routes, links, layouts, and push and pop"
 ---
 
-Fuse provides a `Navigator` component that manages a page stack, backed by Flutter's Navigator 2.0.
+Fuse provides a `Navigator` component that manages a page stack, backed by Flutter's Navigator 2.0. You push pages on it: a route with its params, or a component.
 
 ## Basic setup
 
 ```tsx
-import { App, Navigator } from "solid-fuse";
+import { App, Navigator, route } from "solid-fuse";
+
+const Home = route({ path: "/", component: HomePage });
 
 function Root() {
   return (
     <App>
-      <Navigator initialPage={() => <HomePage />} />
+      <Navigator initialPage={Home} />
     </App>
   );
 }
 ```
 
-`initialPage` accepts either a JSX thunk or a `PageConfig` built with `page({...})`, `materialPage({...})` or `cupertinoPage({...})` when you want to choose the transition or page options. A thunk becomes a page of the app's type: `page` under `<App>`, `materialPage` under `<MaterialApp>`, `cupertinoPage` under `<CupertinoApp>`.
+`initialPage` is the first page, which stays at the bottom: a route (`Home = route({ path: "/", component: HomePage })`), a JSX thunk, or a `PageConfig` built with `page({...})`, `materialPage({...})` or `cupertinoPage({...})` when you want to choose the transition or page options. A thunk becomes a page of the app's type: `page` under `<App>`, `materialPage` under `<MaterialApp>`, `cupertinoPage` under `<CupertinoApp>`.
+
+## Routes
+
+A route is a place in the app: a component, the params it takes, and where it sits.
+
+```tsx
+import { route, useNavigation } from "solid-fuse";
+
+export const Users = route({ path: "/users", component: UsersPage });
+
+export const User = route({
+  path: ":id",          // relative to the parent: "/users/:id"
+  parent: Users,
+  parse: { id: Number }, // links bring strings
+  component: (props: { id: number }) => <UserPage id={props.id} />,
+});
+
+const nav = useNavigation();
+nav.push(User, { id: 42 }); // typed: a missing or wrong param is an error
+```
+
+The params are the component's props. Keep them plain data (strings, numbers, booleans, arrays and objects of those): links and restore rebuild them.
+
+| Option | Description |
+|---|---|
+| `component` | The page. Gets the params as props. |
+| `path` | Where it lives in a link, relative to the parent's path. Without one, the route can be pushed but not linked to. |
+| `parent` | The route that must sit below this one. |
+| `parse` | Turns params from a link, which are strings, into what the component takes. |
+| `page` | How it comes in: `(child) => materialPage({ child, fullscreenDialog: true })`. Default: the app's page type. |
+| `navigator` | `"stack"` makes it a layout (below). |
+| `name` | Names a route without a path, so a saved stack can find it again. |
+
+**Where a push goes.** On the stack you push from, unless the route's parent is somewhere else: then it goes on top of the parent. A parent that isn't open yet opens first, with the same params. A route without a parent can be pushed from anywhere.
+
+**Results.** Say what a page gives back with `.returns<T>()`:
+
+```tsx
+const Picker = route({ component: PickerPage }).returns<string>();
+const fruit = await nav.push(Picker); // string | null
+```
+
+`push` overrides the route's page type with a third argument: `nav.push(User, { id }, { page: heroinePage })`.
+
+## Layouts
+
+A layout is a route with a stack of its own. Its routes push inside it, and its component gets that stack as `children`, so UI around it stays put while its pages change. The child with `path: ""` is its first page.
+
+```tsx
+export const Share = route({
+  path: "/share",
+  navigator: "stack",
+  page: (child) => materialPage({ child, fullscreenDialog: true }),
+  component: (props) => (
+    <View layout={{ direction: "vertical" }}>
+      <ShareHeader />
+      <View flex={1}>{props.children}</View>
+    </View>
+  ),
+});
+route({ path: "", parent: Share, component: ShareHome });
+const Contact = route({ path: "contact", parent: Share, component: ContactPicker });
+```
+
+`nav.push(Share)` opens the layout on its first page; `nav.push(Contact)` from anywhere lands inside it. `nav.pop()` on a layout's last page closes the layout.
+
+## Tabs
+
+A tabs layout keeps a stack per tab, all alive. Give the tab routes to `tabs(...)`; their paths are relative to the layout's. Its component gets the visible tab as `children` and puts a bar next to it with `useTabs()`.
+
+```tsx
+import { route, tabs, useTabs } from "solid-fuse";
+
+const Feed = route({ path: "feed", component: FeedPage });
+const Profile = route({ path: "profile", component: ProfilePage });
+
+export const Main = route({
+  path: "/",
+  navigator: tabs(Feed, Profile),
+  component: (props) => {
+    const t = useTabs();
+    return (
+      <View layout={{ direction: "vertical" }}>
+        <View flex={1}>{props.children}</View>
+        <NavigationBar selected={t.index()} onSelect={t.select}>
+          <NavigationDestination icon={Icons.home} label="Feed" />
+          <NavigationDestination icon={Icons.person} label="Profile" />
+        </NavigationBar>
+      </View>
+    );
+  },
+});
+
+const Post = route({ path: "post/:id", parent: Feed, component: PostPage });    // the feed tab's
+const Video = route({ path: "video/:id", parent: Main, component: VideoPage }); // any tab's
+```
+
+- A route whose parent is a tab opens in that tab, and shows it. `Post` from the profile tab switches to the feed tab.
+- A route whose parent is the tabs layout opens in the visible tab. Use it for pages every tab shows, like `Video`.
+- A route above the tabs (here, with the app's first page as parent) covers them and their bar.
+- Back pops the visible tab only. On its first page, back goes to the first tab, then leaves.
+- `select` on the visible tab pops it to its first page.
+- A link selects its tab: `/feed/post/1` opens the feed tab with `[Feed, Post 1]`.
+
+`useTabs()` gives `index()` (reactive), `select(i)`, `routes` and `navigators`.
+
+## Links
+
+`nav.go("/users/42")` opens a link: the app's root stack goes back to its first page, then the route opens on it with its parents below. Here that's `[home, Users, User 42]`, so back goes up. `nav.go(User, { id: 42 })` does the same from a route, and `linkTo(User, { id: 42 })` gives `"/users/42"`. Query params become params too: `/search?q=solid`.
+
+A link the OS opens goes the same way, at launch and while the app runs. Your app has to ask the OS for its links first: an intent filter on Android, associated domains or a URL scheme on iOS. See Flutter's deep linking guide; the rest is solid-fuse's.
+
+## Restore
+
+When the OS kills an app in the background and starts it again, the stack comes back: every change saves the routes and params, and the root navigator puts them back. Pages pushed as components aren't saved, nor anything above them. This works where Flutter's state restoration does: Android, and iOS once the runner gives the Flutter view controller a restoration ID.
 
 ## useNavigation
 
@@ -48,13 +165,16 @@ function HomePage() {
 
 | Method | Description |
 |---|---|
-| `nav.push(page)` | Push a page. `page` is a JSX thunk or a `PageConfig`. Returns a promise that resolves with the value passed to `pop(result)`, or `null` if the page is removed any other way (back gesture, `replaceAll`, disposal). |
-| `nav.pop(result?)` | Pop the top page. Optional `result` resolves the pending push promise. No-op on a single-entry stack. |
+| `nav.push(route, params?, options?)` | Push a route (see Routes). |
+| `nav.push(page)` | Push a page: a JSX thunk or a `PageConfig`. Returns a promise that resolves with the value passed to `pop(result)`, or `null` if the page is removed any other way (back gesture, `replaceAll`, disposal). |
+| `nav.go(link)` / `nav.go(route, params?)` | Open a link (see Links). |
+| `nav.pop(result?)` | Pop the top page. Optional `result` resolves the pending push promise. Closes a layout on its last page; otherwise a no-op on a single-entry stack. |
 | `nav.pushReplacement(page, result?)` | Replace the top page. Pending promise of the replaced page resolves with `result`. |
-| `nav.popUntil(name?)` | Pop until the named route is on top, or to the root if no name given. No-op (with warning) if the name isn't on the stack. |
+| `nav.popUntil(target?)` | Pop until a page of this route (or with this page `name`) is on top, or to the root if none given. No-op (with warning) if it isn't on the stack. |
 | `nav.replaceAll(configs)` | Replace the entire stack with new pages. Returns a promise per new page. |
 | `nav.stackDepth()` | Reactive getter for the current stack depth. |
 | `nav.pages()` | Reactive getter for the page entry list. |
+| `nav.save()` / `nav.restore(saved)` | The stack as JSON, and back. Restore uses these. |
 
 ## Pages are configs, not JSX
 

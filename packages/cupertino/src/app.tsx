@@ -44,6 +44,8 @@ export function CupertinoApp(props: CupertinoAppProps) {
         theme={themeOf(props.theme)}
         color={props.color}
         debugShowCheckedModeBanner={props.debugShowCheckedModeBanner ?? false}
+        // The OS link goes to the app's routes, not to this Navigator.
+        initialRoute="/"
         home={props.children}
       />
     </PageTypeContext>

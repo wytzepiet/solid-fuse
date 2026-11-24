@@ -16,7 +16,8 @@ import '../node.dart';
 /// but Flutter has already popped, so the rebuild is a no-op visually.
 ///
 /// The system back gesture reaches the app's root Navigator first; a
-/// [NavigatorPopHandler] hands it to this one while it has pages to pop.
+/// [NavigatorPopHandler] hands it to this one while it has pages to pop and
+/// it's shown (not a hidden tab).
 class FuseNavigatorWidget extends StatefulWidget {
   const FuseNavigatorWidget(this.node, {super.key});
 
@@ -67,8 +68,15 @@ class _FuseNavigatorWidgetState extends State<FuseNavigatorWidget> {
       }
     }
     if (pages.isEmpty) return const SizedBox.shrink();
+    // A hidden tab (`<tabs>` turns its tickers off) doesn't take back. Every
+    // pop handler on a route hears a back press, enabled or not, so the
+    // handler checks too.
+    final shown = TickerMode.valuesOf(context).enabled;
     return NavigatorPopHandler<Object?>(
-      onPopWithResult: (_) => _key.currentState?.maybePop(),
+      enabled: shown,
+      onPopWithResult: (_) {
+        if (shown) _key.currentState?.maybePop();
+      },
       child: HeroControllerScope(
         controller: _heroes,
         child: Navigator(

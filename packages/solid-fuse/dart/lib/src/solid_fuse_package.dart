@@ -10,6 +10,7 @@ import 'widgets/pressable.dart';
 import 'widgets/radio_group.dart';
 import 'widgets/scroll_view.dart';
 import 'widgets/stack.dart';
+import 'widgets/tabs.dart';
 import 'widgets/text.dart';
 import 'widgets/text_input.dart';
 import 'widgets/tooltip.dart';
@@ -28,6 +29,7 @@ void registerSolidFuse(FuseRuntime runtime) {
   runtime.registerWidget('navigator', FuseNavigatorWidget.new);
   runtime.registerWidget('scrollView', FuseScrollView.new);
   runtime.registerWidget('stack', FuseStack.new);
+  runtime.registerWidget('tabs', FuseTabs.new);
   runtime.registerWidget('positioned', FusePositioned.new);
   runtime.registerWidget('modal', FuseModal.new, inFlow: false);
   runtime.registerWidget('radioGroup', FuseRadioGroup.new);

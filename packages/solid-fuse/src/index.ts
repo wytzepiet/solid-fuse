@@ -36,7 +36,24 @@ export {
   type NavigationController,
   type PageConfig,
   type PageEntry,
+  type PushOptions,
+  type SavedStack,
+  type SavedEntry,
+  type TabsState,
+  useTabs,
 } from "./navigator";
+export {
+  route,
+  tabs,
+  linkTo,
+  matchLink,
+  type Route,
+  type RouteOptions,
+  type PageType,
+  type Tabs,
+  type PathParams,
+  type ParamParsers,
+} from "./routes";
 export { page, PageTypeContext, usePageType, type PageProps, type PageFactory } from "./pages/page";
 export { Dynamic, createDynamic } from "./dynamic";
 export { View, type ViewProps } from "./widgets/view";

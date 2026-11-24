@@ -2,17 +2,26 @@ import { For, untrack } from "solid-js";
 import { Dynamic } from "./dynamic";
 import {
   NavigationContext,
+  _setLayoutRenderer,
+  _setTabsRenderer,
   createNavigationController,
   type NavigationController,
 } from "./navigation-controller";
 import type { PageConfig } from "./navigation-controller";
+import type { Route } from "./routes";
 
 export {
   createNavigationController,
+  openAppLink,
   useNavigation,
   type NavigationController,
   type PageConfig,
   type PageEntry,
+  type PushOptions,
+  type SavedStack,
+  type SavedEntry,
+  type TabsState,
+  useTabs,
 } from "./navigation-controller";
 
 /**
@@ -20,7 +29,7 @@ export {
  * `NavigationController`. Either accepts a pre-built `controller` (useful
  * for sub-navigators whose state is owned outside the wrapper — e.g. a
  * tab that resets to home from a parent), or builds its own from
- * `initialPage`.
+ * `initialPage`: a route, a page, or a component thunk.
  *
  * The `controller` prop is read once at mount; reactive swaps are ignored.
  * `observers` are Flutter's NavigatorObservers: generated handles, such as
@@ -28,7 +37,7 @@ export {
  */
 export function Navigator(props: {
   controller?: NavigationController;
-  initialPage?: (() => JSX.Element) | PageConfig;
+  initialPage?: Route | (() => JSX.Element) | PageConfig;
   observers?: import("./types").NavigatorObserversInput;
 }): JSX.Element {
   const nav = untrack(
@@ -58,3 +67,21 @@ export function Navigator(props: {
     </NavigationContext>
   );
 }
+
+// A layout route's component gets its own navigator as `children`.
+_setLayoutRenderer((controller) => <Navigator controller={controller} />);
+
+// A tabs layout's `children`: every tab's navigator, kept alive; only the
+// visible one ticks and takes back. Back on another tab's first page goes
+// to the first tab.
+_setTabsRenderer((tabs) => (
+  <tabs
+    index={tabs.index()}
+    backToFirst={tabs.index() !== 0 && tabs.navigators[tabs.index()]!.stackDepth() <= 1}
+    onBack={() => tabs.select(0)}
+  >
+    {tabs.navigators.map((controller) => (
+      <Navigator controller={controller} />
+    ))}
+  </tabs>
+));

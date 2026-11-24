@@ -97,6 +97,8 @@ export function MaterialApp(props: MaterialAppProps) {
         themeMode={props.themeMode ?? "system"}
         color={props.color}
         debugShowCheckedModeBanner={props.debugShowCheckedModeBanner ?? false}
+        // The OS link goes to the app's routes, not to this Navigator.
+        initialRoute="/"
         home={props.children}
       />
     </PageTypeContext>

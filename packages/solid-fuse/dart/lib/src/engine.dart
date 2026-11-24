@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'channels.dart';
@@ -68,6 +69,11 @@ Future<EngineResult> createEngine({
   channels.on('_log', (data) => debugPrint('[Fuse JS] ${data['message']}'));
   channels.on('_ws', (data) => wsManager.handleBridgeCall(data));
 
+  // The app's navigation, saved for when the OS kills the app in the
+  // background and starts it again (src/navigation-controller.ts).
+  final restoration = await _restorationBucket();
+  channels.on('_navSave', (data) => restoration?.write<String>(_navKey, data['stack'] as String));
+
   final mode = kReleaseMode
       ? 'release'
       : kProfileMode
@@ -84,6 +90,11 @@ Future<EngineResult> createEngine({
         'platform': _fusePlatformName(),
         'brightness': _fuseBrightnessName(),
         'view': fuseViewMetrics(),
+        // The link the app was opened with; the app's routes open it.
+        'link': WidgetsBinding.instance.platformDispatcher.defaultRouteName,
+        // Whether the OS keeps the navigation, and what it kept.
+        'restoration': restoration != null,
+        'restore': restoration?.read<String>(_navKey),
       })};',
     ),
   );
@@ -181,6 +192,22 @@ Map<String, Object?> fuseViewMetrics() {
   };
 }
 
+const _navKey = 'fuse.navigation';
+
+/// The OS's restoration data: Android, and iOS when the runner gives the
+/// Flutter view controller a restoration id. Other platforms don't answer
+/// Flutter's restoration channel at all, so they aren't asked.
+Future<RestorationBucket?> _restorationBucket() async {
+  if (kIsWeb) return null;
+  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return null;
+  try {
+    return await ServicesBinding.instance.restorationManager.rootBucket
+        .timeout(const Duration(seconds: 2), onTimeout: () => null);
+  } catch (_) {
+    return null;
+  }
+}
+
 /// Forwards OS light/dark and view changes (size, insets, text scale) to its
 /// engine's channels so `host`'s accessors stay reactive. One per engine;
 /// createEngine adds it, retireEngine removes it.
@@ -198,6 +225,14 @@ class _FuseHostObserver with WidgetsBindingObserver {
 
   @override
   void didChangeTextScaleFactor() => _channels.send('_view', fuseViewMetrics());
+
+  // Links the OS opens while the app runs go to the app's routes. Handled
+  // here, so the app root's own Navigator doesn't try them as route names.
+  @override
+  Future<bool> didPushRouteInformation(RouteInformation routeInformation) async {
+    _channels.send('_link', <String, dynamic>{'link': routeInformation.uri.toString()});
+    return true;
+  }
 }
 
 // --- Job pump ---

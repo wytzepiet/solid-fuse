@@ -1,7 +1,7 @@
 import { AdaptiveApp } from "@solid-fuse/adaptive";
 import { createHeroineController } from "@solid-fuse/heroine";
 import { Navigator, render } from "solid-fuse";
-import { HomeScreen } from "./screens/home";
+import { Home } from "./screens/routes";
 import { platform } from "./platform";
 
 // The app root is JS: Dart only runs `FuseView`. Pages pushed as bare
@@ -12,7 +12,7 @@ const App = () => {
   const heroine = createHeroineController();
   return (
     <AdaptiveApp title="solid-fuse demo" theme={{ seedColor: "#2563eb" }} themeMode="light" platform={platform()}>
-      <Navigator initialPage={() => <HomeScreen />} observers={[heroine]} />
+      <Navigator initialPage={Home} observers={[heroine]} />
     </AdaptiveApp>
   );
 };

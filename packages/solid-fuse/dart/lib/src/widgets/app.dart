@@ -21,6 +21,8 @@ class FuseApp extends StatelessWidget {
       textStyle: const TextStyle(fontSize: 14, color: Color(0xFF000000)).merge(node.value<TextStyle>('textStyle')),
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) =>
           PageRouteBuilder<T>(settings: settings, pageBuilder: (context, _, _) => builder(context)),
+      // The OS link goes to the app's routes (`_link`), not to this Navigator.
+      initialRoute: '/',
       home: FuseAppContent(node),
     );
   }
