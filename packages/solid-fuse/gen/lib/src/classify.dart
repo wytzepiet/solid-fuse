@@ -132,9 +132,11 @@ class Classifier {
         'ofDart': code.type(t.typeArguments[1]),
       };
     }
-    if (t.isDartAsyncFuture || t.isDartAsyncFutureOr || t.isDartAsyncStream) {
-      throw Skip('Future/Stream argument (not bridged yet)');
+    // A stream JS gives: an async iterable, read as Dart pulls it.
+    if (t.isDartAsyncStream) {
+      return {'k': 'stream', 'of': input(t.typeArguments.first), 'ofDart': code.type(t.typeArguments.first)};
     }
+    if (t.isDartAsyncFuture || t.isDartAsyncFutureOr) throw Skip('Future argument (not bridged yet)');
 
     if (el == w.widgetEl) return {'k': 'widget'};
     if (w.isSubtypeOfEl(t, w.widgetEl)) {
@@ -664,6 +666,163 @@ class Classifier {
     return {'ctor': ?cname, 'members': members};
   }
 
+  // ── statics and fakes ─────────────────────────────────────────────────────
+
+  /// A static method or top-level function JS calls (`Geolocator.getCurrentPosition`,
+  /// `accelerometerEventStream`): its parameters, and what it gives back. A
+  /// `Stream` result is read as an async iterable (`stream`); anything else
+  /// arrives through a Promise.
+  Json staticFn(ExecutableElement fn, String name) {
+    if (fn.typeParameters.isNotEmpty) throw Skip('generic function');
+    final inv = invocable(name, fn.formalParameters, deprecated: fn.metadata.hasDeprecated);
+    final r = fn.returnType;
+    if (r is VoidType) {
+      inv['ret'] = {'k': 'void'};
+    } else if (r is InterfaceType && r.isDartAsyncStream) {
+      inv['ret'] = {'k': 'void'};
+      inv['stream'] = output(r.typeArguments.first);
+    } else if (r is InterfaceType && (r.isDartAsyncFutureOr || r.asInstanceOf(w.tp.futureElement) != null)) {
+      final a = (r.isDartAsyncFutureOr ? r : r.asInstanceOf(w.tp.futureElement)!).typeArguments.first;
+      inv['ret'] = a is VoidType || a.isDartCoreNull ? {'k': 'void'} : output(a);
+      inv['async'] = true;
+    } else {
+      inv['ret'] = output(r);
+    }
+    if (firstParagraph(fn.documentationComment) case final d?) inv['doc'] = d;
+    return inv;
+  }
+
+  /// A class whose members are all static (`Geolocator`, `HapticFeedback`):
+  /// its static methods are functions JS calls.
+  bool staticsOnly(ClassElement el) {
+    if (el.isPrivate || el.typeParameters.isNotEmpty) return false;
+    final sup = el.supertype;
+    if (sup != null && !sup.isDartCoreObject) return false;
+    if (el.mixins.isNotEmpty || el.interfaces.isNotEmpty) return false;
+    if (el.methods.any((m) => !m.isStatic && m.isPublic)) return false;
+    if (el.getters.any((g) => !g.isStatic && g.isPublic)) return false;
+    if (el.setters.any((s) => !s.isStatic && s.isPublic)) return false;
+    return el.methods.any((m) => m.isStatic && m.isPublic && !_hidden(m));
+  }
+
+  /// The static setter that replaces [el]'s shared instance, when JS can
+  /// stand in for it: `static set instance(GeolocatorPlatform)` on a class
+  /// another library can extend, with a constructor that takes nothing (the
+  /// shape of every Flutter plugin's platform interface).
+  String? fakeSetter(ClassElement el) {
+    if (el.isPrivate || el.isSealed || el.isFinal || el.isInterface || el.typeParameters.isNotEmpty) return null;
+    if (!w.isExported(el)) return null;
+    final ctor = _fakeCtor(el);
+    if (ctor == null) return null;
+    for (final s in el.setters) {
+      if (!s.isStatic || !s.isPublic) continue;
+      final pt = s.formalParameters.first.type;
+      if (pt is InterfaceType && pt.element == el) return s.name;
+    }
+    return null;
+  }
+
+  ConstructorElement? _fakeCtor(ClassElement el) {
+    ConstructorElement? ctor;
+    for (final c in el.constructors) {
+      if (c.isFactory || c.isPrivate || _hidden(c)) continue;
+      if (c.formalParameters.any((p) => p.isRequired)) continue;
+      final named = c.name != null && c.name != 'new';
+      if (ctor == null || !named) ctor = c;
+    }
+    return ctor;
+  }
+
+  /// What a fake of [el] can stand in for: every instance method and getter
+  /// it has (but Object's and the platform interface base's). JS gives any
+  /// of them; the rest go to the instance the fake replaced. A member whose
+  /// types can't cross is left to that instance, listed in `skips`.
+  Json fake(ClassElement el, String setter) {
+    final t = el.thisType;
+    final lib = el.library;
+    final ctor = _fakeCtor(el)!;
+    final members = <Json>[];
+    final skips = <String, String>{};
+    final seen = <String>{};
+    bool base(InterfaceType st) {
+      if (st.isDartCoreObject) return true;
+      final uri = st.element.library.uri.toString();
+      return uri.startsWith('package:plugin_platform_interface/');
+    }
+
+    for (final st in [t, ...t.allSupertypes]) {
+      if (base(st)) continue;
+      for (final g in st.getters) {
+        final n = g.name!;
+        if (g.isStatic || !g.isPublic || !seen.add('get $n') || _hidden(g)) continue;
+        final real = t.lookUpGetter(n, lib);
+        if (real == null || real.isStatic || real.metadata.hasNonVirtual || real.variable.metadata.hasNonVirtual) continue;
+        try {
+          final rt = real.returnType;
+          final ret = input(rt);
+          if (_typedWidget(ret) || ret['k'] == 'supplied') throw Skip('returns ${ret['k']}');
+          members.add({
+            'name': n,
+            'getter': true,
+            'params': <Json>[],
+            'ret': code.type(rt),
+            'fn': {'k': 'fn', 'args': <Json>[], 'ret': ret, 'sync': true, 'dart': '${code.type(rt)} Function()'},
+          });
+        } on Skip catch (s) {
+          skips[n] = s.reason;
+        } on NotNameable catch (e) {
+          skips[n] = '$e';
+        }
+      }
+      for (final m in st.methods) {
+        final n = m.name!;
+        if (m.isStatic || !m.isPublic || m.isOperator || !seen.add(n) || _hidden(m)) continue;
+        if (n == 'toString' || n == 'noSuchMethod') continue;
+        final real = t.lookUpMethod(n, lib);
+        if (real == null || real.isStatic || real.metadata.hasNonVirtual) continue;
+        try {
+          if (real.typeParameters.isNotEmpty) throw Skip('generic method');
+          final params = <Json>[];
+          for (final p in real.formalParameters) {
+            final pj = <String, Object?>{'name': p.name ?? 'arg', 'dart': code.type(p.type)};
+            if (p.isNamed) pj['named'] = true;
+            if (p.isRequiredNamed) pj['required'] = true;
+            if (p.isOptionalPositional) pj['optional'] = true;
+            if (p.isOptional && !isNullable(p.type)) {
+              final d = code.hasDefault(p) ? code.defaultOf(p) : null;
+              if (d == null) throw Skip('${p.name}: default cannot be named from generated code');
+              pj['default'] = d;
+            } else if (p.isOptional && code.hasDefault(p)) {
+              final d = code.defaultOf(p);
+              if (d != null && d != 'null') pj['default'] = d;
+            }
+            params.add(pj);
+          }
+          members.add({
+            'name': n,
+            'params': params,
+            'ret': code.type(real.returnType),
+            'fn': _callback(real.type, optionalNonNull: true),
+          });
+        } on Skip catch (s) {
+          skips[n] = s.reason;
+        } on NotNameable catch (e) {
+          skips[n] = '$e';
+        }
+      }
+    }
+    final cname = ctor.name == null || ctor.name == 'new' ? null : ctor.name;
+    return {
+      'name': el.name,
+      'dart': code.type(t),
+      'setter': setter,
+      'ctor': ?cname,
+      if (firstParagraph(el.documentationComment) case final d?) 'doc': d,
+      'members': members,
+      if (skips.isNotEmpty) 'skips': skips,
+    };
+  }
+
   InterfaceType? _instantiateSub(InterfaceElement c, InterfaceType target) {
     if (c.typeParameters.isEmpty) {
       final t = c.thisType;
@@ -784,14 +943,17 @@ class Classifier {
 
   // ── callbacks ─────────────────────────────────────────────────────────────
 
-  Json _callback(FunctionType f) {
+  /// [optionalNonNull]: the closure is called with every argument (a fake's
+  /// override passes them all), so an optional non-nullable one needs no
+  /// default of its own.
+  Json _callback(FunctionType f, {bool optionalNonNull = false}) {
     if (f.typeParameters.isNotEmpty) throw Skip('generic callback');
     final args = <Json>[];
     var context = false;
     var i = 0;
     for (final p in f.formalParameters) {
       // An optional one needs a default in the closure, which can't name it.
-      if (p.isOptional && p.type.nullabilitySuffix != NullabilitySuffix.question && p.type is! DynamicType) {
+      if (!optionalNonNull && p.isOptional && p.type.nullabilitySuffix != NullabilitySuffix.question && p.type is! DynamicType) {
         throw Skip('callback with an optional non-nullable parameter');
       }
       final pt = p.type;
@@ -871,7 +1033,7 @@ class Classifier {
     if (ref is! Map) return false;
     return switch (ref['k']) {
       'widget' => ref['as'] != null,
-      'list' || 'set' || 'iterable' || 'map' => _typedWidget(ref['of']),
+      'list' || 'set' || 'iterable' || 'stream' || 'map' => _typedWidget(ref['of']),
       _ => false,
     };
   }
@@ -983,13 +1145,13 @@ class Classifier {
 
       for (final n in names) {
         final g = t.lookUpGetter(n, lib);
-        if (g != null && !g.isStatic && !g.metadata.hasDeprecated) consider(n, g.returnType);
+        if (g != null && !g.isStatic && !g.metadata.hasDeprecated && !_hidden(g) && !_hidden(g.variable)) consider(n, g.returnType);
       }
       void scan(bool Function(GetterElement) pick) {
         for (final st in [t, ...t.allSupertypes]) {
           if (st.isDartCoreObject) continue;
           for (final g in st.getters) {
-            if (g.isStatic || g.isPrivate || g.metadata.hasDeprecated) continue;
+            if (g.isStatic || g.isPrivate || g.metadata.hasDeprecated || _hidden(g) || _hidden(g.variable)) continue;
             if (pick(g)) consider(g.name!, g.returnType);
           }
         }

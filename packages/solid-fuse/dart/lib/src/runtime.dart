@@ -14,6 +14,7 @@ import 'fuse_handle.dart';
 import 'generated_support.dart' show FuseCallArgs, FuseCallbackError, FuseGeneratedHandle;
 import 'node.dart';
 import 'quickjs_connection.dart';
+import 'web_connection.dart';
 
 /// Signature for a Fuse widget builder.
 /// Matches the constructor signature of Fuse widget classes,
@@ -47,6 +48,7 @@ class FuseRuntime {
       callFunctionAsync: callFunctionAsync,
       callFunctionSync: callFunctionSync,
       unbuild: unbuild,
+      send: (channel, data) => _connection?.channels?.send(channel, data),
     );
     // Pre-create root node so it exists before JS sends ops.
     registry.create(0, 'root', {'_id': 0});
@@ -142,6 +144,17 @@ class FuseRuntime {
       throw StateError('FuseRuntime.start() already called');
     }
 
+    // The browser runs the JS itself: from the dev server in debug, else the
+    // built bundle.
+    if (kIsWeb) {
+      final web = WebConnection(devServer: kDebugMode ? 'http://$_devHost:$_devPort' : null);
+      await web.connect();
+      _connection = web;
+      _registerChannels();
+      await web.start();
+      return;
+    }
+
     if (kDebugMode) {
       final dev = DevServerConnection(host: _devHost, port: _devPort);
       try {
@@ -213,6 +226,8 @@ class FuseRuntime {
         debugPrint('[Fuse] ops error: $e\n$st');
       }
     });
+    // An event of a stream JS gave Dart (FuseNodeRegistry.jsStream).
+    channels.on('_jsStream', registry.jsStreamEvent);
     // JS let go of a handle Dart lent it (see FuseNodeRegistry.lend).
     channels.on('_unborrow', (data) {
       registry.unborrow(data['id'] as int, data['n'] as int);

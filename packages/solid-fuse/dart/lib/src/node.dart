@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'fuse_handle.dart';
-import 'generated_support.dart' show FuseGeneratedHandle;
+import 'generated_support.dart' show FuseCallbackError, FuseGeneratedHandle;
 import 'node_widget.dart';
 import 'utils.dart';
 
@@ -417,7 +417,43 @@ class FuseNode extends FuseMap with ChangeNotifier {
 }
 
 class FuseNodeRegistry {
-  FuseNodeRegistry({required this.callFunction, this.callFunctionAsync, this.callFunctionSync, this.unbuild});
+  FuseNodeRegistry({required this.callFunction, this.callFunctionAsync, this.callFunctionSync, this.unbuild, this.send});
+
+  /// Sends a message to JS on a channel. Null where there is no JS (tests).
+  final void Function(String channel, Map<String, dynamic> data)? send;
+
+  final _jsStreams = <int, StreamController<Object?>>{};
+
+  /// The stream JS registered as [id] (an async iterable it gave Dart). JS
+  /// reads it once Dart listens, and stops when Dart cancels.
+  Stream<Object?> jsStream(core.int id) {
+    late final StreamController<Object?> c;
+    c = StreamController<Object?>(
+      onListen: () {
+        _jsStreams[id] = c;
+        send?.call('_jsStream', {'id': id, 'op': 'listen'});
+      },
+      onCancel: () {
+        if (_jsStreams.remove(id) != null) send?.call('_jsStream', {'id': id, 'op': 'cancel'});
+      },
+    );
+    return c.stream;
+  }
+
+  /// An event of a stream JS gives: `v` a value, `e` an error, `d` done.
+  void jsStreamEvent(Map<String, dynamic> data) {
+    final id = data['id'] as core.int;
+    final c = _jsStreams[id];
+    if (c == null) return;
+    if (data.containsKey('e')) {
+      c.addError(FuseCallbackError('stream', '${data['e']}'));
+    } else if (data['d'] == true) {
+      _jsStreams.remove(id);
+      c.close();
+    } else {
+      c.add(data['v']);
+    }
+  }
 
   /// Callback to call a JS function via the bridge.
   final void Function(core.int nodeId, String name, [dynamic value])

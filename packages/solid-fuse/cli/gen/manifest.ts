@@ -10,6 +10,8 @@ export type Ref =
   | { k: "bool" | "int" | "double" | "num" | "String" | "Object" | "dynamic"; null?: true }
   | { k: "enum" | "data" | "handle"; id: string; null?: true }
   | { k: "list" | "set" | "iterable"; of: Ref; null?: true }
+  /** A Stream JS gives: an async iterable, which Dart pulls as it listens. */
+  | { k: "stream"; of: Ref; ofDart: string; null?: true }
   /** `entries`: the key isn't a string, number or enum, so the map crosses
    *  as `[key, value]` pairs. */
   | { k: "map"; key: Ref; of: Ref; entries?: true; null?: true }
@@ -168,6 +170,51 @@ export interface HandleType {
 
 export type TypeDecl = DataType | EnumType | HandleType;
 
+/** A static method or top-level function JS calls. */
+export interface StaticFn extends HandleMethod {
+  /** The Dart callee (`geolocator.Geolocator.getCurrentPosition`). */
+  dart: string;
+  /** Present when it returns a Stream: the events' type. JS reads it as an
+   *  async iterable. */
+  stream?: Ref;
+}
+
+/** A class of only statics (`owner`), or a library's top-level functions. */
+export interface StaticOwner {
+  /** `<uri>#<Owner>`, or `<uri>#` for top-level functions. */
+  id: string;
+  owner?: string;
+  doc?: string;
+  methods: StaticFn[];
+}
+
+/**
+ * A class with a replaceable shared instance (`static set instance(...)`, a
+ * plugin's platform interface) that JS fakes: a generated subclass calls the
+ * JS function of a member's name when there is one, else the instance it
+ * replaced.
+ */
+export interface Fake {
+  id: string;
+  name: string;
+  dart: string;
+  /** The static setter that installs it. */
+  setter: string;
+  /** The superclass constructor; none is the unnamed one. */
+  ctor?: string;
+  doc?: string;
+  members: {
+    name: string;
+    getter?: true;
+    /** The override's parameters, as Dart declares them. */
+    params: { name: string; dart: string; named?: true; required?: true; optional?: true; default?: string }[];
+    ret: string;
+    fn: FnRef;
+  }[];
+  /** Members JS can't stand in for (their types don't cross), and why. */
+  skips?: Record<string, string>;
+}
+
 export interface Widget {
   id: string;
   component: string;
@@ -192,6 +239,8 @@ export interface Manifest {
   /** Value types a barrel names: their decoders are registered by type, for
    *  hand-written Dart (`node.value<Color>(...)`). */
   values?: string[];
+  statics?: StaticOwner[];
+  fakes?: Fake[];
   types: Record<string, TypeDecl>;
   skipped: { item: string; reason: string }[];
 }

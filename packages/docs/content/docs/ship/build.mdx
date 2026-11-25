@@ -7,9 +7,12 @@ description: fuse build for each platform, what it keeps, and what it passes to 
 fuse build apk --release
 fuse build ipa
 fuse build macos
+fuse build web          # a web preview
 ```
 
 `fuse build` bundles your JS, then runs `flutter build` with every argument you gave it. So the targets, flags, signing and store upload are Flutter's: see [Flutter's deployment docs](https://docs.flutter.dev/deployment).
+
+A web build is a folder of static files to share as a link: see [Web previews](/docs/agents/web-previews).
 
 ## What it does
 

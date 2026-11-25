@@ -15,6 +15,11 @@ dependencies:
   flutter:
     sdk: flutter
   solid_fuse: any
+  # The sensors screen: GPS and the accelerometer, faked in src/fakes.ts.
+  geolocator: ^14.0.0
+  geolocator_platform_interface: ^4.2.0
+  sensors_plus: ^7.0.0
+  sensors_plus_platform_interface: ^2.0.0
 
 dev_dependencies:
   # The integration test finds Material and Cupertino widgets by type.

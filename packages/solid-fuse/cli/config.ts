@@ -9,6 +9,7 @@ import { fuseCompilePlugin } from "./compile-plugin";
 import { fuseGenPlugin, generatedTables } from "./gen/plugin";
 import type { BundleUse } from "./gen/shake";
 import { fuseRoutesPlugin } from "./routes";
+import { fuseFakesPlugin } from "./fakes";
 
 export const CONFIG_FILES = ["fuse.config.ts", "fuse.config.mjs", "fuse.config.js"];
 
@@ -90,7 +91,12 @@ export function fusePackageNames(projectRoot: string): string[] {
  * [use], in `fuse build`, collects what the bundle uses of the generated
  * modules (cli/gen/shake.ts).
  */
-export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | null, use?: BundleUse): InlineConfig {
+export function buildViteConfig(
+  projectRoot: string,
+  fuseConfig: FuseConfig | null,
+  use?: BundleUse,
+  options: { fakes?: boolean } = {},
+): InlineConfig {
   const dartRoot = join(projectRoot, fuseConfig?.dart ?? "dart");
 
   // `fuse gen` output: modules imported as `#fuse/<package>`, and the tables
@@ -122,6 +128,8 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
       gen,
       // `src/app/` as routes (`#fuse/routes`), before anything imports them.
       fuseRoutesPlugin({ projectRoot, genDir }),
+      // `src/fakes.ts` first, where fakes are on (cli/fakes.ts).
+      fuseFakesPlugin({ projectRoot, on: !!options.fakes }),
       fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: gen.api.use, tables: generatedTables(genDir) }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),
@@ -131,13 +139,14 @@ export function buildViteConfig(projectRoot: string, fuseConfig: FuseConfig | nu
       // connects. Without this, Vite discovers these deps from the first
       // request and re-optimizes mid-fetch, invalidating in-flight URLs.
       entries: ["src/index.tsx"],
-      // Both solid-fuse entries in one optimize run, so they share one
-      // renderer. `solid-fuse/generated` is often first imported from a
-      // design package, which is excluded from the scan; found later, it
-      // would be bundled with a renderer of its own (its own node ids and
-      // ops journal).
-      include: ["solid-fuse", "solid-fuse/generated", "solid-js"],
-      exclude: fusePackageNames(projectRoot),
+      // solid-fuse is never pre-bundled: its entries share one renderer
+      // (node ids, ops journal, the FuseNode class handles are checked
+      // against), and a pre-bundle of one entry carries a copy of it. Vite
+      // also skips a linked solid-fuse (a workspace, yalc) while still
+      // bundling `solid-fuse/generated`, which gave dev two renderers. Its
+      // dist is ESM already; what it imports is pre-bundled here.
+      include: ["solid-js", "solid-fuse > @solidjs/universal"],
+      exclude: ["solid-fuse", ...fusePackageNames(projectRoot)],
     },
     build: {
       target: "es2020",

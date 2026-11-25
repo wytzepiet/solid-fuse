@@ -1,0 +1,41 @@
+---
+title: Web previews
+description: Build the app for the web and share a link anyone can open and use
+---
+
+A solid-fuse app also runs in a browser. The browser runs the app's JS itself, and Flutter draws as it does on a phone. That makes a preview link: build for the web, put the folder on any static host, and send the link. An agent in the cloud can share its work this way, for a person to click through.
+
+## Build
+
+```bash
+fuse build web
+```
+
+The app is in `dart/build/web`, a folder of static files. Fuse adds the `web/` platform folder the first time, as it does for other platforms. [Fakes](/docs/agents/fakes) are on, so GPS, sensors and the camera answer from `src/fakes.ts`.
+
+Flutter loads its renderer (CanvasKit) from Google's CDN by default. For a host that only serves its own files, build it into the folder:
+
+```bash
+fuse build web --no-web-resources-cdn
+```
+
+## Develop
+
+```bash
+fuse dev -d chrome        # opens Chrome
+fuse dev -d web-server    # serves the app; open the printed address
+```
+
+The app's modules come straight from the dev server, as in any Vite app. Reload the page after a change.
+
+## Share
+
+Any static host works: copy `dart/build/web` to Netlify, Vercel, Cloudflare Pages, GitHub Pages or a bucket. The app's paths are relative to `/` by default; for a host that serves it under a path, build with `--base-href /path/`.
+
+## What is different
+
+- **Plugins.** A plugin works on the web when it has a web implementation; one without answers with an error. Fake what the app calls (see [Faking native features](/docs/agents/fakes)).
+- **Platform-specific Dart.** A class a package exports only on some platforms (an `export ... if (dart.library.js_interop)`) isn't generated, since generated code builds for every platform. `fuse/gen-report.txt` lists it.
+- **The look.** `host.platform` is `"web"`, so adaptive components take Material's look. To preview iOS, see [Previewing the other platform](/docs/build/design-packages#previewing-the-other-platform).
+
+The last check stays on a phone or an emulator: a web preview shows the app's screens and flows, not how it feels on the device.

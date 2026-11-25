@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'channels.dart';
+import 'host.dart';
 import 'ws_manager.dart';
 
 /// Return type for [createEngine].
@@ -61,49 +60,16 @@ Future<EngineResult> createEngine({
     },
   );
 
-  channels = FuseChannels(engine: engine);
+  channels = QuickJsChannels(engine);
 
   final wsManager = FuseWsManager(channels: channels);
 
-  // Register engine-level channels
-  channels.on('_log', (data) => debugPrint('[Fuse JS] ${data['message']}'));
+  // Sockets go through Dart: QuickJS has no WebSocket (src/polyfills.ts).
   channels.on('_ws', (data) => wsManager.handleBridgeCall(data));
 
-  // The app's navigation, saved for when the OS kills the app in the
-  // background and starts it again (src/navigation-controller.ts).
-  final restoration = await _restorationBucket();
-  channels.on('_navSave', (data) => restoration?.write<String>(_navKey, data['stack'] as String));
-
-  final mode = kReleaseMode
-      ? 'release'
-      : kProfileMode
-          ? 'profile'
-          : 'debug';
-
-  // Seed ambient host facts under one global for the `host` JS namespace
-  // (read by src/host.ts). Sourced from foundation/dart:ui only — no
-  // Material/Cupertino — so it survives the design-system package split.
-  await engine.eval(
-    source: JsCode.code(
-      'globalThis.__fuseHost = ${jsonEncode({
-        'mode': mode,
-        'platform': _fusePlatformName(),
-        'brightness': _fuseBrightnessName(),
-        'view': fuseViewMetrics(),
-        // The link the app was opened with; the app's routes open it.
-        'link': WidgetsBinding.instance.platformDispatcher.defaultRouteName,
-        // Whether the OS keeps the navigation, and what it kept.
-        'restoration': restoration != null,
-        'restore': restoration?.read<String>(_navKey),
-      })};',
-    ),
-  );
-
-  // Forward OS light/dark and view changes to JS so host's accessors stay
-  // reactive. One observer per engine; retireEngine removes it from the
-  // binding.
-  final hostObserver = _FuseHostObserver(channels);
-  WidgetsBinding.instance.addObserver(hostObserver);
+  final (:host, :observer) = await setUpHost(channels);
+  await engine.eval(source: JsCode.code('globalThis.__fuseHost = ${jsonEncode(host)};'));
+  final hostObserver = observer;
 
   // NB: the `console` shim lives in the JS package (src/polyfills.ts), not here —
   // it's a standard-global polyfill with no Dart dependency, alongside
@@ -117,7 +83,10 @@ Future<EngineResult> createEngine({
   await engine.declareNewModule(
     module: JsModule.code(
       module: '__fuse_dispatch',
-      code: 'export function dispatch(ch, data) { return globalThis.__dispatch(ch, data); }\n'
+      // The result rides in an array: fjs unwraps an async result that is an
+      // object with only a `value` key (the wrapper of an async eval), and a
+      // channel's reply may be just that (`{ value }`).
+      code: 'export async function dispatch(ch, data) { return [await globalThis.__dispatch(ch, data)]; }\n'
           'export function dispatchSync(ch, data) { return globalThis.__dispatchSync(ch, data); }',
     ),
   );
@@ -128,6 +97,33 @@ Future<EngineResult> createEngine({
     channels: channels,
     hostObserver: hostObserver,
   );
+}
+
+/// Channels over an fjs [JsEngine] (QuickJS): calls go through the
+/// `__fuse_dispatch` module [createEngine] declares.
+class QuickJsChannels extends FuseChannels {
+  QuickJsChannels(this.engine);
+
+  final JsEngine engine;
+
+  @override
+  Future<Object?> callJs(String channel, Map<String, dynamic> data) => engine
+      .call(
+        module: '__fuse_dispatch',
+        method: 'dispatch',
+        params: [JsValue.string(channel), JsValue.from(data)],
+      )
+      // In an array: see the module.
+      .then((JsValue result) => (result.value as List).first);
+
+  @override
+  Object? callJsSync(String channel, Map<String, dynamic> data) => engine
+      .callSync(
+        module: '__fuse_dispatch',
+        method: 'dispatchSync',
+        params: [JsValue.string(channel), JsValue.from(data)],
+      )
+      .value;
 }
 
 /// Creates a minimal engine for testing.
@@ -149,90 +145,6 @@ Future<void> retireEngine(
   WidgetsBinding.instance.removeObserver(hostObserver);
   wsManager.dispose();
   await engine.close();
-}
-
-// --- `host` namespace: ambient platform/brightness facts ---
-// Read-only facts sourced from foundation/dart:ui (never Material/Cupertino),
-// surfaced to JS via the `host` object in src/host.ts.
-
-String _fusePlatformName() {
-  if (kIsWeb) return 'web';
-  return switch (defaultTargetPlatform) {
-    TargetPlatform.android => 'android',
-    TargetPlatform.iOS => 'ios',
-    TargetPlatform.macOS => 'macos',
-    TargetPlatform.windows => 'windows',
-    TargetPlatform.linux => 'linux',
-    TargetPlatform.fuchsia => 'fuchsia',
-  };
-}
-
-String _fuseBrightnessName() =>
-    WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-            Brightness.dark
-        ? 'dark'
-        : 'light';
-
-/// The app's view as `host` reports it (src/host.ts), in logical pixels: what
-/// `MediaQuery` would say at the root. The implicit view, or the first.
-@visibleForTesting
-Map<String, Object?> fuseViewMetrics() {
-  final dispatcher = WidgetsBinding.instance.platformDispatcher;
-  final view = dispatcher.implicitView ?? dispatcher.views.firstOrNull;
-  if (view == null) return const {};
-  final data = MediaQueryData.fromView(view);
-  Map<String, double> insets(EdgeInsets e) => {'left': e.left, 'top': e.top, 'right': e.right, 'bottom': e.bottom};
-  return {
-    'size': {'width': data.size.width, 'height': data.size.height},
-    'devicePixelRatio': data.devicePixelRatio,
-    'padding': insets(data.padding),
-    'viewInsets': insets(data.viewInsets),
-    'viewPadding': insets(data.viewPadding),
-    'textScale': data.textScaler.scale(1),
-  };
-}
-
-const _navKey = 'fuse.navigation';
-
-/// The OS's restoration data: Android, and iOS when the runner gives the
-/// Flutter view controller a restoration id. Other platforms don't answer
-/// Flutter's restoration channel at all, so they aren't asked.
-Future<RestorationBucket?> _restorationBucket() async {
-  if (kIsWeb) return null;
-  if (defaultTargetPlatform != TargetPlatform.android && defaultTargetPlatform != TargetPlatform.iOS) return null;
-  try {
-    return await ServicesBinding.instance.restorationManager.rootBucket
-        .timeout(const Duration(seconds: 2), onTimeout: () => null);
-  } catch (_) {
-    return null;
-  }
-}
-
-/// Forwards OS light/dark and view changes (size, insets, text scale) to its
-/// engine's channels so `host`'s accessors stay reactive. One per engine;
-/// createEngine adds it, retireEngine removes it.
-class _FuseHostObserver with WidgetsBindingObserver {
-  _FuseHostObserver(this._channels);
-
-  final FuseChannels _channels;
-
-  @override
-  void didChangePlatformBrightness() => _channels
-      .send('_brightness', <String, dynamic>{'value': _fuseBrightnessName()});
-
-  @override
-  void didChangeMetrics() => _channels.send('_view', fuseViewMetrics());
-
-  @override
-  void didChangeTextScaleFactor() => _channels.send('_view', fuseViewMetrics());
-
-  // Links the OS opens while the app runs go to the app's routes. Handled
-  // here, so the app root's own Navigator doesn't try them as route names.
-  @override
-  Future<bool> didPushRouteInformation(RouteInformation routeInformation) async {
-    _channels.send('_link', <String, dynamic>{'link': routeInformation.uri.toString()});
-    return true;
-  }
 }
 
 // --- Job pump ---

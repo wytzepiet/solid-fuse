@@ -3,7 +3,7 @@ title: Platform folders
 description: dart/android, dart/ios and the rest are ordinary Flutter folders, and yours
 ---
 
-Each platform has a folder in `dart/`: `android/`, `ios/`, `macos/`, `linux/`, `windows/`. They are Flutter's own, made by `flutter create`. Everything Flutter's docs and a plugin's README say about them applies as written.
+Each platform has a folder in `dart/`: `android/`, `ios/`, `macos/`, `linux/`, `windows/`, `web/`. They are Flutter's own, made by `flutter create`. Everything Flutter's docs and a plugin's README say about them applies as written.
 
 ## Where they come from
 
@@ -18,7 +18,7 @@ export default defineConfig({
 });
 ```
 
-`fuse dev` and `fuse build` add the folder of a listed platform when it's missing. So do a build for a platform (`fuse build macos`) and `fuse dev --headless` (Linux). `org` is the reverse domain of the bundle id: `com.example` gives `com.example.<pubspec name>`.
+`fuse dev` and `fuse build` add the folder of a listed platform when it's missing. So do a build for a platform (`fuse build macos`, `fuse build web`) and `fuse dev --headless` (Linux). `org` is the reverse domain of the bundle id: `com.example` gives `com.example.<pubspec name>`.
 
 **Commit the folder.** From then on it is your code. Solid Fuse never writes to it again.
 

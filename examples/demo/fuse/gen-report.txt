@@ -1,5 +1,5 @@
 # fuse gen report. Generated; do not edit.
-# 684 widgets, 71 handles, 20 skipped
+# 683 widgets, 127 handles, 561 skipped
 
 ## Widgets
 AbsorbPointer  package:flutter/widgets.dart#AbsorbPointer
@@ -203,7 +203,6 @@ PhysicalShape  package:flutter/widgets.dart#PhysicalShape
 PinnedHeaderSliver  package:flutter/widgets.dart#PinnedHeaderSliver
 Placeholder  package:flutter/widgets.dart#Placeholder
 PlatformMenuBar  package:flutter/widgets.dart#PlatformMenuBar
-PlatformSelectableRegionContextMenu  package:flutter/widgets.dart#PlatformSelectableRegionContextMenu
 PlatformViewLink  package:flutter/widgets.dart#PlatformViewLink
 PlatformViewSurface  package:flutter/widgets.dart#PlatformViewSurface
 PopScope  package:flutter/widgets.dart#PopScope
@@ -690,33 +689,76 @@ YearPicker  package:material_ui/material_ui.dart#YearPicker
 ## Handles (createX)
 CupertinoTabController  package:cupertino_ui/cupertino_ui.dart#CupertinoTabController
 RestorableCupertinoTabController  package:cupertino_ui/cupertino_ui.dart#RestorableCupertinoTabController
+Accumulator  package:flutter/widgets.dart#Accumulator
+AlignmentGeometryTween  package:flutter/widgets.dart#AlignmentGeometryTween
+AlignmentTween  package:flutter/widgets.dart#AlignmentTween
 AnimationController  package:flutter/widgets.dart#AnimationController
 AnimationMean  package:flutter/widgets.dart#AnimationMean
 AppLifecycleListener  package:flutter/widgets.dart#AppLifecycleListener
 BallisticScrollActivity  package:flutter/widgets.dart#BallisticScrollActivity
 BannerPainter  package:flutter/widgets.dart#BannerPainter
+BorderRadiusTween  package:flutter/widgets.dart#BorderRadiusTween
+BorderTween  package:flutter/widgets.dart#BorderTween
+BouncingScrollSimulation  package:flutter/widgets.dart#BouncingScrollSimulation
+BoxConstraintsTween  package:flutter/widgets.dart#BoxConstraintsTween
+BuildOwner  package:flutter/widgets.dart#BuildOwner
+BuildScope  package:flutter/widgets.dart#BuildScope
+ClampingScrollSimulation  package:flutter/widgets.dart#ClampingScrollSimulation
 ClipboardStatusNotifier  package:flutter/widgets.dart#ClipboardStatusNotifier
+ColorProperty  package:flutter/widgets.dart#ColorProperty
+ColorTween  package:flutter/widgets.dart#ColorTween
+CurveTween  package:flutter/widgets.dart#CurveTween
 CurvedAnimation  package:flutter/widgets.dart#CurvedAnimation
+DecorationTween  package:flutter/widgets.dart#DecorationTween
+DefaultPlatformMenuDelegate  package:flutter/widgets.dart#DefaultPlatformMenuDelegate
+DevToolsDeepLinkProperty  package:flutter/widgets.dart#DevToolsDeepLinkProperty
+DirectionalFocusAction  package:flutter/widgets.dart#DirectionalFocusAction
+DismissMenuAction  package:flutter/widgets.dart#DismissMenuAction
+DoNothingAction  package:flutter/widgets.dart#DoNothingAction
 DragScrollActivity  package:flutter/widgets.dart#DragScrollActivity
 DraggableScrollableController  package:flutter/widgets.dart#DraggableScrollableController
 DrivenScrollActivity  package:flutter/widgets.dart#DrivenScrollActivity
+EdgeInsetsGeometryTween  package:flutter/widgets.dart#EdgeInsetsGeometryTween
+EdgeInsetsTween  package:flutter/widgets.dart#EdgeInsetsTween
+ErrorDescription  package:flutter/widgets.dart#ErrorDescription
+ErrorHint  package:flutter/widgets.dart#ErrorHint
+ErrorSummary  package:flutter/widgets.dart#ErrorSummary
 ExpansibleController  package:flutter/widgets.dart#ExpansibleController
 FixedExtentScrollController  package:flutter/widgets.dart#FixedExtentScrollController
 FocusManager  package:flutter/widgets.dart#FocusManager
 FocusNode  package:flutter/widgets.dart#FocusNode
 FocusScopeNode  package:flutter/widgets.dart#FocusScopeNode
+FractionalOffsetTween  package:flutter/widgets.dart#FractionalOffsetTween
 HeroController  package:flutter/widgets.dart#HeroController
 HoldScrollActivity  package:flutter/widgets.dart#HoldScrollActivity
+IconDataProperty  package:flutter/widgets.dart#IconDataProperty
 IdleScrollActivity  package:flutter/widgets.dart#IdleScrollActivity
+ImageCache  package:flutter/widgets.dart#ImageCache
+ImageStream  package:flutter/widgets.dart#ImageStream
 InspectorSelection  package:flutter/widgets.dart#InspectorSelection
+IntTween  package:flutter/widgets.dart#IntTween
 KeepAliveHandle  package:flutter/widgets.dart#KeepAliveHandle
+LayerLink  package:flutter/widgets.dart#LayerLink
 LiveTextInputStatusNotifier  package:flutter/widgets.dart#LiveTextInputStatusNotifier
+LocalHistoryEntry  package:flutter/widgets.dart#LocalHistoryEntry
 LocalizationsResolver  package:flutter/widgets.dart#LocalizationsResolver
+MagnifierController  package:flutter/widgets.dart#MagnifierController
+Matrix4Tween  package:flutter/widgets.dart#Matrix4Tween
+MenuController  package:flutter/widgets.dart#MenuController
 NavigatorObserver  package:flutter/widgets.dart#NavigatorObserver
+NextFocusAction  package:flutter/widgets.dart#NextFocusAction
 OverlayEntry  package:flutter/widgets.dart#OverlayEntry
+OverlayPortalController  package:flutter/widgets.dart#OverlayPortalController
+OverscrollIndicatorNotification  package:flutter/widgets.dart#OverscrollIndicatorNotification
 PageController  package:flutter/widgets.dart#PageController
+PageStorageBucket  package:flutter/widgets.dart#PageStorageBucket
 PlatformRouteInformationProvider  package:flutter/widgets.dart#PlatformRouteInformationProvider
+PreviousFocusAction  package:flutter/widgets.dart#PreviousFocusAction
+PrioritizedAction  package:flutter/widgets.dart#PrioritizedAction
 ProxyAnimation  package:flutter/widgets.dart#ProxyAnimation
+RectTween  package:flutter/widgets.dart#RectTween
+RelativeRectTween  package:flutter/widgets.dart#RelativeRectTween
+RequestFocusAction  package:flutter/widgets.dart#RequestFocusAction
 RestorableBool  package:flutter/widgets.dart#RestorableBool
 RestorableBoolN  package:flutter/widgets.dart#RestorableBoolN
 RestorableDateTime  package:flutter/widgets.dart#RestorableDateTime
@@ -730,26 +772,39 @@ RestorableStringN  package:flutter/widgets.dart#RestorableStringN
 RestorableTextEditingController  package:flutter/widgets.dart#RestorableTextEditingController
 RestorationBucket  package:flutter/widgets.dart#RestorationBucket
 ReverseAnimation  package:flutter/widgets.dart#ReverseAnimation
+ScrollAction  package:flutter/widgets.dart#ScrollAction
 ScrollController  package:flutter/widgets.dart#ScrollController
 ScrollDragController  package:flutter/widgets.dart#ScrollDragController
 ScrollPositionWithSingleContext  package:flutter/widgets.dart#ScrollPositionWithSingleContext
+ScrollSpringSimulation  package:flutter/widgets.dart#ScrollSpringSimulation
 ScrollbarPainter  package:flutter/widgets.dart#ScrollbarPainter
 SelectionListenerNotifier  package:flutter/widgets.dart#SelectionListenerNotifier
 ShapeBorderClipper  package:flutter/widgets.dart#ShapeBorderClipper
 ShortcutManager  package:flutter/widgets.dart#ShortcutManager
+ShortcutMapProperty  package:flutter/widgets.dart#ShortcutMapProperty
 ShortcutRegistry  package:flutter/widgets.dart#ShortcutRegistry
+SizeTween  package:flutter/widgets.dart#SizeTween
 SliverOverlapAbsorberHandle  package:flutter/widgets.dart#SliverOverlapAbsorberHandle
 SnapshotController  package:flutter/widgets.dart#SnapshotController
 StaticSelectionContainerDelegate  package:flutter/widgets.dart#StaticSelectionContainerDelegate
+StepTween  package:flutter/widgets.dart#StepTween
 TextEditingController  package:flutter/widgets.dart#TextEditingController
 TextPainter  package:flutter/widgets.dart#TextPainter
+TextStyleTween  package:flutter/widgets.dart#TextStyleTween
+TickerFuture  package:flutter/widgets.dart#TickerFuture
+ToolbarItemsParentData  package:flutter/widgets.dart#ToolbarItemsParentData
 TrackingScrollController  package:flutter/widgets.dart#TrackingScrollController
 TrainHoppingAnimation  package:flutter/widgets.dart#TrainHoppingAnimation
+TransformProperty  package:flutter/widgets.dart#TransformProperty
 TransformationController  package:flutter/widgets.dart#TransformationController
+TreeSliverController  package:flutter/widgets.dart#TreeSliverController
 TwoDimensionalChildBuilderDelegate  package:flutter/widgets.dart#TwoDimensionalChildBuilderDelegate
 TwoDimensionalChildListDelegate  package:flutter/widgets.dart#TwoDimensionalChildListDelegate
+TwoDimensionalViewportParentData  package:flutter/widgets.dart#TwoDimensionalViewportParentData
 UndoHistoryController  package:flutter/widgets.dart#UndoHistoryController
+VoidCallbackAction  package:flutter/widgets.dart#VoidCallbackAction
 WidgetStatesController  package:flutter/widgets.dart#WidgetStatesController
+WidgetsFlutterBinding  package:flutter/widgets.dart#WidgetsFlutterBinding
 HeroineController  package:heroine/heroine.dart#HeroineController
 ChangeNotifier  package:listen/listen.dart#ChangeNotifier
 Listenable  package:listen/listen.dart#Listenable
@@ -761,13 +816,524 @@ TabController  package:material_ui/material_ui.dart#TabController
 Matrix4  package:vector_math/vector_math_64.dart#Matrix4
 
 ## Skipped
+package:flutter/widgets.dart#PlatformSelectableRegionContextMenu: differs per platform (a conditional export)
+package:flutter/widgets.dart#SensitiveContentHost: only for tests (@visibleForTesting)
+package:flutter/widgets.dart#UndoHistoryState: only for tests (@visibleForTesting)
+package:flutter/widgets.dart#InspectorReferenceData: only for tests (@visibleForTesting)
+package:flutter/widgets.dart#InspectorSerializationDelegate: only for tests (@visibleForTesting)
+package:flutter/widgets.dart#WeakMap: only for tests (@visibleForTesting)
+package:flutter/widgets.dart#intentForMacOSSelector: function: no encodable fields on Intent
+package:flutter/widgets.dart#lerpFontVariations: function: nested too deep
+package:flutter/widgets.dart#showGeneralDialog: function: generic function
+package:flutter/widgets.dart#showRawDialog: function: generic function
+package:flutter/widgets.dart#AbstractLayoutBuilder: generic class (not bridged yet)
+package:flutter/widgets.dart#Action: generic class (not bridged yet)
+package:flutter/widgets.dart#ActionDispatcher: not a widget or handle
 package:flutter/widgets.dart#Actions: actions: Type
+package:flutter/widgets.dart#ActivateAction: no public constructor
+package:flutter/widgets.dart#ActivateIntent: not a widget or handle
+package:flutter/widgets.dart#Alignment: not a widget or handle
+package:flutter/widgets.dart#AlignmentDirectional: not a widget or handle
+package:flutter/widgets.dart#AlignmentGeometry: not a widget or handle
+package:flutter/widgets.dart#AlwaysScrollableScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#AlwaysStoppedAnimation: generic class (not bridged yet)
+package:flutter/widgets.dart#Animatable: generic class (not bridged yet)
+package:flutter/widgets.dart#AnimatedGridState: framework object AnimatedGridState
+package:flutter/widgets.dart#AnimatedListState: framework object AnimatedListState
+package:flutter/widgets.dart#AnimatedWidget: not a widget or handle
+package:flutter/widgets.dart#AnimatedWidgetBaseState: generic class (not bridged yet)
+package:flutter/widgets.dart#Animation: generic class (not bridged yet)
+package:flutter/widgets.dart#AnimationMax: generic class (not bridged yet)
+package:flutter/widgets.dart#AnimationMin: generic class (not bridged yet)
+package:flutter/widgets.dart#AnimationStyle: not a widget or handle
+package:flutter/widgets.dart#AssetBundle: not a widget or handle
+package:flutter/widgets.dart#AssetBundleImageKey: not a widget or handle
+package:flutter/widgets.dart#AssetBundleImageProvider: not a widget or handle
+package:flutter/widgets.dart#AssetImage: not a widget or handle
+package:flutter/widgets.dart#AsyncSnapshot: generic class (not bridged yet)
+package:flutter/widgets.dart#AutocompleteFirstOptionIntent: not a widget or handle
+package:flutter/widgets.dart#AutocompleteLastOptionIntent: not a widget or handle
+package:flutter/widgets.dart#AutocompleteNextOptionIntent: not a widget or handle
+package:flutter/widgets.dart#AutocompleteNextPageOptionIntent: not a widget or handle
+package:flutter/widgets.dart#AutocompletePreviousOptionIntent: not a widget or handle
+package:flutter/widgets.dart#AutocompletePreviousPageOptionIntent: not a widget or handle
+package:flutter/widgets.dart#AutofillGroupState: framework object AutofillGroupState
+package:flutter/widgets.dart#AutofillHints: not a widget or handle
+package:flutter/widgets.dart#AutomaticNotchedShape: not a widget or handle
+package:flutter/widgets.dart#BackButtonDispatcher: not a widget or handle
+package:flutter/widgets.dart#BackdropKey: not a widget or handle
+package:flutter/widgets.dart#BeveledRectangleBorder: not a widget or handle
+package:flutter/widgets.dart#Border: not a widget or handle
+package:flutter/widgets.dart#BorderDirectional: not a widget or handle
+package:flutter/widgets.dart#BorderRadius: not a widget or handle
+package:flutter/widgets.dart#BorderRadiusDirectional: not a widget or handle
+package:flutter/widgets.dart#BorderRadiusGeometry: not a widget or handle
+package:flutter/widgets.dart#BorderSide: not a widget or handle
+package:flutter/widgets.dart#BottomNavigationBarItem: not a widget or handle
+package:flutter/widgets.dart#BouncingScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#BoxBorder: not a widget or handle
+package:flutter/widgets.dart#BoxConstraints: not a widget or handle
+package:flutter/widgets.dart#BoxDecoration: not a widget or handle
+package:flutter/widgets.dart#BoxPainter: no public constructor
+package:flutter/widgets.dart#BoxScrollView: not a widget or handle
+package:flutter/widgets.dart#BoxShadow: not a widget or handle
+package:flutter/widgets.dart#BuildContext: not a widget or handle
+package:flutter/widgets.dart#ButtonActivateIntent: not a widget or handle
+package:flutter/widgets.dart#CallbackAction: generic class (not bridged yet)
+package:flutter/widgets.dart#CapturedThemes: not a widget or handle
+package:flutter/widgets.dart#CatmullRomCurve: not a widget or handle
+package:flutter/widgets.dart#CatmullRomSpline: not a widget or handle
+package:flutter/widgets.dart#CharacterActivator: not a widget or handle
+package:flutter/widgets.dart#ChildBackButtonDispatcher: not a widget or handle
+package:flutter/widgets.dart#ChildVicinity: not a widget or handle
+package:flutter/widgets.dart#CircleBorder: not a widget or handle
+package:flutter/widgets.dart#CircularNotchedRectangle: not a widget or handle
+package:flutter/widgets.dart#ClampingScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#ClipContext: not a widget or handle
+package:flutter/widgets.dart#ColorSwatch: generic class (not bridged yet)
+package:flutter/widgets.dart#ComponentElement: framework object ComponentElement
+package:flutter/widgets.dart#CompoundAnimation: generic class (not bridged yet)
+package:flutter/widgets.dart#ConstantTween: generic class (not bridged yet)
+package:flutter/widgets.dart#ConstrainedLayoutBuilder: generic class (not bridged yet)
+package:flutter/widgets.dart#ContentInsertionConfiguration: not a widget or handle
+package:flutter/widgets.dart#ContextAction: generic class (not bridged yet)
+package:flutter/widgets.dart#ContextMenuButtonItem: not a widget or handle
+package:flutter/widgets.dart#ContextMenuButtonKind: not a widget or handle
+package:flutter/widgets.dart#ContextMenuController: not a widget or handle
+package:flutter/widgets.dart#ContinuousRectangleBorder: not a widget or handle
+package:flutter/widgets.dart#CopySelectionTextIntent: not a widget or handle
+package:flutter/widgets.dart#Cubic: not a widget or handle
+package:flutter/widgets.dart#Curve: not a widget or handle
+package:flutter/widgets.dart#Curve2D: not a widget or handle
+package:flutter/widgets.dart#Curve2DSample: not a widget or handle
+package:flutter/widgets.dart#Curves: not a widget or handle
+package:flutter/widgets.dart#CustomClipper: generic class (not bridged yet)
+package:flutter/widgets.dart#CustomPainter: no public constructor
+package:flutter/widgets.dart#CustomPainterSemantics: not a widget or handle
+package:flutter/widgets.dart#DebugCreator: no public constructor
+package:flutter/widgets.dart#Decoration: not a widget or handle
+package:flutter/widgets.dart#DecorationImage: not a widget or handle
+package:flutter/widgets.dart#DecorationImagePainter: no public constructor
+package:flutter/widgets.dart#DefaultTransitionDelegate: generic class (not bridged yet)
+package:flutter/widgets.dart#DefaultWidgetsLocalizations: not a widget or handle
+package:flutter/widgets.dart#DeleteCharacterIntent: not a widget or handle
+package:flutter/widgets.dart#DeleteToLineBreakIntent: not a widget or handle
+package:flutter/widgets.dart#DeleteToNextWordBoundaryIntent: not a widget or handle
+package:flutter/widgets.dart#DesktopTextSelectionToolbarLayoutDelegate: not a widget or handle
+package:flutter/widgets.dart#DiagnosticsNode: not a widget or handle
+package:flutter/widgets.dart#DirectionalCaretMovementIntent: not a widget or handle
+package:flutter/widgets.dart#DirectionalFocusIntent: not a widget or handle
+package:flutter/widgets.dart#DirectionalTextEditingIntent: not a widget or handle
+package:flutter/widgets.dart#DismissAction: no public constructor
+package:flutter/widgets.dart#DismissIntent: not a widget or handle
+package:flutter/widgets.dart#DismissUpdateDetails: not a widget or handle
+package:flutter/widgets.dart#DisposableBuildContext: generic class (not bridged yet)
+package:flutter/widgets.dart#DoNothingAndStopPropagationIntent: not a widget or handle
+package:flutter/widgets.dart#DoNothingAndStopPropagationTextIntent: not a widget or handle
+package:flutter/widgets.dart#DoNothingIntent: not a widget or handle
+package:flutter/widgets.dart#DragBoundaryDelegate: generic class (not bridged yet)
+package:flutter/widgets.dart#DragDownDetails: not a widget or handle
+package:flutter/widgets.dart#DragEndDetails: not a widget or handle
+package:flutter/widgets.dart#DragStartDetails: not a widget or handle
+package:flutter/widgets.dart#DragTargetDetails: generic class (not bridged yet)
+package:flutter/widgets.dart#DragUpdateDetails: not a widget or handle
+package:flutter/widgets.dart#DraggableDetails: not a widget or handle
+package:flutter/widgets.dart#DraggableScrollableNotification: not a widget or handle
+package:flutter/widgets.dart#EdgeDraggingAutoScroller: no public constructor
+package:flutter/widgets.dart#EdgeInsets: not a widget or handle
+package:flutter/widgets.dart#EdgeInsetsDirectional: not a widget or handle
+package:flutter/widgets.dart#EdgeInsetsGeometry: not a widget or handle
+package:flutter/widgets.dart#EditableTextState: framework object EditableTextState
+package:flutter/widgets.dart#EditableTextTapOutsideIntent: not a widget or handle
+package:flutter/widgets.dart#EditableTextTapUpOutsideIntent: not a widget or handle
+package:flutter/widgets.dart#ElasticInCurve: not a widget or handle
+package:flutter/widgets.dart#ElasticInOutCurve: not a widget or handle
+package:flutter/widgets.dart#ElasticOutCurve: not a widget or handle
+package:flutter/widgets.dart#Element: framework object Element
+package:flutter/widgets.dart#EmptyTextSelectionControls: not a widget or handle
+package:flutter/widgets.dart#ExactAssetImage: not a widget or handle
+package:flutter/widgets.dart#ExpandSelectionToDocumentBoundaryIntent: not a widget or handle
+package:flutter/widgets.dart#ExpandSelectionToLineBreakIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionByCharacterIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionToDocumentBoundaryIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionToLineBreakIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionToNextParagraphBoundaryIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionToNextParagraphBoundaryOrCaretLocationIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionToNextWordBoundaryIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionToNextWordBoundaryOrCaretLocationIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionVerticallyToAdjacentLineIntent: not a widget or handle
+package:flutter/widgets.dart#ExtendSelectionVerticallyToAdjacentPageIntent: not a widget or handle
+package:flutter/widgets.dart#FadeUpwardsPageTransitionsBuilder: not a widget or handle
+package:flutter/widgets.dart#Feedback.wrapForLongPress: function: unsupported type void Function()
+package:flutter/widgets.dart#Feedback.wrapForTap: function: unsupported type void Function()
+package:flutter/widgets.dart#FileImage: not a widget or handle
+package:flutter/widgets.dart#FittedSizes: not a widget or handle
+package:flutter/widgets.dart#FixedColumnWidth: not a widget or handle
+package:flutter/widgets.dart#FixedExtentMetrics: not a widget or handle
+package:flutter/widgets.dart#FixedExtentScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#FixedScrollMetrics: not a widget or handle
+package:flutter/widgets.dart#FlexColumnWidth: not a widget or handle
+package:flutter/widgets.dart#FlippedCurve: not a widget or handle
+package:flutter/widgets.dart#FlippedTweenSequence: not a widget or handle
+package:flutter/widgets.dart#FlowDelegate: not a widget or handle
+package:flutter/widgets.dart#FlowPaintingContext: not a widget or handle
+package:flutter/widgets.dart#FlutterError: not a widget or handle
+package:flutter/widgets.dart#FlutterErrorDetails: not a widget or handle
+package:flutter/widgets.dart#FlutterLogoDecoration: not a widget or handle
+package:flutter/widgets.dart#FocusAttachment: not a widget or handle
+package:flutter/widgets.dart#FocusOrder: not a widget or handle
+package:flutter/widgets.dart#FocusTraversalPolicy: not a widget or handle
+package:flutter/widgets.dart#ForcePressDetails: not a widget or handle
+package:flutter/widgets.dart#FormFieldState: generic class (not bridged yet)
+package:flutter/widgets.dart#FormState: framework object FormState
+package:flutter/widgets.dart#FractionColumnWidth: not a widget or handle
+package:flutter/widgets.dart#FractionalOffset: not a widget or handle
+package:flutter/widgets.dart#GestureRecognizerFactory: generic class (not bridged yet)
+package:flutter/widgets.dart#GestureRecognizerFactoryWithHandlers: generic class (not bridged yet)
+package:flutter/widgets.dart#GlobalKey: generic class (not bridged yet)
+package:flutter/widgets.dart#GlobalObjectKey: generic class (not bridged yet)
+package:flutter/widgets.dart#Gradient: not a widget or handle
+package:flutter/widgets.dart#GradientRotation: not a widget or handle
+package:flutter/widgets.dart#GradientTransform: not a widget or handle
+package:flutter/widgets.dart#HSLColor: not a widget or handle
+package:flutter/widgets.dart#HSVColor: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItem: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemCopy: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemCustom: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemCut: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemLiveText: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemLookUp: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemPaste: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemSearchWeb: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemSelectAll: not a widget or handle
+package:flutter/widgets.dart#IOSSystemContextMenuItemShare: not a widget or handle
+package:flutter/widgets.dart#IconData: not a widget or handle
+package:flutter/widgets.dart#IconThemeData: not a widget or handle
 package:flutter/widgets.dart#Image.file: file: not exported: File
+package:flutter/widgets.dart#ImageCacheStatus: not a widget or handle
+package:flutter/widgets.dart#ImageChunkEvent: not a widget or handle
+package:flutter/widgets.dart#ImageConfiguration: not a widget or handle
+package:flutter/widgets.dart#ImageFilterConfig: not a widget or handle
+package:flutter/widgets.dart#ImageInfo: not a widget or handle
+package:flutter/widgets.dart#ImageProvider: generic class (not bridged yet)
+package:flutter/widgets.dart#ImageSizeInfo: not a widget or handle
+package:flutter/widgets.dart#ImageStreamCompleter: no public constructor
+package:flutter/widgets.dart#ImageStreamCompleterHandle: no public constructor
+package:flutter/widgets.dart#ImageStreamListener: not a widget or handle
+package:flutter/widgets.dart#ImplicitlyAnimatedWidget: not a widget or handle
+package:flutter/widgets.dart#ImplicitlyAnimatedWidgetState: generic class (not bridged yet)
+package:flutter/widgets.dart#IndexedSlot: generic class (not bridged yet)
+package:flutter/widgets.dart#InheritedElement: framework object InheritedElement
+package:flutter/widgets.dart#InheritedModel: generic class (not bridged yet)
+package:flutter/widgets.dart#InheritedModelElement: generic class (not bridged yet)
+package:flutter/widgets.dart#InheritedNotifier: generic class (not bridged yet)
+package:flutter/widgets.dart#InheritedTheme: not a widget or handle
+package:flutter/widgets.dart#InheritedWidget: not a widget or handle
+package:flutter/widgets.dart#InlineSpan: not a widget or handle
+package:flutter/widgets.dart#InlineSpanSemanticsInformation: not a widget or handle
+package:flutter/widgets.dart#InspectorButton: not a widget or handle
+package:flutter/widgets.dart#Intent: not a widget or handle
+package:flutter/widgets.dart#Interval: not a widget or handle
+package:flutter/widgets.dart#IntrinsicColumnWidth: not a widget or handle
+package:flutter/widgets.dart#KeepAliveNotification: not a widget or handle
+package:flutter/widgets.dart#Key: not a widget or handle
+package:flutter/widgets.dart#KeyEvent: not a widget or handle
+package:flutter/widgets.dart#KeySet: generic class (not bridged yet)
+package:flutter/widgets.dart#KeyboardInsertedContent: not a widget or handle
+package:flutter/widgets.dart#LabeledGlobalKey: generic class (not bridged yet)
+package:flutter/widgets.dart#LayoutChangedNotification: not a widget or handle
+package:flutter/widgets.dart#LeafRenderObjectElement: framework object LeafRenderObjectElement
+package:flutter/widgets.dart#LeafRenderObjectWidget: not a widget or handle
+package:flutter/widgets.dart#LexicalFocusOrder: not a widget or handle
+package:flutter/widgets.dart#LinearBorder: not a widget or handle
+package:flutter/widgets.dart#LinearBorderEdge: not a widget or handle
+package:flutter/widgets.dart#LinearGradient: not a widget or handle
+package:flutter/widgets.dart#ListWheelChildBuilderDelegate: not a widget or handle
+package:flutter/widgets.dart#ListWheelChildDelegate: not a widget or handle
+package:flutter/widgets.dart#ListWheelChildListDelegate: not a widget or handle
+package:flutter/widgets.dart#ListWheelChildLoopingListDelegate: not a widget or handle
+package:flutter/widgets.dart#ListWheelElement: framework object ListWheelElement
+package:flutter/widgets.dart#LocalKey: not a widget or handle
+package:flutter/widgets.dart#LocalizationsDelegate: generic class (not bridged yet)
+package:flutter/widgets.dart#LogicalKeySet: not a widget or handle
+package:flutter/widgets.dart#LongPressEndDetails: not a widget or handle
+package:flutter/widgets.dart#LongPressMoveUpdateDetails: not a widget or handle
+package:flutter/widgets.dart#LongPressStartDetails: not a widget or handle
+package:flutter/widgets.dart#MagnifierDecoration: not a widget or handle
+package:flutter/widgets.dart#MagnifierInfo: not a widget or handle
+package:flutter/widgets.dart#MaxColumnWidth: not a widget or handle
+package:flutter/widgets.dart#MediaQueryData: not a widget or handle
+package:flutter/widgets.dart#MemoryImage: not a widget or handle
+package:flutter/widgets.dart#MinColumnWidth: not a widget or handle
+package:flutter/widgets.dart#ModalRoute: generic class (not bridged yet)
+package:flutter/widgets.dart#MouseCursor: not a widget or handle
+package:flutter/widgets.dart#MultiChildLayoutDelegate: no public constructor
+package:flutter/widgets.dart#MultiChildRenderObjectElement: framework object MultiChildRenderObjectElement
+package:flutter/widgets.dart#MultiChildRenderObjectWidget: not a widget or handle
+package:flutter/widgets.dart#MultiFrameImageStreamCompleter: no public constructor
+package:flutter/widgets.dart#MultiSelectableSelectionContainerDelegate: no public constructor
+package:flutter/widgets.dart#NavigationNotification: not a widget or handle
+package:flutter/widgets.dart#NavigatorState: framework object NavigatorState
+package:flutter/widgets.dart#NestedScrollViewState: framework object NestedScrollViewState
+package:flutter/widgets.dart#NetworkImage: not a widget or handle
+package:flutter/widgets.dart#NetworkImageLoadException: not a widget or handle
+package:flutter/widgets.dart#NeverScrollableScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#NextFocusIntent: not a widget or handle
+package:flutter/widgets.dart#NotchedShape: not a widget or handle
+package:flutter/widgets.dart#Notification: not a widget or handle
+package:flutter/widgets.dart#NumericFocusOrder: not a widget or handle
+package:flutter/widgets.dart#ObjectKey: not a widget or handle
+package:flutter/widgets.dart#OneFrameImageStreamCompleter: no public constructor
+package:flutter/widgets.dart#OpenUpwardsPageTransitionsBuilder: not a widget or handle
+package:flutter/widgets.dart#OrderedTraversalPolicy: not a widget or handle
+package:flutter/widgets.dart#OutlinedBorder: not a widget or handle
+package:flutter/widgets.dart#OvalBorder: not a widget or handle
+package:flutter/widgets.dart#OverlayRoute: generic class (not bridged yet)
+package:flutter/widgets.dart#OverlayState: framework object OverlayState
+package:flutter/widgets.dart#OverscrollNotification: not a widget or handle
+package:flutter/widgets.dart#Page: generic class (not bridged yet)
+package:flutter/widgets.dart#PageMetrics: not a widget or handle
+package:flutter/widgets.dart#PageRoute: generic class (not bridged yet)
+package:flutter/widgets.dart#PageRouteBuilder: generic class (not bridged yet)
+package:flutter/widgets.dart#PageScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#PageStorageKey: generic class (not bridged yet)
+package:flutter/widgets.dart#PageTransitionsBuilder: not a widget or handle
+package:flutter/widgets.dart#PaintingContext: no public constructor
+package:flutter/widgets.dart#ParametricCurve: generic class (not bridged yet)
+package:flutter/widgets.dart#ParentDataElement: generic class (not bridged yet)
+package:flutter/widgets.dart#ParentDataWidget: generic class (not bridged yet)
+package:flutter/widgets.dart#PasteTextIntent: not a widget or handle
+package:flutter/widgets.dart#PlaceholderDimensions: not a widget or handle
+package:flutter/widgets.dart#PlaceholderSpan: not a widget or handle
+package:flutter/widgets.dart#PlatformMenu: not a widget or handle
+package:flutter/widgets.dart#PlatformMenuDelegate: not a widget or handle
+package:flutter/widgets.dart#PlatformMenuItem: not a widget or handle
+package:flutter/widgets.dart#PlatformMenuItemGroup: not a widget or handle
+package:flutter/widgets.dart#PlatformProvidedMenuItem: not a widget or handle
+package:flutter/widgets.dart#PlatformViewCreationParams: not a widget or handle
+package:flutter/widgets.dart#PointerCancelEvent: not a widget or handle
+package:flutter/widgets.dart#PointerDownEvent: not a widget or handle
+package:flutter/widgets.dart#PointerEvent: not a widget or handle
+package:flutter/widgets.dart#PointerMoveEvent: not a widget or handle
+package:flutter/widgets.dart#PointerUpEvent: not a widget or handle
+package:flutter/widgets.dart#PopEntry: generic class (not bridged yet)
+package:flutter/widgets.dart#PopupRoute: generic class (not bridged yet)
 package:flutter/widgets.dart#Positioned.directional: component name PositionedDirectional is taken by the class PositionedDirectional
+package:flutter/widgets.dart#PredictiveBackRoute: not a widget or handle
+package:flutter/widgets.dart#PreferredSizeWidget: not a widget or handle
+package:flutter/widgets.dart#PreviousFocusIntent: not a widget or handle
+package:flutter/widgets.dart#PrioritizedIntents: not a widget or handle
+package:flutter/widgets.dart#ProxyElement: framework object ProxyElement
+package:flutter/widgets.dart#ProxyWidget: not a widget or handle
+package:flutter/widgets.dart#RadialGradient: not a widget or handle
+package:flutter/widgets.dart#RadioGroupRegistry: generic class (not bridged yet)
+package:flutter/widgets.dart#RangeMaintainingScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#RawDialogRoute: generic class (not bridged yet)
+package:flutter/widgets.dart#RawGestureDetectorState: framework object RawGestureDetectorState
+package:flutter/widgets.dart#RawKeyEvent: not a widget or handle
+package:flutter/widgets.dart#RawMenuOverlayInfo: not a widget or handle
+package:flutter/widgets.dart#RawScrollbarState: generic class (not bridged yet)
+package:flutter/widgets.dart#RawTooltipState: framework object RawTooltipState
+package:flutter/widgets.dart#ReadingOrderTraversalPolicy: not a widget or handle
+package:flutter/widgets.dart#RedoTextIntent: not a widget or handle
+package:flutter/widgets.dart#RelativeRect: not a widget or handle
+package:flutter/widgets.dart#RenderBox: framework object RenderBox
+package:flutter/widgets.dart#RenderNestedScrollViewViewport: framework object RenderNestedScrollViewViewport
+package:flutter/widgets.dart#RenderObject: framework object RenderObject
+package:flutter/widgets.dart#RenderObjectElement: framework object RenderObjectElement
 package:flutter/widgets.dart#RenderObjectToWidgetAdapter: container: framework object RenderObjectWithChildMixin
+package:flutter/widgets.dart#RenderObjectToWidgetElement: generic class (not bridged yet)
+package:flutter/widgets.dart#RenderObjectWidget: not a widget or handle
+package:flutter/widgets.dart#RenderSemanticsGestureHandler: framework object RenderSemanticsGestureHandler
+package:flutter/widgets.dart#RenderSliverOverlapAbsorber: framework object RenderSliverOverlapAbsorber
+package:flutter/widgets.dart#RenderSliverOverlapInjector: framework object RenderSliverOverlapInjector
+package:flutter/widgets.dart#RenderTapRegion: framework object RenderTapRegion
+package:flutter/widgets.dart#RenderTapRegionSurface: framework object RenderTapRegionSurface
+package:flutter/widgets.dart#RenderTreeRootElement: framework object RenderTreeRootElement
+package:flutter/widgets.dart#RenderTwoDimensionalViewport: framework object RenderTwoDimensionalViewport
+package:flutter/widgets.dart#ReorderableListState: framework object ReorderableListState
+package:flutter/widgets.dart#ReplaceTextIntent: not a widget or handle
+package:flutter/widgets.dart#RequestFocusIntent: not a widget or handle
+package:flutter/widgets.dart#ResizeImage: not a widget or handle
+package:flutter/widgets.dart#ResizeImageKey: not a widget or handle
+package:flutter/widgets.dart#RestorableChangeNotifier: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableEnum: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableEnumN: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableListenable: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableNum: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableNumN: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableProperty: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableRouteFuture: generic class (not bridged yet)
+package:flutter/widgets.dart#RestorableValue: generic class (not bridged yet)
+package:flutter/widgets.dart#ReverseTween: generic class (not bridged yet)
+package:flutter/widgets.dart#RootBackButtonDispatcher: not a widget or handle
+package:flutter/widgets.dart#RootElement: framework object RootElement
+package:flutter/widgets.dart#RootRenderObjectElement: framework object RootRenderObjectElement
+package:flutter/widgets.dart#RoundedRectangleBorder: not a widget or handle
+package:flutter/widgets.dart#RoundedSuperellipseBorder: not a widget or handle
+package:flutter/widgets.dart#Route: generic class (not bridged yet)
+package:flutter/widgets.dart#RouteAware: not a widget or handle
+package:flutter/widgets.dart#RouteBarrierDetails: not a widget or handle
+package:flutter/widgets.dart#RouteInformation: not a widget or handle
+package:flutter/widgets.dart#RouteInformationParser: generic class (not bridged yet)
+package:flutter/widgets.dart#RouteInformationProvider: no public constructor
+package:flutter/widgets.dart#RouteObserver: generic class (not bridged yet)
+package:flutter/widgets.dart#RouteSettings: not a widget or handle
+package:flutter/widgets.dart#RouteTransitionRecord: not a widget or handle
+package:flutter/widgets.dart#RouterConfig: generic class (not bridged yet)
+package:flutter/widgets.dart#RouterDelegate: generic class (not bridged yet)
+package:flutter/widgets.dart#SawTooth: not a widget or handle
+package:flutter/widgets.dart#ScaleEndDetails: not a widget or handle
+package:flutter/widgets.dart#ScaleStartDetails: not a widget or handle
+package:flutter/widgets.dart#ScaleUpdateDetails: not a widget or handle
+package:flutter/widgets.dart#ScrollActivity: no public constructor
+package:flutter/widgets.dart#ScrollActivityDelegate: not a widget or handle
+package:flutter/widgets.dart#ScrollAwareImageProvider: generic class (not bridged yet)
+package:flutter/widgets.dart#ScrollBehavior: not a widget or handle
+package:flutter/widgets.dart#ScrollCacheExtent: not a widget or handle
+package:flutter/widgets.dart#ScrollContext: not a widget or handle
+package:flutter/widgets.dart#ScrollEndNotification: not a widget or handle
+package:flutter/widgets.dart#ScrollHoldController: not a widget or handle
+package:flutter/widgets.dart#ScrollIncrementDetails: not a widget or handle
+package:flutter/widgets.dart#ScrollIntent: not a widget or handle
+package:flutter/widgets.dart#ScrollMetricsNotification: not a widget or handle
+package:flutter/widgets.dart#ScrollNotification: not a widget or handle
+package:flutter/widgets.dart#ScrollNotificationObserverState: framework object ScrollNotificationObserverState
+package:flutter/widgets.dart#ScrollPhysics: not a widget or handle
+package:flutter/widgets.dart#ScrollPosition: no public constructor
+package:flutter/widgets.dart#ScrollStartNotification: not a widget or handle
+package:flutter/widgets.dart#ScrollToDocumentBoundaryIntent: not a widget or handle
+package:flutter/widgets.dart#ScrollUpdateNotification: not a widget or handle
+package:flutter/widgets.dart#ScrollView: not a widget or handle
+package:flutter/widgets.dart#ScrollableDetails: not a widget or handle
+package:flutter/widgets.dart#ScrollableState: framework object ScrollableState
+package:flutter/widgets.dart#SelectAction: no public constructor
+package:flutter/widgets.dart#SelectAllTextIntent: not a widget or handle
+package:flutter/widgets.dart#SelectIntent: not a widget or handle
+package:flutter/widgets.dart#SelectableRegionState: framework object SelectableRegionState
+package:flutter/widgets.dart#SelectionContainerDelegate: no public constructor
+package:flutter/widgets.dart#SelectionDetails: not a widget or handle
+package:flutter/widgets.dart#SemanticsGestureDelegate: not a widget or handle
+package:flutter/widgets.dart#ShaderWarmUp: not a widget or handle
+package:flutter/widgets.dart#ShapeBorder: not a widget or handle
+package:flutter/widgets.dart#ShapeDecoration: not a widget or handle
+package:flutter/widgets.dart#ShortcutActivator: not a widget or handle
+package:flutter/widgets.dart#ShortcutRegistryEntry: no public constructor
+package:flutter/widgets.dart#ShortcutSerialization: not a widget or handle
+package:flutter/widgets.dart#Simulation: no public constructor
+package:flutter/widgets.dart#SingleActivator: not a widget or handle
+package:flutter/widgets.dart#SingleChildLayoutDelegate: not a widget or handle
+package:flutter/widgets.dart#SingleChildRenderObjectElement: framework object SingleChildRenderObjectElement
+package:flutter/widgets.dart#SingleChildRenderObjectWidget: not a widget or handle
+package:flutter/widgets.dart#SizeChangedLayoutNotification: not a widget or handle
+package:flutter/widgets.dart#SliverAnimatedGridState: framework object SliverAnimatedGridState
+package:flutter/widgets.dart#SliverAnimatedListState: framework object SliverAnimatedListState
+package:flutter/widgets.dart#SliverChildBuilderDelegate: not a widget or handle
+package:flutter/widgets.dart#SliverChildDelegate: not a widget or handle
+package:flutter/widgets.dart#SliverChildListDelegate: not a widget or handle
+package:flutter/widgets.dart#SliverGridDelegate: not a widget or handle
+package:flutter/widgets.dart#SliverGridDelegateWithFixedCrossAxisCount: not a widget or handle
+package:flutter/widgets.dart#SliverGridDelegateWithMaxCrossAxisExtent: not a widget or handle
+package:flutter/widgets.dart#SliverMultiBoxAdaptorElement: framework object SliverMultiBoxAdaptorElement
+package:flutter/widgets.dart#SliverMultiBoxAdaptorWidget: not a widget or handle
+package:flutter/widgets.dart#SliverPersistentHeaderDelegate: not a widget or handle
+package:flutter/widgets.dart#SliverReorderableListState: framework object SliverReorderableListState
+package:flutter/widgets.dart#SliverWithKeepAliveWidget: not a widget or handle
+package:flutter/widgets.dart#SlottedMultiChildRenderObjectWidget: generic class (not bridged yet)
+package:flutter/widgets.dart#SlottedRenderObjectElement: generic class (not bridged yet)
+package:flutter/widgets.dart#SnapshotPainter: no public constructor
+package:flutter/widgets.dart#SpellCheckConfiguration: not a widget or handle
+package:flutter/widgets.dart#Split: not a widget or handle
+package:flutter/widgets.dart#SpringDescription: not a widget or handle
+package:flutter/widgets.dart#StadiumBorder: not a widget or handle
+package:flutter/widgets.dart#StarBorder: not a widget or handle
+package:flutter/widgets.dart#State: generic class (not bridged yet)
+package:flutter/widgets.dart#StatefulElement: framework object StatefulElement
+package:flutter/widgets.dart#StatefulWidget: not a widget or handle
+package:flutter/widgets.dart#StatelessElement: framework object StatelessElement
+package:flutter/widgets.dart#StatelessWidget: not a widget or handle
+package:flutter/widgets.dart#StatusTransitionWidget: not a widget or handle
+package:flutter/widgets.dart#StreamBuilderBase: generic class (not bridged yet)
+package:flutter/widgets.dart#StrutStyle: not a widget or handle
+package:flutter/widgets.dart#SweepGradient: not a widget or handle
 package:flutter/widgets.dart#SystemContextMenu.editableText: editableTextState: framework object EditableTextState
+package:flutter/widgets.dart#SystemMouseCursors: not a widget or handle
+package:flutter/widgets.dart#SystemTextScaler: not a widget or handle
+package:flutter/widgets.dart#TableBorder: not a widget or handle
+package:flutter/widgets.dart#TableColumnWidth: not a widget or handle
+package:flutter/widgets.dart#TableRow: not a widget or handle
+package:flutter/widgets.dart#TapDownDetails: not a widget or handle
+package:flutter/widgets.dart#TapRegionRegistry: not a widget or handle
+package:flutter/widgets.dart#TapUpDetails: not a widget or handle
+package:flutter/widgets.dart#TextAlignVertical: not a widget or handle
+package:flutter/widgets.dart#TextEditingValue: not a widget or handle
+package:flutter/widgets.dart#TextInputType: not a widget or handle
+package:flutter/widgets.dart#TextMagnifierConfiguration: not a widget or handle
+package:flutter/widgets.dart#TextScaler: not a widget or handle
+package:flutter/widgets.dart#TextSelection: not a widget or handle
+package:flutter/widgets.dart#TextSelectionControls: not a widget or handle
+package:flutter/widgets.dart#TextSelectionGestureDetectorBuilder: no public constructor
+package:flutter/widgets.dart#TextSelectionGestureDetectorBuilderDelegate: not a widget or handle
+package:flutter/widgets.dart#TextSelectionOverlay: no public constructor
+package:flutter/widgets.dart#TextSelectionPoint: not a widget or handle
+package:flutter/widgets.dart#TextSelectionToolbarAnchors: not a widget or handle
+package:flutter/widgets.dart#TextSelectionToolbarLayoutDelegate: not a widget or handle
+package:flutter/widgets.dart#TextSpan: not a widget or handle
+package:flutter/widgets.dart#TextStyle: not a widget or handle
+package:flutter/widgets.dart#ThreePointCubic: not a widget or handle
+package:flutter/widgets.dart#Threshold: not a widget or handle
+package:flutter/widgets.dart#TickerCanceled: not a widget or handle
+package:flutter/widgets.dart#TickerModeData: not a widget or handle
+package:flutter/widgets.dart#TickerProvider: not a widget or handle
+package:flutter/widgets.dart#ToggleablePainter: no public constructor
+package:flutter/widgets.dart#Tolerance: not a widget or handle
+package:flutter/widgets.dart#ToolbarOptions: not a widget or handle
+package:flutter/widgets.dart#TooltipPositionContext: not a widget or handle
+package:flutter/widgets.dart#TransitionDelegate: generic class (not bridged yet)
+package:flutter/widgets.dart#TransitionRoute: generic class (not bridged yet)
+package:flutter/widgets.dart#TransposeCharactersIntent: not a widget or handle
+package:flutter/widgets.dart#TreeSliverNode: generic class (not bridged yet)
+package:flutter/widgets.dart#Tween: generic class (not bridged yet)
+package:flutter/widgets.dart#TweenSequence: generic class (not bridged yet)
+package:flutter/widgets.dart#TweenSequenceItem: generic class (not bridged yet)
+package:flutter/widgets.dart#TwoDimensionalChildDelegate: no public constructor
+package:flutter/widgets.dart#TwoDimensionalChildManager: not a widget or handle
+package:flutter/widgets.dart#TwoDimensionalScrollView: not a widget or handle
+package:flutter/widgets.dart#TwoDimensionalScrollableState: framework object TwoDimensionalScrollableState
+package:flutter/widgets.dart#TwoDimensionalViewport: not a widget or handle
+package:flutter/widgets.dart#UndoHistoryValue: not a widget or handle
+package:flutter/widgets.dart#UndoTextIntent: not a widget or handle
+package:flutter/widgets.dart#UniqueKey: not a widget or handle
+package:flutter/widgets.dart#UniqueWidget: generic class (not bridged yet)
+package:flutter/widgets.dart#UpdateSelectionIntent: not a widget or handle
+package:flutter/widgets.dart#UserScrollNotification: not a widget or handle
+package:flutter/widgets.dart#ValueKey: generic class (not bridged yet)
+package:flutter/widgets.dart#Velocity: not a widget or handle
+package:flutter/widgets.dart#VoidCallbackIntent: not a widget or handle
+package:flutter/widgets.dart#Widget: not a widget or handle
+package:flutter/widgets.dart#WidgetOrderTraversalPolicy: not a widget or handle
+package:flutter/widgets.dart#WidgetSpan: not a widget or handle
+package:flutter/widgets.dart#WidgetStateBorderSide: not a widget or handle
+package:flutter/widgets.dart#WidgetStateColor: not a widget or handle
+package:flutter/widgets.dart#WidgetStateMapper: generic class (not bridged yet)
+package:flutter/widgets.dart#WidgetStateMouseCursor: not a widget or handle
+package:flutter/widgets.dart#WidgetStateOutlinedBorder: not a widget or handle
+package:flutter/widgets.dart#WidgetStateProperty: generic class (not bridged yet)
+package:flutter/widgets.dart#WidgetStatePropertyAll: generic class (not bridged yet)
+package:flutter/widgets.dart#WidgetStateTextStyle: not a widget or handle
 package:flutter/widgets.dart#WidgetToRenderBoxAdapter: renderBox: framework object RenderBox
+package:flutter/widgets.dart#WidgetsBindingObserver: not a widget or handle
+package:flutter/widgets.dart#WidgetsLocalizations: not a widget or handle
+package:flutter/widgets.dart#WordBoundary: not a widget or handle
+package:geolocator_platform_interface/geolocator_platform_interface.dart#GeolocatorPlatform: not a widget or handle
+package:geolocator_platform_interface/geolocator_platform_interface.dart#Position: not a widget or handle
+package:sensors_plus/sensors_plus.dart#Sensors: differs per platform (a conditional export)
+package:sensors_plus_platform_interface/sensors_plus_platform_interface.dart#AccelerometerEvent: not a widget or handle
+package:sensors_plus_platform_interface/sensors_plus_platform_interface.dart#SensorsPlatform: not a widget or handle
 package:listen/listen.dart#ValueNotifier: generic class (not bridged yet)
+package:cupertino_ui/cupertino_ui.dart#showCupertinoDialog: function: generic function
+package:cupertino_ui/cupertino_ui.dart#showCupertinoModalPopup: function: generic function
+package:cupertino_ui/cupertino_ui.dart#showCupertinoSheet: function: generic function
 package:cupertino_ui/cupertino_ui.dart#CupertinoAdaptiveTextSelectionToolbar.editableText: editableTextState: framework object EditableTextState
 package:cupertino_ui/cupertino_ui.dart#CupertinoSpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
 package:motor/motor.dart#CupertinoMotion: not a widget or handle
@@ -775,9 +1341,39 @@ package:motor/motor.dart#CurvedMotion: not a widget or handle
 package:motor/motor.dart#MaterialSpringMotion: not a widget or handle
 package:motor/motor.dart#Motion: not a widget or handle
 package:motor/motor.dart#SpringMotion: not a widget or handle
+package:material_ui/material_ui.dart#SegmentedButtonState: only for tests (@visibleForTesting)
+package:material_ui/material_ui.dart#showAdaptiveDialog: function: generic function
+package:material_ui/material_ui.dart#showBottomSheet: function: no encodable fields on PersistentBottomSheetController
+package:material_ui/material_ui.dart#showDialog: function: generic function
+package:material_ui/material_ui.dart#showMenu: function: generic function
+package:material_ui/material_ui.dart#showModalBottomSheet: function: generic function
+package:material_ui/material_ui.dart#showSearch: function: generic function
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.editableText: editableTextState: framework object EditableTextState
 package:material_ui/material_ui.dart#AdaptiveTextSelectionToolbar.selectableRegion: selectableRegionState: framework object SelectableRegionState
+package:material_ui/material_ui.dart#DateUtils.firstDayOffset: function: localizations: abstract, no constructible subtype
 package:material_ui/material_ui.dart#PopupMenuButton: itemBuilder: callback returns a typed widget
 package:material_ui/material_ui.dart#SpellCheckSuggestionsToolbar.editableText: editableTextState: framework object EditableTextState
+package:geolocator_platform_interface/src/geolocator_platform_interface.dart#GeolocatorPlatform: abstract, no constructible subtype
 package:flutter_lucide/src/flutter_lucide.dart#LucideIcons: abstract, no constructible subtype
+package:sensors_plus_platform_interface/sensors_plus_platform_interface.dart#SensorsPlatform: no usable constructor (Sensors: not nameable from generated code: Sensors)
+package:flutter/widgets.dart#buildTextSpanWithSpellCheckSuggestions: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#childDragAnchorStrategy: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#createLocalImageConfiguration: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#getAxisDirectionFromAxisReverseAndDirectionality: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#pointerDragAnchorStrategy: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#precacheImage: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#runApp: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#runWidget: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#Feedback.forLongPress: function: a required parameter holds a function or widget
+package:flutter/widgets.dart#Feedback.forTap: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showAboutDialog: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showAdaptiveAboutDialog: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showDatePicker: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showDateRangePicker: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showLicensePage: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#showTimePicker: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.applyOverlay: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.applySurfaceTint: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.colorWithOverlay: function: a required parameter holds a function or widget
+package:material_ui/material_ui.dart#ElevationOverlay.overlayColor: function: a required parameter holds a function or widget
 package:flutter/widgets.dart#SelectionOverlay: no constructor left that can cross the bridge yet

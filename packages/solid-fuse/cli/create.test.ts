@@ -24,7 +24,8 @@ describe("fuse create", () => {
     expect(buildTargetPlatform(["apk", "--release"])).toBe("android");
     expect(buildTargetPlatform(["--release", "ipa"])).toBe("ios");
     expect(buildTargetPlatform(["linux"])).toBe("linux");
-    expect(buildTargetPlatform(["web"])).toBeUndefined();
+    expect(buildTargetPlatform(["web"])).toBe("web");
+    expect(buildTargetPlatform(["bundle"])).toBeUndefined();
   });
 });
 

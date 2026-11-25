@@ -48,6 +48,7 @@ export function lentHandles(m: Manifest): Set<string> {
       case "list":
       case "set":
       case "iterable":
+      case "stream":
       case "map":
         if (r.k === "map") walkIn(r.key);
         walkIn(r.of);
@@ -86,6 +87,14 @@ export function lentHandles(m: Manifest): Set<string> {
   }
   for (const w of m.widgets) params(w.params);
   for (const id of m.values ?? []) walkIn({ k: "data", id } as Ref);
+  for (const st of m.statics ?? []) {
+    for (const fn of st.methods) {
+      params(fn.params);
+      walkOut(fn.ret);
+      if (fn.stream) walkOut(fn.stream);
+    }
+  }
+  for (const f of m.fakes ?? []) f.members.forEach((mb) => walkIn(mb.fn));
   for (const id of m.handles) {
     (m.types[id] as HandleType).ctors.forEach((c) => params(c.params));
     handleMembers(id);
@@ -120,6 +129,17 @@ export function handleTags(m: Manifest): Map<string, string> {
 
 /** JS arguments of a handle method: index of each typed positional
  *  parameter, and where the object with the named ones goes. */
+/** The name a static call goes by: `<package>.<Owner>.<name>`, or
+ *  `<package>.<name>` for a top-level function. */
+export function staticKey(id: string, owner: string | undefined, name: string): string {
+  return `${moduleOf(uriOf(id))}.${owner ? `${owner}.` : ""}${name}`;
+}
+
+/** The node type of a fake (`$fake:geolocator_platform_interface.GeolocatorPlatform`). */
+export function fakeTag(f: { id: string; name: string }): string {
+  return `$fake:${moduleOf(uriOf(f.id))}.${f.name}`;
+}
+
 export function methodArgs(params: Param[]): { index: Map<string, number>; named: number } {
   const index = new Map<string, number>();
   for (const p of params) if (!p.named && p.type) index.set(p.name, index.size);
@@ -139,7 +159,7 @@ export interface DartOutput {
 /** Whether [ref] is or holds a typed widget slot. */
 function typedWidget(ref: Ref): boolean {
   if (ref.k === "widget") return !!ref.as;
-  if (ref.k === "list" || ref.k === "set" || ref.k === "iterable" || ref.k === "map") return typedWidget(ref.of);
+  if (ref.k === "list" || ref.k === "set" || ref.k === "iterable" || ref.k === "stream" || ref.k === "map") return typedWidget(ref.of);
   return false;
 }
 
@@ -245,6 +265,10 @@ export function emitDart(
         const of = cx.sub((ref as any).ofDart);
         const list = `decList<${of}>(${src}, (e) => ${elem(ref.of, "e", of, cx)})`;
         return ref.k === "set" ? `${list}?.toSet()` : list;
+      }
+      case "stream": {
+        const of = cx.sub(ref.ofDart);
+        return `decStream<${of}>(${cx.n}, ${src}, (e) => ${elem(ref.of, "e", of, cx)})`;
       }
       case "bytes":
         return `decBytes<${ref.as}>(${src})`;
@@ -668,6 +692,111 @@ export function emitDart(
     lines.push("}");
     handleCode.push(lines.join("\n"));
     if (roots.has(id)) handleRegs.push(`  ${q(tag)}: ${cls}.new,`);
+  }
+
+  // ── statics: one handle JS keeps for every static call ──────────────────
+
+  const statics = (m.statics ?? []).filter((st) => st.methods.length > 0);
+  if (statics.length) {
+    const calls: string[] = [];
+    const streams: string[] = [];
+    for (const st of statics) {
+      for (const fn of st.methods) {
+        const key = staticKey(st.id, st.owner, fn.name);
+        const { index, named } = methodArgs(fn.params);
+        const c = call(fn.dart, fn.params, (p) => {
+          if (!p.type) return p.passNull ? "null" : null;
+          const src = p.named ? `fuseNamed(a, ${named})[${q(p.name)}]` : `fuseAt(a, ${index.get(p.name)})`;
+          return arg(p, key, src, { ...plain, prop: p.name });
+        });
+        if (fn.stream) {
+          streams.push(`      case ${q(key)}:`, `        return ${c}.map((e) => ${enc(fn.stream, "e", "node")});`);
+          continue;
+        }
+        const got = fn.async ? `(await ${c})` : c;
+        calls.push(`      case ${q(key)}:`);
+        if (fn.ret.k === "void") calls.push(`        ${fn.async ? `await ${c}` : c};`, "        return null;");
+        else calls.push(`        return ${enc(fn.ret, got, "node")};`);
+      }
+    }
+    const lines = [
+      "/// Static methods and top-level functions JS calls (`$static` in",
+      "/// solid-fuse/generated): one node, kept for as long as JS runs.",
+      "class _FuseStatics extends FuseGeneratedHandle<Object> {",
+      "  _FuseStatics(super.node) {",
+      "    start();",
+      "  }",
+      "",
+      "  @override",
+      "  final Object object = Object();",
+    ];
+    if (calls.length) {
+      lines.push("", "  @override", "  Future<Object?> invoke(String name, List<Object?> a) async {", "    switch (name) {", ...calls, "    }", "    return super.invoke(name, a);", "  }");
+    }
+    if (streams.length) {
+      lines.push("", "  @override", "  Stream<Object?>? streamOf(String name, List<Object?> a) {", "    switch (name) {", ...streams, "    }", "    return null;", "  }");
+    }
+    lines.push("}");
+    handleCode.push(lines.join("\n"));
+    handleRegs.push(`  r'$statics': _FuseStatics.new,`);
+  }
+
+  // ── fakes: JS stands in for a shared instance ───────────────────────────
+
+  for (const f of m.fakes ?? []) {
+    const T = noQ(f.dart);
+    const cls = ident("_Fake", f.id);
+    const lines = [
+      `/// \`${f.name}\` as JS fakes it: a member calls the JS function of its name,`,
+      "/// else the instance this one replaced.",
+      `final class ${cls} extends ${T} {`,
+      `  ${cls}(this.node, this.real)${f.ctor ? ` : super.${f.ctor}()` : ""};`,
+      "",
+      "  final FuseNode node;",
+      `  final ${T} real;`,
+    ];
+    for (const mb of f.members) {
+      const pos = mb.params.filter((p) => !p.named && !p.optional);
+      const opt = mb.params.filter((p) => p.optional);
+      const named = mb.params.filter((p) => p.named);
+      const decl = (p: (typeof mb.params)[number], name: string) => `${p.required ? "required " : ""}${p.dart} ${name}${p.default ? ` = ${p.default}` : ""}`;
+      const sig = [
+        ...pos.map((p, i) => `${p.dart} a${mb.params.indexOf(p)}`),
+        ...(opt.length ? [`[${opt.map((p) => decl(p, `a${mb.params.indexOf(p)}`)).join(", ")}]`] : []),
+        ...(named.length ? [`{${named.map((p) => decl(p, p.name)).join(", ")}}`] : []),
+      ];
+      const args = mb.params.map((p, i) => (p.named ? `${p.name}: ${p.name}` : `a${i}`)).join(", ");
+      const fn = fnExpr(mb.fn, `node[${q(mb.name)}]`, { n: "node", prop: mb.name, sub: (d) => d });
+      lines.push("", "  @override");
+      if (mb.getter) {
+        lines.push(`  ${mb.ret} get ${mb.name} {`, `    final f = ${fn};`, `    return f == null ? real.${mb.name} : f();`, "  }");
+      } else {
+        lines.push(`  ${mb.ret} ${mb.name}(${sig.join(", ")}) {`, `    final f = ${fn};`, `    return f == null ? real.${mb.name}(${args}) : f(${args});`, "  }");
+      }
+    }
+    lines.push("}");
+    const installer = `${cls}Install`;
+    lines.push(
+      "",
+      `/// \`fake(${f.name}, ...)\`: puts the fake in \`${f.name}.${f.setter}\` while JS holds it.`,
+      `class ${installer} extends FuseHandle<${T}> {`,
+      `  ${installer}(super.node) : real = ${T}.${f.setter} {`,
+      `    ${T}.${f.setter} = object;`,
+      "  }",
+      "",
+      `  final ${T} real;`,
+      "",
+      "  @override",
+      `  late final ${T} object = ${cls}(node, real);`,
+      "",
+      "  @override",
+      "  void dispose() {",
+      `    if (identical(${T}.${f.setter}, object)) ${T}.${f.setter} = real;`,
+      "  }",
+      "}",
+    );
+    handleCode.push(lines.join("\n"));
+    handleRegs.push(`  ${q(fakeTag(f))}: ${installer}.new,`);
   }
 
   // Value types a barrel names: decoders registered by type.

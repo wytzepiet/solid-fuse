@@ -48,6 +48,7 @@ Export whole libraries freely: a release build keeps only what the app uses ([be
 | A value (`EdgeInsets.all(8)`) | The same builder, or its [short form](/docs/build/values): `8` |
 | A constant (`Icons.home`) | The same, imported: `Icons.home` |
 | A controller (`ScrollController()`) | [`createScrollController()`](/docs/flutter/controllers) |
+| A function or static method (`Geolocator.getCurrentPosition()`) | The same, returning a Promise: [Functions](#functions) |
 
 ## Components
 
@@ -88,6 +89,24 @@ import { ListViewBuilder } from "#fuse/flutter";
 Each row Flutter builds runs the function in a root of its own, under the component that rendered the list, so context and signals work in it as anywhere else. The row stays reactive, and its root is disposed when Flutter drops the row (it scrolled out, or the list rebuilt). The `BuildContext` argument stays in Dart, so `itemBuilder` gets only `index`.
 
 The function must return without waiting: it can't be `async`, and anything it starts that does wait (a `fetch`) finishes after the row is shown. Keep it short, because the frame waits for it.
+
+## Functions
+
+A top-level function, and a class of only static methods (`Geolocator`), can be called from JS. Export them like anything else (`show Geolocator, accelerometerEventStream`):
+
+```tsx
+import { Geolocator } from "#fuse/geolocator";
+import { accelerometerEventStream } from "#fuse/sensors_plus";
+
+const p = await Geolocator.getCurrentPosition();
+for await (const e of accelerometerEventStream()) setTilt(e.x);
+```
+
+Every call returns a Promise, also for a function that returns at once in Dart. A function that returns a `Stream` gives an async iterable, as a controller's stream does.
+
+Where Dart takes a `Stream` (a parameter, or what a JS function returns to Dart), give an async iterable: an `async function*`, or anything with `Symbol.asyncIterator`. Dart pulls a value each time it listens for one, and stops the iterator when it cancels.
+
+A plugin's platform interface (`GeolocatorPlatform`) can be replaced from JS: see [Faking native features](/docs/agents/fakes).
 
 ## Values with a JS form of their own
 

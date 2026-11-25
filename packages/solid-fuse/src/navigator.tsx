@@ -39,7 +39,8 @@ export function Navigator(props: { index?: string; observers?: import("./types")
     >
       <For each={stack.entries()} keyed={(e) => e.id}>
         {(entry) => {
-          const config = pageConfigOf(entry(), asPage, wrap);
+          // Once per page: its config doesn't follow later changes to the entry.
+          const config = untrack(() => pageConfigOf(entry(), asPage, wrap));
           return (
             <Dynamic component={config.type} _pageId={entry().id} {...config.props}>
               {config.child()}

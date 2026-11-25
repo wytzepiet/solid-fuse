@@ -34,7 +34,7 @@ export interface FuseGenOptions {
   out?: string;
 }
 
-export type FusePlatform = "android" | "ios" | "macos" | "linux" | "windows";
+export type FusePlatform = "android" | "ios" | "macos" | "linux" | "windows" | "web";
 
 export interface FuseConfig {
   /** Mark this package as a Fuse library. Enables `fuse build` library mode. */

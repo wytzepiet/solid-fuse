@@ -16,7 +16,7 @@ An app needs none of it to run. A package needs `library: true`.
 
 | Option | Type | Default | |
 |---|---|---|---|
-| `platforms` | `("android" \| "ios" \| "macos" \| "linux" \| "windows")[]` | `[]` | The app's platforms. `fuse dev` and `fuse build` add a missing one's folder with `flutter create` ([Platform folders](/docs/flutter/platform-folders)) |
+| `platforms` | `("android" \| "ios" \| "macos" \| "linux" \| "windows" \| "web")[]` | `[]` | The app's platforms. `fuse dev` and `fuse build` add a missing one's folder with `flutter create` ([Platform folders](/docs/flutter/platform-folders)) |
 | `org` | `string` | `"com.example"` | Reverse domain for the bundle id of the folders fuse adds |
 | `dart` | `string` | `"dart"` | Path to the Flutter project |
 | `vite` | `UserConfig` | `{}` | Vite config, merged over Fuse's |

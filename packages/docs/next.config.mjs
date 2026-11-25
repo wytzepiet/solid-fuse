@@ -16,6 +16,8 @@ const moved = {
   'building/handles': 'flutter/controllers',
   'building/channels': 'flutter/channels',
   'building/agents': 'agents',
+  'building/fakes': 'agents/fakes',
+  'building/web-previews': 'agents/web-previews',
   'extending/generating': 'flutter/widgets',
   'extending/using-packages': 'flutter/pub-packages',
   'extending/creating-widgets': 'flutter/by-hand/widgets',

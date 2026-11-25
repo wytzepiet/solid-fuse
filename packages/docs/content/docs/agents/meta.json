@@ -1,1 +1,1 @@
-{ "pages": ["index", "headless", "drive"] }
+{ "pages": ["index", "headless", "drive", "fakes", "web-previews"] }

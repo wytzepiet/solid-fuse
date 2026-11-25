@@ -46,7 +46,21 @@ import { LineChart, LineChartData, LineChartBarData, FlSpot } from "#fuse/fl_cha
 
 ## Plugins without widgets
 
-A plugin that is functions, not widgets (`url_launcher`, `share_plus`, `geolocator`): write a small Dart class that calls it, and export that. See [A class with state or methods](/docs/flutter/your-own-dart#a-class-with-state-or-methods). For one or two calls, a [channel](/docs/flutter/channels) does it too.
+A plugin that is functions, not widgets (`geolocator`, `sensors_plus`, `url_launcher`) crosses the same way. Its top-level functions and static methods are functions in JS that return a Promise; a `Stream` is an async iterable:
+
+```dart title="dart/lib/fuse.dart"
+export 'package:geolocator/geolocator.dart' show Geolocator;
+```
+
+```tsx
+import { Geolocator } from "#fuse/geolocator";
+
+const position = await Geolocator.getCurrentPosition();
+```
+
+See [Functions](/docs/flutter/widgets#functions). When the plugin's API is awkward from JS, wrap it in a small Dart class of your own and export that: [A class with state or methods](/docs/flutter/your-own-dart#a-class-with-state-or-methods).
+
+A phone-only plugin has nothing to talk to on Linux or the web. Give it a [fake](/docs/agents/fakes), so the app runs headless and in a web preview.
 
 Plugins often need native setup (a permission in `Info.plist`, a line in `AndroidManifest.xml`). That goes in the [platform folders](/docs/flutter/platform-folders), as the plugin's docs say.
 

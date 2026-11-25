@@ -25,7 +25,7 @@ npm create solid-fuse@latest [dir]   # the same
 | Flag | |
 |---|---|
 | `--design` | `material` (default), `cupertino`, `adaptive` or `none` |
-| `--platforms` | Comma-separated: `android,ios,macos,linux,windows`. Default `android,ios` |
+| `--platforms` | Comma-separated: `android,ios,macos,linux,windows,web`. Default `android,ios` |
 | `--org` | Reverse domain for the bundle id. Default `com.example` |
 | `--template` | A template directory, or `github:owner/repo[/path][#ref]` |
 | `--no-install` | Don't install packages |
@@ -43,6 +43,7 @@ Starts Vite and `flutter run` together. Edits to TypeScript hot reload; edits to
 | Flag | |
 |---|---|
 | `--headless` | Run the Linux app on a virtual display ([Run headless](/docs/agents/headless)) |
+| `--fakes`, `--no-fakes` | Turn [fakes](/docs/agents/fakes) on or off. On by default headless and on the web |
 | `--release`, `--profile` | Build the bundle and run without the dev server |
 | anything else | Passed to `flutter run`: `-d <device>`, `--flavor`... |
 

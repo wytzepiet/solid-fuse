@@ -93,7 +93,8 @@ void main() {
 
   test('covers nearly everything', () {
     final widgets = (m['widgets']! as List).length;
-    final skipped = (m['skipped']! as List).cast<Json>();
+    // Widgets only: static functions JS may call are a surface of their own.
+    final skipped = (m['skipped']! as List).cast<Json>().where((s) => !(s['reason']! as String).startsWith('function: ')).toList();
     // Builders wait for synchronous Dart -> JS calls, nested refs and async
     // callbacks for wire format work; this counts the rest.
     bool waiting(String r) => r.contains('needs sync') || r.contains('bridge yet') || r.contains('not constructible');

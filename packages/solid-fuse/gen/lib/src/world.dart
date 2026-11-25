@@ -202,7 +202,7 @@ class World {
         if (own != null) return own;
         EntryLib? fallback;
         for (final lib in entries) {
-          if (lib.element.exportNamespace.get2(name) != e) continue;
+          if (lib.element.exportNamespace.get2(name) != e || platformOnly(lib.element).contains(e)) continue;
           final u = Uri.parse(lib.uri);
           final pkg = u.scheme == 'package' ? u.pathSegments.first : u.scheme;
           if (pkg == home || (u.scheme == 'dart' && declared?.scheme == 'dart')) return lib;
@@ -220,6 +220,60 @@ class World {
   final Set<String> missedPackages = {};
 
   bool isExported(Element e) => importOf(e) != null;
+
+  /// What [lib] exports only through a conditional export (`export 'a.dart'
+  /// if (dart.library.js_interop) 'b.dart'`): each platform sees a different
+  /// library there, so generated code, compiled for every platform, can't
+  /// name it. The analyzer resolves to the default library.
+  ///
+  /// Each library is worked out once per run; a cycle of exports counts
+  /// as plain where it closes.
+  Set<Element> platformOnly(LibraryElement lib) {
+    final known = _platformOnly[lib];
+    if (known != null) return known;
+    _platformOnly[lib] = const {};
+    final exports = [
+      for (final f in lib.fragments)
+        for (final ex in f.libraryExports)
+          if (ex.exportedLibrary case final target?) (ex, target, _configured(f, ex), platformOnly(target)),
+    ];
+    final conditional = <Element>{};
+    for (final (ex, target, configured, inner) in exports) {
+      if (!configured && inner.isEmpty) continue;
+      target.exportNamespace.definedNames2.forEach((name, el) {
+        if (_passes(ex.combinators, name) && (configured || inner.contains(el))) conditional.add(el);
+      });
+    }
+    if (conditional.isEmpty) return _platformOnly[lib] = const {};
+    // An element some export gives plainly is the same on every platform.
+    for (final (ex, target, configured, inner) in exports) {
+      if (configured) continue;
+      target.exportNamespace.definedNames2.forEach((name, el) {
+        if (!inner.contains(el) && _passes(ex.combinators, name)) conditional.remove(el);
+      });
+    }
+    return _platformOnly[lib] = conditional;
+  }
+
+  final Map<LibraryElement, Set<Element>> _platformOnly = {};
+
+  /// Whether [ex] has configurations (`if (dart.library.io) ...`), which
+  /// the element model doesn't keep: read from the directive's source.
+  static bool _configured(LibraryFragment f, LibraryExport ex) {
+    final text = f.source.contents.data;
+    final start = ex.exportKeywordOffset;
+    final end = text.indexOf(';', start);
+    if (start < 0 || end < 0) return false;
+    return RegExp(r'\bif\s*\(').hasMatch(text.substring(start, end));
+  }
+
+  static bool _passes(List<NamespaceCombinator> combinators, String name) {
+    for (final c in combinators) {
+      if (c is ShowElementCombinator && !c.shownNames.contains(name)) return false;
+      if (c is HideElementCombinator && c.hiddenNames.contains(name)) return false;
+    }
+    return true;
+  }
 
   bool isSubtypeOfEl(DartType t, InterfaceElement? el) =>
       el != null && t is InterfaceType && t.asInstanceOf(el) != null;
