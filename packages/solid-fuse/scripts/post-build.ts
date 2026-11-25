@@ -1,4 +1,8 @@
-import { cpSync, existsSync, readFileSync, writeFileSync } from "fs";
+import { chmodSync, cpSync, existsSync, readFileSync, writeFileSync } from "fs";
+
+// The `fuse` bin: a rebuild writes it without the executable bit, and a
+// workspace app links straight to it.
+chmodSync("dist/cli/index.js", 0o755);
 
 // Copy ambient type declarations to dist
 cpSync("src/jsx.d.ts", "dist/jsx.d.ts");

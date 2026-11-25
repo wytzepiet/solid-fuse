@@ -37,9 +37,11 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
   const activeDartNames = new Set(packages.map((p) => p.dartName));
 
   // Add missing fuse packages to pubspec.yaml dependencies
+  let changed = false;
   for (const pkg of packages) {
     if (!pubspecHasDependency(pubspecPath, pkg.dartName)) {
       pubspecAddDependency(pubspecPath, pkg.dartName);
+      changed = true;
       console.log(`  Added ${pkg.dartName} to pubspec.yaml dependencies`);
     }
   }
@@ -48,12 +50,15 @@ export async function runLink(projectRoot?: string, { pubGet = true, gen = true 
   for (const managed of pubspecGetManagedDependencies(pubspecPath)) {
     if (!activeDartNames.has(managed)) {
       pubspecRemoveDependency(pubspecPath, managed);
+      changed = true;
       console.log(`  Removed stale ${managed} from pubspec.yaml dependencies`);
     }
   }
 
   generatePubspecOverrides(dartRoot, packages);
-  if (pubGet) runFlutterPubGet(dartRoot);
+  // A package added or removed needs pub get even where the caller leaves it
+  // to Flutter: generation reads the resolved packages before Flutter runs.
+  if (pubGet || changed) runFlutterPubGet(dartRoot);
 
   // Generated components and adapters (dart/lib/fuse.dart and every
   // resolved package's). After pub get, so a package just added is seen.
