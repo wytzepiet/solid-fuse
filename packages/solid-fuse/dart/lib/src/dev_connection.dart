@@ -312,6 +312,10 @@ class DevServerConnection extends FuseConnection {
         }
 
         final source = _transformModule(utf8.decode(response.bodyBytes));
+        // The name Vite's own client imports it by, and the one its importers
+        // now use (`?t=`): one instance, even when an import leads back to it.
+        final name = '$path?t=$ts';
+        _modules[name] = source;
 
         // Vite names the modules this update invalidated with `?t=`, so they
         // are new to the engine, and so is anything they import first: declare
@@ -320,17 +324,16 @@ class DevServerConnection extends FuseConnection {
         _bustTimestamp = DateTime.now().millisecondsSinceEpoch;
         await Future.wait(_scanImports(source).map(_prefetchModule));
         final added = [
-          for (final name in _modules.keys)
-            if (!known.contains(name) && _modules[name]!.isNotEmpty)
-              JsModule.code(module: name, code: _modules[name]!),
+          for (final m in _modules.keys)
+            if (!known.contains(m) && _modules[m]!.isNotEmpty)
+              JsModule.code(module: m, code: _modules[m]!),
         ];
         if (added.isNotEmpty) {
           await _engine!.declareNewModules(modules: added);
         }
 
-        final hmrModuleName = '$path?hmr=$ts';
         await _engine!.evaluateModule(
-          module: JsModule.code(module: hmrModuleName, code: source),
+          module: JsModule.code(module: name, code: source),
         );
         await _engine!.eval(
           source: JsCode.code(
@@ -358,6 +361,7 @@ class DevServerConnection extends FuseConnection {
       await _prefetchModule(entryPath);
       debugPrint('[Fuse] Re-fetched ${_modules.length} modules');
       await _createEngine();
+      onEngineReplaced?.call();
       await _evalEntry(entryPath);
       debugPrint('[Fuse] HMR reload complete');
     } catch (e, st) {

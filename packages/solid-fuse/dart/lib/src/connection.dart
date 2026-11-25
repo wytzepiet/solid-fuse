@@ -11,6 +11,11 @@ abstract class FuseConnection {
   /// Re-evaluate the JS entry point (e.g. after hot restart).
   Future<void> restart();
 
+  /// Called when the connection swaps in a new JS engine (a full reload in
+  /// dev) before it runs the entry again: new [channels], and JS that knows
+  /// none of the old nodes.
+  void Function()? onEngineReplaced;
+
   void dispose();
 
   /// The channel system for this connection.

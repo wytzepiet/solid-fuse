@@ -168,6 +168,7 @@ class FuseRuntime {
       }
 
       _connection = dev;
+      dev.onEngineReplaced = _engineReplaced;
       _registerChannels();
       try {
         await dev.start();
@@ -207,6 +208,21 @@ class FuseRuntime {
     if (rustIdx >= 0) msg = msg.substring(0, rustIdx).trimRight();
     if (msg.endsWith(')')) msg = msg.substring(0, msg.length - 1).trimRight();
     return msg;
+  }
+
+  /// A full reload: the new JS builds its tree from scratch, over new
+  /// channels. Empty the root and forget the old nodes.
+  void _engineReplaced() {
+    final root = registry.get(0);
+    for (var child = root.firstChild; child != null; child = root.firstChild) {
+      root.removeChildSilent(child);
+    }
+    registry.reset();
+    _templates.clear();
+    _generation = null;
+    _applied = -1;
+    _registerChannels();
+    root.markDirty();
   }
 
   /// Register runtime-level channel handlers.

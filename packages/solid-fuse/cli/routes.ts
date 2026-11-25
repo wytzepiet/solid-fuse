@@ -165,9 +165,11 @@ export function emitRoutes(routes: FileRoute[], importOf: (file: string) => stri
     const m = `m${names.get(r.key)!.slice(1)}`;
     const opts = [`path: ${JSON.stringify(r.path)}`];
     if (r.in) opts.push(`in: ${names.get(r.in)}`);
-    if (r.page) opts.push(`page: ${m}.page`);
-    if (r.parse) opts.push(`parse: ${m}.parse`);
-    opts.push(`component: ${m}.default`);
+    // Getters: a page module may import the routes back (a link to itself),
+    // and is then not evaluated yet when this runs (always so in an HMR update).
+    if (r.page) opts.push(`get page() { return ${m}.page; }`);
+    if (r.parse) opts.push(`get parse() { return ${m}.parse; }`);
+    opts.push(`get component() { return ${m}.default; }`);
     out.push(`const ${names.get(r.key)} = route({ ${opts.join(", ")} });`);
   };
   routes.forEach(emit);

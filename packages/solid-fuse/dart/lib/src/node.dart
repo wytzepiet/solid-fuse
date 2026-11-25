@@ -571,6 +571,21 @@ class FuseNodeRegistry {
     node?.release();
   }
 
+  /// Forget every node but the root: the JS that made them is gone (a full
+  /// reload). Each is disposed once no widget uses it.
+  void reset() {
+    final root = _nodes[0];
+    for (final node in _nodes.values) {
+      if (!identical(node, root)) node.release();
+    }
+    _nodes.clear();
+    if (root != null) _nodes[0] = root;
+    _lent.clear();
+    _owned = Expando();
+    _borrowed = Expando();
+    _nextBorrowed = -1;
+  }
+
   void clear() {
     for (final node in _nodes.values) {
       node.dispose();

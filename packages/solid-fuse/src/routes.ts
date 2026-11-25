@@ -83,14 +83,21 @@ export function route<P extends object = {}>(options: RouteOptions<P>): Route<P>
   const r: Route<P> = {
     path,
     in: options.in,
-    page: options.page,
-    parse: options.parse,
+    // Read when used: file routes pass getters (cli/routes.ts).
+    get page() {
+      return options.page;
+    },
+    get parse() {
+      return options.parse;
+    },
     get key() {
       if (path === undefined) return undefined;
       // A holder and its stack's first page share an address.
       return options.in && options.in.path === path ? `${path}#${options.in.key ?? ""}` : path;
     },
-    component: options.component,
+    get component() {
+      return options.component;
+    },
     returns: () => r as Route<P, any>,
   };
   all.push(r);

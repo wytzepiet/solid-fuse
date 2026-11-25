@@ -112,9 +112,9 @@ describe("file routes", () => {
     );
     const code = emitRoutes(rs, (f) => `../src/app/${f.replace(/\.tsx$/, "")}`, "../src/app");
     expect(code).toContain('import App from "../src/app";');
-    expect(code).toContain('const r1 = route({ path: "/share", component: m1.default });');
-    expect(code).toContain('const r2 = route({ path: "/share", in: r1, component: m2.default });');
-    expect(code).toContain('route({ path: "/users/:id", parse: m3.parse, component: m3.default })');
+    expect(code).toContain('const r1 = route({ path: "/share", get component() { return m1.default; } });');
+    expect(code).toContain('const r2 = route({ path: "/share", in: r1, get component() { return m2.default; } });');
+    expect(code).toContain('route({ path: "/users/:id", get parse() { return m3.parse; }, get component() { return m3.default; } })');
     expect(code).toContain('type Addresses = "/" | "/share" | `/users/${string}`;');
     expect(code).toContain("return <App />;");
     expect(emitRoutes(rs, (f) => f)).toContain("return <Navigator />;");
