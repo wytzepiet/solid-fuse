@@ -135,7 +135,10 @@ class ManifestBuilder {
   void _library(EntryLib lib, LibraryRule rule) {
     final classes = <ClassElement>[];
     lib.element.exportNamespace.definedNames2.forEach((name, el) {
-      if (el is ClassElement && el.isPublic && _ownedBy(el, lib)) classes.add(el);
+      if (el is! ClassElement || !el.isPublic || !_ownedBy(el, lib)) return;
+      if (w.platformOnly(lib.element).contains(el)) return _skip('${lib.uri}#$name', 'differs per platform (a conditional export)');
+      if (el.metadata.hasVisibleForTesting) return _skip('${lib.uri}#$name', 'only for tests (@visibleForTesting)');
+      classes.add(el);
     });
     classes.sort((a, b) => a.name!.compareTo(b.name!));
     _functions(lib, rule);
@@ -232,7 +235,9 @@ class ManifestBuilder {
     final methods = <Json>[];
     final names = <String>[];
     lib.element.exportNamespace.definedNames2.forEach((name, el) {
-      if (el is TopLevelFunctionElement && el.isPublic && _ownedBy(el, lib) && rule.includes(name)) names.add(name);
+      if (el is! TopLevelFunctionElement || !el.isPublic || !_ownedBy(el, lib) || !rule.includes(name)) return;
+      if (w.platformOnly(lib.element).contains(el)) return _skip('${lib.uri}#$name', 'function: differs per platform (a conditional export)');
+      names.add(name);
     });
     names.sort();
     for (final name in names) {

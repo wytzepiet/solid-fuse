@@ -2,6 +2,7 @@
 // Currently: structuredClone, URL (relative form), WebSocket, console.
 
 import { send, on } from "~/channels";
+import { inBrowser } from "~/browser";
 
 if (typeof globalThis.structuredClone === "undefined") {
   globalThis.structuredClone = (value: any) => JSON.parse(JSON.stringify(value));
@@ -12,7 +13,7 @@ if (typeof globalThis.structuredClone === "undefined") {
 // Supabase SDK and others need this.
 // QuickJS's built-in URL has incomplete support for the two-argument form.
 // Always wrap it to guarantee correct behavior with relative paths and URL bases.
-if (typeof globalThis.URL !== "undefined") {
+if (!inBrowser && typeof globalThis.URL !== "undefined") {
   const _NativeURL = globalThis.URL;
   globalThis.URL = function URL(
     url: string | URL,
@@ -151,7 +152,10 @@ if (typeof globalThis.WebSocket === "undefined") {
 // objects are JSON-stringified (so logging an object doesn't degrade to
 // "[object Object]"); and the standard printf specifiers (%s %d %i %f %o %O %c
 // %%) are honoured the way browsers do.
-{
+//
+// Not in a browser (a web build): its console is the one to use, and Dart's
+// own `print` writes to it, so shipping lines to Dart would loop.
+if (!inBrowser) {
   const fmtVal = (v: any): string => {
     if (typeof v === "string") return v;
     if (v instanceof Error) {

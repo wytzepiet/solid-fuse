@@ -3,7 +3,7 @@ import { existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync 
 import { dirname, join } from "path";
 import type { FuseConfig, FusePlatform } from "../src/config";
 
-export const PLATFORMS: FusePlatform[] = ["android", "ios", "macos", "linux", "windows"];
+export const PLATFORMS: FusePlatform[] = ["android", "ios", "macos", "linux", "windows", "web"];
 
 /** The platform a `flutter build <target>` builds for. */
 const BUILD_TARGETS: Record<string, FusePlatform> = {
@@ -17,6 +17,7 @@ const BUILD_TARGETS: Record<string, FusePlatform> = {
   "macos-framework": "macos",
   linux: "linux",
   windows: "windows",
+  web: "web",
 };
 
 export function buildTargetPlatform(flutterArgs: string[]): FusePlatform | undefined {
@@ -29,7 +30,7 @@ function snapshot(dir: string, rel = ""): Map<string, string> {
   const files = new Map<string, string>();
   for (const entry of readdirSync(join(dir, rel))) {
     const path = rel ? `${rel}/${entry}` : entry;
-    if (!rel && ((PLATFORMS as string[]).includes(entry) || ["build", ".dart_tool", "web"].includes(entry))) continue;
+    if (!rel && ((PLATFORMS as string[]).includes(entry) || ["build", ".dart_tool"].includes(entry))) continue;
     if (entry === "node_modules" || entry === ".git") continue;
     const full = join(dir, path);
     if (statSync(full).isDirectory()) {

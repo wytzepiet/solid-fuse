@@ -139,13 +139,14 @@ export function buildViteConfig(
       // connects. Without this, Vite discovers these deps from the first
       // request and re-optimizes mid-fetch, invalidating in-flight URLs.
       entries: ["src/index.tsx"],
-      // Both solid-fuse entries in one optimize run, so they share one
-      // renderer. `solid-fuse/generated` is often first imported from a
-      // design package, which is excluded from the scan; found later, it
-      // would be bundled with a renderer of its own (its own node ids and
-      // ops journal).
-      include: ["solid-fuse", "solid-fuse/generated", "solid-js"],
-      exclude: fusePackageNames(projectRoot),
+      // solid-fuse is never pre-bundled: its entries share one renderer
+      // (node ids, ops journal, the FuseNode class handles are checked
+      // against), and a pre-bundle of one entry carries a copy of it. Vite
+      // also skips a linked solid-fuse (a workspace, yalc) while still
+      // bundling `solid-fuse/generated`, which gave dev two renderers. Its
+      // dist is ESM already; what it imports is pre-bundled here.
+      include: ["solid-js", "solid-fuse > @solidjs/universal"],
+      exclude: ["solid-fuse", ...fusePackageNames(projectRoot)],
     },
     build: {
       target: "es2020",

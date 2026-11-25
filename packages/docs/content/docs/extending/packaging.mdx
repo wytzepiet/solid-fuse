@@ -57,7 +57,7 @@ Fuse auto-configures the Solid plugin with `generate: "universal"` and `moduleNa
 | `library` | `boolean` | `false` | Mark this package as a Fuse library. Enables `fuse build`'s library mode (ESM with externalised peers). |
 | `register` | `string` | none | Name of the Dart top-level registration function; leave out when the package has no hand-written Dart |
 | `dart` | `string` | `"dart"` | Path to the Dart/Flutter package directory |
-| `platforms` | `string[]` | `[]` | The app's platforms (`android`, `ios`, `macos`, `linux`, `windows`). `fuse dev` and `fuse build` add a missing one's folder (`dart/android/`...) with `flutter create`. Commit it: then it's yours, and fuse doesn't touch it again |
+| `platforms` | `string[]` | `[]` | The app's platforms (`android`, `ios`, `macos`, `linux`, `windows`, `web`). `fuse dev` and `fuse build` add a missing one's folder (`dart/android/`...) with `flutter create`. Commit it: then it's yours, and fuse doesn't touch it again |
 | `org` | `string` | `"com.example"` | Reverse domain for the bundle id of the folders fuse adds: `com.example` gives `com.example.<pubspec name>` |
 | `solid` | `object` | `{}` | `@solidjs/vite-plugin` option overrides |
 | `compile` | `object` | `{}` | Fuse's compile step: `templates: false` turns [templates](/docs/architecture#templates-the-constant-part-is-sent-once) off; `intrinsics` declares wrapper components of other packages (below); `builders` lists value builders whose calls with literal arguments fold into templates (`fuse gen` writes these tables) |

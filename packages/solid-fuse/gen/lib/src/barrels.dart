@@ -113,7 +113,7 @@ BarrelRules readBarrels(World w, List<String> barrels) {
           if (!w.loadErrors.containsKey(c)) load.add(c);
           continue;
         }
-        if (lib.element.exportNamespace.get2(name) != el) continue;
+        if (lib.element.exportNamespace.get2(name) != el || w.platformOnly(lib.element).contains(el)) continue;
         (allow[c] ??= {}).add(name);
         return;
       }

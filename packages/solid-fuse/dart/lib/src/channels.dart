@@ -1,20 +1,25 @@
 import 'dart:async';
 
-import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 
-/// Channels: routed messaging over FJS's raw bridge.
+/// Channels: routed messaging between Dart and the app's JS.
 ///
-/// FJS provides one unrouted pipe in each direction. We add a channel string
-/// as the first field of every message and dispatch to a handler registered
-/// via [on]. FJS handles return values on both sides concurrently, so [call]
-/// just awaits the FFI return.
-class FuseChannels {
-  FuseChannels({required this.engine});
-
-  final JsEngine engine;
+/// Whatever runs the JS (QuickJS through fjs, or the browser) gives one
+/// unrouted pipe each way. A channel string rides as the first field of every
+/// message, and [dispatch] routes it to the handler registered with [on]. A
+/// connection subclasses this with the two calls into JS.
+abstract class FuseChannels {
   final Map<String, FutureOr<dynamic> Function(Map<String, dynamic>)>
       _handlers = {};
+
+  /// Calls JS's `__dispatch` (src/channels.ts) and gives the handler's
+  /// result, once it settles.
+  @protected
+  Future<Object?> callJs(String channel, Map<String, dynamic> data);
+
+  /// Calls JS's `__dispatchSync` and gives its reply (`{result, ops}`).
+  @protected
+  Object? callJsSync(String channel, Map<String, dynamic> data);
 
   /// Register a handler for JS → Dart messages on this channel.
   /// The handler's return value flows back to JS as the call()'s result.
@@ -38,11 +43,7 @@ class FuseChannels {
   /// of a timeout wrapper. Use [call] when you need the return value.
   Future<void> send(String channel, Map<String, dynamic> data) async {
     try {
-      await engine.call(
-        module: '__fuse_dispatch',
-        method: 'dispatch',
-        params: [JsValue.string(channel), JsValue.from(data)],
-      );
+      await callJs(channel, data);
     } catch (e) {
       debugPrint('[Fuse] channels.send($channel) error: $e');
     }
@@ -55,34 +56,20 @@ class FuseChannels {
     String channel,
     Map<String, dynamic> data, {
     Duration? timeout = const Duration(seconds: 30),
-  }) async {
-    final future = engine
-        .call(
-          module: '__fuse_dispatch',
-          method: 'dispatch',
-          params: [JsValue.string(channel), JsValue.from(data)],
-        )
-        .then((JsValue result) => (result.value as List).first);
+  }) {
+    final future = callJs(channel, data);
     if (timeout == null) return future;
     return future.timeout(
       timeout,
       onTimeout: () => throw ChannelTimeoutError(channel, timeout),
     );
   }
-}
 
-extension FuseSyncChannels on FuseChannels {
   /// Dart → JS call that blocks until the JS handler (registered with
   /// `onSync`) returns. For a value needed at once, such as a builder's
   /// widget during a frame. Returns `{result, ops}`: the handler's result and
   /// the ops it produced (see `syncOps` in renderer.ts).
-  Object? callSync(String channel, Map<String, dynamic> data) => engine
-      .callSync(
-        module: '__fuse_dispatch',
-        method: 'dispatchSync',
-        params: [JsValue.string(channel), JsValue.from(data)],
-      )
-      .value;
+  Object? callSync(String channel, Map<String, dynamic> data) => callJsSync(channel, data);
 }
 
 /// Thrown when [FuseChannels.call] exceeds its timeout.

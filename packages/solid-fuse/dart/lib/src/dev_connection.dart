@@ -279,10 +279,10 @@ class DevServerConnection extends FuseConnection {
   Future<void> _hmrUpdate(List<dynamic> updates) async {
     if (_engine == null) return;
 
-    final usage = await _engine!.memoryUsage();
-    if (usage.totalMemory > _hmrMemoryLimit) {
+    final total = (await _engine!.memoryUsage()).totalMemory.toInt();
+    if (total > _hmrMemoryLimit) {
       debugPrint(
-        '[Fuse] Memory ${usage.totalMemory ~/ 1024}KB — full reload to reclaim',
+        '[Fuse] Memory ${total ~/ 1024}KB — full reload to reclaim',
       );
       return _reload();
     }

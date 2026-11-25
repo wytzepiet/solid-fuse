@@ -14,6 +14,7 @@ import 'fuse_handle.dart';
 import 'generated_support.dart' show FuseCallArgs, FuseCallbackError, FuseGeneratedHandle;
 import 'node.dart';
 import 'quickjs_connection.dart';
+import 'web_connection.dart';
 
 /// Signature for a Fuse widget builder.
 /// Matches the constructor signature of Fuse widget classes,
@@ -141,6 +142,17 @@ class FuseRuntime {
   Future<void> start() async {
     if (_connection != null) {
       throw StateError('FuseRuntime.start() already called');
+    }
+
+    // The browser runs the JS itself: from the dev server in debug, else the
+    // built bundle.
+    if (kIsWeb) {
+      final web = WebConnection(devServer: kDebugMode ? 'http://$_devHost:$_devPort' : null);
+      await web.connect();
+      _connection = web;
+      _registerChannels();
+      await web.start();
+      return;
     }
 
     if (kDebugMode) {

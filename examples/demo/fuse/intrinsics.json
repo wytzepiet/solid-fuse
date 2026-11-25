@@ -247,7 +247,6 @@
    "PinnedHeaderSliver": "flutter_PinnedHeaderSliver",
    "Placeholder": "flutter_Placeholder",
    "PlatformMenuBar": "flutter_PlatformMenuBar",
-   "PlatformSelectableRegionContextMenu": "flutter_PlatformSelectableRegionContextMenu",
    "PlatformViewLink": "flutter_PlatformViewLink",
    "PlatformViewSurface": "flutter_PlatformViewSurface",
    "PopScope": "flutter_PopScope",
@@ -6856,12 +6855,129 @@
      "cullRect"
     ]
    },
+   "Tolerance.defaultTolerance": {
+    "const": "Tolerance.defaultTolerance"
+   },
+   "Tolerance": {
+    "tag": "Tolerance",
+    "positional": []
+   },
+   "DiagnosticsSerializationDelegate": {
+    "tag": "DiagnosticsSerializationDelegate",
+    "positional": []
+   },
+   "TextTreeConfiguration": {
+    "tag": "TextTreeConfiguration",
+    "positional": []
+   },
+   "MethodChannel": {
+    "tag": "MethodChannel",
+    "positional": [
+     "name",
+     "codec",
+     "binaryMessenger"
+    ]
+   },
+   "OptionalMethodChannel": {
+    "tag": "OptionalMethodChannel",
+    "positional": [
+     "name",
+     "codec",
+     "binaryMessenger"
+    ]
+   },
+   "SystemChannels.navigation": {
+    "const": "SystemChannels.navigation"
+   },
+   "SystemChannels.backGesture": {
+    "const": "SystemChannels.backGesture"
+   },
+   "SystemChannels.platform": {
+    "const": "SystemChannels.platform"
+   },
+   "SystemChannels.statusBar": {
+    "const": "SystemChannels.statusBar"
+   },
+   "SystemChannels.processText": {
+    "const": "SystemChannels.processText"
+   },
+   "SystemChannels.textInput": {
+    "const": "SystemChannels.textInput"
+   },
+   "SystemChannels.scribe": {
+    "const": "SystemChannels.scribe"
+   },
+   "SystemChannels.spellCheck": {
+    "const": "SystemChannels.spellCheck"
+   },
+   "SystemChannels.undoManager": {
+    "const": "SystemChannels.undoManager"
+   },
+   "SystemChannels.platform_views": {
+    "const": "SystemChannels.platform_views"
+   },
+   "SystemChannels.platform_views_2": {
+    "const": "SystemChannels.platform_views_2"
+   },
+   "SystemChannels.skia": {
+    "const": "SystemChannels.skia"
+   },
+   "SystemChannels.mouseCursor": {
+    "const": "SystemChannels.mouseCursor"
+   },
+   "SystemChannels.restoration": {
+    "const": "SystemChannels.restoration"
+   },
+   "SystemChannels.deferredComponent": {
+    "const": "SystemChannels.deferredComponent"
+   },
+   "SystemChannels.localization": {
+    "const": "SystemChannels.localization"
+   },
+   "SystemChannels.menu": {
+    "const": "SystemChannels.menu"
+   },
+   "SystemChannels.contextMenu": {
+    "const": "SystemChannels.contextMenu"
+   },
+   "SystemChannels.keyboard": {
+    "const": "SystemChannels.keyboard"
+   },
+   "SystemChannels.sensitiveContent": {
+    "const": "SystemChannels.sensitiveContent"
+   },
+   "DirectionalFocusIntent": {
+    "tag": "DirectionalFocusIntent",
+    "positional": [
+     "direction"
+    ]
+   },
+   "DismissIntent": {
+    "tag": "DismissIntent",
+    "positional": []
+   },
    "ScrollableState": {
     "tag": "ScrollableState",
     "positional": []
    },
+   "NextFocusIntent": {
+    "tag": "NextFocusIntent",
+    "positional": []
+   },
    "RouteInformation": {
     "tag": "RouteInformation",
+    "positional": []
+   },
+   "PreviousFocusIntent": {
+    "tag": "PreviousFocusIntent",
+    "positional": []
+   },
+   "PrioritizedIntents": {
+    "tag": "PrioritizedIntents",
+    "positional": []
+   },
+   "ScrollIntent": {
+    "tag": "ScrollIntent",
     "positional": []
    },
    "DragUpdateDetails": {
@@ -6933,6 +7049,13 @@
     "tag": "TextPosition",
     "positional": []
    },
+   "ChildVicinity.invalid": {
+    "const": "ChildVicinity.invalid"
+   },
+   "ChildVicinity": {
+    "tag": "ChildVicinity",
+    "positional": []
+   },
    "UndoHistoryValue.empty": {
     "const": "UndoHistoryValue.empty"
    },
@@ -6956,14 +7079,6 @@
    },
    "PointerDownEvent": {
     "tag": "PointerDownEvent",
-    "positional": []
-   },
-   "DiagnosticsSerializationDelegate": {
-    "tag": "DiagnosticsSerializationDelegate",
-    "positional": []
-   },
-   "TextTreeConfiguration": {
-    "tag": "TextTreeConfiguration",
     "positional": []
    },
    "PhysicalKeyboardKey.hyper": {
@@ -10008,6 +10123,16 @@
    "PictureRecorder": {
     "tag": "PictureRecorder",
     "positional": []
+   },
+   "JSONMethodCodec": {
+    "tag": "JSONMethodCodec",
+    "positional": []
+   },
+   "StandardMethodCodec": {
+    "tag": "StandardMethodCodec",
+    "positional": [
+     "messageCodec"
+    ]
    },
    "GradientRotation": {
     "tag": "GradientRotation",

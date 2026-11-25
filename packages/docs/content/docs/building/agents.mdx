@@ -66,6 +66,24 @@ fuse drive take-screenshots -o ios.png
 
 GPS, sensors and the camera have nothing to talk to on Linux. `fuse dev --headless` runs the app's fakes for them, written in TypeScript in `src/fakes.ts`: see [Faking native features](/docs/building/fakes).
 
+## Show a person
+
+Screenshots show one moment. To let a person click through the change, build a [web preview](/docs/building/web-previews) and send its link:
+
+```bash
+fuse build web --no-web-resources-cdn
+# then put dart/build/web on any static host
+```
+
+For something the web can't show (a plugin without a web implementation, how it runs on Linux), stream the running app instead. `fuse dev --headless` draws into an Xvfb display (`:99`, or the next free one); any VNC server can share it, for example:
+
+```bash
+x11vnc -display :99 -forever -nopw -shared &
+websockify --web /usr/share/novnc 6080 localhost:5900
+```
+
+Then open port 6080 through whatever the cloud machine exposes. This is a recipe, not part of fuse: it needs a reachable port, and the person sees one machine's session, live.
+
 ## MCP
 
 Agents that prefer MCP get the same commands as tools:

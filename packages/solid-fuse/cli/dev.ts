@@ -47,7 +47,11 @@ export const devCommand = defineCommand({
     if (fakes && fakesFile(projectRoot)) console.log("Fakes on: src/fakes runs before the app.");
     const viteConfig = buildViteConfig(projectRoot, fuseConfig, undefined, { fakes });
     // The app's platforms, and Linux for --headless.
-    ensureRunners(dartRoot, [...(fuseConfig?.platforms ?? []), ...(headlessMode ? (["linux"] as const) : [])], fuseConfig);
+    ensureRunners(
+      dartRoot,
+      [...(fuseConfig?.platforms ?? []), ...(headlessMode ? (["linux"] as const) : []), ...(webDevice(flutterArgs) ? (["web"] as const) : [])],
+      fuseConfig,
+    );
     let headless: Headless | undefined;
     if (headlessMode) {
       if (!flutterArgs.some((a) => a === "-d" || a.startsWith("--device-id"))) flutterArgs.push("-d", "linux");
