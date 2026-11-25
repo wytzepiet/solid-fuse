@@ -5,6 +5,7 @@ import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http show ClientException;
 import 'package:marionette_flutter/marionette_flutter.dart' show MarionetteDeviceConfig;
 
 import 'channels.dart';
@@ -190,9 +191,11 @@ class FuseRuntime {
   /// Connects to the dev server, or returns null to run the bundle instead.
   ///
   /// Under `fuse dev` (FUSE_HOST set) there is no bundle to fall back to,
-  /// so keep trying. The first attempt often fails on iOS while the Local
-  /// Network prompt is up; closing it resumes the app, so retry then, and
-  /// on a slow timer in case the server just isn't up yet.
+  /// so keep trying while the server can't be reached. The first attempt
+  /// often fails on iOS while the Local Network prompt is up; closing it
+  /// resumes the app, so retry then, and on a slow timer in case the server
+  /// just isn't up yet (`R` restarts it). A server that answers with an error
+  /// (a module that fails to transform) won't fix itself by retrying: throw.
   Future<DevServerConnection?> _connectDev() async {
     for (var attempt = 0;; attempt++) {
       // Fresh each time: a failed fetch leaves a connection half-filled.
@@ -204,6 +207,10 @@ class FuseRuntime {
         if (!_launchedByFuseDev) {
           debugPrint('[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle');
           return null;
+        }
+        if (e is! http.ClientException) {
+          debugPrint('[Fuse] Dev server at $_devHost:$_devPort failed: $e');
+          rethrow;
         }
         if (attempt == 0) {
           debugPrint(
