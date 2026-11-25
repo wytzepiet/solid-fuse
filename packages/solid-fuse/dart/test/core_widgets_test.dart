@@ -81,6 +81,46 @@ void main() {
     });
   });
 
+  group('text', () {
+    // root > text(color red) > ["a ", text(color blue) > "b"]
+    void mount() {
+      rt.registerDecoder(Color, (v, _) => Color(int.parse((v as String).substring(1), radix: 16) | 0xFF000000));
+      apply([
+          create(1, 'text', {'color': '#FF0000'}),
+          text(2, 'a '),
+          insert(1, 2),
+          create(3, 'text', {'color': '#0000FF'}),
+          text(4, 'b'),
+          insert(3, 4),
+          insert(1, 3),
+          insert(0, 1),
+        ]);
+    }
+
+    TextSpan inner(WidgetTester tester) {
+      final rich = tester.widget<RichText>(find.byType(RichText)).text as TextSpan;
+      return (rich.children!.single as TextSpan).children![1] as TextSpan;
+    }
+
+    testWidgets('a nested Text is a span with its own style', (tester) async {
+      mount();
+      await tester.pumpWidget(app());
+      expect(find.text('a b', findRichText: true), findsOneWidget);
+      expect(inner(tester).style!.color, const Color(0xFF0000FF));
+      // What it leaves out comes from the outer text.
+      expect(inner(tester).style!.fontSize, isNull);
+    });
+
+    testWidgets('a change inside a nested Text redraws the paragraph', (tester) async {
+      mount();
+      await tester.pumpWidget(app());
+      apply([setProp(3, 'color', '#00FF00'), [3, 4, 'c']]);
+      await tester.pump();
+      expect(find.text('a c', findRichText: true), findsOneWidget);
+      expect(inner(tester).style!.color, const Color(0xFF00FF00));
+    });
+  });
+
   group('modal', () {
     // root > [text "body", modal(open) > text "content"]
     void mount({bool open = false}) => apply([

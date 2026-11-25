@@ -199,7 +199,9 @@ class DevServerConnection extends FuseConnection {
 
     _modules[path] = '';
 
-    final bust = _bustTimestamp != null ? '?t=$_bustTimestamp' : '';
+    final bust = _bustTimestamp == null
+        ? ''
+        : '${path.contains('?') ? '&' : '?'}t=$_bustTimestamp';
     final url = '$_baseUrl$path$bust';
     debugPrint('[Fuse] Fetching module: $path');
 
@@ -311,17 +313,19 @@ class DevServerConnection extends FuseConnection {
 
         final source = _transformModule(utf8.decode(response.bodyBytes));
 
-        final deps = _scanImports(source);
-        for (final dep in deps) {
-          if (!_modules.containsKey(dep) && !_isViteOnly(dep)) {
-            _bustTimestamp = DateTime.now().millisecondsSinceEpoch;
-            await _prefetchModule(dep);
-            if (_modules.containsKey(dep) && _modules[dep]!.isNotEmpty) {
-              await _engine!.declareNewModules(
-                modules: [JsModule.code(module: dep, code: _modules[dep]!)],
-              );
-            }
-          }
+        // Vite names the modules this update invalidated with `?t=`, so they
+        // are new to the engine, and so is anything they import first: declare
+        // every module fetched here, not only the direct imports.
+        final known = _modules.keys.toSet();
+        _bustTimestamp = DateTime.now().millisecondsSinceEpoch;
+        await Future.wait(_scanImports(source).map(_prefetchModule));
+        final added = [
+          for (final name in _modules.keys)
+            if (!known.contains(name) && _modules[name]!.isNotEmpty)
+              JsModule.code(module: name, code: _modules[name]!),
+        ];
+        if (added.isNotEmpty) {
+          await _engine!.declareNewModules(modules: added);
         }
 
         final hmrModuleName = '$path?hmr=$ts';

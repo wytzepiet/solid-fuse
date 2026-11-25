@@ -55,6 +55,9 @@ export const devCommand = defineCommand({
     let headless: Headless | undefined;
     if (headlessMode) {
       if (!flutterArgs.some((a) => a === "-d" || a.startsWith("--device-id"))) flutterArgs.push("-d", "linux");
+      // A virtual display has no GPU: Impeller's GLES backend on Mesa's
+      // software rasteriser draws gradients over images wrong. Skia doesn't.
+      if (!flutterArgs.some((a) => a.includes("enable-impeller"))) flutterArgs.push("--no-enable-impeller");
       headless = await startHeadless(join(dartRoot, ".dart_tool", "fuse", "headless"));
     }
     const flutterEnv = headless?.env ?? process.env;

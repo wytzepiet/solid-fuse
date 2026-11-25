@@ -54,6 +54,16 @@ import { Text } from "solid-fuse";
 </Text>
 ```
 
+A `Text` inside a `Text` styles a run of the outer one: it sets only what it names and takes the rest from around it. Any other element inside a `Text` sits in the line, like an icon in a sentence.
+
+```tsx
+<Text fontSize={32} fontWeight={800}>
+  Every move, <Text color="#2DF2E0">in one place</Text> <Icon icon={Icons.sparkles} size={24} />
+</Text>
+```
+
+`overflow="ellipsis"` without `maxLines` cuts the text to one line, as in Flutter.
+
 ### Text props
 
 | Prop | Type | Description |
