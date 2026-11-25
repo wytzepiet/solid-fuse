@@ -1,6 +1,6 @@
 import { spawn, spawnSync } from "child_process";
 import http from "http";
-import { join } from "path";
+import { dirname, join } from "path";
 import { existsSync, readFileSync, watch } from "fs";
 import { createServer, build as viteBuild, mergeConfig, type ViteDevServer } from "vite";
 import { defineCommand } from "citty";
@@ -188,10 +188,11 @@ export const devCommand = defineCommand({
  * package.json, since they are written when the install is done.
  */
 function watchDependencies(projectRoot: string, dartRoot: string): () => void {
-  const files = [
-    ...["bun.lock", "bun.lockb", "package-lock.json", "pnpm-lock.yaml", "yarn.lock"].map((f) => join(projectRoot, f)),
-    join(dartRoot, "pubspec.yaml"),
-  ].filter((f) => existsSync(f));
+  // In a workspace the lock file is the workspace's, above the app.
+  const locks = ["bun.lock", "bun.lockb", "package-lock.json", "pnpm-lock.yaml", "yarn.lock"];
+  let lockDir = projectRoot;
+  while (!locks.some((f) => existsSync(join(lockDir, f))) && dirname(lockDir) !== lockDir) lockDir = dirname(lockDir);
+  const files = [...locks.map((f) => join(lockDir, f)), join(dartRoot, "pubspec.yaml")].filter((f) => existsSync(f));
   const seen = new Map(files.map((f) => [f, readFileSync(f)]));
   let timer: ReturnType<typeof setTimeout> | undefined;
   // Link writes pubspec.yaml itself; that isn't a change to answer.
