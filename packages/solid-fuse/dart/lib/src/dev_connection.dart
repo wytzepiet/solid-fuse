@@ -57,9 +57,7 @@ class DevServerConnection extends FuseConnection {
   }
 
   @override
-  Future<void> restart() async {
-    await _reload();
-  }
+  Future<void> restart() => _serially(_reload);
 
   Future<void> _createEngine() async {
     // Retire the old engine before swapping in the new one: stop its driver,
@@ -257,10 +255,10 @@ class DevServerConnection extends FuseConnection {
             debugPrint('[Fuse] HMR message: $type');
             if (type == 'update') {
               final updates = (data['updates'] as List<dynamic>?) ?? [];
-              _hmrUpdate(updates);
+              _serially(() => _hmrUpdate(updates));
             } else if (type == 'full-reload') {
               debugPrint('[Fuse] Full reload requested');
-              _reload();
+              _serially(_reload);
             }
           } catch (e) {
             debugPrint('[Fuse] HMR parse error: $e');
@@ -276,6 +274,16 @@ class DevServerConnection extends FuseConnection {
     } catch (e) {
       debugPrint('[Fuse] Could not connect to HMR: $e');
     }
+  }
+
+  // Updates and reloads run one at a time, in the order Vite sent them: a
+  // save often sends several at once, and each swaps modules (or the whole
+  // engine) under the others.
+  Future<void> _queue = Future.value();
+  Future<void> _serially(Future<void> Function() task) {
+    return _queue = _queue.then((_) => task()).catchError((Object e) {
+      debugPrint('[Fuse] HMR error: $e');
+    });
   }
 
   Future<void> _hmrUpdate(List<dynamic> updates) async {
@@ -349,7 +357,7 @@ class DevServerConnection extends FuseConnection {
     } catch (e, st) {
       debugPrint('[Fuse] HMR update failed: $e\n$st');
       debugPrint('[Fuse] Falling back to full reload');
-      _reload();
+      await _reload();
     }
   }
 
