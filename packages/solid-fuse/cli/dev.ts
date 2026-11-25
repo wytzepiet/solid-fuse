@@ -1,4 +1,4 @@
-import { spawn, spawnSync } from "child_process";
+import { spawn, spawnSync, type ChildProcess } from "child_process";
 import http from "http";
 import { dirname, join } from "path";
 import { existsSync, readFileSync, watch } from "fs";
@@ -17,6 +17,7 @@ function webDevice(args: string[]): boolean {
   return d === "chrome" || d === "web-server" || d === "edge";
 }
 import { ensureRunners } from "./runners";
+import { askedMode, defaultMode, modeArgs } from "./dev-mode";
 import { clearDriveSession, vmServiceUri, writeDriveSession } from "./drive";
 
 const DEV_PORT = 24680;
@@ -25,7 +26,7 @@ export const devCommand = defineCommand({
   meta: {
     name: "dev",
     description:
-      "Start Vite dev server + Flutter run with hot reload. --headless: run the Linux app with no screen, for `fuse drive`.",
+      "Start Vite dev server + Flutter run with live JS. Phones build compiled with debug checks (--debug, --profile, --release, --checked to choose). --headless: run the Linux app with no screen, for `fuse drive`.",
   },
   run: async ({ rawArgs }) => {
     const projectRoot = findProjectRoot();
@@ -62,26 +63,28 @@ export const devCommand = defineCommand({
     }
     const flutterEnv = headless?.env ?? process.env;
 
-    // Step 4: If --release or --profile, build JS bundle instead of dev server
-    const isRelease = flutterArgs.includes("--release") || flutterArgs.includes("--profile");
-
-    if (isRelease) {
-      console.log("\nBuilding JS bundle (release/profile mode)...");
-      await viteBuild(viteConfig);
-
-      const flutter = spawn("flutter", ["run", ...flutterArgs], {
-        cwd: dartRoot,
-        env: flutterEnv,
-        stdio: ["inherit", "pipe", "inherit"],
-      });
-      watchVmService(flutter.stdout!, dartRoot);
-      flutter.on("close", (code) => {
-        clearDriveSession(dartRoot);
-        headless?.stop();
-        process.exit(code ?? 0);
-      });
-      return;
+    // Step 4: How to build the Dart (cli/dev-mode.ts). Compiled builds carry
+    // the JS as a bundle too, so they start away from this computer.
+    let mode = askedMode(flutterArgs);
+    if (!mode) {
+      const picked = await defaultMode(flutterArgs, dartRoot);
+      mode = picked.mode;
+      if (mode === "checked") {
+        console.log(
+          `${picked.device?.name ?? "This device"} is a phone: building compiled with Flutter's debug checks, so it keeps running when you unplug it. ` +
+            "No Dart hot reload: R rebuilds the app. --debug for a debug build.",
+        );
+      }
     }
+    const compiled = mode !== "debug";
+    const runArgs = modeArgs(mode, flutterArgs);
+    // Leave the Dart whole: the live code next to the bundle may use anything.
+    const bundleConfig = buildViteConfig(projectRoot, fuseConfig, undefined, { fakes, shake: false });
+    const buildBundle = async () => {
+      console.log("\nBuilding the JS bundle the app starts with when the dev server isn't there...");
+      await viteBuild(bundleConfig);
+    };
+    if (compiled) await buildBundle();
 
     // Step 5: Start Vite dev server
     const host = detectLanIp();
@@ -120,6 +123,17 @@ export const devCommand = defineCommand({
       );
     }
 
+    async function restartVite() {
+      console.log("\nRestarting Vite dev server...");
+      if (viteServer.httpServer instanceof http.Server) {
+        viteServer.httpServer.closeAllConnections();
+      }
+      await viteServer.close();
+      // Re-bind to the same port the app is already dialing.
+      viteServer = await startVite(devPort);
+      console.log("Vite restarted.");
+    }
+
     const stopRelink = watchDependencies(projectRoot, dartRoot);
 
     // Step 6: Start flutter run with piped stdin so we can intercept R (hot restart)
@@ -140,21 +154,46 @@ export const devCommand = defineCommand({
       "run",
       `--dart-define=FUSE_HOST=${host}`,
       `--dart-define=FUSE_PORT=${devPort}`,
-      ...flutterArgs,
+      ...(compiled ? ["--dart-define=FUSE_BUNDLE=true"] : []),
+      ...runArgs,
     ];
-    console.log(`Running: flutter ${allFlutterArgs.join(" ")}`);
 
-    const flutter = spawn("flutter", allFlutterArgs, {
-      cwd: dartRoot,
-      env: flutterEnv,
-      stdio: ["pipe", "pipe", "inherit"],
-    });
-    watchVmService(flutter.stdout!, dartRoot);
+    let flutter: ChildProcess;
+    let relaunching = false;
+    const launch = () => {
+      console.log(`Running: flutter ${allFlutterArgs.join(" ")}`);
+      flutter = spawn("flutter", allFlutterArgs, {
+        cwd: dartRoot,
+        env: flutterEnv,
+        stdio: ["pipe", "pipe", "inherit"],
+      });
+      watchVmService(flutter.stdout!, dartRoot);
+      flutter.on("close", (code) => {
+        if (relaunching) return;
+        cleanup();
+        process.exit(code ?? 0);
+      });
+    };
+    launch();
 
-    flutter.on("close", (code) => {
-      cleanup();
-      process.exit(code ?? 0);
-    });
+    // A compiled build has no hot restart: R builds and launches it again,
+    // with the Dart and JS as they are now.
+    const rebuild = async () => {
+      if (relaunching) return;
+      relaunching = true;
+      console.log("\nRebuilding the app...");
+      const closed = new Promise((resolve) => flutter.once("close", resolve));
+      flutter.stdin!.write("q\n");
+      await closed;
+      try {
+        await buildBundle();
+        await restartVite();
+      } catch (err) {
+        console.error(`Rebuild failed: ${err instanceof Error ? err.message : err}`);
+      }
+      relaunching = false;
+      launch();
+    };
 
     if (process.stdin.isTTY) {
       process.stdin.setRawMode(true);
@@ -169,14 +208,8 @@ export const devCommand = defineCommand({
         }
 
         if (char === "R") {
-          console.log("\nRestarting Vite dev server...");
-          if (viteServer.httpServer instanceof http.Server) {
-            viteServer.httpServer.closeAllConnections();
-          }
-          await viteServer.close();
-          // Re-bind to the same port the app is already dialing.
-          viteServer = await startVite(devPort);
-          console.log("Vite restarted.");
+          if (compiled) return rebuild();
+          await restartVite();
         }
 
         flutter.stdin!.write(`${char}\n`);

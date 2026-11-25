@@ -5,7 +5,6 @@ import 'package:solid_fuse/fjs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http show ClientException;
 import 'package:marionette_flutter/marionette_flutter.dart' show MarionetteDeviceConfig;
 
 import 'channels.dart';
@@ -43,6 +42,10 @@ const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
 
 /// `fuse dev` passes FUSE_HOST; a plain `flutter run` doesn't.
 const _launchedByFuseDev = bool.hasEnvironment('FUSE_HOST');
+
+/// `fuse dev` built the JS bundle in this app's assets for this launch (it
+/// does for compiled builds), so it matches the Dart and the code.
+const _launchBundle = bool.fromEnvironment('FUSE_BUNDLE');
 
 /// The Fuse runtime: manages the JS connection, widget/handle registries,
 /// and tree rendering.
@@ -135,10 +138,12 @@ class FuseRuntime {
   /// The factory registered for route [type], or null.
   FuseRouteFactory? routeFactory(String type) => _routeFactories[type];
 
-  /// Start the JS engine. In debug mode, connects to the Vite dev server
-  /// (pre-fetches modules from Vite). Under `fuse dev` it waits until the
-  /// server is reachable; a plain `flutter run` falls back to the QuickJS
-  /// bundle instead. In release mode, loads the QuickJS bundle directly.
+  /// Start the JS engine. Under `fuse dev` (or a plain `flutter run` in
+  /// debug) the JS is the live code from the Vite dev server, whatever the
+  /// Dart build mode. A `fuse dev` build that carries a bundle runs it until
+  /// the server answers; one without waits for the server. A plain `flutter
+  /// run` falls back to the bundle for good. Other builds load the bundle
+  /// from the Flutter assets.
   ///
   /// All widget/handle factories must be registered before this is called —
   /// once the JS bundle starts evaluating, it will push create ops that
@@ -149,11 +154,12 @@ class FuseRuntime {
     if (_connection != null) {
       throw StateError('FuseRuntime.start() already called');
     }
+    final useDevServer = _launchedByFuseDev || kDebugMode;
 
-    // The browser runs the JS itself: from the dev server in debug, else the
-    // built bundle.
+    // The browser runs the JS itself: from the dev server under fuse dev,
+    // else the built bundle.
     if (kIsWeb) {
-      final web = WebConnection(devServer: kDebugMode ? 'http://$_devHost:$_devPort' : null);
+      final web = WebConnection(devServer: useDevServer ? 'http://$_devHost:$_devPort' : null);
       await web.connect();
       _connection = web;
       _registerChannels();
@@ -161,9 +167,21 @@ class FuseRuntime {
       return;
     }
 
-    if (kDebugMode) {
-      final dev = await _connectDev();
-      if (dev == null) {
+    if (useDevServer) {
+      final dev = DevServerConnection(
+        host: _devHost,
+        port: _devPort,
+        bundle: _launchBundle,
+        wait: _launchedByFuseDev,
+      );
+      try {
+        await dev.connect();
+      } catch (e) {
+        if (_launchedByFuseDev) {
+          debugPrint('[Fuse] Dev server at $_devHost:$_devPort failed: $e');
+          rethrow;
+        }
+        debugPrint('[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle');
         await _startQuickJs();
         return;
       }
@@ -173,7 +191,7 @@ class FuseRuntime {
       _registerChannels();
       try {
         await dev.start();
-        debugPrint('[Fuse] Connected to dev server at $_devHost');
+        if (dev.live) debugPrint('[Fuse] Connected to dev server at $_devHost');
         return;
       } catch (e) {
         // The dev server was reachable but evaluating the JS modules threw.
@@ -186,56 +204,6 @@ class FuseRuntime {
     }
 
     await _startQuickJs();
-  }
-
-  /// Connects to the dev server, or returns null to run the bundle instead.
-  ///
-  /// Under `fuse dev` (FUSE_HOST set) there is no bundle to fall back to,
-  /// so keep trying while the server can't be reached. The first attempt
-  /// often fails on iOS while the Local Network prompt is up; closing it
-  /// resumes the app, so retry then, and on a slow timer in case the server
-  /// just isn't up yet (`R` restarts it). A server that answers with an error
-  /// (a module that fails to transform) won't fix itself by retrying: throw.
-  Future<DevServerConnection?> _connectDev() async {
-    for (var attempt = 0;; attempt++) {
-      // Fresh each time: a failed fetch leaves a connection half-filled.
-      final dev = DevServerConnection(host: _devHost, port: _devPort);
-      try {
-        await dev.connect();
-        return dev;
-      } catch (e) {
-        if (!_launchedByFuseDev) {
-          debugPrint('[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle');
-          return null;
-        }
-        if (e is! http.ClientException) {
-          debugPrint('[Fuse] Dev server at $_devHost:$_devPort failed: $e');
-          rethrow;
-        }
-        if (attempt == 0) {
-          debugPrint(
-            '[Fuse] Dev server unreachable at $_devHost:$_devPort ($e). '
-            'Waiting for it — on iOS, allow Local Network access.',
-          );
-        }
-        await _retrySignal(Duration(seconds: attempt < 5 ? 1 : 3));
-      }
-    }
-  }
-
-  /// Completes when the app resumes (a system prompt closed) or after [delay].
-  Future<void> _retrySignal(Duration delay) {
-    final done = Completer<void>();
-    final listener = AppLifecycleListener(onResume: () {
-      if (!done.isCompleted) done.complete();
-    });
-    final timer = Timer(delay, () {
-      if (!done.isCompleted) done.complete();
-    });
-    return done.future.whenComplete(() {
-      timer.cancel();
-      listener.dispose();
-    });
   }
 
   Future<void> _startQuickJs() async {

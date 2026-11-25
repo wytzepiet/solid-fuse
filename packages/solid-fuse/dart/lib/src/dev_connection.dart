@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -13,11 +15,35 @@ import 'ws_manager.dart';
 /// Connects to a Vite dev server, pre-fetches all ES modules, and evaluates
 /// them in QuickJS with module support. Listens for HMR updates via Vite's
 /// WebSocket to auto-reload on file changes.
+///
+/// The server may come and go: a phone leaves the network, sleeps, or opens
+/// the app again later away from the computer. Whenever the app comes to the
+/// front or its socket drops, it asks the server for its version
+/// (`/__fuse_version`, cli/dev-version-plugin.ts): the same one only
+/// reconnects, another one (changes it missed, a restarted server) reloads.
+/// Until a server answers it runs [bundle], if the app has one.
 class DevServerConnection extends FuseConnection {
-  DevServerConnection({required this.host, this.port = 24680, this.builtins, this.modules});
+  DevServerConnection({
+    required this.host,
+    this.port = 24680,
+    this.bundle = false,
+    this.wait = false,
+    this.builtins,
+    this.modules,
+  });
 
   final String host;
   final int port;
+
+  /// Whether the app carries a JS bundle built for this launch (`fuse dev`
+  /// builds one for compiled builds): run it while the server can't be
+  /// reached, and switch to the live code when it can.
+  final bool bundle;
+
+  /// With no [bundle], wait for the server to be reachable instead of
+  /// throwing from [connect].
+  final bool wait;
+
   final JsBuiltinOptions? builtins;
   final List<JsModule>? modules;
 
@@ -27,6 +53,14 @@ class DevServerConnection extends FuseConnection {
   WidgetsBindingObserver? _hostObserver;
   final _modules = <String, String>{};
   WebSocketChannel? _hmrChannel;
+
+  /// Whether the engine runs the server's code at [_version]; false while it
+  /// runs the bundle, or after a reload failed.
+  bool _live = false;
+  String? _version;
+
+  /// Whether the JS running now came from the dev server (else the bundle).
+  bool get live => _live;
 
   /// Memory ceiling (bytes) before forcing a full reload to reclaim
   /// accumulated QuickJS module declarations that can't be freed individually.
@@ -40,20 +74,143 @@ class DevServerConnection extends FuseConnection {
   @override
   FuseChannels? get channels => _channels;
 
+  /// Fetches the live code, or settles for [bundle] when the server can't be
+  /// reached; with neither, waits ([wait]) or throws. A server that answers
+  /// with an error (a module that fails to transform) won't fix itself by
+  /// retrying: that throws either way.
   @override
   Future<void> connect() async {
-    const entryPath = '/src/index.tsx';
-    await _prefetchModule(entryPath);
-    debugPrint('[Fuse] Pre-fetched ${_modules.length} modules');
-
+    for (var attempt = 0;; attempt++) {
+      try {
+        final version = await _probe();
+        await _prefetchModule(_entryPath);
+        debugPrint('[Fuse] Pre-fetched ${_modules.length} modules');
+        _live = true;
+        _version = version;
+        break;
+      } catch (e) {
+        _modules.clear();
+        if (!_unreachable(e) || (!bundle && !wait)) rethrow;
+        if (bundle) {
+          debugPrint('[Fuse] Dev server unreachable at $host:$port ($e). Running the bundled JS until it is.');
+          break;
+        }
+        // The first attempt often fails on iOS while the Local Network
+        // prompt is up; closing it resumes the app, so retry then.
+        if (attempt == 0) {
+          debugPrint(
+            '[Fuse] Dev server unreachable at $host:$port ($e). '
+            'Waiting for it — on iOS, allow Local Network access.',
+          );
+        }
+        await _retrySignal(Duration(seconds: attempt < 5 ? 1 : 3));
+      }
+    }
     await _createEngine();
   }
 
   @override
   Future<void> start() async {
-    const entryPath = '/src/index.tsx';
-    await _evalEntry(entryPath);
-    _connectHmr();
+    if (_live) {
+      await _evalEntry(_entryPath);
+      _connectHmr();
+    } else {
+      await _evalBundle();
+    }
+    _lifecycle = AppLifecycleListener(onResume: _check);
+    // A socket can die without a word (the network went away under it):
+    // check now and then while the app is in front.
+    _heartbeat = Timer.periodic(const Duration(seconds: 15), (_) {
+      final state = WidgetsBinding.instance.lifecycleState;
+      if (state != AppLifecycleState.paused && state != AppLifecycleState.hidden) _check();
+    });
+    if (!_live) _scheduleCheck();
+  }
+
+  static const _entryPath = '/src/index.tsx';
+
+  Future<void> _evalBundle() async {
+    try {
+      final source = await rootBundle.loadString('assets/js/bundle.js');
+      await _engine!.eval(source: JsCode.code(source));
+    } catch (e, st) {
+      debugPrint('[Fuse] Bundled JS failed: $e\n$st');
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Reaching the server
+  // ---------------------------------------------------------------------------
+
+  AppLifecycleListener? _lifecycle;
+  Timer? _heartbeat;
+  Timer? _retry;
+  int _misses = 0;
+  bool _checking = false;
+
+  /// Can't reach the server (as opposed to: it answered with an error).
+  static bool _unreachable(Object e) => e is http.ClientException || e is TimeoutException;
+
+  /// The server's version, or null from a server that doesn't say. Throws
+  /// when it can't be reached; a phone off the network may not even fail
+  /// fast, so give up after a few seconds.
+  Future<String?> _probe() async {
+    final r = await http.get(Uri.parse('$_baseUrl/__fuse_version')).timeout(const Duration(seconds: 3));
+    return r.statusCode == 200 ? r.body : null;
+  }
+
+  /// Completes when the app resumes (a system prompt closed) or after [delay].
+  static Future<void> _retrySignal(Duration delay) {
+    final done = Completer<void>();
+    final listener = AppLifecycleListener(onResume: () {
+      if (!done.isCompleted) done.complete();
+    });
+    final timer = Timer(delay, () {
+      if (!done.isCompleted) done.complete();
+    });
+    return done.future.whenComplete(() {
+      timer.cancel();
+      listener.dispose();
+    });
+  }
+
+  /// Checks the server again soon, while the app is in front (coming back
+  /// to the front checks right away).
+  void _scheduleCheck() {
+    if (_retry?.isActive ?? false) return;
+    final state = WidgetsBinding.instance.lifecycleState;
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.hidden) return;
+    _retry = Timer(Duration(seconds: _misses++ < 5 ? 2 : 5), _check);
+  }
+
+  /// Is the server there, and does the app run what it serves? Reload when
+  /// it doesn't, reconnect the socket when only that was lost.
+  Future<void> _check() async {
+    if (_checking) return;
+    _checking = true;
+    try {
+      final String? version;
+      try {
+        version = await _probe();
+      } catch (e) {
+        if (_hmrOpen) debugPrint('[Fuse] Dev server unreachable ($e)');
+        _closeHmr();
+        _scheduleCheck();
+        return;
+      }
+      _misses = 0;
+      if (!_live || version != _version) {
+        debugPrint(_live ? '[Fuse] Dev server changed meanwhile: reloading' : '[Fuse] Dev server reachable: loading the live code');
+        _closeHmr();
+        await _serially(_reload);
+        if (!_live) return _scheduleCheck();
+        _connectHmr();
+      } else if (!_hmrOpen) {
+        _connectHmr();
+      }
+    } finally {
+      _checking = false;
+    }
   }
 
   @override
@@ -241,17 +398,37 @@ class DevServerConnection extends FuseConnection {
   // HMR
   // ---------------------------------------------------------------------------
 
+  bool _hmrOpen = false;
+  int _hmrSocket = 0;
+
   void _connectHmr() {
+    _closeHmr();
+    final socket = _hmrSocket;
+    bool current() => socket == _hmrSocket;
+    void lost(String why) {
+      if (!current()) return;
+      _hmrOpen = false;
+      debugPrint('[Fuse] HMR WebSocket $why');
+      _scheduleCheck();
+    }
+
     try {
       final uri = Uri.parse('ws://$host:$port/');
       _hmrChannel = WebSocketChannel.connect(uri, protocols: ['vite-hmr']);
+      _hmrOpen = true;
 
       debugPrint('[Fuse] HMR WebSocket connected to ws://$host:$port/');
       _hmrChannel!.stream.listen(
         (message) {
+          if (!current()) return;
           try {
             final data = jsonDecode(message as String);
             final type = data is Map ? data['type'] : null;
+            if (type == 'custom') {
+              // Sent after each update or reload it counts.
+              if (data['event'] == 'fuse:version') _version = data['data'] as String?;
+              return;
+            }
             debugPrint('[Fuse] HMR message: $type');
             if (type == 'update') {
               final updates = (data['updates'] as List<dynamic>?) ?? [];
@@ -264,16 +441,19 @@ class DevServerConnection extends FuseConnection {
             debugPrint('[Fuse] HMR parse error: $e');
           }
         },
-        onError: (e) {
-          debugPrint('[Fuse] HMR WebSocket error: $e');
-        },
-        onDone: () {
-          debugPrint('[Fuse] HMR WebSocket closed');
-        },
+        onError: (Object e) => lost('error: $e'),
+        onDone: () => lost('closed'),
       );
     } catch (e) {
-      debugPrint('[Fuse] Could not connect to HMR: $e');
+      lost('could not connect: $e');
     }
+  }
+
+  void _closeHmr() {
+    _hmrSocket++;
+    _hmrOpen = false;
+    _hmrChannel?.sink.close();
+    _hmrChannel = null;
   }
 
   // Updates and reloads run one at a time, in the order Vite sent them: a
@@ -366,22 +546,32 @@ class DevServerConnection extends FuseConnection {
     }
   }
 
+  /// Loads the server's code from scratch into a new engine. Sets [_live]
+  /// to whether that worked.
   Future<void> _reload() async {
     try {
       _modules.clear();
       _bustTimestamp = DateTime.now().millisecondsSinceEpoch;
-      const entryPath = '/src/index.tsx';
-      await _prefetchModule(entryPath);
+      final version = await _probe();
+      await _prefetchModule(_entryPath);
       debugPrint('[Fuse] Re-fetched ${_modules.length} modules');
       await _createEngine();
       onEngineReplaced?.call();
-      await _evalEntry(entryPath);
+      await _evalEntry(_entryPath);
+      _live = true;
+      _version = version;
       debugPrint('[Fuse] HMR reload complete');
     } catch (e, st) {
+      _live = false;
       debugPrint('[Fuse] Reload error: $e\n$st');
     }
   }
 
   @override
-  void dispose() {}
+  void dispose() {
+    _retry?.cancel();
+    _heartbeat?.cancel();
+    _lifecycle?.dispose();
+    _closeHmr();
+  }
 }

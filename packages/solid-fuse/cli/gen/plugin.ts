@@ -22,6 +22,8 @@ export interface FuseGenPluginOptions {
   config: FuseConfig | null;
   /** Filled in by a build with what the bundle uses (tests read it). */
   use?: BundleUse;
+  /** False: a build leaves the Dart adapters whole (`fuse dev`'s bundle). */
+  shake?: boolean;
 }
 
 /** The compile step's tables for the generated modules, re-read when `fuse gen` writes them. */
@@ -122,7 +124,7 @@ export function fuseGenPlugin(o: FuseGenPluginOptions): Plugin & { api: { use: B
       }
     },
     writeBundle() {
-      if (!building) return;
+      if (!building || o.shake === false) return;
       // Dart can't drop registered adapters on its own: write them again for
       // what the bundle uses. `fuse dev` and `fuse gen` write all of them.
       const manifestPath = join(o.dartRoot, ".dart_tool", "solid_fuse_gen", "manifest.json");

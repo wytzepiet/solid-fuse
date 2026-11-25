@@ -83,6 +83,6 @@ One package manager for both sides.
 
 ## Dev vs production
 
-**Development** — `fuse dev` starts Vite and Flutter together. Dart connects to the Vite dev server via WebSocket, pre-fetches ES modules, and evaluates them in FJS. HMR works — edit, save, see it on device.
+**Development** — `fuse dev` starts Vite and Flutter together. Dart fetches the ES modules from the Vite dev server and evaluates them in FJS; HMR comes over Vite's WebSocket. That's separate from Flutter's debugger, so it works with compiled Dart too, which is the default on phones (see [Running the app](/docs/getting-started#running-the-app)).
 
 **Production** — `fuse build` produces a single IIFE bundle with optional bytecode compilation, then runs `flutter build` (`fuse build --js-only` stops after the bundle). The Dart layer is a stable native SDK that rarely changes. The JS bundle is where product code lives and can ship continuously — including over-the-air without app store review.

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, realpathSync } from "fs";
-import { dirname, join, resolve } from "path";
+import { dirname, join, resolve, sep } from "path";
 import { mergeConfig, runnerImport, type InlineConfig } from "vite";
 import solidPlugin from "@solidjs/vite-plugin";
 import { defu } from "defu";
@@ -8,6 +8,7 @@ import { fuseDevErrorPlugin } from "./dev-error-plugin";
 import { fuseCompilePlugin } from "./compile-plugin";
 import { fuseGenPlugin, generatedTables } from "./gen/plugin";
 import type { BundleUse } from "./gen/shake";
+import { fuseDevVersionPlugin } from "./dev-version-plugin";
 import { fuseRoutesPlugin } from "./routes";
 import { fuseFakesPlugin } from "./fakes";
 
@@ -89,13 +90,14 @@ export function fusePackageNames(projectRoot: string): string[] {
 /**
  * Build a Vite InlineConfig from a FuseConfig, merging Fuse defaults with user overrides.
  * [use], in `fuse build`, collects what the bundle uses of the generated
- * modules (cli/gen/shake.ts).
+ * modules (cli/gen/shake.ts). `shake: false` leaves the Dart whole: a
+ * bundle `fuse dev` builds runs next to live code that may use anything.
  */
 export function buildViteConfig(
   projectRoot: string,
   fuseConfig: FuseConfig | null,
   use?: BundleUse,
-  options: { fakes?: boolean } = {},
+  options: { fakes?: boolean; shake?: boolean } = {},
 ): InlineConfig {
   const dartRoot = join(projectRoot, fuseConfig?.dart ?? "dart");
 
@@ -114,7 +116,7 @@ export function buildViteConfig(
     exclude: [`${genDir}/*/**`],
   });
   const compile = { ...fuseConfig?.compile };
-  const gen = fuseGenPlugin({ projectRoot, dartRoot, genDir, config: fuseConfig, use });
+  const gen = fuseGenPlugin({ projectRoot, dartRoot, genDir, config: fuseConfig, use, shake: options.shake });
 
   const fuseDefaults: InlineConfig = {
     configFile: false,
@@ -133,7 +135,16 @@ export function buildViteConfig(
       fuseCompilePlugin({ ...compile, moduleName: solidOptions.solid.moduleName, usage: gen.api.use, tables: generatedTables(genDir) }),
       solidPlugin(solidOptions),
       fuseDevErrorPlugin(),
+      fuseDevVersionPlugin(),
     ],
+    server: {
+      watch: {
+        // Flutter's builds write all over the Dart folder (an `index.html`
+        // in a plugin's example makes Vite reload the app). Only `lib/` is
+        // the app's own; gen watches it.
+        ignored: [(p: string) => p.startsWith(dartRoot + sep) && !p.startsWith(join(dartRoot, "lib") + sep)],
+      },
+    },
     optimizeDeps: {
       // Pre-bundle at server startup so hashes are stable before the device
       // connects. Without this, Vite discovers these deps from the first
