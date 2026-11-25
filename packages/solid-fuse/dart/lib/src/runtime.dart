@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:solid_fuse/fjs.dart';
@@ -38,6 +39,9 @@ const _devHost = String.fromEnvironment('FUSE_HOST', defaultValue: 'localhost');
 /// Port for the Vite dev server.
 /// Pass via: --dart-define=FUSE_PORT=24680
 const _devPort = int.fromEnvironment('FUSE_PORT', defaultValue: 24680);
+
+/// `fuse dev` passes FUSE_HOST; a plain `flutter run` doesn't.
+const _launchedByFuseDev = bool.hasEnvironment('FUSE_HOST');
 
 /// The Fuse runtime: manages the JS connection, widget/handle registries,
 /// and tree rendering.
@@ -131,8 +135,9 @@ class FuseRuntime {
   FuseRouteFactory? routeFactory(String type) => _routeFactories[type];
 
   /// Start the JS engine. In debug mode, connects to the Vite dev server
-  /// (pre-fetches modules from Vite) and falls back to the QuickJS bundle
-  /// if unavailable. In release mode, loads the QuickJS bundle directly.
+  /// (pre-fetches modules from Vite). Under `fuse dev` it waits until the
+  /// server is reachable; a plain `flutter run` falls back to the QuickJS
+  /// bundle instead. In release mode, loads the QuickJS bundle directly.
   ///
   /// All widget/handle factories must be registered before this is called —
   /// once the JS bundle starts evaluating, it will push create ops that
@@ -156,13 +161,8 @@ class FuseRuntime {
     }
 
     if (kDebugMode) {
-      final dev = DevServerConnection(host: _devHost, port: _devPort);
-      try {
-        await dev.connect();
-      } catch (e) {
-        debugPrint(
-          '[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle',
-        );
+      final dev = await _connectDev();
+      if (dev == null) {
         await _startQuickJs();
         return;
       }
@@ -185,6 +185,50 @@ class FuseRuntime {
     }
 
     await _startQuickJs();
+  }
+
+  /// Connects to the dev server, or returns null to run the bundle instead.
+  ///
+  /// Under `fuse dev` (FUSE_HOST set) there is no bundle to fall back to,
+  /// so keep trying. The first attempt often fails on iOS while the Local
+  /// Network prompt is up; closing it resumes the app, so retry then, and
+  /// on a slow timer in case the server just isn't up yet.
+  Future<DevServerConnection?> _connectDev() async {
+    for (var attempt = 0;; attempt++) {
+      // Fresh each time: a failed fetch leaves a connection half-filled.
+      final dev = DevServerConnection(host: _devHost, port: _devPort);
+      try {
+        await dev.connect();
+        return dev;
+      } catch (e) {
+        if (!_launchedByFuseDev) {
+          debugPrint('[Fuse] Dev server unreachable at $_devHost:$_devPort ($e) — falling back to QuickJS bundle');
+          return null;
+        }
+        if (attempt == 0) {
+          debugPrint(
+            '[Fuse] Dev server unreachable at $_devHost:$_devPort ($e). '
+            'Waiting for it — on iOS, allow Local Network access.',
+          );
+        }
+        await _retrySignal(Duration(seconds: attempt < 5 ? 1 : 3));
+      }
+    }
+  }
+
+  /// Completes when the app resumes (a system prompt closed) or after [delay].
+  Future<void> _retrySignal(Duration delay) {
+    final done = Completer<void>();
+    final listener = AppLifecycleListener(onResume: () {
+      if (!done.isCompleted) done.complete();
+    });
+    final timer = Timer(delay, () {
+      if (!done.isCompleted) done.complete();
+    });
+    return done.future.whenComplete(() {
+      timer.cancel();
+      listener.dispose();
+    });
   }
 
   Future<void> _startQuickJs() async {
