@@ -126,7 +126,7 @@ export default function Share() {
 | | |
 |---|---|
 | `page.stacks()` | The indexes of the stacks it holds, in the order they drew. |
-| `page.active()` | The stack in front: the one that takes the back button and gets pushes that fit no other. |
+| `page.active()` | The stack in front: the one that takes the back button and gets pushes that fit no other. When it stops drawing, one drawn in its place comes to the front (the app's stack after sign-in). |
 | `page.show(index)` | Bring a stack to the front. Showing the one in front again pops it to its first page. |
 | `page.stack(index?)` | A stack it holds; the first without an index. |
 

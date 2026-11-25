@@ -179,6 +179,64 @@ describe("where pages open", () => {
     expect(result).toBe(5);
   });
 
+  test("closing a flow and pushing from inside it lands on the tab", () => {
+    const { root, home } = app();
+    useNav().push(R.Share);
+    const share = mount(root.pages()[1]!);
+    useNav().push(R.Contact);
+    const contact = share.pages()[1]!;
+    const nav = navOf(contact);
+    nav.app.set([]);
+    nav.push(R.Video, { id: 5 });
+    expect(paths(root)).toEqual(["/"]);
+    expect(paths(home)).toEqual(["/", "/video/5"]);
+  });
+
+  test("leaving a flow for a page in the tabs, by address, from the flow's last page", async () => {
+    _resetRoutes();
+    _resetNavigation();
+    const Tabs = route({ path: "/tabs", component: view });
+    route({ path: "/tabs", in: Tabs, component: view });
+    route({ path: "/tabs/me", in: Tabs, component: view });
+    route({ path: "/tabs/video/:id", in: Tabs, component: view });
+    const Post = route({ path: "/post", component: view });
+    route({ path: "/post", in: Post, component: view });
+    const Details = route({ path: "/post/details", in: Post, component: view });
+    const root = mount(undefined, "/tabs");
+    const tabs = root.pages()[0]!;
+    const feed = mount(tabs, "/tabs");
+    mount(tabs, "/tabs/me");
+    navOf(feed.pages()[0]!).push("/post" as any);
+    const post = mount(root.pages()[1]!);
+    await tick();
+    navOf(post.pages()[0]!).push(Details);
+    const nav = navOf(post.pages()[1]!);
+    nav.app.set([]);
+    nav.push("/tabs/video/7" as any);
+    await tick();
+    expect(paths(root)).toEqual(["/tabs"]);
+    expect(paths(feed)).toEqual(["/tabs", "/tabs/video/7"]);
+  });
+
+  test("a stack that replaces the app's (signed out, then in) is the app's", async () => {
+    _resetRoutes();
+    _resetNavigation();
+    route({ path: "/", component: view });
+    route({ path: "/tabs", component: view });
+    route({ path: "/video/:id", component: view });
+    let dispose!: () => void;
+    createRoot((d) => {
+      dispose = d;
+      _inPage(undefined, () => createStack({ index: "/" }));
+    });
+    const signedIn = mount(undefined, "/tabs");
+    dispose();
+    await tick();
+    useNav().push("/video/1" as any);
+    expect(paths(signedIn)).toEqual(["/tabs", "/video/1"]);
+    expect(useNav().app.index).toBe("/tabs");
+  });
+
   test("an explicit stack takes the push as is", () => {
     const { root, home } = app();
     navOf(home.pages()[0]!).app.push(R.Video, { id: 9 });

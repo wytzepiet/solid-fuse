@@ -600,7 +600,16 @@ export function createStack(options: { index?: string } = {}): MountedStack {
   s.mounted++;
   if (h.active === undefined) h.setActive(key);
   ensureIndex(s);
-  if (getOwner()) onCleanup(() => s.mounted--);
+  if (getOwner())
+    onCleanup(() => {
+      if (--s.mounted) return;
+      // The stack in front left: one mounted in its place (signed out, then
+      // in) comes to the front. One that comes back (a hot reload) stays.
+      queueMicrotask(() => {
+        const next = h.order.find((k) => h.stacks.get(k)!.mounted);
+        if (!s.mounted && h.active === key && next) h.setActive(next);
+      });
+    });
   queueRetry();
   return {
     ...stackHandle(s),
