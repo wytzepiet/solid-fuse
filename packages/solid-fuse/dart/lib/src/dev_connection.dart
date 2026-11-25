@@ -323,17 +323,20 @@ class DevServerConnection extends FuseConnection {
         // The name Vite's own client imports it by, and the one its importers
         // now use (`?t=`): one instance, even when an import leads back to it.
         final name = '$path?t=$ts';
+        // An earlier update of the same save may have brought it in already,
+        // as an import: then it only needs running.
+        final known = _modules[name]?.isNotEmpty ?? false;
         _modules[name] = source;
 
         // Vite names the modules this update invalidated with `?t=`, so they
         // are new to the engine, and so is anything they import first: declare
         // every module fetched here, not only the direct imports.
-        final known = _modules.keys.toSet();
+        final before = _modules.keys.toSet();
         _bustTimestamp = DateTime.now().millisecondsSinceEpoch;
         await Future.wait(_scanImports(source).map(_prefetchModule));
         final added = [
           for (final m in _modules.keys)
-            if (!known.contains(m) && _modules[m]!.isNotEmpty)
+            if (!before.contains(m) && _modules[m]!.isNotEmpty)
               JsModule.code(module: m, code: _modules[m]!),
         ];
         if (added.isNotEmpty) {
@@ -341,7 +344,9 @@ class DevServerConnection extends FuseConnection {
         }
 
         await _engine!.evaluateModule(
-          module: JsModule.code(module: name, code: source),
+          module: known
+              ? JsModule.code(module: '$name&run', code: 'import ${jsonEncode(name)};')
+              : JsModule.code(module: name, code: source),
         );
         await _engine!.eval(
           source: JsCode.code(
